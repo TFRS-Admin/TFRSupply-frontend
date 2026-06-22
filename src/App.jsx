@@ -6,43 +6,52 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
-// Add page imports here
+import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
+
+// Page imports
+import PoliceLanding from '@/pages/PoliceLanding';
+import FamilyPage from '@/pages/FamilyPage';
+import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
+import BuildReview from '@/pages/BuildReview';
+import CheckoutDecision from '@/pages/CheckoutDecision';
+import AdminDebugSummary from '@/pages/AdminDebugSummary';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
+      <div className="fixed inset-0 flex items-center justify-center bg-[#0D1B2A]">
+        <div className="w-8 h-8 border-4 border-blue-900 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
-  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
       navigateToLogin();
       return null;
     }
   }
 
-  // Render the main app
   return (
-    <Routes>
-      {/* Add your page Route elements here */}
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <ConfiguratorProvider>
+      <Routes>
+        <Route path="/" element={<PoliceLanding />} />
+        <Route path="/family/:familyId" element={<FamilyPage />} />
+        <Route path="/configure/:familyId/step/:stepId" element={<ConfiguratorWizard />} />
+        <Route path="/configure/:familyId/review" element={<BuildReview />} />
+        <Route path="/configure/:familyId/checkout" element={<CheckoutDecision />} />
+        <Route path="/admin/debug" element={<AdminDebugSummary />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </ConfiguratorProvider>
   );
 };
 
-
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
