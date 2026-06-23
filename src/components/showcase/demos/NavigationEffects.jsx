@@ -1,120 +1,241 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { EffectCard } from '../ShowcaseCategoryPage';
 
-function StickyNav() {
-  const [active, setActive] = useState('Home');
+function ShrinkingHeader() {
+  const [scrolled, setScrolled] = useState(false);
+  const ref = useRef();
+  const onScroll = () => setScrolled(ref.current?.scrollTop > 30);
   return (
-    <div className="bg-white border border-gray-200 rounded-xl w-full max-w-sm shadow-sm">
-      <div className="flex items-center justify-between px-4 py-3">
-        <div className="font-black text-gray-900 text-sm">MyApp</div>
-        <div className="hidden sm:flex gap-1">
-          {['Home','Products','About'].map(item => (
-            <button key={item} onClick={() => setActive(item)}
-              className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${active === item ? 'bg-gray-900 text-white' : 'text-gray-500 hover:text-gray-900'}`}>
-              {item}
-            </button>
-          ))}
+    <EffectCard title="Shrinking Header" desc="Compresses on scroll" whenToUse="Long pages where you want persistent navigation without taking up space."
+      prompt="Create a header that shrinks its padding and font size when the user scrolls down using onScroll + state"
+      code={`const [scrolled, setScrolled] = useState(false);\n<div onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 30)}>\n  <header className={\`transition-all \${scrolled ? 'py-2 text-sm shadow' : 'py-4 text-base'}\`}>\n    <span className="font-bold">Brand</span>\n  </header>\n</div>`}>
+      <div className="w-full max-w-xs overflow-hidden rounded-xl border border-gray-200" style={{ height: 120 }}>
+        <div ref={ref} onScroll={onScroll} className="overflow-y-auto h-full">
+          <header className={`sticky top-0 bg-white border-b border-gray-100 flex items-center justify-between transition-all duration-300 ${scrolled ? 'px-4 py-2 shadow-sm' : 'px-4 py-4'}`}>
+            <span className={`font-black text-gray-900 transition-all ${scrolled ? 'text-sm' : 'text-base'}`}>Brand</span>
+            <div className="flex gap-3 text-xs text-gray-600">
+              <span>Home</span><span>About</span><span>Contact</span>
+            </div>
+          </header>
+          {Array.from({length:8},(_,i) => <div key={i} className="px-4 py-3 text-xs text-gray-500 border-b border-gray-50">Content {i+1}</div>)}
         </div>
-        <button className="bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded">Sign Up</button>
       </div>
-    </div>
+    </EffectCard>
   );
 }
 
-function MobileDrawer() {
-  const [open, setOpen] = useState(false);
+function TransparentToSolid() {
+  const [scrolled, setScrolled] = useState(false);
+  const ref = useRef();
   return (
-    <div className="relative">
-      <button onClick={() => setOpen(o => !o)} className="bg-gray-900 text-white p-2 rounded-lg">
-        {open ? '✕' : '☰'}
-      </button>
-      {open && (
-        <div className="absolute top-10 left-0 w-44 bg-white border border-gray-200 rounded-xl shadow-xl z-10 py-2">
-          {['Dashboard','Products','Settings','Help'].map(item => (
-            <button key={item} onClick={() => setOpen(false)}
-              className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 font-semibold">{item}</button>
+    <EffectCard title="Transparent to Solid" desc="Background appears on scroll" whenToUse="Hero sections with image backgrounds where nav shouldn't block the view."
+      prompt="Create a nav that starts transparent and transitions to a solid white background with shadow on scroll"
+      code={`<header className={\`fixed top-0 transition-all duration-300 \${scrolled ? 'bg-white shadow-md' : 'bg-transparent'}\`}>`}>
+      <div className="w-full max-w-xs overflow-hidden rounded-xl border border-gray-200 relative" style={{ height: 120 }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-600 to-blue-400" />
+        <div ref={ref} onScroll={() => setScrolled(ref.current?.scrollTop > 30)} className="overflow-y-auto h-full relative">
+          <header className={`sticky top-0 flex items-center justify-between px-4 py-3 transition-all duration-300 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+            <span className={`font-black text-sm transition-colors ${scrolled ? 'text-gray-900' : 'text-white'}`}>Logo</span>
+            <div className={`flex gap-3 text-xs transition-colors ${scrolled ? 'text-gray-600' : 'text-white/90'}`}>
+              <span>Home</span><span>Shop</span><span>Blog</span>
+            </div>
+          </header>
+          {Array.from({length:6},(_,i) => <div key={i} className="px-4 py-5 text-xs text-white/60">Section {i+1}</div>)}
+        </div>
+      </div>
+    </EffectCard>
+  );
+}
+
+function HideOnScroll() {
+  const [visible, setVisible] = useState(true);
+  const [lastScroll, setLastScroll] = useState(0);
+  const ref = useRef();
+  const onScroll = () => {
+    const curr = ref.current?.scrollTop || 0;
+    setVisible(curr < lastScroll || curr < 20);
+    setLastScroll(curr);
+  };
+  return (
+    <EffectCard title="Hide on Scroll" desc="Disappears when scrolling down" whenToUse="Mobile interfaces to maximize reading area while content is being consumed."
+      prompt="Track scroll direction. Hide header when scrolling down, show when scrolling up."
+      code={`const [lastScroll, setLastScroll] = useState(0);\nconst [visible, setVisible] = useState(true);\nconst onScroll = (e) => {\n  const curr = e.currentTarget.scrollTop;\n  setVisible(curr < lastScroll || curr < 20);\n  setLastScroll(curr);\n};`}>
+      <div className="w-full max-w-xs overflow-hidden rounded-xl border border-gray-200" style={{ height: 120 }}>
+        <div ref={ref} onScroll={onScroll} className="overflow-y-auto h-full relative">
+          <header className={`sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between transition-all duration-300 ${visible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+            <span className="font-black text-sm text-gray-900">Header</span>
+            <span className="text-xs text-gray-400">Scroll to hide ↓</span>
+          </header>
+          {Array.from({length:8},(_,i) => <div key={i} className="px-4 py-3 text-xs text-gray-500 border-b border-gray-50">Content {i+1}</div>)}
+        </div>
+      </div>
+    </EffectCard>
+  );
+}
+
+function AnimatedUnderline() {
+  const [active, setActive] = useState('Home');
+  const items = ['Home', 'About', 'Services', 'Contact'];
+  return (
+    <EffectCard title="Animated Underline" desc="Sliding indicator" whenToUse="Tab bars, nav menus, section switchers."
+      prompt="Create a nav with a sliding underline indicator that moves between tabs on click"
+      code={`<div className="flex">\n  {items.map(item => (\n    <button key={item} onClick={() => setActive(item)}\n      className={\`relative pb-2 px-4 text-sm font-medium transition-colors\n        \${active===item ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-800'}\`}>\n      {item}\n    </button>\n  ))}\n</div>`}>
+      <div className="flex border-b border-gray-200 w-full max-w-xs">
+        {items.map(item => (
+          <button key={item} onClick={() => setActive(item)}
+            className={`pb-2 px-3 text-xs font-semibold transition-all border-b-2 -mb-px ${active===item ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:text-gray-800'}`}>
+            {item}
+          </button>
+        ))}
+      </div>
+    </EffectCard>
+  );
+}
+
+function GlassHeader() {
+  return (
+    <EffectCard title="Glass Header" desc="Frosted glass effect" whenToUse="Apps with colorful or image backgrounds."
+      prompt="Create a glassmorphism header using backdrop-filter:blur and rgba background"
+      code={`<header style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.2)' }}>`}>
+      <div className="w-full max-w-xs rounded-xl overflow-hidden relative" style={{ height: 80 }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500" />
+        <header className="relative flex items-center justify-between px-4 py-3 h-full"
+          style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+          <span className="font-black text-white text-sm">Glass</span>
+          <div className="flex gap-3 text-white/90 text-xs">
+            <span>Home</span><span>About</span><span>Contact</span>
+          </div>
+        </header>
+      </div>
+    </EffectCard>
+  );
+}
+
+function MobileBottomNav() {
+  const [active, setActive] = useState('home');
+  const tabs = [{id:'home',icon:'🏠',label:'Home'},{id:'search',icon:'🔍',label:'Search'},{id:'saved',icon:'🔖',label:'Saved'},{id:'profile',icon:'👤',label:'Profile'}];
+  return (
+    <EffectCard title="Mobile Bottom Nav" desc="iOS/Android style" whenToUse="Mobile-first apps that need thumb-friendly navigation."
+      prompt="Create a bottom navigation bar with icons and labels, active state highlighted in blue"
+      code={`<nav className="fixed bottom-0 left-0 right-0 bg-white border-t flex">\n  {tabs.map(tab => (\n    <button key={tab.id} onClick={() => setActive(tab.id)}\n      className={\`flex-1 flex flex-col items-center py-2 \${active===tab.id ? 'text-blue-600' : 'text-gray-400'}\`}>\n      <span>{tab.icon}</span>\n      <span className="text-xs">{tab.label}</span>\n    </button>\n  ))}\n</nav>`}>
+      <div className="w-full max-w-xs border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-gray-50 h-16 flex items-center justify-center text-xs text-gray-400">Home Screen</div>
+        <nav className="bg-white border-t border-gray-200 flex">
+          {tabs.map(tab => (
+            <button key={tab.id} onClick={() => setActive(tab.id)} className={`flex-1 flex flex-col items-center py-2 transition-colors ${active===tab.id ? 'text-blue-600' : 'text-gray-400'}`}>
+              <span className="text-lg">{tab.icon}</span>
+              <span className="text-[9px] font-medium">{tab.label}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
+    </EffectCard>
+  );
+}
+
+function AnimatedTabBar() {
+  const [active, setActive] = useState(0);
+  const tabs = ['Overview', 'Analytics', 'Reports', 'Settings'];
+  return (
+    <EffectCard title="Animated Tab Bar" desc="Sliding pill indicator" whenToUse="Dashboard sections, settings pages, content switchers."
+      prompt="Create a tab bar with a sliding pill background that moves to the active tab using CSS translate"
+      code={`<div className="relative flex bg-gray-100 rounded-full p-1">\n  <div className="absolute bg-white rounded-full shadow transition-all duration-300"\n    style={{ width: \`\${100/tabs.length}%\`, transform: \`translateX(\${active*100}%)\` }} />\n  {tabs.map((t,i) => <button key={t} onClick={() => setActive(i)}>{t}</button>)}\n</div>`}>
+      <div className="w-full max-w-xs">
+        <div className="relative flex bg-gray-100 rounded-full p-1">
+          <div className="absolute top-1 bottom-1 bg-white rounded-full shadow transition-all duration-300"
+            style={{ width: `${100/tabs.length}%`, left: `calc(${active * (100/tabs.length)}% + 4px)` }} />
+          {tabs.map((t, i) => (
+            <button key={t} onClick={() => setActive(i)} className={`relative flex-1 text-[10px] font-bold py-1.5 rounded-full z-10 transition-colors ${active===i ? 'text-gray-900' : 'text-gray-500'}`}>{t}</button>
           ))}
         </div>
-      )}
-    </div>
+      </div>
+    </EffectCard>
+  );
+}
+
+function CollapsibleSidebar() {
+  const [open, setOpen] = useState(true);
+  const items = [{ icon: '🏠', label: 'Home' }, { icon: '👤', label: 'Profile' }, { icon: '⚙️', label: 'Settings' }];
+  return (
+    <EffectCard title="Collapsible Sidebar" desc="Expandable side nav" whenToUse="Admin panels, dashboards, desktop apps."
+      prompt="Create a sidebar that collapses to show only icons and expands to show icons+labels on toggle"
+      code={`<aside className={\`transition-all duration-300 \${open ? 'w-40' : 'w-12'}\`}>\n  {items.map(item => (\n    <div key={item.label} className="flex items-center gap-2 p-2">\n      <span>{item.icon}</span>\n      {open && <span className="text-sm">{item.label}</span>}\n    </div>\n  ))}\n</aside>`}>
+      <div className="flex border border-gray-200 rounded-xl overflow-hidden w-full max-w-xs" style={{ height: 100 }}>
+        <aside className={`bg-gray-50 border-r border-gray-200 flex flex-col transition-all duration-300 ${open ? 'w-28' : 'w-12'}`}>
+          <button onClick={() => setOpen(o => !o)} className="p-2 text-gray-400 hover:text-gray-600 text-sm self-end">
+            {open ? '◀' : '▶'}
+          </button>
+          {items.map(item => (
+            <div key={item.label} className={`flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-100 ${!open ? 'justify-center px-0' : ''}`}>
+              <span>{item.icon}</span>
+              {open && <span className="truncate">{item.label}</span>}
+            </div>
+          ))}
+        </aside>
+        <div className="flex-1 bg-white flex items-center justify-center text-xs text-gray-400">Main content</div>
+      </div>
+    </EffectCard>
+  );
+}
+
+function ExpandingSearch() {
+  const [open, setOpen] = useState(false);
+  const inputRef = useRef();
+  const toggle = () => { setOpen(o => !o); if (!open) setTimeout(() => inputRef.current?.focus(), 100); };
+  return (
+    <EffectCard title="Expanding Search" desc="Search bar expands on click" whenToUse="Navbars where space is limited but search is important."
+      prompt="Create an expanding search input that animates from an icon button to a full text field on click"
+      code={`const [open, setOpen] = useState(false);\n<div className={\`flex items-center transition-all overflow-hidden \${open ? 'w-48' : 'w-8'}\`}>\n  <button onClick={toggle}>{open ? '✕' : '🔍'}</button>\n  {open && <input autoFocus className="flex-1" placeholder="Search..." />}\n</div>`}>
+      <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2 w-full max-w-xs">
+        <span className="font-bold text-sm text-gray-900">Site</span>
+        <div className="flex-1 flex justify-end">
+          <div className={`flex items-center transition-all duration-300 overflow-hidden ${open ? 'w-36 border border-gray-200 rounded-lg' : 'w-8'}`}>
+            {open && <input ref={inputRef} className="flex-1 px-2 py-0.5 text-xs outline-none" placeholder="Search..." />}
+            <button onClick={toggle} className="w-8 h-6 flex items-center justify-center text-gray-500 hover:text-gray-800 text-sm flex-shrink-0">
+              {open ? '✕' : '🔍'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </EffectCard>
   );
 }
 
 function BreadcrumbNav() {
-  const path = ['Home', 'Products', 'Electronics', 'Headphones'];
+  const [depth, setDepth] = useState(1);
+  const path = ['Home', 'Products', 'Electronics', 'Laptops'];
   return (
-    <div className="flex items-center gap-1 flex-wrap">
-      {path.map((item, i) => (
-        <React.Fragment key={item}>
-          <button className={`text-xs font-semibold ${i === path.length - 1 ? 'text-gray-900' : 'text-blue-500 hover:underline'}`}>{item}</button>
-          {i < path.length - 1 && <span className="text-gray-400 text-xs">/</span>}
-        </React.Fragment>
-      ))}
-    </div>
-  );
-}
-
-function TabNav() {
-  const [active, setActive] = useState(0);
-  const tabs = ['Overview', 'Specs', 'Reviews', 'Install'];
-  return (
-    <div className="w-full max-w-xs">
-      <div className="flex border-b border-gray-200">
-        {tabs.map((tab, i) => (
-          <button key={tab} onClick={() => setActive(i)}
-            className={`flex-1 py-2 text-xs font-semibold border-b-2 transition-colors ${active === i ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
-            {tab}
-          </button>
-        ))}
+    <EffectCard title="Breadcrumb" desc="Path navigation" whenToUse="Deep page hierarchies, e-commerce categories, file browsers."
+      prompt="Create a breadcrumb navigation that grows as user navigates deeper"
+      code={`<nav className="flex items-center gap-1 text-sm">\n  {path.slice(0, depth+1).map((p, i, arr) => (\n    <React.Fragment key={p}>\n      <span className={i === arr.length-1 ? 'text-gray-900 font-bold' : 'text-blue-600 hover:underline cursor-pointer'}>{p}</span>\n      {i < arr.length-1 && <span className="text-gray-400">/</span>}\n    </React.Fragment>\n  ))}\n</nav>`}>
+      <div className="flex flex-col gap-3 w-full max-w-xs">
+        <nav className="flex items-center gap-1 text-xs flex-wrap">
+          {path.slice(0, depth + 1).map((p, i, arr) => (
+            <React.Fragment key={p}>
+              <span className={i === arr.length - 1 ? 'text-gray-900 font-bold' : 'text-blue-600 hover:underline cursor-pointer'} onClick={() => i < arr.length - 1 && setDepth(i)}>{p}</span>
+              {i < arr.length - 1 && <span className="text-gray-400">/</span>}
+            </React.Fragment>
+          ))}
+        </nav>
+        {depth < 3 && <button onClick={() => setDepth(d => Math.min(3, d+1))} className="text-xs font-bold text-blue-600 hover:underline self-start">Go Deeper →</button>}
       </div>
-      <div className="p-3 text-xs text-gray-600">{tabs[active]} content goes here.</div>
-    </div>
-  );
-}
-
-function PillTabs() {
-  const [active, setActive] = useState('All');
-  return (
-    <div className="flex gap-1.5 flex-wrap">
-      {['All','Visual','Buttons','Admin','Marketing'].map(t => (
-        <button key={t} onClick={() => setActive(t)}
-          className={`text-xs font-bold px-4 py-1.5 rounded-full transition-colors ${active === t ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-          {t}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function SidebarNav() {
-  const [active, setActive] = useState('Dashboard');
-  const items = [{ icon: '📊', label: 'Dashboard' }, { icon: '👤', label: 'Users' }, { icon: '📦', label: 'Products' }, { icon: '⚙️', label: 'Settings' }];
-  return (
-    <div className="bg-gray-900 rounded-xl p-3 w-44">
-      {items.map(item => (
-        <button key={item.label} onClick={() => setActive(item.label)}
-          className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg mb-0.5 text-xs font-semibold transition-colors ${active === item.label ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}>
-          <span>{item.icon}</span> {item.label}
-        </button>
-      ))}
-    </div>
+    </EffectCard>
   );
 }
 
 export default function NavigationEffects() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <EffectCard title="Sticky Nav Bar" desc="Header with logo, links, and CTA" whenToUse="All pages — desktop primary navigation." prompt="Create a sticky top nav bar with logo left, 3 navigation links center (active = dark bg), and a blue Sign Up button right." code={`<nav className="bg-white border-b shadow-sm sticky top-0">\n  <div className="flex items-center justify-between px-4 py-3">\n    <div className="font-black">MyApp</div>\n    <div className="flex gap-1">\n      {navItems.map(item => (\n        <button onClick={() => setActive(item)}\n          className={\`px-3 py-1.5 rounded text-xs font-semibold \${active === item ? 'bg-gray-900 text-white' : 'text-gray-500'}\`}>\n          {item}\n        </button>\n      ))}\n    </div>\n    <button className="bg-blue-600 text-white text-xs px-3 py-1.5 rounded">Sign Up</button>\n  </div>\n</nav>`}><StickyNav /></EffectCard>
-
-      <EffectCard title="Mobile Hamburger Drawer" desc="Menu icon reveals dropdown nav" whenToUse="Mobile navigation, compact headers." prompt="Create a hamburger menu button that toggles a dropdown nav with smooth appearance. Icon switches between ☰ and ✕." code={`function MobileNav() {\n  const [open, setOpen] = useState(false);\n  return (\n    <div className="relative">\n      <button onClick={() => setOpen(o => !o)}>{open ? '✕' : '☰'}</button>\n      {open && (\n        <div className="absolute top-10 w-44 bg-white border rounded-xl shadow-xl py-2">\n          {['Dashboard','Products','Settings'].map(item => (\n            <button className="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50">{item}</button>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}`}><MobileDrawer /></EffectCard>
-
-      <EffectCard title="Breadcrumb Navigation" desc="Path trail with / separators" whenToUse="Product pages, nested settings, multi-level categories." prompt="Create a breadcrumb navigation showing the current page path with / separators. All items except the last are blue links." code={`const path = ['Home', 'Products', 'Electronics', 'Headphones'];\n<div className="flex items-center gap-1">\n  {path.map((item, i) => (\n    <React.Fragment key={item}>\n      <button className={\`text-xs font-semibold \${i === path.length-1 ? 'text-gray-900' : 'text-blue-500 hover:underline'}\`}>{item}</button>\n      {i < path.length-1 && <span className="text-gray-400">/</span>}\n    </React.Fragment>\n  ))}\n</div>`}><BreadcrumbNav /></EffectCard>
-
-      <EffectCard title="Tab Navigation" desc="Underline tabs with content panels" whenToUse="Product pages, settings, dashboards." prompt="Create horizontal underline tabs. Active tab has border-b-2 border-blue-500 text-blue-600. Each tab shows different content in the panel below." code={`function TabNav() {\n  const [active, setActive] = useState(0);\n  const tabs = ['Overview', 'Specs', 'Reviews', 'Install'];\n  return (\n    <div>\n      <div className="flex border-b border-gray-200">\n        {tabs.map((tab, i) => (\n          <button onClick={() => setActive(i)}\n            className={\`py-2 text-xs font-semibold border-b-2 \${active === i ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500'}\`}>\n            {tab}\n          </button>\n        ))}\n      </div>\n      <div className="p-3 text-xs text-gray-600">{tabs[active]} content</div>\n    </div>\n  );\n}`}><TabNav /></EffectCard>
-
-      <EffectCard title="Pill Filter Tabs" desc="Rounded pill toggles for filtering" whenToUse="Category filters, content browsing." prompt="Create pill-shaped filter buttons where the active one is dark (bg-gray-900 text-white) and others are light gray. Clicking switches the active pill." code={`const [active, setActive] = useState('All');\n<div className="flex gap-1.5 flex-wrap">\n  {['All','Visual','Buttons','Admin'].map(t => (\n    <button onClick={() => setActive(t)}\n      className={\`text-xs font-bold px-4 py-1.5 rounded-full \${active === t ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}\`}>\n      {t}\n    </button>\n  ))}\n</div>`}><PillTabs /></EffectCard>
-
-      <EffectCard title="Sidebar with Icons" desc="Icon + label vertical navigation" whenToUse="Admin panels, dashboards, app shells." prompt="Create a dark sidebar nav where each item has an emoji icon and label. Active item is highlighted in blue-600." code={`const items = [\n  { icon: '📊', label: 'Dashboard' },\n  { icon: '👤', label: 'Users' },\n  { icon: '📦', label: 'Products' },\n  { icon: '⚙️', label: 'Settings' }\n];\n<div className="bg-gray-900 rounded-xl p-3 w-44">\n  {items.map(item => (\n    <button className={\`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-semibold \${active === item.label ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'}\`}>\n      <span>{item.icon}</span> {item.label}\n    </button>\n  ))}\n</div>`}><SidebarNav /></EffectCard>
+      <ShrinkingHeader />
+      <TransparentToSolid />
+      <HideOnScroll />
+      <AnimatedUnderline />
+      <GlassHeader />
+      <MobileBottomNav />
+      <AnimatedTabBar />
+      <CollapsibleSidebar />
+      <ExpandingSearch />
+      <BreadcrumbNav />
     </div>
   );
 }
