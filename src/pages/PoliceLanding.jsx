@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, ChevronRight, ArrowLeft, Car, Search, Package, ArrowRight } from 'lucide-react';
+import { Shield, Search, ArrowRight, ChevronRight } from 'lucide-react';
 import { FAMILIES } from '@/data/sampleData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import PrototypeBanner from '@/components/PrototypeBanner';
@@ -9,145 +9,239 @@ import DebugPanel from '@/components/DebugPanel';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import VehicleSelector from '@/components/VehicleSelector';
 
-const badgeStyles = {
-  blue: 'bg-blue-600 text-white',
-  green: 'bg-emerald-600 text-white',
-  gray: 'bg-gray-600 text-white',
-  red: 'bg-red-700 text-white',
-};
+// Sub-categories mimicking the Federal Signal "Light Bars" category page
+const SUBCATEGORIES = [
+  {
+    id: 'navigator',
+    label: 'Navigator® Serial Light Bar',
+    img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80',
+    skuPrefix: 'NAV-',
+    isNew: true,
+    configured: true,
+  },
+  {
+    id: 'pathfinder',
+    label: 'Pathfinder® Full-Size Light Bar',
+    img: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=80',
+    skuPrefix: 'PF-',
+    isNew: false,
+    configured: false,
+  },
+  {
+    id: 'pathway',
+    label: 'Pathway® Low-Profile Bar',
+    img: 'https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?w=600&q=80',
+    skuPrefix: 'PW-',
+    isNew: false,
+    configured: false,
+  },
+  {
+    id: 'duraforce',
+    label: 'DuraForce™ Mini Light Bar',
+    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+    skuPrefix: 'DF-',
+    isNew: false,
+    configured: false,
+  },
+  {
+    id: 'grille-lights',
+    label: 'Perimeter & Grille Lights',
+    img: 'https://images.unsplash.com/photo-1609752716955-b2b3fea4cac8?w=600&q=80',
+    skuPrefix: 'GL-',
+    isNew: false,
+    configured: false,
+  },
+  {
+    id: 'sirens',
+    label: 'Sirens & Speakers',
+    img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80',
+    skuPrefix: 'SRN-',
+    isNew: false,
+    configured: false,
+  },
+  {
+    id: 'controllers',
+    label: 'Controllers & Interfaces',
+    img: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&q=80',
+    skuPrefix: 'CTL-',
+    isNew: false,
+    configured: false,
+  },
+  {
+    id: 'obd',
+    label: 'OBD Cables & Adapters',
+    img: 'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=600&q=80',
+    skuPrefix: 'OBD-',
+    isNew: false,
+    configured: false,
+  },
+];
+
+const NAV_TABS = ['Light Bars', 'Sirens & Speakers', 'Perimeter Lights', 'Specifications', 'Push Bumpers', 'Whelen Strike System', 'Compartment Lighting', 'Accessories'];
 
 export default function PoliceLanding() {
   const navigate = useNavigate();
   const { dispatch } = useConfigurator();
 
-  const families = Object.values(FAMILIES);
-
-  const handleSelectFamily = (familyId) => {
-    dispatch({ type: 'SELECT_FAMILY', payload: familyId });
-    if (familyId === 'navigator') {
+  const handleSelectFamily = (id) => {
+    dispatch({ type: 'SELECT_FAMILY', payload: id });
+    if (id === 'navigator') {
       navigate('/family/navigator');
     } else {
-      navigate(`/family/${familyId}`);
+      navigate(`/family/${id}`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0D1B2A] text-white">
+    <div className="min-h-screen bg-white text-gray-900">
       <PrototypeBanner />
 
-      {/* Sticky nav — matches homepage style */}
-      <nav className="sticky top-0 z-40 bg-[#0D1B2A]/98 backdrop-blur border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
-          {/* Logo + breadcrumb */}
-          <div className="flex items-center gap-4">
-            <button onClick={() => navigate('/')} className="flex items-center gap-3 group">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Shield size={18} />
-              </div>
-              <div>
-                <div className="font-black text-sm tracking-tight leading-none">TFR SUPPLY</div>
-                <div className="text-[9px] text-gray-500 tracking-widest uppercase leading-none mt-0.5">Pro Shop</div>
-              </div>
-            </button>
-            <span className="text-gray-700 hidden md:block">/</span>
-            <div className="hidden md:flex items-center gap-2">
-              <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
-                <Shield size={11} />
-              </div>
-              <span className="font-semibold text-sm text-white">Police & Law Enforcement</span>
-            </div>
-          </div>
+      {/* Top utility bar */}
+      <div className="bg-[#003580] text-white text-xs px-6 py-1.5 flex items-center justify-between">
+        <div className="flex items-center gap-6">
+          <span>For Upfitters &amp; Resellers</span>
+          <span>For Government &amp; Fleets</span>
+          <span>TradeBridge Login</span>
+        </div>
+        <div className="flex items-center gap-4 text-blue-200">
+          <span>Find a Dealer</span>
+          <span>800-621-9959</span>
+        </div>
+      </div>
 
-          {/* Nav links */}
-          <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-400">
-            <button onClick={() => navigate('/')} className="hover:text-white transition-colors">All Products</button>
-            <button className="text-white font-semibold">Emergency Response</button>
-            <button className="hover:text-white transition-colors opacity-40 cursor-not-allowed">Commercial</button>
+      {/* Main nav */}
+      <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+          {/* Logo + breadcrumb */}
+          <button onClick={() => navigate('/')} className="flex items-center gap-3 shrink-0">
+            <div className="w-9 h-9 bg-[#003580] rounded flex items-center justify-center">
+              <Shield size={18} className="text-white" />
+            </div>
+            <div>
+              <div className="font-black text-base tracking-tight leading-none text-[#003580]">TFR SUPPLY</div>
+              <div className="text-[9px] text-gray-400 tracking-widest uppercase leading-none mt-0.5">Pro Shop</div>
+            </div>
+          </button>
+
+          {/* Vertical tabs */}
+          <div className="hidden md:flex items-center gap-1 text-sm font-semibold">
+            {['Police', 'Fire/EMS', 'Work Truck', 'Emergency Beacon', 'Mass Notification'].map((label, i) => (
+              <button
+                key={label}
+                className={`px-4 py-2 rounded transition-colors ${
+                  i === 0
+                    ? 'bg-[#003580] text-white'
+                    : 'text-gray-500 hover:text-gray-900 opacity-50 cursor-not-allowed'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
 
           {/* Vehicle selector */}
           <VehicleSelector />
         </div>
+
+        {/* Category sub-nav */}
+        <div className="border-t border-gray-100 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-6 flex items-center gap-0 overflow-x-auto">
+            {NAV_TABS.map((tab, i) => (
+              <button
+                key={tab}
+                className={`text-xs font-semibold px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  i === 0
+                    ? 'border-[#003580] text-[#003580]'
+                    : 'border-transparent text-gray-500 hover:text-gray-800 opacity-50 cursor-not-allowed'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
       </nav>
 
-      {/* Hero */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1600&q=80"
-            alt="Police vehicles"
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0D1B2A] via-[#0D1B2A]/70 to-transparent" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-6 py-20">
-          <div className="text-xs font-bold tracking-widest text-blue-400 uppercase mb-3">Emergency Response</div>
-          <h1 className="text-5xl font-black mb-4">Police &<br />Law Enforcement</h1>
-          <p className="text-gray-400 text-base max-w-lg mb-8 leading-relaxed">
-            Select a product family below to find your exact SKU and complete your build. All configurations are specific to your platform.
-          </p>
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              <Car size={13} className="text-blue-400" /> Select your vehicle above for fit-verified results
-            </div>
-          </div>
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-6 py-3">
+        <div className="flex items-center gap-1.5 text-xs text-gray-400">
+          <button onClick={() => navigate('/')} className="hover:text-[#003580] transition-colors">Home</button>
+          <ChevronRight size={12} />
+          <span className="text-gray-600 font-medium">Police — Law Enforcement</span>
+          <ChevronRight size={12} />
+          <span className="text-gray-800 font-semibold">Light Bars</span>
         </div>
       </div>
 
-      {/* Product Family Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-14">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <div className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-2">Product Families</div>
-            <h2 className="text-2xl font-black">Configure by Series.</h2>
-          </div>
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-1.5 text-gray-500 hover:text-white text-sm transition-colors"
-          >
-            <ArrowLeft size={13} /> All Verticals
-          </button>
-        </div>
+      {/* Page header */}
+      <div className="max-w-7xl mx-auto px-6 pb-6">
+        <h1 className="text-3xl font-black text-gray-900 mb-2">
+          Police Vehicle Light Bars — Full Size, Low Profile &amp; Mini
+        </h1>
+        <p className="text-gray-500 text-sm max-w-2xl leading-relaxed">
+          Our full suite of LED light bars are our top products, our products work with vehicles to provide efficient, ultra-wide vehicle emergency lights to control signals.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {families.map((family) => (
+      {/* Product thumbnail grid */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {SUBCATEGORIES.map((sub) => (
             <button
-              key={family.id}
-              onClick={() => handleSelectFamily(family.id)}
-              className="group text-left bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-blue-500/40 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/20"
+              key={sub.id}
+              onClick={sub.configured ? () => handleSelectFamily(sub.id) : undefined}
+              className={`group text-left rounded-xl border transition-all duration-200 overflow-hidden ${
+                sub.configured
+                  ? 'border-gray-200 hover:border-[#003580] hover:shadow-md cursor-pointer bg-white'
+                  : 'border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed'
+              }`}
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative bg-gray-100 h-44 overflow-hidden">
                 <img
-                  src={family.image}
-                  alt={family.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                  src={sub.img}
+                  alt={sub.label}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B2A] via-[#0D1B2A]/30 to-transparent" />
-                <div className="absolute top-4 left-4">
-                  <span className={`text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${badgeStyles[family.badgeColor]}`}>
-                    {family.badge}
-                  </span>
-                </div>
-                {family.id === 'navigator' && (
-                  <div className="absolute top-4 right-4">
-                    <span className="text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-emerald-600 text-white">
-                      New Flow
-                    </span>
+                {sub.isNew && (
+                  <div className="absolute top-2 right-2">
+                    <span className="text-[10px] font-bold bg-emerald-500 text-white px-2 py-0.5 rounded-full">New Flow</span>
+                  </div>
+                )}
+                {!sub.configured && (
+                  <div className="absolute inset-0 bg-white/50 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-gray-500 bg-white px-2 py-1 rounded border">Coming Soon</span>
                   </div>
                 )}
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-black text-white mb-2">{family.name}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">{family.tagline}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-gray-700">{family.baseSkuPrefix}-*</span>
-                  <span className="flex items-center gap-1.5 text-blue-400 text-sm font-bold group-hover:gap-2.5 transition-all">
-                    {family.id === 'navigator' ? 'Find Your SKU' : 'Configure'} <ArrowRight size={15} />
-                  </span>
-                </div>
+              <div className="p-4">
+                <div className="font-bold text-sm text-gray-900 leading-snug mb-1">{sub.label}</div>
+                <div className="text-[10px] font-mono text-gray-400">{sub.skuPrefix}*</div>
+                {sub.configured && (
+                  <div className="mt-3 flex items-center gap-1 text-[#003580] text-xs font-bold group-hover:gap-2 transition-all">
+                    Configure <ArrowRight size={12} />
+                  </div>
+                )}
               </div>
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* "Stay Safe" CTA band */}
+      <div
+        className="relative py-20 text-center text-white overflow-hidden"
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-[#003580]/80" />
+        <div className="relative">
+          <h2 className="text-3xl font-black mb-2">Stay Safe and Secure</h2>
+          <p className="text-blue-100 text-sm mb-6">With a partner you can trust to deliver dependable controls, discover more with us.</p>
+          <button
+            onClick={() => navigate('/family/navigator')}
+            className="bg-white text-[#003580] font-bold px-8 py-3 rounded text-sm hover:bg-blue-50 transition-all"
+          >
+            Connect With Us →
+          </button>
         </div>
       </div>
 
