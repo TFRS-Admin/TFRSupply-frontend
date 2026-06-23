@@ -1,3 +1,3 @@
-export function createPageUrl(pageName: string) {
-    return '/' + pageName.replace(/ /g, '-');
+export function createPageUrl(pageName: string): string {
+  return '/t44/' + pageName;
 }
