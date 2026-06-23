@@ -17,6 +17,7 @@ import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
 import BuildReview from '@/pages/BuildReview';
 import CheckoutDecision from '@/pages/CheckoutDecision';
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
+import ComponentShowcase from '@/pages/ComponentShowcase';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -49,6 +50,7 @@ const AuthenticatedApp = () => {
         <Route path="/configure/:familyId/review" element={<BuildReview />} />
         <Route path="/configure/:familyId/checkout" element={<CheckoutDecision />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
+        <Route path="/showcase" element={<ComponentShowcase />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </ConfiguratorProvider>

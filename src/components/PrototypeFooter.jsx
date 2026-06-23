@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bug, Shield } from 'lucide-react';
+import { Bug, Shield, Layers } from 'lucide-react';
 
 export default function PrototypeFooter() {
   return (
@@ -13,6 +13,9 @@ export default function PrototypeFooter() {
         <div className="flex items-center gap-4 text-xs">
           <Link to="/admin/debug" className="flex items-center gap-1.5 text-green-600 hover:text-green-400 transition-colors font-mono">
             <Bug size={11} /> Admin / Debug Summary
+          </Link>
+          <Link to="/showcase" className="flex items-center gap-1.5 text-blue-600 hover:text-blue-400 transition-colors font-mono">
+            <Layers size={11} /> Component Showcase
           </Link>
           <span className="text-gray-800">|</span>
           <span className="text-gray-700">v0.1 Prototype</span>
