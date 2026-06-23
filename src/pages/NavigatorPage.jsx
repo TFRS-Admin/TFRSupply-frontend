@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, AlertTriangle, ChevronRight, ChevronDown, Car, ShoppingCart, FileText, Zap, Lightbulb, Wrench, Cpu, Package } from 'lucide-react';
+import { ArrowLeft, CheckCircle, AlertTriangle, ChevronRight, ChevronDown, Car, ShoppingCart, FileText, Zap, Lightbulb, Wrench, Cpu, Package, Shield } from 'lucide-react';
 import { NAVIGATOR_LENGTHS, NAVIGATOR_CONTROLS, NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import PrototypeBanner from '@/components/PrototypeBanner';
@@ -91,13 +91,21 @@ export default function NavigatorPage() {
       <PrototypeBanner />
 
       {/* Persistent header with vehicle selector */}
-      <div className="sticky top-0 z-30 bg-[#0D1B2A]/95 backdrop-blur border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
+      <div className="sticky top-0 z-40 bg-[#0D1B2A]/98 backdrop-blur border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <button onClick={() => navigate('/vertical/police')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm">
-              <ArrowLeft size={15} /> Police
+            <button onClick={() => navigate('/')} className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Shield size={18} />
+              </div>
+              <div className="hidden md:block">
+                <div className="font-black text-sm tracking-tight leading-none">TFR SUPPLY</div>
+                <div className="text-[9px] text-gray-500 tracking-widest uppercase leading-none mt-0.5">Pro Shop</div>
+              </div>
             </button>
-            <span className="text-gray-700">/</span>
+            <span className="text-gray-700 hidden md:block">/</span>
+            <button onClick={() => navigate('/vertical/police')} className="hidden md:block text-gray-400 hover:text-white transition-colors text-sm">Police</button>
+            <span className="text-gray-700 hidden md:block">/</span>
             <span className="text-white font-bold text-sm">Navigator</span>
           </div>
           <VehicleSelector />
