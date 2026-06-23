@@ -51,6 +51,7 @@ const AuthenticatedApp = () => {
         <Route path="/configure/:familyId/checkout" element={<CheckoutDecision />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
         <Route path="/showcase" element={<ComponentShowcase />} />
+        <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </ConfiguratorProvider>

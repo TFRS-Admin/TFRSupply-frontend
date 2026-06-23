@@ -1,0 +1,28 @@
+export const CATEGORIES = [
+  { id: 'visualeffects',      label: 'Visual Effects',          count: '55+', desc: 'VHS, glitch, particles, neon glow & more',         tags: ['Visual'] },
+  { id: 'audioeffects',       label: 'Audio Effects',           count: '20+', desc: 'Background music, visualizers, sounds',            tags: ['Audio'] },
+  { id: 'transitions',        label: 'Transitions',             count: '25+', desc: 'Page fades, staggered lists, counters',            tags: ['Transitions'] },
+  { id: 'navigationeffects',  label: 'Navigation',              count: '20+', desc: 'Headers, drawers, scroll reveals',                 tags: ['Navigation'] },
+  { id: 'buttoneffects',      label: 'Buttons',                 count: '35+', desc: 'Ripples, fills, loading states',                  tags: ['Buttons'] },
+  { id: 'chateffects',        label: 'Chat Components',         count: '20+', desc: 'Chat bubbles, bots, messaging UI',                tags: ['Chat'] },
+  { id: 'aiagenteffects',     label: 'AI Agent',                count: '15+', desc: 'AI interfaces, agent UIs, prompts',               tags: ['AI Agent'] },
+  { id: 'loadingspinners',    label: 'Loading Spinners',        count: '20+', desc: 'Pulse, heartbeat & branded loaders',              tags: ['Visual'] },
+  { id: 'gamingeffects',      label: 'Gaming Effects',          count: '100+',desc: 'Retro, Sci-Fi, FPS, RPG game UI',                 tags: ['Gaming'] },
+  { id: 'abstractanimations', label: 'Abstract Animations',     count: '40+', desc: 'Mesmerizing abstract visuals',                    tags: ['Visual'] },
+  { id: 'adminlayouts',       label: 'Admin & Dashboards',      count: '25+', desc: 'Tables, sidebars, stats, modals & more',          tags: ['Admin'] },
+  { id: 'marketingeffects',   label: 'Marketing',               count: '25+', desc: 'CTAs, testimonials, pricing, popups',             tags: ['Marketing'] },
+  { id: 'creativeeffects',    label: 'Creative & Design',       count: '25+', desc: 'Color pickers, layers, tools, filters',           tags: ['Creative'] },
+  { id: 'contenteffects',     label: 'Content & Publishing',    count: '25+', desc: 'Blog cards, editors, quotes, FAQs',              tags: ['Content'] },
+  { id: 'communicationeffects', label: 'Communication',         count: '25+', desc: 'Email, chat, calls, notifications',              tags: ['Comms'] },
+  { id: 'socialeffects',      label: 'Social & Community',      count: '25+', desc: 'Posts, likes, shares, profiles, feeds',          tags: ['Social'] },
+  { id: 'productivityeffects', label: 'Productivity & Tasks',   count: '25+', desc: 'Todos, timers, kanban, habits',                  tags: ['Productivity'] },
+  { id: 'ecommerceeffects',   label: 'E-commerce',              count: '15+', desc: 'Products, ratings, wishlists, filters',          tags: ['E-commerce'] },
+  { id: 'cartcheckout',       label: 'Cart & Checkout',         count: '25+', desc: 'Cart items, payment, shipping, orders',          tags: ['E-commerce'] },
+  { id: 'menueffects',        label: 'Menu Effects',            count: '20+', desc: 'Dropdowns, mega menus, sidebars',                tags: ['Navigation'] },
+  { id: 'charactereffects',   label: 'Characters',              count: '12+', desc: 'Animated mascots, avatars, emojis',              tags: ['Chat'] },
+  { id: 'videoeffects',       label: 'Video Effects',           count: '15+', desc: 'Video players, transitions, overlays',           tags: ['Visual'] },
+  { id: 'dividereffects',     label: 'Dividers',                count: '20+', desc: 'Section dividers & separators',                  tags: ['Visual'] },
+  { id: 'texteffects',        label: 'Text Effects',            count: '50+', desc: '50+ animated text & interactive typography',     tags: ['Visual'] },
+];
+
+export const ALL_TAGS = ['All','Visual','Audio','Transitions','Navigation','Buttons','Chat','AI Agent','Admin','Marketing','Creative','E-commerce','Content','Comms','Social','Productivity','Gaming','YouTube'];
