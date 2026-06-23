@@ -45,8 +45,8 @@ export default function FamilyPage() {
       <PrototypeBanner />
 
       <nav className="border-b border-white/10 px-6 py-4 flex items-center gap-4">
-        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm">
-          <ArrowLeft size={16} /> Back to Families
+        <button onClick={() => navigate('/vertical/police')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm">
+          <ArrowLeft size={16} /> Police
         </button>
         <span className="text-gray-700">/</span>
         <span className="text-gray-300 text-sm">{family.name}</span>

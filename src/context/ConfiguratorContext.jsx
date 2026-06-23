@@ -46,9 +46,10 @@ function configuratorReducer(state, action) {
 export function ConfiguratorProvider({ children }) {
   const [state, dispatch] = useReducer(configuratorReducer, initialState);
   const [debugMode, setDebugMode] = useState(false);
+  const [persistentVehicle, setPersistentVehicle] = useState(null);
 
   return (
-    <ConfiguratorContext.Provider value={{ state, dispatch, debugMode, setDebugMode }}>
+    <ConfiguratorContext.Provider value={{ state, dispatch, debugMode, setDebugMode, persistentVehicle, setPersistentVehicle }}>
       {children}
     </ConfiguratorContext.Provider>
   );

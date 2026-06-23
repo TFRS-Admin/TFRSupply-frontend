@@ -9,7 +9,9 @@ import ScrollToTop from './components/ScrollToTop';
 import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
 
 // Page imports
+import StoreLanding from '@/pages/StoreLanding';
 import PoliceLanding from '@/pages/PoliceLanding';
+import NavigatorPage from '@/pages/NavigatorPage';
 import FamilyPage from '@/pages/FamilyPage';
 import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
 import BuildReview from '@/pages/BuildReview';
@@ -39,7 +41,9 @@ const AuthenticatedApp = () => {
   return (
     <ConfiguratorProvider>
       <Routes>
-        <Route path="/" element={<PoliceLanding />} />
+        <Route path="/" element={<StoreLanding />} />
+        <Route path="/vertical/:verticalId" element={<PoliceLanding />} />
+        <Route path="/family/navigator" element={<NavigatorPage />} />
         <Route path="/family/:familyId" element={<FamilyPage />} />
         <Route path="/configure/:familyId/step/:stepId" element={<ConfiguratorWizard />} />
         <Route path="/configure/:familyId/review" element={<BuildReview />} />
