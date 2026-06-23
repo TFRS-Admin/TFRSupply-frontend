@@ -86,26 +86,26 @@ export default function VehicleSelector({ compact = false }) {
   }
 
   return (
-    <div className={`bg-[#0D1B2A] border border-blue-500/30 rounded-2xl p-5 ${compact ? 'max-w-md mx-auto' : ''}`}>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-sm font-bold text-white">
-          <Car size={14} className="text-blue-400" /> Select Your Vehicle
+    <div className="bg-[#0D1B2A] border border-blue-500/30 rounded-xl p-4">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2 text-xs font-bold text-white">
+          <Car size={12} className="text-blue-400" /> Select Vehicle
         </div>
         <button onClick={() => setOpen(false)} className="text-gray-600 hover:text-white transition-colors">
-          <X size={15} />
+          <X size={13} />
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-4">
+      <div className={`grid gap-2 mb-3 ${compact ? 'grid-cols-1' : 'grid-cols-3'}`}>
         <div>
           <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 block">Year</label>
           <select
             value={year}
             onChange={e => { setYear(e.target.value); setMake(''); setModel(''); }}
-            className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500/50"
+            className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500/50"
           >
             <option value="">Year</option>
-            {years.map(y => <option key={y} value={y}>{y}</option>)}
+            {years.map(y => <option key={y} value={y} className="bg-[#0D1B2A]">{y}</option>)}
           </select>
         </div>
         <div>
@@ -114,10 +114,10 @@ export default function VehicleSelector({ compact = false }) {
             value={make}
             onChange={e => { setMake(e.target.value); setModel(''); }}
             disabled={!year}
-            className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500/50 disabled:opacity-40"
+            className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500/50 disabled:opacity-40"
           >
             <option value="">Make</option>
-            {makes.map(m => <option key={m} value={m}>{m}</option>)}
+            {makes.map(m => <option key={m} value={m} className="bg-[#0D1B2A]">{m}</option>)}
           </select>
         </div>
         <div>
@@ -126,10 +126,10 @@ export default function VehicleSelector({ compact = false }) {
             value={model}
             onChange={e => setModel(e.target.value)}
             disabled={!make || models.length === 0}
-            className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500/50 disabled:opacity-40"
+            className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500/50 disabled:opacity-40"
           >
             <option value="">Model</option>
-            {models.map(m => <option key={m} value={m}>{m}</option>)}
+            {models.map(m => <option key={m} value={m} className="bg-[#0D1B2A]">{m}</option>)}
           </select>
         </div>
       </div>
@@ -138,13 +138,13 @@ export default function VehicleSelector({ compact = false }) {
         <button
           onClick={handleSave}
           disabled={!canSave}
-          className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-2.5 rounded-xl text-sm transition-all"
+          className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-2 rounded-lg text-xs transition-all"
         >
           Save Vehicle
         </button>
         <button
           onClick={() => { setPersistentVehicle({ year: '', make: '', model: '', unspecified: true }); setOpen(false); }}
-          className="text-sm text-gray-500 hover:text-white px-4 py-2.5 border border-white/10 rounded-xl transition-all"
+          className="text-xs text-gray-500 hover:text-white px-3 py-2 border border-white/10 rounded-lg transition-all"
         >
           Skip
         </button>
