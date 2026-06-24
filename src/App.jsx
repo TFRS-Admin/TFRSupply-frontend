@@ -19,6 +19,8 @@ import CheckoutDecision from '@/pages/CheckoutDecision';
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
+import FireEMSLanding from '@/pages/FireEMSLanding.jsx';
+import WorkTruckLanding from '@/pages/WorkTruckLanding.jsx';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -44,6 +46,9 @@ const AuthenticatedApp = () => {
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
+        <Route path="/vertical/police" element={<PoliceLanding />} />
+        <Route path="/vertical/fire" element={<FireEMSLanding />} />
+        <Route path="/vertical/work-truck" element={<WorkTruckLanding />} />
         <Route path="/vertical/:verticalId" element={<PoliceLanding />} />
         <Route path="/family/navigator" element={<NavigatorPage />} />
         <Route path="/family/:familyId" element={<FamilyPage />} />
