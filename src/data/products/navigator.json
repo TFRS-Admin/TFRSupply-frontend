@@ -1,0 +1,52 @@
+{
+  "id": "navigator",
+  "title": "Navigator® Serial Light Bar",
+  "vertical": "police",
+  "category": "Light Bars",
+  "breadcrumbs": [
+    { "label": "Home", "to": "/" },
+    { "label": "Police", "to": "/vertical/police" },
+    { "label": "Light Bars" },
+    { "label": "Navigator® Light Bar" }
+  ],
+  "images": [
+    {
+      "src": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
+      "alt": "Navigator® Light Bar — Front view"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+      "alt": "Navigator installed on patrol vehicle"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=800&q=80",
+      "alt": "Navigator light bar detail"
+    }
+  ],
+  "summary_bullets": [
+    "High-profile, linear light bar",
+    "Available in 45\", 53\", and 60\" lengths",
+    "Amber, Blue, Green, Red, and White",
+    "Single- and dual-color capability",
+    "SignalMaster™ directional warning available",
+    "Front flood, takedowns, alley lights, work lights, and S/T/T are available",
+    "Low-power mode",
+    "(30) flash patterns",
+    "12 Vdc",
+    "LED Traffic Clearing Light (TCL) available",
+    "Black or Clear bulkheads available",
+    "Five-year warranty"
+  ],
+  "actions": {
+    "whereToBuyUrl": "https://www.fedsig.com/where-to-buy?category=175",
+    "requestInfoUrl": "#",
+    "configuratorUrl": "https://config.fedsig.com/lightbar/navigator-serial/web/",
+    "manualUrl": "#"
+  },
+  "tabs": [
+    { "label": "Features",           "href": "#features-section" },
+    { "label": "SKU Specifications", "href": "#sku-section" },
+    { "label": "Videos",             "href": "#video-section" },
+    { "label": "Accessories",        "href": "#accessories-section" }
+  ]
+}

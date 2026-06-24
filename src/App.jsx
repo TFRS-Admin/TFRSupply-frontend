@@ -10,8 +10,8 @@ import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
-import PoliceLanding from '@/pages/PoliceLanding';
-import NavigatorPage from '@/pages/NavigatorPage';
+import PoliceLanding from '@/pages/PoliceLanding.jsx';
+import NavigatorPage from '@/pages/NavigatorPage.jsx';
 import FamilyPage from '@/pages/FamilyPage';
 import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
 import BuildReview from '@/pages/BuildReview';

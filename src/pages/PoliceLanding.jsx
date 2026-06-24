@@ -1,247 +1,214 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Shield, Search, ArrowRight, ChevronRight } from 'lucide-react';
-import { FAMILIES } from '@/data/sampleData';
-import { useConfigurator } from '@/context/ConfiguratorContext';
+import { Link } from 'react-router-dom';
+import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
+import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
-import PrototypeFooter from '@/components/PrototypeFooter';
-import VehicleSelector from '@/components/VehicleSelector';
+import {
+  Zap, Volume2, Lightbulb, ArrowRight, Shield, AlertTriangle,
+  Layers, ChevronRight, Settings, FileDown, Phone
+} from 'lucide-react';
 
-// Sub-categories mimicking the Federal Signal "Light Bars" category page
-const SUBCATEGORIES = [
-  {
-    id: 'navigator',
-    label: 'Navigator® Serial Light Bar',
-    img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80',
-    skuPrefix: 'NAV-',
-    isNew: true,
-    configured: true,
-  },
-  {
-    id: 'pathfinder',
-    label: 'Pathfinder® Full-Size Light Bar',
-    img: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=80',
-    skuPrefix: 'PF-',
-    isNew: false,
-    configured: false,
-  },
-  {
-    id: 'pathway',
-    label: 'Pathway® Low-Profile Bar',
-    img: 'https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?w=600&q=80',
-    skuPrefix: 'PW-',
-    isNew: false,
-    configured: false,
-  },
-  {
-    id: 'duraforce',
-    label: 'DuraForce™ Mini Light Bar',
-    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
-    skuPrefix: 'DF-',
-    isNew: false,
-    configured: false,
-  },
-  {
-    id: 'grille-lights',
-    label: 'Perimeter & Grille Lights',
-    img: 'https://images.unsplash.com/photo-1609752716955-b2b3fea4cac8?w=600&q=80',
-    skuPrefix: 'GL-',
-    isNew: false,
-    configured: false,
-  },
-  {
-    id: 'sirens',
-    label: 'Sirens & Speakers',
-    img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80',
-    skuPrefix: 'SRN-',
-    isNew: false,
-    configured: false,
-  },
-  {
-    id: 'controllers',
-    label: 'Controllers & Interfaces',
-    img: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&q=80',
-    skuPrefix: 'CTL-',
-    isNew: false,
-    configured: false,
-  },
-  {
-    id: 'obd',
-    label: 'OBD Cables & Adapters',
-    img: 'https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=600&q=80',
-    skuPrefix: 'OBD-',
-    isNew: false,
-    configured: false,
-  },
+const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+
+const CATEGORIES = [
+  { label: 'Light Bars',           icon: <Layers size={28} />,       to: '/family/navigator',  desc: 'Get safe and reliable LED light bars equipped with exclusive technologies.' },
+  { label: 'Sirens & Speakers',    icon: <Volume2 size={28} />,       to: '#',                  desc: 'Grab the attention of drivers and clear the path for a safe arrival to the scene.' },
+  { label: 'Perimeter Lights',     icon: <Lightbulb size={28} />,     to: '#',                  desc: 'Install additional warnings around the perimeter of your police car.' },
+  { label: 'SignalMasters',        icon: <ArrowRight size={28} />,    to: '#',                  desc: 'Direct rear-approaching vehicles away from the scene for added safety.' },
+  { label: 'Push Bumpers',         icon: <Shield size={28} />,        to: '#',                  desc: 'Maximize safety with tools designed for durability and protection.' },
+  { label: 'Stinger Spike System', icon: <AlertTriangle size={28} />, to: '#',                  desc: 'Control the situation with systems that support quick and reliable de-escalation.' },
+  { label: 'Compartment Lights',   icon: <Lightbulb size={28} />,     to: '#',                  desc: 'Take action with innovative compartment lighting.' },
+  { label: 'Police Accessories',   icon: <Zap size={28} />,           to: '#',                  desc: 'Provide additional security with a variety of accessories and signaling devices.' },
 ];
 
-const NAV_TABS = ['Light Bars', 'Sirens & Speakers', 'Perimeter Lights', 'Specifications', 'Push Bumpers', 'Whelen Strike System', 'Compartment Lighting', 'Accessories'];
+const FEATURED = [
+  { label: 'DynaFlare™', desc: 'Low-profile, tri-color perimeter light featuring optically clear potting. IP68 and IP69K rated.', img: 'https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=600&q=80', to: '#' },
+  { label: 'Pathfinder® PF400 Light/Siren Controller', desc: 'When your officers are in pursuit, every second counts. Frees officers to focus fully on the task at hand.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80', to: '#' },
+  { label: 'Valor® Light Bar', desc: 'The first and only non-linear, low-profile lightbar engineered to increase visibility for critical intersection clearing.', img: 'https://images.unsplash.com/photo-1491308055032-5e505b042271?w=600&q=80', to: '#' },
+  { label: 'Allegiant® Max Serial Light Bar', desc: 'Allegiant® Max delivers enhanced safety, performance, and reliability—our latest innovation in the Allegiant light bar series.', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80', to: '#' },
+];
+
+const CONTRACTS = [
+  { label: 'PCA Contract', desc: 'Federal Signal warning solutions are available to government agencies through PCA cooperative purchasing contracts.' },
+  { label: 'GSA Contract', desc: 'Our warning solutions are accessible through the online General Services Administration (GSA).' },
+  { label: 'NASPO ValuePoint', desc: 'Our warning solutions are accessible to government agencies through NASPO cooperative purchasing contracts.' },
+];
+
+function SectionLabel({ text }) {
+  return (
+    <div style={{ marginBottom: '0.75rem' }}>
+      <p style={{ ...FS, fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888', marginBottom: 6 }}>{text}</p>
+      <div style={{ width: 40, height: 3, background: '#c8102e' }} />
+    </div>
+  );
+}
+
+function RedLink({ href = '#', children, external }) {
+  const props = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+  return (
+    <a href={href} {...props}
+      style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#c8102e', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 5 }}
+      onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+      onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
+    >
+      {children} <ChevronRight size={14} />
+    </a>
+  );
+}
 
 export default function PoliceLanding() {
-  const navigate = useNavigate();
-  const { dispatch } = useConfigurator();
-
-  const handleSelectFamily = (id) => {
-    dispatch({ type: 'SELECT_FAMILY', payload: id });
-    if (id === 'navigator') {
-      navigate('/family/navigator');
-    } else {
-      navigate(`/family/${id}`);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-white" style={FS}>
       <PrototypeBanner />
+      <SiteHeader activeVertical="police" />
 
-      {/* Top utility bar */}
-      <div className="bg-[#003580] text-white text-xs px-6 py-1.5 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <span>For Upfitters &amp; Resellers</span>
-          <span>For Government &amp; Fleets</span>
-          <span>TradeBridge Login</span>
+      {/* Hero Banner */}
+      <div className="relative overflow-hidden" style={{ background: '#111', minHeight: 380 }}>
+        <img src="https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85" alt="Police vehicle" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+        <div className="relative max-w-7xl mx-auto px-6 py-20 flex flex-col justify-center" style={{ minHeight: 380 }}>
+          <h1 style={{ ...FS, fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, maxWidth: 580, marginBottom: '1rem' }}>
+            Police Vehicle Safety Devices
+          </h1>
+          <p style={{ ...FS, fontSize: 16, color: 'rgba(255,255,255,0.82)', maxWidth: 520, lineHeight: 1.65, marginBottom: '1.5rem' }}>
+            Every moment of every day, we go beyond the call. Take comfort in our commitment to engineer the most reliable, durable, and high-performing products for your emergency vehicle.
+          </p>
+          <RedLink href="#">Learn More</RedLink>
         </div>
-        <div className="flex items-center gap-4 text-blue-200">
-          <span>Find a Dealer</span>
-          <span>800-621-9959</span>
+        <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
+      </div>
+
+      {/* Featured Article */}
+      <div className="max-w-7xl mx-auto px-6 py-14">
+        <div style={{ display: 'flex', gap: '3rem', alignItems: 'center' }}>
+          <div style={{ flex: '0 0 40%' }}>
+            <SectionLabel text="Federal Signal Police Vehicle Equipment" />
+            <h2 style={{ ...FS, fontSize: 'clamp(1.4rem,2.5vw,1.9rem)', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.25, marginBottom: '1rem' }}>
+              Risk Reduction: Siren Power & Warning Distance
+            </h2>
+            <p style={{ ...FS, fontSize: 15, color: '#555', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+              Seconds count on every response. The faster surrounding drivers can detect, recognize, and respond to your siren, the safer the outcome for you and the community you protect.
+            </p>
+            <RedLink href="#">Learn More</RedLink>
+          </div>
+          <div style={{ flex: 1 }}>
+            <div className="overflow-hidden" style={{ height: 260 }}>
+              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Siren demonstration" className="w-full h-full object-cover" />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Main nav */}
-      <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
-          {/* Logo + breadcrumb */}
-          <button onClick={() => navigate('/')} className="flex items-center gap-3 shrink-0">
-            <div className="w-9 h-9 bg-[#003580] rounded flex items-center justify-center">
-              <Shield size={18} className="text-white" />
-            </div>
-            <div>
-              <div className="font-black text-base tracking-tight leading-none text-[#003580]">TFR SUPPLY</div>
-              <div className="text-[9px] text-gray-400 tracking-widest uppercase leading-none mt-0.5">Pro Shop</div>
-            </div>
-          </button>
-
-          {/* Vertical tabs */}
-          <div className="hidden md:flex items-center gap-1 text-sm font-semibold">
-            {['Police', 'Fire/EMS', 'Work Truck', 'Emergency Beacon', 'Mass Notification'].map((label, i) => (
-              <button
-                key={label}
-                className={`px-4 py-2 rounded transition-colors ${
-                  i === 0
-                    ? 'bg-[#003580] text-white'
-                    : 'text-gray-500 hover:text-gray-900 opacity-50 cursor-not-allowed'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {/* Vehicle selector */}
-          <VehicleSelector />
-        </div>
-
-        {/* Category sub-nav */}
-        <div className="border-t border-gray-100 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-6 flex items-center gap-0 overflow-x-auto">
-            {NAV_TABS.map((tab, i) => (
-              <button
-                key={tab}
-                className={`text-xs font-semibold px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
-                  i === 0
-                    ? 'border-[#003580] text-[#003580]'
-                    : 'border-transparent text-gray-500 hover:text-gray-800 opacity-50 cursor-not-allowed'
-                }`}
-              >
-                {tab}
-              </button>
+      {/* New & Featured Products */}
+      <div className="bg-gray-50 py-14">
+        <div className="max-w-7xl mx-auto px-6">
+          <SectionLabel text="New and Featured" />
+          <h2 style={{ ...FS, fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>Our Latest and Featured Police Emergency Products</h2>
+          <p style={{ ...FS, fontSize: 14, color: '#777', marginBottom: '2rem' }}>View the most recent innovations in police vehicle safety</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.5rem' }}>
+            {FEATURED.map(p => (
+              <Link key={p.label} to={p.to} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="bg-white border border-gray-200 hover:border-[#c8102e] transition-colors overflow-hidden h-full flex flex-col">
+                  <img src={p.img} alt={p.label} className="w-full object-cover" style={{ height: 180 }} onError={e => { e.target.src = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=60'; }} />
+                  <div className="p-4 flex flex-col flex-1">
+                    <p style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{p.label}</p>
+                    <p style={{ ...FS, fontSize: 13, color: '#666', lineHeight: 1.55, flex: 1 }}>{p.desc}</p>
+                    <p style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#c8102e', marginTop: '0.75rem', letterSpacing: '0.04em' }}>LEARN MORE</p>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
-      </nav>
-
-      {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-6 py-3">
-        <div className="flex items-center gap-1.5 text-xs text-gray-400">
-          <button onClick={() => navigate('/')} className="hover:text-[#003580] transition-colors">Home</button>
-          <ChevronRight size={12} />
-          <span className="text-gray-600 font-medium">Police — Law Enforcement</span>
-          <ChevronRight size={12} />
-          <span className="text-gray-800 font-semibold">Light Bars</span>
-        </div>
       </div>
 
-      {/* Page header */}
-      <div className="max-w-7xl mx-auto px-6 pb-6">
-        <h1 className="text-3xl font-black text-gray-900 mb-2">
-          Police Vehicle Light Bars — Full Size, Low Profile &amp; Mini
-        </h1>
-        <p className="text-gray-500 text-sm max-w-2xl leading-relaxed">
-          Our full suite of LED light bars are our top products, our products work with vehicles to provide efficient, ultra-wide vehicle emergency lights to control signals.
-        </p>
-      </div>
-
-      {/* Product thumbnail grid */}
-      <div className="max-w-7xl mx-auto px-6 pb-16">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {SUBCATEGORIES.map((sub) => (
-            <button
-              key={sub.id}
-              onClick={sub.configured ? () => handleSelectFamily(sub.id) : undefined}
-              className={`group text-left rounded-xl border transition-all duration-200 overflow-hidden ${
-                sub.configured
-                  ? 'border-gray-200 hover:border-[#003580] hover:shadow-md cursor-pointer bg-white'
-                  : 'border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed'
-              }`}
-            >
-              <div className="relative bg-gray-100 h-44 overflow-hidden">
-                <img
-                  src={sub.img}
-                  alt={sub.label}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
-                />
-                {sub.isNew && (
-                  <div className="absolute top-2 right-2">
-                    <span className="text-[10px] font-bold bg-emerald-500 text-white px-2 py-0.5 rounded-full">New Flow</span>
-                  </div>
-                )}
-                {!sub.configured && (
-                  <div className="absolute inset-0 bg-white/50 flex items-center justify-center">
-                    <span className="text-[10px] font-bold text-gray-500 bg-white px-2 py-1 rounded border">Coming Soon</span>
-                  </div>
-                )}
+      {/* Category Grid */}
+      <div className="max-w-7xl mx-auto px-6 py-14">
+        <h2 style={{ ...FS, fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>Risk-Reducing Police Vehicle Equipment You Can Depend On</h2>
+        <p style={{ ...FS, fontSize: 14, color: '#777', marginBottom: '2rem' }}>Explore exterior and interior warning lights, sirens, speakers, directional lighting, and more.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
+          {CATEGORIES.map(cat => (
+            <Link key={cat.label} to={cat.to} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="border border-gray-200 hover:border-[#c8102e] transition-all p-5 flex flex-col items-start gap-3 h-full">
+                <div className="text-[#c8102e]">{cat.icon}</div>
+                <p style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#1a1a1a' }}>{cat.label}</p>
+                <p style={{ ...FS, fontSize: 13, color: '#666', lineHeight: 1.55 }}>{cat.desc}</p>
               </div>
-              <div className="p-4">
-                <div className="font-bold text-sm text-gray-900 leading-snug mb-1">{sub.label}</div>
-                <div className="text-[10px] font-mono text-gray-400">{sub.skuPrefix}*</div>
-                {sub.configured && (
-                  <div className="mt-3 flex items-center gap-1 text-[#003580] text-xs font-bold group-hover:gap-2 transition-all">
-                    Configure <ArrowRight size={12} />
-                  </div>
-                )}
-              </div>
-            </button>
+            </Link>
           ))}
         </div>
+        <RedLink href="#">Get Help From a Sales Rep</RedLink>
       </div>
 
-      {/* "Stay Safe" CTA band */}
-      <div
-        className="relative py-20 text-center text-white overflow-hidden"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        <div className="absolute inset-0 bg-[#003580]/80" />
-        <div className="relative">
-          <h2 className="text-3xl font-black mb-2">Stay Safe and Secure</h2>
-          <p className="text-blue-100 text-sm mb-6">With a partner you can trust to deliver dependable controls, discover more with us.</p>
-          <button
-            onClick={() => navigate('/family/navigator')}
-            className="bg-white text-[#003580] font-bold px-8 py-3 rounded text-sm hover:bg-blue-50 transition-all"
-          >
-            Connect With Us →
-          </button>
+      {/* Configurators */}
+      <div className="bg-gray-50 py-14">
+        <div className="max-w-7xl mx-auto px-6">
+          <SectionLabel text="Configurators" />
+          <h2 style={{ ...FS, fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>Custom Police Lighting and Siren Solutions</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            {[
+              { label: 'Customize Your Police Light Bar', desc: 'Build your ideal lightbar with choices of color, features, mounts, and controller for optical performance.', href: 'https://config.fedsig.com/lightbar/', icon: <Settings size={28} /> },
+              { label: 'Build Your Police Car Warning Package', desc: 'Outfit your police fleet with high-quality lights, sirens, and push bumpers and then place your order today.', href: '#', icon: <Shield size={28} /> },
+            ].map(c => (
+              <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer"
+                className="bg-white border border-gray-200 hover:border-[#c8102e] transition-colors p-6 flex gap-4 items-start"
+                style={{ textDecoration: 'none' }}>
+                <div className="text-[#c8102e] shrink-0 mt-0.5">{c.icon}</div>
+                <div>
+                  <p style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.35rem' }}>{c.label}</p>
+                  <p style={{ ...FS, fontSize: 13, color: '#666', lineHeight: 1.55 }}>{c.desc}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Where to Buy */}
+      <div className="max-w-7xl mx-auto px-6 py-14">
+        <SectionLabel text="Where to buy" />
+        <h2 style={{ ...FS, fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>Find the Right Solution for Your Business</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          {CONTRACTS.map(c => (
+            <div key={c.label} className="border border-gray-200 p-5">
+              <p style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{c.label}</p>
+              <p style={{ ...FS, fontSize: 13, color: '#666', lineHeight: 1.6 }}>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+        <RedLink href="#">Find your rep today</RedLink>
+      </div>
+
+      {/* Resources */}
+      <div className="bg-gray-50 py-14">
+        <div className="max-w-7xl mx-auto px-6">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+            <div>
+              <SectionLabel text="Resource Library" />
+              <h2 style={{ ...FS, fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>Expand Your Product Knowledge</h2>
+              <p style={{ ...FS, fontSize: 15, color: '#555', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+                Offering a variety of tools to learn more about our products and to support your goal to ensure safety for all.
+              </p>
+              <RedLink href="#">Find Resources</RedLink>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {[
+                { icon: <Phone size={18} />, label: 'Need Assistance?', desc: 'Get the answers you need. When you need them. Our expert customer support and sales team are here to help.' },
+                { icon: <FileDown size={18} />, label: 'Download Catalog', desc: 'Download our complete catalog to explore a comprehensive range of police emergency products.' },
+              ].map(r => (
+                <a key={r.label} href="#"
+                  className="bg-white border border-gray-200 hover:border-[#c8102e] transition-colors p-4 flex gap-3 items-start"
+                  style={{ textDecoration: 'none' }}>
+                  <div className="text-[#c8102e] shrink-0 mt-0.5">{r.icon}</div>
+                  <div>
+                    <p style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.2rem' }}>{r.label}</p>
+                    <p style={{ ...FS, fontSize: 12, color: '#777', lineHeight: 1.55 }}>{r.desc}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
