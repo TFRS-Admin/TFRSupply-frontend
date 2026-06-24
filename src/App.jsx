@@ -18,6 +18,7 @@ import BuildReview from '@/pages/BuildReview';
 import CheckoutDecision from '@/pages/CheckoutDecision';
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import ComponentShowcase from '@/pages/ComponentShowcase';
+import ResourcesPage from '@/pages/ResourcesPage.jsx';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -49,6 +50,7 @@ const AuthenticatedApp = () => {
         <Route path="/configure/:familyId/step/:stepId" element={<ConfiguratorWizard />} />
         <Route path="/configure/:familyId/review" element={<BuildReview />} />
         <Route path="/configure/:familyId/checkout" element={<CheckoutDecision />} />
+        <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
         <Route path="/showcase" element={<ComponentShowcase />} />
         <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
