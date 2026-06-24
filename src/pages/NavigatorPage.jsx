@@ -219,9 +219,9 @@ export default function NavigatorPage() {
         </div>
       </div>
 
-      {/* ── Product Title — centered above image like Fed Sig ─────────────── */}
-      <div className="max-w-7xl mx-auto px-4 pt-8 pb-4">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 text-center">
+      {/* ── Product Title — Fed Sig exact: left-aligned on desktop, ~36px Roboto Bold ── */}
+      <div className="max-w-7xl mx-auto px-4 pt-10 pb-2">
+        <h1 style={{ fontFamily: "'Roboto', 'Inter', sans-serif", fontSize: '2.1rem', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
           Navigator® Light Bar
         </h1>
       </div>
@@ -238,8 +238,13 @@ export default function NavigatorPage() {
           {/* Right — TFR Build Advisor ~42% */}
           <div className="lg:col-span-5">
 
-            {/* Request Quote CTA — matches Fed Sig's prominent top-right button */}
-            <button className="w-full mb-4 flex items-center justify-between gap-2 bg-[#CC0000] hover:bg-[#aa0000] text-white font-bold py-3.5 px-6 rounded transition-all text-sm">
+            {/* Request Quote CTA — Fed Sig btn-primary exact */}
+            <button
+              className="w-full mb-4 flex items-center justify-between gap-2 text-white transition-all"
+              style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '14px 24px' }}
+              onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
+              onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
+            >
               <div className="flex items-center gap-2">
                 <FileText size={16} />
                 Request a Quote
@@ -248,13 +253,13 @@ export default function NavigatorPage() {
             </button>
 
             {/* Stock status */}
-            <div className="flex items-center gap-2 mb-4 text-sm font-semibold text-green-700">
+            <div className="flex items-center gap-2 mb-4 font-semibold text-green-700" style={{ fontSize: '14px', fontFamily: "'Roboto','Inter',sans-serif" }}>
               <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
               In Stock
             </div>
 
-            {/* Quick bullets */}
-            <div className="mb-5 space-y-1.5 border-b border-gray-200 pb-5">
+            {/* Quick bullets — Fed Sig exact: bullet dot prefix, 15px Roboto, #3d3d3d, 8px vertical padding */}
+            <div className="mb-5 border-b border-gray-200 pb-5">
               {[
                 'High-profile, linear LED light bar',
                 'Available in 45", 53", 60", 73", and 87" lengths',
@@ -263,20 +268,19 @@ export default function NavigatorPage() {
                 'SignalMaster™ directional warning available',
                 'Five-year warranty',
               ].map((b, i) => (
-                <div key={i} className="flex items-start gap-2 text-sm text-gray-600">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#CC0000] shrink-0 mt-1.5" />
-                  <span>{b}</span>
+                <div key={i} style={{ fontFamily: "'Roboto', 'Inter', sans-serif", fontSize: '15px', color: '#3d3d3d', lineHeight: 1.6, padding: '6px 0' }}>
+                  • {b}
                 </div>
               ))}
             </div>
 
-            {/* TFR Build Advisor */}
-            <div className="border border-[#003DA5]/30 rounded-lg overflow-hidden">
-              <div className="bg-[#003DA5] px-4 py-2.5 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-blue-300" />
-                <span className="text-xs font-black tracking-widest uppercase text-white">TFR Build Advisor</span>
+            {/* TFR Build Advisor — Fed Sig design system: 1px #e0e0e0 border, white bg, Roboto */}
+            <div style={{ border: '1px solid #d8d8d8', borderRadius: '4px', overflow: 'hidden', fontFamily: "'Roboto','Inter',sans-serif" }}>
+              <div style={{ background: '#1a1a1a', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#c8102e' }} />
+                <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#ffffff' }}>TFR Build Advisor</span>
               </div>
-              <div className="p-4 bg-gray-50">
+              <div style={{ padding: '20px 16px', background: '#ffffff' }}>
                 <NavigatorOptionsModule />
               </div>
             </div>

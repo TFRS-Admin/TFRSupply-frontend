@@ -41,7 +41,8 @@ function SelectDropdown({ label, value, onChange, options, placeholder, disabled
           value={value || ''}
           onChange={e => onChange(e.target.value || null)}
           disabled={disabled}
-          className={`w-full appearance-none border rounded px-3 py-2.5 text-sm pr-8 focus:outline-none transition-all bg-white ${
+          style={{ fontFamily: "'Roboto','Inter',sans-serif" }}
+      className={`w-full appearance-none border rounded px-3 py-2.5 text-sm pr-8 focus:outline-none transition-all bg-white ${
             disabled
               ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
               : value
@@ -363,18 +364,24 @@ export default function NavigatorOptionsModule() {
             </div>
           </div>
 
-          {/* CTA */}
+          {/* CTA — Fed Sig btn-primary / btn-ghost exact */}
           {!checkoutMode && !submitted && (
             <div className="space-y-2">
               <button
                 onClick={() => setCheckoutMode('cart')}
-                className="w-full flex items-center justify-center gap-2 bg-[#CC0000] hover:bg-[#aa0000] text-white font-bold py-3 rounded text-sm transition-all"
+                className="w-full flex items-center justify-center gap-2 text-white transition-all"
+                style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '13px 24px' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
+                onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
               >
                 <ShoppingCart size={14} /> Add to Cart
               </button>
               <button
                 onClick={() => setCheckoutMode('quote')}
-                className="w-full flex items-center justify-center gap-2 border-2 border-[#003DA5] text-[#003DA5] hover:bg-[#003DA5] hover:text-white font-semibold py-3 rounded text-sm transition-all"
+                className="w-full flex items-center justify-center gap-2 transition-all"
+                style={{ background: 'transparent', border: '2px solid #c8102e', color: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '11px 24px' }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#c8102e'; e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#c8102e'; }}
               >
                 <FileText size={14} /> Request a Quote
               </button>
@@ -400,11 +407,11 @@ export default function NavigatorOptionsModule() {
                   <span>${totalPrice.toLocaleString()}</span>
                 </div>
               </div>
-              <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded text-sm flex items-center justify-center gap-2">
+              <button className="w-full text-white flex items-center justify-center gap-2 transition-all" style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '13px 24px' }} onMouseEnter={e => e.currentTarget.style.background='#a50d25'} onMouseLeave={e => e.currentTarget.style.background='#c8102e'}>
                 <ShoppingCart size={14} /> Proceed to Checkout
                 <span className="text-[9px] font-normal opacity-60">(prototype)</span>
               </button>
-              <button onClick={() => setCheckoutMode(null)} className="w-full text-xs text-gray-400 hover:text-gray-600 py-1">← Back</button>
+              <button onClick={() => setCheckoutMode(null)} className="w-full py-1 text-gray-400 hover:text-gray-600 transition-colors" style={{ fontSize: '12px', fontFamily: "'Roboto','Inter',sans-serif" }}>← Back</button>
             </div>
           )}
 
@@ -441,7 +448,10 @@ export default function NavigatorOptionsModule() {
               <button
                 onClick={handleSubmitQuote}
                 disabled={!quoteForm.name || !quoteForm.email}
-                className="w-full bg-[#CC0000] hover:bg-[#aa0000] disabled:opacity-40 text-white font-bold py-2.5 rounded text-xs transition-all"
+                className="w-full text-white transition-all disabled:opacity-40"
+                style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '13px', padding: '11px 20px' }}
+                onMouseEnter={e => { if (!e.currentTarget.disabled) e.currentTarget.style.background='#a50d25'; }}
+                onMouseLeave={e => e.currentTarget.style.background='#c8102e'}
               >
                 Submit Quote Request
               </button>
