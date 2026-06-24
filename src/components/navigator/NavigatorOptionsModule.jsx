@@ -21,22 +21,22 @@ function SelectDropdown({ label, value, onChange, options, placeholder, disabled
           value={value || ''}
           onChange={e => onChange(e.target.value || null)}
           disabled={disabled}
-          className={`w-full appearance-none border rounded-lg px-3 py-2.5 text-sm pr-8 focus:outline-none transition-all ${
+          className={`w-full appearance-none border rounded px-3 py-2.5 text-sm pr-8 focus:outline-none transition-all bg-white ${
             disabled
-              ? 'bg-white/[0.02] border-white/[0.05] text-gray-700 cursor-not-allowed'
+              ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
               : value
-                ? 'bg-white/[0.06] border-blue-500/50 text-white focus:border-blue-400'
-                : 'bg-white/[0.04] border-white/10 text-gray-400 hover:border-white/20 focus:border-blue-500/40 cursor-pointer'
+                ? 'border-[#003DA5] text-gray-900 focus:border-[#003DA5]'
+                : 'border-gray-300 text-gray-500 hover:border-gray-400 focus:border-[#003DA5] cursor-pointer'
           }`}
         >
-          <option value="" className="bg-[#0D1B2A]">{placeholder}</option>
+          <option value="">{placeholder}</option>
           {options.map(opt => (
-            <option key={opt.value} value={opt.value} className="bg-[#0D1B2A] text-white">
+            <option key={opt.value} value={opt.value}>
               {opt.label}
             </option>
           ))}
         </select>
-        <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none" />
+        <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
       </div>
     </div>
   );
@@ -46,31 +46,31 @@ function SkuCard({ sku, selected, onSelect, vehicleFit }) {
   return (
     <button
       onClick={() => onSelect(sku)}
-      className={`w-full text-left rounded-lg border p-3 transition-all ${
+      className={`w-full text-left rounded border p-3 transition-all ${
         selected
-          ? 'border-blue-500 bg-blue-600/10'
-          : 'border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]'
+          ? 'border-[#003DA5] bg-blue-50'
+          : 'border-gray-200 bg-white hover:border-gray-400 hover:bg-gray-50'
       }`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
-            <span className="font-semibold text-xs text-white leading-tight">{sku.label}</span>
+            <span className="font-semibold text-xs text-gray-900 leading-tight">{sku.label}</span>
             {sku.popular && (
-              <span className="text-[8px] font-bold bg-blue-600/40 text-blue-300 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Popular</span>
+              <span className="text-[8px] font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Popular</span>
             )}
             {vehicleFit && (
-              <span className="flex items-center gap-0.5 text-[8px] font-bold bg-green-600/20 text-green-400 px-1.5 py-0.5 rounded-full">
+              <span className="flex items-center gap-0.5 text-[8px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">
                 <Car size={7} /> Fits
               </span>
             )}
           </div>
-          <span className="text-[9px] font-mono text-gray-700">{sku.sku}</span>
+          <span className="text-[9px] font-mono text-gray-500">{sku.sku}</span>
         </div>
         <div className="shrink-0 text-right">
-          <div className="text-sm font-black text-white">${sku.price.toLocaleString()}</div>
+          <div className="text-sm font-black text-gray-900">${sku.price.toLocaleString()}</div>
           <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mt-1 ml-auto transition-all ${
-            selected ? 'bg-blue-600 border-blue-500' : 'border-gray-700'
+            selected ? 'bg-[#003DA5] border-[#003DA5]' : 'border-gray-300'
           }`}>
             {selected && <CheckCircle size={9} className="text-white" />}
           </div>
@@ -84,27 +84,27 @@ function UpsellItem({ item, selected, onToggle, vehicleMatch }) {
   return (
     <div
       onClick={onToggle}
-      className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
+      className={`flex items-start gap-3 p-3 rounded border cursor-pointer transition-all ${
         selected
-          ? 'border-blue-500/50 bg-blue-600/8'
-          : 'border-white/[0.06] bg-white/[0.015] hover:border-white/15'
+          ? 'border-[#003DA5]/40 bg-blue-50'
+          : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
       }`}
     >
       <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all ${
-        selected ? 'bg-blue-600 border-blue-500' : 'border-gray-700'
+        selected ? 'bg-[#003DA5] border-[#003DA5]' : 'border-gray-300'
       }`}>
         {selected && <CheckCircle size={9} className="text-white" />}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="font-semibold text-xs text-white">{item.label}</span>
-          {item.isBundleDeal && <span className="text-[8px] font-bold bg-emerald-600/25 text-emerald-400 px-1.5 py-0.5 rounded-full">Bundle</span>}
-          {item.verificationNeeded && <span className="text-[8px] font-bold bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full flex items-center gap-0.5"><AlertTriangle size={7} />Verify</span>}
-          {vehicleMatch && <span className="text-[8px] font-bold bg-green-600/20 text-green-400 px-1.5 py-0.5 rounded-full flex items-center gap-0.5"><Car size={7} />For Your Vehicle</span>}
+          <span className="font-semibold text-xs text-gray-900">{item.label}</span>
+          {item.isBundleDeal && <span className="text-[8px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">Bundle</span>}
+          {item.verificationNeeded && <span className="text-[8px] font-bold bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full flex items-center gap-0.5"><AlertTriangle size={7} />Verify</span>}
+          {vehicleMatch && <span className="text-[8px] font-bold bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full flex items-center gap-0.5"><Car size={7} />For Your Vehicle</span>}
         </div>
-        <p className="text-[10px] text-gray-600 mt-0.5 leading-relaxed">{item.description}</p>
+        <p className="text-[10px] text-gray-500 mt-0.5 leading-relaxed">{item.description}</p>
       </div>
-      <span className="shrink-0 text-xs font-bold text-white">+${item.price}</span>
+      <span className="shrink-0 text-xs font-bold text-gray-900">+${item.price}</span>
     </div>
   );
 }
@@ -169,7 +169,7 @@ export default function NavigatorOptionsModule() {
         <VehicleSelector compact={true} />
       </div>
 
-      <div className="border-t border-white/[0.06]" />
+      <div className="border-t border-gray-200" />
 
       {/* Primary SKU filters */}
       <div className="space-y-3">
@@ -198,7 +198,7 @@ export default function NavigatorOptionsModule() {
               Configured Model — {matchingSkus.length} available
             </div>
             {matchingSkus.length === 0 ? (
-              <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 flex items-start gap-2 text-xs text-amber-400">
+              <div className="bg-amber-50 border border-amber-200 rounded p-3 flex items-start gap-2 text-xs text-amber-700">
                 <AlertTriangle size={12} className="shrink-0 mt-0.5" />
                 <span>No models match this combination. <button className="underline font-semibold">Request a quote →</button></span>
               </div>
@@ -227,7 +227,7 @@ export default function NavigatorOptionsModule() {
       {/* Required & recommended add-ons */}
       {selectedSku && (
         <>
-          <div className="border-t border-white/[0.06]" />
+          <div className="border-t border-gray-200" />
           <div className="space-y-4">
             <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Complete Your Build</div>
 
@@ -269,49 +269,49 @@ export default function NavigatorOptionsModule() {
       {/* Build summary + CTA */}
       {selectedSku && (
         <>
-          <div className="border-t border-white/[0.06]" />
+          <div className="border-t border-gray-200" />
 
           {/* Summary */}
-          <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-4 space-y-3">
+          <div className="bg-gray-50 border border-gray-200 rounded p-4 space-y-3">
             <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Build Summary</div>
 
             {persistentVehicle && !persistentVehicle.unspecified && (
-              <div className="flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 rounded-lg px-2.5 py-2 text-xs text-blue-300">
+              <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded px-2.5 py-2 text-xs text-blue-700">
                 <Car size={11} className="shrink-0" />
                 <span className="truncate">{persistentVehicle.year} {persistentVehicle.make} {persistentVehicle.model}</span>
                 {vehicleFitsSelected
-                  ? <span className="ml-auto text-green-400 font-bold shrink-0 flex items-center gap-1"><CheckCircle size={9} />Fits</span>
-                  : <span className="ml-auto text-amber-400 font-bold shrink-0 flex items-center gap-1"><AlertTriangle size={9} />Verify</span>}
+                  ? <span className="ml-auto text-green-600 font-bold shrink-0 flex items-center gap-1"><CheckCircle size={9} />Fits</span>
+                  : <span className="ml-auto text-amber-600 font-bold shrink-0 flex items-center gap-1"><AlertTriangle size={9} />Verify</span>}
               </div>
             )}
 
             <div className="flex justify-between items-start text-xs">
-              <span className="text-gray-400 leading-tight mr-2">{selectedSku.label}</span>
-              <span className="font-bold text-white shrink-0">${selectedSku.price.toLocaleString()}</span>
+              <span className="text-gray-600 leading-tight mr-2">{selectedSku.label}</span>
+              <span className="font-bold text-gray-900 shrink-0">${selectedSku.price.toLocaleString()}</span>
             </div>
             {selectedUpsells.map(item => (
               <div key={item.id} className="flex justify-between text-xs">
                 <span className="text-gray-500 truncate mr-2">{item.label}</span>
-                <span className="text-white shrink-0">+${item.price}</span>
+                <span className="text-gray-900 shrink-0">+${item.price}</span>
               </div>
             ))}
 
             {needsVerification && (
-              <div className="flex items-start gap-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2.5 py-2 text-[10px] text-amber-400">
+              <div className="flex items-start gap-1.5 bg-amber-50 border border-amber-200 rounded px-2.5 py-2 text-[10px] text-amber-700">
                 <Info size={10} className="shrink-0 mt-0.5" />
                 <span>Quote recommended — fitment verification required.</span>
               </div>
             )}
             {persistentVehicle && !persistentVehicle.unspecified && !vehicleFitsSelected && (
-              <div className="flex items-start gap-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg px-2.5 py-2 text-[10px] text-amber-400">
+              <div className="flex items-start gap-1.5 bg-amber-50 border border-amber-200 rounded px-2.5 py-2 text-[10px] text-amber-700">
                 <AlertTriangle size={10} className="shrink-0 mt-0.5" />
                 <span>Unverified fitment for your vehicle. Contact us to confirm.</span>
               </div>
             )}
 
-            <div className="flex justify-between items-baseline border-t border-white/[0.07] pt-3">
+            <div className="flex justify-between items-baseline border-t border-gray-200 pt-3">
               <span className="text-xs text-gray-500">Estimated Total</span>
-              <span className="text-xl font-black text-white">${totalPrice.toLocaleString()}</span>
+              <span className="text-xl font-black text-gray-900">${totalPrice.toLocaleString()}</span>
             </div>
           </div>
 
@@ -320,13 +320,13 @@ export default function NavigatorOptionsModule() {
             <div className="space-y-2">
               <button
                 onClick={() => setCheckoutMode('cart')}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm transition-all"
+                className="w-full flex items-center justify-center gap-2 bg-[#CC0000] hover:bg-[#aa0000] text-white font-bold py-3 rounded text-sm transition-all"
               >
                 <ShoppingCart size={14} /> Add to Cart
               </button>
               <button
                 onClick={() => setCheckoutMode('quote')}
-                className="w-full flex items-center justify-center gap-2 border border-white/15 bg-white/[0.04] hover:bg-white/[0.07] text-white font-semibold py-3 rounded-xl text-sm transition-all"
+                className="w-full flex items-center justify-center gap-2 border-2 border-[#003DA5] text-[#003DA5] hover:bg-[#003DA5] hover:text-white font-semibold py-3 rounded text-sm transition-all"
               >
                 <FileText size={14} /> Request a Quote
               </button>
@@ -336,27 +336,27 @@ export default function NavigatorOptionsModule() {
           {/* Cart */}
           {checkoutMode === 'cart' && (
             <div className="space-y-2">
-              <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-3 space-y-1.5 text-xs">
+              <div className="bg-gray-50 border border-gray-200 rounded p-3 space-y-1.5 text-xs">
                 <div className="flex justify-between">
                   <span className="text-gray-500 truncate mr-2">{selectedSku.sku}</span>
-                  <span className="text-white shrink-0 font-semibold">${selectedSku.price.toLocaleString()}</span>
+                  <span className="text-gray-900 shrink-0 font-semibold">${selectedSku.price.toLocaleString()}</span>
                 </div>
                 {selectedUpsells.map(i => (
                   <div key={i.id} className="flex justify-between">
                     <span className="text-gray-500 truncate mr-2">{i.sku}</span>
-                    <span className="text-white shrink-0">+${i.price}</span>
+                    <span className="text-gray-900 shrink-0">+${i.price}</span>
                   </div>
                 ))}
-                <div className="border-t border-white/[0.08] pt-1.5 flex justify-between font-bold text-sm">
+                <div className="border-t border-gray-200 pt-1.5 flex justify-between font-bold text-sm">
                   <span>Total</span>
                   <span>${totalPrice.toLocaleString()}</span>
                 </div>
               </div>
-              <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+              <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded text-sm flex items-center justify-center gap-2">
                 <ShoppingCart size={14} /> Proceed to Checkout
-                <span className="text-[9px] font-normal opacity-50">(prototype)</span>
+                <span className="text-[9px] font-normal opacity-60">(prototype)</span>
               </button>
-              <button onClick={() => setCheckoutMode(null)} className="w-full text-xs text-gray-600 hover:text-gray-400 py-1">← Back</button>
+              <button onClick={() => setCheckoutMode(null)} className="w-full text-xs text-gray-400 hover:text-gray-600 py-1">← Back</button>
             </div>
           )}
 
@@ -365,7 +365,7 @@ export default function NavigatorOptionsModule() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Request a Quote</div>
-                <button onClick={() => setCheckoutMode(null)} className="text-gray-600 hover:text-white text-xs">Cancel</button>
+                <button onClick={() => setCheckoutMode(null)} className="text-gray-400 hover:text-gray-600 text-xs">Cancel</button>
               </div>
               {[
                 { key: 'name', label: 'Name *', placeholder: 'Your name', type: 'text' },
@@ -373,13 +373,13 @@ export default function NavigatorOptionsModule() {
                 { key: 'email', label: 'Email *', placeholder: 'your@email.com', type: 'email' },
               ].map(f => (
                 <div key={f.key}>
-                  <label className="text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-1 block">{f.label}</label>
+                  <label className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1 block">{f.label}</label>
                   <input
                     type={f.type}
                     placeholder={f.placeholder}
                     value={quoteForm[f.key]}
                     onChange={e => setQuoteForm(p => ({ ...p, [f.key]: e.target.value }))}
-                    className="w-full bg-white/[0.05] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/40"
+                    className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#003DA5]"
                   />
                 </div>
               ))}
@@ -388,12 +388,12 @@ export default function NavigatorOptionsModule() {
                 value={quoteForm.notes}
                 onChange={e => setQuoteForm(p => ({ ...p, notes: e.target.value }))}
                 rows={2}
-                className="w-full bg-white/[0.05] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/40 resize-none"
+                className="w-full bg-white border border-gray-300 rounded px-3 py-2 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#003DA5] resize-none"
               />
               <button
                 onClick={handleSubmitQuote}
                 disabled={!quoteForm.name || !quoteForm.email}
-                className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white font-bold py-2.5 rounded-xl text-xs transition-all"
+                className="w-full bg-[#CC0000] hover:bg-[#aa0000] disabled:opacity-40 text-white font-bold py-2.5 rounded text-xs transition-all"
               >
                 Submit Quote Request
               </button>
@@ -401,10 +401,10 @@ export default function NavigatorOptionsModule() {
           )}
 
           {submitted && (
-            <div className="bg-green-600/10 border border-green-600/30 rounded-xl p-4 text-center">
-              <CheckCircle size={20} className="text-green-400 mx-auto mb-2" />
-              <div className="font-bold text-green-400 text-sm mb-1">Quote Submitted</div>
-              <p className="text-[10px] text-gray-500">A TFR specialist will respond to <span className="text-white">{quoteForm.email}</span> within 1 business day.</p>
+            <div className="bg-green-50 border border-green-200 rounded p-4 text-center">
+              <CheckCircle size={20} className="text-green-600 mx-auto mb-2" />
+              <div className="font-bold text-green-700 text-sm mb-1">Quote Submitted</div>
+              <p className="text-[10px] text-gray-500">A TFR specialist will respond to <span className="text-gray-800 font-semibold">{quoteForm.email}</span> within 1 business day.</p>
             </div>
           )}
         </>

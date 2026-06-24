@@ -4,11 +4,12 @@ import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-rea
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
-  { id: 'choose', label: 'Choose Model' },
-  { id: 'specs', label: 'SKU Specifications' },
-  { id: 'accessories', label: 'Compatible Accessories' },
-  { id: 'installation', label: 'Installation & Fitment' },
-  { id: 'media', label: 'Videos & Documents' },
+  { id: 'features', label: 'Features' },
+  { id: 'specs', label: 'Specifications' },
+  { id: 'choose', label: 'SKU Specifications' },
+  { id: 'accessories', label: 'Accessories & Parts' },
+  { id: 'installation', label: 'Documentation' },
+  { id: 'media', label: 'Videos' },
 ];
 
 // ── Overview ─────────────────────────────────────────────────────────────────
@@ -16,29 +17,29 @@ function OverviewTab() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
       <div>
-        <h3 className="text-base font-black text-white mb-3">Features</h3>
-        <div className="space-y-4 text-sm text-gray-400 leading-relaxed">
+        <h3 className="text-base font-black text-gray-900 mb-3">Features</h3>
+        <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
           <div>
-            <div className="font-bold text-white mb-1">Command-Grade Construction</div>
+            <div className="font-bold text-gray-900 mb-1">Command-Grade Construction</div>
             <p>The Navigator Series is engineered for full-time duty in police patrol vehicles. Aluminum extrusion chassis, powder-coated finish, and sealed wiring harness connectors are designed to withstand continuous vehicle vibration and temperature cycles.</p>
           </div>
           <div>
-            <div className="font-bold text-white mb-1">Three Platform Sizes</div>
+            <div className="font-bold text-gray-900 mb-1">Three Platform Sizes</div>
             <p>Available in 14", 18", and 22" lengths to match sedan, standard SUV, and large-platform patrol vehicles. Each platform ships as a fully configured, ready-to-install console unit — no custom fabrication required.</p>
           </div>
           <div>
-            <div className="font-bold text-white mb-1">Control Method Options</div>
+            <div className="font-bold text-gray-900 mb-1">Control Method Options</div>
             <p>Hardwired, Push-Button Controller, and Touchscreen Controller variants are stocked as individual configured SKUs. The control method is part of the base unit — not a field-configured option.</p>
           </div>
           <div>
-            <div className="font-bold text-white mb-1">Vehicle-Specific Mount Kits</div>
+            <div className="font-bold text-gray-900 mb-1">Vehicle-Specific Mount Kits</div>
             <p>Dedicated bracket and hardware sets are available for Ford PIU, Chevrolet Tahoe PPV, and Dodge Durango Pursuit platforms. Universal mount kits available for all other vehicles.</p>
           </div>
         </div>
       </div>
       <div>
-        <h3 className="text-base font-black text-white mb-3">Applications</h3>
-        <ul className="space-y-2 text-sm text-gray-400">
+        <h3 className="text-base font-black text-gray-900 mb-3">Applications</h3>
+        <ul className="space-y-2 text-sm text-gray-600">
           {[
             'Municipal police patrol — sedan and SUV platforms',
             'Sheriff patrol — large-platform SUV and Tahoe PPV',
@@ -53,7 +54,7 @@ function OverviewTab() {
           ))}
         </ul>
 
-        <h3 className="text-base font-black text-white mt-6 mb-3">Compatible Vehicle Platforms</h3>
+        <h3 className="text-base font-black text-gray-900 mt-6 mb-3">Compatible Vehicle Platforms</h3>
         <div className="grid grid-cols-2 gap-1.5">
           {[
             'Ford Police Interceptor Utility',
@@ -65,7 +66,7 @@ function OverviewTab() {
             'Ford Police Interceptor Sedan',
             'Toyota Camry Patrol',
           ].map((v, i) => (
-            <div key={i} className="text-xs bg-white/[0.03] border border-white/[0.06] rounded-lg px-2.5 py-1.5 text-gray-400">{v}</div>
+            <div key={i} className="text-xs bg-gray-50 border border-gray-200 rounded px-2.5 py-1.5 text-gray-600">{v}</div>
           ))}
         </div>
       </div>
@@ -77,26 +78,26 @@ function OverviewTab() {
 function ChooseModelTab() {
   return (
     <div>
-      <p className="text-sm text-gray-500 mb-5">All Navigator models are existing configured units. Use the selector panel on this page to choose your model and complete your build.</p>
+      <p className="text-sm text-gray-500 mb-5">All Navigator models are existing configured units. Use the TFR Build Advisor panel to choose your model and complete your build.</p>
       <div className="overflow-x-auto">
         <table className="w-full text-xs border-collapse">
           <thead>
-            <tr className="border-b border-white/10">
-              <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2 pr-4">SKU</th>
-              <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2 pr-4">Length</th>
-              <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2 pr-4">Control</th>
-              <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2 pr-4">Price</th>
-              <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2">Notes</th>
+            <tr className="border-b border-gray-200 bg-gray-50">
+              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">SKU</th>
+              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Length</th>
+              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Control</th>
+              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Price</th>
+              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Notes</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/[0.04]">
+          <tbody className="divide-y divide-gray-100">
             {NAVIGATOR_SKUS.map(s => (
-              <tr key={s.id} className="hover:bg-white/[0.02]">
-                <td className="py-2.5 pr-4 font-mono text-blue-400">{s.sku}</td>
-                <td className="py-2.5 pr-4 text-white">{s.length.replace('in', '"')}</td>
-                <td className="py-2.5 pr-4 text-gray-300 capitalize">{s.control}</td>
-                <td className="py-2.5 pr-4 text-white font-semibold">${s.price.toLocaleString()}</td>
-                <td className="py-2.5 text-gray-500">{s.popular ? '⭐ Most Popular' : ''}{s.fits.length > 0 ? ` Fits: ${s.fits.slice(0, 2).join(', ')}${s.fits.length > 2 ? '...' : ''}` : ''}</td>
+              <tr key={s.id} className="hover:bg-gray-50">
+                <td className="py-2.5 px-3 font-mono text-[#003DA5] font-semibold">{s.sku}</td>
+                <td className="py-2.5 px-3 text-gray-900">{s.length.replace('in', '"')}</td>
+                <td className="py-2.5 px-3 text-gray-700 capitalize">{s.control}</td>
+                <td className="py-2.5 px-3 text-gray-900 font-semibold">${s.price.toLocaleString()}</td>
+                <td className="py-2.5 px-3 text-gray-500">{s.popular ? '⭐ Popular' : ''}{s.fits.length > 0 ? ` Fits: ${s.fits.slice(0, 2).join(', ')}${s.fits.length > 2 ? '...' : ''}` : ''}</td>
               </tr>
             ))}
           </tbody>
@@ -124,9 +125,9 @@ function SkuSpecsTab() {
       <p className="text-sm text-gray-500 mb-5">Specifications apply to all Navigator Series configured models unless noted.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
         {specs.map((s, i) => (
-          <div key={i} className="flex gap-4 bg-white/[0.02] border border-white/[0.05] rounded-lg px-4 py-3">
-            <span className="text-gray-600 text-xs font-bold w-40 shrink-0">{s.label}</span>
-            <span className="text-white text-xs">{s.value}</span>
+          <div key={i} className="flex gap-4 bg-gray-50 border border-gray-200 rounded px-4 py-3">
+            <span className="text-gray-500 text-xs font-bold w-44 shrink-0">{s.label}</span>
+            <span className="text-gray-800 text-xs">{s.value}</span>
           </div>
         ))}
       </div>
@@ -138,25 +139,25 @@ function SkuSpecsTab() {
 function AccessoriesTab() {
   const cats = Object.values(NAVIGATOR_UPSELLS);
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {cats.map((cat, ci) => (
         <div key={ci}>
-          <h3 className="text-sm font-black text-white mb-3">{cat.category}</h3>
+          <h3 className="text-sm font-bold text-gray-900 mb-3 border-b border-gray-200 pb-2">{cat.category}</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs border-collapse">
               <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2 pr-4">SKU</th>
-                  <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2 pr-4">Description</th>
-                  <th className="text-left text-gray-500 font-bold uppercase tracking-widest py-2">Price</th>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">SKU</th>
+                  <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Description</th>
+                  <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Price</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04]">
+              <tbody className="divide-y divide-gray-100">
                 {cat.items.map(item => (
-                  <tr key={item.id} className="hover:bg-white/[0.02]">
-                    <td className="py-2.5 pr-4 font-mono text-blue-400">{item.sku}</td>
-                    <td className="py-2.5 pr-4 text-gray-300">{item.description}</td>
-                    <td className="py-2.5 text-white font-semibold">${item.price}</td>
+                  <tr key={item.id} className="hover:bg-gray-50">
+                    <td className="py-2.5 px-3 font-mono text-[#003DA5] font-semibold">{item.sku}</td>
+                    <td className="py-2.5 px-3 text-gray-700">{item.description}</td>
+                    <td className="py-2.5 px-3 text-gray-900 font-semibold">${item.price}</td>
                   </tr>
                 ))}
               </tbody>
@@ -182,18 +183,18 @@ function InstallationTab() {
     <div className="space-y-4">
       <p className="text-sm text-gray-500">Fitment data is verified for listed model years. Contact TFR Supply for unlisted vehicles or years.</p>
       {notes.map((n, i) => (
-        <div key={i} className="flex items-start gap-4 bg-white/[0.02] border border-white/[0.05] rounded-xl px-4 py-3">
+        <div key={i} className="flex items-start gap-4 bg-gray-50 border border-gray-200 rounded px-4 py-3">
           <div className="shrink-0 mt-0.5">
             {n.status === 'confirmed'
-              ? <CheckCircle size={14} className="text-green-400" />
+              ? <CheckCircle size={14} className="text-green-600" />
               : n.status === 'verify'
-                ? <AlertTriangle size={14} className="text-amber-400" />
-                : <div className="w-3.5 h-3.5 rounded-full bg-gray-700" />}
+                ? <AlertTriangle size={14} className="text-amber-500" />
+                : <div className="w-3.5 h-3.5 rounded-full bg-gray-300" />}
           </div>
           <div>
-            <div className="font-bold text-sm text-white mb-0.5">{n.vehicle}</div>
-            <div className="text-[10px] font-mono text-gray-600 mb-1">Mount Kit: {n.kit}</div>
-            <p className="text-xs text-gray-500">{n.notes}</p>
+            <div className="font-bold text-sm text-gray-900 mb-0.5">{n.vehicle}</div>
+            <div className="text-[10px] font-mono text-gray-500 mb-1">Mount Kit: {n.kit}</div>
+            <p className="text-xs text-gray-600">{n.notes}</p>
           </div>
         </div>
       ))}
@@ -212,37 +213,37 @@ function MediaTab() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
-        <h3 className="text-sm font-black text-white mb-4">Videos</h3>
+        <h3 className="text-sm font-bold text-gray-900 mb-4">Videos</h3>
         <div className="space-y-3">
           {[
-            { title: 'Navigator 18" Installation Walkthrough', thumb: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&q=60' },
-            { title: 'Navigator vs. Pathfinder — Choosing the Right Console', thumb: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=60' },
+            { title: 'Navigator Light Bar', thumb: 'https://worktruck.fedsig.com/file/general/1128420606.jpeg' },
+            { title: 'Navigator 10" Light Bar Flash Patterns', thumb: 'https://worktruck.fedsig.com/file/general/545631446.jpeg' },
           ].map((v, i) => (
-            <div key={i} className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.06] rounded-xl p-3 cursor-pointer hover:bg-white/[0.04] transition-all">
-              <div className="relative shrink-0 w-20 h-12 rounded-lg overflow-hidden">
-                <img src={v.thumb} alt={v.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <div key={i} className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded p-3 cursor-pointer hover:bg-gray-100 transition-all">
+              <div className="relative shrink-0 w-20 h-12 rounded overflow-hidden bg-gray-200">
+                <img src={v.thumb} alt={v.title} className="w-full h-full object-cover" onError={e => { e.target.style.display = 'none'; }} />
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                   <PlayCircle size={18} className="text-white" />
                 </div>
               </div>
-              <span className="text-xs text-white font-semibold leading-tight">{v.title}</span>
+              <span className="text-xs text-gray-800 font-semibold leading-tight">{v.title}</span>
             </div>
           ))}
         </div>
       </div>
       <div>
-        <h3 className="text-sm font-black text-white mb-4">Documents</h3>
+        <h3 className="text-sm font-bold text-gray-900 mb-4">Documents</h3>
         <div className="space-y-2">
           {docs.map((d, i) => (
-            <div key={i} className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 cursor-pointer hover:bg-white/[0.04] transition-all">
-              <div className="w-8 h-8 bg-red-600/20 border border-red-600/30 rounded-lg flex items-center justify-center shrink-0">
-                <span className="text-[9px] font-black text-red-400">{d.type}</span>
+            <div key={i} className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded px-4 py-3 cursor-pointer hover:bg-gray-100 transition-all">
+              <div className="w-8 h-8 bg-red-50 border border-red-200 rounded flex items-center justify-center shrink-0">
+                <span className="text-[9px] font-black text-red-600">{d.type}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-xs text-white font-semibold truncate">{d.label}</div>
-                <div className="text-[10px] text-gray-600">{d.size}</div>
+                <div className="text-xs text-gray-800 font-semibold truncate">{d.label}</div>
+                <div className="text-[10px] text-gray-500">{d.size}</div>
               </div>
-              <ExternalLink size={13} className="text-gray-600 shrink-0" />
+              <ExternalLink size={13} className="text-gray-400 shrink-0" />
             </div>
           ))}
         </div>
@@ -258,8 +259,9 @@ export default function NavigatorTabs({ defaultTab }) {
   const renderContent = () => {
     switch (activeTab) {
       case 'overview': return <OverviewTab />;
-      case 'choose': return <ChooseModelTab />;
+      case 'features': return <OverviewTab />;
       case 'specs': return <SkuSpecsTab />;
+      case 'choose': return <ChooseModelTab />;
       case 'accessories': return <AccessoriesTab />;
       case 'installation': return <InstallationTab />;
       case 'media': return <MediaTab />;
@@ -269,17 +271,17 @@ export default function NavigatorTabs({ defaultTab }) {
 
   return (
     <div>
-      {/* Tab bar */}
-      <div className="border-b border-white/10 overflow-x-auto">
+      {/* Tab bar — Fed Sig style: light bg, red underline active */}
+      <div className="border-b border-gray-200 overflow-x-auto">
         <div className="flex min-w-max">
           {TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-5 py-3.5 text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap border-b-2 ${
+              className={`px-5 py-4 text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap border-b-2 ${
                 activeTab === tab.id
-                  ? 'border-blue-500 text-white'
-                  : 'border-transparent text-gray-600 hover:text-gray-400 hover:border-white/10'
+                  ? 'border-[#CC0000] text-[#CC0000]'
+                  : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300'
               }`}
             >
               {tab.label}
@@ -288,8 +290,8 @@ export default function NavigatorTabs({ defaultTab }) {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="py-8">
+      {/* Content — light bg */}
+      <div className="py-8 text-gray-700">
         {renderContent()}
       </div>
     </div>
