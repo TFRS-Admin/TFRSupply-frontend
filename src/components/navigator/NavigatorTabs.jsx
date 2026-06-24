@@ -3,13 +3,10 @@ import { NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-react';
 
 const TABS = [
-  { id: 'overview', label: 'Overview' },
   { id: 'features', label: 'Features' },
-  { id: 'specs', label: 'Specifications' },
   { id: 'choose', label: 'SKU Specifications' },
-  { id: 'accessories', label: 'Accessories & Parts' },
-  { id: 'installation', label: 'Documentation' },
   { id: 'media', label: 'Videos' },
+  { id: 'accessories', label: 'Accessories' },
 ];
 
 // ── Overview ─────────────────────────────────────────────────────────────────
@@ -396,17 +393,14 @@ function MediaTab() {
 
 // ── Main Tabs Component ───────────────────────────────────────────────────────
 export default function NavigatorTabs({ defaultTab }) {
-  const [activeTab, setActiveTab] = useState(defaultTab || 'overview');
+  const [activeTab, setActiveTab] = useState(defaultTab || 'features');
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'overview': return <OverviewTab />;
       case 'features': return <OverviewTab />;
-      case 'specs': return <SkuSpecsTab />;
       case 'choose': return <ChooseModelTab />;
-      case 'accessories': return <AccessoriesTab />;
-      case 'installation': return <InstallationTab />;
       case 'media': return <MediaTab />;
+      case 'accessories': return <AccessoriesTab />;
       default: return null;
     }
   };

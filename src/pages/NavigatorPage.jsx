@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ChevronLeft, ChevronRight, ChevronRight as BreadChev,
-  FileText
+  MapPin, MessageSquare, Settings, BookOpen
 } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
-import NavigatorOptionsModule from '@/components/navigator/NavigatorOptionsModule';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 
 // ── Gallery images ─────────────────────────────────────────────────────────────
@@ -130,54 +129,77 @@ export default function NavigatorPage() {
             <ImageGallery />
           </div>
 
-          {/* Right — TFR Build Advisor ~42% */}
+          {/* Right — Product info + CTAs ~42% */}
           <div className="lg:col-span-5">
 
-            {/* Request Quote CTA — Fed Sig btn-primary exact */}
-            <button
-              className="w-full mb-4 flex items-center justify-between gap-2 text-white transition-all"
-              style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '14px 24px' }}
-              onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
-              onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
-            >
-              <div className="flex items-center gap-2">
-                <FileText size={16} />
-                Request a Quote
-              </div>
-              <ChevronRight size={16} />
-            </button>
-
-            {/* Stock status */}
-            <div className="flex items-center gap-2 mb-4 font-semibold text-green-700" style={{ fontSize: '14px', fontFamily: "'Roboto','Inter',sans-serif" }}>
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              In Stock
-            </div>
-
-            {/* Quick bullets — Fed Sig exact: bullet dot prefix, 15px Roboto, #3d3d3d, 8px vertical padding */}
-            <div className="mb-5 border-b border-gray-200 pb-5">
+            {/* Feature bullets — Fed Sig exact: plain bullet list, 15px Roboto, #3d3d3d */}
+            <ul className="mb-6" style={{ fontFamily: "'Roboto','Inter',sans-serif", listStyle: 'disc', paddingLeft: '1.25rem' }}>
               {[
-                'High-profile, linear LED light bar',
-                'Available in 45", 53", 60", 73", and 87" lengths',
+                'High-profile, linear light bar',
+                'Available in 45", 53", and 60" lengths',
                 'Amber, Blue, Green, Red, and White',
                 'Single- and dual-color capability',
                 'SignalMaster™ directional warning available',
+                'Front flood, takedowns, alley lights, work lights, and S/T/T are available',
+                'Low-power mode',
+                '(30) flash patterns',
+                '12 Vdc',
+                'LED Traffic Clearing Light (TCL) available',
+                'Black or Clear bulkheads available',
                 'Five-year warranty',
               ].map((b, i) => (
-                <div key={i} style={{ fontFamily: "'Roboto', 'Inter', sans-serif", fontSize: '15px', color: '#3d3d3d', lineHeight: 1.6, padding: '6px 0' }}>
-                  • {b}
-                </div>
+                <li key={i} style={{ fontSize: '15px', color: '#3d3d3d', lineHeight: 1.7 }}>{b}</li>
               ))}
+            </ul>
+
+            {/* Primary CTAs — Fed Sig: two solid/ghost red buttons in a row */}
+            <div className="flex gap-3 mb-6">
+              <a
+                href="https://www.fedsig.com/where-to-buy?category=175"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white transition-all"
+                style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '12px 20px', textDecoration: 'none' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
+                onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
+              >
+                <MapPin size={14} /> Where to Buy
+              </a>
+              <a
+                href="#"
+                className="flex items-center gap-2 transition-all"
+                style={{ background: 'transparent', border: '2px solid #c8102e', color: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '10px 20px', textDecoration: 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#c8102e'; e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#c8102e'; }}
+              >
+                <MessageSquare size={14} /> Request Information
+              </a>
             </div>
 
-            {/* TFR Build Advisor — Fed Sig design system: 1px #e0e0e0 border, white bg, Roboto */}
-            <div style={{ border: '1px solid #d8d8d8', borderRadius: '4px', overflow: 'hidden', fontFamily: "'Roboto','Inter',sans-serif" }}>
-              <div style={{ background: '#1a1a1a', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#c8102e' }} />
-                <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#ffffff' }}>TFR Build Advisor</span>
-              </div>
-              <div style={{ padding: '20px 16px', background: '#ffffff' }}>
-                <NavigatorOptionsModule />
-              </div>
+            {/* Secondary icon-link CTAs — Fed Sig: icon-above-label block links */}
+            <div className="flex gap-6 pt-2 border-t border-gray-200">
+              <a
+                href="https://config.fedsig.com/lightbar/navigator-serial/web/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-2 text-center group"
+                style={{ textDecoration: 'none' }}
+              >
+                <div className="w-14 h-14 rounded border border-gray-200 flex items-center justify-center bg-gray-50 group-hover:border-[#c8102e] transition-colors">
+                  <Settings size={24} className="text-gray-500 group-hover:text-[#c8102e] transition-colors" />
+                </div>
+                <span style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '12px', fontWeight: 700, color: '#3d3d3d' }}>Configure Lightbar</span>
+              </a>
+              <a
+                href="#"
+                className="flex flex-col items-center gap-2 text-center group"
+                style={{ textDecoration: 'none' }}
+              >
+                <div className="w-14 h-14 rounded border border-gray-200 flex items-center justify-center bg-gray-50 group-hover:border-[#c8102e] transition-colors">
+                  <BookOpen size={24} className="text-gray-500 group-hover:text-[#c8102e] transition-colors" />
+                </div>
+                <span style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '12px', fontWeight: 700, color: '#3d3d3d' }}>Manual</span>
+              </a>
             </div>
           </div>
         </div>
