@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Shield, ChevronLeft, ChevronRight, ChevronRight as BreadChev,
-  Phone, ShoppingCart, FileText, Search, Menu, X, Home
+  ChevronLeft, ChevronRight, ChevronRight as BreadChev,
+  FileText
 } from 'lucide-react';
+import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
@@ -30,18 +31,7 @@ const GALLERY_IMAGES = [
   },
 ];
 
-const VERTICALS = [
-  { id: 'police', label: 'Police', path: '/vertical/police' },
-  { id: 'fire', label: 'Fire / EMS', path: '/vertical/fire' },
-  { id: 'worktruck', label: 'Work Truck', path: '/vertical/worktruck' },
-  { id: 'tow', label: 'Tow & Recovery', path: '/vertical/tow' },
-];
 
-const PRODUCT_CATEGORIES = [
-  'Light Bars', 'Sirens & Speakers', 'Perimeter Lights',
-  'SignalMasters', 'Push Bumpers', 'Stinger Spike System',
-  'Compartment Lighting', 'Accessories',
-];
 
 // ── Image Gallery ──────────────────────────────────────────────────────────────
 function ImageGallery() {
@@ -105,106 +95,11 @@ function ImageGallery() {
 // ── Main Page ──────────────────────────────────────────────────────────────────
 export default function NavigatorPage() {
   const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeVertical] = useState('police');
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <PrototypeBanner />
-
-      {/* ── Header — Fed Sig style: white bg, full width ─────────────────── */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-
-        {/* Top bar: vertical tabs */}
-        <div className="bg-[#1a1a2e] text-white">
-          <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <Link to="/" className="px-3 py-2.5 text-gray-400 hover:text-white transition-colors">
-                <Home size={14} />
-              </Link>
-              {VERTICALS.map(v => (
-                <button
-                  key={v.id}
-                  onClick={() => navigate(v.path)}
-                  className={`px-4 py-2.5 text-xs font-semibold tracking-wide uppercase transition-all border-b-2 ${
-                    v.id === activeVertical
-                      ? 'border-[#CC0000] text-white'
-                      : 'border-transparent text-gray-400 hover:text-white hover:border-gray-500'
-                  }`}
-                >
-                  {v.label}
-                </button>
-              ))}
-            </div>
-            <div className="hidden md:flex items-center gap-4 text-xs text-gray-400">
-              <button className="hover:text-white transition-colors">Resources</button>
-              <button className="hover:text-white transition-colors">Product News</button>
-              <a
-                href="tel:800-446-6809"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <Phone size={11} /> 800-446-6809
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Main header row: logo + search + cart */}
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          {/* Logo */}
-          <button onClick={() => navigate('/')} className="flex items-center gap-3 shrink-0">
-            <div className="w-9 h-9 bg-[#CC0000] rounded flex items-center justify-center">
-              <Shield size={18} className="text-white" />
-            </div>
-            <div>
-              <div className="font-black text-base tracking-tight leading-none text-gray-900">TFR SUPPLY</div>
-              <div className="text-[9px] text-gray-400 tracking-widest uppercase leading-none mt-0.5">Pro Shop</div>
-            </div>
-          </button>
-
-          {/* Search */}
-          <div className="flex-1 max-w-lg hidden md:flex items-center border border-gray-300 rounded overflow-hidden">
-            <input
-              type="text"
-              placeholder="Search for products"
-              className="flex-1 px-4 py-2 text-sm text-gray-800 outline-none bg-white placeholder-gray-400"
-            />
-            <button className="bg-[#CC0000] hover:bg-[#aa0000] px-4 py-2 transition-colors">
-              <Search size={16} className="text-white" />
-            </button>
-          </div>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-3">
-            <button className="hidden md:flex items-center gap-2 border-2 border-[#CC0000] text-[#CC0000] hover:bg-[#CC0000] hover:text-white font-bold text-sm px-4 py-2 rounded transition-all">
-              <ShoppingCart size={14} />
-              Where to Buy
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(o => !o)}
-              className="md:hidden p-2 text-gray-600 hover:text-gray-900"
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Product category nav — like Fed Sig's second nav row */}
-        <div className="hidden md:block border-t border-gray-100 bg-white">
-          <div className="max-w-7xl mx-auto px-4 flex items-center">
-            {PRODUCT_CATEGORIES.map((cat, i) => (
-              <button
-                key={i}
-                className={`px-4 py-3 text-xs font-semibold text-gray-600 hover:text-[#CC0000] hover:bg-gray-50 transition-all whitespace-nowrap border-b-2 ${
-                  cat === 'Light Bars' ? 'border-[#CC0000] text-[#CC0000]' : 'border-transparent'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
+      <SiteHeader activeVertical="police" activeCategory="Light Bars" />
 
       {/* ── Breadcrumb ────────────────────────────────────────────────────── */}
       <div className="bg-gray-50 border-b border-gray-200">
