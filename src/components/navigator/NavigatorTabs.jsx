@@ -74,35 +74,177 @@ function OverviewTab() {
   );
 }
 
-// ── Choose Model (simplified reference table) ─────────────────────────────────
+// ── SKU Specifications — Fed Sig exact data table layout ─────────────────────
+const SKU_SPEC_COLUMNS = [
+  { key: 'sku',          label: 'SKU',                      mono: true },
+  { key: 'opCurrent',    label: 'Operating Current',        },
+  { key: 'maxCurrent',   label: 'Max Current',              },
+  { key: 'standbyCurrent', label: 'Standby Current',        },
+  { key: 'inputVoltage', label: 'Input Voltage',            },
+  { key: 'opTemp',       label: 'Operating Temperature',    },
+  { key: 'flashPatterns',label: 'Number of Flash Patterns', },
+  { key: 'ledCount',     label: 'LED Count',                },
+  { key: 'ledColors',    label: 'LED Colors',               },
+  { key: 'domeColors',   label: 'Dome Colors',              },
+  { key: 'harnessType',  label: 'Harness / Connection Type',},
+  { key: 'harnessLen',   label: 'Harness Length',           },
+  { key: 'mount',        label: 'Mount',                    },
+  { key: 'approvals',    label: 'Approvals',                },
+  { key: 'colorOption',  label: 'Color Option',             },
+  { key: 'length',       label: 'Length',                   },
+  { key: 'width',        label: 'Width',                    },
+  { key: 'height',       label: 'Height',                   },
+  { key: 'shipWeight',   label: 'Ship Weight (lb)',         },
+];
+
+const SKU_SPEC_ROWS = [
+  {
+    sku: 'NAV-14-HW-BLK',   opCurrent: '3.5 A',  maxCurrent: '6.0 A',  standbyCurrent: '0.2 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '96',  ledColors: 'Red, Blue, White',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed',  harnessLen: '18"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13',
+    colorOption: 'Black',  length: '14.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '8.2',
+  },
+  {
+    sku: 'NAV-14-HW-SLV',   opCurrent: '3.5 A',  maxCurrent: '6.0 A',  standbyCurrent: '0.2 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '96',  ledColors: 'Red, Blue, White',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed',  harnessLen: '18"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13',
+    colorOption: 'Silver',  length: '14.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '8.2',
+  },
+  {
+    sku: 'NAV-14-CTL-BLK',  opCurrent: '4.0 A',  maxCurrent: '6.5 A',  standbyCurrent: '0.3 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '96',  ledColors: 'Red, Blue, White',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed + controller pigtail',  harnessLen: '18"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13',
+    colorOption: 'Black',  length: '14.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '9.0',
+  },
+  {
+    sku: 'NAV-18-HW-BLK',   opCurrent: '5.0 A',  maxCurrent: '8.5 A',  standbyCurrent: '0.2 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '144',  ledColors: 'Red, Blue, White, Amber',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Black',  length: '18.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '11.4',
+  },
+  {
+    sku: 'NAV-18-HW-SLV',   opCurrent: '5.0 A',  maxCurrent: '8.5 A',  standbyCurrent: '0.2 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '144',  ledColors: 'Red, Blue, White, Amber',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Silver',  length: '18.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '11.4',
+  },
+  {
+    sku: 'NAV-18-CTL-BLK',  opCurrent: '5.5 A',  maxCurrent: '9.0 A',  standbyCurrent: '0.3 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '144',  ledColors: 'Red, Blue, White, Amber',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed + controller pigtail',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Black',  length: '18.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '12.2',
+  },
+  {
+    sku: 'NAV-18-TCH-BLK',  opCurrent: '6.0 A',  maxCurrent: '10.0 A', standbyCurrent: '0.5 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '144',  ledColors: 'Red, Blue, White, Amber',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed + touchscreen harness',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Black',  length: '18.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '13.5',
+  },
+  {
+    sku: 'NAV-22-HW-BLK',   opCurrent: '6.5 A',  maxCurrent: '11.0 A', standbyCurrent: '0.2 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '192',  ledColors: 'Red, Blue, White, Amber, Green',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Black',  length: '22.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '14.8',
+  },
+  {
+    sku: 'NAV-22-CTL-BLK',  opCurrent: '7.0 A',  maxCurrent: '11.5 A', standbyCurrent: '0.3 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '192',  ledColors: 'Red, Blue, White, Amber, Green',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed + controller pigtail',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Black',  length: '22.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '15.6',
+  },
+  {
+    sku: 'NAV-22-TCH-BLK',  opCurrent: '7.5 A',  maxCurrent: '12.5 A', standbyCurrent: '0.5 A',
+    inputVoltage: '12 Vdc (10–16 V)',  opTemp: '-40° to +176°F (-40° to +80°C)',
+    flashPatterns: '30',  ledCount: '192',  ledColors: 'Red, Blue, White, Amber, Green',
+    domeColors: 'Clear',  harnessType: 'Weatherpack sealed + touchscreen harness',  harnessLen: '23"',
+    mount: 'Vehicle-specific bracket',  approvals: 'SAE J845, CCR Title 13, KKK-A-1822F',
+    colorOption: 'Black',  length: '22.0 in',  width: '12.4 in',  height: '4.4 in',  shipWeight: '17.1',
+  },
+];
+
 function ChooseModelTab() {
   return (
     <div>
-      <p className="text-sm text-gray-500 mb-5">All Navigator models are existing configured units. Use the TFR Build Advisor panel to choose your model and complete your build.</p>
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs border-collapse">
+      <p style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: 13, color: '#555', marginBottom: 16 }}>
+        All Navigator Series SKUs share the same platform. Specifications apply to the configured model unless otherwise noted.
+      </p>
+      <div className="overflow-x-auto" style={{ border: '1px solid #d8d8d8' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Roboto','Inter',sans-serif", fontSize: 12, minWidth: 1400 }}>
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50">
-              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">SKU</th>
-              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Length</th>
-              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Control</th>
-              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Price</th>
-              <th className="text-left text-gray-600 font-bold uppercase tracking-widest py-2.5 px-3">Notes</th>
+            <tr>
+              {SKU_SPEC_COLUMNS.map((col, i) => (
+                <th
+                  key={col.key}
+                  style={{
+                    background: '#1a1a1a',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    fontSize: 11,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    padding: '10px 12px',
+                    textAlign: 'left',
+                    whiteSpace: 'nowrap',
+                    borderRight: i < SKU_SPEC_COLUMNS.length - 1 ? '1px solid #333' : 'none',
+                  }}
+                >
+                  {col.label}
+                </th>
+              ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {NAVIGATOR_SKUS.map(s => (
-              <tr key={s.id} className="hover:bg-gray-50">
-                <td className="py-2.5 px-3 font-mono text-[#003DA5] font-semibold">{s.sku}</td>
-                <td className="py-2.5 px-3 text-gray-900">{s.length.replace('in', '"')}</td>
-                <td className="py-2.5 px-3 text-gray-700 capitalize">{s.control}</td>
-                <td className="py-2.5 px-3 text-gray-900 font-semibold">${s.price.toLocaleString()}</td>
-                <td className="py-2.5 px-3 text-gray-500">{s.popular ? '⭐ Popular' : ''}{s.fits.length > 0 ? ` Fits: ${s.fits.slice(0, 2).join(', ')}${s.fits.length > 2 ? '...' : ''}` : ''}</td>
+          <tbody>
+            {SKU_SPEC_ROWS.map((row, ri) => (
+              <tr
+                key={row.sku}
+                style={{ background: ri % 2 === 0 ? '#ffffff' : '#f7f7f7' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#eef3fb'}
+                onMouseLeave={e => e.currentTarget.style.background = ri % 2 === 0 ? '#ffffff' : '#f7f7f7'}
+              >
+                {SKU_SPEC_COLUMNS.map((col, ci) => (
+                  <td
+                    key={col.key}
+                    style={{
+                      padding: '8px 12px',
+                      color: col.mono ? '#c8102e' : col.key === 'sku' ? '#c8102e' : '#3d3d3d',
+                      fontFamily: col.mono ? "'JetBrains Mono', monospace" : "'Roboto','Inter',sans-serif",
+                      fontWeight: col.mono ? 600 : 400,
+                      borderBottom: '1px solid #e8e8e8',
+                      borderRight: ci < SKU_SPEC_COLUMNS.length - 1 ? '1px solid #ececec' : 'none',
+                      whiteSpace: col.key === 'approvals' || col.key === 'opTemp' ? 'normal' : 'nowrap',
+                      verticalAlign: 'top',
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    {row[col.key]}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <p style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: 11, color: '#888', marginTop: 10 }}>
+        * Prototype data — for reference only. Contact TFR Supply to confirm specifications before ordering.
+      </p>
     </div>
   );
 }
