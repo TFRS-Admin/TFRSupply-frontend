@@ -40,48 +40,40 @@ function ImageGallery() {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Main image — white/light background like Fed Sig */}
-      <div className="relative bg-white rounded border border-gray-200 overflow-hidden flex items-center justify-center" style={{ minHeight: 380 }}>
+      {/* Main image — no border, white bg */}
+      <div className="relative bg-white overflow-hidden flex items-center justify-center" style={{ minHeight: 400 }}>
         <img
           src={GALLERY_IMAGES[active].src}
           alt={GALLERY_IMAGES[active].alt}
-          className="max-w-full max-h-96 object-contain p-6"
+          className="max-w-full max-h-[420px] object-contain"
           onError={e => { e.target.src = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80'; }}
         />
         {GALLERY_IMAGES.length > 1 && (
           <>
-            <button
-              onClick={prev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white border border-gray-300 hover:bg-gray-50 rounded-full flex items-center justify-center shadow-sm transition-all"
-            >
-              <ChevronLeft size={14} className="text-gray-600" />
+            <button onClick={prev} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow transition-all">
+              <ChevronLeft size={16} className="text-gray-600" />
             </button>
-            <button
-              onClick={next}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white border border-gray-300 hover:bg-gray-50 rounded-full flex items-center justify-center shadow-sm transition-all"
-            >
-              <ChevronRight size={14} className="text-gray-600" />
+            <button onClick={next} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow transition-all">
+              <ChevronRight size={16} className="text-gray-600" />
             </button>
           </>
         )}
       </div>
 
-      {/* Thumbnails */}
+      {/* Thumbnails — no border, opacity-based active state */}
       <div className="flex gap-2">
         {GALLERY_IMAGES.map((img, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
-            className={`w-20 h-16 rounded border-2 overflow-hidden bg-white flex items-center justify-center transition-all ${
-              i === active
-                ? 'border-[#003DA5]'
-                : 'border-gray-200 hover:border-gray-400 opacity-70 hover:opacity-100'
+            className={`w-20 h-16 overflow-hidden bg-white flex items-center justify-center transition-all ${
+              i === active ? 'opacity-100 outline outline-2 outline-[#c8102e]' : 'opacity-50 hover:opacity-80'
             }`}
           >
             <img
               src={img.src}
               alt={img.alt}
-              className="max-w-full max-h-full object-contain p-1"
+              className="max-w-full max-h-full object-contain"
               onError={e => { e.target.src = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=60'; }}
             />
           </button>
@@ -113,27 +105,26 @@ export default function NavigatorPage() {
         </div>
       </div>
 
-      {/* ── Product Title — Fed Sig exact: left-aligned on desktop, ~36px Roboto Bold ── */}
-      <div className="max-w-7xl mx-auto px-4 pt-10 pb-2">
-        <h1 style={{ fontFamily: "'Roboto', 'Inter', sans-serif", fontSize: '2.1rem', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
-          Navigator® Light Bar
+      {/* ── Hero: strict 2-col — 60% image / 40% info ───────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 pt-8 pb-10">
+
+        {/* Product title — full width above columns */}
+        <h1 style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '2rem', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, marginBottom: '1.5rem' }}>
+          Navigator® Serial Light Bar
         </h1>
-      </div>
 
-      {/* ── Main product content: Image left, Advisor right ───────────────── */}
-      <div className="max-w-7xl mx-auto px-4 pb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'flex-start' }}>
 
-          {/* Left — Image Gallery ~58% */}
-          <div className="lg:col-span-7">
+          {/* Left — Image Gallery 60% */}
+          <div style={{ flex: '0 0 60%', maxWidth: '60%' }}>
             <ImageGallery />
           </div>
 
-          {/* Right — Product info + CTAs ~42% */}
-          <div className="lg:col-span-5">
+          {/* Right — Info 40% */}
+          <div style={{ flex: '0 0 40%', maxWidth: '40%' }}>
 
-            {/* Feature bullets — Fed Sig exact: plain bullet list, 15px Roboto, #3d3d3d */}
-            <ul className="mb-6" style={{ fontFamily: "'Roboto','Inter',sans-serif", listStyle: 'disc', paddingLeft: '1.25rem' }}>
+            {/* Feature bullets */}
+            <ul style={{ fontFamily: "'Roboto','Inter',sans-serif", listStyle: 'disc', paddingLeft: '1.2rem', marginBottom: '1.5rem' }}>
               {[
                 'High-profile, linear light bar',
                 'Available in 45", 53", and 60" lengths',
@@ -152,55 +143,76 @@ export default function NavigatorPage() {
               ))}
             </ul>
 
-            {/* Primary CTAs — Fed Sig: two solid/ghost red buttons in a row */}
-            <div className="flex gap-3 mb-6">
+            {/* Primary text-link CTAs — Fed Sig style: underlined red links */}
+            <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
               <a
                 href="https://www.fedsig.com/where-to-buy?category=175"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white transition-all"
-                style={{ background: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '12px 20px', textDecoration: 'none' }}
-                onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
-                onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
+                style={{ fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', color: '#c8102e', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
+                onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+                onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
               >
                 <MapPin size={14} /> Where to Buy
               </a>
               <a
                 href="#"
-                className="flex items-center gap-2 transition-all"
-                style={{ background: 'transparent', border: '2px solid #c8102e', color: '#c8102e', borderRadius: '4px', fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', padding: '10px 20px', textDecoration: 'none' }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#c8102e'; e.currentTarget.style.color = '#fff'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#c8102e'; }}
+                style={{ fontFamily: "'Roboto','Inter',sans-serif", fontWeight: 700, fontSize: '14px', color: '#c8102e', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
+                onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+                onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
               >
                 <MessageSquare size={14} /> Request Information
               </a>
             </div>
 
-            {/* Secondary icon-link CTAs — Fed Sig: icon-above-label block links */}
-            <div className="flex gap-6 pt-2 border-t border-gray-200">
+            {/* Icon-above-label secondary links */}
+            <div style={{ display: 'flex', gap: '1.5rem', paddingTop: '1rem', borderTop: '1px solid #e5e5e5', marginBottom: '1.5rem' }}>
               <a
                 href="https://config.fedsig.com/lightbar/navigator-serial/web/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center gap-2 text-center group"
-                style={{ textDecoration: 'none' }}
+                className="group"
+                style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textAlign: 'center' }}
               >
-                <div className="w-14 h-14 rounded border border-gray-200 flex items-center justify-center bg-gray-50 group-hover:border-[#c8102e] transition-colors">
-                  <Settings size={24} className="text-gray-500 group-hover:text-[#c8102e] transition-colors" />
+                <div className="w-14 h-14 flex items-center justify-center bg-gray-100 group-hover:bg-gray-200 transition-colors">
+                  <Settings size={26} className="text-gray-600 group-hover:text-[#c8102e] transition-colors" />
                 </div>
-                <span style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '12px', fontWeight: 700, color: '#3d3d3d' }}>Configure Lightbar</span>
+                <span style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '11px', fontWeight: 700, color: '#3d3d3d', lineHeight: 1.3 }}>Configure<br/>Lightbar</span>
               </a>
               <a
                 href="#"
-                className="flex flex-col items-center gap-2 text-center group"
-                style={{ textDecoration: 'none' }}
+                className="group"
+                style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textAlign: 'center' }}
               >
-                <div className="w-14 h-14 rounded border border-gray-200 flex items-center justify-center bg-gray-50 group-hover:border-[#c8102e] transition-colors">
-                  <BookOpen size={24} className="text-gray-500 group-hover:text-[#c8102e] transition-colors" />
+                <div className="w-14 h-14 flex items-center justify-center bg-gray-100 group-hover:bg-gray-200 transition-colors">
+                  <BookOpen size={26} className="text-gray-600 group-hover:text-[#c8102e] transition-colors" />
                 </div>
-                <span style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '12px', fontWeight: 700, color: '#3d3d3d' }}>Manual</span>
+                <span style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '11px', fontWeight: 700, color: '#3d3d3d' }}>Manual</span>
               </a>
             </div>
+
+            {/* Quick-jump anchor nav */}
+            <div style={{ display: 'flex', gap: '0', borderTop: '1px solid #e5e5e5', paddingTop: '1rem', flexWrap: 'wrap' }}>
+              {[
+                { label: 'Features', href: '#features-section' },
+                { label: 'SKU Specifications', href: '#sku-section' },
+                { label: 'Videos', href: '#video-section' },
+                { label: 'Accessories', href: '#accessories-section' },
+              ].map((link, i, arr) => (
+                <React.Fragment key={link.href}>
+                  <a
+                    href={link.href}
+                    style={{ fontFamily: "'Roboto','Inter',sans-serif", fontSize: '13px', color: '#c8102e', fontWeight: 600, textDecoration: 'none' }}
+                    onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+                    onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
+                  >
+                    {link.label}
+                  </a>
+                  {i < arr.length - 1 && <span style={{ color: '#ccc', margin: '0 10px' }}>|</span>}
+                </React.Fragment>
+              ))}
+            </div>
+
           </div>
         </div>
       </div>
