@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   CheckCircle, AlertTriangle, Car, ShoppingCart, FileText,
-  ChevronDown, Info
+  ChevronDown, Info, Pencil
 } from 'lucide-react';
 import {
   NAVIGATOR_LENGTHS,
@@ -11,6 +11,26 @@ import {
 } from '@/data/navigatorData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import VehicleSelector from '@/components/VehicleSelector';
+
+function CollapsedStep({ label, value, onEdit }) {
+  return (
+    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded px-3 py-2.5">
+      <div className="flex-1 min-w-0">
+        <div className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-0.5">{label}</div>
+        <div className="text-xs font-semibold text-gray-900 truncate">{value}</div>
+      </div>
+      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+        <CheckCircle size={13} className="text-green-600" />
+        <button
+          onClick={onEdit}
+          className="flex items-center gap-1 text-[10px] text-gray-400 hover:text-[#003DA5] transition-colors font-medium"
+        >
+          <Pencil size={10} /> Edit
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function SelectDropdown({ label, value, onChange, options, placeholder, disabled }) {
   return (
@@ -171,56 +191,84 @@ export default function NavigatorOptionsModule() {
 
       <div className="border-t border-gray-200" />
 
-      {/* Primary SKU filters */}
-      <div className="space-y-3">
-        <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Select Your Model</div>
+      {/* Primary SKU filters — collapsible steps */}
+      <div className="space-y-2">
+        <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Select Your Model</div>
 
-        <SelectDropdown
-          label="Console Length"
-          value={selectedLength}
-          onChange={handleLengthChange}
-          options={lengthOptions}
-          placeholder="— Choose a length —"
-        />
+        {/* Step 1: Console Length */}
+        {selectedLength ? (
+          <CollapsedStep
+            label="Console Length"
+            value={lengthOptions.find(o => o.value === selectedLength)?.label}
+            onEdit={() => { setSelectedLength(null); setSelectedControl(null); setSelectedSku(null); setUpsellSelections({}); }}
+          />
+        ) : (
+          <SelectDropdown
+            label="Console Length"
+            value={selectedLength}
+            onChange={handleLengthChange}
+            options={lengthOptions}
+            placeholder="— Choose a length —"
+          />
+        )}
 
-        <SelectDropdown
-          label="Control Method"
-          value={selectedControl}
-          onChange={handleControlChange}
-          options={controlOptions}
-          placeholder="— Choose control method —"
-          disabled={!selectedLength}
-        />
+        {/* Step 2: Control Method */}
+        {selectedLength && (
+          selectedControl ? (
+            <CollapsedStep
+              label="Control Method"
+              value={controlOptions.find(o => o.value === selectedControl)?.label}
+              onEdit={() => { setSelectedControl(null); setSelectedSku(null); setUpsellSelections({}); }}
+            />
+          ) : (
+            <SelectDropdown
+              label="Control Method"
+              value={selectedControl}
+              onChange={handleControlChange}
+              options={controlOptions}
+              placeholder="— Choose control method —"
+            />
+          )
+        )}
 
+        {/* Step 3: Configured Model */}
         {selectedLength && selectedControl && (
-          <div>
-            <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
-              Configured Model — {matchingSkus.length} available
+          selectedSku ? (
+            <CollapsedStep
+              label="Configured Model"
+              value={`${selectedSku.label} — $${selectedSku.price.toLocaleString()}`}
+              onEdit={() => { setSelectedSku(null); setUpsellSelections({}); setCheckoutMode(null); }}
+            />
+          ) : (
+            <div>
+              <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">
+                Configured Model — {matchingSkus.length} available
+              </div>
+              {matchingSkus.length === 0 ? (
+                <div className="bg-amber-50 border border-amber-200 rounded p-3 flex items-start gap-2 text-xs text-amber-700">
+                  <AlertTriangle size={12} className="shrink-0 mt-0.5" />
+                  <span>No models match this combination. <button className="underline font-semibold">Request a quote →</button></span>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {matchingSkus.map(sku => {
+                    const fit = persistentVehicle && !persistentVehicle.unspecified &&
+                      sku.fits.some(f => persistentVehicle.model &&
+                        (f.includes(persistentVehicle.model) || persistentVehicle.model.includes(f.split(' ').pop())));
+                    return (
+                      <SkuCard
+                        key={sku.id}
+                        sku={sku}
+                        selected={selectedSku?.id === sku.id}
+                        onSelect={handleSkuSelect}
+                        vehicleFit={fit}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
-            {matchingSkus.length === 0 ? (
-              <div className="bg-amber-50 border border-amber-200 rounded p-3 flex items-start gap-2 text-xs text-amber-700">
-                <AlertTriangle size={12} className="shrink-0 mt-0.5" />
-                <span>No models match this combination. <button className="underline font-semibold">Request a quote →</button></span>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {matchingSkus.map(sku => {
-                  const fit = persistentVehicle && !persistentVehicle.unspecified &&
-                    sku.fits.some(f => persistentVehicle.model &&
-                      (f.includes(persistentVehicle.model) || persistentVehicle.model.includes(f.split(' ').pop())));
-                  return (
-                    <SkuCard
-                      key={sku.id}
-                      sku={sku}
-                      selected={selectedSku?.id === sku.id}
-                      onSelect={handleSkuSelect}
-                      vehicleFit={fit}
-                    />
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          )
         )}
       </div>
 
