@@ -1,0 +1,34 @@
+{
+  "id": "light-bars",
+  "label": "Light Bars",
+  "verticals": ["police", "fire", "work-truck"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "LED Light Bars",
+    "subtitle": "High-performance light bars engineered for every application — from patrol cars to fire apparatus to utility fleets.",
+    "image": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+    "imageAlt": "Navigator LED Light Bar"
+  },
+  "description": "Federal Signal light bars are built for the most demanding conditions. Choose from full-size, low-profile, and ultra-low-profile configurations in a wide range of lengths and color options.",
+  "filters": [
+    { "id": "vehicle_type", "label": "Vehicle Type", "options": ["Police", "Fire/EMS", "Work Truck"] },
+    { "id": "profile",      "label": "Profile",      "options": ["Full-Size", "Low-Profile", "Mini"] },
+    { "id": "length",       "label": "Length",       "options": ["45\"", "53\"", "60\"", "72\""] }
+  ],
+  "products": [
+    {
+      "id": "navigator",
+      "label": "Navigator® Serial Light Bar",
+      "tagline": "High-profile full-size LED light bar.",
+      "image": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
+      "href": "/police/light-bars/navigator",
+      "badges": ["Full-Size", "Police", "Fire/EMS"],
+      "specs": ["45\", 53\", 60\" lengths", "12 Vdc", "5-year warranty"]
+    }
+  ],
+  "breadcrumbs": [
+    { "label": "Home",       "to": "/" },
+    { "label": "Police",     "to": "/police" },
+    { "label": "Light Bars" }
+  ]
+}

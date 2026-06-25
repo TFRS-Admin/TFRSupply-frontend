@@ -1,0 +1,94 @@
+{
+  "id": "police",
+  "label": "Police",
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Police Vehicle Safety Devices",
+    "subtitle": "Every moment of every day, we go beyond the call. Take comfort in our commitment to engineer the most reliable, durable, and high-performing products for your emergency vehicle.",
+    "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "imageAlt": "Police vehicle",
+    "cta": { "label": "Learn More", "href": "#" }
+  },
+  "featured_article": {
+    "eyebrow": "Federal Signal Police Vehicle Equipment",
+    "title": "Risk Reduction: Siren Power & Warning Distance",
+    "body": "Seconds count on every response. The faster surrounding drivers can detect, recognize, and respond to your siren, the safer the outcome for you and the community you protect.",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    "imageAlt": "Siren demonstration",
+    "cta": { "label": "Learn More", "href": "#" }
+  },
+  "featured_products_section": {
+    "eyebrow": "New and Featured",
+    "title": "Our Latest and Featured Police Emergency Products",
+    "subtitle": "View the most recent innovations in police vehicle safety",
+    "items": [
+      {
+        "label": "DynaFlare™",
+        "desc": "Low-profile, tri-color perimeter light featuring optically clear potting. IP68 and IP69K rated.",
+        "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=600&q=80",
+        "href": "#"
+      },
+      {
+        "label": "Pathfinder® PF400 Light/Siren Controller",
+        "desc": "When your officers are in pursuit, every second counts. Frees officers to focus fully on the task at hand.",
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+        "href": "#"
+      },
+      {
+        "label": "Valor® Light Bar",
+        "desc": "The first and only non-linear, low-profile lightbar engineered to increase visibility for critical intersection clearing.",
+        "image": "https://images.unsplash.com/photo-1491308055032-5e505b042271?w=600&q=80",
+        "href": "#"
+      },
+      {
+        "label": "Allegiant® Max Serial Light Bar",
+        "desc": "Allegiant® Max delivers enhanced safety, performance, and reliability—our latest innovation in the Allegiant light bar series.",
+        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80",
+        "href": "#"
+      }
+    ]
+  },
+  "categories_section": {
+    "title": "Risk-Reducing Police Vehicle Equipment You Can Depend On",
+    "subtitle": "Explore exterior and interior warning lights, sirens, speakers, directional lighting, and more.",
+    "cta": { "label": "Get Help From a Sales Rep", "href": "#" },
+    "items": [
+      { "label": "Light Bars",           "icon": "Layers",       "href": "/police/light-bars",     "desc": "Get safe and reliable LED light bars equipped with exclusive technologies." },
+      { "label": "Sirens & Speakers",    "icon": "Volume2",      "href": "#",                       "desc": "Grab the attention of drivers and clear the path for a safe arrival to the scene." },
+      { "label": "Perimeter Lights",     "icon": "Lightbulb",    "href": "#",                       "desc": "Install additional warnings around the perimeter of your police car." },
+      { "label": "SignalMasters",        "icon": "ArrowRight",   "href": "#",                       "desc": "Direct rear-approaching vehicles away from the scene for added safety." },
+      { "label": "Push Bumpers",         "icon": "Shield",       "href": "#",                       "desc": "Maximize safety with tools designed for durability and protection." },
+      { "label": "Stinger Spike System", "icon": "AlertTriangle","href": "#",                       "desc": "Control the situation with systems that support quick and reliable de-escalation." },
+      { "label": "Compartment Lights",   "icon": "Lightbulb",    "href": "#",                       "desc": "Take action with innovative compartment lighting." },
+      { "label": "Police Accessories",   "icon": "Zap",          "href": "#",                       "desc": "Provide additional security with a variety of accessories and signaling devices." }
+    ]
+  },
+  "configurators_section": {
+    "eyebrow": "Configurators",
+    "title": "Custom Police Lighting and Siren Solutions",
+    "items": [
+      { "label": "Customize Your Police Light Bar",       "desc": "Build your ideal lightbar with choices of color, features, mounts, and controller for optical performance.", "href": "https://config.fedsig.com/lightbar/", "icon": "Settings", "external": true },
+      { "label": "Build Your Police Car Warning Package", "desc": "Outfit your police fleet with high-quality lights, sirens, and push bumpers and then place your order today.", "href": "#", "icon": "Shield" }
+    ]
+  },
+  "contracts_section": {
+    "eyebrow": "Where to buy",
+    "title": "Find the Right Solution for Your Business",
+    "cta": { "label": "Find your rep today", "href": "#" },
+    "items": [
+      { "label": "PCA Contract",        "desc": "Federal Signal warning solutions are available to government agencies through PCA cooperative purchasing contracts." },
+      { "label": "GSA Contract",        "desc": "Our warning solutions are accessible through the online General Services Administration (GSA)." },
+      { "label": "NASPO ValuePoint",    "desc": "Our warning solutions are accessible to government agencies through NASPO cooperative purchasing contracts." }
+    ]
+  },
+  "resources_section": {
+    "eyebrow": "Resource Library",
+    "title": "Expand Your Product Knowledge",
+    "body": "Offering a variety of tools to learn more about our products and to support your goal to ensure safety for all.",
+    "cta": { "label": "Find Resources", "href": "/resources" },
+    "items": [
+      { "icon": "Phone",   "label": "Need Assistance?",   "desc": "Get the answers you need. When you need them. Our expert customer support and sales team are here to help." },
+      { "icon": "FileDown","label": "Download Catalog",   "desc": "Download our complete catalog to explore a comprehensive range of police emergency products." }
+    ]
+  }
+}

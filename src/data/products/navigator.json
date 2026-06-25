@@ -1,52 +1,111 @@
 {
   "id": "navigator",
+  "slug": "navigator",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": ["police", "fire"],
+  "product_family": "Navigator Series",
   "title": "Navigator® Serial Light Bar",
-  "vertical": "police",
-  "category": "Light Bars",
+  "subtitle": "High-profile full-size LED light bar for police and fire apparatus.",
+  "description": "The Navigator® Serial Light Bar delivers powerful, reliable warning performance in a full-size aluminum extrusion chassis. Available in 45\", 53\", and 60\" lengths with a wide range of color and feature configurations.",
   "breadcrumbs": [
-    { "label": "Home", "to": "/" },
-    { "label": "Police", "to": "/vertical/police" },
-    { "label": "Light Bars" },
+    { "label": "Home",       "to": "/" },
+    { "label": "Police",     "to": "/police" },
+    { "label": "Light Bars", "to": "/police/light-bars" },
     { "label": "Navigator® Light Bar" }
   ],
-  "images": [
-    {
-      "src": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
-      "alt": "Navigator® Light Bar — Front view"
-    },
-    {
-      "src": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
-      "alt": "Navigator installed on patrol vehicle"
-    },
-    {
-      "src": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=800&q=80",
-      "alt": "Navigator light bar detail"
-    }
-  ],
-  "summary_bullets": [
-    "High-profile, linear light bar",
-    "Available in 45\", 53\", and 60\" lengths",
-    "Amber, Blue, Green, Red, and White",
-    "Single- and dual-color capability",
-    "SignalMaster™ directional warning available",
-    "Front flood, takedowns, alley lights, work lights, and S/T/T are available",
-    "Low-power mode",
-    "(30) flash patterns",
-    "12 Vdc",
-    "LED Traffic Clearing Light (TCL) available",
-    "Black or Clear bulkheads available",
-    "Five-year warranty"
-  ],
-  "actions": {
-    "whereToBuyUrl": "https://www.fedsig.com/where-to-buy?category=175",
-    "requestInfoUrl": "#",
-    "configuratorUrl": "https://config.fedsig.com/lightbar/navigator-serial/web/",
-    "manualUrl": "#"
+  "media": {
+    "hero": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
+    "gallery": [
+      {
+        "src": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
+        "alt": "Navigator® Light Bar — Front view"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+        "alt": "Navigator installed on patrol vehicle"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=800&q=80",
+        "alt": "Navigator light bar detail"
+      }
+    ],
+    "videos": []
   },
-  "tabs": [
-    { "label": "Features",           "href": "#features-section" },
-    { "label": "SKU Specifications", "href": "#sku-section" },
-    { "label": "Videos",             "href": "#video-section" },
-    { "label": "Accessories",        "href": "#accessories-section" }
-  ]
+  "marketing": {
+    "features": [
+      "High-profile, linear light bar",
+      "Available in 45\", 53\", and 60\" lengths",
+      "Amber, Blue, Green, Red, and White color options",
+      "Single- and dual-color capability",
+      "SignalMaster™ directional warning available",
+      "Front flood, takedowns, alley lights, work lights, and S/T/T available",
+      "Low-power mode",
+      "(30) flash patterns",
+      "12 Vdc operation",
+      "LED Traffic Clearing Light (TCL) available",
+      "Black or Clear bulkheads available",
+      "Five-year warranty"
+    ],
+    "benefits": [],
+    "applications": ["Police Patrol", "Highway Patrol", "Fire Apparatus", "Incident Command"]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": ["45\"", "53\"", "60\""],
+    "colors": ["Amber", "Blue", "Green", "Red", "White"],
+    "flash_patterns": 30,
+    "warranty": "5-year limited",
+    "certifications": ["SAE J595", "SAE J845", "NFPA 1901"]
+  },
+  "documentation": {
+    "manuals": [
+      { "label": "Installation Manual",   "url": "#", "type": "pdf" },
+      { "label": "Programming Guide",     "url": "#", "type": "pdf" }
+    ],
+    "brochures": [
+      { "label": "Navigator Series Brochure", "url": "#", "type": "pdf" }
+    ],
+    "cad_files": [],
+    "certifications": [
+      { "label": "SAE J595 Certification", "url": "#", "type": "pdf" }
+    ]
+  },
+  "commerce": {
+    "sku_root": "NAV",
+    "msrp_display": "Contact for pricing",
+    "availability": "In Stock",
+    "cart_eligible": false,
+    "price_display": "contact",
+    "accessories": [
+      { "sku": "NAV-CABLE-10", "label": "10 ft. Main Harness Cable",          "price": 28.00 },
+      { "sku": "NAV-CABLE-14", "label": "14 ft. Main Harness Cable",          "price": 32.00 },
+      { "sku": "NAV-BRKT-STD", "label": "Standard Permanent Mount Bracket",   "price": 45.00 },
+      { "sku": "NAV-BRKT-MAG", "label": "Magnetic Mount Kit",                 "price": 75.00 },
+      { "sku": "NAV-CTRL-SM4", "label": "SignalMaster® 4-Position Switch",   "price": 110.00 }
+    ],
+    "related_products": ["valor", "allegiant-max"],
+    "sku_table": [
+      { "sku": "NAV-SLB-45-BB", "length": "45\"", "color": "Blue/Blue",     "features": "Standard",           "voltage": "12V" },
+      { "sku": "NAV-SLB-45-RB", "length": "45\"", "color": "Red/Blue",      "features": "Standard",           "voltage": "12V" },
+      { "sku": "NAV-SLB-53-BB", "length": "53\"", "color": "Blue/Blue",     "features": "Takedowns + Alleys", "voltage": "12V" },
+      { "sku": "NAV-SLB-53-RB", "length": "53\"", "color": "Red/Blue",      "features": "Takedowns + Alleys", "voltage": "12V" },
+      { "sku": "NAV-SLB-60-BB", "length": "60\"", "color": "Blue/Blue",     "features": "Full Feature",       "voltage": "12V" },
+      { "sku": "NAV-SLB-60-RB", "length": "60\"", "color": "Red/Blue",      "features": "Full Feature",       "voltage": "12V" },
+      { "sku": "NAV-SLB-60-AM", "length": "60\"", "color": "Amber",         "features": "Full Feature",       "voltage": "12V" }
+    ]
+  },
+  "shopify": {
+    "product_id": null,
+    "handle": "navigator-serial-light-bar",
+    "variant_mappings": [],
+    "cart_eligible": false,
+    "storefront_available": false
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy?category=175",
+    "request_info_url": "#",
+    "configurator_url": "https://config.fedsig.com/lightbar/navigator-serial/web/",
+    "manual_url": "#"
+  }
 }

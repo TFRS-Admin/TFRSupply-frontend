@@ -1,0 +1,12 @@
+{
+  "id": "federal-signal",
+  "name": "Federal Signal",
+  "website": "https://www.fedsig.com",
+  "logo": "https://www.fedsig.com/wp-content/themes/federal-signal/assets/images/logo.svg",
+  "verticals": ["police", "fire", "work-truck"],
+  "shopify": {
+    "storeDomain": null,
+    "storefrontAccessToken": null,
+    "connected": false
+  }
+}

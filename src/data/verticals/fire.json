@@ -1,0 +1,63 @@
+{
+  "id": "fire",
+  "label": "Fire/EMS",
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Fire and EMS Vehicle Safety Devices",
+    "subtitle": "Engineering the most reliable, durable, and high-performing products for your emergency vehicles.",
+    "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Q-Siren.hero_-900x600.jpg",
+    "imageAlt": "Fire EMS vehicle",
+    "cta": { "label": "Explore Products", "href": "#" }
+  },
+  "featured_products_section": {
+    "eyebrow": "New and Featured",
+    "title": "Featured Fire & EMS Products",
+    "subtitle": "Trusted by fire departments and EMS agencies nationwide.",
+    "items": [
+      {
+        "label": "Q-Siren®",
+        "tagline": "The unmistakable sound of safety.",
+        "desc": "The Q-Siren® delivers the powerful, instantly recognizable wail that fire and EMS crews have trusted for decades.",
+        "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Q-Siren.hero_-900x600.jpg",
+        "href": "#"
+      },
+      {
+        "label": "Navigator® Serial Light Bar",
+        "tagline": "Command-grade light output for apparatus.",
+        "desc": "Aluminum extrusion chassis with sealed wiring connectors. Rated for continuous duty in the most demanding environments.",
+        "image": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+        "href": "#"
+      },
+      {
+        "label": "FireRay® LED",
+        "tagline": "Warning from every angle.",
+        "desc": "Perimeter lighting engineered for fire apparatus — IP67-rated, vibration-resistant, and available in multiple mounting configurations.",
+        "image": "https://www.fedsig.com/wp-content/uploads/2024/09/fireray-led.hero_-900x600.jpg",
+        "href": "#"
+      }
+    ]
+  },
+  "categories_section": {
+    "title": "Fire & EMS Warning Equipment",
+    "subtitle": "Explore lighting, sirens, and accessories built for fire apparatus and EMS vehicles.",
+    "cta": { "label": "Contact a Sales Rep", "href": "#" },
+    "items": [
+      { "label": "Light Bars",        "icon": "Layers",    "href": "#", "desc": "Full-size and low-profile LED light bars built for fire and EMS apparatus." },
+      { "label": "Sirens & Speakers", "icon": "Volume2",   "href": "#", "desc": "High-decibel sirens including the iconic Q-Siren® for maximum warning distance." },
+      { "label": "Perimeter Lights",  "icon": "Lightbulb", "href": "#", "desc": "Scene lighting and perimeter warning for all angles of the apparatus." },
+      { "label": "Interior Lighting", "icon": "Zap",       "href": "#", "desc": "Compartment and cab lighting engineered for harsh conditions." },
+      { "label": "SignalMasters",     "icon": "ArrowRight","href": "#", "desc": "Direct traffic away from emergency scenes with rear-facing directional arrows." },
+      { "label": "Accessories",       "icon": "Shield",    "href": "#", "desc": "Mounting hardware, controllers, and installation accessories." }
+    ]
+  },
+  "resources_section": {
+    "eyebrow": "Resource Library",
+    "title": "Expand Your Product Knowledge",
+    "body": "Offering a variety of tools to learn more about our Fire & EMS products.",
+    "cta": { "label": "Find Resources", "href": "/resources" },
+    "items": [
+      { "icon": "Phone",   "label": "Need Assistance?", "desc": "Our expert sales team is available to help spec the right solution for your apparatus." },
+      { "icon": "FileDown","label": "Download Catalog", "desc": "Get our complete Fire & EMS product catalog for the full range of available solutions." }
+    ]
+  }
+}
