@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, MapPin, Menu, X, Home, ChevronDown } from 'lucide-react';
+import { loadVertical } from '@/lib/dataLoader';
 
 const VERTICALS = [
   { id: 'police',      label: 'Police',             path: '/police' },
@@ -12,23 +13,26 @@ const VERTICALS = [
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
-const CATEGORIES = [
-  'Light Bars',
-  'Sirens & Speakers',
-  'Perimeter Lights',
-  'SignalMasters',
-  'Push Bumpers',
-  'Stinger Spike System',
-  'Compartment Lighting',
-  'Accessories',
-];
+// Derive a category slug from a full href like "/police/light-bars" → "light-bars"
+function hrefToCategoryId(href) {
+  if (!href || href === '#') return null;
+  const parts = href.split('/').filter(Boolean);
+  return parts.length >= 2 ? parts[1] : null;
+}
 
-// Which categories have sub-menus (chevron indicator)
-const HAS_DROPDOWN = new Set(['Light Bars', 'Sirens & Speakers', 'Perimeter Lights', 'SignalMasters', 'Compartment Lighting', 'Accessories']);
-
-export default function SiteHeader({ activeVertical = 'police', activeCategory = 'Light Bars' }) {
+export default function SiteHeader({ activeVertical: activeVerticalProp = 'police', activeCategory }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Derive verticalId from URL: first path segment
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const verticalId = pathSegments[0] || activeVerticalProp;
+  const urlCategoryId = pathSegments[1] || null;
+
+  // Load categories from JSON — falls back to empty array if vertical not found
+  const verticalData = loadVertical(verticalId);
+  const categories = verticalData?.categories_section?.items || [];
 
   return (
     <header className="sticky top-0 z-40" style={{ fontFamily: "'Roboto','Inter',sans-serif" }}>
@@ -54,7 +58,7 @@ export default function SiteHeader({ activeVertical = 'police', activeCategory =
 
             {/* Vertical pills */}
             {VERTICALS.map(v => {
-              const isActive = v.id === activeVertical;
+              const isActive = v.id === verticalId;
               return (
                 <button
                   key={v.id}
@@ -164,41 +168,45 @@ export default function SiteHeader({ activeVertical = 'police', activeCategory =
         </div>
       </div>
 
-      {/* ── Row 3: Category nav ─────────────────────────────────────────────── */}
-      <div style={{ background: '#ffffff', borderBottom: '2px solid #e8e8e8' }} className="hidden md:block">
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch' }}>
-          {CATEGORIES.map(cat => {
-            const isActive = cat === activeCategory;
-            const hasDrop = HAS_DROPDOWN.has(cat);
-            return (
-              <button
-                key={cat}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 4,
-                  padding: '14px 16px',
-                  fontSize: 13,
-                  fontWeight: isActive ? 700 : 400,
-                  color: isActive ? '#c8102e' : '#3d3d3d',
-                  background: 'none',
-                  border: 'none',
-                  borderBottom: isActive ? '3px solid #c8102e' : '3px solid transparent',
-                  marginBottom: -2,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.01em',
-                  fontFamily: "'Roboto','Inter',sans-serif",
-                  transition: 'color 0.15s',
-                }}
-                onMouseEnter={e => { if (!isActive) { e.currentTarget.style.color = '#c8102e'; } }}
-                onMouseLeave={e => { if (!isActive) { e.currentTarget.style.color = '#3d3d3d'; } }}
-              >
-                {cat}
-                {hasDrop && <ChevronDown size={12} style={{ opacity: 0.5, marginTop: 1 }} />}
-              </button>
-            );
-          })}
+      {/* ── Row 3: Category nav — driven by active vertical JSON ───────────── */}
+      {categories.length > 0 && (
+        <div style={{ background: '#ffffff', borderBottom: '2px solid #e8e8e8' }} className="hidden md:block">
+          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch' }}>
+            {categories.map(cat => {
+              const categoryId = hrefToCategoryId(cat.href);
+              const isActive = urlCategoryId ? urlCategoryId === categoryId : (activeCategory === cat.label);
+              const isEnabled = !!categoryId;
+              return (
+                <button
+                  key={cat.label}
+                  onClick={isEnabled ? () => navigate(`/${verticalId}/${categoryId}`) : undefined}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 4,
+                    padding: '14px 16px',
+                    fontSize: 13,
+                    fontWeight: isActive ? 700 : 400,
+                    color: isActive ? '#c8102e' : isEnabled ? '#3d3d3d' : '#bbbbbb',
+                    background: 'none',
+                    border: 'none',
+                    borderBottom: isActive ? '3px solid #c8102e' : '3px solid transparent',
+                    marginBottom: -2,
+                    cursor: isEnabled ? 'pointer' : 'default',
+                    whiteSpace: 'nowrap',
+                    letterSpacing: '0.01em',
+                    fontFamily: "'Roboto','Inter',sans-serif",
+                    transition: 'color 0.15s',
+                  }}
+                  onMouseEnter={e => { if (!isActive && isEnabled) e.currentTarget.style.color = '#c8102e'; }}
+                  onMouseLeave={e => { if (!isActive && isEnabled) e.currentTarget.style.color = '#3d3d3d'; }}
+                >
+                  {cat.label}
+                  {isEnabled && <ChevronDown size={12} style={{ opacity: 0.5, marginTop: 1 }} />}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── Mobile menu drawer ──────────────────────────────────────────────── */}
       {mobileOpen && (
@@ -213,11 +221,19 @@ export default function SiteHeader({ activeVertical = 'police', activeCategory =
               <Search size={16} color="#fff" />
             </button>
           </div>
-          {CATEGORIES.map(cat => (
-            <button key={cat} style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 0', fontSize: 14, color: '#3d3d3d', background: 'none', border: 'none', borderBottom: '1px solid #f0f0f0', cursor: 'pointer', fontFamily: "'Roboto','Inter',sans-serif" }}>
-              {cat}
-            </button>
-          ))}
+          {categories.map(cat => {
+            const categoryId = hrefToCategoryId(cat.href);
+            const isEnabled = !!categoryId;
+            return (
+              <button
+                key={cat.label}
+                onClick={isEnabled ? () => { navigate(`/${verticalId}/${categoryId}`); setMobileOpen(false); } : undefined}
+                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 0', fontSize: 14, color: isEnabled ? '#3d3d3d' : '#bbbbbb', background: 'none', border: 'none', borderBottom: '1px solid #f0f0f0', cursor: isEnabled ? 'pointer' : 'default', fontFamily: "'Roboto','Inter',sans-serif" }}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
         </div>
       )}
     </header>
