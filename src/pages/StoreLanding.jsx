@@ -14,6 +14,7 @@ const VERTICALS = [
     img: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=80',
     description: "Leading the way in emergency lighting, lights and communications for cutting push cameras, and the reliable interior disc. A driving force in officer safety and security.",
     active: true,
+    route: '/police',
   },
   {
     id: 'fire',
@@ -23,7 +24,8 @@ const VERTICALS = [
     iconBg: 'bg-red-600/20 border-red-500/30',
     img: 'https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=600&q=80',
     description: "Built for first responders. We carry the most reliable warning devices to protect firefighters and provide more transparency to keep your community safe.",
-    active: false,
+    active: true,
+    route: '/fire',
   },
   {
     id: 'work-truck',
@@ -33,7 +35,8 @@ const VERTICALS = [
     iconBg: 'bg-amber-600/20 border-amber-500/30',
     img: 'https://images.unsplash.com/photo-1609752716955-b2b3fea4cac8?w=600&q=80',
     description: "Built for the road ahead. Providing safety and the best in class DOT compliant amber warning light systems and directional control for highway operations.",
-    active: false,
+    active: true,
+    route: '/work-truck',
   },
   {
     id: 'mass-notification',
@@ -94,14 +97,20 @@ export default function StoreLanding() {
 
           {/* Vertical nav tabs */}
           <div className="hidden md:flex items-center gap-1 text-sm font-semibold">
-            {['Police', 'Fire/EMS', 'Work Truck', 'Emergency Beacon', 'Mass Notification'].map((label, i) => (
+            {[
+              { label: 'Police',            route: '/police' },
+              { label: 'Fire/EMS',          route: '/fire' },
+              { label: 'Work Truck',        route: '/work-truck' },
+              { label: 'Emergency Beacon',  route: null },
+              { label: 'Mass Notification', route: null },
+            ].map(({ label, route }) => (
               <button
                 key={label}
-                onClick={i === 0 ? () => navigate('/vertical/police') : undefined}
+                onClick={route ? () => navigate(route) : undefined}
                 className={`px-4 py-2 rounded transition-colors ${
-                  i === 0
-                    ? 'bg-[#003580] text-white'
-                    : 'text-gray-500 hover:text-gray-900 opacity-50 cursor-not-allowed'
+                  route
+                    ? 'bg-[#003580] text-white hover:bg-[#002a6a]'
+                    : 'text-gray-500 opacity-50 cursor-not-allowed'
                 }`}
               >
                 {label}
@@ -123,7 +132,7 @@ export default function StoreLanding() {
           </div>
 
           <button
-            onClick={() => navigate('/vertical/police')}
+            onClick={() => navigate('/police')}
             className="shrink-0 flex items-center gap-2 bg-[#003580] hover:bg-[#002a6a] text-white text-sm font-bold px-4 py-2 rounded transition-all"
           >
             Where to Buy →
@@ -160,7 +169,7 @@ export default function StoreLanding() {
             </p>
             <div className="flex items-center gap-3 flex-wrap">
               <button
-                onClick={() => navigate('/vertical/police')}
+                onClick={() => navigate('/police')}
                 className="flex items-center gap-2 bg-white text-[#003580] font-bold px-6 py-2.5 rounded text-sm hover:bg-blue-50 transition-all"
               >
                 Shop Products <ArrowRight size={14} />
@@ -189,7 +198,7 @@ export default function StoreLanding() {
             return (
               <button
                 key={v.id}
-                onClick={v.active ? () => navigate('/vertical/police') : undefined}
+                onClick={v.active ? () => navigate(v.route || `/${v.id}`) : undefined}
                 className={`group text-left rounded-xl overflow-hidden border transition-all duration-200 ${
                   v.active
                     ? 'border-gray-200 hover:border-[#003580] hover:shadow-lg cursor-pointer'

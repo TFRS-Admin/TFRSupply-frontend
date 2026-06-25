@@ -10,8 +10,9 @@ import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
-import PoliceLanding from '@/pages/PoliceLanding.jsx';
-import NavigatorPage from '@/pages/NavigatorPage.jsx';
+import VerticalLandingTemplate from '@/pages/VerticalLandingTemplate';
+import CategoryTemplate from '@/pages/CategoryTemplate';
+import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
 import FamilyPage from '@/pages/FamilyPage';
 import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
 import BuildReview from '@/pages/BuildReview';
@@ -19,8 +20,6 @@ import CheckoutDecision from '@/pages/CheckoutDecision';
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
-import FireEMSLanding from '@/pages/FireEMSLanding.jsx';
-import WorkTruckLanding from '@/pages/WorkTruckLanding.jsx';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -46,15 +45,18 @@ const AuthenticatedApp = () => {
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
-        <Route path="/vertical/police" element={<PoliceLanding />} />
-        <Route path="/vertical/fire" element={<FireEMSLanding />} />
-        <Route path="/vertical/work-truck" element={<WorkTruckLanding />} />
-        <Route path="/vertical/:verticalId" element={<PoliceLanding />} />
-        <Route path="/family/navigator" element={<NavigatorPage />} />
-        <Route path="/family/:familyId" element={<FamilyPage />} />
+
+        {/* Template-driven routes — JSON-powered, no new pages needed */}
+        <Route path="/:verticalId" element={<VerticalLandingTemplate />} />
+        <Route path="/:verticalId/:categoryId" element={<CategoryTemplate />} />
+        <Route path="/:verticalId/:categoryId/:productId" element={<ProductDetailTemplate />} />
+
+        {/* Legacy configurator routes */}
         <Route path="/configure/:familyId/step/:stepId" element={<ConfiguratorWizard />} />
         <Route path="/configure/:familyId/review" element={<BuildReview />} />
         <Route path="/configure/:familyId/checkout" element={<CheckoutDecision />} />
+
+        {/* Static pages */}
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
         <Route path="/showcase" element={<ComponentShowcase />} />
