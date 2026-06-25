@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, Menu, X, Home, ChevronDown } from 'lucide-react';
 
 const VERTICALS = [
-  { id: 'police',      label: 'Police',             path: '/vertical/police' },
-  { id: 'fire',        label: 'Fire/EMS',           path: '/vertical/fire' },
-  { id: 'worktruck',   label: 'Work Truck',         path: '/vertical/worktruck' },
-  { id: 'signaling',   label: 'Signaling Devices',  path: '/vertical/signaling' },
-  { id: 'mass',        label: 'Mass Notification',  path: '/vertical/mass' },
+  { id: 'police',      label: 'Police',             path: '/police' },
+  { id: 'fire',        label: 'Fire/EMS',           path: '/fire' },
+  { id: 'work-truck',  label: 'Work Truck',         path: '/work-truck' },
+  { id: 'signaling',   label: 'Signaling Devices',  path: null },
+  { id: 'mass',        label: 'Mass Notification',  path: null },
 ];
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
@@ -58,7 +58,7 @@ export default function SiteHeader({ activeVertical = 'police', activeCategory =
               return (
                 <button
                   key={v.id}
-                  onClick={() => navigate(v.path)}
+                  onClick={() => v.path && navigate(v.path)}
                   style={{
                     padding: '10px 18px',
                     fontSize: 12,

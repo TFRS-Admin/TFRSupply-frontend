@@ -175,7 +175,7 @@ export default function StoreLanding() {
                 Shop Products <ArrowRight size={14} />
               </button>
               <button
-                onClick={() => navigate('/family/navigator')}
+                onClick={() => navigate('/police/light-bars/navigator')}
                 className="flex items-center gap-2 border border-white/40 text-white font-bold px-6 py-2.5 rounded text-sm hover:bg-white/10 transition-all"
               >
                 Vehicle Configurator

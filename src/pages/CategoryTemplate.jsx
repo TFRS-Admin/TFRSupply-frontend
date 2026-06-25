@@ -45,7 +45,11 @@ export default function CategoryTemplate() {
     <div className="min-h-screen bg-white" style={FS}>
       <PrototypeBanner />
       <SiteHeader activeVertical={verticalId} />
-      <Breadcrumbs crumbs={breadcrumbs || [{ label: 'Home', to: '/' }, { label: data.label }]} />
+      <Breadcrumbs crumbs={[
+        { label: 'Home', to: '/' },
+        { label: verticalId.charAt(0).toUpperCase() + verticalId.slice(1).replace(/-/g, ' '), to: `/${verticalId}` },
+        { label: data.label }
+      ]} />
 
       {/* Hero */}
       <div className="relative overflow-hidden" style={{ background: '#1a2744', minHeight: 220 }}>
