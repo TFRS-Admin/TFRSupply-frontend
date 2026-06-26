@@ -1,0 +1,139 @@
+{
+  "_note": "PLACEHOLDER ONLY — Replace all null values and example GIDs with real Shopify data before Sprint 14 cart activation. Never commit real credentials or live GIDs to source control.",
+  "_source": "docs/shopify-data-collection-checklist.md",
+  "_sprint": "Sprint 13 — structure only, no live values",
+
+  "product": {
+    "productId": "navigator",
+    "configuratorId": "navigator-configurator",
+    "shopifyProductTitle": "Navigator® Serial Light Bar",
+
+    "shopify": {
+      "product_id": null,
+      "handle": "navigator-serial-light-bar",
+      "cart_eligible": false,
+      "storefront_available": false,
+
+      "variant_mappings": [
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-45-BB",
+          "length": "45\"",
+          "color": "Blue/Blue",
+          "shopify_variant_id": null
+        },
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-45-RB",
+          "length": "45\"",
+          "color": "Red/Blue",
+          "shopify_variant_id": null
+        },
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-53-BB",
+          "length": "53\"",
+          "color": "Blue/Blue",
+          "shopify_variant_id": null
+        },
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-53-RB",
+          "length": "53\"",
+          "color": "Red/Blue",
+          "shopify_variant_id": null
+        },
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-60-BB",
+          "length": "60\"",
+          "color": "Blue/Blue",
+          "shopify_variant_id": null
+        },
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-60-RB",
+          "length": "60\"",
+          "color": "Red/Blue",
+          "shopify_variant_id": null
+        },
+        {
+          "_note": "Replace shopify_variant_id with real GID from Shopify Admin",
+          "sku": "NAV-SLB-60-AM",
+          "length": "60\"",
+          "color": "Amber",
+          "shopify_variant_id": null
+        }
+      ]
+    }
+  },
+
+  "accessories": [
+    {
+      "_note": "Each accessory is a separate Shopify product or variant — confirm with Shopify Admin",
+      "sku": "NAV-CABLE-10",
+      "label": "10 ft. Main Harness Cable",
+      "price": 28.00,
+      "shopify_variant_id": null
+    },
+    {
+      "_note": "Each accessory is a separate Shopify product or variant — confirm with Shopify Admin",
+      "sku": "NAV-CABLE-14",
+      "label": "14 ft. Main Harness Cable",
+      "price": 32.00,
+      "shopify_variant_id": null
+    },
+    {
+      "_note": "Each accessory is a separate Shopify product or variant — confirm with Shopify Admin",
+      "sku": "NAV-BRKT-STD",
+      "label": "Standard Permanent Mount Bracket",
+      "price": 45.00,
+      "shopify_variant_id": null
+    },
+    {
+      "_note": "Each accessory is a separate Shopify product or variant — confirm with Shopify Admin",
+      "sku": "NAV-BRKT-MAG",
+      "label": "Magnetic Mount Kit",
+      "price": 75.00,
+      "shopify_variant_id": null
+    },
+    {
+      "_note": "Each accessory is a separate Shopify product or variant — confirm with Shopify Admin",
+      "sku": "NAV-CTRL-SM4",
+      "label": "SignalMaster® 4-Position Switch",
+      "price": 110.00,
+      "shopify_variant_id": null
+    }
+  ],
+
+  "configuratorMapping": {
+    "_note": "shopifyMapping block mirrors product JSON shopify block. Source of truth is navigator.json. This file is an audit reference only.",
+    "storeHandle": "PLACEHOLDER_store_handle",
+    "storeDomain": "PLACEHOLDER.myshopify.com",
+    "skuTemplate": "NAV-{length}-{color}",
+    "variantResolutionRule": "Match configurator-generated skuPreview against variant_mappings[].sku (exact string match). If no match found, variant_id is null and cart payload marks primary line as unresolved.",
+    "customAttributeKeys": [
+      { "configuratorStepId": "vehicle_type",   "cartAttributeKey": "Vehicle Type" },
+      { "configuratorStepId": "length",         "cartAttributeKey": "Bar Length" },
+      { "configuratorStepId": "color",          "cartAttributeKey": "Color Configuration" },
+      { "configuratorStepId": "mounting",       "cartAttributeKey": "Mounting Type" },
+      { "configuratorStepId": "controller",     "cartAttributeKey": "Controller" }
+    ],
+    "internalAttributes": [
+      { "key": "_configuratorId", "valueSource": "configuratorId field" },
+      { "key": "_skuPreview",     "valueSource": "computed skuPreview from engine" },
+      { "key": "_productId",      "valueSource": "productId field" }
+    ]
+  },
+
+  "readinessGates": {
+    "_note": "All gates must be true before Add to Cart is enabled. Set these to true only after real GIDs are populated above.",
+    "productIdPopulated": false,
+    "cartEligibleSet": false,
+    "storefrontAvailableSet": false,
+    "variantMappingsComplete": false,
+    "accessoryMappingsComplete": false,
+    "backendProxyCreated": false,
+    "secretsSet": false
+  }
+}

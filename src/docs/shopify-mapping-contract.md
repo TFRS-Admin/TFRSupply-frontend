@@ -165,4 +165,72 @@ Selected configurator options are passed to Shopify as `customAttributes[]` on t
 
 ---
 
-*Sprint 11 — Mapping contract locked. No Shopify API calls made. No credentials added.*
+---
+
+## 7. Data Collection Workflow (Sprint 13)
+
+Before any live Shopify integration can be wired, all mapping data must be collected from the Shopify Admin and entered into the appropriate JSON files. This is a manual, one-time process per product.
+
+### Step-by-Step Collection Process
+
+```
+1. Open Shopify Admin → Products → [Product]
+2. Note the numeric ID from the URL → format as gid://shopify/Product/{id}
+3. Open each Variant → note numeric ID from URL → format as gid://shopify/ProductVariant/{id}
+4. Record each variant's SKU — confirm it matches the configurator's SKU template output
+5. Repeat for each accessory product/variant
+6. Populate data/products/{productId}.json → shopify block
+7. Populate data/configurators/{configuratorId}.json → shopifyMapping block
+8. Verify ShopifyReadinessPanel shows all checks passing
+9. Set SHOPIFY_STOREFRONT_ACCESS_TOKEN + SHOPIFY_STORE_DOMAIN as Base44 backend secrets
+10. Wire functions/shopifyCart.js backend proxy (Sprint 14)
+```
+
+### Reference Files
+
+| File | Purpose |
+|------|---------|
+| `docs/shopify-data-collection-checklist.md` | Per-product worksheet with all required fields and sign-off table |
+| `data/shopify-mapping/example-navigator-mapping.json` | Placeholder mapping structure — copy and populate with real GIDs |
+| `data/products/navigator.json` → `.shopify` | Live mapping target for cart adapter |
+| `data/configurators/navigator-configurator.json` → `.shopifyMapping` | Audit copy of variant map |
+
+### SKU Resolution Rule
+
+The cart adapter resolves a Shopify variant GID from the configurator-generated SKU preview using an exact string match:
+
+```
+skuPreview (from engine) → find variant_mappings[].sku === skuPreview → return shopify_variant_id
+```
+
+If no match is found, `shopify_variant_id` is `null` and the payload inspector flags it as `⚠ null`.
+The cart button remains disabled until all configured SKU combinations have matching variant IDs.
+
+### Accessory Resolution Rule
+
+Each accessory selected in the configurator must have a `shopify_variant_id` in either:
+- The accessory's entry in `commerce.accessories[]` in the product JSON, **or**
+- A dedicated `data/shopify-mapping/accessory-map.json` keyed by accessory SKU.
+
+Until accessory variant IDs are populated, the cart payload marks all accessory lines as `shopify_variant_id: null`.
+
+---
+
+## 8. Current Mapping Status — Navigator (Sprint 13)
+
+| Field | Status | Action Required |
+|-------|--------|----------------|
+| `shopify.product_id` | ❌ null | Collect from Shopify Admin |
+| `shopify.handle` | ✅ set (`navigator-serial-light-bar`) | Confirm matches Admin |
+| `shopify.cart_eligible` | ❌ false | Set `true` after GIDs collected |
+| `shopify.storefront_available` | ❌ false | Set `true` after Storefront API confirmed |
+| `shopify.variant_mappings` | ❌ empty (7 SKUs need GIDs) | Collect all 7 variant GIDs |
+| Accessory variant IDs | ❌ not mapped (5 accessories) | Collect 5 accessory variant GIDs |
+| Backend secrets | ❌ not set | Set in Base44 Secrets after collection |
+| Backend proxy function | ❌ not created | Sprint 14 |
+
+**Expected: Add to Cart panel shows disabled with all 4 specific reasons (confirmed in Sprint 12 QA).**
+
+---
+
+*Sprint 13 — Data collection tooling added. No Shopify API calls made. No credentials added.*
