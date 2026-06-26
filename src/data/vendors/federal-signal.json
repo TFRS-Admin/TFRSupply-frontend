@@ -6,7 +6,7 @@
   "verticals": ["police", "fire", "work-truck"],
   "shopify": {
     "storeDomain": null,
-    "storefrontAccessToken": null,
-    "connected": false
+    "connected": false,
+    "_note": "storefrontAccessToken must NEVER be stored in client-side JSON. When Shopify integration is ready, implement a backend proxy function (functions/shopifyStorefront.js) that holds the token server-side via Deno.env and exposes only the data the frontend needs."
   }
 }

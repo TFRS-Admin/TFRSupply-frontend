@@ -8,6 +8,7 @@
   "title": "Navigator® Serial Light Bar",
   "subtitle": "High-profile full-size LED light bar for police and fire apparatus.",
   "description": "The Navigator® Serial Light Bar delivers powerful, reliable warning performance in a full-size aluminum extrusion chassis. Available in 45\", 53\", and 60\" lengths with a wide range of color and feature configurations.",
+  "tabs_component": "NavigatorTabs",
   "breadcrumbs": [
     { "label": "Home",       "to": "/" },
     { "label": "Police",     "to": "/police" },
@@ -75,7 +76,6 @@
     "sku_root": "NAV",
     "msrp_display": "Contact for pricing",
     "availability": "In Stock",
-    "cart_eligible": false,
     "price_display": "contact",
     "accessories": [
       { "sku": "NAV-CABLE-10", "label": "10 ft. Main Harness Cable",          "price": 28.00 },

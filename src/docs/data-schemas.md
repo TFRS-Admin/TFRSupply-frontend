@@ -518,8 +518,8 @@ When `variant_mappings` is populated, each entry links a local SKU to a Shopify 
 
 | # | Risk | Severity | Location |
 |---|------|----------|----------|
-| 1 | `storefrontAccessToken` in client-side JSON — PII/credential exposure | **Critical** | vendors/*.json |
-| 2 | `ProductDetailTemplate` hardcodes `productId === 'navigator'` tab switch — will not scale | **High** | ProductDetailTemplate |
+| 1 | ~~`storefrontAccessToken` in client-side JSON~~ — **FIXED (Gate 5):** field removed from vendor JSON; `_note` added directing to backend proxy pattern | ~~Critical~~ ✅ | vendors/federal-signal.json |
+| 2 | ~~`ProductDetailTemplate` hardcodes `productId === 'navigator'`~~ — **FIXED (Gate 5):** replaced with `TABS_REGISTRY` keyed by `product.tabs_component` JSON field | ~~High~~ ✅ | ProductDetailTemplate |
 | 3 | `category.products[].href` hardcodes vertical in path — cross-vertical links go to wrong vertical | **High** | categories/light-bars.json |
 | 4 | 19 of 20 category items across 3 verticals have `href: "#"` — Row 3 nav is mostly dead | **High** | All vertical JSON files |
 | 5 | No `shopify_variant_id` in SKU rows — cart integration requires this | **High** | products/navigator.json |
