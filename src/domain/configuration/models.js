@@ -18,7 +18,8 @@ export function createSession(configuratorJson) {
     steps: configuratorJson.steps.map(normalizeStep),
     dependencyRules: (configuratorJson.dependencyRules || []).map(normalizeDependencyRule),
     compatibilityRules: (configuratorJson.compatibilityRules || []).map(normalizeCompatibilityRule),
-    skuTemplate: configuratorJson.skuTemplate || null,
+    // skuOptions is the source of truth — existing SKUs that selections filter against
+    skuOptions: (configuratorJson.skuOptions || []).map(normalizeSkuOption),
     priceDisplay: configuratorJson.priceDisplay || 'Contact for pricing',
     shopifyMapping: configuratorJson.shopifyMapping || null, // reserved, not used
   };
@@ -50,7 +51,21 @@ export function normalizeOption(raw) {
     description: raw.description || null,
     image: raw.image || null,
     tags: raw.tags || [],
-    _prototype: raw._prototype || false, // flag for prototype-only data
+    _prototype: raw._prototype || false,
+  };
+}
+
+/**
+ * SkuOption — an existing SKU from the product catalog with its filter attributes.
+ * User selections are filtered against these to find the matching SKU.
+ *
+ * @param {object} raw — { sku, label?, attributes: { [skuSegmentKey]: skuSegmentValue } }
+ */
+export function normalizeSkuOption(raw) {
+  return {
+    sku: raw.sku,
+    label: raw.label || raw.sku,
+    attributes: raw.attributes || {},
   };
 }
 

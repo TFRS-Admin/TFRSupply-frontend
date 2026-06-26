@@ -80,12 +80,14 @@ export function getCartReadiness(summary, shopifyMap) {
  * @param {object} params.shopifyMap       - product's shopify block
  * @returns {object} structured cart payload (see docs/shopify-cart-architecture.md)
  */
-export function prepareCartPayload({ productId, configuratorId, skuPreview, summary, quantity = 1, shopifyMap }) {
+export function prepareCartPayload({ productId, configuratorId, summary, quantity = 1, shopifyMap }) {
+  // Use selectedSku (resolved from existing SKU list) — not a generated string
+  const selectedSku = summary?.selectedSku ?? null;
+
   // Normalise resolvedSelections → selectedOptions for the adapter
   const selectedOptions = (summary?.resolvedSelections ?? []).map(s => ({
     stepId: s.stepId,
     stepLabel: s.stepLabel,
-    // single-select steps: selected is always a 1-element array
     optionLabel: s.selected?.[0] ?? '',
   }));
 
@@ -98,5 +100,5 @@ export function prepareCartPayload({ productId, configuratorId, skuPreview, summ
     priceModifier: a.priceModifier,
   }));
 
-  return buildCartPayload({ productId, configuratorId, skuPreview, selectedOptions, accessories, quantity, shopifyMap });
+  return buildCartPayload({ productId, configuratorId, skuPreview: selectedSku, selectedOptions, accessories, quantity, shopifyMap });
 }

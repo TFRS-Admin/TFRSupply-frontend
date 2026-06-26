@@ -34,7 +34,7 @@ export function generateSubmissionId() {
  * @returns {QuotePayload}
  */
 export function buildQuotePayload(session, summary, productMeta, contactForm, submissionId) {
-  const { resolvedSelections, accessories, depRequirements, violations, skuPreview } = summary;
+  const { resolvedSelections, accessories, depRequirements, violations, selectedSku, matchingSkus, skuStatus } = summary;
 
   const dependencyNotes = depRequirements.map(d =>
     `${d.targetStepLabel} required because: ${d.triggerLabel} was selected. ${d.message || ''}`.trim()
@@ -62,7 +62,12 @@ export function buildQuotePayload(session, summary, productMeta, contactForm, su
       optionLabel: a.optionLabel,
       priceModifier: a.priceModifier,
     })),
-    skuPreview: skuPreview || null,
+    // SKU resolution — selectedSku is an existing catalog SKU, not a generated string
+    selectedSku: selectedSku || null,
+    matchingSkus: matchingSkus || [],
+    skuStatus: skuStatus || 'none',
+    // Legacy alias for adapter/email compatibility
+    skuPreview: selectedSku || null,
     dependencyNotes,
     warningNotes,
 

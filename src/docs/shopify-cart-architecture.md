@@ -58,7 +58,7 @@ Produced by `buildCartPayload()` in `shopifyCartAdapter.js`:
       { "key": "Length", "value": "53\"" },
       { "key": "Color", "value": "Red/Blue" },
       { "key": "_configuratorId", "value": "navigator-configurator" },
-      { "key": "_skuPreview", "value": "NAV-SLB-53-RB" },
+      { "key": "_selectedSku", "value": "NAV-SLB-53-RB" },
       { "key": "_productId", "value": "navigator" }
     ]
   },
@@ -128,7 +128,16 @@ Environment variables needed (backend only, never `vite.config.js` / `.env` fron
 
 ## 6. Variant Mapping Requirements
 
-Each configurable SKU must be manually mapped in the product JSON:
+The engine resolves `selectedSku` by filtering the configurator's `skuOptions[]` list.
+That `selectedSku` string is then used as an exact lookup key against `shopify.variant_mappings[].sku`.
+
+```
+User selections → resolveSkuMatch() → selectedSku: "NAV-SLB-53-RB"
+                                             ↓
+                          variant_mappings[].sku === "NAV-SLB-53-RB"
+                                             ↓
+                          shopify_variant_id: "gid://shopify/ProductVariant/..."
+```
 
 ```json
 "shopify": {
@@ -144,9 +153,8 @@ Each configurable SKU must be manually mapped in the product JSON:
 ```
 
 **Until this mapping is complete, the Add to Cart panel renders as disabled.**
-This is by design — the readiness check prevents broken cart handoffs.
 
-Accessory SKUs require the same mapping in `commerce.accessories[]` or a dedicated accessory mapping block (Sprint 12+).
+Accessory SKUs require the same mapping in `commerce.accessories[]` or a dedicated accessory mapping block (Sprint 14+).
 
 ---
 

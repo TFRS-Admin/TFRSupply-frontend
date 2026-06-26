@@ -106,7 +106,7 @@ export default function QuoteRequestPanel({ productMeta }) {
             </p>
           )}
           <p style={{ fontSize: 11, color: '#78350f', margin: 0, fontStyle: 'italic' }}>
-            SKU: {summary.skuPreview || '(pending)'}
+            Selected SKU: {summary.selectedSku || summary.skuPreview || '(pending)'}
           </p>
         </div>
       </div>
@@ -174,7 +174,7 @@ export default function QuoteRequestPanel({ productMeta }) {
           Request a Quote
         </p>
         <p style={{ margin: '2px 0 0', fontSize: 11, color: 'rgba(255,255,255,0.75)' }}>
-          Configuration complete — SKU: {summary.skuPreview}
+          Configuration complete — Selected SKU: {summary.selectedSku || summary.skuPreview || '(pending)'}
         </p>
       </div>
 

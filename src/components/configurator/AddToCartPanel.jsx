@@ -72,7 +72,6 @@ export default function AddToCartPanel({ productMeta, shopifyMap }) {
     return prepareCartPayload({
       productId: productMeta?.productId ?? '',
       configuratorId: productMeta?.configuratorId ?? '',
-      skuPreview: summary.skuPreview ?? '',
       summary,
       quantity: 1,
       shopifyMap: shopifyMap ?? {},
@@ -136,7 +135,7 @@ export default function AddToCartPanel({ productMeta, shopifyMap }) {
         </p>
       </div>
       <p style={{ fontSize: 11, color: '#166534', marginBottom: 12 }}>
-        Payload ready — SKU: <span style={{ fontFamily: 'monospace', fontWeight: 700 }}>{summary.skuPreview}</span>
+        Payload ready — Selected SKU: <span style={{ fontFamily: 'monospace', fontWeight: 700 }}>{summary.selectedSku}</span>
       </p>
 
       <button disabled title="Checkout handoff wired in Sprint 12" style={{

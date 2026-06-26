@@ -178,54 +178,51 @@ export function getCompatibilityViolations(session, selections) {
     });
 }
 
-// ─── SKU Generation ────────────────────────────────────────────────────────
+// ─── SKU Resolution (filter-based) ────────────────────────────────────────
 
 /**
- * Generates a preliminary SKU string from the skuTemplate and selections.
+ * Filters the configurator's skuOptions list against current selections.
  *
- * Template tokens use the step's `skuSegmentKey` wrapped in braces: {vehicle}, {color}, etc.
- * If a token is unresolved (step not selected), it outputs "???".
- * Multi-select steps (e.g. accessories) are NOT part of the SKU template —
- * they are listed separately in the summary. If somehow included as a token,
- * the first selection's skuSegment is used.
+ * Each skuOption defines attribute key/value pairs (e.g. length, color).
+ * A SKU is a candidate when ALL of the user's non-accessory selections match
+ * its declared attributes. Missing attributes on a SKU are treated as "any" (pass-through).
  *
- * PROTOTYPE: This is a simplified string interpolation approach.
- * Production: will map to real Shopify variant IDs via shopifyMapping.
+ * Returns:
+ *   matchingSkus  — all SKUs that fit the current selections
+ *   selectedSku   — the single matched SKU (if exactly one match), else null
+ *   skuStatus     — 'none' | 'multiple' | 'matched'
  */
-export function generateSkuPreview(session, selections) {
-  if (!session.skuTemplate) return null;
+export function resolveSkuMatch(session, selections) {
+  const skuOptions = session.skuOptions;
+  if (!skuOptions || skuOptions.length === 0) return { matchingSkus: [], selectedSku: null, skuStatus: 'none' };
 
-  let sku = session.skuTemplate;
-
+  // Collect non-accessory (single-select) step selections as attribute filters
+  const activeFilters = {};
   session.steps.forEach(step => {
-    const key = `{${step.skuSegmentKey}}`;
-    if (!sku.includes(key)) return;
-
+    if (step.multiple) return; // accessories don't filter SKUs
     const val = selections[step.id];
-
-    // Multi-select steps (accessories) are not part of the base SKU template —
-    // skip them cleanly (leave token as ??? only if explicitly in template).
-    if (step.multiple) {
-      const ids = Array.isArray(val) ? val : [];
-      if (ids.length === 0) {
-        sku = sku.replace(key, '???');
-      } else {
-        const firstOption = step.options.find(o => o.id === ids[0]);
-        sku = sku.replace(key, firstOption?.skuSegment || '???');
+    if (val) {
+      const option = step.options.find(o => o.id === val);
+      if (option && step.skuSegmentKey) {
+        activeFilters[step.skuSegmentKey] = option.skuSegment;
       }
-      return;
     }
-
-    if (!val) {
-      sku = sku.replace(key, '???');
-      return;
-    }
-
-    const option = step.options.find(o => o.id === val);
-    sku = sku.replace(key, option?.skuSegment ?? '???');
   });
 
-  return sku;
+  // A SKU matches if every active filter attribute matches (or the SKU doesn't declare that attribute)
+  const matchingSkus = skuOptions.filter(skuOption => {
+    return Object.entries(activeFilters).every(([attrKey, attrVal]) => {
+      if (!(attrKey in skuOption.attributes)) return true; // SKU doesn't constrain this attr
+      return skuOption.attributes[attrKey] === attrVal;
+    });
+  });
+
+  const selectedSku = matchingSkus.length === 1 ? matchingSkus[0].sku : null;
+  let skuStatus = 'none';
+  if (matchingSkus.length === 1) skuStatus = 'matched';
+  else if (matchingSkus.length > 1) skuStatus = 'multiple';
+
+  return { matchingSkus, selectedSku, skuStatus };
 }
 
 // ─── Multi-Select Accessory Summary ───────────────────────────────────────
@@ -265,7 +262,7 @@ export function computeSummary(session, selections) {
   const violations = getCompatibilityViolations(session, selections);
   const depRequirements = getDependencyRequiredSteps(session, selections);
   const completion = getCompletionPercentage(session, selections);
-  const skuPreview = generateSkuPreview(session, selections);
+  const { matchingSkus, selectedSku, skuStatus } = resolveSkuMatch(session, selections);
   const pendingSteps = getPendingRequiredSteps(session, selections);
   const accessories = getSelectedAccessories(session, selections);
 
@@ -288,7 +285,12 @@ export function computeSummary(session, selections) {
     depRequirements,
     violations,
     completion,
-    skuPreview,
+    // SKU resolution — replaces generated skuPreview
+    selectedSku,       // string | null — the exact matched SKU (single match only)
+    matchingSkus,      // array — all SKUs fitting current selections
+    skuStatus,         // 'none' | 'multiple' | 'matched'
+    // Legacy alias — kept for backward compat with panels that read skuPreview
+    skuPreview: selectedSku,
     pendingSteps,
     isComplete,
     priceDisplay: session.priceDisplay,

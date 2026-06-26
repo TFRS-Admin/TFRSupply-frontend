@@ -1,13 +1,23 @@
 {
   "_prototype": true,
-  "_note": "PROTOTYPE DATA ONLY — values are illustrative. SKU segments, prices, and Shopify IDs are not production-accurate.",
+  "_note": "PROTOTYPE DATA ONLY — values are illustrative. SKU segments and Shopify IDs are not production-accurate.",
 
   "id": "navigator-configurator",
   "productId": "navigator",
   "label": "Navigator® Serial Light Bar Configurator",
   "skuRoot": "NAV",
-  "skuTemplate": "NAV-{length}-{color}-{mounting}",
   "priceDisplay": "Contact for pricing",
+
+  "_skuNote": "skuOptions is the source of truth. User selections filter this list. selectedSku is set only when exactly one SKU matches.",
+  "skuOptions": [
+    { "sku": "NAV-SLB-45-BB", "label": "Navigator 45\" Blue/Blue", "attributes": { "length": "45", "color": "BB" } },
+    { "sku": "NAV-SLB-45-RB", "label": "Navigator 45\" Red/Blue",  "attributes": { "length": "45", "color": "RB" } },
+    { "sku": "NAV-SLB-53-BB", "label": "Navigator 53\" Blue/Blue", "attributes": { "length": "53", "color": "BB" } },
+    { "sku": "NAV-SLB-53-RB", "label": "Navigator 53\" Red/Blue",  "attributes": { "length": "53", "color": "RB" } },
+    { "sku": "NAV-SLB-60-BB", "label": "Navigator 60\" Blue/Blue", "attributes": { "length": "60", "color": "BB" } },
+    { "sku": "NAV-SLB-60-RB", "label": "Navigator 60\" Red/Blue",  "attributes": { "length": "60", "color": "RB" } },
+    { "sku": "NAV-SLB-60-AM", "label": "Navigator 60\" Amber",     "attributes": { "length": "60", "color": "AM" } }
+  ],
 
   "shopifyMapping": {
     "_note": "RESERVED — not wired. Will map skuPreview strings to Shopify variant IDs in production.",

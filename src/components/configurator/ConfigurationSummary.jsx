@@ -156,7 +156,9 @@ export default function ConfigurationSummary() {
     depRequirements,
     violations,
     completion,
-    skuPreview,
+    selectedSku,
+    matchingSkus,
+    skuStatus,
     priceDisplay,
     isComplete,
     pendingSteps,
@@ -250,17 +252,34 @@ export default function ConfigurationSummary() {
             </div>
           )}
 
-          {/* SKU Preview */}
-          {skuPreview && (
-            <div style={{ marginTop: 14, padding: '10px 14px', background: '#f7f8fa', border: '1px solid #e0e0e0' }}>
-              <p style={{ margin: '0 0 4px', fontSize: 11, color: '#888', letterSpacing: '0.06em', textTransform: 'uppercase' }}>SKU Preview</p>
-              <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{skuPreview}</p>
+          {/* SKU Match */}
+          {skuStatus && skuStatus !== 'none' && (
+            <div style={{
+              marginTop: 14, padding: '10px 14px',
+              background: skuStatus === 'matched' ? '#f0fdf4' : '#fffbeb',
+              border: `1px solid ${skuStatus === 'matched' ? '#bbf7d0' : '#fde68a'}`,
+            }}>
+              <p style={{ margin: '0 0 4px', fontSize: 11, color: skuStatus === 'matched' ? '#15803d' : '#92400e', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                {skuStatus === 'matched' ? 'Matching SKU' : 'Narrowing SKU'}
+              </p>
+              {skuStatus === 'matched' && selectedSku && (
+                <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{selectedSku}</p>
+              )}
+              {skuStatus === 'multiple' && (
+                <p style={{ margin: 0, fontSize: 12, color: '#92400e' }}>
+                  {matchingSkus.length} SKUs match current selections — complete remaining steps to resolve.
+                </p>
+              )}
               {accessories.length > 0 && (
                 <p style={{ margin: '4px 0 0', fontFamily: 'monospace', fontSize: 11, color: '#888' }}>
                   +{accessories.map(a => a.optionLabel).join(', ')}
                 </p>
               )}
-              <p style={{ margin: '4px 0 0', fontSize: 10, color: '#aaa', fontStyle: 'italic' }}>Prototype — not a production SKU</p>
+            </div>
+          )}
+          {skuStatus === 'none' && resolvedSelections.length > 0 && (
+            <div style={{ marginTop: 14, padding: '10px 14px', background: '#fef2f2', border: '1px solid #fecaca' }}>
+              <p style={{ margin: 0, fontSize: 12, color: '#991b1b', fontWeight: 600 }}>No matching SKU found for this combination.</p>
             </div>
           )}
 
@@ -282,7 +301,7 @@ export default function ConfigurationSummary() {
       {/* Prototype watermark */}
       <div style={{ borderTop: '1px solid #f0f0f0', padding: '8px 20px', background: '#fafafa' }}>
         <p style={{ margin: 0, fontSize: 10, color: '#bbb', letterSpacing: '0.04em' }}>
-          ⚠ PROTOTYPE CONFIGURATOR — Data and SKUs are illustrative only
+          ⚠ PROTOTYPE CONFIGURATOR — SKU list and data are illustrative only
         </p>
       </div>
     </div>

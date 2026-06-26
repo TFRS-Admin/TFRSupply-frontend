@@ -18,7 +18,7 @@ function deriveReferenceId(recordId) {
 
 function buildEmailBody(payload, referenceId) {
   const {
-    contact, selectedOptions, accessories, skuPreview,
+    contact, selectedOptions, accessories, selectedSku, matchingSkus, skuStatus,
     dependencyNotes, warningNotes, productTitle, configuratorId,
     timestamp, submissionId,
   } = payload;
@@ -37,6 +37,12 @@ function buildEmailBody(payload, referenceId) {
   const warnBlock = warningNotes.length > 0
     ? warningNotes.map(n => `  ⚠ ${n}`).join('\n') : '  None';
 
+  const skuLine = skuStatus === 'matched'
+    ? `Selected SKU:  ${selectedSku}`
+    : skuStatus === 'multiple'
+      ? `SKU Candidates: ${(matchingSkus || []).map(s => s.sku ?? s).join(', ')} (${matchingSkus?.length} matches — selection narrowed but not resolved)`
+      : `Selected SKU:  (no match — selections may not map to an existing SKU)`;
+
   return `
 QUOTE REQUEST — TFR Supply Configurator
 ========================================
@@ -44,7 +50,7 @@ Reference #:  ${referenceId || 'N/A'}
 Submission:   ${submissionId}
 Product:      ${productTitle}
 Configurator: ${configuratorId}
-SKU Preview:  ${skuPreview || '(incomplete)'}
+${skuLine}
 Submitted:    ${new Date(timestamp).toLocaleString()}
 
 CONTACT INFORMATION
@@ -79,7 +85,7 @@ Data is illustrative — not a production order.
 }
 
 function buildConfirmationBody(payload, referenceId) {
-  const { contact, productTitle, skuPreview, selectedOptions } = payload;
+  const { contact, productTitle, selectedSku, selectedOptions } = payload;
   const optionsBlock = selectedOptions.map(o =>
     `  ${o.stepLabel}: ${o.selected.join(', ')}`
   ).join('\n');
@@ -91,7 +97,7 @@ Thank you for submitting a quote request for the ${productTitle}.
 Your configuration summary:
 ${optionsBlock || '  (none)'}
 
-SKU Reference: ${skuPreview || '(pending)'}
+Selected SKU:  ${selectedSku || '(pending — will be confirmed by a representative)'}
 Reference #:   ${referenceId || 'N/A'}
 
 A TFR Supply representative will review your request and be in touch shortly.
@@ -116,7 +122,7 @@ async function getOrCreateRecord(payload) {
     productId:       payload.productId,
     configuratorId:  payload.configuratorId,
     productTitle:    payload.productTitle,
-    skuPreview:      payload.skuPreview || '',
+    skuPreview:      payload.selectedSku || payload.skuPreview || '',
     selectedOptions: payload.selectedOptions,
     accessories:     payload.accessories,
     dependencyNotes: payload.dependencyNotes,
@@ -153,7 +159,7 @@ export async function submitViaBase44Email(payload) {
   let emailError = null;
   try {
     const body = buildEmailBody(payload, referenceId);
-    const subject = `Quote Request — ${payload.productTitle} (${payload.skuPreview || 'Incomplete SKU'})${referenceId ? ` [${referenceId}]` : ''}`;
+    const subject = `Quote Request — ${payload.productTitle} (${payload.selectedSku || 'SKU pending'})${referenceId ? ` [${referenceId}]` : ''}`;
     await base44.integrations.Core.SendEmail({
       from_name: appConfig.quoteSenderName,
       to: appConfig.quoteRecipientEmail,

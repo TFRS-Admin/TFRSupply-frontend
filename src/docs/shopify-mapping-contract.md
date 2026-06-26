@@ -34,7 +34,7 @@ Location: `data/products/{productId}.json` → `.shopify`
 | `cart_eligible` | `boolean` | Always | Master switch. `false` = cart button is disabled regardless of other fields. |
 | `storefront_available` | `boolean` | Always | Whether the Storefront API can query this product. `false` = cannot add to cart. |
 | `variant_mappings[]` | `array` | `cart_eligible: true` | SKU-to-variant-ID map. Each entry maps one configurator-generated SKU to one Shopify variant GID. |
-| `variant_mappings[].sku` | `string` | Per entry | Must match a value that `generateSkuPreview()` can produce. |
+| `variant_mappings[].sku` | `string` | Per entry | Must exactly match a `selectedSku` value that `resolveSkuMatch()` returns from `skuOptions[]`. |
 | `variant_mappings[].shopify_variant_id` | `string` | Per entry | Shopify Global ID (`gid://shopify/ProductVariant/…`). |
 
 ### Validation Errors Raised
@@ -197,14 +197,17 @@ Before any live Shopify integration can be wired, all mapping data must be colle
 
 ### SKU Resolution Rule
 
-The cart adapter resolves a Shopify variant GID from the configurator-generated SKU preview using an exact string match:
+User selections filter the `skuOptions[]` array in the configurator JSON. The engine returns `selectedSku` when exactly one SKU matches. The cart adapter then resolves the Shopify variant GID via exact string match:
 
 ```
-skuPreview (from engine) → find variant_mappings[].sku === skuPreview → return shopify_variant_id
+User selections → resolveSkuMatch(skuOptions) → selectedSku
+selectedSku → find variant_mappings[].sku === selectedSku → shopify_variant_id
 ```
+
+SKUs are **never generated** — they are always selected from the existing catalog list.
 
 If no match is found, `shopify_variant_id` is `null` and the payload inspector flags it as `⚠ null`.
-The cart button remains disabled until all configured SKU combinations have matching variant IDs.
+The cart button remains disabled until all catalog SKU combinations have matching variant IDs.
 
 ### Accessory Resolution Rule
 

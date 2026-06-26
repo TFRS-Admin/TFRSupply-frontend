@@ -1,6 +1,6 @@
 # Configurator Architecture
 
-_Last updated: Sprint 2_
+_Last updated: Sprint 14_
 
 ---
 
@@ -44,7 +44,7 @@ Top-level container created from a configurator JSON file.
   steps: ConfigurationStep[],
   dependencyRules: DependencyRule[],
   compatibilityRules: CompatibilityRule[],
-  skuTemplate: string | null,
+  skuOptions: SkuOption[],         // existing catalog SKUs — source of truth
   priceDisplay: string,
   shopifyMapping: object | null,   // reserved
 }
@@ -71,12 +71,23 @@ A single selectable choice within a step.
 {
   id: string,
   label: string,
-  skuSegment: string,          // token value used in SKU generation
+  skuSegment: string,          // attribute value used for SKU filtering (e.g. "RB", "45")
   priceModifier: number,       // additive price delta (prototype)
   description: string | null,
   image: string | null,
   tags: string[],
   _prototype: boolean,         // true = not production-accurate
+}
+```
+
+### SkuOption
+An existing SKU from the product catalog. User selections are filtered against these.
+
+```js
+{
+  sku: string,                              // e.g. "NAV-SLB-53-RB"
+  label: string,                            // human-readable description
+  attributes: { [skuSegmentKey]: string },  // e.g. { length: "53", color: "RB" }
 }
 ```
 
@@ -119,39 +130,58 @@ A plain object mapping `stepId → optionId (string | string[])`.
 
 ---
 
-## SKU Generation Approach
+## SKU Resolution Approach
 
-### Prototype
-Uses a `skuTemplate` string with `{token}` placeholders keyed to each step's `skuSegmentKey`.
+User selections **filter** the existing `skuOptions` list — the engine never constructs a SKU string.
+
+### How It Works
 
 ```
-Template:  "NAV-{length}-{color}-{mounting}"
-Selection: length=53in → "53", color=red-blue → "RB", mounting=perm → "PERM"
-Result:    "NAV-53-RB-PERM"
-Unresolved: "NAV-???-RB-PERM"
+skuOptions (from configurator JSON):
+  NAV-SLB-45-BB  { length: "45", color: "BB" }
+  NAV-SLB-45-RB  { length: "45", color: "RB" }
+  NAV-SLB-53-RB  { length: "53", color: "RB" }
+  ...
+
+User selects: length = 53in (skuSegment "53"), color = red-blue (skuSegment "RB")
+
+Active filters: { length: "53", color: "RB" }
+
+Matches: [ NAV-SLB-53-RB ]  → selectedSku = "NAV-SLB-53-RB"
 ```
 
-### Production (future)
-- Remove `skuTemplate` string interpolation
-- Map `SelectionState` → Shopify variant ID via `shopifyMapping.variantMap`
-- Validate against live Shopify inventory API
+### Engine Output (from `resolveSkuMatch`)
+
+| Field | Value |
+|---|---|
+| `matchingSkus` | All SKUs fitting current selections |
+| `selectedSku` | Exact match when `matchingSkus.length === 1`, else `null` |
+| `skuStatus` | `'none'` \| `'multiple'` \| `'matched'` |
+
+### UI Behaviour
+
+| `skuStatus` | Display |
+|---|---|
+| `'matched'` | "Matching SKU: NAV-SLB-53-RB" (green) |
+| `'multiple'` | "N SKUs match — complete remaining steps to resolve" (amber) |
+| `'none'` | "No matching SKU found for this combination" (red) |
+
+### Shopify Cart Mapping
+`selectedSku` is used as the lookup key into `shopify.variant_mappings[].sku` in the product JSON.
+Exact string match → `shopify_variant_id`. No generation or interpolation occurs.
 
 ---
 
-## Future Shopify Mapping
+## Shopify Mapping
 
-Defined but **not wired** in Sprint 2. Reserved field in configurator JSON:
+Reserved field in configurator JSON (not yet wired):
 
 ```json
 "shopifyMapping": {
-  "storeHandle": "my-shopify-store",
-  "variantMap": [
-    { "selections": { "length": "53in", "color": "red-blue" }, "shopifyVariantId": "123456789" }
-  ]
+  "storeHandle": "tfrsupply",
+  "variantMap": []
 }
 ```
-
-The engine will expose `resolveShopifyVariant(session, selections)` in a future sprint to query this map and hydrate cart/quote state.
 
 ---
 
@@ -159,11 +189,11 @@ The engine will expose `resolveShopifyVariant(session, selections)` in a future 
 
 | Feature | Prototype | Production |
 |---|---|---|
-| SKU generation | String template interpolation | Shopify variant ID lookup |
+| SKU resolution | Filter `skuOptions[]` by `skuSegment` attributes | Same — `skuOptions[]` populated from live Shopify catalog |
 | Pricing | Static placeholder string | Live Shopify pricing API |
 | Compatibility rules | JSON-defined, client-evaluated | Potentially server-validated |
 | Dependency rules | JSON-defined, client-evaluated | May pull from product configurator service |
-| Cart/Quote | Not wired | Shopify Add to Cart / Quote Request flow |
+| Cart/Quote | Quote active; Cart disabled pending Shopify mapping | Shopify Add to Cart via backend proxy |
 | Option images | null | Real product option photography |
 
 ---
