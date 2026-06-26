@@ -17,6 +17,18 @@
   ],
   "products": [
     {
+      "id": "allegiant-max",
+      "label": "Allegiant® Max Serial Light Bar",
+      "tagline": "Low-profile LED light bar for fire apparatus.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Allegiant-Max-Ecomm-Homaepage-Banner-NOTEXT_0825.jpg",
+      "vehicle_type": "Fire/EMS",
+      "profile": "Low-Profile",
+      "length": "72\"",
+      "badges": ["Low-Profile", "Fire/EMS", "Work Truck"],
+      "specs": ["60\", 72\" lengths", "12/24 Vdc", "IP67 rated", "5-year warranty"],
+      "_prototype": true
+    },
+    {
       "id": "navigator",
       "label": "Navigator® Serial Light Bar",
       "tagline": "High-profile full-size LED light bar.",
