@@ -18,6 +18,7 @@ import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
 import BuildReview from '@/pages/BuildReview';
 import CheckoutDecision from '@/pages/CheckoutDecision';
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
+import AdminQuotesPage from '@/pages/AdminQuotesPage';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
 
@@ -59,6 +60,7 @@ const AuthenticatedApp = () => {
         {/* Static pages */}
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
+        <Route path="/admin/quotes" element={<AdminQuotesPage />} />
         <Route path="/showcase" element={<ComponentShowcase />} />
         <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
         <Route path="*" element={<PageNotFound />} />

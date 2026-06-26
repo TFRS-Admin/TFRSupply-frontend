@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bug, Shield, Layers } from 'lucide-react';
+import { Bug, Shield, Layers, Inbox } from 'lucide-react';
 
 export default function PrototypeFooter() {
   return (
@@ -11,8 +11,11 @@ export default function PrototypeFooter() {
           <span>TFR Supply Configurator — Prototype Only — Sample Data</span>
         </div>
         <div className="flex items-center gap-4 text-xs">
+          <Link to="/admin/quotes" className="flex items-center gap-1.5 text-blue-700 hover:text-blue-500 transition-colors font-mono">
+            <Inbox size={11} /> Quote Queue
+          </Link>
           <Link to="/admin/debug" className="flex items-center gap-1.5 text-green-600 hover:text-green-400 transition-colors font-mono">
-            <Bug size={11} /> Admin / Debug Summary
+            <Bug size={11} /> Debug
           </Link>
           <Link to="/showcase" className="flex items-center gap-1.5 text-blue-600 hover:text-blue-400 transition-colors font-mono">
             <Layers size={11} /> Component Showcase

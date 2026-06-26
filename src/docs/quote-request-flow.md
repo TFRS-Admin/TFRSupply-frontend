@@ -207,13 +207,44 @@ Controlled by `appConfig.quoteSendConfirmation` (default: `true`). Includes the 
 
 ---
 
-## Future Notes (Sprint 7+)
+## Admin Workflow (Sprint 8)
+
+**Route:** `/admin/quotes`
+
+### Architecture
+
+```
+AdminQuotesPage (UI — no base44 import)
+  └─► adminQuoteService.loadQuotes()
+        └─► adminQuoteAdapter.fetchAllQuotes()
+              └─► base44.entities.QuoteRequest.list('-submittedAt', 200)
+
+AdminQuotesPage (UI)
+  └─► adminQuoteService.advanceQuoteStatus(id, currentStatus)
+        └─► adminQuoteService.nextStatus(current)   ← pure helper
+        └─► adminQuoteAdapter.updateQuoteStatus(id, next)
+              └─► base44.entities.QuoteRequest.update(id, { status })
+```
+
+### Status Pipeline
+
+`new` → `reviewed` → `quoted` → `closed`
+
+### Features
+- Status filter tabs with per-status counts
+- Inline advance button per row (optimistic state update)
+- Detail modal: selected options, accessories, dependency/warning notes, full contact, submissionId, record ID
+- Email `mailto:` link, refresh button, showing N of M summary
+
+---
+
+## Future Notes (Sprint 9+)
 
 | Feature | When | Approach |
 |---|---|---|
-| `/admin/quotes` list page | Sprint 7 | Read `QuoteRequest` entity; filter by status; update status field |
-| Status workflow | Sprint 7 | `new → reviewed → quoted → closed` — update via admin page |
-| Dynamic recipient per vertical | Sprint 8 | Load `quoteRecipientEmail` from `AppSettings` entity at runtime in adapter |
+| Auth guard on `/admin/*` | Sprint 9 | Check `user.role === 'admin'`, redirect otherwise |
+| Notify requestor on status advance | Sprint 9 | Call `SendEmail` from `advanceQuoteStatus` in adapter |
+| Dynamic recipient per vertical | Sprint 9 | Load `quoteRecipientEmail` from `AppSettings` entity at runtime |
 | Customer account linking | Later | Associate quote with `User.id` if authenticated |
 | Shopify draft order on quote | Later | Second adapter calling Shopify API from a backend function |
 
