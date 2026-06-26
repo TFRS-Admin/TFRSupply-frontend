@@ -9,6 +9,20 @@
 
 const appConfig = {
   /**
+   * PROTOTYPE-ONLY admin access guard.
+   * Lists email addresses allowed to view /admin/* pages.
+   * This is NOT a real security boundary — it is a lightweight UX gate
+   * to prevent accidental access during prototype review sessions.
+   *
+   * For production: replace with Base44 role check (user.role === 'admin')
+   * or a ProtectedRoute with server-side enforcement.
+   *
+   * No secrets here — email addresses are not credentials.
+   */
+  adminEmails: ['admin@tfrsupply.com', 'admin@example.com'],
+
+
+  /**
    * Quote request email recipient.
    * Change this to route incoming quote emails to the right inbox.
    * For multi-tenant or dynamic routing, move this to a Base44 AppSettings entity.

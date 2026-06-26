@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-react';
+import ShopifyReadinessPanel from '@/components/navigator/ShopifyReadinessPanel';
+import navigatorProduct from '@/data/products/navigator.json';
+import navigatorConfigurator from '@/data/configurators/navigator-configurator.json';
 
 const TABS = [
   { id: 'features', label: 'Features' },
@@ -429,6 +432,13 @@ export default function NavigatorTabs({ defaultTab }) {
       {/* Content — light bg */}
       <div className="py-8 text-gray-700">
         {renderContent()}
+        {/* Shopify Readiness — dev/prototype visibility, collapsed by default */}
+        <div className="mt-4 px-2">
+          <ShopifyReadinessPanel
+            productData={navigatorProduct}
+            configuratorData={navigatorConfigurator}
+          />
+        </div>
       </div>
     </div>
   );

@@ -9,7 +9,8 @@ import {
   loadQuotes, advanceQuoteStatus,
   STATUS_ORDER, STATUS_LABELS, STATUS_COLORS, deriveReferenceId, nextStatus,
 } from '@/services/adminQuoteService';
-import { ChevronDown, ChevronRight, RefreshCw, X, ArrowRight, Bug } from 'lucide-react';
+import { checkAdminAccess } from '@/services/adminAccessService';
+import { ChevronDown, ChevronRight, RefreshCw, X, ArrowRight, Bug, ShieldOff } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -135,12 +136,23 @@ function QuoteDetailModal({ quote, onClose }) {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function AdminQuotesPage() {
+  // ── Access guard — checked before any data is loaded ──────────────────────
+  const [accessStatus, setAccessStatus] = useState('checking'); // checking | authorized | denied
+  const [accessReason, setAccessReason] = useState('');
+
+  useEffect(() => {
+    checkAdminAccess().then(({ authorized, reason }) => {
+      setAccessStatus(authorized ? 'authorized' : 'denied');
+      if (!authorized) setAccessReason(reason || 'Access denied.');
+    });
+  }, []);
+
   const [quotes, setQuotes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
   const [detailQuote, setDetailQuote] = useState(null);
-  const [advancing, setAdvancing] = useState({}); // id → true while in-flight
+  const [advancing, setAdvancing] = useState({});
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -155,7 +167,10 @@ export default function AdminQuotesPage() {
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  // Only load records once access is confirmed
+  useEffect(() => {
+    if (accessStatus === 'authorized') load();
+  }, [accessStatus, load]);
 
   const handleAdvance = async (quote) => {
     setAdvancing(a => ({ ...a, [quote.id]: true }));
@@ -173,6 +188,31 @@ export default function AdminQuotesPage() {
 
   const counts = { all: quotes.length };
   STATUS_ORDER.forEach(s => { counts[s] = quotes.filter(q => q.status === s).length; });
+
+  // ── Access checking / denied states ────────────────────────────────────────
+  if (accessStatus === 'checking') {
+    return (
+      <div style={{ minHeight: '100vh', background: '#f4f5f7', display: 'flex', alignItems: 'center', justifyContent: 'center', ...FS }}>
+        <p style={{ fontSize: 14, color: '#888' }}>Verifying access…</p>
+      </div>
+    );
+  }
+
+  if (accessStatus === 'denied') {
+    return (
+      <div style={{ minHeight: '100vh', background: '#f4f5f7', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, ...FS }}>
+        <div style={{ background: '#fff', border: '1px solid #fecaca', maxWidth: 440, width: '100%', padding: 32, textAlign: 'center' }}>
+          <ShieldOff size={36} style={{ color: '#dc2626', margin: '0 auto 16px' }} />
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#1a1a1a', marginBottom: 8 }}>Access Restricted</p>
+          <p style={{ fontSize: 13, color: '#555', marginBottom: 20 }}>{accessReason}</p>
+          <Link to="/" style={{ fontSize: 13, color: '#c8102e', textDecoration: 'none', fontWeight: 700 }}>← Return to Store</Link>
+          <p style={{ marginTop: 20, fontSize: 10, color: '#bbb', fontStyle: 'italic' }}>
+            Prototype guard — see appConfig.adminEmails to update the allowlist.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#f4f5f7', ...FS }}>
