@@ -1,12 +1,12 @@
 /**
  * components/configurator/ConfigurationSummary.jsx
- * Displays the current configuration state: steps, selections,
- * dependencies, warnings, SKU preview, and completion.
+ * Displays configurator state: step buttons, dependency notices,
+ * exclusion/warning banners, accessories, SKU preview, completion gating.
  */
 
 import React from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { AlertTriangle, XCircle, CheckCircle, ChevronRight, RotateCcw, Percent } from 'lucide-react';
+import { AlertTriangle, XCircle, CheckCircle, ChevronRight, RotateCcw, Percent, Package } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -19,9 +19,10 @@ function StepSelector({ step }) {
 
   return (
     <div style={{ marginBottom: 20 }}>
-      <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744', marginBottom: 8 }}>
+      <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
         {step.label}
-        {step.required && <span style={{ color: '#c8102e', marginLeft: 4 }}>*</span>}
+        {step.required && <span style={{ color: '#c8102e' }}>*</span>}
+        {step.multiple && <span style={{ fontSize: 10, fontWeight: 400, color: '#888', letterSpacing: '0.04em', textTransform: 'none' }}>(select all that apply)</span>}
       </p>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {step.options.map(opt => {
@@ -45,12 +46,99 @@ function StepSelector({ step }) {
             >
               {opt.label}
               {opt.priceModifier > 0 && (
-                <span style={{ marginLeft: 4, opacity: 0.75, fontSize: 11 }}>+${opt.priceModifier}</span>
+                <span style={{ marginLeft: 4, opacity: 0.8, fontSize: 11 }}>+${opt.priceModifier}</span>
               )}
             </button>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+// ─── Dependency Notice ─────────────────────────────────────────────────────
+
+function DependencyNotice({ dep }) {
+  return (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 12px', background: '#eff6ff', border: '1px solid #bfdbfe', marginBottom: 6 }}>
+      <ChevronRight size={14} style={{ color: '#1d4ed8', flexShrink: 0, marginTop: 1 }} />
+      <div>
+        <p style={{ fontSize: 12, color: '#1e40af', margin: '0 0 2px', fontWeight: 600 }}>
+          Required by your "{dep.triggerLabel}" selection
+        </p>
+        <p style={{ fontSize: 12, color: '#1e40af', margin: 0 }}>
+          {dep.message || `"${dep.targetStepLabel}" is now required.`}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Hard Exclusion Notice ─────────────────────────────────────────────────
+
+function ExclusionNotice({ v }) {
+  return (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 12px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: 6 }}>
+      <XCircle size={14} style={{ color: '#dc2626', flexShrink: 0, marginTop: 1 }} />
+      <div>
+        <p style={{ fontSize: 12, color: '#991b1b', margin: '0 0 2px', fontWeight: 700 }}>
+          Incompatible: "{v.optionALabel}" + "{v.optionBLabel}"
+        </p>
+        <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>{v.message}</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Soft Warning Notice ───────────────────────────────────────────────────
+
+function WarningNotice({ v }) {
+  return (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 12px', background: '#fffbeb', border: '1px solid #fde68a', marginBottom: 6 }}>
+      <AlertTriangle size={14} style={{ color: '#d97706', flexShrink: 0, marginTop: 1 }} />
+      <div>
+        <p style={{ fontSize: 12, color: '#92400e', margin: '0 0 2px', fontWeight: 600 }}>
+          Advisory: "{v.optionALabel}" + "{v.optionBLabel}"
+        </p>
+        <p style={{ fontSize: 12, color: '#92400e', margin: 0 }}>{v.message}</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Completion Gate ───────────────────────────────────────────────────────
+
+function CompletionGate({ isComplete, pendingSteps, hardViolations }) {
+  if (isComplete) {
+    return (
+      <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+        <CheckCircle size={15} style={{ color: '#16a34a' }} />
+        <p style={{ margin: 0, fontSize: 12, color: '#15803d', fontWeight: 600 }}>
+          Configuration complete — all required steps filled, no conflicts.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ marginTop: 14, padding: '10px 14px', background: '#fafafa', border: '1px solid #e8e8e8' }}>
+      {hardViolations.length > 0 && (
+        <p style={{ margin: '0 0 6px', fontSize: 12, color: '#dc2626', fontWeight: 600 }}>
+          ✕ Resolve {hardViolations.length} incompatibility conflict{hardViolations.length > 1 ? 's' : ''} above before continuing.
+        </p>
+      )}
+      {pendingSteps.length > 0 && (
+        <>
+          <p style={{ margin: '0 0 4px', fontSize: 11, color: '#666' }}>Required steps remaining:</p>
+          <ul style={{ margin: 0, padding: '0 0 0 16px' }}>
+            {pendingSteps.map(step => (
+              <li key={step.id} style={{ fontSize: 12, color: '#c8102e', fontWeight: 600, marginBottom: 2 }}>
+                {step.label}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
@@ -62,7 +150,17 @@ export default function ConfigurationSummary() {
 
   if (!session || !summary) return null;
 
-  const { resolvedSelections, depRequirements, violations, completion, skuPreview, priceDisplay, isComplete } = summary;
+  const {
+    resolvedSelections,
+    accessories,
+    depRequirements,
+    violations,
+    completion,
+    skuPreview,
+    priceDisplay,
+    isComplete,
+    pendingSteps,
+  } = summary;
 
   const hardViolations = violations.filter(v => v.type === 'excludes');
   const softWarnings   = violations.filter(v => v.type === 'warns');
@@ -87,7 +185,12 @@ export default function ConfigurationSummary() {
 
       {/* Progress bar */}
       <div style={{ height: 4, background: '#f0f0f0' }}>
-        <div style={{ height: '100%', width: `${completion}%`, background: completion === 100 ? '#16a34a' : '#c8102e', transition: 'width 0.3s' }} />
+        <div style={{
+          height: '100%',
+          width: `${completion}%`,
+          background: isComplete ? '#16a34a' : hardViolations.length > 0 ? '#dc2626' : '#c8102e',
+          transition: 'width 0.3s',
+        }} />
       </div>
 
       <div style={{ padding: '20px' }}>
@@ -96,47 +199,37 @@ export default function ConfigurationSummary() {
           <StepSelector key={step.id} step={step} />
         ))}
 
-        {/* Dependency notices */}
-        {depRequirements.length > 0 && (
-          <div style={{ marginBottom: 16 }}>
-            {depRequirements.map(dep => (
-              <div key={dep.ruleId} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 12px', background: '#eff6ff', border: '1px solid #bfdbfe', marginBottom: 6 }}>
-                <ChevronRight size={14} style={{ color: '#1d4ed8', flexShrink: 0, marginTop: 1 }} />
-                <p style={{ fontSize: 12, color: '#1e40af', margin: 0 }}>{dep.message || `Step "${dep.stepId}" is now required.`}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        {/* Dependency notices — shown after step inputs */}
+        {depRequirements.map(dep => (
+          <DependencyNotice key={dep.ruleId} dep={dep} />
+        ))}
 
-        {/* Hard violations */}
+        {/* Hard exclusions */}
         {hardViolations.map(v => (
-          <div key={v.ruleId} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 12px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: 6 }}>
-            <XCircle size={14} style={{ color: '#dc2626', flexShrink: 0, marginTop: 1 }} />
-            <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>{v.message}</p>
-          </div>
+          <ExclusionNotice key={v.ruleId} v={v} />
         ))}
 
         {/* Soft warnings */}
         {softWarnings.map(v => (
-          <div key={v.ruleId} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '10px 12px', background: '#fffbeb', border: '1px solid #fde68a', marginBottom: 6 }}>
-            <AlertTriangle size={14} style={{ color: '#d97706', flexShrink: 0, marginTop: 1 }} />
-            <p style={{ fontSize: 12, color: '#92400e', margin: 0 }}>{v.message}</p>
-          </div>
+          <WarningNotice key={v.ruleId} v={v} />
         ))}
 
         {/* Summary box */}
-        <div style={{ marginTop: 20, borderTop: '2px solid #1a2744', paddingTop: 16 }}>
+        <div style={{ marginTop: 24, borderTop: '2px solid #1a2744', paddingTop: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744' }}>Your Configuration</p>
-            <span style={{ fontSize: 11, fontWeight: 700, color: completion === 100 ? '#16a34a' : '#c8102e', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744' }}>
+              Your Configuration
+            </p>
+            <span style={{ fontSize: 11, fontWeight: 700, color: isComplete ? '#16a34a' : hardViolations.length > 0 ? '#dc2626' : '#c8102e', display: 'flex', alignItems: 'center', gap: 4 }}>
               <Percent size={11} /> {completion}% Complete
             </span>
           </div>
 
-          {resolvedSelections.length === 0 && (
+          {resolvedSelections.length === 0 && accessories.length === 0 && (
             <p style={{ fontSize: 12, color: '#888', fontStyle: 'italic' }}>No selections made yet.</p>
           )}
 
+          {/* Per-step single selections */}
           {resolvedSelections.map(sel => (
             <div key={sel.stepId} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: '1px solid #f0f0f0', fontSize: 12 }}>
               <span style={{ color: '#666' }}>{sel.stepLabel}</span>
@@ -144,11 +237,29 @@ export default function ConfigurationSummary() {
             </div>
           ))}
 
+          {/* Accessories — multi-select, listed individually */}
+          {accessories.length > 0 && (
+            <div style={{ marginTop: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 0', borderBottom: '1px solid #f0f0f0' }}>
+                <Package size={11} style={{ color: '#888', flexShrink: 0 }} />
+                <span style={{ fontSize: 12, color: '#666', flexShrink: 0 }}>Accessories</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#1a1a1a', marginLeft: 'auto', textAlign: 'right' }}>
+                  {accessories.map(a => a.optionLabel).join(' · ')}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* SKU Preview */}
           {skuPreview && (
             <div style={{ marginTop: 14, padding: '10px 14px', background: '#f7f8fa', border: '1px solid #e0e0e0' }}>
               <p style={{ margin: '0 0 4px', fontSize: 11, color: '#888', letterSpacing: '0.06em', textTransform: 'uppercase' }}>SKU Preview</p>
               <p style={{ margin: 0, fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{skuPreview}</p>
+              {accessories.length > 0 && (
+                <p style={{ margin: '4px 0 0', fontFamily: 'monospace', fontSize: 11, color: '#888' }}>
+                  +{accessories.map(a => a.optionLabel).join(', ')}
+                </p>
+              )}
               <p style={{ margin: '4px 0 0', fontSize: 10, color: '#aaa', fontStyle: 'italic' }}>Prototype — not a production SKU</p>
             </div>
           )}
@@ -159,17 +270,12 @@ export default function ConfigurationSummary() {
             <span style={{ fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{priceDisplay}</span>
           </div>
 
-          {/* Completion status */}
-          {isComplete ? (
-            <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
-              <CheckCircle size={15} style={{ color: '#16a34a' }} />
-              <p style={{ margin: 0, fontSize: 12, color: '#15803d', fontWeight: 600 }}>Configuration complete — ready to request a quote.</p>
-            </div>
-          ) : (
-            <p style={{ marginTop: 12, fontSize: 11, color: '#888', fontStyle: 'italic' }}>
-              Complete all required fields (*) to generate your final configuration.
-            </p>
-          )}
+          {/* Completion gate */}
+          <CompletionGate
+            isComplete={isComplete}
+            pendingSteps={pendingSteps}
+            hardViolations={hardViolations}
+          />
         </div>
       </div>
 

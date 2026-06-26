@@ -65,11 +65,18 @@ export function isStepComplete(selections, step) {
 
 /**
  * Returns the ordered list of required steps that are not yet complete.
+ * Includes steps made required by active dependency rules.
  */
 export function getPendingRequiredSteps(session, selections) {
-  return session.steps.filter(
-    step => step.required && !isStepComplete(selections, step)
+  const depRequiredStepIds = new Set(
+    getDependencyRequiredSteps(session, selections).map(d => d.stepId)
   );
+
+  return session.steps.filter(step => {
+    const isNativelyRequired = step.required;
+    const isDependencyRequired = depRequiredStepIds.has(step.id);
+    return (isNativelyRequired || isDependencyRequired) && !isStepComplete(selections, step);
+  });
 }
 
 /**
@@ -82,8 +89,15 @@ export function getNextRequiredStep(session, selections) {
 // ─── Completion Percentage ─────────────────────────────────────────────────
 
 export function getCompletionPercentage(session, selections) {
-  const required = session.steps.filter(s => s.required);
+  const depRequiredStepIds = new Set(
+    getDependencyRequiredSteps(session, selections).map(d => d.stepId)
+  );
+
+  const required = session.steps.filter(
+    s => s.required || depRequiredStepIds.has(s.id)
+  );
   if (required.length === 0) return 100;
+
   const done = required.filter(s => isStepComplete(selections, s)).length;
   return Math.round((done / required.length) * 100);
 }
@@ -103,21 +117,40 @@ export function getActiveDependencies(session, selections) {
 }
 
 /**
- * Returns steps that are currently required due to active dependency rules.
- * These are steps not natively required but forced by a dependency.
+ * Returns steps that are currently required due to active dependency rules,
+ * enriched with trigger context (which option caused it).
  */
 export function getDependencyRequiredSteps(session, selections) {
   const active = getActiveDependencies(session, selections);
   return active
     .filter(r => r.type === 'requires')
-    .map(r => ({ stepId: r.thenStep, message: r.message, ruleId: r.id }));
+    .map(r => {
+      // Resolve human-readable trigger label
+      const triggerStep = session.steps.find(s => s.id === r.ifStep);
+      const triggerOption = triggerStep?.options.find(o => o.id === r.ifOption);
+      const triggerLabel = triggerOption?.label || r.ifOption;
+      const triggerStepLabel = triggerStep?.label || r.ifStep;
+
+      // Resolve target step label
+      const targetStep = session.steps.find(s => s.id === r.thenStep);
+      const targetStepLabel = targetStep?.label || r.thenStep;
+
+      return {
+        stepId: r.thenStep,
+        message: r.message,
+        ruleId: r.id,
+        triggerStepLabel,
+        triggerLabel,
+        targetStepLabel,
+      };
+    });
 }
 
 // ─── Compatibility / Exclusion Evaluation ─────────────────────────────────
 
 /**
- * Returns all active compatibility violations.
- * Each violation: { type, message, ruleId }
+ * Returns all active compatibility violations, enriched with option labels.
+ * Each violation: { type, message, ruleId, optionALabel, optionBLabel }
  */
 export function getCompatibilityViolations(session, selections) {
   return session.compatibilityRules
@@ -128,7 +161,21 @@ export function getCompatibilityViolations(session, selections) {
       const matchB = Array.isArray(valB) ? valB.includes(rule.optionB) : valB === rule.optionB;
       return matchA && matchB;
     })
-    .map(rule => ({ type: rule.type, message: rule.message, ruleId: rule.id }));
+    .map(rule => {
+      const stepA = session.steps.find(s => s.id === rule.stepA);
+      const stepB = session.steps.find(s => s.id === rule.stepB);
+      const optionALabel = stepA?.options.find(o => o.id === rule.optionA)?.label || rule.optionA;
+      const optionBLabel = stepB?.options.find(o => o.id === rule.optionB)?.label || rule.optionB;
+      return {
+        type: rule.type,
+        message: rule.message,
+        ruleId: rule.id,
+        optionALabel,
+        optionBLabel,
+        stepALabel: stepA?.label || rule.stepA,
+        stepBLabel: stepB?.label || rule.stepB,
+      };
+    });
 }
 
 // ─── SKU Generation ────────────────────────────────────────────────────────
@@ -138,6 +185,9 @@ export function getCompatibilityViolations(session, selections) {
  *
  * Template tokens use the step's `skuSegmentKey` wrapped in braces: {vehicle}, {color}, etc.
  * If a token is unresolved (step not selected), it outputs "???".
+ * Multi-select steps (e.g. accessories) are NOT part of the SKU template —
+ * they are listed separately in the summary. If somehow included as a token,
+ * the first selection's skuSegment is used.
  *
  * PROTOTYPE: This is a simplified string interpolation approach.
  * Production: will map to real Shopify variant IDs via shopifyMapping.
@@ -152,17 +202,58 @@ export function generateSkuPreview(session, selections) {
     if (!sku.includes(key)) return;
 
     const val = selections[step.id];
-    if (!val || (Array.isArray(val) && val.length === 0)) {
+
+    // Multi-select steps (accessories) are not part of the base SKU template —
+    // skip them cleanly (leave token as ??? only if explicitly in template).
+    if (step.multiple) {
+      const ids = Array.isArray(val) ? val : [];
+      if (ids.length === 0) {
+        sku = sku.replace(key, '???');
+      } else {
+        const firstOption = step.options.find(o => o.id === ids[0]);
+        sku = sku.replace(key, firstOption?.skuSegment || '???');
+      }
+      return;
+    }
+
+    if (!val) {
       sku = sku.replace(key, '???');
       return;
     }
 
-    const optionId = Array.isArray(val) ? val[0] : val;
-    const option = step.options.find(o => o.id === optionId);
-    sku = sku.replace(key, option ? option.skuSegment : '???');
+    const option = step.options.find(o => o.id === val);
+    sku = sku.replace(key, option?.skuSegment ?? '???');
   });
 
   return sku;
+}
+
+// ─── Multi-Select Accessory Summary ───────────────────────────────────────
+
+/**
+ * Returns a flat list of selected accessories (from all multiple=true steps).
+ * Each entry: { stepId, stepLabel, optionId, optionLabel, priceModifier }
+ */
+export function getSelectedAccessories(session, selections) {
+  const result = [];
+  session.steps.forEach(step => {
+    if (!step.multiple) return;
+    const val = selections[step.id];
+    const ids = Array.isArray(val) ? val : [];
+    ids.forEach(id => {
+      const opt = step.options.find(o => o.id === id);
+      if (opt) {
+        result.push({
+          stepId: step.id,
+          stepLabel: step.label,
+          optionId: opt.id,
+          optionLabel: opt.label,
+          priceModifier: opt.priceModifier,
+        });
+      }
+    });
+  });
+  return result;
 }
 
 // ─── Summary Computation ───────────────────────────────────────────────────
@@ -175,12 +266,15 @@ export function computeSummary(session, selections) {
   const depRequirements = getDependencyRequiredSteps(session, selections);
   const completion = getCompletionPercentage(session, selections);
   const skuPreview = generateSkuPreview(session, selections);
-  const nextStep = getNextRequiredStep(session, selections);
-  const isComplete = completion === 100 && violations.filter(v => v.type === 'excludes').length === 0;
+  const pendingSteps = getPendingRequiredSteps(session, selections);
+  const accessories = getSelectedAccessories(session, selections);
 
-  // Build per-step resolved selection labels for display
+  const hardViolations = violations.filter(v => v.type === 'excludes');
+  const isComplete = pendingSteps.length === 0 && hardViolations.length === 0;
+
+  // Build per-step resolved selection labels for display (non-multiple steps only)
   const resolvedSelections = session.steps
-    .filter(s => isStepComplete(selections, s))
+    .filter(s => !s.multiple && isStepComplete(selections, s))
     .map(step => {
       const val = selections[step.id];
       const ids = Array.isArray(val) ? val : [val];
@@ -190,11 +284,12 @@ export function computeSummary(session, selections) {
 
   return {
     resolvedSelections,
+    accessories,
     depRequirements,
     violations,
     completion,
     skuPreview,
-    nextStep,
+    pendingSteps,
     isComplete,
     priceDisplay: session.priceDisplay,
   };
