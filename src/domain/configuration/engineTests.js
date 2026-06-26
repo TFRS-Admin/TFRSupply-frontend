@@ -20,7 +20,7 @@ import {
   getActiveDependencies,
   getDependencyRequiredSteps,
   getCompatibilityViolations,
-  generateSkuPreview,
+  resolveSkuMatch,
   getSelectedAccessories,
   computeSummary,
 } from './configuratorEngine.js';
@@ -32,8 +32,15 @@ const FIXTURE = {
   productId: 'test-product',
   label: 'Test Configurator',
   skuRoot: 'TST',
-  skuTemplate: 'TST-{size}-{color}',
   priceDisplay: 'Contact for pricing',
+  // skuOptions is the source of truth — existing catalog SKUs that selections filter against
+  skuOptions: [
+    { sku: 'TST-SM-R',  attributes: { size: 'SM', color: 'R' } },
+    { sku: 'TST-SM-B',  attributes: { size: 'SM', color: 'B' } },
+    { sku: 'TST-SM-A',  attributes: { size: 'SM', color: 'A' } },
+    { sku: 'TST-LG-R',  attributes: { size: 'LG', color: 'R' } },
+    { sku: 'TST-LG-B',  attributes: { size: 'LG', color: 'B' } },
+  ],
   steps: [
     {
       id: 'size',
@@ -133,7 +140,8 @@ function testInitialization() {
     assertEq(session.dependencyRules.length, 1, '1 dependency rule'),
     assertEq(session.compatibilityRules.length, 2, '2 compatibility rules'),
     assertEq(Object.keys(selections).length, 0, 'initial selections is empty'),
-    assertEq(session.skuTemplate, 'TST-{size}-{color}', 'skuTemplate preserved'),
+    assertEq(session.skuOptions.length, 5, 'skuOptions loaded (5 catalog SKUs)'),
+    assert(!session.skuTemplate, 'skuTemplate not present — skuOptions is source of truth'),
   ];
 }
 
@@ -259,29 +267,55 @@ function testCompletionPercentage() {
   ];
 }
 
-function testSkuPreview() {
+function testSkuResolution() {
   const { session } = initializeEngine(FIXTURE);
 
-  const partial = generateSkuPreview(session, { size: 'small' });
-  const full    = generateSkuPreview(session, { size: 'small', color: 'red' });
-  const empty   = generateSkuPreview(session, {});
-
-  // accessories are not in template — should not crash SKU
-  const withAcc = generateSkuPreview(session, { size: 'large', color: 'blue', accessories: ['cable-10', 'alley'] });
-
-  return [
-    assert(partial !== null, 'partial SKU is not null'),
-    assert(partial.includes('???'), 'partial SKU has ??? for unresolved'),
-    assertEq(full, 'TST-SM-R', 'full SKU correct'),
-    assert(empty.includes('???'), 'empty selections yields all ???'),
-    assertEq(withAcc, 'TST-LG-B', 'accessories do not contaminate base SKU'),
+  // No selections → all 5 SKUs match (no filters active)
+  const empty = resolveSkuMatch(session, {});
+  const emptyTests = [
+    assertEq(empty.skuStatus, 'multiple', 'no selections → multiple matches'),
+    assertEq(empty.matchingSkus.length, 5, 'no selections → all 5 SKUs match'),
+    assertEq(empty.selectedSku, null, 'no selections → selectedSku is null'),
   ];
+
+  // Partial selection (size only) → narrows but still multiple
+  const partial = resolveSkuMatch(session, { size: 'small' });
+  const partialTests = [
+    assertEq(partial.skuStatus, 'multiple', 'partial selection → multiple'),
+    assertEq(partial.matchingSkus.length, 3, 'size=small matches 3 SKUs (R, B, A)'),
+    assertEq(partial.selectedSku, null, 'partial → selectedSku is null'),
+  ];
+
+  // Exact match → single SKU resolved
+  const exact = resolveSkuMatch(session, { size: 'small', color: 'red' });
+  const exactTests = [
+    assertEq(exact.skuStatus, 'matched', 'exact selections → matched'),
+    assertEq(exact.selectedSku, 'TST-SM-R', 'exact selections → correct SKU'),
+    assertEq(exact.matchingSkus.length, 1, 'exact selections → exactly 1 match'),
+  ];
+
+  // No matching SKU (amber + large — not in fixture skuOptions)
+  const noMatch = resolveSkuMatch(session, { size: 'large', color: 'amber' });
+  const noMatchTests = [
+    assertEq(noMatch.skuStatus, 'none', 'invalid combo → no matching SKU'),
+    assertEq(noMatch.matchingSkus.length, 0, 'invalid combo → 0 matches'),
+    assertEq(noMatch.selectedSku, null, 'invalid combo → selectedSku null'),
+  ];
+
+  // Accessories are skipped (multiple steps don't filter SKUs)
+  const withAcc = resolveSkuMatch(session, { size: 'large', color: 'blue', accessories: ['cable-10', 'alley'] });
+  const accTests = [
+    assertEq(withAcc.skuStatus, 'matched', 'accessories do not affect SKU resolution'),
+    assertEq(withAcc.selectedSku, 'TST-LG-B', 'accessories do not contaminate SKU match'),
+  ];
+
+  return [...emptyTests, ...partialTests, ...exactTests, ...noMatchTests, ...accTests];
 }
 
 function testComputeSummary() {
   const { session } = initializeEngine(FIXTURE);
 
-  // Happy path
+  // Happy path — exact match resolves selectedSku
   const happy = computeSummary(session, { size: 'small', color: 'red' });
   const happyTests = [
     assert(happy.isComplete, 'happy path isComplete'),
@@ -289,7 +323,10 @@ function testComputeSummary() {
     assertEq(happy.violations.length, 0, 'no violations on happy path'),
     assertEq(happy.pendingSteps.length, 0, 'no pending steps on happy path'),
     assertEq(happy.accessories.length, 0, 'no accessories on happy path'),
-    assertEq(happy.skuPreview, 'TST-SM-R', 'correct SKU preview'),
+    assertEq(happy.selectedSku, 'TST-SM-R', 'selectedSku resolved from existing SKU list'),
+    assertEq(happy.skuStatus, 'matched', 'skuStatus is matched'),
+    // skuPreview alias maintained for backward compat
+    assertEq(happy.skuPreview, 'TST-SM-R', 'skuPreview alias equals selectedSku'),
   ];
 
   // Exclusion path — isComplete must be false
@@ -304,9 +341,10 @@ function testComputeSummary() {
   const warnTests = [
     assert(warn.isComplete, 'soft warning does not block isComplete'),
     assertEq(warn.violations.filter(v => v.type === 'warns').length, 1, 'one soft warning'),
+    assertEq(warn.selectedSku, 'TST-SM-A', 'warn path still resolves selectedSku'),
   ];
 
-  // Accessory path
+  // Accessory path — accessories do not affect SKU resolution
   const withAcc = computeSummary(session, {
     size: 'small',
     color: 'red',
@@ -316,10 +354,18 @@ function testComputeSummary() {
     assert(withAcc.isComplete, 'accessories do not block completion'),
     assertEq(withAcc.accessories.length, 2, 'two accessories in summary'),
     assertEq(withAcc.accessories[0].optionLabel, '10ft Cable', 'first accessory label'),
-    assertEq(withAcc.skuPreview, 'TST-SM-R', 'accessory does not change base SKU'),
+    assertEq(withAcc.selectedSku, 'TST-SM-R', 'accessories do not affect SKU resolution'),
   ];
 
-  return [...happyTests, ...exclTests, ...warnTests, ...accTests];
+  // Partial path — multiple matches, no selectedSku
+  const partial = computeSummary(session, { size: 'small' });
+  const partialTests = [
+    assert(!partial.isComplete, 'partial path incomplete'),
+    assertEq(partial.selectedSku, null, 'partial → no selectedSku'),
+    assertEq(partial.skuStatus, 'multiple', 'partial → skuStatus is multiple'),
+  ];
+
+  return [...happyTests, ...exclTests, ...warnTests, ...accTests, ...partialTests];
 }
 
 // ─── Runner ────────────────────────────────────────────────────────────────
@@ -333,7 +379,7 @@ export function runEngineTests() {
     { name: 'Exclusion Rules',       run: testExclusionRules },
     { name: 'Warning Rules',         run: testWarningRules },
     { name: 'Completion Percentage', run: testCompletionPercentage },
-    { name: 'SKU Preview',           run: testSkuPreview },
+    { name: 'SKU Resolution',        run: testSkuResolution },
     { name: 'computeSummary',        run: testComputeSummary },
   ];
 

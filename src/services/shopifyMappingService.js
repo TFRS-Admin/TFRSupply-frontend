@@ -93,10 +93,12 @@ export function validateConfiguratorMapping(configuratorData) {
         : 'missing',
     },
     {
-      key: 'sku_template',
-      label: 'SKU Template (skuTemplate)',
-      pass: !!(configuratorData?.skuTemplate),
-      note: configuratorData?.skuTemplate || 'missing',
+      key: 'sku_options',
+      label: 'SKU Options List (skuOptions)',
+      pass: Array.isArray(configuratorData?.skuOptions) && configuratorData.skuOptions.length > 0,
+      note: Array.isArray(configuratorData?.skuOptions) && configuratorData.skuOptions.length > 0
+        ? `${configuratorData.skuOptions.length} existing SKUs defined`
+        : 'missing — add skuOptions[] array of existing catalog SKUs',
     },
     {
       key: 'sku_root',

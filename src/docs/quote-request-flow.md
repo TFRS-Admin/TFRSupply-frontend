@@ -65,7 +65,7 @@ Created by the adapter on every successful submission. Never written by UI direc
 | `productId` | string | `payload.productId` |
 | `configuratorId` | string | `payload.configuratorId` |
 | `productTitle` | string | `payload.productTitle` |
-| `skuPreview` | string | `payload.skuPreview` |
+| `skuPreview` | string | `payload.selectedSku` (alias — stores the resolved catalog SKU) |
 | `selectedOptions` | array of objects | `payload.selectedOptions` |
 | `accessories` | array of objects | `payload.accessories` |
 | `dependencyNotes` | array of strings | `payload.dependencyNotes` |
@@ -102,7 +102,10 @@ Built-in fields added automatically by Base44: `id`, `created_date`, `updated_da
   "accessories": [
     { "stepId": "accessories", "optionId": "cable-10", "optionLabel": "10 ft. Main Harness", "priceModifier": 28 }
   ],
-  "skuPreview": "NAV-53-RB-PERM",
+  "selectedSku": "NAV-SLB-53-RB",
+  "matchingSkus": [{ "sku": "NAV-SLB-53-RB", "label": "Navigator 53\" Red/Blue", "attributes": { "length": "53", "color": "RB" } }],
+  "skuStatus": "matched",
+  "skuPreview": "NAV-SLB-53-RB",
   "dependencyNotes": ["..."],
   "warningNotes": ["..."],
   "contact": {
