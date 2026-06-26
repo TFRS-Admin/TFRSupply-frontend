@@ -13,12 +13,7 @@ const VERTICALS = [
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
-// Derive a category slug from a full href like "/police/light-bars" → "light-bars"
-function hrefToCategoryId(href) {
-  if (!href || href === '#') return null;
-  const parts = href.split('/').filter(Boolean);
-  return parts.length >= 2 ? parts[1] : null;
-}
+
 
 export default function SiteHeader({ activeVertical: activeVerticalProp = 'police', activeCategory }) {
   const navigate = useNavigate();
@@ -173,13 +168,13 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         <div style={{ background: '#ffffff', borderBottom: '2px solid #e8e8e8' }} className="hidden md:block">
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch' }}>
             {categories.map(cat => {
-              const categoryId = hrefToCategoryId(cat.href);
-              const isActive = urlCategoryId ? urlCategoryId === categoryId : (activeCategory === cat.label);
-              const isEnabled = !!categoryId;
+              const catId = cat.categoryId || null;
+              const isActive = urlCategoryId ? urlCategoryId === catId : (activeCategory === cat.label);
+              const isEnabled = !!catId;
               return (
                 <button
                   key={cat.label}
-                  onClick={isEnabled ? () => navigate(`/${verticalId}/${categoryId}`) : undefined}
+                  onClick={isEnabled ? () => navigate(`/${verticalId}/${catId}`) : undefined}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 4,
                     padding: '14px 16px',
@@ -222,12 +217,12 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             </button>
           </div>
           {categories.map(cat => {
-            const categoryId = hrefToCategoryId(cat.href);
-            const isEnabled = !!categoryId;
+            const catId = cat.categoryId || null;
+            const isEnabled = !!catId;
             return (
               <button
                 key={cat.label}
-                onClick={isEnabled ? () => { navigate(`/${verticalId}/${categoryId}`); setMobileOpen(false); } : undefined}
+                onClick={isEnabled ? () => { navigate(`/${verticalId}/${catId}`); setMobileOpen(false); } : undefined}
                 style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 0', fontSize: 14, color: isEnabled ? '#3d3d3d' : '#bbbbbb', background: 'none', border: 'none', borderBottom: '1px solid #f0f0f0', cursor: isEnabled ? 'pointer' : 'default', fontFamily: "'Roboto','Inter',sans-serif" }}
               >
                 {cat.label}

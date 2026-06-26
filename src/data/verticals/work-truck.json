@@ -42,12 +42,12 @@
     "subtitle": "Lights, beacons, sirens, and accessories for every type of work vehicle.",
     "cta": { "label": "Contact a Sales Rep", "href": "#" },
     "items": [
-      { "label": "Light Bars",     "icon": "Layers",    "href": "#", "desc": "Full-size and mini LED light bars for work trucks, utility vehicles, and service fleets." },
-      { "label": "Beacons",        "icon": "Zap",       "href": "#", "desc": "Rotary, strobe, and LED beacons for maximum visibility in hazardous work zones." },
-      { "label": "Work Lights",    "icon": "Lightbulb", "href": "#", "desc": "High-output scene and scene flood lighting for night operations." },
-      { "label": "Sirens & Horns", "icon": "Volume2",   "href": "#", "desc": "Warning sirens and air horns for heavy-duty and municipal vehicles." },
-      { "label": "SignalMasters",  "icon": "ArrowRight","href": "#", "desc": "Arrow boards and directional warning devices to manage traffic around work zones." },
-      { "label": "Accessories",    "icon": "Settings",  "href": "#", "desc": "Controllers, mounting hardware, and wiring accessories for complete system builds." }
+      { "label": "Light Bars",     "icon": "Layers",     "categoryId": null, "desc": "Full-size and mini LED light bars for work trucks, utility vehicles, and service fleets." },
+      { "label": "Beacons",        "icon": "Zap",        "categoryId": null, "desc": "Rotary, strobe, and LED beacons for maximum visibility in hazardous work zones." },
+      { "label": "Work Lights",    "icon": "Lightbulb",  "categoryId": null, "desc": "High-output scene and scene flood lighting for night operations." },
+      { "label": "Sirens & Horns", "icon": "Volume2",    "categoryId": null, "desc": "Warning sirens and air horns for heavy-duty and municipal vehicles." },
+      { "label": "SignalMasters",  "icon": "ArrowRight", "categoryId": null, "desc": "Arrow boards and directional warning devices to manage traffic around work zones." },
+      { "label": "Accessories",    "icon": "Settings",   "categoryId": null, "desc": "Controllers, mounting hardware, and wiring accessories for complete system builds." }
     ]
   },
   "resources_section": {
@@ -56,8 +56,8 @@
     "body": "Offering a variety of tools to learn more about our Work Truck products.",
     "cta": { "label": "Find Resources", "href": "/resources" },
     "items": [
-      { "icon": "Phone",   "label": "Need Assistance?", "desc": "Our sales team can help you spec the right warning system for your fleet." },
-      { "icon": "FileDown","label": "Download Catalog", "desc": "Download our complete Work Truck catalog with the full product range." }
+      { "icon": "Phone",    "label": "Need Assistance?", "desc": "Our sales team can help you spec the right warning system for your fleet." },
+      { "icon": "FileDown", "label": "Download Catalog", "desc": "Download our complete Work Truck catalog with the full product range." }
     ]
   }
 }
