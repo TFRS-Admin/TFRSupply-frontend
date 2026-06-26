@@ -63,18 +63,21 @@ export default function AddToCartPanel({ productMeta, shopifyMap }) {
   const { session, summary } = useConfiguration();
   const [payloadOpen, setPayloadOpen] = useState(false);
 
+  // All hooks must be called unconditionally before any early return
   const { ready, reasons, categories } = getCartReadiness(summary, shopifyMap);
 
-  // Build payload (uses corrected summary field names from engine)
-  // Must be called before any early return to satisfy Rules of Hooks
-  const cartPayload = useMemo(() => prepareCartPayload({
-    productId: productMeta?.productId ?? '',
-    configuratorId: productMeta?.configuratorId ?? '',
-    skuPreview: summary.skuPreview ?? '',
-    summary,
-    quantity: 1,
-    shopifyMap: shopifyMap ?? {},
-  }), [summary, productMeta, shopifyMap]);
+  const cartPayload = useMemo(() => {
+    // Guard: summary may be null before config loads
+    if (!summary) return null;
+    return prepareCartPayload({
+      productId: productMeta?.productId ?? '',
+      configuratorId: productMeta?.configuratorId ?? '',
+      skuPreview: summary.skuPreview ?? '',
+      summary,
+      quantity: 1,
+      shopifyMap: shopifyMap ?? {},
+    });
+  }, [summary, productMeta, shopifyMap]);
 
   const activeCategories = Object.keys(categories).filter(k => categories[k]);
 
@@ -122,6 +125,7 @@ export default function AddToCartPanel({ productMeta, shopifyMap }) {
   }
 
   // ── Ready state: simulated payload preview ─────────────────────────────────
+  if (!cartPayload) return null;
   const { primaryLine, accessoryLines, mappingStatus } = cartPayload;
   return (
     <div style={{ ...FS, border: '1px solid #bbf7d0', background: '#f0fdf4', padding: '20px', marginTop: 16 }}>

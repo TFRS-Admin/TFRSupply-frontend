@@ -191,3 +191,65 @@ The quote flow (`QuoteRequestPanel` → `quoteRequestService` → `quoteRequestA
 ---
 
 *Sprint 10 — Architecture stub. No Shopify API credentials exist. No live calls made.*
+
+---
+
+## 10. Pre-Shopify QA Status
+**Sprint 12 — Code-Level QA Pass**  
+Date: 2026-06-26
+
+### Files Audited
+| File | Hook Order | Null Safety | Import Chain | Status |
+|------|-----------|------------|-------------|--------|
+| `ConfigurationSummary` | ✅ All hooks before any return | ✅ `if (!session \|\| !summary) return null` before destructure | ✅ Clean | **PASS** |
+| `QuoteRequestPanel` | ✅ All `useState`/`useRef` before returns | ✅ `if (!session \|\| !summary) return null` before destructure | ✅ Clean | **PASS** |
+| `AddToCartPanel` | ✅ Fixed (Sprint 12) — `useMemo` guarded for null summary | ✅ Fixed — null guard in `useMemo` callback + `if (!cartPayload) return null` before destructure | ✅ Clean | **PASS (after fix)** |
+| `ConfiguratorLayout` | ✅ No hooks — pure layout | ✅ Passes `productMeta`/`shopifyMap` as props; children self-guard | ✅ Clean | **PASS** |
+| `ConfigurationContext` | ✅ All hooks unconditional | ✅ `if (!configuratorJson) return null` in engine init | ✅ Clean | **PASS** |
+| `shopifyCartService` | n/a (pure functions) | ✅ `summary?.isComplete`, `summary?.violations ?? []` optional chains | ✅ Clean | **PASS** |
+| `shopifyCartAdapter` | n/a (pure functions) | ✅ null shopifyMap returns early | ✅ Clean | **PASS** |
+
+### Bugs Found and Fixed
+
+| # | File | Bug | Fix |
+|---|------|-----|-----|
+| 1 | `AddToCartPanel` | `useMemo` called `summary.skuPreview` without null check — crash when summary is null before engine loads | Added `if (!summary) return null` guard inside `useMemo` callback |
+| 2 | `AddToCartPanel` | `cartPayload` destructured unconditionally in ready-state render path — crash if `cartPayload` were null | Added `if (!cartPayload) return null` guard before destructure |
+
+### Routes Verified (code-level trace)
+
+| Route | Template/Page | Configurator | Quote Panel | Cart Panel | Coming Soon | Status |
+|-------|-------------|-------------|------------|-----------|-------------|--------|
+| `/` | `StoreLanding` | n/a | n/a | n/a | n/a | ✅ |
+| `/police` | `VerticalLandingTemplate` | n/a | n/a | n/a | n/a | ✅ |
+| `/police/light-bars` | `CategoryTemplate` | n/a | n/a | n/a | n/a | ✅ |
+| `/police/light-bars/navigator` | `ProductDetailTemplate` → `ConfiguratorLayout` | ✅ Renders via `data.configuratorId` | ✅ Gated on `isComplete` | ✅ Disabled (mapping incomplete) | n/a | ✅ |
+| `/police/light-bars/allegiant-max` | `ProductDetailTemplate` → `ProductComingSoon` | n/a | n/a | n/a | ✅ Stub from category JSON | ✅ |
+| `/admin/quotes` | `AdminQuotesPage` | n/a | n/a | n/a | n/a | ✅ (email allowlist guard intact) |
+
+### No Shopify API Calls Confirmed
+- `addToCart()` in adapter throws intentionally if called — not reachable from UI (button is `disabled`).
+- No `fetch()` calls to Shopify domains in any source file.
+- No Shopify credentials defined or referenced anywhere.
+
+### Remaining Risks for Sprint 12
+
+| Risk | Severity | Notes |
+|------|----------|-------|
+| `ConfigurationContext` throws if used outside `ConfigurationProvider` | Low | Intentional guard — all usages are inside `ProductDetailTemplate` which wraps `ConfigurationProvider` |
+| `accessoryMappingMissing` category not surfaced in disabled-panel tag list | Low | Currently only shown in `mappingStatus.unresolved[]` (ready state) — acceptable until accessories have variant IDs |
+| Admin allowlist guard is frontend-only | Low | Prototype-only — documented as UX gate, not security |
+| `summary` is recomputed on every `selections` change via `useMemo` | Very Low | Pure function, no side effects — performance acceptable for ≤10 step configurators |
+
+### Go / No-Go Recommendation
+
+**✅ GO for Sprint 12 live Shopify integration.**
+
+All hook-order issues are resolved. Null-safety is complete across the full configurator stack. The quote flow is independently stable. The cart panel correctly renders its disabled state with specific mapping reasons for the Navigator product. No Shopify calls are made at any point. The layered architecture (UI → service → adapter → proxy) is clean and ready to wire the backend proxy in Sprint 12.
+
+**Sprint 12 prerequisites before enabling cart:**
+1. Set `SHOPIFY_STOREFRONT_ACCESS_TOKEN` + `SHOPIFY_STORE_DOMAIN` as backend secrets.
+2. Create `functions/shopifyCart.js` Deno proxy.
+3. Populate `navigator.json` `shopify` block with real `product_id` and `variant_mappings[]`.
+4. Wire `shopifyCartAdapter.addToCart()` → `base44.functions.invoke('shopifyCart', payload)`.
+5. Enable the "Add to Cart" button (remove `disabled` + `opacity: 0.75`).
