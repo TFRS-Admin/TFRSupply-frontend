@@ -102,6 +102,8 @@
     "cart_eligible": false,
     "storefront_available": false
   },
+  "configuratorId": "navigator-configurator",
+
   "cta": {
     "where_to_buy_url": "https://www.fedsig.com/where-to-buy?category=175",
     "request_info_url": "#",

@@ -1,0 +1,131 @@
+{
+  "_prototype": true,
+  "_note": "PROTOTYPE DATA ONLY — values are illustrative. SKU segments, prices, and Shopify IDs are not production-accurate.",
+
+  "id": "navigator-configurator",
+  "productId": "navigator",
+  "label": "Navigator® Serial Light Bar Configurator",
+  "skuRoot": "NAV",
+  "skuTemplate": "NAV-{length}-{color}-{mounting}",
+  "priceDisplay": "Contact for pricing",
+
+  "shopifyMapping": {
+    "_note": "RESERVED — not wired. Will map skuPreview strings to Shopify variant IDs in production.",
+    "storeHandle": null,
+    "variantMap": []
+  },
+
+  "steps": [
+    {
+      "id": "vehicle",
+      "label": "Vehicle Type",
+      "required": true,
+      "skuSegmentKey": "vehicle",
+      "options": [
+        { "id": "patrol-sedan",  "label": "Patrol Sedan",        "skuSegment": "PS",  "_prototype": true },
+        { "id": "patrol-suv",    "label": "Patrol SUV / Truck",  "skuSegment": "SUV", "_prototype": true },
+        { "id": "fire-apparatus","label": "Fire Apparatus",      "skuSegment": "FA",  "_prototype": true },
+        { "id": "command",       "label": "Command / Admin",     "skuSegment": "CMD", "_prototype": true }
+      ]
+    },
+    {
+      "id": "length",
+      "label": "Bar Length",
+      "required": true,
+      "skuSegmentKey": "length",
+      "options": [
+        { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact sedans and smaller SUVs", "_prototype": true },
+        { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and pickups",     "_prototype": true },
+        { "id": "60in", "label": "60\"", "skuSegment": "60", "description": "Fire apparatus and large trucks", "_prototype": true }
+      ]
+    },
+    {
+      "id": "color",
+      "label": "Color Configuration",
+      "required": true,
+      "skuSegmentKey": "color",
+      "options": [
+        { "id": "blue-blue",  "label": "Blue / Blue",  "skuSegment": "BB", "_prototype": true },
+        { "id": "red-blue",   "label": "Red / Blue",   "skuSegment": "RB", "_prototype": true },
+        { "id": "red-white",  "label": "Red / White",  "skuSegment": "RW", "_prototype": true },
+        { "id": "amber",      "label": "Amber",         "skuSegment": "AM", "tags": ["work-truck", "fire"], "_prototype": true }
+      ]
+    },
+    {
+      "id": "mounting",
+      "label": "Mounting Type",
+      "required": true,
+      "skuSegmentKey": "mounting",
+      "options": [
+        { "id": "perm",    "label": "Permanent Mount",   "skuSegment": "PERM", "_prototype": true },
+        { "id": "magnetic","label": "Magnetic Mount",    "skuSegment": "MAG",  "description": "Not recommended for high-speed pursuit", "_prototype": true },
+        { "id": "rack",    "label": "Rack Mount",        "skuSegment": "RACK", "_prototype": true }
+      ]
+    },
+    {
+      "id": "controller",
+      "label": "Siren / Controller",
+      "required": false,
+      "skuSegmentKey": "controller",
+      "options": [
+        { "id": "none",      "label": "No Controller (Light Bar Only)", "skuSegment": "NCTRL", "_prototype": true },
+        { "id": "sm4",       "label": "SignalMaster® 4-Position",       "skuSegment": "SM4",   "priceModifier": 110, "_prototype": true },
+        { "id": "pathfinder","label": "PathFinder® II Siren",           "skuSegment": "PF2",   "priceModifier": 285, "_prototype": true }
+      ]
+    },
+    {
+      "id": "accessories",
+      "label": "Accessories",
+      "required": false,
+      "multiple": true,
+      "skuSegmentKey": "accessories",
+      "options": [
+        { "id": "cable-10",  "label": "10 ft. Main Harness",   "skuSegment": "C10",  "priceModifier": 28,  "_prototype": true },
+        { "id": "cable-14",  "label": "14 ft. Main Harness",   "skuSegment": "C14",  "priceModifier": 32,  "_prototype": true },
+        { "id": "alley-kit", "label": "Alley Light Add-On Kit","skuSegment": "ALLY", "priceModifier": 95,  "_prototype": true }
+      ]
+    }
+  ],
+
+  "dependencyRules": [
+    {
+      "id": "dep-fire-requires-60",
+      "type": "requires",
+      "ifStep": "vehicle",
+      "ifOption": "fire-apparatus",
+      "thenStep": "length",
+      "thenOption": "60in",
+      "message": "Fire apparatus builds typically require the 60\" bar. Please confirm your length selection."
+    },
+    {
+      "id": "dep-magnetic-controller",
+      "type": "requires",
+      "ifStep": "mounting",
+      "ifOption": "magnetic",
+      "thenStep": "controller",
+      "thenOption": null,
+      "message": "Magnetic mount requires a controller selection to confirm compatibility."
+    }
+  ],
+
+  "compatibilityRules": [
+    {
+      "id": "excl-magnetic-fire",
+      "type": "excludes",
+      "stepA": "vehicle",
+      "optionA": "fire-apparatus",
+      "stepB": "mounting",
+      "optionB": "magnetic",
+      "message": "Magnetic mount is not approved for fire apparatus installations."
+    },
+    {
+      "id": "warn-amber-blue",
+      "type": "warns",
+      "stepA": "color",
+      "optionA": "amber",
+      "stepB": "vehicle",
+      "optionB": "patrol-sedan",
+      "message": "Amber is non-standard for police patrol vehicles. Verify jurisdiction requirements."
+    }
+  ]
+}

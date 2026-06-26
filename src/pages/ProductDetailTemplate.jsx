@@ -15,6 +15,8 @@ const TABS_REGISTRY = {
   NavigatorTabs,
 };
 import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock } from 'lucide-react';
+import { ConfigurationProvider } from '@/context/ConfigurationContext';
+import ConfigurationSummary from '@/components/configurator/ConfigurationSummary';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -236,6 +238,20 @@ export default function ProductDetailTemplate() {
           </div>
         );
       })()}
+
+      {/* Configurator Section — rendered when product JSON has configuratorId */}
+      {data.configuratorId && (
+        <div className="border-t border-gray-100 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-6 py-10">
+            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
+              Build &amp; Configure
+            </p>
+            <ConfigurationProvider configuratorId={data.configuratorId}>
+              <ConfigurationSummary />
+            </ConfigurationProvider>
+          </div>
+        </div>
+      )}
 
       <PrototypeFooter />
       <DebugToggle />
