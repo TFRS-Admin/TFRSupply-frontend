@@ -96,7 +96,7 @@ export default function CategoryTemplate() {
             <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
-                <Link key={p.id} to={p.href || `/${verticalId}/${categoryId}/${p.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link key={p.id} to={`/${verticalId}/${categoryId}/${p.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div className="border border-gray-200 overflow-hidden h-full flex flex-col"
                     style={{ transition: 'border-color 0.15s' }}
                     onMouseEnter={e => e.currentTarget.style.borderColor = '#c8102e'}
