@@ -51,7 +51,23 @@ function CopyButton({ text }) {
   );
 }
 
-function WorksheetRow({ label, value, missing }) {
+// source: 'export' | 'admin_required' | 'placeholder'
+function WorksheetRow({ label, value, source }) {
+  const missing = !value || source === 'admin_required';
+  const isExport = source === 'export' && !!value;
+  const isPlaceholder = source === 'placeholder';
+
+  let color = '#dc2626';
+  let text = '❌ collect from Shopify Admin';
+  let fontStyle = 'italic';
+  let fontFamily = 'inherit';
+
+  if (isExport) {
+    color = '#1a2744'; text = value; fontStyle = 'normal'; fontFamily = 'monospace';
+  } else if (isPlaceholder) {
+    color = '#9ca3af'; text = '— intentional placeholder'; fontStyle = 'italic';
+  }
+
   return (
     <div style={{
       display: 'grid', gridTemplateColumns: '180px 1fr auto',
@@ -59,14 +75,20 @@ function WorksheetRow({ label, value, missing }) {
       padding: '5px 0', borderBottom: '1px solid #f0f0f0', fontSize: 11,
     }}>
       <span style={{ color: '#4b5563', fontWeight: 600 }}>{label}</span>
-      <span style={{
-        fontFamily: missing ? 'inherit' : 'monospace',
-        color: missing ? '#dc2626' : '#1a2744',
-        fontStyle: missing ? 'italic' : 'normal',
-      }}>
-        {missing ? '❌ not set' : value}
-      </span>
-      {!missing && value && <CopyButton text={String(value)} />}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        {isExport && (
+          <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', background: '#dcfce7', color: '#15803d', border: '1px solid #86efac', flexShrink: 0 }}>
+            CSV
+          </span>
+        )}
+        {source === 'admin_required' && (
+          <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', flexShrink: 0 }}>
+            ADMIN
+          </span>
+        )}
+        <span style={{ color, fontStyle, fontFamily }}>{text}</span>
+      </div>
+      {isExport && value && <CopyButton text={String(value)} />}
     </div>
   );
 }
@@ -147,10 +169,10 @@ function MappingWorksheet({ productData }) {
           <span style={{ display: 'block', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744', marginBottom: 6 }}>
             Product Fields
           </span>
-          <WorksheetRow label="product_id" value={shopify.product_id} missing={!shopify.product_id} />
-          <WorksheetRow label="handle" value={shopify.handle} missing={!shopify.handle} />
-          <WorksheetRow label="cart_eligible" value={String(shopify.cart_eligible)} missing={!shopify.cart_eligible} />
-          <WorksheetRow label="storefront_available" value={String(shopify.storefront_available)} missing={!shopify.storefront_available} />
+          <WorksheetRow label="product_id" value={shopify.product_id} source="admin_required" />
+          <WorksheetRow label="handle" value={shopify.handle} source={shopify.handle ? 'export' : 'admin_required'} />
+          <WorksheetRow label="cart_eligible" value={String(shopify.cart_eligible)} source="placeholder" />
+          <WorksheetRow label="storefront_available" value={String(shopify.storefront_available)} source="placeholder" />
 
           {/* Variant mappings */}
           <span style={{ display: 'block', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744', margin: '14px 0 6px' }}>
@@ -158,13 +180,21 @@ function MappingWorksheet({ productData }) {
           </span>
           {skuTable.map(row => {
             const mapped = shopify.variant_mappings?.find(m => m.sku === row.sku);
+            const hasPrice = !!mapped?.price;
             return (
-              <WorksheetRow
-                key={row.sku}
-                label={row.sku}
-                value={mapped?.shopify_variant_id}
-                missing={!mapped?.shopify_variant_id}
-              />
+              <div key={row.sku}>
+                <WorksheetRow
+                  label={row.sku}
+                  value={mapped?.shopify_variant_id}
+                  source={mapped?.shopify_variant_id ? 'export' : 'admin_required'}
+                />
+                {hasPrice && (
+                  <div style={{ paddingLeft: 188, fontSize: 10, color: '#16a34a', marginTop: -4, marginBottom: 2 }}>
+                    <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 4px', background: '#dcfce7', color: '#15803d', border: '1px solid #86efac', marginRight: 5 }}>CSV</span>
+                    price: ${mapped.price.toLocaleString()} · handle: {mapped.shopify_handle ?? '—'}
+                  </div>
+                )}
+              </div>
             );
           })}
 
@@ -179,7 +209,7 @@ function MappingWorksheet({ productData }) {
                   key={a.sku}
                   label={a.sku}
                   value={a.shopify_variant_id}
-                  missing={!a.shopify_variant_id}
+                  source={a.shopify_variant_id ? 'export' : 'admin_required'}
                 />
               ))}
             </>
@@ -258,8 +288,15 @@ export default function ShopifyReadinessPanel({ productData, configuratorData })
         <div style={{ padding: '0 16px 16px' }}>
 
           {/* Disclaimer */}
-          <div style={{ padding: '8px 12px', background: '#fffbeb', border: '1px solid #fde68a', marginBottom: 16, fontSize: 11, color: '#78350f' }}>
-            ⚠ <strong>Prototype only.</strong> This panel inspects local JSON files. No Shopify Storefront API calls are made. No secrets are loaded. Cart integration is not active.
+          <div style={{ padding: '8px 12px', background: '#fffbeb', border: '1px solid #fde68a', marginBottom: 8, fontSize: 11, color: '#78350f' }}>
+            ⚠ <strong>Prototype only.</strong> This panel inspects local JSON files. No Shopify API calls are made. No secrets loaded. Cart integration is not active.
+          </div>
+          {/* Legend */}
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14, padding: '6px 10px', background: '#f8fafc', border: '1px solid #e5e7eb', fontSize: 10 }}>
+            <span style={{ fontWeight: 700, color: '#374151' }}>Legend:</span>
+            <span><span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', background: '#dcfce7', color: '#15803d', border: '1px solid #86efac' }}>CSV</span> from Shopify export</span>
+            <span><span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca' }}>ADMIN</span> collect from Shopify Admin</span>
+            <span style={{ color: '#9ca3af', fontStyle: 'italic' }}>— intentional placeholder</span>
           </div>
 
           {/* Product mapping */}

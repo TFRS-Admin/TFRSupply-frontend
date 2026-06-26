@@ -1,8 +1,56 @@
 # Shopify Data Collection Checklist
-**TFR Supply Configurator — Sprint 13**
+**TFR Supply Configurator — Sprint 16**
 
-Use this checklist to collect all required Shopify data before wiring live cart integration.
-Complete one section per product. Navigator is the first target.
+---
+
+## Export-Based Workflow (Sprint 16)
+
+A Shopify product export CSV was imported and analyzed. The following table shows what the export provides and what still requires Shopify Admin access.
+
+| Data | Available in CSV Export? | Notes |
+|------|--------------------------|-------|
+| Product handles | ✅ Yes | `navigator-light-bar-45`, `navigator-light-bar-53`, `navigator-light-bar-60` |
+| Variant SKUs | ✅ Yes | Real NVG-prefix SKUs (e.g. `NVG45Z-NFPA20`) |
+| Variant prices | ✅ Yes | Populated in `variant_mappings[].price` |
+| Option values (Length, Color) | ✅ Yes | `option2Value` = `45"`, `53"`, `60"` |
+| Product images (CDN URLs) | ✅ Yes | Updated in `navigator.json` media block |
+| Product status | ✅ Yes | All Navigator bars are `draft` / not yet published |
+| Shopify Product ID (numeric) | ❌ No | Must collect from Admin URL |
+| Shopify Variant ID (numeric) | ❌ No | Must collect from Admin URL per variant |
+| Shopify GIDs (gid://shopify/…) | ❌ No | Derived from numeric IDs — see below |
+| Storefront API access token | ❌ No | Backend secret — never in source |
+
+---
+
+## Critical Finding: SKU Prefix Change
+
+**Prototype SKUs (`NAV-SLB-*`) do not exist in Shopify.** Real product SKUs use `NVG`-prefix:
+
+| Prototype SKU (removed) | Real Shopify SKU | Handle |
+|------------------------|-----------------|--------|
+| `NAV-SLB-45-BB` | `NVG45Z-NFPA20` / `NVG45Z-NFPA21` | `navigator-light-bar-45` |
+| `NAV-SLB-45-RB` | *(no matching 45" RB variant in export)* | — |
+| `NAV-SLB-53-BB` | `NVG53D-MUNI1RHC` / `NVG53Z-MUNI1RHC6` | `navigator-light-bar-53` |
+| `NAV-SLB-53-RB` | `NVG53Z-NFPA20` / `NVG53Z-NFPA21` | `navigator-light-bar-53` |
+| `NAV-SLB-60-BB` | *(no matching 60" BB variant in export)* | — |
+| `NAV-SLB-60-RB` | `NVG60D-NFPA20` / `NVG60D-NFPA21` / `NVG60D-NFPA22` | `navigator-light-bar-60` |
+| `NAV-SLB-60-AM` | `NVG60D-TOW2FC` / `NVG60Z-TOW2FC6` | `navigator-light-bar-60` |
+
+**All SKUs in `navigator-configurator.json` and `navigator.json` updated to real NVG-prefix SKUs.**
+
+---
+
+## Structure Discovery: 3 Shopify Products (not 1)
+
+The Navigator is split into **3 separate Shopify products** by length:
+
+| Length | Shopify Handle | # Variants in Export | Status |
+|--------|---------------|---------------------|--------|
+| 45" | `navigator-light-bar-45` | 2 | draft |
+| 53" | `navigator-light-bar-53` | 4 | draft |
+| 60" | `navigator-light-bar-60` | 5 | draft |
+
+Each product needs its own `product_id` GID. Cart payload must route to the correct handle based on the `length` step selection.
 
 ---
 
@@ -11,109 +59,91 @@ Complete one section per product. Navigator is the first target.
 | Field | Where to Find It |
 |-------|-----------------|
 | Store domain | Shopify Admin → Settings → Domains |
-| Product ID | Admin → Products → [Product] → URL contains numeric ID (e.g. `/products/1234567890`) |
-| Product handle | Admin → Products → [Product] → "Search engine listing" → URL handle |
-| Product title | Admin → Products → [Product] → Title field |
-| Variant IDs | Admin → Products → [Product] → Variants → each row's URL contains variant ID |
-| Variant SKUs | Admin → Products → [Product] → Variants → SKU field |
-| Variant option names | Admin → Products → [Product] → Options section (e.g. "Length", "Color") |
-| Price | Admin → Products → [Product] → Variants → Price column |
-| Availability | Admin → Products → [Product] → Inventory section → Track quantity |
+| Product ID | Admin → Products → [Product] → URL contains numeric ID (e.g. `/products/1234567890`) → format as `gid://shopify/Product/1234567890` |
+| Variant IDs | Admin → Products → [Product] → click each variant → URL contains numeric variant ID → format as `gid://shopify/ProductVariant/<id>` |
 | Storefront API access | Admin → Apps → develop apps → Storefront API → confirm products are accessible |
-| Accessory variant IDs | Same as variant IDs — each accessory is a separate Shopify product or variant |
-
-**GID format:** All IDs are returned as Global IDs (GIDs) in GraphQL.
-`gid://shopify/Product/1234567890` — numeric tail is the raw ID visible in Admin URLs.
 
 ---
 
-## Product Worksheet: Navigator® Serial Light Bar
-
-**Product JSON:** `data/products/navigator.json` → `.shopify` block
-**Configurator JSON:** `data/configurators/navigator-configurator.json` → `.shopifyMapping` block
-
----
+## Product Worksheet: Navigator® Light Bar (45" / 53" / 60")
 
 ### A. Store-Level Fields
 
-| Field | Required | Collected Value |
-|-------|----------|----------------|
+| Field | Required | Value |
+|-------|----------|-------|
 | Store domain | ✅ Yes | `______________.myshopify.com` |
-| Storefront API token | ✅ Yes (backend only — never in source) | Set in Base44 Secrets: `SHOPIFY_STOREFRONT_ACCESS_TOKEN` |
-| Store handle (for API URL) | ✅ Yes | e.g. `tfrsupply` |
+| Storefront API token | ✅ Yes (backend only) | Set in Base44 Secrets: `SHOPIFY_STOREFRONT_ACCESS_TOKEN` |
 
 ---
 
-### B. Product-Level Fields
+### B. Product-Level GIDs (must collect from Admin)
 
-| Field | JSON Key | Required | Collected Value |
-|-------|----------|----------|----------------|
-| Shopify product title | (reference only) | ✅ Yes | `Navigator® Serial Light Bar` |
-| Shopify product handle | `shopify.handle` | ✅ Yes | `navigator-serial-light-bar` *(confirm in Admin)* |
-| Shopify product GID | `shopify.product_id` | ✅ Yes | `gid://shopify/Product/__________` |
-| Cart eligible | `shopify.cart_eligible` | ✅ Yes | Set to `true` once all below are filled |
-| Storefront available | `shopify.storefront_available` | ✅ Yes | Set to `true` once Storefront API access confirmed |
+| Handle | Product GID | Status |
+|--------|-------------|--------|
+| `navigator-light-bar-45` | `gid://shopify/Product/__________` | ⬜ Not collected |
+| `navigator-light-bar-53` | `gid://shopify/Product/__________` | ⬜ Not collected |
+| `navigator-light-bar-60` | `gid://shopify/Product/__________` | ⬜ Not collected |
 
 ---
 
-### C. Variant Mappings (one row per SKU)
+### C. Variant Mappings (SKU from export, GID still needed from Admin)
 
-Each row maps a configurator-generated SKU preview to a Shopify variant GID.
-The SKU preview is generated by `generateSkuPreview()` in `configuratorEngine.js` using the configurator's `sku_template`.
+#### navigator-light-bar-45
 
-| Configurator SKU | Length | Color | Shopify Variant GID |
-|-----------------|--------|-------|---------------------|
-| `NAV-SLB-45-BB` | 45" | Blue/Blue | `gid://shopify/ProductVariant/__________` |
-| `NAV-SLB-45-RB` | 45" | Red/Blue | `gid://shopify/ProductVariant/__________` |
-| `NAV-SLB-53-BB` | 53" | Blue/Blue | `gid://shopify/ProductVariant/__________` |
-| `NAV-SLB-53-RB` | 53" | Red/Blue | `gid://shopify/ProductVariant/__________` |
-| `NAV-SLB-60-BB` | 60" | Blue/Blue | `gid://shopify/ProductVariant/__________` |
-| `NAV-SLB-60-RB` | 60" | Red/Blue | `gid://shopify/ProductVariant/__________` |
-| `NAV-SLB-60-AM` | 60" | Amber | `gid://shopify/ProductVariant/__________` |
+| SKU | Price (export) | Description | Variant GID |
+|-----|---------------|-------------|-------------|
+| `NVG45Z-NFPA20` | $4,639 | 45" Red-White NFPA 2020 | `gid://shopify/ProductVariant/__________` |
+| `NVG45Z-NFPA21` | $4,249 | 45" Red-White NFPA 2021 | `gid://shopify/ProductVariant/__________` |
 
-> **Note:** If the Navigator is a single Shopify product with variants, each variant maps to one row above.
-> If it is split into multiple Shopify products by length, collect `product_id` per length as well.
+#### navigator-light-bar-53
+
+| SKU | Price (export) | Description | Variant GID |
+|-----|---------------|-------------|-------------|
+| `NVG53D-MUNI1RHC`  | $4,552 | 53" Amber-White Municipal HC      | `gid://shopify/ProductVariant/__________` |
+| `NVG53Z-MUNI1RHC6` | $5,012 | 53" Amber-White Municipal HC6     | `gid://shopify/ProductVariant/__________` |
+| `NVG53Z-NFPA20`    | $5,142 | 53" Red-White NFPA 2020           | `gid://shopify/ProductVariant/__________` |
+| `NVG53Z-NFPA21`    | $4,752 | 53" Red-White NFPA 2021           | `gid://shopify/ProductVariant/__________` |
+
+#### navigator-light-bar-60
+
+| SKU | Price (export) | Description | Variant GID |
+|-----|---------------|-------------|-------------|
+| `NVG60D-NFPA20`   | $3,450 | 60" Red-White NFPA 2020       | `gid://shopify/ProductVariant/__________` |
+| `NVG60D-NFPA21`   | $3,850 | 60" Red-White NFPA 2021       | `gid://shopify/ProductVariant/__________` |
+| `NVG60D-NFPA22`   | $4,290 | 60" Red-White NFPA 2022       | `gid://shopify/ProductVariant/__________` |
+| `NVG60D-TOW2FC`   | $4,750 | 60" Tow/Utility 2FC           | `gid://shopify/ProductVariant/__________` |
+| `NVG60Z-TOW2FC6`  | $5,210 | 60" Tow/Utility 2FC6          | `gid://shopify/ProductVariant/__________` |
 
 ---
 
 ### D. Accessory Variant Mappings
 
-Each accessory from `commerce.accessories[]` in `navigator.json` needs its own Shopify variant GID.
-Accessories may be separate Shopify products (each with one variant) or options on the main product.
+Accessories are prototype placeholders — they must be matched to real Shopify products/variants.
 
 | Commerce SKU | Label | Price | Shopify Variant GID |
 |-------------|-------|-------|---------------------|
-| `NAV-CABLE-10` | 10 ft. Main Harness Cable | $28.00 | `gid://shopify/ProductVariant/__________` |
-| `NAV-CABLE-14` | 14 ft. Main Harness Cable | $32.00 | `gid://shopify/ProductVariant/__________` |
-| `NAV-BRKT-STD` | Standard Permanent Mount Bracket | $45.00 | `gid://shopify/ProductVariant/__________` |
-| `NAV-BRKT-MAG` | Magnetic Mount Kit | $75.00 | `gid://shopify/ProductVariant/__________` |
-| `NAV-CTRL-SM4` | SignalMaster® 4-Position Switch | $110.00 | `gid://shopify/ProductVariant/__________` |
+| `NAV-CABLE-10` | 10 ft. Main Harness Cable        | $28  | `gid://shopify/ProductVariant/__________` |
+| `NAV-CABLE-14` | 14 ft. Main Harness Cable        | $32  | `gid://shopify/ProductVariant/__________` |
+| `NAV-BRKT-STD` | Standard Permanent Mount Bracket | $45  | `gid://shopify/ProductVariant/__________` |
+| `NAV-BRKT-MAG` | Magnetic Mount Kit               | $75  | `gid://shopify/ProductVariant/__________` |
+| `NAV-CTRL-SM4` | SignalMaster® 4-Position Switch  | $110 | `gid://shopify/ProductVariant/__________` |
+
+> **Note:** Accessory SKUs (`NAV-*`) are prototype placeholders. Check the Shopify export for real accessory handles — SignalMaster accessories are in `signalmaster-accessories` handle.
 
 ---
 
-### E. Variant Option Names (for custom attribute keys)
+### E. Configurator Step ↔ Shopify Option Reconciliation (Sprint 17)
 
-Confirm the exact option names Shopify uses for this product — these become `customAttribute` keys in the cart payload.
+The configurator's step `skuSegment` values must align with real Shopify option values before SKU resolution works end-to-end.
 
-| Configurator Step Label | Shopify Option Name | Match? |
-|------------------------|--------------------|----|
-| Vehicle Type | *(confirm in Admin)* | ☐ |
-| Bar Length | *(confirm in Admin)* | ☐ |
-| Color Configuration | *(confirm in Admin)* | ☐ |
-| Mounting Type | *(confirm in Admin)* | ☐ |
-| Controller | *(confirm in Admin)* | ☐ |
-
----
-
-### F. Availability + Pricing Verification
-
-| Check | Status |
-|-------|--------|
-| Product is published and active in Shopify | ☐ |
-| All variants are in-stock or allow backorder | ☐ |
-| Accessory products are published | ☐ |
-| Storefront API can query product (test with Admin GraphQL explorer) | ☐ |
-| Pricing matches quote sheet | ☐ |
+| Configurator Step | skuSegment Values | Real Shopify Option | Status |
+|------------------|------------------|--------------------|----|
+| Length | `45`, `53`, `60` | option2Value: `45"`, `53"`, `60"` | ✅ Close — confirm exact match |
+| Color | `RW`, `AW`, `CUSTOM` | option3Value: `Red-White`, `Amber-White`, `See Description` | ⚠ Reconcile in Sprint 17 |
+| Spec (NFPA/Muni/Tow) | `NFPA20`, `MUNI`, `TOW` etc. | option1Value (SKU itself) | ⚠ Confirm real option name |
+| Vehicle | `PS`, `SUV`, `FA`, `CMD` | No Shopify option — `customAttribute` only | ✅ Pass-through |
+| Mounting | `PERM`, `MAG`, `RACK` | No Shopify option — `customAttribute` only | ✅ Pass-through |
+| Controller | `NCTRL`, `SM4`, `PF2` | No Shopify option — `customAttribute` only | ✅ Pass-through |
 
 ---
 
@@ -121,17 +151,21 @@ Confirm the exact option names Shopify uses for this product — these become `c
 
 | Step | Owner | Status |
 |------|-------|--------|
-| Collect all variant GIDs | | ☐ |
-| Collect all accessory variant GIDs | | ☐ |
-| Confirm product handle in Shopify | | ☐ |
-| Confirm Storefront API access | | ☐ |
-| Populate `navigator.json` `.shopify` block | Dev | ☐ |
-| Populate `navigator-configurator.json` `.shopifyMapping` block | Dev | ☐ |
-| Set `SHOPIFY_STOREFRONT_ACCESS_TOKEN` in Base44 Secrets | Dev | ☐ |
-| Set `SHOPIFY_STORE_DOMAIN` in Base44 Secrets | Dev | ☐ |
-| QA: Add to Cart panel transitions from disabled to ready | Dev | ☐ |
-| QA: Payload inspector shows non-null variant IDs | Dev | ☐ |
+| Identify real SKUs from export | Dev | ✅ Done (Sprint 16) |
+| Update `navigator.json` sku_table with real SKUs | Dev | ✅ Done (Sprint 16) |
+| Update `navigator-configurator.json` skuOptions with real SKUs | Dev | ✅ Done (Sprint 16) |
+| Update product images with real Shopify CDN URLs | Dev | ✅ Done (Sprint 16) |
+| Collect product GIDs (45, 53, 60) from Admin | | ⬜ |
+| Collect all 11 variant GIDs from Admin | | ⬜ |
+| Confirm Storefront API access for all 3 products | | ⬜ |
+| Reconcile step skuSegment values with real option values | Dev | ⬜ Sprint 17 |
+| Set `SHOPIFY_STOREFRONT_ACCESS_TOKEN` in Base44 Secrets | Dev | ⬜ |
+| Set `SHOPIFY_STORE_DOMAIN` in Base44 Secrets | Dev | ⬜ |
+| Populate `variant_mappings[].shopify_variant_id` in navigator.json | Dev | ⬜ After GIDs collected |
+| Set `cart_eligible: true` and `storefront_available: true` | Dev | ⬜ After above complete |
+| QA: Add to Cart panel transitions from disabled to ready | Dev | ⬜ |
+| QA: Payload inspector shows non-null variant IDs | Dev | ⬜ |
 
 ---
 
-*Sprint 13 — Data collection only. No API calls. No credentials in source.*
+*Sprint 16 — CSV import complete. No API calls. No credentials in source.*

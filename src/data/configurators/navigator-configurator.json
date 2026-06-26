@@ -1,36 +1,104 @@
 {
   "_prototype": true,
-  "_note": "PROTOTYPE DATA ONLY — values are illustrative. SKU segments and Shopify IDs are not production-accurate.",
+  "_sprint": "Sprint 16 — skuOptions updated with real export SKUs",
+  "_note": "PROTOTYPE DATA. skuOptions now reflects actual Shopify export SKUs (NVG-prefix). Prototype steps (vehicle, mounting, controller) are illustrative and do not map to Shopify option names. Step-to-attribute mapping must be reconciled with real Shopify option names in Sprint 17.",
 
   "id": "navigator-configurator",
   "productId": "navigator",
   "label": "Navigator® Serial Light Bar Configurator",
-  "skuRoot": "NAV",
+  "skuRoot": "NVG",
   "priceDisplay": "Contact for pricing",
 
-  "_skuNote": "skuOptions is the source of truth. User selections filter this list. selectedSku is set only when exactly one SKU matches.",
+  "_skuNote": "skuOptions is the source of truth. User selections filter this list by matching skuSegment values against the sku's attributes. selectedSku is set only when exactly one SKU matches. SKUs sourced from Shopify CSV export (sprint 16) — prototype NAV-SLB-* SKUs removed.",
   "skuOptions": [
-    { "sku": "NAV-SLB-45-BB", "label": "Navigator 45\" Blue/Blue", "attributes": { "length": "45", "color": "BB" } },
-    { "sku": "NAV-SLB-45-RB", "label": "Navigator 45\" Red/Blue",  "attributes": { "length": "45", "color": "RB" } },
-    { "sku": "NAV-SLB-53-BB", "label": "Navigator 53\" Blue/Blue", "attributes": { "length": "53", "color": "BB" } },
-    { "sku": "NAV-SLB-53-RB", "label": "Navigator 53\" Red/Blue",  "attributes": { "length": "53", "color": "RB" } },
-    { "sku": "NAV-SLB-60-BB", "label": "Navigator 60\" Blue/Blue", "attributes": { "length": "60", "color": "BB" } },
-    { "sku": "NAV-SLB-60-RB", "label": "Navigator 60\" Red/Blue",  "attributes": { "length": "60", "color": "RB" } },
-    { "sku": "NAV-SLB-60-AM", "label": "Navigator 60\" Amber",     "attributes": { "length": "60", "color": "AM" } }
+    {
+      "sku": "NVG45Z-NFPA20", "label": "Navigator 45\" Red-White (NFPA 2020)",
+      "price": 4639.00, "shopify_handle": "navigator-light-bar-45",
+      "attributes": { "length": "45", "color": "RW", "spec": "NFPA20" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG45Z-NFPA21", "label": "Navigator 45\" Red-White (NFPA 2021)",
+      "price": 4249.00, "shopify_handle": "navigator-light-bar-45",
+      "attributes": { "length": "45", "color": "RW", "spec": "NFPA21" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG53D-MUNI1RHC",  "label": "Navigator 53\" Amber-White (Municipal HC)",
+      "price": 4552.00, "shopify_handle": "navigator-light-bar-53",
+      "attributes": { "length": "53", "color": "AW", "spec": "MUNI" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG53Z-MUNI1RHC6", "label": "Navigator 53\" Amber-White (Municipal HC6)",
+      "price": 5012.00, "shopify_handle": "navigator-light-bar-53",
+      "attributes": { "length": "53", "color": "AW", "spec": "MUNI6" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG53Z-NFPA20",  "label": "Navigator 53\" Red-White (NFPA 2020)",
+      "price": 5142.00, "shopify_handle": "navigator-light-bar-53",
+      "attributes": { "length": "53", "color": "RW", "spec": "NFPA20" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG53Z-NFPA21",  "label": "Navigator 53\" Red-White (NFPA 2021)",
+      "price": 4752.00, "shopify_handle": "navigator-light-bar-53",
+      "attributes": { "length": "53", "color": "RW", "spec": "NFPA21" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG60D-NFPA20",  "label": "Navigator 60\" Red-White (NFPA 2020)",
+      "price": 3450.00, "shopify_handle": "navigator-light-bar-60",
+      "attributes": { "length": "60", "color": "RW", "spec": "NFPA20" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG60D-NFPA21",  "label": "Navigator 60\" Red-White (NFPA 2021)",
+      "price": 3850.00, "shopify_handle": "navigator-light-bar-60",
+      "attributes": { "length": "60", "color": "RW", "spec": "NFPA21" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG60D-NFPA22",  "label": "Navigator 60\" Red-White (NFPA 2022)",
+      "price": 4290.00, "shopify_handle": "navigator-light-bar-60",
+      "attributes": { "length": "60", "color": "RW", "spec": "NFPA22" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG60D-TOW2FC",  "label": "Navigator 60\" Tow/Utility (2FC)",
+      "price": 4750.00, "shopify_handle": "navigator-light-bar-60",
+      "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW" },
+      "_source": "shopify_export"
+    },
+    {
+      "sku": "NVG60Z-TOW2FC6", "label": "Navigator 60\" Tow/Utility (2FC6)",
+      "price": 5210.00, "shopify_handle": "navigator-light-bar-60",
+      "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW6" },
+      "_source": "shopify_export"
+    }
   ],
 
   "shopifyMapping": {
-    "_note": "RESERVED — not wired. Will map skuPreview strings to Shopify variant IDs in production.",
+    "_note": "Sprint 16 — handles confirmed from CSV export. product_id and variant_id must be collected from Shopify Admin (not present in merchant CSV export).",
+    "handles": {
+      "45in": "navigator-light-bar-45",
+      "53in": "navigator-light-bar-53",
+      "60in": "navigator-light-bar-60"
+    },
     "storeHandle": null,
+    "_storeHandle_note": "Collect from Shopify Admin → Settings → Domains (e.g. 'tfrsupply')",
     "variantMap": []
   },
 
+  "_stepNote": "Steps below use prototype skuSegment values (BB, RB, AM, etc.) that do NOT yet match the export's real color/spec codes (RW, AW, NFPA20, etc.). Steps must be reconciled with real Shopify option names in Sprint 17 before SKU resolution works end-to-end with live data.",
   "steps": [
     {
       "id": "vehicle",
       "label": "Vehicle Type",
       "required": true,
       "skuSegmentKey": "vehicle",
+      "_note": "Illustrative — no matching Shopify option. Maps to customAttribute only.",
       "options": [
         { "id": "patrol-sedan",  "label": "Patrol Sedan",        "skuSegment": "PS",  "_prototype": true },
         { "id": "patrol-suv",    "label": "Patrol SUV / Truck",  "skuSegment": "SUV", "_prototype": true },
@@ -43,6 +111,7 @@
       "label": "Bar Length",
       "required": true,
       "skuSegmentKey": "length",
+      "_note": "Segment values (45, 53, 60) match skuOptions attributes.length — SKU filtering active.",
       "options": [
         { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact sedans and smaller SUVs", "_prototype": true },
         { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and pickups",     "_prototype": true },
@@ -54,11 +123,29 @@
       "label": "Color Configuration",
       "required": true,
       "skuSegmentKey": "color",
+      "_note": "Prototype segments (BB, RB, AM) do NOT match export attribute values (RW, AW, CUSTOM). Reconcile in Sprint 17.",
       "options": [
         { "id": "blue-blue",  "label": "Blue / Blue",  "skuSegment": "BB", "_prototype": true },
         { "id": "red-blue",   "label": "Red / Blue",   "skuSegment": "RB", "_prototype": true },
         { "id": "red-white",  "label": "Red / White",  "skuSegment": "RW", "_prototype": true },
-        { "id": "amber",      "label": "Amber",         "skuSegment": "AM", "tags": ["work-truck", "fire"], "_prototype": true }
+        { "id": "amber",      "label": "Amber",         "skuSegment": "AM", "tags": ["work-truck", "fire"], "_prototype": true },
+        { "id": "amber-white","label": "Amber / White", "skuSegment": "AW", "_prototype": true }
+      ]
+    },
+    {
+      "id": "spec",
+      "label": "Specification / Configuration",
+      "required": false,
+      "skuSegmentKey": "spec",
+      "_note": "New step added sprint 16. Matches skuOptions attributes.spec (NFPA20, NFPA21, NFPA22, MUNI, TOW). Reconcile option labels with real Shopify option names in Sprint 17.",
+      "options": [
+        { "id": "nfpa20", "label": "NFPA 2020", "skuSegment": "NFPA20", "_prototype": true },
+        { "id": "nfpa21", "label": "NFPA 2021", "skuSegment": "NFPA21", "_prototype": true },
+        { "id": "nfpa22", "label": "NFPA 2022", "skuSegment": "NFPA22", "_prototype": true },
+        { "id": "muni",   "label": "Municipal (HC)",  "skuSegment": "MUNI",  "_prototype": true },
+        { "id": "muni6",  "label": "Municipal (HC6)", "skuSegment": "MUNI6", "_prototype": true },
+        { "id": "tow",    "label": "Tow / Utility",   "skuSegment": "TOW",   "_prototype": true },
+        { "id": "tow6",   "label": "Tow / Utility 6", "skuSegment": "TOW6",  "_prototype": true }
       ]
     },
     {
@@ -66,6 +153,7 @@
       "label": "Mounting Type",
       "required": true,
       "skuSegmentKey": "mounting",
+      "_note": "Illustrative — no matching Shopify option. Maps to customAttribute only.",
       "options": [
         { "id": "perm",    "label": "Permanent Mount",   "skuSegment": "PERM", "_prototype": true },
         { "id": "magnetic","label": "Magnetic Mount",    "skuSegment": "MAG",  "description": "Not recommended for high-speed pursuit", "_prototype": true },
@@ -77,6 +165,7 @@
       "label": "Siren / Controller",
       "required": false,
       "skuSegmentKey": "controller",
+      "_note": "Illustrative — no matching Shopify option. Maps to customAttribute only.",
       "options": [
         { "id": "none",      "label": "No Controller (Light Bar Only)", "skuSegment": "NCTRL", "_prototype": true },
         { "id": "sm4",       "label": "SignalMaster® 4-Position",       "skuSegment": "SM4",   "priceModifier": 110, "_prototype": true },
