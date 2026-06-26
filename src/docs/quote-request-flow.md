@@ -1,6 +1,6 @@
 # Quote Request Flow
 
-_Sprint 5 — Prototype only. No Shopify, no backend entity storage, no customer accounts._
+_Sprint 6 — Prototype. No Shopify, no admin page, no customer accounts._
 
 ---
 
@@ -13,6 +13,7 @@ UI Component (QuoteRequestPanel)
         │
         └─► adapters/base44/quoteRequestAdapter.submitViaBase44Email(payload)
               │  (only file that imports base44Client and appConfig)
+              ├─► base44.entities.QuoteRequest.create(record)   ← Sprint 6 addition
               ├─► base44.integrations.Core.SendEmail → quoteRecipientEmail
               └─► base44.integrations.Core.SendEmail → contact.email (if quoteSendConfirmation=true)
 ```
@@ -26,8 +27,9 @@ UI Component (QuoteRequestPanel)
 | File | Role |
 |---|---|
 | `config/appConfig.js` | Frontend config: recipient email, confirmation toggle, sender name. No secrets. |
+| `entities/QuoteRequest.json` | Base44 entity schema — persists every submitted quote |
 | `services/quoteRequestService.js` | Payload builder, form validator, submission entry point |
-| `adapters/base44/quoteRequestAdapter.js` | Base44 SendEmail — swap this file to change delivery mechanism |
+| `adapters/base44/quoteRequestAdapter.js` | Storage + SendEmail — swap this to change delivery mechanism |
 | `components/configurator/ConfiguratorLayout.jsx` | Responsive two-column → single-column layout wrapper |
 | `components/configurator/QuoteRequestPanel.jsx` | Form UI + gating logic — calls service only |
 
@@ -51,6 +53,36 @@ To make the recipient dynamic (e.g. per-product, per-vertical): move `quoteRecip
 
 ---
 
+## Entity: QuoteRequest
+
+Created by the adapter on every successful submission. Never written by UI directly.
+
+| Field | Type | Source |
+|---|---|---|
+| `productId` | string | `payload.productId` |
+| `configuratorId` | string | `payload.configuratorId` |
+| `productTitle` | string | `payload.productTitle` |
+| `skuPreview` | string | `payload.skuPreview` |
+| `selectedOptions` | array of objects | `payload.selectedOptions` |
+| `accessories` | array of objects | `payload.accessories` |
+| `dependencyNotes` | array of strings | `payload.dependencyNotes` |
+| `warningNotes` | array of strings | `payload.warningNotes` |
+| `contactName` | string | `payload.contact.name` |
+| `agency` | string | `payload.contact.agency` |
+| `email` | string | `payload.contact.email` |
+| `phone` | string | `payload.contact.phone` |
+| `vehicleCount` | string | `payload.contact.vehicleCount` |
+| `notes` | string | `payload.contact.notes` |
+| `status` | enum | Always `"new"` on create |
+| `source` | string | `payload.source` (`"configurator-prototype"`) |
+| `submittedAt` | datetime | `payload.timestamp` |
+
+Built-in fields added automatically by Base44: `id`, `created_date`, `updated_date`, `created_by_id`.
+
+**Reference ID** shown in the UI is derived from the record ID: `QR-` + last 6 chars uppercased (e.g. `QR-A3F2C1`). This is display-only — the canonical ID for lookups is the full Base44 record `id`.
+
+---
+
 ## Payload Shape
 
 ```json
@@ -58,22 +90,18 @@ To make the recipient dynamic (e.g. per-product, per-vertical): move `quoteRecip
   "productId": "navigator",
   "configuratorId": "navigator-configurator",
   "productTitle": "Navigator® Serial Light Bar",
-
   "selectedOptions": [
     { "stepId": "vehicle",  "stepLabel": "Vehicle Type", "selected": ["Patrol Sedan"] },
     { "stepId": "length",   "stepLabel": "Bar Length",   "selected": ["53\""] },
     { "stepId": "color",    "stepLabel": "Color Config.", "selected": ["Red / Blue"] },
     { "stepId": "mounting", "stepLabel": "Mounting Type", "selected": ["Permanent Mount"] }
   ],
-
   "accessories": [
     { "stepId": "accessories", "optionId": "cable-10", "optionLabel": "10 ft. Main Harness", "priceModifier": 28 }
   ],
-
   "skuPreview": "NAV-53-RB-PERM",
   "dependencyNotes": ["..."],
   "warningNotes": ["..."],
-
   "contact": {
     "name": "Jane Smith",
     "agency": "Metro Police Department",
@@ -82,11 +110,18 @@ To make the recipient dynamic (e.g. per-product, per-vertical): move `quoteRecip
     "vehicleCount": "12",
     "notes": "Fleet replacement cycle, Q3 delivery preferred."
   },
-
   "timestamp": "2026-06-26T14:00:00.000Z",
   "source": "configurator-prototype"
 }
 ```
+
+---
+
+## Submission Order
+
+1. **Create QuoteRequest entity record** — if this fails, error is surfaced before any email is sent; no partial state
+2. **Send internal email** to `appConfig.quoteRecipientEmail` with full configuration detail + reference ID in subject
+3. **Send confirmation email** to `payload.contact.email` if `appConfig.quoteSendConfirmation === true`
 
 ---
 
@@ -96,78 +131,67 @@ To make the recipient dynamic (e.g. per-product, per-vertical): move `quoteRecip
 
 ### 1. Locked — Incomplete
 - `summary.isComplete === false`
-- Red notice if hard violations exist (lists conflict count)
+- Red notice if hard violations exist
 - Amber notice listing `pendingSteps` by label
-- Form is not rendered — no empty submission possible
+- Form is not rendered
 
 ### 2. Form — Ready
 - `summary.isComplete === true`
 - Required fields: name, agency, email
-- Optional: phone, vehicleCount, notes
 - Submit button disabled while `status === 'submitting'` (duplicate protection)
-- Validation runs client-side before any network call
-- On error: inline field-level messages, form stays editable
+- On error: red banner above submit button; button re-enables for retry
 
 ### 3. Confirmed — Success
 - Replaces form on successful response
-- Shows product name, SKU reference, representative follow-up message
+- Shows product name, SKU reference, **reference number** (e.g. `QR-A3F2C1`)
+- Representative follow-up message
 
 ---
 
 ## Mobile / Responsive Behavior
 
 `ConfiguratorLayout` uses CSS Grid with `auto-fit, minmax(320px, 1fr)`:
-- **≥ ~660px (two columns fit):** Summary left, Quote panel right, side-by-side
-- **< ~660px (only one column fits):** Summary stacks above Quote panel, full width
+- **≥ ~660px:** Summary left, Quote panel right, side-by-side
+- **< ~660px:** Summary stacks above Quote panel, full width
 - No breakpoint JS — purely CSS grid reflow
-
-The quote form's inner field grid (`1fr 1fr`) will also reflow at narrow widths because `minmax(320px, 1fr)` on the outer container constrains available space, causing field pairs to collapse to single-column naturally.
 
 ---
 
 ## Failure Handling
 
-Error flow:
 1. `submitQuoteRequest` returns `{ success: false, error: message }` or the `.catch()` in the panel intercepts a thrown error
 2. `status` transitions to `'error'`
 3. Red banner displayed above submit button with the error message
-4. Submit button re-enables — user can retry
-5. Status resets to `'submitting'` on retry, not `'idle'`, so the spinner reappears
+4. Submit button re-enables for retry
 
-The panel never silently swallows errors. If the adapter throws unexpectedly (network outage, Base44 rate limit), the `.catch(err => ({ success: false, error: err.message }))` in the panel ensures a user-visible message always appears.
+If record creation fails, no email is sent — the user sees an error and can retry safely with no duplicate record risk.
 
 ---
 
 ## Confirmation Email
 
-Controlled by `appConfig.quoteSendConfirmation` (default: `true`).
-
-When enabled, a second `SendEmail` call is made inside the adapter to `payload.contact.email` with a summary of their configuration. No UI change needed to toggle this behavior — change the config flag only.
+Controlled by `appConfig.quoteSendConfirmation` (default: `true`). Includes the reference ID so the customer can quote it when following up.
 
 ---
 
 ## Swapping the Adapter
 
-To replace Base44 email with a different delivery mechanism:
-
 1. Create `adapters/<provider>/quoteRequestAdapter.js`
-2. Export `submitVia<Provider>(payload)` returning `Promise<{ success: boolean, error?: string }>`
+2. Export `submitVia<Provider>(payload)` returning `Promise<{ success: boolean, referenceId?: string, error?: string }>`
 3. Update the single import in `services/quoteRequestService.js`
 4. No UI components change
 
 ---
 
-## Future Storage / Admin Notes (Sprint 6+)
-
-The following are **not implemented** and should be scoped separately:
+## Future Notes (Sprint 7+)
 
 | Feature | When | Approach |
 |---|---|---|
-| QuoteRequest entity record | Sprint 6 | Write to Base44 entity on success; adapter returns record id in response |
-| Admin quotes list | Sprint 6 | `/admin/quotes` page reading `QuoteRequest` entity |
-| Dynamic recipient per vertical | Sprint 7 | Load `quoteRecipientEmail` from `AppSettings` entity at runtime |
+| `/admin/quotes` list page | Sprint 7 | Read `QuoteRequest` entity; filter by status; update status field |
+| Status workflow | Sprint 7 | `new → reviewed → quoted → closed` — update via admin page |
+| Dynamic recipient per vertical | Sprint 8 | Load `quoteRecipientEmail` from `AppSettings` entity at runtime in adapter |
 | Customer account linking | Later | Associate quote with `User.id` if authenticated |
-| Shopify draft order on quote | Later | Second adapter that calls Shopify API from a backend function |
+| Shopify draft order on quote | Later | Second adapter calling Shopify API from a backend function |
 
 ---
 
@@ -175,8 +199,7 @@ The following are **not implemented** and should be scoped separately:
 
 | Item | Status |
 |---|---|
-| Email recipient in config (not env var) | Intentional — no secrets needed for recipient address |
-| No rate limiting | Out of scope Sprint 5 |
-| No spam protection / CAPTCHA | Out of scope Sprint 5 |
-| No record persisted | Sprint 6 |
-| Confirmation email may hit Base44 SendEmail rate limits at scale | Note for production hardening |
+| Reference ID is display-only (last 6 of Base44 ID) | Sufficient for prototype; use full `id` for real lookups |
+| No rate limiting or CAPTCHA | Out of scope |
+| Confirmation email may hit SendEmail rate limits at scale | Note for production hardening |
+| Email recipient in config (not env var) | Intentional — email address is not a secret |

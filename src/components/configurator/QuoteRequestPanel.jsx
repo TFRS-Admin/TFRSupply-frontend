@@ -45,6 +45,7 @@ export default function QuoteRequestPanel({ productMeta }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [submitError, setSubmitError] = useState('');
+  const [referenceId, setReferenceId] = useState(null);
 
   if (!session || !summary) return null;
 
@@ -93,12 +94,19 @@ export default function QuoteRequestPanel({ productMeta }) {
         <CheckCircle size={36} style={{ color: '#16a34a', margin: '0 auto 12px' }} />
         <p style={{ fontSize: 15, fontWeight: 700, color: '#15803d', marginBottom: 6 }}>Quote Request Submitted</p>
         <p style={{ fontSize: 13, color: '#166534', margin: 0 }}>
-          Your configuration for <strong>{productMeta?.productTitle || 'this product'}</strong> has been sent.
+          Your configuration for <strong>{productMeta?.productTitle || 'this product'}</strong> has been received.
           A representative will be in touch shortly.
         </p>
-        <p style={{ fontSize: 11, color: '#888', marginTop: 12, fontStyle: 'italic' }}>
-          SKU Reference: {summary.skuPreview || '(pending)'}
-        </p>
+        <div style={{ marginTop: 14, padding: '10px 16px', background: '#dcfce7', border: '1px solid #bbf7d0', display: 'inline-block' }}>
+          {referenceId && (
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#15803d', margin: '0 0 2px' }}>
+              Reference #: {referenceId}
+            </p>
+          )}
+          <p style={{ fontSize: 11, color: '#166534', margin: 0, fontStyle: 'italic' }}>
+            SKU: {summary.skuPreview || '(pending)'}
+          </p>
+        </div>
       </div>
     );
   }
@@ -119,6 +127,7 @@ export default function QuoteRequestPanel({ productMeta }) {
     const result = await submitQuoteRequest(payload).catch(err => ({ success: false, error: err.message }));
 
     if (result.success) {
+      setReferenceId(result.referenceId || null);
       setStatus('success');
     } else {
       setStatus('error');

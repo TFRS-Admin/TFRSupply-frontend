@@ -1,0 +1,84 @@
+{
+  "name": "QuoteRequest",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "type": "string"
+    },
+    "configuratorId": {
+      "type": "string"
+    },
+    "productTitle": {
+      "type": "string"
+    },
+    "skuPreview": {
+      "type": "string"
+    },
+    "selectedOptions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "accessories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "dependencyNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warningNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contactName": {
+      "type": "string"
+    },
+    "agency": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "vehicleCount": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewed",
+        "quoted",
+        "closed"
+      ],
+      "default": "new"
+    },
+    "source": {
+      "type": "string"
+    },
+    "submittedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "productId",
+    "productTitle",
+    "contactName",
+    "email",
+    "agency"
+  ]
+}

@@ -1,6 +1,6 @@
 /**
  * adapters/base44/quoteRequestAdapter.js
- * Delivery adapter: Base44 SendEmail.
+ * Delivery adapter: Base44 SendEmail + QuoteRequest entity storage.
  *
  * This is the ONLY file that imports base44Client.
  * To swap delivery (e.g. REST endpoint, Shopify, CRM):
@@ -70,14 +70,7 @@ Data is illustrative — not a production order.
 `.trim();
 }
 
-// ─── Adapter Entry Point ─────────────────────────────────────────────────────
-
-/**
- * Send a quote request payload via Base44 SendEmail.
- * @param {QuotePayload} payload
- * @returns {Promise<{ success: boolean, error?: string }>}
- */
-function buildConfirmationBody(payload) {
+function buildConfirmationBody(payload, referenceId) {
   const { contact, productTitle, skuPreview, selectedOptions } = payload;
   const optionsBlock = selectedOptions.map(o => `  ${o.stepLabel}: ${o.selected.join(', ')}`).join('\n');
   return `
@@ -89,6 +82,7 @@ Your configuration summary:
 ${optionsBlock || '  (none)'}
 
 SKU Reference: ${skuPreview || '(pending)'}
+Reference #:   ${referenceId || 'N/A'}
 
 A TFR Supply representative will review your request and be in touch shortly.
 
@@ -97,11 +91,41 @@ TFR Supply Pro Shop
 `.trim();
 }
 
-export async function submitViaBase44Email(payload) {
-  const body = buildEmailBody(payload);
-  const subject = `Quote Request — ${payload.productTitle} (${payload.skuPreview || 'Incomplete SKU'})`;
+// ─── Adapter Entry Point ─────────────────────────────────────────────────────
 
-  // Send to quote recipient
+/**
+ * Persist quote record, send internal email, optionally send confirmation.
+ * @param {QuotePayload} payload
+ * @returns {Promise<{ success: boolean, referenceId?: string, error?: string }>}
+ */
+export async function submitViaBase44Email(payload) {
+  // 1. Persist record first — if this fails, we surface the error before sending email
+  const record = await base44.entities.QuoteRequest.create({
+    productId:       payload.productId,
+    configuratorId:  payload.configuratorId,
+    productTitle:    payload.productTitle,
+    skuPreview:      payload.skuPreview || '',
+    selectedOptions: payload.selectedOptions,
+    accessories:     payload.accessories,
+    dependencyNotes: payload.dependencyNotes,
+    warningNotes:    payload.warningNotes,
+    contactName:     payload.contact.name,
+    agency:          payload.contact.agency,
+    email:           payload.contact.email,
+    phone:           payload.contact.phone || '',
+    vehicleCount:    payload.contact.vehicleCount || '',
+    notes:           payload.contact.notes || '',
+    status:          'new',
+    source:          payload.source,
+    submittedAt:     payload.timestamp,
+  });
+
+  const referenceId = record?.id ? `QR-${record.id.slice(-6).toUpperCase()}` : null;
+
+  // 2. Send internal email to quote recipient
+  const body = buildEmailBody(payload);
+  const subject = `Quote Request — ${payload.productTitle} (${payload.skuPreview || 'Incomplete SKU'})${referenceId ? ` [${referenceId}]` : ''}`;
+
   await base44.integrations.Core.SendEmail({
     from_name: appConfig.quoteSenderName,
     to: appConfig.quoteRecipientEmail,
@@ -109,15 +133,15 @@ export async function submitViaBase44Email(payload) {
     body,
   });
 
-  // Send confirmation to requestor (if enabled)
+  // 3. Send confirmation to requestor (if enabled)
   if (appConfig.quoteSendConfirmation && payload.contact?.email) {
     await base44.integrations.Core.SendEmail({
       from_name: appConfig.quoteSenderName,
       to: payload.contact.email,
-      subject: `Your Quote Request — ${payload.productTitle}`,
-      body: buildConfirmationBody(payload),
+      subject: `Your Quote Request — ${payload.productTitle}${referenceId ? ` [${referenceId}]` : ''}`,
+      body: buildConfirmationBody(payload, referenceId),
     });
   }
 
-  return { success: true };
+  return { success: true, referenceId };
 }

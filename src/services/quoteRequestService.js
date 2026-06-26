@@ -99,7 +99,7 @@ export function validateContactForm(contactForm) {
  * Primary submission entry point. UI calls this and nothing else.
  *
  * @param {QuotePayload} payload — built via buildQuotePayload
- * @returns {Promise<{ success: boolean, error?: string }>}
+ * @returns {Promise<{ success: boolean, referenceId?: string, error?: string }>}
  */
 export async function submitQuoteRequest(payload) {
   return submitViaBase44Email(payload);
