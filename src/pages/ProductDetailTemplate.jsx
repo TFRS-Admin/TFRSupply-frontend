@@ -16,8 +16,7 @@ const TABS_REGISTRY = {
 };
 import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock } from 'lucide-react';
 import { ConfigurationProvider } from '@/context/ConfigurationContext';
-import ConfigurationSummary from '@/components/configurator/ConfigurationSummary';
-import QuoteRequestPanel from '@/components/configurator/QuoteRequestPanel';
+import ConfiguratorLayout from '@/components/configurator/ConfiguratorLayout';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -248,10 +247,7 @@ export default function ProductDetailTemplate() {
               Build &amp; Configure
             </p>
             <ConfigurationProvider configuratorId={data.configuratorId}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'flex-start' }}>
-                <ConfigurationSummary />
-                <QuoteRequestPanel productMeta={{ productId: data.productId || productId, configuratorId: data.configuratorId, productTitle: data.title }} />
-              </div>
+              <ConfiguratorLayout productMeta={{ productId: data.productId || productId, configuratorId: data.configuratorId, productTitle: data.title }} />
             </ConfigurationProvider>
           </div>
         </div>

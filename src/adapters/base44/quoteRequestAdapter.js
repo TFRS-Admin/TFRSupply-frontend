@@ -8,10 +8,7 @@
  */
 
 import { base44 } from '@/api/base44Client';
-
-// ─── Email Recipient ─────────────────────────────────────────────────────────
-// In production replace with an env-configurable address or app setting.
-const QUOTE_RECIPIENT = 'quotes@tfrsupply.com';
+import appConfig from '@/config/appConfig';
 
 // ─── Email Body Builder ──────────────────────────────────────────────────────
 
@@ -80,14 +77,47 @@ Data is illustrative — not a production order.
  * @param {QuotePayload} payload
  * @returns {Promise<{ success: boolean, error?: string }>}
  */
+function buildConfirmationBody(payload) {
+  const { contact, productTitle, skuPreview, selectedOptions } = payload;
+  const optionsBlock = selectedOptions.map(o => `  ${o.stepLabel}: ${o.selected.join(', ')}`).join('\n');
+  return `
+Hi ${contact.name},
+
+Thank you for submitting a quote request for the ${productTitle}.
+
+Your configuration summary:
+${optionsBlock || '  (none)'}
+
+SKU Reference: ${skuPreview || '(pending)'}
+
+A TFR Supply representative will review your request and be in touch shortly.
+
+—
+TFR Supply Pro Shop
+`.trim();
+}
+
 export async function submitViaBase44Email(payload) {
   const body = buildEmailBody(payload);
+  const subject = `Quote Request — ${payload.productTitle} (${payload.skuPreview || 'Incomplete SKU'})`;
 
+  // Send to quote recipient
   await base44.integrations.Core.SendEmail({
-    to: QUOTE_RECIPIENT,
-    subject: `Quote Request — ${payload.productTitle} (${payload.skuPreview || 'Incomplete SKU'})`,
+    from_name: appConfig.quoteSenderName,
+    to: appConfig.quoteRecipientEmail,
+    subject,
     body,
   });
+
+  // Send confirmation to requestor (if enabled)
+  if (appConfig.quoteSendConfirmation && payload.contact?.email) {
+    await base44.integrations.Core.SendEmail({
+      from_name: appConfig.quoteSenderName,
+      to: payload.contact.email,
+      subject: `Your Quote Request — ${payload.productTitle}`,
+      body: buildConfirmationBody(payload),
+    });
+  }
 
   return { success: true };
 }
