@@ -67,7 +67,14 @@ export default function CategoryTemplate() {
           {/* Sidebar Filters */}
           {filters.length > 0 && (
             <div style={{ width: 220, flexShrink: 0 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', marginBottom: '1rem' }}>Filter By</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: 0 }}>Filter By</p>
+                {Object.values(activeFilter).some(Boolean) && (
+                  <button onClick={() => setActiveFilter({})} style={{ fontSize: 11, color: '#c8102e', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0 }}>
+                    Reset All
+                  </button>
+                )}
+              </div>
               {filters.map(f => (
                 <div key={f.id} style={{ marginBottom: '1.25rem' }}>
                   <p style={{ fontSize: 12, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{f.label}</p>

@@ -21,6 +21,9 @@
       "label": "Navigator® Serial Light Bar",
       "tagline": "High-profile full-size LED light bar.",
       "image": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
+      "vehicle_type": "Police",
+      "profile": "Full-Size",
+      "length": "53\"",
       "badges": ["Full-Size", "Police", "Fire/EMS"],
       "specs": ["45\", 53\", 60\" lengths", "12 Vdc", "5-year warranty"]
     }
