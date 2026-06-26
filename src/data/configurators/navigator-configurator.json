@@ -1,7 +1,7 @@
 {
   "_prototype": true,
-  "_sprint": "Sprint 16 — skuOptions updated with real export SKUs",
-  "_note": "PROTOTYPE DATA. skuOptions now reflects actual Shopify export SKUs (NVG-prefix). Prototype steps (vehicle, mounting, controller) are illustrative and do not map to Shopify option names. Step-to-attribute mapping must be reconciled with real Shopify option names in Sprint 17.",
+  "_sprint": "Sprint 17 — selector alignment with real NVG SKU attributes",
+  "_note": "skuOptions[] sourced from Shopify CSV export. Steps aligned to real attribute values. BB/RB color options removed (no matching SKUs in catalog). TOW/tow6 color handled by 'tow-utility' option. Unverified attributes (color, spec) use soft-filter logic in engine — they narrow but do not falsely eliminate SKUs.",
 
   "id": "navigator-configurator",
   "productId": "navigator",
@@ -9,8 +9,7 @@
   "skuRoot": "NVG",
   "priceDisplay": "Contact for pricing",
 
-  "_skuNote": "skuOptions is the source of truth. User selections filter this list by matching skuSegment values against the sku's attributes. selectedSku is set only when exactly one SKU matches. SKUs sourced from Shopify CSV export (sprint 16) — prototype NAV-SLB-* SKUs removed.",
-  "_attributeVerificationNote": "attributes.length is confirmed from export option2Value. attributes.color and attributes.spec are inferred from SKU suffix and option3Value — marked needs_verification:true until confirmed against real Shopify option names in Admin.",
+  "_skuNote": "SKUs are the source of truth. Engine filters skuOptions[] by matching step skuSegment values against sku attributes. Unverified attributes are soft-filtered only. selectedSku is set only when exactly one SKU matches.",
   "skuOptions": [
     {
       "sku": "NVG45Z-NFPA20", "label": "Navigator 45\" Red-White (NFPA 2020)",
@@ -27,7 +26,7 @@
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG53D-MUNI1RHC",  "label": "Navigator 53\" Amber-White (Municipal HC)",
+      "sku": "NVG53D-MUNI1RHC", "label": "Navigator 53\" Amber-White (Municipal HC)",
       "price": 4552.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "AW", "spec": "MUNI" },
       "_source": "shopify_export",
@@ -41,47 +40,47 @@
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG53Z-NFPA20",  "label": "Navigator 53\" Red-White (NFPA 2020)",
+      "sku": "NVG53Z-NFPA20", "label": "Navigator 53\" Red-White (NFPA 2020)",
       "price": 5142.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "RW", "spec": "NFPA20" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG53Z-NFPA21",  "label": "Navigator 53\" Red-White (NFPA 2021)",
+      "sku": "NVG53Z-NFPA21", "label": "Navigator 53\" Red-White (NFPA 2021)",
       "price": 4752.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "RW", "spec": "NFPA21" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG60D-NFPA20",  "label": "Navigator 60\" Red-White (NFPA 2020)",
+      "sku": "NVG60D-NFPA20", "label": "Navigator 60\" Red-White (NFPA 2020)",
       "price": 3450.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "RW", "spec": "NFPA20" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG60D-NFPA21",  "label": "Navigator 60\" Red-White (NFPA 2021)",
+      "sku": "NVG60D-NFPA21", "label": "Navigator 60\" Red-White (NFPA 2021)",
       "price": 3850.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "RW", "spec": "NFPA21" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG60D-NFPA22",  "label": "Navigator 60\" Red-White (NFPA 2022)",
+      "sku": "NVG60D-NFPA22", "label": "Navigator 60\" Red-White (NFPA 2022)",
       "price": 4290.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "RW", "spec": "NFPA22" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
-      "sku": "NVG60D-TOW2FC",  "label": "Navigator 60\" Tow/Utility (2FC)",
+      "sku": "NVG60D-TOW2FC", "label": "Navigator 60\" Tow/Utility (2FC)",
       "price": 4750.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" },
-      "_color_note": "Shopify export shows 'See Description' — actual color breakdown requires product spec sheet"
+      "_color_note": "Export shows 'See Description' — actual colors require product spec sheet"
     },
     {
       "sku": "NVG60Z-TOW2FC6", "label": "Navigator 60\" Tow/Utility (2FC6)",
@@ -89,7 +88,7 @@
       "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW6" },
       "_source": "shopify_export",
       "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" },
-      "_color_note": "Shopify export shows 'See Description' — actual color breakdown requires product spec sheet"
+      "_color_note": "Export shows 'See Description' — actual colors require product spec sheet"
     }
   ],
 
@@ -101,23 +100,23 @@
       "60in": "navigator-light-bar-60"
     },
     "storeHandle": null,
-    "_storeHandle_note": "Collect from Shopify Admin → Settings → Domains (e.g. 'tfrsupply')",
+    "_storeHandle_note": "Collect from Shopify Admin → Settings → Domains",
     "variantMap": []
   },
 
-  "_stepNote": "Steps below use prototype skuSegment values (BB, RB, AM, etc.) that do NOT yet match the export's real color/spec codes (RW, AW, NFPA20, etc.). Steps must be reconciled with real Shopify option names in Sprint 17 before SKU resolution works end-to-end with live data.",
   "steps": [
     {
       "id": "vehicle",
       "label": "Vehicle Type",
       "required": true,
       "skuSegmentKey": "vehicle",
-      "_note": "Illustrative — no matching Shopify option. Maps to customAttribute only.",
+      "_skuFilterActive": false,
+      "_note": "Passes as customAttribute only — no matching attribute in skuOptions. Does not filter SKUs.",
       "options": [
-        { "id": "patrol-sedan",  "label": "Patrol Sedan",        "skuSegment": "PS",  "_prototype": true },
-        { "id": "patrol-suv",    "label": "Patrol SUV / Truck",  "skuSegment": "SUV", "_prototype": true },
-        { "id": "fire-apparatus","label": "Fire Apparatus",      "skuSegment": "FA",  "_prototype": true },
-        { "id": "command",       "label": "Command / Admin",     "skuSegment": "CMD", "_prototype": true }
+        { "id": "patrol-sedan",   "label": "Patrol Sedan",       "skuSegment": "PS" },
+        { "id": "patrol-suv",     "label": "Patrol SUV / Truck", "skuSegment": "SUV" },
+        { "id": "fire-apparatus", "label": "Fire Apparatus",     "skuSegment": "FA" },
+        { "id": "command",        "label": "Command / Admin",    "skuSegment": "CMD" }
       ]
     },
     {
@@ -125,11 +124,13 @@
       "label": "Bar Length",
       "required": true,
       "skuSegmentKey": "length",
-      "_note": "Segment values (45, 53, 60) match skuOptions attributes.length — SKU filtering active.",
+      "_skuFilterActive": true,
+      "_verification": "confirmed",
+      "_note": "Confirmed from CSV export option2Value. Filters skuOptions by attributes.length.",
       "options": [
-        { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact sedans and smaller SUVs", "_prototype": true },
-        { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and pickups",     "_prototype": true },
-        { "id": "60in", "label": "60\"", "skuSegment": "60", "description": "Fire apparatus and large trucks", "_prototype": true }
+        { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact sedans and smaller SUVs — 2 SKUs" },
+        { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and pickups — 4 SKUs" },
+        { "id": "60in", "label": "60\"", "skuSegment": "60", "description": "Fire apparatus and large trucks — 5 SKUs" }
       ]
     },
     {
@@ -137,29 +138,47 @@
       "label": "Color Configuration",
       "required": true,
       "skuSegmentKey": "color",
-      "_note": "Prototype segments (BB, RB, AM) do NOT match export attribute values (RW, AW, CUSTOM). Reconcile in Sprint 17.",
+      "_skuFilterActive": true,
+      "_verification": "needs_verification",
+      "_note": "Values inferred from Shopify export option3Value. BB and RB removed — no matching catalog SKUs. Soft-filter only: engine skips this filter if attribute is unverified and selected value doesn't match any SKU.",
+      "_removedOptions": ["BB (Blue/Blue) — no catalog SKU", "RB (Red/Blue) — no catalog SKU"],
       "options": [
-        { "id": "blue-blue",  "label": "Blue / Blue",  "skuSegment": "BB", "_prototype": true },
-        { "id": "red-blue",   "label": "Red / Blue",   "skuSegment": "RB", "_prototype": true },
-        { "id": "red-white",  "label": "Red / White",  "skuSegment": "RW", "_prototype": true },
-        { "id": "amber",      "label": "Amber",         "skuSegment": "AM", "tags": ["work-truck", "fire"], "_prototype": true },
-        { "id": "amber-white","label": "Amber / White", "skuSegment": "AW", "_prototype": true }
+        {
+          "id": "red-white",
+          "label": "Red / White",
+          "skuSegment": "RW",
+          "_note": "Inferred from export option3Value 'Red-White' → RW. Needs verification against real Shopify option name."
+        },
+        {
+          "id": "amber-white",
+          "label": "Amber / White",
+          "skuSegment": "AW",
+          "_note": "Inferred from export option3Value 'Amber-White' → AW. Available on 53\" models only."
+        },
+        {
+          "id": "tow-utility",
+          "label": "Tow / Utility (See Description)",
+          "skuSegment": "CUSTOM",
+          "_note": "Export shows 'See Description' for tow SKUs. Actual color combination in product spec sheet. Available on 60\" only."
+        }
       ]
     },
     {
       "id": "spec",
-      "label": "Specification / Configuration",
+      "label": "Specification",
       "required": false,
       "skuSegmentKey": "spec",
-      "_note": "New step added sprint 16. Matches skuOptions attributes.spec (NFPA20, NFPA21, NFPA22, MUNI, TOW). Reconcile option labels with real Shopify option names in Sprint 17.",
+      "_skuFilterActive": true,
+      "_verification": "needs_verification",
+      "_note": "Values inferred from SKU suffix. May not be a real Shopify option — may be customAttribute only. Soft-filter: narrows SKU list when selected but does not falsely eliminate SKUs when unverified.",
       "options": [
-        { "id": "nfpa20", "label": "NFPA 2020", "skuSegment": "NFPA20", "_prototype": true },
-        { "id": "nfpa21", "label": "NFPA 2021", "skuSegment": "NFPA21", "_prototype": true },
-        { "id": "nfpa22", "label": "NFPA 2022", "skuSegment": "NFPA22", "_prototype": true },
-        { "id": "muni",   "label": "Municipal (HC)",  "skuSegment": "MUNI",  "_prototype": true },
-        { "id": "muni6",  "label": "Municipal (HC6)", "skuSegment": "MUNI6", "_prototype": true },
-        { "id": "tow",    "label": "Tow / Utility",   "skuSegment": "TOW",   "_prototype": true },
-        { "id": "tow6",   "label": "Tow / Utility 6", "skuSegment": "TOW6",  "_prototype": true }
+        { "id": "nfpa20", "label": "NFPA 2020", "skuSegment": "NFPA20", "description": "Available: 45\", 53\", 60\"" },
+        { "id": "nfpa21", "label": "NFPA 2021", "skuSegment": "NFPA21", "description": "Available: 45\", 53\", 60\"" },
+        { "id": "nfpa22", "label": "NFPA 2022", "skuSegment": "NFPA22", "description": "Available: 60\" only" },
+        { "id": "muni",   "label": "Municipal (HC)",  "skuSegment": "MUNI",  "description": "Available: 53\" only" },
+        { "id": "muni6",  "label": "Municipal (HC6)", "skuSegment": "MUNI6", "description": "Available: 53\" only" },
+        { "id": "tow",    "label": "Tow / Utility (2FC)",  "skuSegment": "TOW",  "description": "Available: 60\" only" },
+        { "id": "tow6",   "label": "Tow / Utility (2FC6)", "skuSegment": "TOW6", "description": "Available: 60\" only" }
       ]
     },
     {
@@ -167,11 +186,12 @@
       "label": "Mounting Type",
       "required": true,
       "skuSegmentKey": "mounting",
-      "_note": "Illustrative — no matching Shopify option. Maps to customAttribute only.",
+      "_skuFilterActive": false,
+      "_note": "Passes as customAttribute only — no matching attribute in skuOptions. Does not filter SKUs.",
       "options": [
-        { "id": "perm",    "label": "Permanent Mount",   "skuSegment": "PERM", "_prototype": true },
-        { "id": "magnetic","label": "Magnetic Mount",    "skuSegment": "MAG",  "description": "Not recommended for high-speed pursuit", "_prototype": true },
-        { "id": "rack",    "label": "Rack Mount",        "skuSegment": "RACK", "_prototype": true }
+        { "id": "perm",    "label": "Permanent Mount", "skuSegment": "PERM" },
+        { "id": "magnetic","label": "Magnetic Mount",   "skuSegment": "MAG", "description": "Not recommended for high-speed pursuit" },
+        { "id": "rack",    "label": "Rack Mount",       "skuSegment": "RACK" }
       ]
     },
     {
@@ -179,11 +199,12 @@
       "label": "Siren / Controller",
       "required": false,
       "skuSegmentKey": "controller",
-      "_note": "Illustrative — no matching Shopify option. Maps to customAttribute only.",
+      "_skuFilterActive": false,
+      "_note": "Passes as customAttribute only — no matching attribute in skuOptions. Does not filter SKUs.",
       "options": [
-        { "id": "none",      "label": "No Controller (Light Bar Only)", "skuSegment": "NCTRL", "_prototype": true },
-        { "id": "sm4",       "label": "SignalMaster® 4-Position",       "skuSegment": "SM4",   "priceModifier": 110, "_prototype": true },
-        { "id": "pathfinder","label": "PathFinder® II Siren",           "skuSegment": "PF2",   "priceModifier": 285, "_prototype": true }
+        { "id": "none",       "label": "No Controller (Light Bar Only)", "skuSegment": "NCTRL" },
+        { "id": "sm4",        "label": "SignalMaster® 4-Position",       "skuSegment": "SM4",  "priceModifier": 110 },
+        { "id": "pathfinder", "label": "PathFinder® II Siren",           "skuSegment": "PF2",  "priceModifier": 285 }
       ]
     },
     {
@@ -192,10 +213,11 @@
       "required": false,
       "multiple": true,
       "skuSegmentKey": "accessories",
+      "_skuFilterActive": false,
       "options": [
-        { "id": "cable-10",  "label": "10 ft. Main Harness",   "skuSegment": "C10",  "priceModifier": 28,  "_prototype": true },
-        { "id": "cable-14",  "label": "14 ft. Main Harness",   "skuSegment": "C14",  "priceModifier": 32,  "_prototype": true },
-        { "id": "alley-kit", "label": "Alley Light Add-On Kit","skuSegment": "ALLY", "priceModifier": 95,  "_prototype": true }
+        { "id": "cable-10",  "label": "10 ft. Main Harness",    "skuSegment": "C10",  "priceModifier": 28 },
+        { "id": "cable-14",  "label": "14 ft. Main Harness",    "skuSegment": "C14",  "priceModifier": 32 },
+        { "id": "alley-kit", "label": "Alley Light Add-On Kit", "skuSegment": "ALLY", "priceModifier": 95 }
       ]
     }
   ],
@@ -208,7 +230,7 @@
       "ifOption": "fire-apparatus",
       "thenStep": "length",
       "thenOption": "60in",
-      "message": "Fire apparatus builds typically require the 60\" bar. Please confirm your length selection."
+      "message": "Fire apparatus builds require the 60\" bar. Please confirm your length selection."
     },
     {
       "id": "dep-magnetic-controller",
@@ -232,13 +254,13 @@
       "message": "Magnetic mount is not approved for fire apparatus installations."
     },
     {
-      "id": "warn-amber-blue",
+      "id": "warn-tow-patrol",
       "type": "warns",
       "stepA": "color",
-      "optionA": "amber",
+      "optionA": "tow-utility",
       "stepB": "vehicle",
       "optionB": "patrol-sedan",
-      "message": "Amber is non-standard for police patrol vehicles. Verify jurisdiction requirements."
+      "message": "Tow/Utility configuration is non-standard for police patrol vehicles. Verify application."
     }
   ]
 }

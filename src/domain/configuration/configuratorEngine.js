@@ -4,6 +4,11 @@
  *
  * All functions are pure: (session, selections) => result.
  * The React context owns state; the engine only computes.
+ *
+ * Sprint 17: Soft-filter logic for unverified SKU attributes.
+ * Steps with _verification:'needs_verification' narrow SKU candidates
+ * when their segment matches, but never falsely eliminate SKUs when the
+ * attribute value is uncertain. Confirmed attributes (e.g. length) filter hard.
  */
 
 import { createSession, createSelectionState } from './models.js';
@@ -18,10 +23,6 @@ export function initializeEngine(configuratorJson) {
 
 // ─── Selection Management ──────────────────────────────────────────────────
 
-/**
- * Apply a single option selection. Returns a new selections object.
- * Clears forced/dependent downstream state when a parent changes.
- */
 export function applySelection(session, selections, stepId, optionId) {
   const step = session.steps.find(s => s.id === stepId);
   if (!step) return selections;
@@ -42,9 +43,6 @@ export function applySelection(session, selections, stepId, optionId) {
   return next;
 }
 
-/**
- * Clear a single step's selection.
- */
 export function clearStep(selections, stepId) {
   const next = { ...selections };
   delete next[stepId];
@@ -53,9 +51,6 @@ export function clearStep(selections, stepId) {
 
 // ─── Step Status ───────────────────────────────────────────────────────────
 
-/**
- * Returns true if a step has a non-empty selection.
- */
 export function isStepComplete(selections, step) {
   const val = selections[step.id];
   if (val === undefined || val === null) return false;
@@ -63,10 +58,6 @@ export function isStepComplete(selections, step) {
   return true;
 }
 
-/**
- * Returns the ordered list of required steps that are not yet complete.
- * Includes steps made required by active dependency rules.
- */
 export function getPendingRequiredSteps(session, selections) {
   const depRequiredStepIds = new Set(
     getDependencyRequiredSteps(session, selections).map(d => d.stepId)
@@ -79,9 +70,6 @@ export function getPendingRequiredSteps(session, selections) {
   });
 }
 
-/**
- * Returns the first incomplete required step, or null if all done.
- */
 export function getNextRequiredStep(session, selections) {
   return getPendingRequiredSteps(session, selections)[0] || null;
 }
@@ -104,10 +92,6 @@ export function getCompletionPercentage(session, selections) {
 
 // ─── Dependency Evaluation ─────────────────────────────────────────────────
 
-/**
- * Returns active dependency rules given current selections.
- * A rule is active when its `ifStep`/`ifOption` condition is met.
- */
 export function getActiveDependencies(session, selections) {
   return session.dependencyRules.filter(rule => {
     const val = selections[rule.ifStep];
@@ -116,22 +100,16 @@ export function getActiveDependencies(session, selections) {
   });
 }
 
-/**
- * Returns steps that are currently required due to active dependency rules,
- * enriched with trigger context (which option caused it).
- */
 export function getDependencyRequiredSteps(session, selections) {
   const active = getActiveDependencies(session, selections);
   return active
     .filter(r => r.type === 'requires')
     .map(r => {
-      // Resolve human-readable trigger label
       const triggerStep = session.steps.find(s => s.id === r.ifStep);
       const triggerOption = triggerStep?.options.find(o => o.id === r.ifOption);
       const triggerLabel = triggerOption?.label || r.ifOption;
       const triggerStepLabel = triggerStep?.label || r.ifStep;
 
-      // Resolve target step label
       const targetStep = session.steps.find(s => s.id === r.thenStep);
       const targetStepLabel = targetStep?.label || r.thenStep;
 
@@ -148,10 +126,6 @@ export function getDependencyRequiredSteps(session, selections) {
 
 // ─── Compatibility / Exclusion Evaluation ─────────────────────────────────
 
-/**
- * Returns all active compatibility violations, enriched with option labels.
- * Each violation: { type, message, ruleId, optionALabel, optionBLabel }
- */
 export function getCompatibilityViolations(session, selections) {
   return session.compatibilityRules
     .filter(rule => {
@@ -178,43 +152,83 @@ export function getCompatibilityViolations(session, selections) {
     });
 }
 
-// ─── SKU Resolution (filter-based) ────────────────────────────────────────
+// ─── SKU Resolution (filter-based, verification-aware) ────────────────────
 
 /**
- * Filters the configurator's skuOptions list against current selections.
+ * Filters skuOptions against current selections with two filter modes:
  *
- * Each skuOption defines attribute key/value pairs (e.g. length, color).
- * A SKU is a candidate when ALL of the user's non-accessory selections match
- * its declared attributes. Missing attributes on a SKU are treated as "any" (pass-through).
+ * HARD filter  — step._verification === 'confirmed'
+ *   The step's skuSegment must exactly match the SKU's attribute value.
+ *   A non-matching attribute eliminates the SKU.
+ *
+ * SOFT filter  — step._verification === 'needs_verification' (or absent)
+ *   The step's skuSegment is used to narrow candidates, but only when the
+ *   selected value actually appears on at least one SKU. If the selected
+ *   segment matches no SKU's attribute at all, the filter is skipped entirely
+ *   to prevent false elimination due to uncertain attribute mappings.
+ *
+ * Multi-select (accessories) steps are always skipped.
+ * Steps with _skuFilterActive === false are always skipped.
  *
  * Returns:
- *   matchingSkus  — all SKUs that fit the current selections
- *   selectedSku   — the single matched SKU (if exactly one match), else null
- *   skuStatus     — 'none' | 'multiple' | 'matched'
+ *   matchingSkus    — all SKUs fitting the current filtered set
+ *   selectedSku     — the single matched SKU (if exactly one match), else null
+ *   skuStatus       — 'none' | 'multiple' | 'matched'
+ *   unverifiedSteps — steps where soft-filter was active (for UI warning display)
  */
 export function resolveSkuMatch(session, selections) {
   const skuOptions = session.skuOptions;
-  if (!skuOptions || skuOptions.length === 0) return { matchingSkus: [], selectedSku: null, skuStatus: 'none' };
+  if (!skuOptions || skuOptions.length === 0) {
+    return { matchingSkus: [], selectedSku: null, skuStatus: 'none', unverifiedSteps: [] };
+  }
 
-  // Collect non-accessory (single-select) step selections as attribute filters
-  const activeFilters = {};
+  const unverifiedSteps = [];
+
+  // Build active filters from selections
+  const hardFilters = {};
+  const softFilters = {};
+
   session.steps.forEach(step => {
-    if (step.multiple) return; // accessories don't filter SKUs
+    if (step.multiple) return;                        // accessories never filter
+    if (step._skuFilterActive === false) return;      // explicit opt-out
+
     const val = selections[step.id];
-    if (val) {
-      const option = step.options.find(o => o.id === val);
-      if (option && step.skuSegmentKey) {
-        activeFilters[step.skuSegmentKey] = option.skuSegment;
+    if (!val) return;
+
+    const option = step.options.find(o => o.id === val);
+    if (!option || !step.skuSegmentKey) return;
+
+    const attrKey = step.skuSegmentKey;
+    const attrVal = option.skuSegment;
+
+    if (step._verification === 'confirmed') {
+      hardFilters[attrKey] = attrVal;
+    } else {
+      // Soft: only apply if this attribute+value exists on at least one SKU
+      const anySkuHasValue = skuOptions.some(
+        s => attrKey in s.attributes && s.attributes[attrKey] === attrVal
+      );
+      if (anySkuHasValue) {
+        softFilters[attrKey] = attrVal;
+        unverifiedSteps.push({ stepId: step.id, stepLabel: step.label, attrKey, attrVal });
       }
+      // If no SKU has this value, skip filter entirely — avoid false elimination
     }
   });
 
-  // A SKU matches if every active filter attribute matches (or the SKU doesn't declare that attribute)
+  // Apply hard filters first, then soft filters
   const matchingSkus = skuOptions.filter(skuOption => {
-    return Object.entries(activeFilters).every(([attrKey, attrVal]) => {
+    // Hard filters must all match
+    for (const [attrKey, attrVal] of Object.entries(hardFilters)) {
       if (!(attrKey in skuOption.attributes)) return true; // SKU doesn't constrain this attr
-      return skuOption.attributes[attrKey] === attrVal;
-    });
+      if (skuOption.attributes[attrKey] !== attrVal) return false;
+    }
+    // Soft filters narrow further (attribute must match if SKU declares it)
+    for (const [attrKey, attrVal] of Object.entries(softFilters)) {
+      if (!(attrKey in skuOption.attributes)) return true; // pass-through if undeclared
+      if (skuOption.attributes[attrKey] !== attrVal) return false;
+    }
+    return true;
   });
 
   const selectedSku = matchingSkus.length === 1 ? matchingSkus[0].sku : null;
@@ -222,15 +236,11 @@ export function resolveSkuMatch(session, selections) {
   if (matchingSkus.length === 1) skuStatus = 'matched';
   else if (matchingSkus.length > 1) skuStatus = 'multiple';
 
-  return { matchingSkus, selectedSku, skuStatus };
+  return { matchingSkus, selectedSku, skuStatus, unverifiedSteps };
 }
 
 // ─── Multi-Select Accessory Summary ───────────────────────────────────────
 
-/**
- * Returns a flat list of selected accessories (from all multiple=true steps).
- * Each entry: { stepId, stepLabel, optionId, optionLabel, priceModifier }
- */
 export function getSelectedAccessories(session, selections) {
   const result = [];
   session.steps.forEach(step => {
@@ -255,21 +265,17 @@ export function getSelectedAccessories(session, selections) {
 
 // ─── Summary Computation ───────────────────────────────────────────────────
 
-/**
- * Compute the full summary object consumed by the React context and UI.
- */
 export function computeSummary(session, selections) {
   const violations = getCompatibilityViolations(session, selections);
   const depRequirements = getDependencyRequiredSteps(session, selections);
   const completion = getCompletionPercentage(session, selections);
-  const { matchingSkus, selectedSku, skuStatus } = resolveSkuMatch(session, selections);
+  const { matchingSkus, selectedSku, skuStatus, unverifiedSteps } = resolveSkuMatch(session, selections);
   const pendingSteps = getPendingRequiredSteps(session, selections);
   const accessories = getSelectedAccessories(session, selections);
 
   const hardViolations = violations.filter(v => v.type === 'excludes');
   const isComplete = pendingSteps.length === 0 && hardViolations.length === 0;
 
-  // Build per-step resolved selection labels for display (non-multiple steps only)
   const resolvedSelections = session.steps
     .filter(s => !s.multiple && isStepComplete(selections, s))
     .map(step => {
@@ -285,11 +291,10 @@ export function computeSummary(session, selections) {
     depRequirements,
     violations,
     completion,
-    // SKU resolution — replaces generated skuPreview
-    selectedSku,       // string | null — the exact matched SKU (single match only)
-    matchingSkus,      // array — all SKUs fitting current selections
-    skuStatus,         // 'none' | 'multiple' | 'matched'
-    // Legacy alias — kept for backward compat with panels that read skuPreview
+    selectedSku,
+    matchingSkus,
+    skuStatus,
+    unverifiedSteps,    // NEW: steps whose attribute mapping is unverified — shown as warnings in UI
     skuPreview: selectedSku,
     pendingSteps,
     isComplete,

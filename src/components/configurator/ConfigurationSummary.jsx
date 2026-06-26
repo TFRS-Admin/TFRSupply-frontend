@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { AlertTriangle, XCircle, CheckCircle, ChevronRight, RotateCcw, Percent, Package } from 'lucide-react';
+import { AlertTriangle, XCircle, CheckCircle, ChevronRight, RotateCcw, Percent, Package, FlaskConical } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -90,6 +90,21 @@ function ExclusionNotice({ v }) {
   );
 }
 
+// ─── SKU Attribute Verification Notice ────────────────────────────────────
+
+function SkuVerificationNotice({ unverifiedSteps }) {
+  if (!unverifiedSteps || unverifiedSteps.length === 0) return null;
+  const labels = unverifiedSteps.map(s => s.stepLabel).join(', ');
+  return (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: '8px 12px', background: '#f0f9ff', border: '1px solid #bae6fd', marginTop: 6 }}>
+      <FlaskConical size={13} style={{ color: '#0284c7', flexShrink: 0, marginTop: 1 }} />
+      <p style={{ fontSize: 11, color: '#0369a1', margin: 0 }}>
+        <strong>Unverified attribute{unverifiedSteps.length > 1 ? 's' : ''}:</strong> {labels} — inferred from Shopify export, not confirmed against real option names. SKU match may shift once verified.
+      </p>
+    </div>
+  );
+}
+
 // ─── Soft Warning Notice ───────────────────────────────────────────────────
 
 function WarningNotice({ v }) {
@@ -159,6 +174,7 @@ export default function ConfigurationSummary() {
     selectedSku,
     matchingSkus,
     skuStatus,
+    unverifiedSteps,
     priceDisplay,
     isComplete,
     pendingSteps,
@@ -275,6 +291,7 @@ export default function ConfigurationSummary() {
                   +{accessories.map(a => a.optionLabel).join(', ')}
                 </p>
               )}
+              <SkuVerificationNotice unverifiedSteps={unverifiedSteps} />
             </div>
           )}
           {skuStatus === 'none' && resolvedSelections.length > 0 && (
