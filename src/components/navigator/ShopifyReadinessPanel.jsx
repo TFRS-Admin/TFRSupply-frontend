@@ -100,10 +100,12 @@ function MappingWorksheet({ productData }) {
   const skuTable = productData?.commerce?.sku_table ?? [];
 
   const allMissing = [];
-  if (!shopify.product_id) allMissing.push('shopify.product_id — Shopify Admin → Products → URL numeric ID');
+  if (!shopify.product_id) allMissing.push('shopify.product_id — collect ONE product GID from Shopify Admin URL');
+  if (!shopify.handle) allMissing.push('shopify.handle — confirm single handle in Shopify Admin');
   if (!shopify.cart_eligible) allMissing.push('shopify.cart_eligible — set true after all GIDs collected');
   if (!shopify.storefront_available) allMissing.push('shopify.storefront_available — set true after Storefront API confirmed');
-  if (!shopify.variant_mappings?.length) allMissing.push(`shopify.variant_mappings — ${skuTable.length} variant GIDs needed`);
+  const nullVariants = shopify.variant_mappings?.filter(m => !m.shopify_variant_id).length ?? skuTable.length;
+  if (nullVariants > 0) allMissing.push(`${nullVariants} of ${skuTable.length} variant GIDs — collect from Admin → Navigator → Variants`);
   const unmappedAccessories = accessories.filter(a => !a.shopify_variant_id);
   if (unmappedAccessories.length > 0) allMissing.push(`Accessory variant IDs — ${unmappedAccessories.length} of ${accessories.length} unmapped`);
   allMissing.push('SHOPIFY_STOREFRONT_ACCESS_TOKEN — Base44 backend secret (never in source)');
@@ -169,6 +171,9 @@ function MappingWorksheet({ productData }) {
           <span style={{ display: 'block', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744', marginBottom: 6 }}>
             Product Fields
           </span>
+          <div style={{ padding: '4px 8px', background: '#eff6ff', border: '1px solid #bfdbfe', fontSize: 10, color: '#1e40af', marginBottom: 8 }}>
+            ℹ One product GID required — Navigator = 1 Shopify product with {skuTable.length} variants
+          </div>
           <WorksheetRow label="product_id" value={shopify.product_id} source="admin_required" />
           <WorksheetRow label="handle" value={shopify.handle} source={shopify.handle ? 'export' : 'admin_required'} />
           <WorksheetRow label="cart_eligible" value={String(shopify.cart_eligible)} source="placeholder" />
@@ -301,7 +306,10 @@ export default function ShopifyReadinessPanel({ productData, configuratorData })
 
           {/* Product mapping */}
           <div style={sectionStyle}>
-            <span style={labelStyle}>Product Mapping ({product.missing.length === 0 ? '✓ Complete' : `${product.missing.length} missing`})</span>
+            <span style={labelStyle}>
+              Product Mapping — 1 product / {productData?.shopify?.variant_mappings?.length ?? 0} variants
+              {' '}({product.missing.length === 0 ? '✓ Complete' : `${product.missing.length} missing`})
+            </span>
             {product.checks.map(c => <CheckRow key={c.key} check={c} />)}
           </div>
 

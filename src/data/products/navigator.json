@@ -65,8 +65,8 @@
   },
   "documentation": {
     "manuals": [
-      { "label": "Installation Manual",   "url": "#", "type": "pdf" },
-      { "label": "Programming Guide",     "url": "#", "type": "pdf" }
+      { "label": "Installation Manual", "url": "#", "type": "pdf" },
+      { "label": "Programming Guide",   "url": "#", "type": "pdf" }
     ],
     "brochures": [
       { "label": "Navigator Series Brochure", "url": "#", "type": "pdf" }
@@ -82,209 +82,50 @@
     "availability": "In Stock",
     "price_display": "contact",
     "accessories": [
-      { "sku": "NAV-CABLE-10", "label": "10 ft. Main Harness Cable",          "price": 28.00 },
-      { "sku": "NAV-CABLE-14", "label": "14 ft. Main Harness Cable",          "price": 32.00 },
-      { "sku": "NAV-BRKT-STD", "label": "Standard Permanent Mount Bracket",   "price": 45.00 },
-      { "sku": "NAV-BRKT-MAG", "label": "Magnetic Mount Kit",                 "price": 75.00 },
-      { "sku": "NAV-CTRL-SM4", "label": "SignalMaster® 4-Position Switch",   "price": 110.00 }
+      { "sku": "NAV-CABLE-10", "label": "10 ft. Main Harness Cable",        "price": 28.00 },
+      { "sku": "NAV-CABLE-14", "label": "14 ft. Main Harness Cable",        "price": 32.00 },
+      { "sku": "NAV-BRKT-STD", "label": "Standard Permanent Mount Bracket", "price": 45.00 },
+      { "sku": "NAV-BRKT-MAG", "label": "Magnetic Mount Kit",               "price": 75.00 },
+      { "sku": "NAV-CTRL-SM4", "label": "SignalMaster® 4-Position Switch",  "price": 110.00 }
     ],
     "related_products": ["valor", "allegiant-max"],
-    "_skuNote": "sku_table now reflects real Shopify export SKUs (sprint 16). Prototype SKUs (NAV-SLB-*) replaced with actual NVG-prefix SKUs from export.",
+    "_skuNote": "SKUs from Shopify export (Sprint 16). Navigator = one Shopify product, 11 variants (Sprint 18).",
     "sku_table": [
-      {
-        "sku": "NVG45Z-NFPA20", "length": "45\"", "color": "Red-White",    "features": "NFPA 2020 compliant", "voltage": "12V",
-        "_source": "shopify_export", "_price": 4639.00,
-        "_handle": "navigator-light-bar-45",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-45 → Variants"
-      },
-      {
-        "sku": "NVG45Z-NFPA21", "length": "45\"", "color": "Red-White",    "features": "NFPA 2021 compliant", "voltage": "12V",
-        "_source": "shopify_export", "_price": 4249.00,
-        "_handle": "navigator-light-bar-45",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-45 → Variants"
-      },
-      {
-        "sku": "NVG53D-MUNI1RHC",  "length": "53\"", "color": "Amber-White", "features": "Municipal, 1 rotator, hi-count",      "voltage": "12V",
-        "_source": "shopify_export", "_price": 4552.00,
-        "_handle": "navigator-light-bar-53",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-53 → Variants"
-      },
-      {
-        "sku": "NVG53Z-MUNI1RHC6", "length": "53\"", "color": "Amber-White", "features": "Municipal, 1 rotator, hi-count, 6-zone","voltage": "12V",
-        "_source": "shopify_export", "_price": 5012.00,
-        "_handle": "navigator-light-bar-53",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-53 → Variants"
-      },
-      {
-        "sku": "NVG53Z-NFPA20",  "length": "53\"", "color": "Red-White",    "features": "NFPA 2020 compliant",                "voltage": "12V",
-        "_source": "shopify_export", "_price": 5142.00,
-        "_handle": "navigator-light-bar-53",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-53 → Variants"
-      },
-      {
-        "sku": "NVG53Z-NFPA21",  "length": "53\"", "color": "Red-White",    "features": "NFPA 2021 compliant",                "voltage": "12V",
-        "_source": "shopify_export", "_price": 4752.00,
-        "_handle": "navigator-light-bar-53",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-53 → Variants"
-      },
-      {
-        "sku": "NVG60D-NFPA20",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2020 compliant",                "voltage": "12V",
-        "_source": "shopify_export", "_price": 3450.00,
-        "_handle": "navigator-light-bar-60",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-60 → Variants"
-      },
-      {
-        "sku": "NVG60D-NFPA21",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2021 compliant",                "voltage": "12V",
-        "_source": "shopify_export", "_price": 3850.00,
-        "_handle": "navigator-light-bar-60",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-60 → Variants"
-      },
-      {
-        "sku": "NVG60D-NFPA22",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2022 compliant",                "voltage": "12V",
-        "_source": "shopify_export", "_price": 4290.00,
-        "_handle": "navigator-light-bar-60",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-60 → Variants"
-      },
-      {
-        "sku": "NVG60D-TOW2FC",  "length": "60\"", "color": "See Description","features": "Tow/utility 2-FC configuration",     "voltage": "12V",
-        "_source": "shopify_export", "_price": 4750.00,
-        "_handle": "navigator-light-bar-60",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-60 → Variants"
-      },
-      {
-        "sku": "NVG60Z-TOW2FC6", "length": "60\"", "color": "See Description","features": "Tow/utility 2-FC6 configuration",    "voltage": "12V",
-        "_source": "shopify_export", "_price": 5210.00,
-        "_handle": "navigator-light-bar-60",
-        "_shopify_variant_id_note": "collect from Shopify Admin → navigator-light-bar-60 → Variants"
-      }
+      { "sku": "NVG45Z-NFPA20", "length": "45\"", "color": "Red-White",     "features": "NFPA 2020 compliant",              "voltage": "12V", "_price": 4639.00 },
+      { "sku": "NVG45Z-NFPA21", "length": "45\"", "color": "Red-White",     "features": "NFPA 2021 compliant",              "voltage": "12V", "_price": 4249.00 },
+      { "sku": "NVG53D-MUNI1RHC",  "length": "53\"", "color": "Amber-White","features": "Municipal, 1 rotator, hi-count",   "voltage": "12V", "_price": 4552.00 },
+      { "sku": "NVG53Z-MUNI1RHC6", "length": "53\"", "color": "Amber-White","features": "Municipal, 1 rotator, hi-count, 6-zone", "voltage": "12V", "_price": 5012.00 },
+      { "sku": "NVG53Z-NFPA20",  "length": "53\"", "color": "Red-White",    "features": "NFPA 2020 compliant",              "voltage": "12V", "_price": 5142.00 },
+      { "sku": "NVG53Z-NFPA21",  "length": "53\"", "color": "Red-White",    "features": "NFPA 2021 compliant",              "voltage": "12V", "_price": 4752.00 },
+      { "sku": "NVG60D-NFPA20",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2020 compliant",              "voltage": "12V", "_price": 3450.00 },
+      { "sku": "NVG60D-NFPA21",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2021 compliant",              "voltage": "12V", "_price": 3850.00 },
+      { "sku": "NVG60D-NFPA22",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2022 compliant",              "voltage": "12V", "_price": 4290.00 },
+      { "sku": "NVG60D-TOW2FC",  "length": "60\"", "color": "See Description","features": "Tow/utility 2-FC configuration", "voltage": "12V", "_price": 4750.00 },
+      { "sku": "NVG60Z-TOW2FC6", "length": "60\"", "color": "See Description","features": "Tow/utility 2-FC6 configuration","voltage": "12V", "_price": 5210.00 }
     ]
   },
   "shopify": {
-    "_sprint": "Sprint 16 — export-based population",
-    "_note": "Handle confirmed from export. product_id and variant_mappings require Shopify Admin/API — not present in merchant CSV export.",
+    "_sprint": "Sprint 18 — normalized to one product / many variants",
+    "_model": "ONE Shopify product with 11 variants. NVG SKUs = Shopify variant SKUs. No per-length product splitting.",
     "product_id": null,
-    "_product_id_note": "NOT in CSV export. Collect from Shopify Admin URL: Admin → Products → navigator-light-bar-45/53/60 → URL numeric ID. Format as: gid://shopify/Product/<id>",
-    "_structure_note": "Navigator is split into 3 Shopify products by length (45, 53, 60). Each handle is a separate Shopify product with its own product_id.",
-    "handles": {
-      "45in": "navigator-light-bar-45",
-      "53in": "navigator-light-bar-53",
-      "60in": "navigator-light-bar-60"
-    },
-    "handle": "navigator-light-bar-45",
-    "variant_mappings": [
-      {
-        "sku": "NVG45Z-NFPA20",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-45",
-        "price": 4639.00,
-        "option_length": "45\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG45Z-NFPA21",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-45",
-        "price": 4249.00,
-        "option_length": "45\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG53D-MUNI1RHC",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-53",
-        "price": 4552.00,
-        "option_length": "53\"",
-        "option_color": "Amber-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG53Z-MUNI1RHC6",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-53",
-        "price": 5012.00,
-        "option_length": "53\"",
-        "option_color": "Amber-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG53Z-NFPA20",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-53",
-        "price": 5142.00,
-        "option_length": "53\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG53Z-NFPA21",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-53",
-        "price": 4752.00,
-        "option_length": "53\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG60D-NFPA20",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-60",
-        "price": 3450.00,
-        "option_length": "60\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG60D-NFPA21",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-60",
-        "price": 3850.00,
-        "option_length": "60\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG60D-NFPA22",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-60",
-        "price": 4290.00,
-        "option_length": "60\"",
-        "option_color": "Red-White",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG60D-TOW2FC",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-60",
-        "price": 4750.00,
-        "option_length": "60\"",
-        "option_color": "See Description",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      },
-      {
-        "sku": "NVG60Z-TOW2FC6",
-        "shopify_variant_id": null,
-        "shopify_handle": "navigator-light-bar-60",
-        "price": 5210.00,
-        "option_length": "60\"",
-        "option_color": "See Description",
-        "_source": "shopify_export",
-        "_missing": "shopify_variant_id — collect from Shopify Admin"
-      }
-    ],
+    "_product_id_note": "Collect ONE product GID from Shopify Admin → Products → Navigator Serial Light Bar → URL. Format: gid://shopify/Product/<id>. Do NOT collect separate GIDs per length.",
+    "handle": "navigator-serial-light-bar",
+    "_handle_note": "Single handle for the one Navigator product. Confirm exact handle in Shopify Admin.",
     "cart_eligible": false,
-    "storefront_available": false
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "NVG45Z-NFPA20",  "shopify_variant_id": null, "price": 4639.00, "option_length": "45\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG45Z-NFPA21",  "shopify_variant_id": null, "price": 4249.00, "option_length": "45\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG53D-MUNI1RHC","shopify_variant_id": null, "price": 4552.00, "option_length": "53\"", "option_color": "Amber-White",    "_missing": "shopify_variant_id" },
+      { "sku": "NVG53Z-MUNI1RHC6","shopify_variant_id": null,"price": 5012.00, "option_length": "53\"", "option_color": "Amber-White",    "_missing": "shopify_variant_id" },
+      { "sku": "NVG53Z-NFPA20",  "shopify_variant_id": null, "price": 5142.00, "option_length": "53\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG53Z-NFPA21",  "shopify_variant_id": null, "price": 4752.00, "option_length": "53\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG60D-NFPA20",  "shopify_variant_id": null, "price": 3450.00, "option_length": "60\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG60D-NFPA21",  "shopify_variant_id": null, "price": 3850.00, "option_length": "60\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG60D-NFPA22",  "shopify_variant_id": null, "price": 4290.00, "option_length": "60\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
+      { "sku": "NVG60D-TOW2FC",  "shopify_variant_id": null, "price": 4750.00, "option_length": "60\"", "option_color": "See Description","_missing": "shopify_variant_id" },
+      { "sku": "NVG60Z-TOW2FC6", "shopify_variant_id": null, "price": 5210.00, "option_length": "60\"", "option_color": "See Description","_missing": "shopify_variant_id" }
+    ]
   },
   "configuratorId": "navigator-configurator",
   "cta": {

@@ -93,14 +93,9 @@
   ],
 
   "shopifyMapping": {
-    "_note": "Sprint 16 — handles confirmed from CSV export. product_id and variant_id must be collected from Shopify Admin (not present in merchant CSV export).",
-    "handles": {
-      "45in": "navigator-light-bar-45",
-      "53in": "navigator-light-bar-53",
-      "60in": "navigator-light-bar-60"
-    },
+    "_note": "Sprint 18 — Navigator = one Shopify product / 11 variants. No per-length product splitting. Variant GIDs collected once from Admin.",
     "storeHandle": null,
-    "_storeHandle_note": "Collect from Shopify Admin → Settings → Domains",
+    "_storeHandle_note": "Collect from Shopify Admin → Settings → Domains (e.g. 'tfrsupply')",
     "variantMap": []
   },
 
