@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { loadProduct } from '@/lib/dataLoader';
+import { loadProduct, loadCategory } from '@/lib/dataLoader';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
@@ -14,7 +14,7 @@ import NotFound from '@/components/templates/NotFound';
 const TABS_REGISTRY = {
   NavigatorTabs,
 };
-import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart } from 'lucide-react';
+import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -88,11 +88,67 @@ function CTAPanel({ cta = {}, commerce = {} }) {
   );
 }
 
+function ProductComingSoon({ product, verticalId, categoryId }) {
+  return (
+    <div className="min-h-screen bg-white" style={FS}>
+      <PrototypeBanner />
+      <SiteHeader activeVertical={verticalId} activeCategory={categoryId} />
+      <Breadcrumbs crumbs={[
+        { label: 'Home', to: '/' },
+        { label: verticalId?.replace(/-/g, ' '), to: `/${verticalId}` },
+        { label: product.label, to: `/${verticalId}/${categoryId}` },
+        { label: product.label }
+      ]} />
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'flex-start' }}>
+          {product.image && (
+            <div className="border border-gray-200 flex items-center justify-center bg-white overflow-hidden" style={{ height: 380 }}>
+              <img src={product.image} alt={product.label} className="max-h-full max-w-full object-contain" />
+            </div>
+          )}
+          <div>
+            <h1 style={{ fontSize: 'clamp(1.3rem,2.5vw,1.8rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>{product.label}</h1>
+            {product.tagline && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1rem' }}>{product.tagline}</p>}
+            {product.badges?.length > 0 && (
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+                {product.badges.map(b => (
+                  <span key={b} style={{ fontSize: 11, fontWeight: 700, background: '#f0f4ff', color: '#1a2744', padding: '3px 8px', letterSpacing: '0.05em' }}>{b}</span>
+                ))}
+              </div>
+            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 18px', background: '#fff8e1', border: '1px solid #ffe082', marginBottom: '1.5rem' }}>
+              <Clock size={18} style={{ color: '#f59e0b', flexShrink: 0 }} />
+              <p style={{ fontSize: 13, color: '#78350f', margin: 0 }}>Detailed product configuration is being prepared. Check back soon.</p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <Link to={`/${verticalId}/${categoryId}`}
+                style={{ fontSize: 14, fontWeight: 700, color: '#1a2744', border: '2px solid #1a2744', padding: '10px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+                ← Back to {categoryId?.replace(/-/g, ' ')}
+              </Link>
+              <a href="#"
+                style={{ fontSize: 14, fontWeight: 700, color: '#fff', background: '#c8102e', padding: '11px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+                <Phone size={16} /> Request a Quote
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <PrototypeFooter />
+    </div>
+  );
+}
+
 export default function ProductDetailTemplate() {
   const { verticalId, categoryId, productId } = useParams();
   const data = loadProduct(productId);
 
-  if (!data) return <NotFound type="product" backTo={`/${verticalId}/${categoryId}`} backLabel="Return to Category" />;
+  if (!data) {
+    // Check if product exists in category JSON as a stub
+    const categoryData = loadCategory(categoryId);
+    const stub = categoryData?.products?.find(p => p.id === productId);
+    if (stub) return <ProductComingSoon product={stub} verticalId={verticalId} categoryId={categoryId} />;
+    return <NotFound type="product" backTo={`/${verticalId}/${categoryId}`} backLabel="Return to Category" />;
+  }
 
   const { title, subtitle, breadcrumbs, media, marketing, commerce, cta } = data;
 
