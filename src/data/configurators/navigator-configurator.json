@@ -10,72 +10,86 @@
   "priceDisplay": "Contact for pricing",
 
   "_skuNote": "skuOptions is the source of truth. User selections filter this list by matching skuSegment values against the sku's attributes. selectedSku is set only when exactly one SKU matches. SKUs sourced from Shopify CSV export (sprint 16) — prototype NAV-SLB-* SKUs removed.",
+  "_attributeVerificationNote": "attributes.length is confirmed from export option2Value. attributes.color and attributes.spec are inferred from SKU suffix and option3Value — marked needs_verification:true until confirmed against real Shopify option names in Admin.",
   "skuOptions": [
     {
       "sku": "NVG45Z-NFPA20", "label": "Navigator 45\" Red-White (NFPA 2020)",
       "price": 4639.00, "shopify_handle": "navigator-light-bar-45",
       "attributes": { "length": "45", "color": "RW", "spec": "NFPA20" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG45Z-NFPA21", "label": "Navigator 45\" Red-White (NFPA 2021)",
       "price": 4249.00, "shopify_handle": "navigator-light-bar-45",
       "attributes": { "length": "45", "color": "RW", "spec": "NFPA21" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG53D-MUNI1RHC",  "label": "Navigator 53\" Amber-White (Municipal HC)",
       "price": 4552.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "AW", "spec": "MUNI" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG53Z-MUNI1RHC6", "label": "Navigator 53\" Amber-White (Municipal HC6)",
       "price": 5012.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "AW", "spec": "MUNI6" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG53Z-NFPA20",  "label": "Navigator 53\" Red-White (NFPA 2020)",
       "price": 5142.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "RW", "spec": "NFPA20" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG53Z-NFPA21",  "label": "Navigator 53\" Red-White (NFPA 2021)",
       "price": 4752.00, "shopify_handle": "navigator-light-bar-53",
       "attributes": { "length": "53", "color": "RW", "spec": "NFPA21" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG60D-NFPA20",  "label": "Navigator 60\" Red-White (NFPA 2020)",
       "price": 3450.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "RW", "spec": "NFPA20" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG60D-NFPA21",  "label": "Navigator 60\" Red-White (NFPA 2021)",
       "price": 3850.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "RW", "spec": "NFPA21" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG60D-NFPA22",  "label": "Navigator 60\" Red-White (NFPA 2022)",
       "price": 4290.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "RW", "spec": "NFPA22" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" }
     },
     {
       "sku": "NVG60D-TOW2FC",  "label": "Navigator 60\" Tow/Utility (2FC)",
       "price": 4750.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" },
+      "_color_note": "Shopify export shows 'See Description' — actual color breakdown requires product spec sheet"
     },
     {
       "sku": "NVG60Z-TOW2FC6", "label": "Navigator 60\" Tow/Utility (2FC6)",
       "price": 5210.00, "shopify_handle": "navigator-light-bar-60",
       "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW6" },
-      "_source": "shopify_export"
+      "_source": "shopify_export",
+      "_verification": { "length": "confirmed", "color": "needs_verification", "spec": "needs_verification" },
+      "_color_note": "Shopify export shows 'See Description' — actual color breakdown requires product spec sheet"
     }
   ],
 
