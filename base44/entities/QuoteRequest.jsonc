@@ -2,6 +2,9 @@
   "name": "QuoteRequest",
   "type": "object",
   "properties": {
+    "submissionId": {
+      "type": "string"
+    },
     "productId": {
       "type": "string"
     },

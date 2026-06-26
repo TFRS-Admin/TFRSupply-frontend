@@ -4,9 +4,9 @@
  * Calls quoteRequestService only — never imports base44 directly.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
-import { buildQuotePayload, validateContactForm, submitQuoteRequest } from '@/services/quoteRequestService';
+import { buildQuotePayload, validateContactForm, submitQuoteRequest, generateSubmissionId } from '@/services/quoteRequestService';
 import { CheckCircle, Send, AlertTriangle, Loader } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -43,9 +43,11 @@ export default function QuoteRequestPanel({ productMeta }) {
   const { session, summary } = useConfiguration();
   const [form, setForm] = useState(EMPTY_FORM);
   const [fieldErrors, setFieldErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | submitting | success | error
+  const [status, setStatus] = useState('idle'); // idle | submitting | success | partial | error
   const [submitError, setSubmitError] = useState('');
   const [referenceId, setReferenceId] = useState(null);
+  // Stable per-session ID — created once, reused on retry so no duplicate records are created
+  const submissionIdRef = useRef(generateSubmissionId());
 
   if (!session || !summary) return null;
 
@@ -87,6 +89,30 @@ export default function QuoteRequestPanel({ productMeta }) {
     );
   }
 
+  // ── Partial success state (record saved, email failed) ──────────────────────
+  if (status === 'partial') {
+    return (
+      <div style={{ ...FS, border: '1px solid #fde68a', background: '#fffbeb', padding: '28px 24px', textAlign: 'center' }}>
+        <AlertTriangle size={36} style={{ color: '#d97706', margin: '0 auto 12px' }} />
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#92400e', marginBottom: 6 }}>Request Saved — Notification Delayed</p>
+        <p style={{ fontSize: 13, color: '#78350f', margin: '0 0 14px' }}>
+          Your quote request was recorded successfully, but the confirmation email could not be sent.
+          Please contact us directly with your reference number.
+        </p>
+        <div style={{ padding: '10px 16px', background: '#fef3c7', border: '1px solid #fde68a', display: 'inline-block' }}>
+          {referenceId && (
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#92400e', margin: '0 0 2px' }}>
+              Reference #: {referenceId}
+            </p>
+          )}
+          <p style={{ fontSize: 11, color: '#78350f', margin: 0, fontStyle: 'italic' }}>
+            SKU: {summary.skuPreview || '(pending)'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // ── Success state ───────────────────────────────────────────────────────────
   if (status === 'success') {
     return (
@@ -122,13 +148,18 @@ export default function QuoteRequestPanel({ productMeta }) {
     setStatus('submitting');
     setSubmitError('');
 
-    const payload = buildQuotePayload(session, summary, productMeta, form);
+    const payload = buildQuotePayload(session, summary, productMeta, form, submissionIdRef.current);
 
     const result = await submitQuoteRequest(payload).catch(err => ({ success: false, error: err.message }));
 
+    if (result.referenceId) setReferenceId(result.referenceId);
+
     if (result.success) {
-      setReferenceId(result.referenceId || null);
       setStatus('success');
+    } else if (result.savedRecord) {
+      // Record persisted but email notification failed — partial success
+      setStatus('partial');
+      setSubmitError(result.error || 'Request saved but notification failed.');
     } else {
       setStatus('error');
       setSubmitError(result.error || 'An unexpected error occurred. Please try again.');

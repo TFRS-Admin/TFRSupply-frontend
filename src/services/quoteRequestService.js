@@ -11,6 +11,17 @@
 
 import { submitViaBase44Email } from '@/adapters/base44/quoteRequestAdapter';
 
+// ─── Idempotency Key ─────────────────────────────────────────────────────────
+
+/**
+ * Generate a client-side submissionId for idempotency.
+ * Stable for the lifetime of the browser tab session.
+ * Format: sub-<timestamp>-<random6>
+ */
+export function generateSubmissionId() {
+  return `sub-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 // ─── Payload Builder ────────────────────────────────────────────────────────
 
 /**
@@ -22,7 +33,7 @@ import { submitViaBase44Email } from '@/adapters/base44/quoteRequestAdapter';
  * @param {object} contactForm  — { name, agency, email, phone, vehicleCount, notes }
  * @returns {QuotePayload}
  */
-export function buildQuotePayload(session, summary, productMeta, contactForm) {
+export function buildQuotePayload(session, summary, productMeta, contactForm, submissionId) {
   const { resolvedSelections, accessories, depRequirements, violations, skuPreview } = summary;
 
   const dependencyNotes = depRequirements.map(d =>
@@ -66,6 +77,7 @@ export function buildQuotePayload(session, summary, productMeta, contactForm) {
     },
 
     // Metadata
+    submissionId: submissionId || generateSubmissionId(),
     timestamp: new Date().toISOString(),
     source: 'configurator-prototype',
   };

@@ -1,6 +1,6 @@
 # Quote Request Flow
 
-_Sprint 6 — Prototype. No Shopify, no admin page, no customer accounts._
+_Sprint 7 — Prototype. No Shopify, no admin page, no customer accounts._
 
 ---
 
@@ -8,12 +8,15 @@ _Sprint 6 — Prototype. No Shopify, no admin page, no customer accounts._
 
 ```
 UI Component (QuoteRequestPanel)
+  │  submissionIdRef (stable per-tab, generated once via generateSubmissionId())
   │  (calls service only — never imports base44 directly)
   └─► quoteRequestService.submitQuoteRequest(payload)
-        │
+        │  payload includes submissionId
         └─► adapters/base44/quoteRequestAdapter.submitViaBase44Email(payload)
               │  (only file that imports base44Client and appConfig)
-              ├─► base44.entities.QuoteRequest.create(record)   ← Sprint 6 addition
+              ├─► getOrCreateRecord(payload)                    ← idempotent on submissionId
+              │     filter QuoteRequest by submissionId
+              │     create only if not found
               ├─► base44.integrations.Core.SendEmail → quoteRecipientEmail
               └─► base44.integrations.Core.SendEmail → contact.email (if quoteSendConfirmation=true)
 ```
@@ -117,11 +120,26 @@ Built-in fields added automatically by Base44: `id`, `created_date`, `updated_da
 
 ---
 
+## Idempotency
+
+A `submissionId` is generated once per panel mount via `generateSubmissionId()` (format: `sub-<timestamp>-<random6>`) and stored in a `useRef` — it never changes across retries within the same browser session.
+
+Before creating a record, the adapter filters `QuoteRequest` by `submissionId`. If a match exists, that record is reused. This means:
+- First attempt → creates one record
+- Retry after email failure → finds existing record, skips create, retries emails only
+- No duplicate records regardless of retry count
+
+The `submissionId` is stored on the record and included in the internal email body for auditability.
+
+---
+
 ## Submission Order
 
-1. **Create QuoteRequest entity record** — if this fails, error is surfaced before any email is sent; no partial state
-2. **Send internal email** to `appConfig.quoteRecipientEmail` with full configuration detail + reference ID in subject
-3. **Send confirmation email** to `payload.contact.email` if `appConfig.quoteSendConfirmation === true`
+1. **`getOrCreateRecord`** — filter by `submissionId`; create if not found; return existing record on retry
+2. **Derive `referenceId`** from `record.id` (`QR-` + last 6 chars uppercased)
+3. **Send internal email** to `appConfig.quoteRecipientEmail` — subject includes `referenceId`
+4. **Send confirmation email** to `payload.contact.email` if `appConfig.quoteSendConfirmation === true`
+5. **If email step throws** — return `{ success: false, savedRecord: true, referenceId, error }` so UI can show partial-success state
 
 ---
 
@@ -145,6 +163,12 @@ Built-in fields added automatically by Base44: `id`, `created_date`, `updated_da
 - Replaces form on successful response
 - Shows product name, SKU reference, **reference number** (e.g. `QR-A3F2C1`)
 - Representative follow-up message
+
+### 4. Partial — Record Saved, Email Failed
+- `result.savedRecord === true` but `result.success === false`
+- Amber banner: "Request Saved — Notification Delayed"
+- Shows reference number so user can follow up manually
+- User is not told to retry (record already exists; retry would reuse it but re-attempt email)
 
 ---
 
