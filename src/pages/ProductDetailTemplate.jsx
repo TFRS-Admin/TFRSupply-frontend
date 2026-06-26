@@ -247,7 +247,10 @@ export default function ProductDetailTemplate() {
               Build &amp; Configure
             </p>
             <ConfigurationProvider configuratorId={data.configuratorId}>
-              <ConfiguratorLayout productMeta={{ productId: data.productId || productId, configuratorId: data.configuratorId, productTitle: data.title }} />
+              <ConfiguratorLayout
+                productMeta={{ productId: data.productId || productId, configuratorId: data.configuratorId, productTitle: data.title }}
+                shopifyMap={data.shopify ?? null}
+              />
             </ConfigurationProvider>
           </div>
         </div>

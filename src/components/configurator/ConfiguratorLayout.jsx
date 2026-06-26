@@ -7,8 +7,9 @@
 import React from 'react';
 import ConfigurationSummary from './ConfigurationSummary';
 import QuoteRequestPanel from './QuoteRequestPanel';
+import AddToCartPanel from './AddToCartPanel';
 
-export default function ConfiguratorLayout({ productMeta }) {
+export default function ConfiguratorLayout({ productMeta, shopifyMap }) {
   return (
     <div style={{
       display: 'grid',
@@ -17,7 +18,10 @@ export default function ConfiguratorLayout({ productMeta }) {
       alignItems: 'flex-start',
     }}>
       <ConfigurationSummary />
-      <QuoteRequestPanel productMeta={productMeta} />
+      <div>
+        <QuoteRequestPanel productMeta={productMeta} />
+        <AddToCartPanel productMeta={productMeta} shopifyMap={shopifyMap} />
+      </div>
     </div>
   );
 }
