@@ -14,9 +14,11 @@ import NotFound from '@/components/templates/NotFound';
 const TABS_REGISTRY = {
   NavigatorTabs,
 };
-import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock } from 'lucide-react';
+import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock, Truck } from 'lucide-react';
 import { ConfigurationProvider } from '@/context/ConfigurationContext';
 import ConfiguratorLayout from '@/components/configurator/ConfiguratorLayout';
+import { useVehicle } from '@/context/VehicleContext';
+import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -140,6 +142,44 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
   );
 }
 
+function VehicleAwarenessBanner() {
+  const { selectedVehicle } = useVehicle();
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  return (
+    <>
+      {selectedVehicle ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#f0f4ff', border: '1px solid #c7d7f9', marginBottom: 20 }}>
+          <Truck size={15} style={{ color: '#1a2744', flexShrink: 0 }} />
+          <span style={{ fontSize: 13, color: '#1a2744', fontWeight: 600 }}>
+            Configuring for: {selectedVehicle.year} {selectedVehicle.make} {selectedVehicle.model}
+          </span>
+          <button
+            onClick={() => setModalOpen(true)}
+            style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: '#c8102e', background: 'none', border: '1px solid #c8102e', padding: '3px 10px', cursor: 'pointer', letterSpacing: '0.04em' }}
+          >
+            Change Vehicle
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#fff8e1', border: '1px solid #ffe082', marginBottom: 20 }}>
+          <Truck size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
+          <span style={{ fontSize: 13, color: '#78350f' }}>
+            Select your vehicle to see compatible configuration options.
+          </span>
+          <button
+            onClick={() => setModalOpen(true)}
+            style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: '#fff', background: '#c8102e', border: 'none', padding: '5px 12px', cursor: 'pointer', letterSpacing: '0.04em' }}
+          >
+            Select Vehicle
+          </button>
+        </div>
+      )}
+      {modalOpen && <VehicleSelectorModal onClose={() => setModalOpen(false)} />}
+    </>
+  );
+}
+
 export default function ProductDetailTemplate() {
   const { verticalId, categoryId, productId } = useParams();
   const data = loadProduct(productId);
@@ -246,6 +286,7 @@ export default function ProductDetailTemplate() {
             <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
               Build &amp; Configure
             </p>
+            <VehicleAwarenessBanner />
             <ConfigurationProvider configuratorId={data.configuratorId}>
               <ConfiguratorLayout
                 productMeta={{ productId: data.productId || productId, configuratorId: data.configuratorId, productTitle: data.title }}
