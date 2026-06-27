@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
+import { VehicleProvider } from '@/context/VehicleContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
@@ -43,6 +44,7 @@ const AuthenticatedApp = () => {
   }
 
   return (
+    <VehicleProvider>
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
@@ -66,6 +68,7 @@ const AuthenticatedApp = () => {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </ConfiguratorProvider>
+    </VehicleProvider>
   );
 };
 

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, MapPin, Menu, X, Home, ChevronDown } from 'lucide-react';
+import { Search, MapPin, Menu, X, Home, ChevronDown, Truck } from 'lucide-react';
 import { loadVertical } from '@/lib/dataLoader';
+import { useVehicle } from '@/context/VehicleContext';
+import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 
 const VERTICALS = [
   { id: 'police',      label: 'Police',             path: '/police' },
@@ -19,6 +21,8 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const { selectedVehicle } = useVehicle();
 
   // Derive verticalId from URL: first path segment
   const pathSegments = location.pathname.split('/').filter(Boolean);
@@ -133,7 +137,49 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </div>
 
           {/* Right actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
+
+            {/* Vehicle selector button */}
+            <button
+              onClick={() => setVehicleModalOpen(true)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: selectedVehicle ? '#1a2744' : '#f5f5f5',
+                color: selectedVehicle ? '#fff' : '#444',
+                border: `1.5px solid ${selectedVehicle ? '#1a2744' : '#d0d0d0'}`,
+                borderRadius: 3, cursor: 'pointer',
+                fontWeight: selectedVehicle ? 700 : 500,
+                fontSize: 13,
+                padding: '9px 16px',
+                whiteSpace: 'nowrap',
+                fontFamily: "'Roboto','Inter',sans-serif",
+                transition: 'all 0.15s',
+                maxWidth: 260,
+                overflow: 'hidden',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = selectedVehicle ? '#0f1829' : '#ebebeb';
+                e.currentTarget.style.borderColor = selectedVehicle ? '#0f1829' : '#bbb';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = selectedVehicle ? '#1a2744' : '#f5f5f5';
+                e.currentTarget.style.borderColor = selectedVehicle ? '#1a2744' : '#d0d0d0';
+              }}
+              className="hidden md:flex"
+            >
+              <Truck size={14} style={{ flexShrink: 0, color: selectedVehicle ? '#94a3b8' : '#888' }} />
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {selectedVehicle
+                  ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+                  : 'Select Your Vehicle'}
+              </span>
+              {selectedVehicle && (
+                <span style={{ fontSize: 9, background: '#c8102e', color: '#fff', padding: '1px 5px', borderRadius: 2, letterSpacing: '0.06em', fontWeight: 700, flexShrink: 0 }}>
+                  CHANGE
+                </span>
+              )}
+            </button>
+
             {/* Where to Buy — red filled with pin icon */}
             <button
               style={{
@@ -203,6 +249,9 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         </div>
       )}
 
+      {/* ── Vehicle selector modal ─────────────────────────────────────────── */}
+      {vehicleModalOpen && <VehicleSelectorModal onClose={() => setVehicleModalOpen(false)} />}
+
       {/* ── Mobile menu drawer ──────────────────────────────────────────────── */}
       {mobileOpen && (
         <div style={{ background: '#fff', borderBottom: '1px solid #e8e8e8', padding: '12px 24px' }}>
@@ -216,6 +265,26 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
               <Search size={16} color="#fff" />
             </button>
           </div>
+          {/* Mobile vehicle selector */}
+          <button
+            onClick={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+              background: selectedVehicle ? '#1a2744' : '#f5f5f5',
+              color: selectedVehicle ? '#fff' : '#444',
+              border: `1.5px solid ${selectedVehicle ? '#1a2744' : '#d0d0d0'}`,
+              borderRadius: 3, cursor: 'pointer',
+              fontSize: 13, fontWeight: 600,
+              padding: '10px 14px', marginBottom: 12,
+              fontFamily: "'Roboto','Inter',sans-serif",
+            }}
+          >
+            <Truck size={13} style={{ flexShrink: 0 }} />
+            {selectedVehicle
+              ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+              : 'Select Your Vehicle'}
+          </button>
+
           {categories.map(cat => {
             const catId = cat.categoryId || null;
             const isEnabled = !!catId;
