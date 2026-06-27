@@ -12,6 +12,45 @@ import { getRecommendedLengths } from '@/data/vehicleLengthMap';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
+// ─── Length Recommendation Callout ────────────────────────────────────────
+
+function LengthRecommendationCallout({ step, recommendedSegments, onUseRecommended }) {
+  if (!recommendedSegments || recommendedSegments.length === 0) return null;
+
+  const recommended = step.options.filter(o => recommendedSegments.includes(o.skuSegment));
+  if (recommended.length === 0) return null;
+
+  const primaryLabel = recommended[0].label;
+  const alsoCompatible = recommended.slice(1);
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+      padding: '8px 12px', background: '#f0fdf4', border: '1px solid #bbf7d0',
+      marginBottom: 8,
+    }}>
+      <div style={{ fontSize: 11, color: '#15803d' }}>
+        <strong>Recommended for your vehicle:</strong> {primaryLabel}
+        {alsoCompatible.length > 0 && (
+          <span style={{ color: '#166534' }}> · also fits {alsoCompatible.map(o => o.label).join(', ')}</span>
+        )}
+      </div>
+      <button
+        onClick={onUseRecommended}
+        style={{
+          ...FS,
+          fontSize: 11, fontWeight: 700, whiteSpace: 'nowrap',
+          padding: '4px 10px', cursor: 'pointer',
+          background: '#16a34a', color: '#fff',
+          border: 'none',
+        }}
+      >
+        Use {primaryLabel}
+      </button>
+    </div>
+  );
+}
+
 // ─── Step Selector ─────────────────────────────────────────────────────────
 
 function StepSelector({ step, recommendedSegments = [] }) {
@@ -19,6 +58,10 @@ function StepSelector({ step, recommendedSegments = [] }) {
   const val = selections[step.id];
   const selected = Array.isArray(val) ? val : val ? [val] : [];
   const hasRecommendations = recommendedSegments.length > 0;
+  const lengthNotYetSelected = step.id === 'length' && selected.length === 0;
+
+  // Find the first recommended option id to select on one-click
+  const firstRecommendedOpt = step.options.find(o => recommendedSegments.includes(o.skuSegment));
 
   return (
     <div style={{ marginBottom: 20 }}>
@@ -27,6 +70,13 @@ function StepSelector({ step, recommendedSegments = [] }) {
         {step.required && <span style={{ color: '#c8102e' }}>*</span>}
         {step.multiple && <span style={{ fontSize: 10, fontWeight: 400, color: '#888', letterSpacing: '0.04em', textTransform: 'none' }}>(select all that apply)</span>}
       </p>
+      {lengthNotYetSelected && hasRecommendations && firstRecommendedOpt && (
+        <LengthRecommendationCallout
+          step={step}
+          recommendedSegments={recommendedSegments}
+          onUseRecommended={() => selectOption(step.id, firstRecommendedOpt.id)}
+        />
+      )}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {step.options.map(opt => {
           const isSelected = selected.includes(opt.id);
