@@ -7,15 +7,18 @@
 import React from 'react';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { AlertTriangle, XCircle, CheckCircle, ChevronRight, RotateCcw, Percent, Package, FlaskConical } from 'lucide-react';
+import { useVehicle } from '@/context/VehicleContext';
+import { getRecommendedLengths } from '@/data/vehicleLengthMap';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 // ─── Step Selector ─────────────────────────────────────────────────────────
 
-function StepSelector({ step }) {
+function StepSelector({ step, recommendedSegments = [] }) {
   const { selections, selectOption } = useConfiguration();
   const val = selections[step.id];
   const selected = Array.isArray(val) ? val : val ? [val] : [];
+  const hasRecommendations = recommendedSegments.length > 0;
 
   return (
     <div style={{ marginBottom: 20 }}>
@@ -27,28 +30,39 @@ function StepSelector({ step }) {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {step.options.map(opt => {
           const isSelected = selected.includes(opt.id);
+          const isRecommended = hasRecommendations && recommendedSegments.includes(opt.skuSegment);
           return (
-            <button
-              key={opt.id}
-              onClick={() => selectOption(step.id, opt.id)}
-              title={opt.description || undefined}
-              style={{
-                ...FS,
-                fontSize: 12,
-                padding: '6px 12px',
-                border: `2px solid ${isSelected ? '#c8102e' : '#d0d0d0'}`,
-                background: isSelected ? '#c8102e' : '#fff',
-                color: isSelected ? '#fff' : '#333',
-                cursor: 'pointer',
-                fontWeight: isSelected ? 700 : 400,
-                transition: 'all 0.12s',
-              }}
-            >
-              {opt.label}
-              {opt.priceModifier > 0 && (
-                <span style={{ marginLeft: 4, opacity: 0.8, fontSize: 11 }}>+${opt.priceModifier}</span>
+            <div key={opt.id} style={{ position: 'relative', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+              <button
+                onClick={() => selectOption(step.id, opt.id)}
+                title={opt.description || undefined}
+                style={{
+                  ...FS,
+                  fontSize: 12,
+                  padding: '6px 12px',
+                  border: `2px solid ${isSelected ? '#c8102e' : isRecommended ? '#16a34a' : '#d0d0d0'}`,
+                  background: isSelected ? '#c8102e' : isRecommended ? '#f0fdf4' : '#fff',
+                  color: isSelected ? '#fff' : '#333',
+                  cursor: 'pointer',
+                  fontWeight: isSelected ? 700 : 400,
+                  transition: 'all 0.12s',
+                }}
+              >
+                {opt.label}
+                {opt.priceModifier > 0 && (
+                  <span style={{ marginLeft: 4, opacity: 0.8, fontSize: 11 }}>+${opt.priceModifier}</span>
+                )}
+              </button>
+              {isRecommended && !isSelected && (
+                <span style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                  color: '#15803d', background: '#dcfce7', border: '1px solid #bbf7d0',
+                  padding: '1px 5px', lineHeight: 1.4,
+                }}>
+                  ✓ Fits
+                </span>
               )}
-            </button>
+            </div>
           );
         })}
       </div>
@@ -162,6 +176,8 @@ function CompletionGate({ isComplete, pendingSteps, hardViolations }) {
 
 export default function ConfigurationSummary() {
   const { session, summary, resetConfiguration } = useConfiguration();
+  const { selectedVehicle } = useVehicle();
+  const recommendedLengths = getRecommendedLengths(selectedVehicle);
 
   if (!session || !summary) return null;
 
@@ -214,7 +230,11 @@ export default function ConfigurationSummary() {
       <div style={{ padding: '20px' }}>
         {/* Step selectors */}
         {session.steps.map(step => (
-          <StepSelector key={step.id} step={step} />
+          <StepSelector
+            key={step.id}
+            step={step}
+            recommendedSegments={step.id === 'length' ? recommendedLengths : []}
+          />
         ))}
 
         {/* Dependency notices — shown after step inputs */}
