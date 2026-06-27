@@ -5,10 +5,12 @@
  */
 
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useConfiguration } from '@/context/ConfigurationContext';
 import { AlertTriangle, XCircle, CheckCircle, ChevronRight, RotateCcw, Percent, Package, FlaskConical } from 'lucide-react';
 import { useVehicle } from '@/context/VehicleContext';
 import { getRecommendedLengths } from '@/data/vehicleLengthMap';
+import { getVerticalColorOptions } from '@/data/verticalColorOptions';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -53,15 +55,18 @@ function LengthRecommendationCallout({ step, recommendedSegments, onUseRecommend
 
 // ─── Step Selector ─────────────────────────────────────────────────────────
 
-function StepSelector({ step, recommendedSegments = [] }) {
+function StepSelector({ step, recommendedSegments = [], optionOverride = null }) {
   const { selections, selectOption } = useConfiguration();
   const val = selections[step.id];
   const selected = Array.isArray(val) ? val : val ? [val] : [];
   const hasRecommendations = recommendedSegments.length > 0;
   const lengthNotYetSelected = step.id === 'length' && selected.length === 0;
 
+  // Use override options if provided, otherwise fall back to JSON options
+  const options = optionOverride ?? step.options;
+
   // Find the first recommended option id to select on one-click
-  const firstRecommendedOpt = step.options.find(o => recommendedSegments.includes(o.skuSegment));
+  const firstRecommendedOpt = options.find(o => recommendedSegments.includes(o.skuSegment));
 
   return (
     <div style={{ marginBottom: 20 }}>
@@ -78,7 +83,7 @@ function StepSelector({ step, recommendedSegments = [] }) {
         />
       )}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-        {step.options.map(opt => {
+        {options.map(opt => {
           const isSelected = selected.includes(opt.id);
           const isRecommended = hasRecommendations && recommendedSegments.includes(opt.skuSegment);
           return (
@@ -227,7 +232,9 @@ function CompletionGate({ isComplete, pendingSteps, hardViolations }) {
 export default function ConfigurationSummary() {
   const { session, summary, resetConfiguration } = useConfiguration();
   const { selectedVehicle } = useVehicle();
+  const { verticalId } = useParams();
   const recommendedLengths = getRecommendedLengths(selectedVehicle);
+  const verticalColorOptions = getVerticalColorOptions(verticalId);
 
   if (!session || !summary) return null;
 
@@ -284,6 +291,7 @@ export default function ConfigurationSummary() {
             key={step.id}
             step={step}
             recommendedSegments={step.id === 'length' ? recommendedLengths : []}
+            optionOverride={step.id === 'color' && verticalColorOptions ? verticalColorOptions : null}
           />
         ))}
 
