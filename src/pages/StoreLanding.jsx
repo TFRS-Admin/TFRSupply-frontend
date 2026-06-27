@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, Flame, Truck, Radio, Zap, Search, Phone, Mail, ArrowRight, ChevronRight, Package, Car } from 'lucide-react';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
+import { useVehicle } from '@/context/VehicleContext';
+import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 
 const VERTICALS = [
   {
@@ -63,6 +65,8 @@ const VERTICALS = [
 export default function StoreLanding() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
+  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const { selectedVehicle } = useVehicle();
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -75,11 +79,34 @@ export default function StoreLanding() {
           <span>For Government &amp; Fleets</span>
           <span>TradeBridge Login</span>
         </div>
-        <div className="flex items-center gap-4 text-blue-200">
-          <span>Find a Dealer</span>
-          <span>800-621-9959</span>
+        <div className="flex items-center gap-4">
+          {/* Vehicle selector — prominent, matches Upfitter Pro Shop reference */}
+          <button
+            onClick={() => setVehicleModalOpen(true)}
+            className="flex items-center gap-2 font-bold text-xs px-4 py-1.5 rounded transition-all"
+            style={{
+              background: selectedVehicle ? '#1e3a5f' : '#2563eb',
+              color: '#fff',
+              border: selectedVehicle ? '1px solid #3b82f6' : 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <Truck size={13} />
+            {selectedVehicle
+              ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+              : 'Select Your Vehicle'}
+            {selectedVehicle && (
+              <span className="text-[9px] bg-blue-400/30 border border-blue-400/50 px-1.5 py-0.5 rounded font-bold">
+                CHANGE
+              </span>
+            )}
+          </button>
+          <span className="text-blue-200">Find a Dealer</span>
+          <span className="text-blue-200">800-621-9959</span>
         </div>
       </div>
+
+      {vehicleModalOpen && <VehicleSelectorModal onClose={() => setVehicleModalOpen(false)} />}
 
       {/* Main nav */}
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
