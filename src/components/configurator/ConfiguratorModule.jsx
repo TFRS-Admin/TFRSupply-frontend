@@ -19,6 +19,7 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
 import { useVehicle } from '@/context/VehicleContext';
+import { lookupSkus } from '@/services/commerceLookupService';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import {
   CheckCircle, RotateCcw, ClipboardList,
@@ -218,7 +219,7 @@ function getAttrColumns(skuOptions) {
   return [...keys].map(k => ({ key: k, label: LABELS[k] ?? k }));
 }
 
-function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
+function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, commerceData }) {
   const count = remainingSkus.length;
   const total = skuOptions.length;
   const attrCols = useMemo(() => getAttrColumns(skuOptions), [skuOptions]);
@@ -293,12 +294,18 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
                     </td>
                   ))}
                   <td style={{ ...TD, fontWeight: 600 }}>
-                    {sku.price != null ? `$${sku.price.toLocaleString()}` : 'Contact'}
+                    {(() => {
+                      const cd = commerceData?.[sku.sku];
+                      if (!cd) return <span style={{ color: '#6b7280' }}>Contact</span>;
+                      if (cd.status === 'matched' && cd.price != null)
+                        return `$${cd.price.toLocaleString()}`;
+                      return <span style={{ fontSize: 10, fontWeight: 700, color: '#92400e', background: '#fef3c7', padding: '2px 5px', border: '1px solid #fde68a' }}>NEEDS REVIEW</span>;
+                    })()}
                   </td>
                   <td style={TD}>
                     {isSelected
                       ? <span style={{ fontSize: 10, fontWeight: 700, color: '#15803d', background: '#dcfce7', padding: '2px 6px', border: '1px solid #bbf7d0' }}>SELECTED</span>
-                      : needsReview
+                      : commerceData?.[sku.sku]?.status === 'unmatched'
                         ? <span style={{ fontSize: 10, fontWeight: 700, color: '#92400e', background: '#fef3c7', padding: '2px 6px', border: '1px solid #fde68a' }}>NEEDS REVIEW</span>
                         : <span style={{ fontSize: 10, color: '#6b7280' }}>Available</span>
                     }
@@ -519,6 +526,12 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
     productFamily, id: configuratorId
   } = configuratorData;
 
+  // Commerce lookup — runs once per configurator load, keyed by SKU
+  const commerceData = useMemo(
+    () => lookupSkus(skuOptions.map(s => s.sku)),
+    [skuOptions]
+  );
+
   const skuSteps = sections?.skuSelector?.steps ?? [];
 
   // Recommended length/mount segments from vehicle rules
@@ -577,6 +590,23 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         .map(s => `Unverified attribute: ${s.label}`),
       ...accItems.filter(i => i.type === 'required' && !i.sku).map(i => `Required component SKU unknown — needs review: ${i.label}`),
     ];
+    const baseCommerce = commerceData?.[resolvedSkuObj.sku] ?? null;
+    const commerceLines = [
+      {
+        sku: resolvedSkuObj.sku,
+        shopifyVariantId: baseCommerce?.shopifyVariantId ?? null,
+        shopifyProductId: baseCommerce?.shopifyProductId ?? null,
+        price: baseCommerce?.price ?? null,
+        status: baseCommerce?.status ?? 'unmatched',
+      },
+      ...selectedOptAccs.filter(i => i.sku).map(i => ({
+        sku: i.sku,
+        shopifyVariantId: null,
+        shopifyProductId: null,
+        price: i.price ?? null,
+        status: 'unmatched',
+      })),
+    ];
     return {
       verticalId,
       categoryId,
@@ -586,8 +616,10 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         ? { year: selectedVehicle.year, make: selectedVehicle.make, model: selectedVehicle.model }
         : null,
       selectedBaseSku: resolvedSkuObj.sku,
-      basePrice: resolvedSkuObj.price,
+      selectedFilters: filterSelections,
+      basePrice: baseCommerce?.price ?? null,
       accessorySkus: selectedOptAccs.map(i => i.sku).filter(Boolean),
+      commerceLines,
       reviewFlags,
     };
   }, [resolvedSkuObj, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
@@ -640,6 +672,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
           remainingSkus={remainingSkus}
           selectedSkuId={selectedSkuId}
           onSelectSku={setSelectedSkuId}
+          commerceData={commerceData}
         />
 
         {/* Section 3 — Build Your Package (shown after SKU selected) */}
