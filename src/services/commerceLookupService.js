@@ -67,7 +67,7 @@ export function lookupSku(sku) {
       image: exportEntry.image,
       source: 'shopify_export',
       status: hasVariantId && hasPrice ? 'matched' : hasPrice ? 'price_only' : 'unmatched',
-      reviewFlag: hasVariantId ? null : `SKU ${sku}: price from export ($${exportEntry.price}), shopifyVariantId pending Admin collection`,
+      reviewFlag: hasVariantId ? null : `Shopify variant ID pending — quote only, checkout disabled`,
     };
   }
 

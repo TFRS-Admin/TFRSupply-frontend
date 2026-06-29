@@ -23,7 +23,7 @@ import { lookupSkus } from '@/services/commerceLookupService';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import {
   CheckCircle, RotateCcw, ClipboardList,
-  Truck, AlertTriangle
+  Truck, AlertTriangle, ShoppingCart, Send
 } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -495,6 +495,48 @@ function QuotePanel({ quotePayload, accSection }) {
         </span>
       </div>
 
+      {/* Action Buttons */}
+      <div style={{ padding: '12px 16px', display: 'flex', gap: 10, borderTop: '1px solid #e5e7eb' }}>
+        {/* Add to Quote — always enabled when a SKU is selected */}
+        <button
+          style={{
+            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+            padding: '10px 16px', background: '#1a2744', color: '#fff',
+            border: 'none', fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
+            letterSpacing: '0.04em', cursor: 'pointer',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = '#243560'}
+          onMouseLeave={e => e.currentTarget.style.background = '#1a2744'}
+          onClick={() => {/* quote submission handled by parent QuoteRequestPanel */}}
+          title="Add this configuration to your quote request"
+        >
+          <Send size={13} /> Add to Quote
+        </button>
+
+        {/* Add to Cart — disabled until shopifyVariantId is collected */}
+        <button
+          disabled
+          title={quotePayload.checkoutReady ? undefined : 'Shopify variant ID pending — checkout disabled until GIDs are collected from Shopify Admin'}
+          style={{
+            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+            padding: '10px 16px', background: '#e5e7eb', color: '#9ca3af',
+            border: '1px solid #d1d5db', fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
+            letterSpacing: '0.04em', cursor: 'not-allowed',
+          }}
+        >
+          <ShoppingCart size={13} /> Add to Cart
+        </button>
+      </div>
+
+      {/* Checkout disabled notice for price_only SKUs */}
+      {!quotePayload.checkoutReady && (
+        <div style={{ padding: '6px 16px 10px', background: '#f8fafc', borderTop: '1px solid #f0f0f0' }}>
+          <span style={{ fontSize: 10, color: '#6b7280' }}>
+            🔒 Checkout disabled — Shopify variant GIDs not yet collected. Use <strong>Add to Quote</strong> to request pricing.
+          </span>
+        </div>
+      )}
+
       {/* Review Flags */}
       {quotePayload.reviewFlags?.length > 0 && (
         <div style={{ padding: '10px 14px', background: '#fffbeb', borderTop: '1px solid #fde68a' }}>
@@ -590,7 +632,8 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       ...accItems.filter(i => i.type === 'required' && !i.sku).map(i => `Required component SKU unknown — needs review: ${i.label}`),
     ];
     const baseCommerce = commerceData?.[resolvedSkuObj.sku] ?? null;
-    // price_only = price from Shopify export, GID pending — treat as having a real price
+    // Propagate commerce-level review flag (e.g. "Shopify variant ID pending — quote only, checkout disabled")
+    if (baseCommerce?.reviewFlag) reviewFlags.push(baseCommerce.reviewFlag);
     const commerceLines = [
       {
         sku: resolvedSkuObj.sku,
@@ -621,6 +664,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       accessorySkus: selectedOptAccs.map(i => i.sku).filter(Boolean),
       commerceLines,
       reviewFlags,
+      checkoutReady: baseCommerce?.status === 'matched',
     };
   }, [resolvedSkuObj, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
 
