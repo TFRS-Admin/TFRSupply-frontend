@@ -296,9 +296,8 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, comme
                   <td style={{ ...TD, fontWeight: 600 }}>
                     {(() => {
                       const cd = commerceData?.[sku.sku];
-                      if (!cd) return <span style={{ color: '#6b7280' }}>Contact</span>;
-                      if (cd.status === 'matched' && cd.price != null)
-                        return `$${cd.price.toLocaleString()}`;
+                      if (!cd || cd.status === 'unmatched') return <span style={{ color: '#6b7280' }}>Contact</span>;
+                      if (cd.price != null) return `$${cd.price.toLocaleString()}`;
                       return <span style={{ fontSize: 10, fontWeight: 700, color: '#92400e', background: '#fef3c7', padding: '2px 5px', border: '1px solid #fde68a' }}>NEEDS REVIEW</span>;
                     })()}
                   </td>
@@ -591,6 +590,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       ...accItems.filter(i => i.type === 'required' && !i.sku).map(i => `Required component SKU unknown — needs review: ${i.label}`),
     ];
     const baseCommerce = commerceData?.[resolvedSkuObj.sku] ?? null;
+    // price_only = price from Shopify export, GID pending — treat as having a real price
     const commerceLines = [
       {
         sku: resolvedSkuObj.sku,
