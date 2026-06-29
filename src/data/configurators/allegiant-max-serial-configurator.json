@@ -1,0 +1,212 @@
+{
+  "_source": "TFR Supply Allegiant Max Serial Police Launch SKUs — validated 2026-06-29",
+  "_note": "9 Police Allegiant Max Serial SKUs across 45\" (4 SKUs) and 53\" (5 SKUs). Excluded: 4 Work Truck (ALGT21D/J-AMBR*), 16 Fire/EMS (NFPA/FIRE prefix, F-suffix color codes), 12 Tow/Utility (TOW prefix). P4LC SKUs flagged needs_verification due to 'See Description' color label in export. Mount LB (ALGT53JX-P3LB) exists on 53\" only — dead-end prevention auto-blocks 45\"+LB. Prices from Shopify index; shopifyVariantId pending Admin collection.",
+  "id": "allegiant-max-serial-configurator",
+  "productId": "allegiant-max-serial",
+  "productFamily": "Allegiant Max Serial Police Light Bar",
+  "label": "Allegiant® Max Serial Police Light Bar Configurator",
+  "priceDisplay": "Contact for pricing",
+
+  "skuOptions": [
+    {
+      "sku": "ALGT45JX-P1LC",
+      "description": "Allegiant 45\" Police — 1-Color Blue/White — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,109",
+      "attributes": { "length": "45", "color": "BW1", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT45JX-P2LC",
+      "description": "Allegiant 45\" Police — 2-Color Blue/White — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,109",
+      "attributes": { "length": "45", "color": "BW2", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT45JX-P3LC",
+      "description": "Allegiant 45\" Police — Full 3-Color Red/Blue/White — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,624",
+      "attributes": { "length": "45", "color": "RBW3", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT45JX-P4LC",
+      "description": "Allegiant 45\" Police — Specialty Configuration — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,624",
+      "_verification": "needs_verification",
+      "attributes": { "length": "45", "color": "SPEC", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT53JX-P1LC",
+      "description": "Allegiant 53\" Police — 1-Color Blue/White — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,392",
+      "attributes": { "length": "53", "color": "BW1", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT53JX-P2LC",
+      "description": "Allegiant 53\" Police — 2-Color Blue/White — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,392",
+      "attributes": { "length": "53", "color": "BW2", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT53JX-P3LC",
+      "description": "Allegiant 53\" Police — Full 3-Color Red/Blue/White — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,907",
+      "attributes": { "length": "53", "color": "RBW3", "mount": "LC" }
+    },
+    {
+      "sku": "ALGT53JX-P3LB",
+      "description": "Allegiant 53\" Police — Full 3-Color Red/Blue/White — Low Profile Blue-Focus",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,907",
+      "attributes": { "length": "53", "color": "RBW3", "mount": "LB" }
+    },
+    {
+      "sku": "ALGT53JX-P4LC",
+      "description": "Allegiant 53\" Police — Specialty Configuration — Low Profile Corner",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $3,907",
+      "_verification": "needs_verification",
+      "attributes": { "length": "53", "color": "SPEC", "mount": "LC" }
+    }
+  ],
+
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "Filter by bar length, warning color, and mount style. Dead-end combinations are automatically disabled — LB mount is 53\" only, and no invalid length/color/mount combos will be selectable.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Bar Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact and mid-size police vehicles — Charger, Blazer EV PPV. All color configurations, LC mount only." },
+            { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and interceptors — Explorer PIU, Tahoe PPV, Expedition SSV. All color and mount configurations." }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "Warning Color",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "bw1",  "label": "1-Color Blue / White",           "skuSegment": "BW1",  "description": "Available in both 45\" and 53\" — LC mount" },
+            { "id": "bw2",  "label": "2-Color Blue / White",           "skuSegment": "BW2",  "description": "Available in both 45\" and 53\" — LC mount" },
+            { "id": "rbw3", "label": "Full 3-Color Red / Blue / White","skuSegment": "RBW3", "description": "Available in both 45\" and 53\" — LC and LB mount (53\" only for LB)" },
+            { "id": "spec", "label": "Specialty (See Desc.)",           "skuSegment": "SPEC", "description": "P4LC — confirm exact configuration with TFR before ordering", "_verification": "needs_verification" }
+          ]
+        },
+        {
+          "id": "mount",
+          "label": "Mount Style",
+          "required": true,
+          "skuSegmentKey": "mount",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "lc", "label": "Low Profile Corner (LC)", "skuSegment": "LC", "description": "Standard low profile with corner-fill inserts — available on all lengths and colors" },
+            { "id": "lb", "label": "Low Profile Blue-Focus (LB)", "skuSegment": "LB", "description": "53\" + Full 3-Color Red/Blue/White only (ALGT53JX-P3LB)" }
+          ]
+        }
+      ]
+    },
+
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — exact Allegiant Max Serial controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU varies by vehicle; confirm with install spec"
+        },
+        {
+          "id": "acc-micropulse",
+          "label": "MicroPulse Ultra (bumper fill lights)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        },
+        {
+          "id": "acc-spectralux",
+          "label": "SpectraLux ILS (interior light strip)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        },
+        {
+          "id": "acc-opticom",
+          "label": "Opticom GPS (traffic preemption)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        }
+      ]
+    }
+  },
+
+  "vehicleRules": [
+    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "53" },
+    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "53" },
+    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",  "recommendedLength": "53" },
+    { "vehicleId": "CHEVY_BLAZER_EV_PPV", "displayName": "Chevrolet Blazer EV PPV",    "recommendedLength": "45" },
+    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",      "recommendedLength": "45" },
+    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "53" },
+    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "53" },
+    { "vehicleId": "RAM_1500_SSV",        "displayName": "Ram 1500 SSV",               "recommendedLength": "53" }
+  ],
+
+  "compatibilityRules": [
+    {
+      "id": "excl-45-lb",
+      "type": "excludes",
+      "stepA": "length", "optionA": "45in",
+      "stepB": "mount",  "optionB": "lb",
+      "message": "LB mount is available on 53\" only (ALGT53JX-P3LB). Select LC mount for 45\" configurations, or switch to 53\"."
+    },
+    {
+      "id": "excl-bw1-lb",
+      "type": "excludes",
+      "stepA": "color", "optionA": "bw1",
+      "stepB": "mount", "optionB": "lb",
+      "message": "LB mount is only available with Full 3-Color Red/Blue/White (P3LB). Select LC mount for 1-Color Blue/White."
+    },
+    {
+      "id": "excl-bw2-lb",
+      "type": "excludes",
+      "stepA": "color", "optionA": "bw2",
+      "stepB": "mount", "optionB": "lb",
+      "message": "LB mount is only available with Full 3-Color Red/Blue/White (P3LB). Select LC mount for 2-Color Blue/White."
+    },
+    {
+      "id": "excl-spec-lb",
+      "type": "excludes",
+      "stepA": "color", "optionA": "spec",
+      "stepB": "mount", "optionB": "lb",
+      "message": "Specialty (P4LC) is LC mount only. Select LC mount or contact TFR for custom configurations."
+    }
+  ],
+
+  "dependencyRules": []
+}
