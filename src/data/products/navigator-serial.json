@@ -1,0 +1,49 @@
+{
+  "id": "navigator-serial",
+  "slug": "navigator-serial",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": ["fire", "police"],
+  "product_family": "Navigator Serial",
+  "title": "Navigator® Serial Light Bar",
+  "subtitle": "Full-size LED light bar for fire apparatus and police vehicles. Available in 45\", 53\", and 60\" lengths with Red/White and Amber/White configurations.",
+  "description": "The Navigator® Serial Light Bar delivers powerful, reliable warning performance in a full-size aluminum extrusion chassis. NFPA 2020/2021/2022 compliant configurations available.",
+  "breadcrumbs": [
+    { "label": "Home",       "to": "/" },
+    { "label": "Fire",       "to": "/fire" },
+    { "label": "Light Bars", "to": "/fire/light-bars" },
+    { "label": "Navigator® Serial Light Bar" }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      { "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257", "alt": "Navigator® Serial Light Bar — Front view" },
+      { "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_endflood-576x576_jpg.webp?v=1780421369", "alt": "Navigator® end flood view" }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "High-profile serial light bar",
+      "Available in 45\", 53\", and 60\" lengths",
+      "Red/White and Amber/White color options",
+      "NFPA 2020, 2021, and 2022 compliant configurations",
+      "Tow/Utility configurations available (60\" only)",
+      "30 flash patterns, low-power mode",
+      "Five-year warranty"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": ["45\"", "53\"", "60\""],
+    "colors": ["Red/White", "Amber/White", "Tow/Utility"],
+    "flash_patterns": 30,
+    "warranty": "5-year limited",
+    "certifications": ["NFPA 1901", "SAE J595"]
+  },
+  "commerce": {
+    "price_display": "contact",
+    "availability": "In Stock"
+  },
+  "configuratorId": "navigator-serial-configurator",
+  "cta": {}
+}

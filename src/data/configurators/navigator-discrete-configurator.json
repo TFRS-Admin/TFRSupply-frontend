@@ -1,0 +1,184 @@
+{
+  "_source": "TFRSupply_Configurator_Master_v5_FIXED.xlsx — Navigator Discrete sheet + Fire Price Book",
+  "_note": "Navigator Discrete uses NVG25D SKUs from Fire Price Book. Wiring = Discrete (D suffix). Options from Navigator Discrete workbook sheet.",
+  "id": "navigator-discrete-configurator",
+  "productId": "navigator-discrete",
+  "productFamily": "Navigator Discrete",
+  "label": "Navigator® Discrete Light Bar Configurator",
+  "priceDisplay": "Contact for pricing",
+
+  "skuOptions": [
+    { "sku": "NVG25D-NFPA20-D", "price": 1708, "attributes": { "length": "25", "color": "RW", "spec": "NFPA20", "wiring": "D" } },
+    { "sku": "NVG25D-NFPA20-P", "price": 1708, "attributes": { "length": "25", "color": "RW", "spec": "NFPA20", "wiring": "P" } },
+    { "sku": "NVG25D-NFPA21",   "price": 1848, "attributes": { "length": "25", "color": "RW", "spec": "NFPA21", "wiring": "D" } },
+    { "sku": "NVG45Z-NFPA20",   "price": 4639, "attributes": { "length": "45", "color": "RW", "spec": "NFPA20", "wiring": "S" } },
+    { "sku": "NVG45Z-NFPA21",   "price": 4249, "attributes": { "length": "45", "color": "RW", "spec": "NFPA21", "wiring": "S" } },
+    { "sku": "NVG53Z-NFPA20",   "price": 5142, "attributes": { "length": "53", "color": "RW", "spec": "NFPA20", "wiring": "S" } },
+    { "sku": "NVG53Z-NFPA21",   "price": 4752, "attributes": { "length": "53", "color": "RW", "spec": "NFPA21", "wiring": "S" } }
+  ],
+
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Selector",
+      "description": "These choices resolve your base SKU. Every selection filters the available variants.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Bar Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "25in", "label": "25\"", "skuSegment": "25", "description": "Discrete/mini with 4-inch riser" },
+            { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Full-size discrete" },
+            { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size discrete" }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "Warning Color",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "rw", "label": "Red / White", "skuSegment": "RW", "description": "All lengths" }
+          ]
+        },
+        {
+          "id": "spec",
+          "label": "Specification",
+          "required": true,
+          "skuSegmentKey": "spec",
+          "_verification": "needs_verification",
+          "options": [
+            { "id": "nfpa20", "label": "NFPA 2020", "skuSegment": "NFPA20" },
+            { "id": "nfpa21", "label": "NFPA 2021", "skuSegment": "NFPA21" }
+          ]
+        },
+        {
+          "id": "wiring",
+          "label": "Wiring / Connectivity",
+          "required": true,
+          "skuSegmentKey": "wiring",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "discrete", "label": "Discrete",          "skuSegment": "D", "description": "25\" only" },
+            { "id": "plug-in",  "label": "Plug-In (Pigtail)", "skuSegment": "P", "description": "25\" only" },
+            { "id": "serial",   "label": "Serial",            "skuSegment": "S", "description": "45\" / 53\" only" }
+          ]
+        }
+      ]
+    },
+
+    "technicalOptions": {
+      "label": "Technical Options",
+      "description": "Product capabilities. These do not affect base SKU resolution.",
+      "steps": [
+        {
+          "id": "tech-riser",
+          "label": "Riser Height",
+          "skuImpact": false,
+          "options": [
+            { "id": "riser-4in", "label": "4-inch Riser", "description": "Standard on 25\" discrete" }
+          ]
+        },
+        {
+          "id": "tech-dome",
+          "label": "Dome Color",
+          "skuImpact": false,
+          "options": [
+            { "id": "dome-clear", "label": "Clear Dome", "description": "Standard on all discrete models" }
+          ]
+        },
+        {
+          "id": "tech-flash",
+          "label": "Flash Patterns",
+          "skuImpact": false,
+          "options": [
+            { "id": "flash-30", "label": "30 User-Selectable Patterns" }
+          ]
+        }
+      ]
+    },
+
+    "accessories": {
+      "label": "Accessories & Add-ons",
+      "description": "Required dependencies and optional accessories.",
+      "items": [
+        {
+          "id": "acc-harness-d",
+          "label": "Discrete Wiring Harness",
+          "sku": "NVG-HARNESS-D",
+          "price": null,
+          "type": "required",
+          "_note": "Required for discrete wiring models. Exact SKU TBD."
+        },
+        {
+          "id": "acc-brkt",
+          "label": "Mounting Bracket",
+          "sku": "NVG-BRKT",
+          "price": null,
+          "type": "optional",
+          "_note": "Exact SKU and price TBD"
+        }
+      ]
+    }
+  },
+
+  "vehicleRules": [
+    { "vehicleId": "CHARGER_PURSUIT",  "displayName": "Dodge Charger Pursuit",          "recommendedLength": "45" },
+    { "vehicleId": "PIU",              "displayName": "Ford Police Interceptor Utility", "recommendedLength": "53" },
+    { "vehicleId": "TAHOE_PPV",        "displayName": "Chevrolet Tahoe PPV",             "recommendedLength": "53" },
+    { "vehicleId": "DURANGO_PURSUIT",  "displayName": "Dodge Durango Pursuit",           "recommendedLength": "53" }
+  ],
+
+  "compatibilityRules": [
+    {
+      "id": "excl-discrete-45-discrete-wiring",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "45in",
+      "stepB": "wiring",
+      "optionB": "discrete",
+      "message": "Discrete wiring (D) is only available on the 25\" model."
+    },
+    {
+      "id": "excl-discrete-45-plugin-wiring",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "45in",
+      "stepB": "wiring",
+      "optionB": "plug-in",
+      "message": "Plug-in wiring (P) is only available on the 25\" model."
+    },
+    {
+      "id": "excl-discrete-53-discrete-wiring",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "53in",
+      "stepB": "wiring",
+      "optionB": "discrete",
+      "message": "Discrete wiring (D) is only available on the 25\" model."
+    },
+    {
+      "id": "excl-discrete-53-plugin-wiring",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "53in",
+      "stepB": "wiring",
+      "optionB": "plug-in",
+      "message": "Plug-in wiring (P) is only available on the 25\" model."
+    },
+    {
+      "id": "excl-discrete-25-serial-wiring",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "25in",
+      "stepB": "wiring",
+      "optionB": "serial",
+      "message": "Serial wiring (S) is only available on 45\" and 53\" models."
+    }
+  ],
+
+  "dependencyRules": []
+}

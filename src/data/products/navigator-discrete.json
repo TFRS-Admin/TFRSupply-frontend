@@ -1,0 +1,45 @@
+{
+  "id": "navigator-discrete",
+  "slug": "navigator-discrete",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": ["fire", "police"],
+  "product_family": "Navigator Discrete",
+  "title": "Navigator® Discrete Light Bar",
+  "subtitle": "Discrete LED light bar with 4-inch riser for fire apparatus. Available in 25\", 45\", and 53\" lengths.",
+  "description": "The Navigator® Discrete Light Bar provides high-visibility warning in a low-profile chassis with clear dome. Available in discrete and serial wiring configurations. NFPA 2020 and 2021 compliant.",
+  "breadcrumbs": [
+    { "label": "Home",       "to": "/" },
+    { "label": "Fire",       "to": "/fire" },
+    { "label": "Light Bars", "to": "/fire/light-bars" },
+    { "label": "Navigator® Discrete Light Bar" }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      { "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257", "alt": "Navigator® Discrete Light Bar" }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Discrete LED light bar with 4-inch riser",
+      "Available in 25\", 45\", and 53\" lengths",
+      "Red/White color configuration",
+      "NFPA 2020 and 2021 compliant",
+      "Discrete and serial wiring options",
+      "Clear dome standard"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": ["25\"", "45\"", "53\""],
+    "colors": ["Red/White"],
+    "certifications": ["NFPA 1901"]
+  },
+  "commerce": {
+    "price_display": "contact",
+    "availability": "In Stock"
+  },
+  "configuratorId": "navigator-discrete-configurator",
+  "cta": {}
+}

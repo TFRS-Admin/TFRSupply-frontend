@@ -1,0 +1,110 @@
+{
+  "_source": "TFRSupply_Configurator_Master_v5_FIXED.xlsx — Navigator Linear Mini sheet + Police Price Book",
+  "_note": "SKU structure inferred from Navigator Linear Mini workbook sheet. Prices TBD — marked as null. No price book rows found for mini lightbar SKUs in provided data.",
+  "id": "navigator-linear-mini-configurator",
+  "productId": "navigator-linear-mini",
+  "productFamily": "Navigator Linear Mini",
+  "label": "Navigator® Linear Mini Configurator",
+  "priceDisplay": "Contact for pricing",
+
+  "skuOptions": [
+    { "sku": "NVLM10-A",  "price": null, "attributes": { "length": "10", "color": "A"  } },
+    { "sku": "NVLM10-RBW","price": null, "attributes": { "length": "10", "color": "RBW" } },
+    { "sku": "NVLM10-BW", "price": null, "attributes": { "length": "10", "color": "BW" } },
+    { "sku": "NVLM18-A",  "price": null, "attributes": { "length": "18", "color": "A"  } },
+    { "sku": "NVLM18-RBW","price": null, "attributes": { "length": "18", "color": "RBW" } },
+    { "sku": "NVLM18-BW", "price": null, "attributes": { "length": "18", "color": "BW" } },
+    { "sku": "NVLM25-A",  "price": null, "attributes": { "length": "25", "color": "A"  } },
+    { "sku": "NVLM25-RBW","price": null, "attributes": { "length": "25", "color": "RBW" } },
+    { "sku": "NVLM25-BW", "price": null, "attributes": { "length": "25", "color": "BW" } }
+  ],
+
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Selector",
+      "description": "These choices resolve your base SKU. Every selection filters the available variants.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Bar Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "10in", "label": "10\"", "skuSegment": "10", "description": "Compact dash/deck mount" },
+            { "id": "18in", "label": "18\"", "skuSegment": "18", "description": "Mid-size mini lightbar" },
+            { "id": "25in", "label": "25\"", "skuSegment": "25", "description": "Extended mini lightbar" }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "Warning Color",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "amber",  "label": "Amber",              "skuSegment": "A",   "description": "Utility / warning package" },
+            { "id": "rbw",    "label": "Red / Blue / White", "skuSegment": "RBW", "description": "Police package" },
+            { "id": "bw",     "label": "Blue / White",       "skuSegment": "BW",  "description": "Police package" }
+          ]
+        }
+      ]
+    },
+
+    "technicalOptions": {
+      "label": "Technical Options",
+      "description": "Product capabilities. These do not affect base SKU resolution.",
+      "steps": [
+        {
+          "id": "tech-mount-type",
+          "label": "Mounting Style",
+          "skuImpact": false,
+          "options": [
+            { "id": "perm-mount", "label": "Permanent Mount",  "description": "Roof or deck mounted" },
+            { "id": "temp-mount", "label": "Temporary Mount",  "description": "Suction cup or bracket" }
+          ]
+        },
+        {
+          "id": "tech-flash",
+          "label": "Flash Patterns",
+          "skuImpact": false,
+          "options": [
+            { "id": "flash-std", "label": "Standard Patterns", "description": "Multiple user-selectable patterns" }
+          ]
+        }
+      ]
+    },
+
+    "accessories": {
+      "label": "Accessories & Add-ons",
+      "description": "Required dependencies and optional accessories.",
+      "items": [
+        {
+          "id": "acc-harness",
+          "label": "Main Power Harness",
+          "sku": "NVLM-HARNESS",
+          "price": null,
+          "type": "recommended",
+          "_note": "Exact SKU and price TBD — not found in provided price book data"
+        },
+        {
+          "id": "acc-suction",
+          "label": "Suction Cup Mount Kit",
+          "sku": "NVLM-SUCTION",
+          "price": null,
+          "type": "optional",
+          "_note": "Exact SKU and price TBD"
+        }
+      ]
+    }
+  },
+
+  "vehicleRules": [
+    { "vehicleId": "CHARGER_PURSUIT",  "displayName": "Dodge Charger Pursuit",          "recommendedLength": "18" },
+    { "vehicleId": "PIU",              "displayName": "Ford Police Interceptor Utility", "recommendedLength": "25" },
+    { "vehicleId": "TAHOE_PPV",        "displayName": "Chevrolet Tahoe PPV",             "recommendedLength": "25" }
+  ],
+
+  "compatibilityRules": [],
+  "dependencyRules": []
+}

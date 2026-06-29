@@ -1,0 +1,44 @@
+{
+  "id": "navigator-linear-mini",
+  "slug": "navigator-linear-mini",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": ["police"],
+  "product_family": "Navigator Linear Mini",
+  "title": "Navigator® Linear Mini Light Bar",
+  "subtitle": "Compact mini lightbar available in 10\", 18\", and 25\" lengths for unmarked and marked police vehicles.",
+  "description": "The Navigator® Linear Mini delivers high-visibility warning in a compact footprint. Amber, Red/Blue/White, and Blue/White color configurations available.",
+  "breadcrumbs": [
+    { "label": "Home",       "to": "/" },
+    { "label": "Police",     "to": "/police" },
+    { "label": "Light Bars", "to": "/police/light-bars" },
+    { "label": "Navigator® Linear Mini" }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      { "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257", "alt": "Navigator® Mini Light Bar" }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact mini lightbar for police vehicles",
+      "Available in 10\", 18\", and 25\" lengths",
+      "Amber, Red/Blue/White, and Blue/White color options",
+      "Permanent and temporary mounting options",
+      "Multiple user-selectable flash patterns"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": ["10\"", "18\"", "25\""],
+    "colors": ["Amber", "Red/Blue/White", "Blue/White"]
+  },
+  "commerce": {
+    "price_display": "contact",
+    "availability": "Contact for availability",
+    "_note": "SKU prices TBD — not found in provided price book data"
+  },
+  "configuratorId": "navigator-linear-mini-configurator",
+  "cta": {}
+}

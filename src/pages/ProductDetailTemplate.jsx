@@ -17,6 +17,7 @@ const TABS_REGISTRY = {
 import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock, Truck } from 'lucide-react';
 import { ConfigurationProvider } from '@/context/ConfigurationContext';
 import ConfiguratorLayout from '@/components/configurator/ConfiguratorLayout';
+import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 
@@ -180,6 +181,46 @@ function VehicleAwarenessBanner() {
   );
 }
 
+// Dynamic loader for configurator JSON files — mirrors ConfigurationContext
+const configuratorModules = import.meta.glob('../data/configurators/*.json', { eager: true });
+function loadConfigurator(configuratorId) {
+  const key = Object.keys(configuratorModules).find(k => k.endsWith(`/${configuratorId}.json`));
+  if (!key) return null;
+  return configuratorModules[key]?.default ?? configuratorModules[key] ?? null;
+}
+
+function ConfiguratorSection({ configuratorId, productData, verticalId, categoryId, productId }) {
+  const configuratorData = loadConfigurator(configuratorId);
+  // New format (ConfiguratorModule) = has "sections" key
+  // Old format (ConfiguratorLayout) = has "steps" array at root
+  const isNewFormat = configuratorData && 'sections' in configuratorData;
+
+  return (
+    <div className="border-t border-gray-100 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
+          Build &amp; Configure
+        </p>
+        <VehicleAwarenessBanner />
+        {isNewFormat ? (
+          <ConfiguratorModule
+            configuratorData={configuratorData}
+            verticalId={verticalId}
+            categoryId={categoryId}
+          />
+        ) : (
+          <ConfigurationProvider configuratorId={configuratorId}>
+            <ConfiguratorLayout
+              productMeta={{ productId: productData.productId || productId, configuratorId, productTitle: productData.title }}
+              shopifyMap={productData.shopify ?? null}
+            />
+          </ConfigurationProvider>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function ProductDetailTemplate() {
   const { verticalId, categoryId, productId } = useParams();
   const data = loadProduct(productId);
@@ -281,20 +322,13 @@ export default function ProductDetailTemplate() {
 
       {/* Configurator Section — rendered when product JSON has configuratorId */}
       {data.configuratorId && (
-        <div className="border-t border-gray-100 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-6 py-10">
-            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
-              Build &amp; Configure
-            </p>
-            <VehicleAwarenessBanner />
-            <ConfigurationProvider configuratorId={data.configuratorId}>
-              <ConfiguratorLayout
-                productMeta={{ productId: data.productId || productId, configuratorId: data.configuratorId, productTitle: data.title }}
-                shopifyMap={data.shopify ?? null}
-              />
-            </ConfigurationProvider>
-          </div>
-        </div>
+        <ConfiguratorSection
+          configuratorId={data.configuratorId}
+          productData={data}
+          verticalId={verticalId || data.verticals?.[0]}
+          categoryId={categoryId || data.category}
+          productId={productId}
+        />
       )}
 
       <PrototypeFooter />
