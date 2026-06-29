@@ -1,6 +1,6 @@
 {
   "_source": "TFR Supply Valor Police Launch SKUs — validated 2026-06-29",
-  "_note": "8 Police Valor SKUs. Length and mount are confirmed from SKU structure. Color/config is inferred from suffix. MSRP TBD — listed as null until price book is received.",
+  "_note": "8 Police Valor SKUs. Length and mount confirmed from SKU structure. Color confirmed from suffix. MSRP: prices set to null — Police Price Book not yet received. Update price field per-SKU once price book is confirmed. Do NOT invent prices.",
   "id": "valor-configurator",
   "productId": "valor",
   "productFamily": "Valor Police Light Bar",
@@ -12,48 +12,56 @@
       "sku": "VALR44J-P1BH",
       "description": "Valor 44\" Police — 1-Color Blue/White — Hook Mount",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "44", "color": "BW1", "mount": "hook" }
     },
     {
       "sku": "VALR44J-P1BL",
       "description": "Valor 44\" Police — 1-Color Blue/White — Low Profile",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "44", "color": "BW1", "mount": "low" }
     },
     {
       "sku": "VALR44J-P2BL",
       "description": "Valor 44\" Police — 2-Color Blue/White — Low Profile",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "44", "color": "BW2", "mount": "low" }
     },
     {
       "sku": "VALR44J-PF3AL",
       "description": "Valor 44\" Police — Full 3-Color Amber/Blue/White — Low Profile",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "44", "color": "F3A", "mount": "low" }
     },
     {
       "sku": "VALR51J-P1BH",
       "description": "Valor 51\" Police — 1-Color Blue/White — Hook Mount",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "51", "color": "BW1", "mount": "hook" }
     },
     {
       "sku": "VALR51J-P1BL",
       "description": "Valor 51\" Police — 1-Color Blue/White — Low Profile",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "51", "color": "BW1", "mount": "low" }
     },
     {
       "sku": "VALR51J-P2BL",
       "description": "Valor 51\" Police — 2-Color Blue/White — Low Profile",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "51", "color": "BW2", "mount": "low" }
     },
     {
       "sku": "VALR51J-PF3AL",
       "description": "Valor 51\" Police — Full 3-Color Amber/Blue/White — Low Profile",
       "price": null,
+      "_priceNote": "Pending Police Price Book — update when received",
       "attributes": { "length": "51", "color": "F3A", "mount": "low" }
     }
   ],
@@ -70,8 +78,8 @@
           "skuSegmentKey": "length",
           "_verification": "confirmed",
           "options": [
-            { "id": "44in", "label": "44\"", "skuSegment": "44", "description": "Compact and mid-size police vehicles" },
-            { "id": "51in", "label": "51\"", "skuSegment": "51", "description": "Full-size SUVs and police interceptors" }
+            { "id": "44in", "label": "44\"", "skuSegment": "44", "description": "Compact and mid-size police vehicles — Charger, Blazer EV PPV" },
+            { "id": "51in", "label": "51\"", "skuSegment": "51", "description": "Full-size SUVs and police interceptors — Explorer PIU, Tahoe PPV, Expedition SSV" }
           ]
         },
         {
@@ -81,9 +89,9 @@
           "skuSegmentKey": "color",
           "_verification": "confirmed",
           "options": [
-            { "id": "bw1", "label": "1-Color Blue / White",               "skuSegment": "BW1", "description": "Single-zone Blue and White warning" },
-            { "id": "bw2", "label": "2-Color Blue / White",               "skuSegment": "BW2", "description": "Dual-zone Blue and White warning — Low Profile mount only" },
-            { "id": "f3a", "label": "Full 3-Color Amber / Blue / White",  "skuSegment": "F3A", "description": "Full-spectrum police config — Low Profile mount only" }
+            { "id": "bw1", "label": "1-Color Blue / White",              "skuSegment": "BW1", "description": "Available in Hook Mount or Low Profile" },
+            { "id": "bw2", "label": "2-Color Blue / White",              "skuSegment": "BW2", "description": "Low Profile mount only" },
+            { "id": "f3a", "label": "Full 3-Color Amber / Blue / White", "skuSegment": "F3A", "description": "Low Profile mount only" }
           ]
         },
         {
@@ -93,72 +101,20 @@
           "skuSegmentKey": "mount",
           "_verification": "confirmed",
           "options": [
-            { "id": "hook", "label": "Hook Mount",    "skuSegment": "hook", "description": "Permanent roof-hook mounting — 1-Color Blue/White only" },
-            { "id": "low",  "label": "Low Profile",   "skuSegment": "low",  "description": "Flush low-profile mounting — all color configurations" }
-          ]
-        }
-      ]
-    },
-
-    "technicalOptions": {
-      "label": "Technical Details",
-      "description": "Product capabilities shown after SKU selection. These do not change the base SKU.",
-      "steps": [
-        {
-          "id": "tech-sm",
-          "label": "SignalMaster™",
-          "skuImpact": false,
-          "options": [
-            { "id": "sm-yes", "label": "Included",        "description": "Rear-facing directional warning arrows" },
-            { "id": "sm-no",  "label": "Not Required" }
-          ]
-        },
-        {
-          "id": "tech-alley",
-          "label": "Alley Lights",
-          "skuImpact": false,
-          "options": [
-            { "id": "alley-yes", "label": "Included",     "description": "Side-facing alley illumination" },
-            { "id": "alley-no",  "label": "Not Required" }
-          ]
-        },
-        {
-          "id": "tech-takedown",
-          "label": "Takedowns",
-          "skuImpact": false,
-          "options": [
-            { "id": "td-yes", "label": "Included",        "description": "Forward-facing white takedown lights" },
-            { "id": "td-no",  "label": "Not Required" }
-          ]
-        },
-        {
-          "id": "tech-cruise",
-          "label": "Cruise / Pursuit Mode",
-          "skuImpact": false,
-          "options": [
-            { "id": "cruise-yes", "label": "Enabled",     "description": "Steady-burn cruise mode" },
-            { "id": "cruise-no",  "label": "Not Required" }
-          ]
-        },
-        {
-          "id": "tech-scene",
-          "label": "Scene Lighting",
-          "skuImpact": false,
-          "options": [
-            { "id": "scene-yes", "label": "Included",     "description": "Broad white scene illumination" },
-            { "id": "scene-no",  "label": "Not Required" }
+            { "id": "hook", "label": "Hook Mount",   "skuSegment": "hook", "description": "Permanent roof-hook — 1-Color Blue/White only" },
+            { "id": "low",  "label": "Low Profile",  "skuSegment": "low",  "description": "Flush low-profile mount — all color configurations" }
           ]
         }
       ]
     },
 
     "accessories": {
-      "label": "Accessories & Add-ons",
-      "description": "Required hardware and optional accessories. SKUs marked 'Needs Review' require verification before ordering.",
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
       "items": [
         {
           "id": "acc-ctrl-main",
-          "label": "Main Controller",
+          "label": "Main Controller / Head Unit",
           "sku": null,
           "price": null,
           "type": "required",
@@ -170,7 +126,7 @@
           "sku": null,
           "price": null,
           "type": "required",
-          "_note": "Needs Review — harness SKU varies by mount style"
+          "_note": "Needs Review — harness SKU varies by mount style; confirm with install spec"
         },
         {
           "id": "acc-brkt-hook",
@@ -178,11 +134,19 @@
           "sku": null,
           "price": null,
           "type": "optional",
-          "_note": "Needs Review — for Hook Mount configurations only"
+          "_note": "Required for Hook Mount configs — SKU TBD from price book"
+        },
+        {
+          "id": "acc-brkt-low",
+          "label": "Low Profile Mount Hardware",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Required for Low Profile configs — SKU TBD from price book"
         },
         {
           "id": "acc-micropulse",
-          "label": "MicroPulse Ultra (bumper fill)",
+          "label": "MicroPulse Ultra (bumper fill lights)",
           "sku": null,
           "price": null,
           "type": "optional",
@@ -190,7 +154,7 @@
         },
         {
           "id": "acc-spectralux",
-          "label": "SpectraLux ILS (interior)",
+          "label": "SpectraLux ILS (interior light strip)",
           "sku": null,
           "price": null,
           "type": "optional",
@@ -209,16 +173,32 @@
   },
 
   "vehicleRules": [
-    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",               "recommendedLength": "51" },
-    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",             "recommendedLength": "51" },
-    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",       "recommendedLength": "51" },
-    { "vehicleId": "CHEVY_BLAZER_EV_PPV", "displayName": "Chevrolet Blazer EV PPV",         "recommendedLength": "44" },
-    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",           "recommendedLength": "44" },
-    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",           "recommendedLength": "51" },
-    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",            "recommendedLength": "51" },
-    { "vehicleId": "RAM_1500_SSV",        "displayName": "Ram 1500 SSV",                   "recommendedLength": "51" }
+    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "51" },
+    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "51" },
+    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",  "recommendedLength": "51" },
+    { "vehicleId": "CHEVY_BLAZER_EV_PPV", "displayName": "Chevrolet Blazer EV PPV",    "recommendedLength": "44" },
+    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",      "recommendedLength": "44" },
+    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "51" },
+    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "51" },
+    { "vehicleId": "RAM_1500_SSV",        "displayName": "Ram 1500 SSV",               "recommendedLength": "51" }
   ],
 
-  "compatibilityRules": [],
+  "compatibilityRules": [
+    {
+      "id": "excl-hook-bw2",
+      "type": "excludes",
+      "stepA": "mount", "optionA": "hook",
+      "stepB": "color", "optionB": "bw2",
+      "message": "Hook Mount is only available with 1-Color Blue/White. Select Low Profile for 2-Color configurations."
+    },
+    {
+      "id": "excl-hook-f3a",
+      "type": "excludes",
+      "stepA": "mount", "optionA": "hook",
+      "stepB": "color", "optionB": "f3a",
+      "message": "Hook Mount is only available with 1-Color Blue/White. Select Low Profile for Full 3-Color configurations."
+    }
+  ],
+
   "dependencyRules": []
 }
