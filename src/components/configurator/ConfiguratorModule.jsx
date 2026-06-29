@@ -2,47 +2,47 @@
  * components/configurator/ConfiguratorModule.jsx
  *
  * Generic, fully data-driven configurator module.
- * Powers Navigator Serial, Navigator Linear Mini, Navigator Discrete — and any future family.
+ * Vehicle comes from VehicleContext only — no vehicle selector inside this module.
  *
- * Three sections:
- *   1. SKU Selector  — options that filter base SKU variants
- *   2. Technical Options — capabilities, do NOT filter SKU
- *   3. Accessories & Add-ons — required deps + optional items
+ * Architecture:
+ *   - Vehicle Banner  — reads VehicleContext, opens existing modal
+ *   - SKU Filters     — button selectors that narrow the SKU table
+ *   - Available SKUs  — live table; narrows on every filter; customer selects a row
+ *   - Technical Details — informational only, shown after SKU row selected
+ *   - Accessories     — required deps + optional items
+ *   - Quote Payload   — emitted when a SKU row is selected
  *
  * Dead-end prevention:
- *   After every selection, each remaining option is tested against the
- *   current filter set. If selecting it would produce 0 matching variants,
- *   it is disabled before the customer can click it.
- *
- * Quote Payload:
- *   Emits a complete quote object when exactly one SKU resolves.
+ *   Each filter option is tested before render. If selecting it would produce
+ *   0 remaining SKUs, it is disabled before the customer can click it.
  */
 
 import React, { useState, useMemo, useCallback } from 'react';
 import { useVehicle } from '@/context/VehicleContext';
-import { CheckCircle, XCircle, AlertTriangle, ChevronRight, Package, FlaskConical, RotateCcw, ClipboardList } from 'lucide-react';
+import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+import {
+  CheckCircle, ChevronRight, RotateCcw, ClipboardList,
+  Truck, AlertTriangle, Package
+} from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-// ─── SKU Filtering Engine (pure, inline) ──────────────────────────────────
+// ─── SKU Filtering Engine ──────────────────────────────────────────────────
 
-function filterSkus(skuOptions, currentSelections, steps) {
+function filterSkus(skuOptions, selections, steps) {
   return skuOptions.filter(skuOpt => {
     for (const step of steps) {
       if (!step.skuSegmentKey) continue;
-      const val = currentSelections[step.id];
+      const val = selections[step.id];
       if (!val) continue;
       const opt = step.options.find(o => o.id === val);
       if (!opt) continue;
       const attrKey = step.skuSegmentKey;
       const attrVal = opt.skuSegment;
-
-      if (!(attrKey in skuOpt.attributes)) continue; // SKU doesn't constrain this attr
-
+      if (!(attrKey in skuOpt.attributes)) continue;
       if (step._verification === 'confirmed') {
         if (skuOpt.attributes[attrKey] !== attrVal) return false;
       } else {
-        // Soft filter: only apply if the value exists on at least one SKU
         const anyMatch = skuOptions.some(s => s.attributes[attrKey] === attrVal);
         if (anyMatch && skuOpt.attributes[attrKey] !== attrVal) return false;
       }
@@ -51,11 +51,8 @@ function filterSkus(skuOptions, currentSelections, steps) {
   });
 }
 
-// Would selecting this option produce ≥1 remaining SKUs?
-function wouldHaveMatches(skuOptions, currentSelections, steps, stepId, optionId) {
-  const step = steps.find(s => s.id === stepId);
-  if (!step) return true;
-  const hypothetical = { ...currentSelections, [stepId]: optionId };
+function wouldHaveMatches(skuOptions, selections, steps, stepId, optionId) {
+  const hypothetical = { ...selections, [stepId]: optionId };
   return filterSkus(skuOptions, hypothetical, steps).length > 0;
 }
 
@@ -65,125 +62,140 @@ function SectionHeader({ number, label, description }) {
   return (
     <div style={{ borderBottom: '2px solid #1a2744', paddingBottom: 8, marginBottom: 16 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-        <span style={{
-          fontSize: 11, fontWeight: 700, color: '#fff', background: '#c8102e',
-          padding: '2px 8px', letterSpacing: '0.06em'
-        }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: '#fff', background: '#c8102e', padding: '2px 8px', letterSpacing: '0.06em' }}>
           {number}
         </span>
         <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#1a2744' }}>
           {label}
         </span>
       </div>
-      {description && (
-        <p style={{ fontSize: 11, color: '#888', margin: '6px 0 0' }}>{description}</p>
-      )}
+      {description && <p style={{ fontSize: 11, color: '#888', margin: '6px 0 0' }}>{description}</p>}
     </div>
   );
 }
 
-// ─── SKU Selector Section ──────────────────────────────────────────────────
+// ─── Vehicle Banner ────────────────────────────────────────────────────────
 
-function SkuSelectorSection({ section, skuOptions, selections, onSelect, recommendedLengths }) {
+function VehicleBanner({ selectedVehicle, onOpen }) {
+  if (!selectedVehicle) {
+    return (
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '10px 14px', background: '#fff8e1', border: '1px solid #ffe082', marginBottom: 20
+      }}>
+        <Truck size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
+        <span style={{ fontSize: 13, color: '#78350f', flex: 1 }}>
+          Select your vehicle to see fitment recommendations.
+        </span>
+        <button
+          onClick={onOpen}
+          style={{
+            ...FS, fontSize: 11, fontWeight: 700, color: '#fff', background: '#c8102e',
+            border: 'none', padding: '5px 12px', cursor: 'pointer', letterSpacing: '0.04em', flexShrink: 0
+          }}
+        >
+          Select Vehicle
+        </button>
+      </div>
+    );
+  }
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      padding: '10px 14px', background: '#f0f4ff', border: '1px solid #c7d7f9', marginBottom: 20
+    }}>
+      <Truck size={15} style={{ color: '#1a2744', flexShrink: 0 }} />
+      <div style={{ flex: 1 }}>
+        <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Configuring For</span>
+        <p style={{ margin: '2px 0 0', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>
+          {selectedVehicle.year} {selectedVehicle.make} {selectedVehicle.model}
+        </p>
+      </div>
+      <button
+        onClick={onOpen}
+        style={{
+          ...FS, fontSize: 11, fontWeight: 700, color: '#c8102e',
+          background: 'none', border: '1px solid #c8102e', padding: '4px 10px', cursor: 'pointer', flexShrink: 0
+        }}
+      >
+        Change Vehicle
+      </button>
+    </div>
+  );
+}
+
+// ─── SKU Filters ───────────────────────────────────────────────────────────
+
+function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments }) {
   const steps = section.steps ?? [];
-  const remaining = filterSkus(skuOptions, selections, steps);
 
   return (
-    <div style={{ marginBottom: 32 }}>
+    <div style={{ marginBottom: 28 }}>
       <SectionHeader number="01" label={section.label} description={section.description} />
-
-      {/* Remaining count badge */}
-      <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 6,
-        padding: '4px 10px', marginBottom: 16,
-        background: remaining.length === 1 ? '#f0fdf4' : remaining.length === 0 ? '#fef2f2' : '#eff6ff',
-        border: `1px solid ${remaining.length === 1 ? '#bbf7d0' : remaining.length === 0 ? '#fecaca' : '#bfdbfe'}`,
-      }}>
-        {remaining.length === 1
-          ? <CheckCircle size={12} style={{ color: '#16a34a' }} />
-          : remaining.length === 0
-            ? <XCircle size={12} style={{ color: '#dc2626' }} />
-            : <ChevronRight size={12} style={{ color: '#1d4ed8' }} />
-        }
-        <span style={{ fontSize: 11, fontWeight: 700, color: remaining.length === 1 ? '#15803d' : remaining.length === 0 ? '#991b1b' : '#1e40af' }}>
-          {remaining.length === 1
-            ? `1 variant matched — SKU resolved`
-            : remaining.length === 0
-              ? 'No matching variants'
-              : `${remaining.length} variant${remaining.length === 1 ? '' : 's'} remaining`}
-        </span>
-      </div>
-
       {steps.map(step => (
-        <SkuStep
+        <FilterStep
           key={step.id}
           step={step}
           skuOptions={skuOptions}
           selections={selections}
           steps={steps}
           onSelect={onSelect}
-          recommendedLengths={recommendedLengths}
+          recommendedSegments={recommendedSegments}
         />
       ))}
     </div>
   );
 }
 
-function SkuStep({ step, skuOptions, selections, steps, onSelect, recommendedLengths }) {
+function FilterStep({ step, skuOptions, selections, steps, onSelect, recommendedSegments }) {
   const currentVal = selections[step.id];
 
   return (
-    <div style={{ marginBottom: 20 }}>
+    <div style={{ marginBottom: 18 }}>
       <p style={{
-        fontSize: 12, fontWeight: 700, letterSpacing: '0.08em',
-        textTransform: 'uppercase', color: '#1a2744', marginBottom: 8,
-        display: 'flex', alignItems: 'center', gap: 6
+        fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+        color: '#1a2744', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6
       }}>
         {step.label}
         {step.required && <span style={{ color: '#c8102e' }}>*</span>}
         {step._verification === 'needs_verification' && (
-          <span style={{
-            fontSize: 9, fontWeight: 700, letterSpacing: '0.05em',
-            padding: '1px 5px', background: '#f0f9ff', color: '#0369a1',
-            border: '1px solid #bae6fd'
-          }}>UNVERIFIED</span>
+          <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', background: '#f0f9ff', color: '#0369a1', border: '1px solid #bae6fd' }}>
+            UNVERIFIED
+          </span>
         )}
       </p>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {step.options.map(opt => {
           const isSelected = currentVal === opt.id;
-          const isRecommended = step.id === 'length' && recommendedLengths.includes(opt.skuSegment);
-          // Test dead-end: would selecting this produce 0 remaining variants?
-          const selectionsWithoutThis = { ...selections };
-          delete selectionsWithoutThis[step.id];
-          const wouldMatch = wouldHaveMatches(skuOptions, selectionsWithoutThis, steps, step.id, opt.id);
-          const isDisabled = !isSelected && !wouldMatch;
+          const isRecommended = recommendedSegments.includes(opt.skuSegment);
+          // Dead-end check: remove this step's selection, test if selecting opt would match anything
+          const withoutCurrent = { ...selections };
+          delete withoutCurrent[step.id];
+          const disabled = !isSelected && !wouldHaveMatches(skuOptions, withoutCurrent, steps, step.id, opt.id);
 
           return (
             <div key={opt.id} style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
               <button
-                disabled={isDisabled}
-                onClick={() => !isDisabled && onSelect(step.id, opt.id)}
-                title={isDisabled ? 'No matching variants for this combination' : opt.description || undefined}
+                disabled={disabled}
+                onClick={() => !disabled && onSelect(step.id, opt.id)}
+                title={disabled ? 'No matching SKUs for this combination' : opt.description || undefined}
                 style={{
-                  ...FS,
-                  fontSize: 12, padding: '6px 14px', cursor: isDisabled ? 'not-allowed' : 'pointer',
-                  border: `2px solid ${isSelected ? '#c8102e' : isDisabled ? '#e5e5e5' : isRecommended ? '#16a34a' : '#d0d0d0'}`,
-                  background: isSelected ? '#c8102e' : isDisabled ? '#f5f5f5' : isRecommended ? '#f0fdf4' : '#fff',
-                  color: isSelected ? '#fff' : isDisabled ? '#bbb' : '#333',
+                  ...FS, fontSize: 12, padding: '6px 14px',
+                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  border: `2px solid ${isSelected ? '#c8102e' : disabled ? '#e5e5e5' : isRecommended ? '#16a34a' : '#d0d0d0'}`,
+                  background: isSelected ? '#c8102e' : disabled ? '#f5f5f5' : isRecommended ? '#f0fdf4' : '#fff',
+                  color: isSelected ? '#fff' : disabled ? '#bbb' : '#333',
                   fontWeight: isSelected ? 700 : 400,
-                  opacity: isDisabled ? 0.55 : 1,
+                  opacity: disabled ? 0.55 : 1,
                   transition: 'all 0.12s',
                 }}
               >
                 {opt.label}
               </button>
-              {isDisabled && (
-                <span style={{ fontSize: 9, color: '#dc2626', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  INVALID PATH
-                </span>
+              {disabled && !isSelected && (
+                <span style={{ fontSize: 9, color: '#dc2626', fontWeight: 700 }}>NO MATCH</span>
               )}
-              {isRecommended && !isSelected && !isDisabled && (
+              {isRecommended && !isSelected && !disabled && (
                 <span style={{ fontSize: 9, color: '#15803d', fontWeight: 700, background: '#dcfce7', padding: '1px 5px', border: '1px solid #bbf7d0' }}>
                   ✓ FITS
                 </span>
@@ -196,20 +208,114 @@ function SkuStep({ step, skuOptions, selections, steps, onSelect, recommendedLen
   );
 }
 
-// ─── Technical Options Section ─────────────────────────────────────────────
+// ─── Available SKU Table ───────────────────────────────────────────────────
 
-function TechnicalOptionsSection({ section, selections, onSelect }) {
+function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
+  const count = remainingSkus.length;
+  const total = skuOptions.length;
+
+  return (
+    <div style={{ marginBottom: 28 }}>
+      <SectionHeader number="02" label="Available SKUs" description="Filters narrow this list. Select a row to configure quote." />
+
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        padding: '4px 10px', marginBottom: 12,
+        background: count === 1 ? '#f0fdf4' : count === 0 ? '#fef2f2' : '#eff6ff',
+        border: `1px solid ${count === 1 ? '#bbf7d0' : count === 0 ? '#fecaca' : '#bfdbfe'}`,
+      }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: count === 1 ? '#15803d' : count === 0 ? '#991b1b' : '#1e40af' }}>
+          {count === total
+            ? `${count} SKUs — apply filters to narrow`
+            : count === 0
+              ? 'No matching SKUs'
+              : count === 1
+                ? '1 SKU matched — select row to proceed'
+                : `${count} of ${total} SKUs remaining`}
+        </span>
+      </div>
+
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse', ...FS }}>
+          <thead>
+            <tr style={{ background: '#1a2744', color: '#fff' }}>
+              <th style={TH}>Select</th>
+              <th style={TH}>SKU</th>
+              <th style={TH}>Length</th>
+              <th style={TH}>Color</th>
+              <th style={TH}>Spec</th>
+              <th style={TH}>MSRP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {remainingSkus.length === 0 ? (
+              <tr>
+                <td colSpan={6} style={{ padding: '14px 12px', textAlign: 'center', color: '#991b1b', fontStyle: 'italic' }}>
+                  No SKUs match current filters.
+                </td>
+              </tr>
+            ) : remainingSkus.map((sku, i) => {
+              const isSelected = selectedSkuId === sku.sku;
+              const isOnly = count === 1;
+              return (
+                <tr
+                  key={sku.sku}
+                  onClick={() => onSelectSku(sku.sku)}
+                  style={{
+                    background: isSelected ? '#e8f5e9' : isOnly && !isSelected ? '#f0fdf4' : i % 2 === 0 ? '#f7f8fa' : '#fff',
+                    cursor: 'pointer',
+                    outline: isSelected ? '2px solid #16a34a' : 'none',
+                  }}
+                >
+                  <td style={{ ...TD, textAlign: 'center' }}>
+                    <input
+                      type="radio"
+                      readOnly
+                      checked={isSelected}
+                      style={{ accentColor: '#16a34a', cursor: 'pointer' }}
+                    />
+                  </td>
+                  <td style={{ ...TD, fontFamily: 'monospace', fontWeight: 700, color: '#1a2744' }}>
+                    {sku.sku}
+                    {isOnly && !isSelected && (
+                      <span style={{ marginLeft: 6, fontSize: 9, fontWeight: 700, color: '#16a34a', background: '#dcfce7', padding: '1px 4px', border: '1px solid #bbf7d0' }}>
+                        SELECT
+                      </span>
+                    )}
+                  </td>
+                  <td style={TD}>{sku.attributes?.length ? `${sku.attributes.length}"` : '—'}</td>
+                  <td style={TD}>{sku.attributes?.color ?? '—'}</td>
+                  <td style={TD}>{sku.attributes?.spec ?? '—'}</td>
+                  <td style={{ ...TD, fontWeight: 600 }}>
+                    {sku.price != null ? `$${sku.price.toLocaleString()}` : 'Contact'}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+const TH = { padding: '8px 12px', textAlign: 'left', fontWeight: 700, fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' };
+const TD = { padding: '8px 12px', color: '#333', verticalAlign: 'middle' };
+
+// ─── Technical Details ─────────────────────────────────────────────────────
+
+function TechnicalDetails({ section, selections, onSelect }) {
   const steps = section.steps ?? [];
   return (
-    <div style={{ marginBottom: 32 }}>
-      <SectionHeader number="02" label={section.label} description={section.description} />
-      <div style={{ padding: '10px 14px', background: '#f8fafc', border: '1px solid #e5e7eb', marginBottom: 14 }}>
+    <div style={{ marginBottom: 28 }}>
+      <SectionHeader number="03" label={section.label} description={section.description} />
+      <div style={{ padding: '8px 12px', background: '#f8fafc', border: '1px solid #e5e7eb', marginBottom: 12 }}>
         <p style={{ fontSize: 11, color: '#6b7280', margin: 0 }}>
-          ℹ These selections describe your product requirements and do not affect SKU resolution.
+          ℹ Informational only — these do not change the selected base SKU.
         </p>
       </div>
       {steps.map(step => (
-        <div key={step.id} style={{ marginBottom: 16 }}>
+        <div key={step.id} style={{ marginBottom: 14 }}>
           <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#374151', marginBottom: 6 }}>
             {step.label}
           </p>
@@ -222,8 +328,7 @@ function TechnicalOptionsSection({ section, selections, onSelect }) {
                   onClick={() => onSelect(step.id, opt.id)}
                   title={opt.description || undefined}
                   style={{
-                    ...FS,
-                    fontSize: 12, padding: '5px 12px', cursor: 'pointer',
+                    ...FS, fontSize: 12, padding: '5px 12px', cursor: 'pointer',
                     border: `2px solid ${isSelected ? '#1a2744' : '#d0d0d0'}`,
                     background: isSelected ? '#1a2744' : '#fff',
                     color: isSelected ? '#fff' : '#555',
@@ -244,31 +349,34 @@ function TechnicalOptionsSection({ section, selections, onSelect }) {
 
 // ─── Accessories Section ───────────────────────────────────────────────────
 
-function AccessoriesSection({ section, selectedAccessories, onToggleAccessory }) {
+function AccessoriesSection({ section, selectedAccessories, onToggle }) {
   const items = section.items ?? [];
   const required = items.filter(i => i.type === 'required');
   const optional = items.filter(i => i.type !== 'required');
 
   return (
-    <div style={{ marginBottom: 32 }}>
-      <SectionHeader number="03" label={section.label} description={section.description} />
+    <div style={{ marginBottom: 28 }}>
+      <SectionHeader number="04" label={section.label} description={section.description} />
       {required.length > 0 && (
-        <div style={{ marginBottom: 12 }}>
+        <div style={{ marginBottom: 10 }}>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#991b1b', marginBottom: 6 }}>
             Required Dependencies
           </p>
-          {required.map(item => (
-            <AccessoryRow key={item.id} item={item} isSelected={selectedAccessories.includes(item.id)} onToggle={onToggleAccessory} forceChecked />
-          ))}
+          {required.map(item => <AccessoryRow key={item.id} item={item} checked forceChecked />)}
         </div>
       )}
       {optional.length > 0 && (
         <div>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#374151', marginBottom: 6 }}>
-            {required.length > 0 ? 'Optional Accessories' : 'Available Accessories'}
+            Optional Accessories
           </p>
           {optional.map(item => (
-            <AccessoryRow key={item.id} item={item} isSelected={selectedAccessories.includes(item.id)} onToggle={onToggleAccessory} />
+            <AccessoryRow
+              key={item.id}
+              item={item}
+              checked={selectedAccessories.includes(item.id)}
+              onToggle={() => onToggle(item.id)}
+            />
           ))}
         </div>
       )}
@@ -276,33 +384,27 @@ function AccessoriesSection({ section, selectedAccessories, onToggleAccessory })
   );
 }
 
-function AccessoryRow({ item, isSelected, onToggle, forceChecked }) {
-  const checked = forceChecked || isSelected;
+function AccessoryRow({ item, checked, onToggle, forceChecked }) {
   return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 10,
-      padding: '8px 12px', marginBottom: 4,
-      background: checked ? '#f0fdf4' : '#fafafa',
-      border: `1px solid ${checked ? '#bbf7d0' : '#e5e7eb'}`,
-      cursor: forceChecked ? 'default' : 'pointer',
-    }}
-      onClick={() => !forceChecked && onToggle(item.id)}
+    <div
+      onClick={() => !forceChecked && onToggle?.()}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '8px 12px', marginBottom: 4,
+        background: checked ? '#f0fdf4' : '#fafafa',
+        border: `1px solid ${checked ? '#bbf7d0' : '#e5e7eb'}`,
+        cursor: forceChecked ? 'default' : 'pointer',
+      }}
     >
       <input
-        type="checkbox"
-        checked={checked}
-        readOnly={forceChecked}
-        onChange={() => !forceChecked && onToggle(item.id)}
+        type="checkbox" checked={checked} readOnly={forceChecked}
+        onChange={() => !forceChecked && onToggle?.()}
         style={{ cursor: forceChecked ? 'default' : 'pointer', accentColor: '#16a34a' }}
       />
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ flex: 1 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: '#1a1a1a' }}>{item.label}</span>
-        {item.sku && (
-          <span style={{ marginLeft: 8, fontFamily: 'monospace', fontSize: 11, color: '#6b7280' }}>{item.sku}</span>
-        )}
-        {item._note && (
-          <span style={{ marginLeft: 6, fontSize: 10, color: '#9ca3af', fontStyle: 'italic' }}>⚠ {item._note}</span>
-        )}
+        {item.sku && <span style={{ marginLeft: 8, fontFamily: 'monospace', fontSize: 11, color: '#6b7280' }}>{item.sku}</span>}
+        {item._note && <span style={{ marginLeft: 6, fontSize: 10, color: '#9ca3af', fontStyle: 'italic' }}>⚠ {item._note}</span>}
       </div>
       <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', flexShrink: 0 }}>
         {item.price != null ? `$${item.price.toLocaleString()}` : 'Price TBD'}
@@ -311,64 +413,57 @@ function AccessoryRow({ item, isSelected, onToggle, forceChecked }) {
   );
 }
 
-// ─── Resolution Panel ──────────────────────────────────────────────────────
+// ─── Quote Panel ───────────────────────────────────────────────────────────
 
-function ResolutionPanel({ resolvedSku, matchCount, quotePayload, configuratorData }) {
-  const [showPayload, setShowPayload] = useState(false);
+function QuotePanel({ quotePayload }) {
+  const [show, setShow] = useState(false);
 
-  if (matchCount === 0) {
+  if (!quotePayload) {
     return (
-      <div style={{ padding: '14px 16px', background: '#fef2f2', border: '1px solid #fecaca', marginTop: 8 }}>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <XCircle size={15} style={{ color: '#dc2626' }} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#991b1b' }}>No matching variants</span>
-        </div>
-        <p style={{ fontSize: 12, color: '#991b1b', margin: '6px 0 0' }}>
-          The current combination has no matching SKUs. This state should not be reachable from the UI — please report if you see it.
+      <div style={{ padding: '12px 14px', background: '#f8fafc', border: '1px solid #e5e7eb', marginTop: 8 }}>
+        <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>
+          Select a SKU row above to generate the quote payload.
         </p>
-      </div>
-    );
-  }
-
-  if (!resolvedSku) {
-    return (
-      <div style={{ padding: '12px 14px', background: '#eff6ff', border: '1px solid #bfdbfe', marginTop: 8 }}>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <ChevronRight size={13} style={{ color: '#1d4ed8' }} />
-          <span style={{ fontSize: 12, fontWeight: 700, color: '#1e40af' }}>
-            {matchCount} variant{matchCount !== 1 ? 's' : ''} remaining — complete required selections above
-          </span>
-        </div>
       </div>
     );
   }
 
   return (
     <div style={{ padding: '14px 16px', background: '#f0fdf4', border: '2px solid #16a34a', marginTop: 8 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-        <CheckCircle size={16} style={{ color: '#16a34a' }} />
-        <span style={{ fontSize: 13, fontWeight: 700, color: '#15803d' }}>SKU Resolved</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CheckCircle size={15} style={{ color: '#16a34a' }} />
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#15803d' }}>
+            SKU Selected — {quotePayload.selectedBaseSku}
+          </span>
+        </div>
+        <button
+          onClick={() => setShow(p => !p)}
+          style={{
+            ...FS, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5,
+            padding: '4px 10px', background: '#1a2744', color: '#fff', border: 'none', cursor: 'pointer'
+          }}
+        >
+          <ClipboardList size={11} /> {show ? 'Hide' : 'View'} Quote Payload
+        </button>
       </div>
-      <p style={{ fontFamily: 'monospace', fontSize: 16, fontWeight: 700, color: '#1a2744', margin: '0 0 6px' }}>
-        {resolvedSku.sku}
+      <p style={{ fontSize: 12, color: '#374151', margin: '0 0 4px' }}>
+        MSRP: {quotePayload.basePrice != null ? `$${quotePayload.basePrice.toLocaleString()}` : 'Contact for pricing'}
       </p>
-      <p style={{ fontSize: 12, color: '#374151', margin: '0 0 10px' }}>
-        MSRP: {resolvedSku.price != null ? `$${resolvedSku.price.toLocaleString()}` : 'Contact for pricing'}
-      </p>
-      <button
-        onClick={() => setShowPayload(p => !p)}
-        style={{
-          ...FS, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5,
-          padding: '5px 12px', background: '#1a2744', color: '#fff', border: 'none', cursor: 'pointer'
-        }}
-      >
-        <ClipboardList size={12} /> {showPayload ? 'Hide' : 'View'} Quote Payload
-      </button>
-      {showPayload && (
+      {quotePayload.reviewFlags?.length > 0 && (
+        <div style={{ marginTop: 8 }}>
+          {quotePayload.reviewFlags.map((flag, i) => (
+            <div key={i} style={{ display: 'flex', gap: 6, alignItems: 'flex-start', fontSize: 11, color: '#92400e', marginBottom: 3 }}>
+              <AlertTriangle size={11} style={{ color: '#d97706', flexShrink: 0, marginTop: 1 }} />
+              {flag}
+            </div>
+          ))}
+        </div>
+      )}
+      {show && (
         <pre style={{
           marginTop: 10, padding: '10px 12px', background: '#1a2744', color: '#7dd3fc',
           fontSize: 11, fontFamily: 'monospace', overflowX: 'auto', lineHeight: 1.6,
-          borderRadius: 2,
         }}>
           {JSON.stringify(quotePayload, null, 2)}
         </pre>
@@ -381,40 +476,49 @@ function ResolutionPanel({ resolvedSku, matchCount, quotePayload, configuratorDa
 
 export default function ConfiguratorModule({ configuratorData, verticalId, categoryId }) {
   const { selectedVehicle } = useVehicle();
-  const [skuSelections, setSkuSelections]   = useState({});
-  const [techSelections, setTechSelections] = useState({});
-  const [accessories, setAccessories]       = useState([]);
+  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const [filterSelections, setFilterSelections] = useState({});
+  const [techSelections, setTechSelections]     = useState({});
+  const [accessories, setAccessories]           = useState([]);
+  const [selectedSkuId, setSelectedSkuId]       = useState(null);
 
-  const { sections, skuOptions = [], vehicleRules = [], productFamily, id: configuratorId } = configuratorData;
+  const {
+    sections, skuOptions = [], vehicleRules = [],
+    productFamily, id: configuratorId
+  } = configuratorData;
+
   const skuSteps = sections?.skuSelector?.steps ?? [];
 
-  // Recommend lengths based on selected vehicle
-  const recommendedLengths = useMemo(() => {
+  // Recommended length/mount segments from vehicle rules
+  const recommendedSegments = useMemo(() => {
     if (!selectedVehicle) return [];
     const match = vehicleRules.find(r =>
-      r.vehicleId?.toLowerCase() === (selectedVehicle.model?.toLowerCase().replace(/\s+/g, '_') || '')
-      || r.displayName?.toLowerCase().includes(selectedVehicle.model?.toLowerCase())
+      r.displayName?.toLowerCase().includes(selectedVehicle.model?.toLowerCase())
+      || r.vehicleId?.toLowerCase().includes(selectedVehicle.model?.toLowerCase().replace(/[\s/]/g, '_'))
     );
     return match ? [match.recommendedLength] : [];
   }, [selectedVehicle, vehicleRules]);
 
+  // Filter SKUs based on current selections
   const remainingSkus = useMemo(
-    () => filterSkus(skuOptions, skuSelections, skuSteps),
-    [skuOptions, skuSelections, skuSteps]
+    () => filterSkus(skuOptions, filterSelections, skuSteps),
+    [skuOptions, filterSelections, skuSteps]
   );
 
-  const resolvedSku = remainingSkus.length === 1 ? remainingSkus[0] : null;
+  // Keep selectedSkuId valid — clear if it's no longer in remaining set
+  const resolvedSkuObj = useMemo(
+    () => remainingSkus.find(s => s.sku === selectedSkuId) ?? null,
+    [remainingSkus, selectedSkuId]
+  );
 
-  const handleSkuSelect = useCallback((stepId, optionId) => {
-    setSkuSelections(prev => {
-      // Toggle off if same value
-      if (prev[stepId] === optionId) {
-        const next = { ...prev };
-        delete next[stepId];
-        return next;
-      }
-      return { ...prev, [stepId]: optionId };
+  const handleFilterSelect = useCallback((stepId, optionId) => {
+    setFilterSelections(prev => {
+      const next = prev[stepId] === optionId
+        ? (() => { const n = { ...prev }; delete n[stepId]; return n; })()
+        : { ...prev, [stepId]: optionId };
+      return next;
     });
+    setSelectedSkuId(null); // clear row selection when filters change
   }, []);
 
   const handleTechSelect = useCallback((stepId, optionId) => {
@@ -430,39 +534,46 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   }, []);
 
   const handleReset = useCallback(() => {
-    setSkuSelections({});
+    setFilterSelections({});
     setTechSelections({});
     setAccessories([]);
+    setSelectedSkuId(null);
   }, []);
 
-  // Build quote payload
+  // Build quote payload when a SKU row is selected
   const quotePayload = useMemo(() => {
-    if (!resolvedSku) return null;
-    const accItems = (sections?.accessories?.items ?? []).filter(i => accessories.includes(i.id) || i.type === 'required');
+    if (!resolvedSkuObj) return null;
+    const accItems = sections?.accessories?.items ?? [];
+    const selectedAcc = accItems.filter(i => accessories.includes(i.id) || i.type === 'required');
+    const reviewFlags = [
+      ...(selectedVehicle ? [] : ['No vehicle selected — vehicle-specific fitment not confirmed']),
+      ...skuSteps
+        .filter(s => s._verification === 'needs_verification' && filterSelections[s.id])
+        .map(s => `Unverified attribute: ${s.label}`),
+      ...accItems.filter(i => i._note).map(i => `Required hardware needs review: ${i.label}`),
+    ];
     return {
       verticalId,
       categoryId,
       productFamily,
       configuratorId,
-      vehicle: selectedVehicle
+      selectedVehicle: selectedVehicle
         ? { year: selectedVehicle.year, make: selectedVehicle.make, model: selectedVehicle.model }
         : null,
-      selectedOptions: Object.entries(skuSelections).map(([stepId, optId]) => {
+      selectedFilters: Object.entries(filterSelections).map(([stepId, optId]) => {
         const step = skuSteps.find(s => s.id === stepId);
         const opt  = step?.options.find(o => o.id === optId);
         return { stepId, stepLabel: step?.label, optionId: optId, optionLabel: opt?.label };
       }),
-      resolvedBaseSku: resolvedSku.sku,
-      basePrice: resolvedSku.price,
-      dependencySkus: accItems.filter(i => i.type === 'required').map(i => i.sku),
-      optionalUpsells: accItems.filter(i => i.type !== 'required').map(i => i.sku),
-      reviewFlags: [
-        ...skuSteps.filter(s => s._verification === 'needs_verification' && skuSelections[s.id])
-          .map(s => `Unverified attribute: ${s.label}`),
-        ...(sections?.accessories?.items ?? []).filter(i => i._note).map(i => `Data gap: ${i.label} — ${i._note}`),
-      ],
+      selectedBaseSku: resolvedSkuObj.sku,
+      basePrice: resolvedSkuObj.price,
+      dependencySkus: selectedAcc.filter(i => i.type === 'required').map(i => i.sku),
+      accessorySkus:  selectedAcc.filter(i => i.type !== 'required').map(i => i.sku),
+      reviewFlags,
     };
-  }, [resolvedSku, skuSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
+  }, [resolvedSkuObj, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
+
+  const showTechAndAcc = !!resolvedSkuObj;
 
   return (
     <div style={{ ...FS, border: '1px solid #e8e8e8', background: '#fff' }}>
@@ -490,50 +601,59 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       </div>
 
       <div style={{ padding: '24px 20px' }}>
-        {/* SECTION 1 — SKU Selector */}
+        {/* Vehicle Banner — reads VehicleContext, opens existing modal */}
+        <VehicleBanner selectedVehicle={selectedVehicle} onOpen={() => setVehicleModalOpen(true)} />
+
+        {/* Section 1 — SKU Filters */}
         {sections?.skuSelector && (
-          <SkuSelectorSection
+          <SkuFilters
             section={sections.skuSelector}
             skuOptions={skuOptions}
-            selections={skuSelections}
-            onSelect={handleSkuSelect}
-            recommendedLengths={recommendedLengths}
+            selections={filterSelections}
+            onSelect={handleFilterSelect}
+            recommendedSegments={recommendedSegments}
           />
         )}
 
-        {/* SECTION 2 — Technical Options */}
-        {sections?.technicalOptions && (
-          <TechnicalOptionsSection
+        {/* Section 2 — Available SKU Table */}
+        <SkuTable
+          skuOptions={skuOptions}
+          remainingSkus={remainingSkus}
+          selectedSkuId={selectedSkuId}
+          onSelectSku={setSelectedSkuId}
+        />
+
+        {/* Section 3 — Technical Details (shown after SKU selected) */}
+        {showTechAndAcc && sections?.technicalOptions && (
+          <TechnicalDetails
             section={sections.technicalOptions}
             selections={techSelections}
             onSelect={handleTechSelect}
           />
         )}
 
-        {/* SECTION 3 — Accessories */}
-        {sections?.accessories && (
+        {/* Section 4 — Accessories (shown after SKU selected) */}
+        {showTechAndAcc && sections?.accessories && (
           <AccessoriesSection
             section={sections.accessories}
             selectedAccessories={accessories}
-            onToggleAccessory={handleToggleAccessory}
+            onToggle={handleToggleAccessory}
           />
         )}
 
-        {/* Resolution panel */}
-        <ResolutionPanel
-          resolvedSku={resolvedSku}
-          matchCount={remainingSkus.length}
-          quotePayload={quotePayload}
-          configuratorData={configuratorData}
-        />
+        {/* Quote Payload */}
+        <QuotePanel quotePayload={quotePayload} />
       </div>
 
       {/* Prototype watermark */}
       <div style={{ borderTop: '1px solid #f0f0f0', padding: '8px 20px', background: '#fafafa' }}>
         <p style={{ margin: 0, fontSize: 10, color: '#bbb', letterSpacing: '0.04em' }}>
-          ⚠ PROTOTYPE — Data sourced from TFRSupply Configurator Master v5. No Shopify connection.
+          ⚠ PROTOTYPE — No Shopify connection. Data sourced from TFRSupply Configurator Master v5.
         </p>
       </div>
+
+      {/* Vehicle selector modal — same existing component */}
+      {vehicleModalOpen && <VehicleSelectorModal onClose={() => setVehicleModalOpen(false)} />}
     </div>
   );
 }

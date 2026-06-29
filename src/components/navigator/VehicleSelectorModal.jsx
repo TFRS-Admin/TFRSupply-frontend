@@ -7,26 +7,80 @@ import React, { useState, useEffect } from 'react';
 import { X, Truck } from 'lucide-react';
 import { useVehicle } from '@/context/VehicleContext';
 
-const VEHICLES = [
-  { year: '2025', make: 'Ford',       model: 'Police Interceptor Utility' },
-  { year: '2024', make: 'Ford',       model: 'Police Interceptor Utility' },
-  { year: '2023', make: 'Ford',       model: 'Police Interceptor Utility' },
-  { year: '2025', make: 'Ford',       model: 'Expedition SSV' },
-  { year: '2024', make: 'Ford',       model: 'Expedition SSV' },
-  { year: '2024', make: 'Ford',       model: 'F-150 Police Responder' },
-  { year: '2025', make: 'Chevrolet',  model: 'Tahoe PPV' },
-  { year: '2024', make: 'Chevrolet',  model: 'Tahoe PPV' },
-  { year: '2023', make: 'Chevrolet',  model: 'Tahoe PPV' },
-  { year: '2024', make: 'Chevrolet',  model: 'Suburban PPV' },
-  { year: '2025', make: 'Dodge',      model: 'Durango Pursuit' },
-  { year: '2024', make: 'Dodge',      model: 'Durango Pursuit' },
-  { year: '2023', make: 'Dodge',      model: 'Charger Pursuit' },
-  { year: '2024', make: 'Ram',        model: '1500 Special Service' },
-  { year: '2024', make: 'Ford',       model: 'F-350 Utility' },
-  { year: '2024', make: 'Ram',        model: '3500 Service' },
-  { year: '2024', make: 'Chevrolet',  model: 'Silverado 2500HD' },
-  { year: '2024', make: 'Ford',       model: 'F-450 Apparatus' },
+// Vehicle Master — expanded per Vehicle_Master_Additions workbook (2026-06-29)
+// Format: { vehicleId, year, make, model, vertical }
+// vehicleId used for fitment/dependency lookups in configurator JSON vehicleRules
+const VEHICLE_MASTER = [
+  // Ford — Police
+  { vehicleId: 'FORD_PIU',            year: '2026', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_PIU',            year: '2025', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_PIU',            year: '2024', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_PIU',            year: '2023', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_PIU',            year: '2022', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_PIU',            year: '2021', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_PIU',            year: '2020', make: 'Ford', model: 'Explorer PIU',        vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2026', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2025', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2024', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2023', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2022', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2021', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_EXPEDITION_SSV', year: '2018', make: 'Ford', model: 'Expedition SSV',      vertical: 'Police' },
+  { vehicleId: 'FORD_F150_RESPONDER', year: '2026', make: 'Ford', model: 'F-150 Responder',     vertical: 'Police' },
+  { vehicleId: 'FORD_F150_RESPONDER', year: '2025', make: 'Ford', model: 'F-150 Responder',     vertical: 'Police' },
+  { vehicleId: 'FORD_F150_RESPONDER', year: '2024', make: 'Ford', model: 'F-150 Responder',     vertical: 'Police' },
+  { vehicleId: 'FORD_F150_RESPONDER', year: '2023', make: 'Ford', model: 'F-150 Responder',     vertical: 'Police' },
+  { vehicleId: 'FORD_F150_RESPONDER', year: '2022', make: 'Ford', model: 'F-150 Responder',     vertical: 'Police' },
+  { vehicleId: 'FORD_F150_RESPONDER', year: '2021', make: 'Ford', model: 'F-150 Responder',     vertical: 'Police' },
+  // Ford — Work Truck
+  { vehicleId: 'FORD_SUPERDUTY',      year: '2026', make: 'Ford', model: 'SuperDuty F-250/350', vertical: 'Work Truck' },
+  { vehicleId: 'FORD_SUPERDUTY',      year: '2025', make: 'Ford', model: 'SuperDuty F-250/350', vertical: 'Work Truck' },
+  { vehicleId: 'FORD_SUPERDUTY',      year: '2024', make: 'Ford', model: 'SuperDuty F-250/350', vertical: 'Work Truck' },
+  { vehicleId: 'FORD_SUPERDUTY',      year: '2023', make: 'Ford', model: 'SuperDuty F-250/350', vertical: 'Work Truck' },
+  { vehicleId: 'FORD_SUPERDUTY',      year: '2022', make: 'Ford', model: 'SuperDuty F-250/350', vertical: 'Work Truck' },
+  { vehicleId: 'FORD_SUPERDUTY',      year: '2021', make: 'Ford', model: 'SuperDuty F-250/350', vertical: 'Work Truck' },
+  // Chevrolet — Police
+  { vehicleId: 'CHEVY_TAHOE_PPV',     year: '2026', make: 'Chevrolet', model: 'Tahoe PPV / SSV',       vertical: 'Police' },
+  { vehicleId: 'CHEVY_TAHOE_PPV',     year: '2025', make: 'Chevrolet', model: 'Tahoe PPV / SSV',       vertical: 'Police' },
+  { vehicleId: 'CHEVY_TAHOE_PPV',     year: '2024', make: 'Chevrolet', model: 'Tahoe PPV / SSV',       vertical: 'Police' },
+  { vehicleId: 'CHEVY_TAHOE_PPV',     year: '2023', make: 'Chevrolet', model: 'Tahoe PPV / SSV',       vertical: 'Police' },
+  { vehicleId: 'CHEVY_TAHOE_PPV',     year: '2022', make: 'Chevrolet', model: 'Tahoe PPV / SSV',       vertical: 'Police' },
+  { vehicleId: 'CHEVY_TAHOE_PPV',     year: '2021', make: 'Chevrolet', model: 'Tahoe PPV / SSV',       vertical: 'Police' },
+  { vehicleId: 'CHEVY_SILVERADO_PPV', year: '2026', make: 'Chevrolet', model: 'Silverado PPV / SSV',   vertical: 'Police' },
+  { vehicleId: 'CHEVY_SILVERADO_PPV', year: '2025', make: 'Chevrolet', model: 'Silverado PPV / SSV',   vertical: 'Police' },
+  { vehicleId: 'CHEVY_SILVERADO_PPV', year: '2024', make: 'Chevrolet', model: 'Silverado PPV / SSV',   vertical: 'Police' },
+  { vehicleId: 'CHEVY_BLAZER_EV_PPV', year: '2026', make: 'Chevrolet', model: 'Blazer EV PPV',         vertical: 'Police' },
+  { vehicleId: 'CHEVY_BLAZER_EV_PPV', year: '2025', make: 'Chevrolet', model: 'Blazer EV PPV',         vertical: 'Police' },
+  // Chevrolet — Work Truck
+  { vehicleId: 'CHEVY_SILVERADO_HD',  year: '2026', make: 'Chevrolet', model: 'Silverado HD 2500/3500',vertical: 'Work Truck' },
+  { vehicleId: 'CHEVY_SILVERADO_HD',  year: '2025', make: 'Chevrolet', model: 'Silverado HD 2500/3500',vertical: 'Work Truck' },
+  { vehicleId: 'CHEVY_SILVERADO_HD',  year: '2024', make: 'Chevrolet', model: 'Silverado HD 2500/3500',vertical: 'Work Truck' },
+  { vehicleId: 'CHEVY_SILVERADO_HD',  year: '2023', make: 'Chevrolet', model: 'Silverado HD 2500/3500',vertical: 'Work Truck' },
+  // Dodge — Police
+  { vehicleId: 'DODGE_CHARGER',       year: '2023', make: 'Dodge', model: 'Charger Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_CHARGER',       year: '2022', make: 'Dodge', model: 'Charger Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_CHARGER',       year: '2021', make: 'Dodge', model: 'Charger Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_CHARGER',       year: '2020', make: 'Dodge', model: 'Charger Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_DURANGO',       year: '2026', make: 'Dodge', model: 'Durango Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_DURANGO',       year: '2025', make: 'Dodge', model: 'Durango Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_DURANGO',       year: '2024', make: 'Dodge', model: 'Durango Pursuit',    vertical: 'Police' },
+  { vehicleId: 'DODGE_DURANGO',       year: '2023', make: 'Dodge', model: 'Durango Pursuit',    vertical: 'Police' },
+  // Ram — Police / Work Truck
+  { vehicleId: 'RAM_1500_SSV',        year: '2026', make: 'Ram', model: '1500 SSV',             vertical: 'Police' },
+  { vehicleId: 'RAM_1500_SSV',        year: '2025', make: 'Ram', model: '1500 SSV',             vertical: 'Police' },
+  { vehicleId: 'RAM_1500_SSV',        year: '2024', make: 'Ram', model: '1500 SSV',             vertical: 'Police' },
+  { vehicleId: 'RAM_2500',            year: '2026', make: 'Ram', model: '2500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_2500',            year: '2025', make: 'Ram', model: '2500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_2500',            year: '2024', make: 'Ram', model: '2500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_2500',            year: '2023', make: 'Ram', model: '2500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_3500',            year: '2026', make: 'Ram', model: '3500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_3500',            year: '2025', make: 'Ram', model: '3500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_3500',            year: '2024', make: 'Ram', model: '3500',                 vertical: 'Work Truck' },
+  { vehicleId: 'RAM_3500',            year: '2023', make: 'Ram', model: '3500',                 vertical: 'Work Truck' },
 ];
+
+// Flatten for the cascading dropdowns (year/make/model only)
+const VEHICLES = VEHICLE_MASTER.map(({ year, make, model }) => ({ year, make, model }));
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
