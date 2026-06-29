@@ -7,6 +7,7 @@ import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
+import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 
 import { ChevronRight, ExternalLink, FileDown, Phone, Settings, Clock } from 'lucide-react';
 
@@ -201,27 +202,35 @@ export default function ProductDetailTemplate() {
         </div>
       </div>
 
-      {/* Specifications table — shown when product JSON has specifications */}
-      {data.specifications && Object.keys(data.specifications).length > 0 && (
+      {/* Product Tabs — NavigatorTabs for Navigator; generic specs table for all others */}
+      {data.tabs_component === 'NavigatorTabs' ? (
         <div className="border-t border-gray-200 bg-white">
-          <div className="max-w-7xl mx-auto px-6 py-10">
-            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 12 }}>Specifications</p>
-            <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
-              <tbody>
-                {Object.entries(data.specifications).map(([k, v], i) => (
-                  <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
-                    <td style={{ padding: '7px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
-                    <td style={{ padding: '7px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="max-w-7xl mx-auto px-6 py-0">
+            <NavigatorTabs />
           </div>
         </div>
+      ) : (
+        data.specifications && Object.keys(data.specifications).length > 0 && (
+          <div className="border-t border-gray-200 bg-white">
+            <div className="max-w-7xl mx-auto px-6 py-10">
+              <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 12 }}>Specifications</p>
+              <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
+                <tbody>
+                  {Object.entries(data.specifications).map(([k, v], i) => (
+                    <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
+                      <td style={{ padding: '7px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
+                      <td style={{ padding: '7px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
       )}
 
-      {/* Configurator Section — rendered when product JSON has configuratorId */}
-      {data.configuratorId && (
+      {/* Configurator Section — rendered for products with configuratorId but no dedicated tabs component */}
+      {data.configuratorId && data.tabs_component !== 'NavigatorTabs' && (
         <ConfiguratorSection
           configuratorId={data.configuratorId}
           verticalId={verticalId || data.verticals?.[0]}

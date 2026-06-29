@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-react';
 import ShopifyReadinessPanel from '@/components/navigator/ShopifyReadinessPanel';
+import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
 import navigatorProduct from '@/data/products/navigator.json';
 import navigatorConfigurator from '@/data/configurators/navigator-configurator.json';
 
 const TABS = [
-  { id: 'features', label: 'Features' },
-  { id: 'choose', label: 'SKU Specifications' },
-  { id: 'media', label: 'Videos' },
+  { id: 'features',    label: 'Features' },
+  { id: 'choose',      label: 'SKU Specifications' },
+  { id: 'media',       label: 'Videos' },
   { id: 'accessories', label: 'Accessories' },
+  { id: 'configure',   label: 'Build & Configure' },
 ];
 
 // ── Overview ─────────────────────────────────────────────────────────────────
@@ -400,10 +402,17 @@ export default function NavigatorTabs({ defaultTab }) {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'features': return <OverviewTab />;
-      case 'choose': return <ChooseModelTab />;
-      case 'media': return <MediaTab />;
+      case 'features':    return <OverviewTab />;
+      case 'choose':      return <ChooseModelTab />;
+      case 'media':       return <MediaTab />;
       case 'accessories': return <AccessoriesTab />;
+      case 'configure':   return (
+        <ConfiguratorModule
+          configuratorData={navigatorConfigurator}
+          verticalId="police"
+          categoryId="light-bars"
+        />
+      );
       default: return null;
     }
   };
@@ -433,12 +442,14 @@ export default function NavigatorTabs({ defaultTab }) {
       <div className="py-8 text-gray-700">
         {renderContent()}
         {/* Shopify Readiness — dev/prototype visibility, collapsed by default */}
-        <div className="mt-4 px-2">
-          <ShopifyReadinessPanel
-            productData={navigatorProduct}
-            configuratorData={navigatorConfigurator}
-          />
-        </div>
+        {activeTab !== 'configure' && (
+          <div className="mt-4 px-2">
+            <ShopifyReadinessPanel
+              productData={navigatorProduct}
+              configuratorData={navigatorConfigurator}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 {
-  "_source": "Migrated from legacy steps format — navigator-configurator.json Sprint 17. Sections format aligned with standard ConfiguratorModule engine.",
-  "_note": "Length = confirmed. Color/Spec = needs_verification (inferred from Shopify export). All 11 SKUs retained.",
+  "_source": "Navigator® Serial Light Bar — Police SKU filter: Length + Warning Color only. Specification step removed (Fire/NFPA/Municipal data — not applicable to Police pages).",
+  "_note": "Length = confirmed. Color = needs_verification (inferred from Shopify export). All 11 SKUs retained in skuOptions for reference; Police-relevant SKUs are Red/White lengths.",
   "id": "navigator-configurator",
   "productId": "navigator",
   "productFamily": "Navigator® Serial Light Bar",
@@ -8,17 +8,17 @@
   "priceDisplay": "Contact for pricing",
 
   "skuOptions": [
-    { "sku": "NVG45Z-NFPA20",    "price": 4639, "attributes": { "length": "45", "color": "RW",     "spec": "NFPA20" } },
-    { "sku": "NVG45Z-NFPA21",    "price": 4249, "attributes": { "length": "45", "color": "RW",     "spec": "NFPA21" } },
-    { "sku": "NVG53D-MUNI1RHC",  "price": 4552, "attributes": { "length": "53", "color": "AW",     "spec": "MUNI"   } },
-    { "sku": "NVG53Z-MUNI1RHC6", "price": 5012, "attributes": { "length": "53", "color": "AW",     "spec": "MUNI6"  } },
-    { "sku": "NVG53Z-NFPA20",    "price": 5142, "attributes": { "length": "53", "color": "RW",     "spec": "NFPA20" } },
-    { "sku": "NVG53Z-NFPA21",    "price": 4752, "attributes": { "length": "53", "color": "RW",     "spec": "NFPA21" } },
-    { "sku": "NVG60D-NFPA20",    "price": 3450, "attributes": { "length": "60", "color": "RW",     "spec": "NFPA20" } },
-    { "sku": "NVG60D-NFPA21",    "price": 3850, "attributes": { "length": "60", "color": "RW",     "spec": "NFPA21" } },
-    { "sku": "NVG60D-NFPA22",    "price": 4290, "attributes": { "length": "60", "color": "RW",     "spec": "NFPA22" } },
-    { "sku": "NVG60D-TOW2FC",    "price": 4750, "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW"    } },
-    { "sku": "NVG60Z-TOW2FC6",   "price": 5210, "attributes": { "length": "60", "color": "CUSTOM", "spec": "TOW6"   } }
+    { "sku": "NVG45Z-NFPA20",    "price": 4639, "attributes": { "length": "45", "color": "RW" } },
+    { "sku": "NVG45Z-NFPA21",    "price": 4249, "attributes": { "length": "45", "color": "RW" } },
+    { "sku": "NVG53D-MUNI1RHC",  "price": 4552, "attributes": { "length": "53", "color": "AW" } },
+    { "sku": "NVG53Z-MUNI1RHC6", "price": 5012, "attributes": { "length": "53", "color": "AW" } },
+    { "sku": "NVG53Z-NFPA20",    "price": 5142, "attributes": { "length": "53", "color": "RW" } },
+    { "sku": "NVG53Z-NFPA21",    "price": 4752, "attributes": { "length": "53", "color": "RW" } },
+    { "sku": "NVG60D-NFPA20",    "price": 3450, "attributes": { "length": "60", "color": "RW" } },
+    { "sku": "NVG60D-NFPA21",    "price": 3850, "attributes": { "length": "60", "color": "RW" } },
+    { "sku": "NVG60D-NFPA22",    "price": 4290, "attributes": { "length": "60", "color": "RW" } },
+    { "sku": "NVG60D-TOW2FC",    "price": 4750, "attributes": { "length": "60", "color": "CUSTOM" } },
+    { "sku": "NVG60Z-TOW2FC6",   "price": 5210, "attributes": { "length": "60", "color": "CUSTOM" } }
   ],
 
   "sections": {
@@ -45,25 +45,9 @@
           "skuSegmentKey": "color",
           "_verification": "needs_verification",
           "options": [
-            { "id": "rw",     "label": "Red / White",             "skuSegment": "RW",     "description": "45\", 53\", 60\" available" },
-            { "id": "aw",     "label": "Amber / White",           "skuSegment": "AW",     "description": "53\" only" },
-            { "id": "custom", "label": "Tow / Utility (See Desc.)","skuSegment": "CUSTOM", "description": "60\" only" }
-          ]
-        },
-        {
-          "id": "spec",
-          "label": "Specification",
-          "required": true,
-          "skuSegmentKey": "spec",
-          "_verification": "needs_verification",
-          "options": [
-            { "id": "nfpa20", "label": "NFPA 2020",             "skuSegment": "NFPA20", "description": "45\", 53\", 60\" available" },
-            { "id": "nfpa21", "label": "NFPA 2021",             "skuSegment": "NFPA21", "description": "45\", 53\", 60\" available" },
-            { "id": "nfpa22", "label": "NFPA 2022",             "skuSegment": "NFPA22", "description": "60\" only" },
-            { "id": "muni",   "label": "Municipal (HC)",         "skuSegment": "MUNI",   "description": "53\" Amber only" },
-            { "id": "muni6",  "label": "Municipal (HC6)",        "skuSegment": "MUNI6",  "description": "53\" Amber only" },
-            { "id": "tow",    "label": "Tow / Utility (2FC)",    "skuSegment": "TOW",    "description": "60\" only" },
-            { "id": "tow6",   "label": "Tow / Utility (2FC6)",   "skuSegment": "TOW6",   "description": "60\" only" }
+            { "id": "rw",     "label": "Red / White",              "skuSegment": "RW",     "description": "45\", 53\", 60\" available" },
+            { "id": "aw",     "label": "Amber / White",            "skuSegment": "AW",     "description": "53\" only" },
+            { "id": "custom", "label": "Tow / Utility (Custom)",   "skuSegment": "CUSTOM", "description": "60\" only" }
           ]
         }
       ]
@@ -164,12 +148,12 @@
   },
 
   "vehicleRules": [
-    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",           "recommendedLength": "45" },
-    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",               "recommendedLength": "53" },
-    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",       "recommendedLength": "53" },
-    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",           "recommendedLength": "53" },
-    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",             "recommendedLength": "53" },
-    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",            "recommendedLength": "53" }
+    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",     "recommendedLength": "45" },
+    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "53" },
+    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV", "recommendedLength": "53" },
+    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "53" },
+    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "53" },
+    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "53" }
   ],
 
   "compatibilityRules": [],
