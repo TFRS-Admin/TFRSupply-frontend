@@ -14,10 +14,7 @@ import StoreLanding from '@/pages/StoreLanding';
 import VerticalLandingTemplate from '@/pages/VerticalLandingTemplate';
 import CategoryTemplate from '@/pages/CategoryTemplate';
 import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
-import FamilyPage from '@/pages/FamilyPage';
-import ConfiguratorWizard from '@/pages/ConfiguratorWizard';
-import BuildReview from '@/pages/BuildReview';
-import CheckoutDecision from '@/pages/CheckoutDecision';
+
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
 import ComponentShowcase from '@/pages/ComponentShowcase';
@@ -54,10 +51,7 @@ const AuthenticatedApp = () => {
         <Route path="/:verticalId/:categoryId" element={<CategoryTemplate />} />
         <Route path="/:verticalId/:categoryId/:productId" element={<ProductDetailTemplate />} />
 
-        {/* Legacy configurator routes */}
-        <Route path="/configure/:familyId/step/:stepId" element={<ConfiguratorWizard />} />
-        <Route path="/configure/:familyId/review" element={<BuildReview />} />
-        <Route path="/configure/:familyId/checkout" element={<CheckoutDecision />} />
+
 
         {/* Static pages */}
         <Route path="/resources" element={<ResourcesPage />} />

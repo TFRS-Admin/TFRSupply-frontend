@@ -6,20 +6,12 @@ import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
-import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import NotFound from '@/components/templates/NotFound';
 
-// Registry: maps product JSON "tabs_component" values to React components.
-// To add custom tabs for a new product, add its tabs_component value here.
-const TABS_REGISTRY = {
-  NavigatorTabs,
-};
-import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart, Clock, Truck } from 'lucide-react';
-import { ConfigurationProvider } from '@/context/ConfigurationContext';
-import ConfiguratorLayout from '@/components/configurator/ConfiguratorLayout';
+import { ChevronRight, ExternalLink, FileDown, Phone, Settings, Clock } from 'lucide-react';
+
 import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
-import { useVehicle } from '@/context/VehicleContext';
-import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -143,44 +135,6 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
   );
 }
 
-function VehicleAwarenessBanner() {
-  const { selectedVehicle } = useVehicle();
-  const [modalOpen, setModalOpen] = React.useState(false);
-
-  return (
-    <>
-      {selectedVehicle ? (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#f0f4ff', border: '1px solid #c7d7f9', marginBottom: 20 }}>
-          <Truck size={15} style={{ color: '#1a2744', flexShrink: 0 }} />
-          <span style={{ fontSize: 13, color: '#1a2744', fontWeight: 600 }}>
-            Configuring for: {selectedVehicle.year} {selectedVehicle.make} {selectedVehicle.model}
-          </span>
-          <button
-            onClick={() => setModalOpen(true)}
-            style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: '#c8102e', background: 'none', border: '1px solid #c8102e', padding: '3px 10px', cursor: 'pointer', letterSpacing: '0.04em' }}
-          >
-            Change Vehicle
-          </button>
-        </div>
-      ) : (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#fff8e1', border: '1px solid #ffe082', marginBottom: 20 }}>
-          <Truck size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
-          <span style={{ fontSize: 13, color: '#78350f' }}>
-            Select your vehicle to see compatible configuration options.
-          </span>
-          <button
-            onClick={() => setModalOpen(true)}
-            style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: '#fff', background: '#c8102e', border: 'none', padding: '5px 12px', cursor: 'pointer', letterSpacing: '0.04em' }}
-          >
-            Select Vehicle
-          </button>
-        </div>
-      )}
-      {modalOpen && <VehicleSelectorModal onClose={() => setModalOpen(false)} />}
-    </>
-  );
-}
-
 // Dynamic loader for configurator JSON files — mirrors ConfigurationContext
 const configuratorModules = import.meta.glob('../data/configurators/*.json', { eager: true });
 function loadConfigurator(configuratorId) {
@@ -189,11 +143,9 @@ function loadConfigurator(configuratorId) {
   return configuratorModules[key]?.default ?? configuratorModules[key] ?? null;
 }
 
-function ConfiguratorSection({ configuratorId, productData, verticalId, categoryId, productId }) {
+function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
   const configuratorData = loadConfigurator(configuratorId);
-  // New format (ConfiguratorModule) = has "sections" key
-  // Old format (ConfiguratorLayout) = has "steps" array at root
-  const isNewFormat = configuratorData && 'sections' in configuratorData;
+  if (!configuratorData) return null;
 
   return (
     <div className="border-t border-gray-100 bg-gray-50">
@@ -201,21 +153,11 @@ function ConfiguratorSection({ configuratorId, productData, verticalId, category
         <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
           Build &amp; Configure
         </p>
-        <VehicleAwarenessBanner />
-        {isNewFormat ? (
-          <ConfiguratorModule
-            configuratorData={configuratorData}
-            verticalId={verticalId}
-            categoryId={categoryId}
-          />
-        ) : (
-          <ConfigurationProvider configuratorId={configuratorId}>
-            <ConfiguratorLayout
-              productMeta={{ productId: productData.productId || productId, configuratorId, productTitle: productData.title }}
-              shopifyMap={productData.shopify ?? null}
-            />
-          </ConfigurationProvider>
-        )}
+        <ConfiguratorModule
+          configuratorData={configuratorData}
+          verticalId={verticalId}
+          categoryId={categoryId}
+        />
       </div>
     </div>
   );
@@ -259,75 +201,31 @@ export default function ProductDetailTemplate() {
         </div>
       </div>
 
-      {/* Tabbed Content — driven by product JSON "tabs_component" field */}
-      {(() => {
-        const CustomTabs = data.tabs_component ? TABS_REGISTRY[data.tabs_component] : null;
-        if (CustomTabs) {
-          return (
-            <div className="border-t border-gray-200 bg-white">
-              <div className="max-w-7xl mx-auto px-4">
-                <CustomTabs />
-              </div>
-            </div>
-          );
-        }
-        // Generic fallback: specs table + SKU table
-        return (
-          <div className="border-t border-gray-200 bg-white">
-            <div className="max-w-7xl mx-auto px-6 py-10">
-              {data.specifications && Object.keys(data.specifications).length > 0 && (
-                <div style={{ marginBottom: '2rem' }}>
-                  <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 12 }}>Specifications</p>
-                  <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
-                    <tbody>
-                      {Object.entries(data.specifications).map(([k, v], i) => (
-                        <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
-                          <td style={{ padding: '7px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
-                          <td style={{ padding: '7px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-              {commerce?.sku_table?.length > 0 && (
-                <div>
-                  <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 12 }}>Available SKUs</p>
-                  <div style={{ overflowX: 'auto' }}>
-                    <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr style={{ background: '#1a2744', color: '#fff' }}>
-                          {Object.keys(commerce.sku_table[0]).map(h => (
-                            <th key={h} style={{ padding: '8px 12px', textAlign: 'left', fontWeight: 700, textTransform: 'capitalize', letterSpacing: '0.04em' }}>{h.replace(/_/g, ' ')}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {commerce.sku_table.map((row, i) => (
-                          <tr key={i} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
-                            {Object.values(row).map((val, j) => (
-                              <td key={j} style={{ padding: '7px 12px', color: '#333', fontFamily: j === 0 ? 'monospace' : 'inherit' }}>{String(val)}</td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-            </div>
+      {/* Specifications table — shown when product JSON has specifications */}
+      {data.specifications && Object.keys(data.specifications).length > 0 && (
+        <div className="border-t border-gray-200 bg-white">
+          <div className="max-w-7xl mx-auto px-6 py-10">
+            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 12 }}>Specifications</p>
+            <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
+              <tbody>
+                {Object.entries(data.specifications).map(([k, v], i) => (
+                  <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
+                    <td style={{ padding: '7px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
+                    <td style={{ padding: '7px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        );
-      })()}
+        </div>
+      )}
 
       {/* Configurator Section — rendered when product JSON has configuratorId */}
       {data.configuratorId && (
         <ConfiguratorSection
           configuratorId={data.configuratorId}
-          productData={data}
           verticalId={verticalId || data.verticals?.[0]}
           categoryId={categoryId || data.category}
-          productId={productId}
         />
       )}
 
