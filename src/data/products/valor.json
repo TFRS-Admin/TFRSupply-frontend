@@ -1,0 +1,47 @@
+{
+  "id": "valor",
+  "slug": "valor",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": ["police"],
+  "product_family": "Valor",
+  "title": "Valor® Police Light Bar",
+  "subtitle": "Full-featured police light bar in 44\" and 51\" lengths. Available in 1-Color, 2-Color, and Full 3-Color configurations with Hook Mount or Low Profile options.",
+  "description": "The Federal Signal Valor® light bar delivers high-output LED warning performance engineered for police vehicles. Multiple color and mount configurations available for patrol sedans, SUVs, and interceptors.",
+  "breadcrumbs": [
+    { "label": "Home",       "to": "/" },
+    { "label": "Police",     "to": "/police" },
+    { "label": "Light Bars", "to": "/police/light-bars" },
+    { "label": "Valor® Police Light Bar" }
+  ],
+  "media": {
+    "hero": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&h=600&fit=crop",
+    "gallery": [
+      { "src": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&h=600&fit=crop", "alt": "Valor® Police Light Bar — Front view" }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Available in 44\" and 51\" lengths",
+      "1-Color, 2-Color, and Full 3-Color configurations",
+      "Hook Mount or Low Profile mounting options",
+      "SignalMaster™ directional warning included",
+      "Alley lights, takedowns, and scene lighting",
+      "Cruise / Pursuit mode",
+      "SAE J595 certified"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": ["44\"", "51\""],
+    "color_configs": ["1-Color Blue/White", "2-Color Blue/White", "Full 3-Color Amber/Blue/White"],
+    "mount_options": ["Hook Mount", "Low Profile"],
+    "certifications": ["SAE J595"]
+  },
+  "commerce": {
+    "price_display": "contact",
+    "availability": "Contact for availability"
+  },
+  "configuratorId": "valor-configurator",
+  "cta": {}
+}

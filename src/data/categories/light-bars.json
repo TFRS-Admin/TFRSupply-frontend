@@ -29,6 +29,17 @@
       "_prototype": true
     },
     {
+      "id": "valor",
+      "label": "Valor® Police Light Bar",
+      "tagline": "Full-featured police light bar in 44\" and 51\" lengths.",
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=475&h=475&fit=crop",
+      "vehicle_type": "Police",
+      "profile": "Low-Profile",
+      "length": "44\"",
+      "badges": ["Police", "44\"", "51\""],
+      "specs": ["44\", 51\" lengths", "Hook or Low Profile", "1/2/3-Color options"]
+    },
+    {
       "id": "navigator",
       "label": "Navigator® Serial Light Bar",
       "tagline": "High-profile full-size LED light bar.",
