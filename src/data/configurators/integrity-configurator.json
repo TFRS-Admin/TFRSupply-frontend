@@ -1,0 +1,167 @@
+{
+  "_source": "TFR Supply Integrity Police Launch SKUs — validated 2026-06-29",
+  "_note": "5 Police Integrity SKUs. Length and mount confirmed from SKU structure. No 44\" 1-Color variant exists — dead-end prevention will disable that combination automatically. INTG44J-F2H and INTG51J-F2H are Fire/EMS SKUs excluded from this Police configurator. Prices from Shopify export; shopifyVariantId pending Admin collection.",
+  "id": "integrity-configurator",
+  "productId": "integrity",
+  "productFamily": "Integrity Police Light Bar",
+  "label": "Integrity® Police Light Bar Configurator",
+  "priceDisplay": "Contact for pricing",
+
+  "skuOptions": [
+    {
+      "sku": "INTG44J-P2BL",
+      "description": "Integrity 44\" Police — 2-Color Blue/White — Low Profile",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $4,410",
+      "attributes": { "length": "44", "color": "BW2", "mount": "low" }
+    },
+    {
+      "sku": "INTG44J-PF3L",
+      "description": "Integrity 44\" Police — Full 3-Color Red/Blue/White — Low Profile",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $5,040",
+      "attributes": { "length": "44", "color": "RBW3", "mount": "low" }
+    },
+    {
+      "sku": "INTG51J-P1BL",
+      "description": "Integrity 51\" Police — 1-Color Blue/White — Low Profile",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $4,797",
+      "attributes": { "length": "51", "color": "BW1", "mount": "low" }
+    },
+    {
+      "sku": "INTG51J-P2BL",
+      "description": "Integrity 51\" Police — 2-Color Blue/White — Low Profile",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $4,797",
+      "attributes": { "length": "51", "color": "BW2", "mount": "low" }
+    },
+    {
+      "sku": "INTG51J-PF3L",
+      "description": "Integrity 51\" Police — Full 3-Color Red/Blue/White — Low Profile",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $5,584",
+      "attributes": { "length": "51", "color": "RBW3", "mount": "low" }
+    }
+  ],
+
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the validated SKU list are enabled. Note: 1-Color Blue/White is available in 51\" only.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Bar Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "44in", "label": "44\"", "skuSegment": "44", "description": "Compact and mid-size police vehicles — Charger, Blazer EV PPV. 2-Color and Full 3-Color only." },
+            { "id": "51in", "label": "51\"", "skuSegment": "51", "description": "Full-size SUVs and police interceptors — Explorer PIU, Tahoe PPV, Expedition SSV. All color configurations." }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "Warning Color",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "bw1", "label": "1-Color Blue / White",              "skuSegment": "BW1",  "description": "51\" only — Low Profile mount" },
+            { "id": "bw2", "label": "2-Color Blue / White",              "skuSegment": "BW2",  "description": "Available in both 44\" and 51\" — Low Profile mount" },
+            { "id": "rbw3", "label": "Full 3-Color Red / Blue / White",  "skuSegment": "RBW3", "description": "Available in both 44\" and 51\" — Low Profile mount" }
+          ]
+        },
+        {
+          "id": "mount",
+          "label": "Mount Style",
+          "required": true,
+          "skuSegmentKey": "mount",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "low", "label": "Low Profile", "skuSegment": "low", "description": "Flush low-profile mount — all Police configurations" }
+          ]
+        }
+      ]
+    },
+
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — exact Integrity controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU varies by vehicle; confirm with install spec"
+        },
+        {
+          "id": "acc-brkt-low",
+          "label": "Low Profile Mount Hardware",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Required for Low Profile configs — SKU TBD from price book"
+        },
+        {
+          "id": "acc-micropulse",
+          "label": "MicroPulse Ultra (bumper fill lights)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        },
+        {
+          "id": "acc-spectralux",
+          "label": "SpectraLux ILS (interior light strip)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        },
+        {
+          "id": "acc-opticom",
+          "label": "Opticom GPS (traffic preemption)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        }
+      ]
+    }
+  },
+
+  "vehicleRules": [
+    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "51" },
+    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "51" },
+    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",  "recommendedLength": "51" },
+    { "vehicleId": "CHEVY_BLAZER_EV_PPV", "displayName": "Chevrolet Blazer EV PPV",    "recommendedLength": "44" },
+    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",      "recommendedLength": "44" },
+    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "51" },
+    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "51" },
+    { "vehicleId": "RAM_1500_SSV",        "displayName": "Ram 1500 SSV",               "recommendedLength": "51" }
+  ],
+
+  "compatibilityRules": [
+    {
+      "id": "excl-44-bw1",
+      "type": "excludes",
+      "stepA": "length", "optionA": "44in",
+      "stepB": "color",  "optionB": "bw1",
+      "message": "1-Color Blue/White is available in 51\" only. Select 51\" or choose 2-Color / Full 3-Color for 44\"."
+    }
+  ],
+
+  "dependencyRules": []
+}
