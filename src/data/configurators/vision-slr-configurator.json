@@ -1,0 +1,160 @@
+{
+  "_source": "TFR Supply Vision SLR Police Launch SKUs — validated 2026-06-29",
+  "_note": "4 Police Vision SLR 46\" SKUs from handle vision-slr-light-bar-46. Fire/EMS excluded: VSLR46S-NFPA2/3/4 (Red-White). Work Truck excluded: VSLR46-AMWH. No multi-length Police SKUs found in Shopify export — all Police configs are 46\". Prices from Shopify index; shopifyVariantId pending Admin collection. VSLR46S-2664009 flagged _verification=needs_verification due to 'See Description' color label in export.",
+  "id": "vision-slr-configurator",
+  "productId": "vision-slr",
+  "productFamily": "Vision SLR Police Light Bar",
+  "label": "Vision SLR® Police Light Bar Configurator",
+  "priceDisplay": "Contact for pricing",
+
+  "skuOptions": [
+    {
+      "sku": "VSLR46S-2664014",
+      "description": "Vision SLR 46\" Police — Red-Blue — Sync",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $7,351",
+      "attributes": { "length": "46", "color": "RB", "sync": "sync" }
+    },
+    {
+      "sku": "VSLR46-2664017",
+      "description": "Vision SLR 46\" Police — Red-Blue-White — Standard",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $6,576",
+      "attributes": { "length": "46", "color": "RBW", "sync": "std" }
+    },
+    {
+      "sku": "VSLR46-2664023",
+      "description": "Vision SLR 46\" Police — Red-Blue-White — Standard (Alternate Flash Config)",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $6,726",
+      "attributes": { "length": "46", "color": "RBW", "sync": "std" }
+    },
+    {
+      "sku": "VSLR46S-2664009",
+      "description": "Vision SLR 46\" Police — See Description — Sync",
+      "price": null,
+      "_priceNote": "Price from Shopify export via index — $7,201",
+      "_verification": "needs_verification",
+      "attributes": { "length": "46", "color": "SPEC", "sync": "sync" }
+    }
+  ],
+
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "All Vision SLR Police configurations are 46\". Filter by warning color and sync type. Note: Red-Blue is Sync only — dead-end prevention disables Standard when Red-Blue is selected.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Bar Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "46in", "label": "46\"", "skuSegment": "46", "description": "All Vision SLR Police configurations — compact, full-featured LED light bar" }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "Warning Color",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "rb",   "label": "Red / Blue",             "skuSegment": "RB",   "description": "Sync only — VSLR46S-2664014" },
+            { "id": "rbw",  "label": "Red / Blue / White",     "skuSegment": "RBW",  "description": "Two flash configurations available — $6,576 or $6,726" },
+            { "id": "spec", "label": "Specialty (See Desc.)",   "skuSegment": "SPEC", "description": "VSLR46S-2664009 — confirm exact color configuration with TFR before ordering", "_verification": "needs_verification" }
+          ]
+        },
+        {
+          "id": "sync",
+          "label": "Sync / Flash Type",
+          "required": true,
+          "skuSegmentKey": "sync",
+          "_verification": "confirmed",
+          "options": [
+            { "id": "sync", "label": "Sync",     "skuSegment": "sync", "description": "Synchronized flash — VSLR46S prefix. Required for Red-Blue and Specialty." },
+            { "id": "std",  "label": "Standard", "skuSegment": "std",  "description": "Standard flash — VSLR46 prefix. Available for Red-Blue-White only." }
+          ]
+        }
+      ]
+    },
+
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — exact Vision SLR controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU varies by vehicle; confirm with install spec"
+        },
+        {
+          "id": "acc-micropulse",
+          "label": "MicroPulse Ultra (bumper fill lights)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        },
+        {
+          "id": "acc-spectralux",
+          "label": "SpectraLux ILS (interior light strip)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        },
+        {
+          "id": "acc-opticom",
+          "label": "Opticom GPS (traffic preemption)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        }
+      ]
+    }
+  },
+
+  "vehicleRules": [
+    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "46" },
+    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "46" },
+    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",  "recommendedLength": "46" },
+    { "vehicleId": "CHEVY_BLAZER_EV_PPV", "displayName": "Chevrolet Blazer EV PPV",    "recommendedLength": "46" },
+    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",      "recommendedLength": "46" },
+    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "46" },
+    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "46" },
+    { "vehicleId": "RAM_1500_SSV",        "displayName": "Ram 1500 SSV",               "recommendedLength": "46" }
+  ],
+
+  "compatibilityRules": [
+    {
+      "id": "excl-rb-std",
+      "type": "excludes",
+      "stepA": "color", "optionA": "rb",
+      "stepB": "sync",  "optionB": "std",
+      "message": "Red-Blue is available in Sync only. Select Standard flash for Red-Blue-White configurations."
+    },
+    {
+      "id": "excl-spec-std",
+      "type": "excludes",
+      "stepA": "color", "optionA": "spec",
+      "stepB": "sync",  "optionB": "std",
+      "message": "Specialty (See Desc.) is Sync only. Contact TFR to confirm the exact configuration."
+    }
+  ],
+
+  "dependencyRules": []
+}
