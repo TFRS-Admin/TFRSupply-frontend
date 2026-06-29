@@ -21,8 +21,8 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import {
-  CheckCircle, ChevronRight, RotateCcw, ClipboardList,
-  Truck, AlertTriangle, Package
+  CheckCircle, RotateCcw, ClipboardList,
+  Truck, AlertTriangle
 } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -210,13 +210,22 @@ function FilterStep({ step, skuOptions, selections, steps, onSelect, recommended
 
 // ─── Available SKU Table ───────────────────────────────────────────────────
 
+// Derive attribute columns dynamically from whatever keys exist in skuOptions attributes
+function getAttrColumns(skuOptions) {
+  const keys = new Set();
+  skuOptions.forEach(s => Object.keys(s.attributes ?? {}).forEach(k => keys.add(k)));
+  const LABELS = { length: 'Length', color: 'Warning Color', mount: 'Mount', spec: 'Spec', wiring: 'Wiring' };
+  return [...keys].map(k => ({ key: k, label: LABELS[k] ?? k }));
+}
+
 function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
   const count = remainingSkus.length;
   const total = skuOptions.length;
+  const attrCols = useMemo(() => getAttrColumns(skuOptions), [skuOptions]);
 
   return (
     <div style={{ marginBottom: 28 }}>
-      <SectionHeader number="02" label="Available SKUs" description="Filters narrow this list. Select a row to configure quote." />
+      <SectionHeader number="02" label="Available SKUs" description="Filters narrow this list in real time. Select a row to set your base SKU." />
 
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -226,11 +235,11 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
       }}>
         <span style={{ fontSize: 11, fontWeight: 700, color: count === 1 ? '#15803d' : count === 0 ? '#991b1b' : '#1e40af' }}>
           {count === total
-            ? `${count} SKUs — apply filters to narrow`
+            ? `${count} SKUs — apply filters above to narrow`
             : count === 0
               ? 'No matching SKUs'
               : count === 1
-                ? '1 SKU matched — select row to proceed'
+                ? '1 SKU matched — select the row to proceed'
                 : `${count} of ${total} SKUs remaining`}
         </span>
       </div>
@@ -241,22 +250,22 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
             <tr style={{ background: '#1a2744', color: '#fff' }}>
               <th style={TH}>Select</th>
               <th style={TH}>SKU</th>
-              <th style={TH}>Length</th>
-              <th style={TH}>Color</th>
-              <th style={TH}>Spec</th>
+              {attrCols.map(c => <th key={c.key} style={TH}>{c.label}</th>)}
               <th style={TH}>MSRP</th>
+              <th style={TH}>Status</th>
             </tr>
           </thead>
           <tbody>
             {remainingSkus.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ padding: '14px 12px', textAlign: 'center', color: '#991b1b', fontStyle: 'italic' }}>
+                <td colSpan={4 + attrCols.length} style={{ padding: '14px 12px', textAlign: 'center', color: '#991b1b', fontStyle: 'italic' }}>
                   No SKUs match current filters.
                 </td>
               </tr>
             ) : remainingSkus.map((sku, i) => {
               const isSelected = selectedSkuId === sku.sku;
               const isOnly = count === 1;
+              const needsReview = sku.price == null;
               return (
                 <tr
                   key={sku.sku}
@@ -268,12 +277,7 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
                   }}
                 >
                   <td style={{ ...TD, textAlign: 'center' }}>
-                    <input
-                      type="radio"
-                      readOnly
-                      checked={isSelected}
-                      style={{ accentColor: '#16a34a', cursor: 'pointer' }}
-                    />
+                    <input type="radio" readOnly checked={isSelected} style={{ accentColor: '#16a34a', cursor: 'pointer' }} />
                   </td>
                   <td style={{ ...TD, fontFamily: 'monospace', fontWeight: 700, color: '#1a2744' }}>
                     {sku.sku}
@@ -283,11 +287,21 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
                       </span>
                     )}
                   </td>
-                  <td style={TD}>{sku.attributes?.length ? `${sku.attributes.length}"` : '—'}</td>
-                  <td style={TD}>{sku.attributes?.color ?? '—'}</td>
-                  <td style={TD}>{sku.attributes?.spec ?? '—'}</td>
+                  {attrCols.map(c => (
+                    <td key={c.key} style={TD}>
+                      {c.key === 'length' && sku.attributes?.length ? `${sku.attributes.length}"` : (sku.attributes?.[c.key] ?? '—')}
+                    </td>
+                  ))}
                   <td style={{ ...TD, fontWeight: 600 }}>
                     {sku.price != null ? `$${sku.price.toLocaleString()}` : 'Contact'}
+                  </td>
+                  <td style={TD}>
+                    {isSelected
+                      ? <span style={{ fontSize: 10, fontWeight: 700, color: '#15803d', background: '#dcfce7', padding: '2px 6px', border: '1px solid #bbf7d0' }}>SELECTED</span>
+                      : needsReview
+                        ? <span style={{ fontSize: 10, fontWeight: 700, color: '#92400e', background: '#fef3c7', padding: '2px 6px', border: '1px solid #fde68a' }}>NEEDS REVIEW</span>
+                        : <span style={{ fontSize: 10, color: '#6b7280' }}>Available</span>
+                    }
                   </td>
                 </tr>
               );
@@ -302,52 +316,9 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku }) {
 const TH = { padding: '8px 12px', textAlign: 'left', fontWeight: 700, fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' };
 const TD = { padding: '8px 12px', color: '#333', verticalAlign: 'middle' };
 
-// ─── Technical Details ─────────────────────────────────────────────────────
+// Technical Details section removed from configurator — belongs in product page tabs only.
 
-function TechnicalDetails({ section, selections, onSelect }) {
-  const steps = section.steps ?? [];
-  return (
-    <div style={{ marginBottom: 28 }}>
-      <SectionHeader number="03" label={section.label} description={section.description} />
-      <div style={{ padding: '8px 12px', background: '#f8fafc', border: '1px solid #e5e7eb', marginBottom: 12 }}>
-        <p style={{ fontSize: 11, color: '#6b7280', margin: 0 }}>
-          ℹ Informational only — these do not change the selected base SKU.
-        </p>
-      </div>
-      {steps.map(step => (
-        <div key={step.id} style={{ marginBottom: 14 }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#374151', marginBottom: 6 }}>
-            {step.label}
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            {step.options.map(opt => {
-              const isSelected = selections[step.id] === opt.id;
-              return (
-                <button
-                  key={opt.id}
-                  onClick={() => onSelect(step.id, opt.id)}
-                  title={opt.description || undefined}
-                  style={{
-                    ...FS, fontSize: 12, padding: '5px 12px', cursor: 'pointer',
-                    border: `2px solid ${isSelected ? '#1a2744' : '#d0d0d0'}`,
-                    background: isSelected ? '#1a2744' : '#fff',
-                    color: isSelected ? '#fff' : '#555',
-                    fontWeight: isSelected ? 700 : 400,
-                    transition: 'all 0.1s',
-                  }}
-                >
-                  {opt.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// ─── Accessories Section ───────────────────────────────────────────────────
+// ─── Build Your Package (Section 3) ───────────────────────────────────────
 
 function AccessoriesSection({ section, selectedAccessories, onToggle }) {
   const items = section.items ?? [];
@@ -356,11 +327,11 @@ function AccessoriesSection({ section, selectedAccessories, onToggle }) {
 
   return (
     <div style={{ marginBottom: 28 }}>
-      <SectionHeader number="04" label={section.label} description={section.description} />
+      <SectionHeader number="03" label="Build Your Package" description="Add required installation components and optional upgrades. Every item below is an existing Federal Signal SKU." />
       {required.length > 0 && (
-        <div style={{ marginBottom: 10 }}>
+        <div style={{ marginBottom: 16 }}>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#991b1b', marginBottom: 6 }}>
-            Required Dependencies
+            Required Components
           </p>
           {required.map(item => <AccessoryRow key={item.id} item={item} checked forceChecked />)}
         </div>
@@ -368,7 +339,7 @@ function AccessoriesSection({ section, selectedAccessories, onToggle }) {
       {optional.length > 0 && (
         <div>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#374151', marginBottom: 6 }}>
-            Optional Accessories
+            Optional Upgrades
           </p>
           {optional.map(item => (
             <AccessoryRow
@@ -415,58 +386,120 @@ function AccessoryRow({ item, checked, onToggle, forceChecked }) {
 
 // ─── Quote Panel ───────────────────────────────────────────────────────────
 
-function QuotePanel({ quotePayload }) {
-  const [show, setShow] = useState(false);
+function QuoteLine({ label, sku, price, flagged }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      padding: '6px 10px', borderBottom: '1px solid #e5e7eb'
+    }}>
+      <div style={{ flex: 1 }}>
+        <span style={{ fontSize: 12, color: '#1a1a1a' }}>{label}</span>
+        {sku && <span style={{ marginLeft: 8, fontFamily: 'monospace', fontSize: 11, color: '#6b7280' }}>{sku}</span>}
+      </div>
+      {flagged
+        ? <span style={{ fontSize: 10, fontWeight: 700, color: '#92400e', background: '#fef3c7', padding: '2px 6px', border: '1px solid #fde68a', whiteSpace: 'nowrap' }}>NEEDS REVIEW</span>
+        : <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', whiteSpace: 'nowrap' }}>
+            {price != null ? `$${price.toLocaleString()}` : 'Contact'}
+          </span>
+      }
+    </div>
+  );
+}
 
+function QuotePanel({ quotePayload, accSection }) {
   if (!quotePayload) {
     return (
-      <div style={{ padding: '12px 14px', background: '#f8fafc', border: '1px solid #e5e7eb', marginTop: 8 }}>
-        <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>
-          Select a SKU row above to generate the quote payload.
-        </p>
+      <div style={{ padding: '14px 16px', background: '#f8fafc', border: '1px solid #e5e7eb', marginTop: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <ClipboardList size={14} style={{ color: '#9ca3af' }} />
+          <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>
+            Select a SKU row in the table above to build your package quote.
+          </p>
+        </div>
       </div>
     );
   }
 
+  const items = accSection?.items ?? [];
+  const requiredItems = items.filter(i => i.type === 'required');
+  const selectedOptionalItems = items.filter(i => i.type !== 'required' && quotePayload.accessorySkus?.includes(i.sku));
+
+  const knownTotal = [
+    quotePayload.basePrice,
+    ...selectedOptionalItems.map(i => i.price),
+  ].reduce((sum, p) => (p != null && sum != null ? sum + p : null), 0);
+
   return (
-    <div style={{ padding: '14px 16px', background: '#f0fdf4', border: '2px solid #16a34a', marginTop: 8 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <CheckCircle size={15} style={{ color: '#16a34a' }} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#15803d' }}>
-            SKU Selected — {quotePayload.selectedBaseSku}
+    <div style={{ border: '2px solid #1a2744', marginTop: 8, background: '#fff' }}>
+      {/* Header */}
+      <div style={{ background: '#1a2744', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <ClipboardList size={14} style={{ color: '#fff' }} />
+        <span style={{ fontSize: 13, fontWeight: 700, color: '#fff', letterSpacing: '0.04em' }}>Package Quote</span>
+        {quotePayload.reviewFlags?.length > 0 && (
+          <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, color: '#fbbf24', background: 'rgba(251,191,36,0.15)', padding: '2px 7px', border: '1px solid rgba(251,191,36,0.4)' }}>
+            {quotePayload.reviewFlags.length} FLAG{quotePayload.reviewFlags.length > 1 ? 'S' : ''} — NEEDS REVIEW
+          </span>
+        )}
+      </div>
+
+      {/* Vehicle line */}
+      {quotePayload.selectedVehicle && (
+        <div style={{ padding: '6px 10px', background: '#f0f4ff', borderBottom: '1px solid #e5e7eb' }}>
+          <span style={{ fontSize: 11, color: '#1a2744', fontWeight: 600 }}>
+            Vehicle: {quotePayload.selectedVehicle.year} {quotePayload.selectedVehicle.make} {quotePayload.selectedVehicle.model}
           </span>
         </div>
-        <button
-          onClick={() => setShow(p => !p)}
-          style={{
-            ...FS, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5,
-            padding: '4px 10px', background: '#1a2744', color: '#fff', border: 'none', cursor: 'pointer'
-          }}
-        >
-          <ClipboardList size={11} /> {show ? 'Hide' : 'View'} Quote Payload
-        </button>
+      )}
+
+      {/* Base Product */}
+      <div style={{ padding: '6px 10px', background: '#f7f8fa', borderBottom: '1px solid #d0d0d0' }}>
+        <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#888' }}>Base Product</span>
       </div>
-      <p style={{ fontSize: 12, color: '#374151', margin: '0 0 4px' }}>
-        MSRP: {quotePayload.basePrice != null ? `$${quotePayload.basePrice.toLocaleString()}` : 'Contact for pricing'}
-      </p>
+      <QuoteLine label={quotePayload.productFamily} sku={quotePayload.selectedBaseSku} price={quotePayload.basePrice} />
+
+      {/* Required Components */}
+      {requiredItems.length > 0 && (
+        <>
+          <div style={{ padding: '6px 10px', background: '#fef2f2', borderBottom: '1px solid #d0d0d0', borderTop: '1px solid #e5e7eb' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#991b1b' }}>Required Components</span>
+          </div>
+          {requiredItems.map(item => (
+            <QuoteLine key={item.id} label={item.label} sku={item.sku ?? undefined} price={item.price} flagged={!item.sku} />
+          ))}
+        </>
+      )}
+
+      {/* Optional Upgrades selected */}
+      {selectedOptionalItems.length > 0 && (
+        <>
+          <div style={{ padding: '6px 10px', background: '#f0fdf4', borderBottom: '1px solid #d0d0d0', borderTop: '1px solid #e5e7eb' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#15803d' }}>Optional Upgrades</span>
+          </div>
+          {selectedOptionalItems.map(item => (
+            <QuoteLine key={item.id} label={item.label} sku={item.sku ?? undefined} price={item.price} />
+          ))}
+        </>
+      )}
+
+      {/* Total */}
+      <div style={{ padding: '10px 16px', background: '#1a2744', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>Package Total</span>
+        <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>
+          {knownTotal != null ? `$${knownTotal.toLocaleString()}` : 'Contact for pricing'}
+        </span>
+      </div>
+
+      {/* Review Flags */}
       {quotePayload.reviewFlags?.length > 0 && (
-        <div style={{ marginTop: 8 }}>
+        <div style={{ padding: '10px 14px', background: '#fffbeb', borderTop: '1px solid #fde68a' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#92400e', marginBottom: 4 }}>Review Required</p>
           {quotePayload.reviewFlags.map((flag, i) => (
-            <div key={i} style={{ display: 'flex', gap: 6, alignItems: 'flex-start', fontSize: 11, color: '#92400e', marginBottom: 3 }}>
+            <div key={i} style={{ display: 'flex', gap: 6, alignItems: 'flex-start', fontSize: 11, color: '#92400e', marginBottom: 2 }}>
               <AlertTriangle size={11} style={{ color: '#d97706', flexShrink: 0, marginTop: 1 }} />
               {flag}
             </div>
           ))}
         </div>
-      )}
-      {show && (
-        <pre style={{
-          marginTop: 10, padding: '10px 12px', background: '#1a2744', color: '#7dd3fc',
-          fontSize: 11, fontFamily: 'monospace', overflowX: 'auto', lineHeight: 1.6,
-        }}>
-          {JSON.stringify(quotePayload, null, 2)}
-        </pre>
       )}
     </div>
   );
@@ -478,7 +511,6 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   const { selectedVehicle } = useVehicle();
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [filterSelections, setFilterSelections] = useState({});
-  const [techSelections, setTechSelections]     = useState({});
   const [accessories, setAccessories]           = useState([]);
   const [selectedSkuId, setSelectedSkuId]       = useState(null);
 
@@ -521,12 +553,6 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
     setSelectedSkuId(null); // clear row selection when filters change
   }, []);
 
-  const handleTechSelect = useCallback((stepId, optionId) => {
-    setTechSelections(prev =>
-      prev[stepId] === optionId ? { ...prev, [stepId]: null } : { ...prev, [stepId]: optionId }
-    );
-  }, []);
-
   const handleToggleAccessory = useCallback((itemId) => {
     setAccessories(prev =>
       prev.includes(itemId) ? prev.filter(id => id !== itemId) : [...prev, itemId]
@@ -535,7 +561,6 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
 
   const handleReset = useCallback(() => {
     setFilterSelections({});
-    setTechSelections({});
     setAccessories([]);
     setSelectedSkuId(null);
   }, []);
@@ -544,13 +569,13 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   const quotePayload = useMemo(() => {
     if (!resolvedSkuObj) return null;
     const accItems = sections?.accessories?.items ?? [];
-    const selectedAcc = accItems.filter(i => accessories.includes(i.id) || i.type === 'required');
+    const selectedOptAccs = accItems.filter(i => i.type !== 'required' && accessories.includes(i.id));
     const reviewFlags = [
       ...(selectedVehicle ? [] : ['No vehicle selected — vehicle-specific fitment not confirmed']),
       ...skuSteps
         .filter(s => s._verification === 'needs_verification' && filterSelections[s.id])
         .map(s => `Unverified attribute: ${s.label}`),
-      ...accItems.filter(i => i._note).map(i => `Required hardware needs review: ${i.label}`),
+      ...accItems.filter(i => i.type === 'required' && !i.sku).map(i => `Required component SKU unknown — needs review: ${i.label}`),
     ];
     return {
       verticalId,
@@ -560,20 +585,14 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       selectedVehicle: selectedVehicle
         ? { year: selectedVehicle.year, make: selectedVehicle.make, model: selectedVehicle.model }
         : null,
-      selectedFilters: Object.entries(filterSelections).map(([stepId, optId]) => {
-        const step = skuSteps.find(s => s.id === stepId);
-        const opt  = step?.options.find(o => o.id === optId);
-        return { stepId, stepLabel: step?.label, optionId: optId, optionLabel: opt?.label };
-      }),
       selectedBaseSku: resolvedSkuObj.sku,
       basePrice: resolvedSkuObj.price,
-      dependencySkus: selectedAcc.filter(i => i.type === 'required').map(i => i.sku),
-      accessorySkus:  selectedAcc.filter(i => i.type !== 'required').map(i => i.sku),
+      accessorySkus: selectedOptAccs.map(i => i.sku).filter(Boolean),
       reviewFlags,
     };
   }, [resolvedSkuObj, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
 
-  const showTechAndAcc = !!resolvedSkuObj;
+  const showPackage = !!resolvedSkuObj;
 
   return (
     <div style={{ ...FS, border: '1px solid #e8e8e8', background: '#fff' }}>
@@ -623,17 +642,8 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
           onSelectSku={setSelectedSkuId}
         />
 
-        {/* Section 3 — Technical Details (shown after SKU selected) */}
-        {showTechAndAcc && sections?.technicalOptions && (
-          <TechnicalDetails
-            section={sections.technicalOptions}
-            selections={techSelections}
-            onSelect={handleTechSelect}
-          />
-        )}
-
-        {/* Section 4 — Accessories (shown after SKU selected) */}
-        {showTechAndAcc && sections?.accessories && (
+        {/* Section 3 — Build Your Package (shown after SKU selected) */}
+        {showPackage && sections?.accessories && (
           <AccessoriesSection
             section={sections.accessories}
             selectedAccessories={accessories}
@@ -641,8 +651,8 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
           />
         )}
 
-        {/* Quote Payload */}
-        <QuotePanel quotePayload={quotePayload} />
+        {/* Quote */}
+        <QuotePanel quotePayload={quotePayload} accSection={sections?.accessories} />
       </div>
 
       {/* Prototype watermark */}
