@@ -16,9 +16,7 @@ These families have a complete configurator JSON, price data from the Shopify ex
 | **Valor® Police Light Bar** | `valor-configurator` | 8 | Shopify CSV export | ✅ 8 / 8 | ❌ 0 / 8 | 🔒 Disabled | ✅ Ready |
 | **Reliant® S2 Police Light Bar** | `reliant-s2-configurator` | 8 | Shopify CSV export | ✅ 8 / 8 | ❌ 0 / 8 | 🔒 Disabled | ✅ Ready |
 | **Vision SLR Police Light Bar** | `vision-slr-configurator` | 4 | Shopify CSV export | ✅ 4 / 4 | ❌ 0 / 4 | 🔒 Disabled | ✅ Ready |
-| **Navigator® Serial (Police SKUs)** | `navigator-configurator` | 11 | Shopify CSV export | ✅ 11 / 11 | ❌ 0 / 11 | 🔒 Disabled | ✅ Ready |
-
-> **Note — Navigator® Serial:** SKUs were originally sourced for Fire/EMS/Municipal (NFPA/MUNI/TOW suffixes). The Police configurator retains these rows because they appear on the `navigator-serial-light-bar` Shopify handle. Warning Color attribute is flagged `needs_verification` — verify Red/White applicability before presenting to police customers.
+| ~~**Navigator® Serial (Police SKUs)**~~ | `navigator-configurator` | 0 Police | — | — | — | — | ⛔ HOLD — see Section 2d |
 
 ---
 
@@ -70,8 +68,64 @@ Both families are now **quote-ready**. All 14 SKUs were written into `shopify-va
 | Family | Configurator ID | Note |
 |---|---|---|
 | **Navigator Discrete** | `navigator-discrete-configurator` | Fire/EMS scope (NVG25D NFPA SKUs). 3 of 7 SKUs `unmatched` in index. Not in Police vertical. |
-| **Navigator Linear Mini** | `navigator-linear-mini-configurator` | 9 SKUs — all `unmatched` in index, prices unknown. Not in Police vertical. |
 | **Navigator Serial (duplicate)** | `navigator-serial-configurator` | Duplicate of `navigator-configurator` with static prices baked into JSON. Retire in favor of the index-driven version. |
+
+### 2d. Navigator® Serial — HOLD (Not Police-Ready) — Validated 2026-06-30
+
+**Route:** `/police/light-bars/navigator` uses `navigator-configurator.json`
+
+The Navigator Serial configurator was listed as quote-ready in the Police vertical. **This is incorrect.** A full SKU-by-SKU audit confirms that **0 of 11 SKUs in the Navigator Serial configurator are Police SKUs.**
+
+**SKU Classification — All 11 Navigator Serial SKUs:**
+
+| SKU | Length | Color/Application | Spec Suffix | Correct Classification |
+|---|---|---|---|---|
+| NVG45Z-NFPA20 | 45″ | Red/White | NFPA 2020 | ⛔ Fire/EMS (NFPA) |
+| NVG45Z-NFPA21 | 45″ | Red/White | NFPA 2021 | ⛔ Fire/EMS (NFPA) |
+| NVG53D-MUNI1RHC | 53″ | Amber/White | Municipal HC | ⛔ Municipal |
+| NVG53Z-MUNI1RHC6 | 53″ | Amber/White | Municipal HC6 | ⛔ Municipal |
+| NVG53Z-NFPA20 | 53″ | Red/White | NFPA 2020 | ⛔ Fire/EMS (NFPA) |
+| NVG53Z-NFPA21 | 53″ | Red/White | NFPA 2021 | ⛔ Fire/EMS (NFPA) |
+| NVG60D-NFPA20 | 60″ | Red/White | NFPA 2020 | ⛔ Fire/EMS (NFPA) |
+| NVG60D-NFPA21 | 60″ | Red/White | NFPA 2021 | ⛔ Fire/EMS (NFPA) |
+| NVG60D-NFPA22 | 60″ | Red/White | NFPA 2022 | ⛔ Fire/EMS (NFPA) |
+| NVG60D-TOW2FC | 60″ | Tow/Custom | TOW | ⛔ Tow/Utility |
+| NVG60Z-TOW2FC6 | 60″ | Tow/Custom | TOW6 | ⛔ Tow/Utility |
+
+**Finding:** Every SKU carries a Fire/NFPA, Municipal, or Tow/Utility designation. No Red/Blue/White or Blue/White police-pattern SKUs exist in the set. The "Red/White" color options in the filter are NFPA fire apparatus compliance colors — not police warning colors.
+
+**Why it appeared ready:** The configurator's `vehicleRules` reference police vehicles (Charger, PIU, Tahoe PPV) which created a false impression of police fitment. The vehicle rules were added speculatively without validating that the underlying SKUs are police-applicable.
+
+**Status: ⛔ HOLD — Needs Source Validation**
+- Action: Source actual Navigator police SKUs (Blue/White or Red/Blue/White configurations) from the Police Price Book or Shopify export.
+- Until police-specific Navigator SKUs are confirmed, the Navigator Serial configurator must **not** be presented on Police routes.
+- The product can remain listed in `light-bars.json` under `vehicle_type: "Police"` as a category card, but the configurator should be withheld.
+
+### 2e. Navigator® Linear Mini — HOLD (Needs Source Validation) — Validated 2026-06-30
+
+**Route:** `/police/light-bars/navigator-linear-mini` uses `navigator-linear-mini-configurator.json`
+
+6 of 9 SKUs are Police-applicable (RBW and BW color options). However **all 9 SKUs are `unmatched` in `shopify-variant-index.json`** — NVLM* SKUs do not appear in the Shopify CSV export under any handle.
+
+**SKU Classification — All 9 Navigator Linear Mini SKUs:**
+
+| SKU | Length | Color | Classification | Index Status |
+|---|---|---|---|---|
+| NVLM10-A | 10″ | Amber | ⚠ Non-police (Utility/Warning) | `unmatched` — not in CSV |
+| NVLM10-RBW | 10″ | Red/Blue/White | ✅ Police | `unmatched` — not in CSV |
+| NVLM10-BW | 10″ | Blue/White | ✅ Police | `unmatched` — not in CSV |
+| NVLM18-A | 18″ | Amber | ⚠ Non-police | `unmatched` — not in CSV |
+| NVLM18-RBW | 18″ | Red/Blue/White | ✅ Police | `unmatched` — not in CSV |
+| NVLM18-BW | 18″ | Blue/White | ✅ Police | `unmatched` — not in CSV |
+| NVLM25-A | 25″ | Amber | ⚠ Non-police | `unmatched` — not in CSV |
+| NVLM25-RBW | 25″ | Red/Blue/White | ✅ Police | `unmatched` — not in CSV |
+| NVLM25-BW | 25″ | Blue/White | ✅ Police | `unmatched` — not in CSV |
+
+**Finding:** Color classifications are correct. The SKU structure (NVLM prefix, RBW/BW suffixes) is consistent with police use. However, NVLM SKUs do not appear in the Shopify CSV export — they may use a different SKU pattern in production, or may not yet be on the TFRSupply storefront.
+
+**Status: ⛔ HOLD — Needs Source Validation**
+- Action: Search the Shopify export for actual Navigator Linear Mini SKUs under any handle. If NVLM* is confirmed as the correct prefix, obtain pricing. If a different prefix is in use, update the configurator SKU list.
+- Do not present on Police routes until at least the RBW/BW police SKUs are confirmed in the Shopify export with prices.
 
 ---
 
@@ -84,7 +138,7 @@ All prices are sourced exclusively from `shopify-variant-index.json`, which is g
 | Valor® Police | `price_only` × 8 | $4,970 – $6,566 |
 | Reliant® S2 Police | `price_only` × 8 | $2,204 (all 8 SKUs) |
 | Vision SLR Police | `price_only` × 4 | TBD (in index, amounts not re-verified here) |
-| Navigator® Serial | `price_only` × 11 | $3,450 – $5,210 |
+| Navigator® Serial | `price_only` × 11 | $3,450 – $5,210 — ⛔ ALL 11 SKUs are Fire/NFPA, Municipal, or Tow. Not police-applicable. |
 | Allegiant® Max Serial | `unmatched` × 9 | $3,109 – $3,907 — confirmed in CSV, **not yet written to index** |
 | Integrity® Police | `unmatched` × 5 | $4,410 – $5,584 — confirmed in CSV, **not yet written to index** |
 
@@ -100,7 +154,7 @@ Shopify variant GIDs (GraphQL `gid://shopify/ProductVariant/...`) are required f
 | Status | Families |
 |---|---|
 | **GIDs collected** | None |
-| **GIDs pending Admin collection** | Valor®, Reliant® S2, Vision SLR, Navigator® Serial |
+| **GIDs pending Admin collection** | Valor®, Reliant® S2, Vision SLR |
 | **Not applicable (unmatched)** | Allegiant® Max Serial, Integrity® |
 
 **How to collect GIDs:**  
@@ -115,7 +169,8 @@ In Shopify Admin → Products → open each product → each variant row shows t
 | Valor® Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Reliant® S2 Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Vision SLR Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
-| Navigator® Serial | ✅ Enabled | 🔒 Disabled | GIDs not collected |
+| Navigator® Serial | ⛔ HOLD | ⛔ HOLD | No Police SKUs — all 11 are Fire/NFPA, Municipal, or Tow |
+| Navigator® Linear Mini | ⛔ HOLD | ⛔ HOLD | Police-color SKUs exist but not found in Shopify CSV — needs source validation |
 | Allegiant® Max Serial | ✅ Quote-Ready | 🔒 Disabled | `price_only` × 9 — GIDs pending Admin collection |
 | Integrity® Police | ✅ Quote-Ready | 🔒 Disabled | `price_only` × 5 — GIDs pending Admin collection |
 
@@ -131,9 +186,10 @@ In Shopify Admin → Products → open each product → each variant row shows t
 - **Action:** Collect Shopify Admin variant GIDs for all 31 indexed Police SKUs (Valor 8 + Reliant S2 8 + Vision SLR 4 + Navigator Serial 11). Set `shopifyVariantId` in the index.
 - **Effort:** Medium — requires Shopify Admin access.
 
-### Priority 4 — Navigator® Serial Warning Color Verification
-- **Action:** Confirm that the Red/White color configurations shown in the Navigator Serial Police configurator are valid for police use cases (not Fire/EMS-only). Some NFPA/Municipal suffix SKUs may require label correction.
-- **Effort:** Low — review with product team.
+### Priority 4 — Navigator® Serial + Linear Mini — Source Police SKUs
+- **Navigator Serial:** Remove from Police vertical until actual police SKUs (Blue/White, Red/Blue/White) are sourced from the Police Price Book. All 11 current SKUs are Fire/NFPA, Municipal, or Tow — confirmed by audit 2026-06-30. See Section 2d.
+- **Navigator Linear Mini:** Correct color classifications (RBW/BW exist) but NVLM* SKUs absent from Shopify CSV. Confirm SKU pattern and pricing before activating on Police routes. See Section 2e.
+- **Effort:** Low (Serial: find police SKU list) / Medium (Linear Mini: CSV search + price confirmation).
 
 ### Priority 5 — Retire Duplicate Navigator Serial Configurator
 - **Action:** Archive `navigator-serial-configurator.json` — it duplicates `navigator-configurator.json` with static prices baked in. The index-driven version (`navigator-configurator`) is the authoritative source.
@@ -196,9 +252,9 @@ Both families are one index-update away from becoming quote-ready. No price book
 | `valor-configurator.json` | Valor® Police Light Bar | 8 | ✅ |
 | `reliant-s2-configurator.json` | Reliant® S2 Police Light Bar | 8 | ✅ |
 | `vision-slr-configurator.json` | Vision SLR Police Light Bar | 4 | ✅ |
-| `navigator-configurator.json` | Navigator® Serial (Police SKUs) | 11 | ✅ |
-| `allegiant-max-serial-configurator.json` | Allegiant® Max Serial Police | 9 | ❌ Prices missing |
-| `integrity-configurator.json` | Integrity® Police Light Bar | 5 | ❌ Prices missing |
+| `navigator-configurator.json` | Navigator® Serial | 0 Police SKUs | ⛔ HOLD — all 11 SKUs are Fire/NFPA, Municipal, or Tow |
+| `allegiant-max-serial-configurator.json` | Allegiant® Max Serial Police | 9 | ✅ Quote-ready (resolved 2026-06-30) |
+| `integrity-configurator.json` | Integrity® Police Light Bar | 5 | ✅ Quote-ready (resolved 2026-06-30) |
 | `navigator-discrete-configurator.json` | Navigator Discrete (Fire/EMS) | — | Non-police |
-| `navigator-linear-mini-configurator.json` | Navigator Linear Mini | — | Non-police |
+| `navigator-linear-mini-configurator.json` | Navigator Linear Mini | 6 Police-color SKUs | ⛔ HOLD — NVLM* SKUs not in Shopify CSV, prices unknown |
 | `navigator-serial-configurator.json` | Navigator Serial (duplicate) | — | Retire |
