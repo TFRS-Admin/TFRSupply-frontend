@@ -15,6 +15,9 @@
     { "id": "profile",      "label": "Profile",      "options": ["Full-Size", "Low-Profile", "Mini"] },
     { "id": "length",       "label": "Length",       "options": ["45\"", "53\"", "60\"", "72\""] }
   ],
+  "_catalog_notes": {
+    "police_allegiant_discrete": "Police Allegiant Max Discrete is not available in current Shopify catalog. Police Allegiant Max uses Serial/JX SKUs only (ALGT45JX-P*, ALGT53JX-P*). Do not create a Police Discrete configurator or product page until Police Discrete SKUs appear in the Shopify export."
+  },
   "products": [
     {
       "id": "allegiant-max",
