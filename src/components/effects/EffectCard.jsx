@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Code, Copy, Check, Wand2, Heart, Maximize2, Minimize2, MousePointerClick } from "lucide-react";
+import { Code, Copy, Check, Wand2, Heart, Maximize2, Minimize2 } from "lucide-react";
 import ResponsivePreview from "./ResponsivePreview";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";

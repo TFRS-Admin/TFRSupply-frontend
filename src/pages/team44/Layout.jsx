@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles, Menu, X, Home, Eye, Volume2,
   Layers, Navigation, MousePointerClick, 
-  MessageCircle, Bot, Heart, Wand2, Users, BookOpen, Settings as SettingsIcon, Video,
-  Search, ChevronDown
+  MessageCircle, Bot, Heart, Wand2, BookOpen, ChevronDown
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";

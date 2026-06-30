@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, ArrowLeft, AlertTriangle, CheckCircle, XCircle, ChevronRight, Map, GitBranch, Database, Bug } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, CheckCircle, ChevronRight, Map, GitBranch, Database, Bug } from 'lucide-react';
 import { FAMILIES, VEHICLES, CORE_OPTIONS, DEPENDENCIES, RULES_DEBUG, DATA_GAPS } from '@/data/sampleData';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import DebugToggle from '@/components/DebugToggle';

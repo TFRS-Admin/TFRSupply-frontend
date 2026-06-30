@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CATEGORIES, ALL_TAGS } from './showcaseData';
-import { Copy, Check, Code, ChevronDown, ChevronUp } from 'lucide-react';
+import { Copy, Check, Code } from 'lucide-react';
 
 // Per-category demo components
 import ButtonEffects from './demos/ButtonEffects';

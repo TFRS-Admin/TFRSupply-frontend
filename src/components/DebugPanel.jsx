@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import { RULES_DEBUG, DATA_GAPS } from '@/data/sampleData';
-import { ChevronDown, ChevronUp, AlertTriangle, CheckCircle, XCircle, Database } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertTriangle, CheckCircle, Database } from 'lucide-react';
 
 export default function DebugPanel() {
   const { debugMode, state } = useConfigurator();

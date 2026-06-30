@@ -8,7 +8,7 @@ import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import NotFound from '@/components/templates/NotFound';
-import { ChevronRight, ExternalLink, FileDown, Phone, Settings, ShoppingCart } from 'lucide-react';
+import { ChevronRight, ExternalLink, FileDown, Phone, Settings } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
