@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import { RESOURCE_CATEGORIES, RESOURCES } from '@/data/resourcesData';
 import {
   FileText, Wrench, Zap, Settings, Shield, PlayCircle,
-  BookOpen, Newspaper, Search, X, ExternalLink, ChevronRight
+  BookOpen, Newspaper, Search, X, ExternalLink
 } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };

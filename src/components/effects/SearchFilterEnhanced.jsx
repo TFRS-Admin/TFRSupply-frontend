@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Search, Filter, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { useQuery } from "@tanstack/react-query";
 
 const categories = [
   { id: "all", label: "All", color: "violet" },

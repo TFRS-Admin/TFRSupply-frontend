@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Flame, Truck, Radio, Zap, Search, Phone, Mail, ArrowRight, ChevronRight, Package, Car } from 'lucide-react';
+import { Shield, Flame, Truck, Radio, Zap, Search, Phone, Mail, ArrowRight } from 'lucide-react';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 

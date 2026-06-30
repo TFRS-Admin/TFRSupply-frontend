@@ -4,7 +4,6 @@ import { loadCategory } from '@/lib/dataLoader';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
-import SectionLabel from '@/components/templates/SectionLabel';
 import NotFound from '@/components/templates/NotFound';
 import { ChevronRight } from 'lucide-react';
 

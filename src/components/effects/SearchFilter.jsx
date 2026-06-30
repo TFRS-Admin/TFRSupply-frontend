@@ -1,7 +1,6 @@
 import React from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { motion, AnimatePresence } from "framer-motion";
 
 const categories = [
   { id: "all", label: "All", color: "violet" },

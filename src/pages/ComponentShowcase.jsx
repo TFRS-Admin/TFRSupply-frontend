@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import ShowcaseHome from '@/components/showcase/ShowcaseHome';
 import ShowcaseCategoryPage from '@/components/showcase/ShowcaseCategoryPage';
 

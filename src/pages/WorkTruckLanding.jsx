@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
-import { Layers, Zap, Lightbulb, Volume2, ArrowRight, Shield, ChevronRight, Phone, FileDown, Settings } from 'lucide-react';
+import { Layers, Zap, Lightbulb, Volume2, ArrowRight, ChevronRight, Phone, FileDown, Settings } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 

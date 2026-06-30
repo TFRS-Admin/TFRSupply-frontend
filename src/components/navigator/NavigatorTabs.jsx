@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
+import { NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-react';
 
 const TABS = [

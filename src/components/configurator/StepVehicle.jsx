@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Car, ChevronDown } from 'lucide-react';
 import { VEHICLES, DEPENDENCIES } from '@/data/sampleData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
