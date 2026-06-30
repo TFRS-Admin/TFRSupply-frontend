@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AlertTriangle, CheckCircle, ArrowLeft, Package, Car, Wrench, Zap, Cpu, Layers, Shield } from 'lucide-react';
+import { AlertTriangle, CheckCircle, ArrowLeft, Package, Car, Wrench, Zap } from 'lucide-react';
 import { FAMILIES } from '@/data/sampleData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import PrototypeBanner from '@/components/PrototypeBanner';
