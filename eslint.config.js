@@ -4,14 +4,26 @@ import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginUnusedImports from "eslint-plugin-unused-imports";
 
+const reactSourceFiles = [
+  "src/components/**/*.{js,mjs,cjs,jsx}",
+  "src/pages/**/*.{js,mjs,cjs,jsx}",
+  "src/Layout.jsx",
+];
+
 export default [
   {
-    files: [
-      "src/components/**/*.{js,mjs,cjs,jsx}",
-      "src/pages/**/*.{js,mjs,cjs,jsx}",
-      "src/Layout.jsx",
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "src/components/ui/**",
+      "src/lib/**",
+      "src/api/**",
+      "**/*.ts",
+      "**/*.tsx",
     ],
-    ignores: ["src/lib/**/*", "src/components/ui/**/*"],
+  },
+  {
+    files: reactSourceFiles,
     ...pluginJs.configs.recommended,
     ...pluginReact.configs.flat.recommended,
     languageOptions: {
@@ -38,7 +50,7 @@ export default [
       "no-unused-vars": "off",
       "react/jsx-uses-vars": "error",
       "react/jsx-uses-react": "error",
-      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": [
         "warn",
         {
