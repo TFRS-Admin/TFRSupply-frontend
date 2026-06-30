@@ -24,14 +24,14 @@ These families have a complete configurator JSON, price data from the Shopify ex
 
 ## 2. Held / Excluded Families
 
-### 2a. Configurator Built — Awaiting Index Entry
+### ~~2a. Configurator Built — Awaiting Index Entry~~ → RESOLVED 2026-06-30
 
-Both families have confirmed prices in the Shopify CSV export. The prices were **never written into `shopify-variant-index.json`** — the index was not regenerated after these SKUs were identified. Commerce lookup returns `unmatched` for all 14 SKUs at runtime.
+Both families are now **quote-ready**. All 14 SKUs were written into `shopify-variant-index.json` directly from the Shopify CSV export on 2026-06-30. Commerce lookup returns `price_only` for all 14 SKUs. Prices display in SKU tables, Package Total calculates correctly, Add to Quote is enabled. Add to Cart remains disabled (shopifyVariantId = null — GIDs pending Admin collection).
 
-| Family | Configurator ID | Police SKUs | CSV Price Range | Index Status | Reason Held |
-|---|---|---|---|---|---|
-| **Allegiant® Max Serial Police Light Bar** | `allegiant-max-serial-configurator` | 9 | $3,109 – $3,907 | `unmatched` × 9 | Prices confirmed in CSV (handles `allegiant-light-bar-45`, `allegiant-light-bar-53`) — not yet written to `shopify-variant-index.json`. |
-| **Integrity® Police Light Bar** | `integrity-configurator` | 5 | $4,410 – $5,584 | `unmatched` × 5 | Prices confirmed in CSV (handles `integrity-light-bar-44`, `integrity-light-bar-51`) — not yet written to `shopify-variant-index.json`. |
+| Family | Configurator ID | Police SKUs | Price Range | Index Status | Quote Ready | Cart Ready |
+|---|---|---|---|---|---|---|
+| **Allegiant® Max Serial Police Light Bar** | `allegiant-max-serial-configurator` | 9 | $3,109 – $3,907 | `price_only` × 9 ✅ | ✅ YES | ❌ GIDs pending |
+| **Integrity® Police Light Bar** | `integrity-configurator` | 5 | $4,410 – $5,584 | `price_only` × 5 ✅ | ✅ YES | ❌ GIDs pending |
 
 **Verified CSV prices — Allegiant Max Serial:**
 
@@ -116,17 +116,16 @@ In Shopify Admin → Products → open each product → each variant row shows t
 | Reliant® S2 Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Vision SLR Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Navigator® Serial | ✅ Enabled | 🔒 Disabled | GIDs not collected |
-| Allegiant® Max Serial | ❌ Blocked | 🔒 Disabled | Prices confirmed in CSV — not yet written to `shopify-variant-index.json` |
-| Integrity® Police | ❌ Blocked | 🔒 Disabled | Prices confirmed in CSV — not yet written to `shopify-variant-index.json` |
+| Allegiant® Max Serial | ✅ Quote-Ready | 🔒 Disabled | `price_only` × 9 — GIDs pending Admin collection |
+| Integrity® Police | ✅ Quote-Ready | 🔒 Disabled | `price_only` × 5 — GIDs pending Admin collection |
 
 ---
 
 ## 6. Remaining Blockers
 
-### Priority 1 — Add Allegiant® Max Serial + Integrity® to Index (14 SKUs)
-- **Action:** Write all 14 confirmed SKUs into `shopify-variant-index.json` using prices sourced directly from the Shopify CSV export. No price book required — prices are already confirmed (see Section 2a tables).
-- **Risk:** `ALGT45JX-P4LC` and `ALGT53JX-P4LC` carry a "See Description" opt3 label — these are flagged `needs_verification` in the configurator and will display a caution badge. Prices ($3,624 / $3,907) are confirmed in CSV regardless.
-- **Effort:** Low — data is fully in hand. Both families become quote-ready immediately after index update.
+### ~~Priority 1 — Add Allegiant® Max Serial + Integrity® to Index~~ → DONE 2026-06-30
+- All 14 SKUs written to `shopify-variant-index.json` from CSV. Commerce lookup returns `price_only` × 14. Both families are quote-ready.
+- `ALGT45JX-P4LC` and `ALGT53JX-P4LC` remain flagged `needs_verification` in the configurator (opt3 = "See Description") — prices are confirmed but color config should be verified before ordering.
 
 ### Priority 3 — Enable Checkout Across All Quote-Ready Families
 - **Action:** Collect Shopify Admin variant GIDs for all 31 indexed Police SKUs (Valor 8 + Reliant S2 8 + Vision SLR 4 + Navigator Serial 11). Set `shopifyVariantId` in the index.
