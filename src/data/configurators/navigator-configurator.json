@@ -1,6 +1,6 @@
 {
-  "_source": "Navigator® Serial Light Bar — Police SKU filter: Length + Warning Color only. Specification step removed (Fire/NFPA/Municipal data — not applicable to Police pages).",
-  "_note": "Length = confirmed. Color = needs_verification (inferred from Shopify export). All 11 SKUs retained in skuOptions for reference; Police-relevant SKUs are Red/White lengths.",
+  "_source": "Navigator® Serial Light Bar — Fire/EMS vertical. All 11 SKUs are NFPA, Municipal, or Tow/Utility. Zero police SKUs. Reclassified 2026-06-30.",
+  "_note": "Length = confirmed. Color = needs_verification (inferred from Shopify export). All 11 SKUs are Fire/EMS, Municipal, or Tow/Utility — not police-applicable.",
   "id": "navigator-configurator",
   "productId": "navigator",
   "productFamily": "Navigator® Serial Light Bar",
@@ -148,12 +148,12 @@
   },
 
   "vehicleRules": [
-    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",     "recommendedLength": "45" },
-    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "53" },
-    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV", "recommendedLength": "53" },
-    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "53" },
-    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "53" },
-    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "53" }
+    { "vehicleId": "FIRE_ENGINE_TYPE1",    "displayName": "Type 1 Fire Engine",         "recommendedLength": "60" },
+    { "vehicleId": "FIRE_ENGINE_TYPE3",    "displayName": "Type 3 Fire Engine",         "recommendedLength": "53" },
+    { "vehicleId": "LADDER_TRUCK",         "displayName": "Aerial Ladder Truck",        "recommendedLength": "60" },
+    { "vehicleId": "RESCUE_SQUAD",         "displayName": "Heavy Rescue Squad",         "recommendedLength": "53" },
+    { "vehicleId": "AMBULANCE_TYPE1",      "displayName": "Type I Ambulance",           "recommendedLength": "45" },
+    { "vehicleId": "TOW_HEAVY_WRECKER",    "displayName": "Heavy Wrecker / Rotator",   "recommendedLength": "60" }
   ],
 
   "compatibilityRules": [],

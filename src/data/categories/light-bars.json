@@ -16,7 +16,8 @@
     { "id": "length",       "label": "Length",       "options": ["45\"", "53\"", "60\"", "72\""] }
   ],
   "_catalog_notes": {
-    "police_allegiant_discrete": "Police Allegiant Max Discrete is not available in current Shopify catalog. Police Allegiant Max uses Serial/JX SKUs only (ALGT45JX-P*, ALGT53JX-P*). Do not create a Police Discrete configurator or product page until Police Discrete SKUs appear in the Shopify export."
+    "police_allegiant_discrete": "Police Allegiant Max Discrete is not available in current Shopify catalog. Police Allegiant Max uses Serial/JX SKUs only (ALGT45JX-P*, ALGT53JX-P*). Do not create a Police Discrete configurator or product page until Police Discrete SKUs appear in the Shopify export.",
+    "navigator_serial_vertical": "Navigator Serial (NVG*) SKUs are Fire/EMS, Municipal, and Tow/Utility only. Zero police SKUs confirmed 2026-06-30. Navigator is classified under Fire/EMS. Do not render Navigator on police routes. Police Navigator SKUs must be sourced from the Police Price Book before creating a police-specific configurator."
   },
   "products": [
     {
@@ -45,12 +46,12 @@
     {
       "id": "navigator",
       "label": "Navigator® Serial Light Bar",
-      "tagline": "High-profile full-size LED light bar.",
+      "tagline": "High-profile full-size LED light bar for fire apparatus and emergency vehicles.",
       "image": "https://worktruck.fedsig.com/ccstore/v1/images/?source=/file/v2623704715160741037/products/navigator_discrete_light_bar.navigator_discrete_light_bar.eComm.jpg&height=475&width=475",
-      "vehicle_type": "Police",
+      "vehicle_type": "Fire/EMS",
       "profile": "Full-Size",
-      "length": "53\"",
-      "badges": ["Full-Size", "Police", "Fire/EMS"],
+      "length": "60\"",
+      "badges": ["Full-Size", "Fire/EMS", "NFPA"],
       "specs": ["45\", 53\", 60\" lengths", "12 Vdc", "5-year warranty"]
     }
   ]

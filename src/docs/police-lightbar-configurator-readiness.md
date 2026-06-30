@@ -16,7 +16,7 @@ These families have a complete configurator JSON, price data from the Shopify ex
 | **Valor® Police Light Bar** | `valor-configurator` | 8 | Shopify CSV export | ✅ 8 / 8 | ❌ 0 / 8 | 🔒 Disabled | ✅ Ready |
 | **Reliant® S2 Police Light Bar** | `reliant-s2-configurator` | 8 | Shopify CSV export | ✅ 8 / 8 | ❌ 0 / 8 | 🔒 Disabled | ✅ Ready |
 | **Vision SLR Police Light Bar** | `vision-slr-configurator` | 4 | Shopify CSV export | ✅ 4 / 4 | ❌ 0 / 4 | 🔒 Disabled | ✅ Ready |
-| ~~**Navigator® Serial (Police SKUs)**~~ | `navigator-configurator` | 0 Police | — | — | — | — | ⛔ HOLD — see Section 2d |
+| ~~**Navigator® Serial**~~ | `navigator-configurator` | 0 Police | — | — | — | — | ⛔ Reclassified → Fire/EMS 2026-06-30 |
 
 ---
 
@@ -70,11 +70,12 @@ Both families are now **quote-ready**. All 14 SKUs were written into `shopify-va
 | **Navigator Discrete** | `navigator-discrete-configurator` | Fire/EMS scope (NVG25D NFPA SKUs). 3 of 7 SKUs `unmatched` in index. Not in Police vertical. |
 | **Navigator Serial (duplicate)** | `navigator-serial-configurator` | Duplicate of `navigator-configurator` with static prices baked into JSON. Retire in favor of the index-driven version. |
 
-### 2d. Navigator® Serial — HOLD (Not Police-Ready) — Validated 2026-06-30
+### 2d. Navigator® Serial — RECLASSIFIED to Fire/EMS — 2026-06-30
 
-**Route:** `/police/light-bars/navigator` uses `navigator-configurator.json`
+**Previous route (Police):** `/police/light-bars/navigator` — **removed 2026-06-30**
+**New route (Fire/EMS):** `/fire/light-bars/navigator`
 
-The Navigator Serial configurator was listed as quote-ready in the Police vertical. **This is incorrect.** A full SKU-by-SKU audit confirms that **0 of 11 SKUs in the Navigator Serial configurator are Police SKUs.**
+The Navigator Serial configurator was listed as quote-ready in the Police vertical. A full SKU-by-SKU audit confirmed that **0 of 11 SKUs are Police SKUs.** Navigator Serial has been reclassified to the Fire/EMS vertical. The configurator JSON (`navigator-configurator.json`) is unchanged — it is now served exclusively under the Fire/EMS route. All 11 SKUs (NFPA, Municipal, Tow/Utility) are correctly categorized for Fire/EMS.
 
 **SKU Classification — All 11 Navigator Serial SKUs:**
 
@@ -96,10 +97,17 @@ The Navigator Serial configurator was listed as quote-ready in the Police vertic
 
 **Why it appeared ready:** The configurator's `vehicleRules` reference police vehicles (Charger, PIU, Tahoe PPV) which created a false impression of police fitment. The vehicle rules were added speculatively without validating that the underlying SKUs are police-applicable.
 
-**Status: ⛔ HOLD — Needs Source Validation**
-- Action: Source actual Navigator police SKUs (Blue/White or Red/Blue/White configurations) from the Police Price Book or Shopify export.
-- Until police-specific Navigator SKUs are confirmed, the Navigator Serial configurator must **not** be presented on Police routes.
-- The product can remain listed in `light-bars.json` under `vehicle_type: "Police"` as a category card, but the configurator should be withheld.
+**Status: ✅ Reclassified — Fire/EMS Quote Ready**
+- Navigator Serial (`navigator-configurator.json`) is now registered under the Fire/EMS vertical only.
+- Route: `/fire/light-bars/navigator`. Product breadcrumbs, `verticals`, and `vehicle_type` updated in all source files.
+- Police route `/police/light-bars/navigator` no longer exists. Navigator is removed from Police category listings.
+- To add a Police Navigator product in future: source Blue/White or Red/Blue/White police SKUs from the Police Price Book and create a separate police-specific configurator file. Do not reuse `navigator-configurator.json` for Police.
+
+**Navigator Serial — Fire/EMS Quote Status:**
+
+| Family | Configurator ID | Fire/EMS SKUs | Price Source | Prices Loaded | GIDs Loaded | Checkout | Quote |
+|---|---|---|---|---|---|---|---|
+| **Navigator® Serial Light Bar** | `navigator-configurator` | 11 | Shopify CSV export | ✅ 11 / 11 | ❌ 0 / 11 | 🔒 Disabled | ✅ Ready |
 
 ### 2e. Navigator® Linear Mini — HOLD (Needs Source Validation) — Validated 2026-06-30
 
@@ -138,7 +146,7 @@ All prices are sourced exclusively from `shopify-variant-index.json`, which is g
 | Valor® Police | `price_only` × 8 | $4,970 – $6,566 |
 | Reliant® S2 Police | `price_only` × 8 | $2,204 (all 8 SKUs) |
 | Vision SLR Police | `price_only` × 4 | TBD (in index, amounts not re-verified here) |
-| Navigator® Serial | `price_only` × 11 | $3,450 – $5,210 — ⛔ ALL 11 SKUs are Fire/NFPA, Municipal, or Tow. Not police-applicable. |
+| Navigator® Serial | Reclassified → Fire/EMS | All 11 SKUs are Fire/NFPA, Municipal, or Tow — not police-applicable. Route: /fire/light-bars/navigator |
 | Allegiant® Max Serial | `unmatched` × 9 | $3,109 – $3,907 — confirmed in CSV, **not yet written to index** |
 | Integrity® Police | `unmatched` × 5 | $4,410 – $5,584 — confirmed in CSV, **not yet written to index** |
 
@@ -169,7 +177,7 @@ In Shopify Admin → Products → open each product → each variant row shows t
 | Valor® Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Reliant® S2 Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Vision SLR Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
-| Navigator® Serial | ⛔ HOLD | ⛔ HOLD | No Police SKUs — all 11 are Fire/NFPA, Municipal, or Tow |
+| Navigator® Serial | ⛔ N/A | ⛔ N/A | Reclassified to Fire/EMS 2026-06-30 — route is /fire/light-bars/navigator |
 | Navigator® Linear Mini | ⛔ HOLD | ⛔ HOLD | Police-color SKUs exist but not found in Shopify CSV — needs source validation |
 | Allegiant® Max Serial | ✅ Quote-Ready | 🔒 Disabled | `price_only` × 9 — GIDs pending Admin collection |
 | Integrity® Police | ✅ Quote-Ready | 🔒 Disabled | `price_only` × 5 — GIDs pending Admin collection |
@@ -252,7 +260,7 @@ Both families are one index-update away from becoming quote-ready. No price book
 | `valor-configurator.json` | Valor® Police Light Bar | 8 | ✅ |
 | `reliant-s2-configurator.json` | Reliant® S2 Police Light Bar | 8 | ✅ |
 | `vision-slr-configurator.json` | Vision SLR Police Light Bar | 4 | ✅ |
-| `navigator-configurator.json` | Navigator® Serial | 0 Police SKUs | ⛔ HOLD — all 11 SKUs are Fire/NFPA, Municipal, or Tow |
+| `navigator-configurator.json` | Navigator® Serial (Fire/EMS) | 11 Fire/EMS SKUs | ✅ Reclassified to Fire/EMS 2026-06-30 — route: /fire/light-bars/navigator |
 | `allegiant-max-serial-configurator.json` | Allegiant® Max Serial Police | 9 | ✅ Quote-ready (resolved 2026-06-30) |
 | `integrity-configurator.json` | Integrity® Police Light Bar | 5 | ✅ Quote-ready (resolved 2026-06-30) |
 | `navigator-discrete-configurator.json` | Navigator Discrete (Fire/EMS) | — | Non-police |
