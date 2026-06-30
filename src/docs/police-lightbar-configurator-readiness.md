@@ -24,12 +24,40 @@ These families have a complete configurator JSON, price data from the Shopify ex
 
 ## 2. Held / Excluded Families
 
-### 2a. Configurator Built — Awaiting Index Prices
+### 2a. Configurator Built — Awaiting Index Entry
 
-| Family | Configurator ID | Police SKUs | Reason Held |
+Both families have confirmed prices in the Shopify CSV export. The prices were **never written into `shopify-variant-index.json`** — the index was not regenerated after these SKUs were identified. Commerce lookup returns `unmatched` for all 14 SKUs at runtime.
+
+| Family | Configurator ID | Police SKUs | CSV Price Range | Index Status | Reason Held |
+|---|---|---|---|---|---|
+| **Allegiant® Max Serial Police Light Bar** | `allegiant-max-serial-configurator` | 9 | $3,109 – $3,907 | `unmatched` × 9 | Prices confirmed in CSV (handles `allegiant-light-bar-45`, `allegiant-light-bar-53`) — not yet written to `shopify-variant-index.json`. |
+| **Integrity® Police Light Bar** | `integrity-configurator` | 5 | $4,410 – $5,584 | `unmatched` × 5 | Prices confirmed in CSV (handles `integrity-light-bar-44`, `integrity-light-bar-51`) — not yet written to `shopify-variant-index.json`. |
+
+**Verified CSV prices — Allegiant Max Serial:**
+
+| SKU | Handle | CSV Price | opt3 |
 |---|---|---|---|
-| **Allegiant® Max Serial Police Light Bar** | `allegiant-max-serial-configurator` | 9 | SKUs confirmed from Shopify export (`ALGT45JX-P*`, `ALGT53JX-P*`). Prices **not yet added to `shopify-variant-index.json`** — all 9 SKUs return `unmatched`. Add prices from CSV row data ($3,109–$3,907 per export) to unblock quote generation. |
-| **Integrity® Police Light Bar** | `integrity-configurator` | 5 | SKUs confirmed (`INTG44J-P*/INTG51J-P*`). Prices **not yet in index** — all 5 SKUs `unmatched`. Prices must be extracted from Police Price Book and added to index. |
+| ALGT45JX-P1LC | allegiant-light-bar-45 | $3,109 | Red-Blue-White |
+| ALGT45JX-P2LC | allegiant-light-bar-45 | $3,109 | Blue-White |
+| ALGT45JX-P3LC | allegiant-light-bar-45 | $3,624 | Red-Blue-White |
+| ALGT45JX-P4LC | allegiant-light-bar-45 | $3,624 | See Description ⚠ |
+| ALGT53JX-P1LC | allegiant-light-bar-53 | $3,392 | Red-Blue-White |
+| ALGT53JX-P2LC | allegiant-light-bar-53 | $3,392 | Blue-White |
+| ALGT53JX-P3LC | allegiant-light-bar-53 | $3,907 | Red-Blue-White |
+| ALGT53JX-P3LB | allegiant-light-bar-53 | $3,907 | Red-Blue-White |
+| ALGT53JX-P4LC | allegiant-light-bar-53 | $3,907 | See Description ⚠ |
+
+**Verified CSV prices — Integrity:**
+
+| SKU | Handle | CSV Price | opt3 |
+|---|---|---|---|
+| INTG44J-P2BL | integrity-light-bar-44 | $4,410 | Blue-White |
+| INTG44J-PF3L | integrity-light-bar-44 | $5,040 | Red-Blue-White |
+| INTG51J-P1BL | integrity-light-bar-51 | $4,797 | Red-Blue-White |
+| INTG51J-P2BL | integrity-light-bar-51 | $4,797 | Blue-White |
+| INTG51J-PF3L | integrity-light-bar-51 | $5,584 | Red-Blue-White |
+
+> ⚠ `INTG44J-P1BL` (1-Color 44″) is **absent from the CSV entirely** — no Shopify row exists for this SKU. It was correctly omitted from the Integrity configurator.
 
 ### 2b. No Shopify SKUs — Configurator Not Started
 
@@ -57,8 +85,8 @@ All prices are sourced exclusively from `shopify-variant-index.json`, which is g
 | Reliant® S2 Police | `price_only` × 8 | $2,204 (all 8 SKUs) |
 | Vision SLR Police | `price_only` × 4 | TBD (in index, amounts not re-verified here) |
 | Navigator® Serial | `price_only` × 11 | $3,450 – $5,210 |
-| Allegiant® Max Serial | `unmatched` × 9 | $3,109 – $3,907 (CSV source, not yet in index) |
-| Integrity® Police | `unmatched` × 5 | Unknown — Police Price Book required |
+| Allegiant® Max Serial | `unmatched` × 9 | $3,109 – $3,907 — confirmed in CSV, **not yet written to index** |
+| Integrity® Police | `unmatched` × 5 | $4,410 – $5,584 — confirmed in CSV, **not yet written to index** |
 
 **`price_only` status** means the price is resolvable from the index but the Shopify variant GID (GraphQL ID) is null — checkout is disabled, quote is enabled.  
 **`unmatched` status** means the SKU is not present in the index at all — both price and checkout are unavailable.
@@ -88,21 +116,17 @@ In Shopify Admin → Products → open each product → each variant row shows t
 | Reliant® S2 Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Vision SLR Police | ✅ Enabled | 🔒 Disabled | GIDs not collected |
 | Navigator® Serial | ✅ Enabled | 🔒 Disabled | GIDs not collected |
-| Allegiant® Max Serial | ❌ Blocked | 🔒 Disabled | SKUs not in `shopify-variant-index.json` |
-| Integrity® Police | ❌ Blocked | 🔒 Disabled | SKUs not in `shopify-variant-index.json` |
+| Allegiant® Max Serial | ❌ Blocked | 🔒 Disabled | Prices confirmed in CSV — not yet written to `shopify-variant-index.json` |
+| Integrity® Police | ❌ Blocked | 🔒 Disabled | Prices confirmed in CSV — not yet written to `shopify-variant-index.json` |
 
 ---
 
 ## 6. Remaining Blockers
 
-### Priority 1 — Unblock Allegiant® Max Serial (9 SKUs)
-- **Action:** Add `ALGT45JX-P1LC`, `ALGT45JX-P2LC`, `ALGT45JX-P3LC`, `ALGT45JX-P4LC`, `ALGT53JX-P1LC`, `ALGT53JX-P2LC`, `ALGT53JX-P3LC`, `ALGT53JX-P3LB`, `ALGT53JX-P4LC` to `shopify-variant-index.json` with prices from the Shopify CSV export.
-- **Risk:** `P4LC` SKUs are flagged `needs_verification` — their "See Description" color label in the export must be confirmed before presenting options.
-- **Effort:** Low — data is in hand from CSV export.
-
-### Priority 2 — Unblock Integrity® Police (5 SKUs)
-- **Action:** Obtain Police Price Book pricing for `INTG44J-P2BL`, `INTG44J-PF3L`, `INTG51J-P1BL`, `INTG51J-P2BL`, `INTG51J-PF3L`. Add to index.
-- **Effort:** Low once price book is received.
+### Priority 1 — Add Allegiant® Max Serial + Integrity® to Index (14 SKUs)
+- **Action:** Write all 14 confirmed SKUs into `shopify-variant-index.json` using prices sourced directly from the Shopify CSV export. No price book required — prices are already confirmed (see Section 2a tables).
+- **Risk:** `ALGT45JX-P4LC` and `ALGT53JX-P4LC` carry a "See Description" opt3 label — these are flagged `needs_verification` in the configurator and will display a caution badge. Prices ($3,624 / $3,907) are confirmed in CSV regardless.
+- **Effort:** Low — data is fully in hand. Both families become quote-ready immediately after index update.
 
 ### Priority 3 — Enable Checkout Across All Quote-Ready Families
 - **Action:** Collect Shopify Admin variant GIDs for all 31 indexed Police SKUs (Valor 8 + Reliant S2 8 + Vision SLR 4 + Navigator Serial 11). Set `shopifyVariantId` in the index.
@@ -132,6 +156,37 @@ In Shopify Admin → Products → open each product → each variant row shows t
 - Federal Signal sirens have well-structured SKU patterns (`SS2000SM`, `PA640`, `RM-2008`) and likely appear in the Shopify export alongside light bar products.
 
 **Suggested configurator approach:** Filter by siren type (electronic / mechanical), wattage, and controller compatibility. Cross-reference against each light bar family's recommended controller.
+
+---
+
+## 8. Contradiction Analysis — Earlier Report vs. Verified State
+
+### What the earlier readiness report stated (incorrectly)
+
+- **Integrity:** "Prices must be extracted from Police Price Book and added to index" — implied prices were unknown.
+- **Allegiant Max Serial:** Stated prices in range $3,109–$3,907 were from "CSV source" but also marked the index status as `unmatched` without flagging that the index simply hadn't been updated.
+
+### What the live commerce lookup actually returns
+
+All 14 SKUs — 9 Allegiant Max Serial + 5 Integrity — return `status: 'unmatched'` from `commerceLookupService` because **none of them exist as keys in `shopify-variant-index.json`**.
+
+### Root cause of the contradiction
+
+The earlier report was written by combining two data sources without verifying their reconciliation:
+
+1. **CSV audit** (raw Shopify export) — correctly identified prices for all 14 SKUs.
+2. **Index audit** (`shopify-variant-index.json`) — correctly reported `unmatched` at index lookup time.
+
+The error was treating the CSV prices as usable at runtime. **The `commerceLookupService` only reads `shopify-variant-index.json` — it never reads the CSV directly.** Prices visible in the CSV export are inert until they are explicitly written into the index file. The readiness report conflated "price exists in the original CSV" with "price is resolvable at runtime," which produced a misleading impression that these families were closer to quote-ready than they actually are.
+
+### Corrected status
+
+| Family | Runtime Status | CSV Price Available | Index Entry Exists | Action Required |
+|---|---|---|---|---|
+| Allegiant® Max Serial | `unmatched` × 9 | ✅ Yes | ❌ No | Write 9 SKUs into `shopify-variant-index.json` |
+| Integrity® | `unmatched` × 5 | ✅ Yes | ❌ No | Write 5 SKUs into `shopify-variant-index.json` |
+
+Both families are one index-update away from becoming quote-ready. No price book research is needed.
 
 ---
 
