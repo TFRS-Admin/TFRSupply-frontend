@@ -15,6 +15,7 @@
 import React, { useState } from 'react';
 import { FileDown, ExternalLink } from 'lucide-react';
 import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
+import { configuratorService } from '@/services/configurator';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -109,10 +110,7 @@ function DocumentationContent({ documentation = {} }) {
 }
 
 function ConfiguratorContent({ configuratorId, verticalId, categoryId }) {
-  // Eager-load all configurator JSONs — same pattern as ProductDetailTemplate
-  const configuratorModules = import.meta.glob('../../data/configurators/*.json', { eager: true });
-  const key = Object.keys(configuratorModules).find(k => k.endsWith(`/${configuratorId}.json`));
-  const configuratorData = key ? (configuratorModules[key]?.default ?? configuratorModules[key] ?? null) : null;
+  const configuratorData = configuratorService.getConfigurator(configuratorId);
   if (!configuratorData) return (
     <p style={{ ...FS, fontSize: 13, color: '#888' }}>Configurator data not found for: {configuratorId}</p>
   );

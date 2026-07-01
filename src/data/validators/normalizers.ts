@@ -1,4 +1,4 @@
-import type { Category, Configurator, ConfiguratorOption, ConfiguratorSection, Product, ProductDocumentationItem, ProductMediaAsset, ProductSpecificationValue, ProductTab, Vertical } from '@/types';
+import type { Category, Configurator, ConfiguratorAccessoryItem, ConfiguratorOption, ConfiguratorSection, ConfiguratorSkuOption, ConfiguratorStep, Product, ProductDocumentationItem, ProductMediaAsset, ProductSpecificationValue, ProductTab, Vertical } from '@/types';
 
 interface RawRecord {
   [key: string]: unknown;
@@ -375,6 +375,8 @@ function normalizeConfiguratorOption(rawOption: unknown, productId: string, sect
     id: asString(option.id, sku || `${sectionId}-option-${index + 1}`),
     label: asString(option.label, asString(option.description, sku || `${sectionId} option ${index + 1}`)),
     description: asString(option.description, undefined),
+    skuSegment: asString(option.skuSegment, undefined),
+    _verification: asString(option._verification, undefined),
     skuOption: sku ? {
       id: `${productId}-${sku}`,
       label: asString(option.description, sku),
@@ -384,12 +386,74 @@ function normalizeConfiguratorOption(rawOption: unknown, productId: string, sect
   };
 }
 
+function normalizeConfiguratorStep(rawStep: unknown, productId: string, sectionId: string, index: number): ConfiguratorStep {
+  const step = asRecord(rawStep);
+  const stepId = asString(step.id, `${sectionId}-step-${index + 1}`);
+  const rawOptions = Array.isArray(step.options) ? step.options : [];
+
+  return {
+    id: stepId,
+    label: asString(step.label, stepId),
+    description: asString(step.description, undefined),
+    required: typeof step.required === 'boolean' ? step.required : undefined,
+    skuSegmentKey: asString(step.skuSegmentKey, undefined),
+    _verification: asString(step._verification, undefined),
+    options: rawOptions.map((option, optionIndex) => normalizeConfiguratorOption(
+      option,
+      productId,
+      stepId,
+      optionIndex,
+    )),
+  };
+}
+
+function normalizeConfiguratorAccessoryItem(rawItem: unknown, index: number): ConfiguratorAccessoryItem {
+  const item = asRecord(rawItem);
+  const sku = asString(item.sku, undefined);
+
+  return {
+    id: asString(item.id, sku || `accessory-${index + 1}`),
+    label: asString(item.label, sku || `Accessory ${index + 1}`),
+    description: asString(item.description, undefined),
+    sku,
+    price: typeof item.price === 'number' ? item.price : undefined,
+    type: asString(item.type, undefined),
+    _note: asString(item._note, undefined),
+  };
+}
+
+function normalizeConfiguratorSkuOption(rawOption: unknown): ConfiguratorSkuOption | null {
+  const option = asRecord(rawOption);
+  const sku = asString(option.sku);
+
+  if (!sku) return null;
+
+  const attributes = asRecord(option.attributes);
+  const normalizedAttributes = Object.fromEntries(
+    Object.entries(attributes)
+      .filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
+  );
+
+  return {
+    sku,
+    description: asString(option.description, undefined),
+    price: typeof option.price === 'number' ? option.price : undefined,
+    attributes: normalizedAttributes,
+  };
+}
+
 export function normalizeConfigurator(rawValue: unknown): Configurator {
   const raw = asRecord(rawValue);
   const productId = asString(raw.productId);
   const rawSections = asRecord(raw.sections);
-  const sections: ConfiguratorSection[] = Object.entries(rawSections).map(([sectionId, sectionValue], sectionIndex) => {
+  const sectionEntries = Object.entries(rawSections).map(([sectionId, sectionValue], sectionIndex) => {
     const section = asRecord(sectionValue);
+    const steps = Array.isArray(section.steps)
+      ? section.steps.map((step, stepIndex) => normalizeConfiguratorStep(step, productId, sectionId, stepIndex))
+      : undefined;
+    const items = Array.isArray(section.items)
+      ? section.items.map((item, itemIndex) => normalizeConfiguratorAccessoryItem(item, itemIndex))
+      : undefined;
     const stepOptions = Array.isArray(section.steps)
       ? section.steps.flatMap((step, stepIndex) => {
         const stepRecord = asRecord(step);
@@ -412,8 +476,27 @@ export function normalizeConfigurator(rawValue: unknown): Configurator {
       description: asString(section.description, undefined),
       sortOrder: sectionIndex + 1,
       options: [...skuOptions, ...stepOptions],
+      steps,
+      items,
     };
   });
+  const sections: ConfiguratorSection[] = sectionEntries;
+  const sectionMap = Object.fromEntries(sectionEntries.map((section) => [section.id, section]));
+  const normalizedSkuOptions = Array.isArray(raw.skuOptions)
+    ? raw.skuOptions
+      .map(normalizeConfiguratorSkuOption)
+      .filter((option): option is ConfiguratorSkuOption => option !== null)
+    : undefined;
+  const vehicleRules = Array.isArray(raw.vehicleRules)
+    ? raw.vehicleRules.map((rule) => {
+      const record = asRecord(rule);
+      return {
+        vehicleId: asString(record.vehicleId, undefined),
+        displayName: asString(record.displayName, undefined),
+        recommendedLength: asString(record.recommendedLength, undefined),
+      };
+    })
+    : undefined;
 
   return {
     id: asString(raw.id),
@@ -422,5 +505,10 @@ export function normalizeConfigurator(rawValue: unknown): Configurator {
     productId,
     verticalIds: [],
     sections,
+    sectionMap,
+    skuOptions: normalizedSkuOptions,
+    vehicleRules,
+    productFamily: asString(raw.productFamily, undefined),
+    priceDisplay: asString(raw.priceDisplay, undefined),
   };
 }

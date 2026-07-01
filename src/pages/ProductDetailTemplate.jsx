@@ -9,6 +9,7 @@ import NotFound from '@/components/templates/NotFound';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import ProductTabs from '@/components/product/ProductTabs';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
+import { configuratorService } from '@/services/configurator';
 
 import { ChevronRight, ExternalLink, FileDown, Phone, Settings, Clock } from 'lucide-react';
 
@@ -137,16 +138,8 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
   );
 }
 
-// Dynamic loader for configurator JSON files — mirrors ConfigurationContext
-const configuratorModules = import.meta.glob('../data/configurators/*.json', { eager: true });
-function loadConfigurator(configuratorId) {
-  const key = Object.keys(configuratorModules).find(k => k.endsWith(`/${configuratorId}.json`));
-  if (!key) return null;
-  return configuratorModules[key]?.default ?? configuratorModules[key] ?? null;
-}
-
 function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
-  const configuratorData = loadConfigurator(configuratorId);
+  const configuratorData = configuratorService.getConfigurator(configuratorId);
   if (!configuratorData) return null;
 
   return (

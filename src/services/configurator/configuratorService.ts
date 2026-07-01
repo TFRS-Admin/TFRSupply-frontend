@@ -1,15 +1,20 @@
 import type { Configurator } from '@/types';
+ { Configurator } from '@/types';
+import {
+  listTypedConfigurators,
+  loadTypedConfigurator,
+} from '@/data/loaders';
 
 export interface ConfiguratorService {
-  getConfigurator(configuratorId: string): Promise<Configurator | null>;
-  listConfigurators(): Promise<Configurator[]>;
+  getConfigurator(configuratorId: string): Configurator | null;
+  listConfigurators(): Configurator[];
 }
 
 export const configuratorService: ConfiguratorService = {
-  async getConfigurator(): Promise<Configurator | null> {
-    throw new Error('Not implemented');
+  getConfigurator(configuratorId: string): Configurator | null {
+    return loadTypedConfigurator(configuratorId);
   },
-  async listConfigurators(): Promise<Configurator[]> {
-    throw new Error('Not implemented');
+  listConfigurators(): Configurator[] {
+    return listTypedConfigurators();
   },
 };
