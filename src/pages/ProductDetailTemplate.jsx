@@ -11,7 +11,7 @@ import ProductTabs from '@/components/product/ProductTabs';
 import ProductHero from '@/components/product/ProductHero';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
-import { configuratorService } from '@/services/configurator';
+import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
 import { Clock, Phone } from 'lucide-react';
 
@@ -71,7 +71,7 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
 }
 
 function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
-  const configuratorData = configuratorService.getConfigurator(configuratorId);
+  const { data: configuratorData } = useConfiguratorData(configuratorId);
   if (!configuratorData) return null;
 
   return (

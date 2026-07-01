@@ -3,7 +3,7 @@ import { NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-react';
 import ShopifyReadinessPanel from '@/components/navigator/ShopifyReadinessPanel';
 import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
-import navigatorConfigurator from '@/data/configurators/navigator-configurator.json';
+import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
 const TABS = [
   { id: 'features',    label: 'Features' },
@@ -398,6 +398,7 @@ function MediaTab() {
 // ── Main Tabs Component ───────────────────────────────────────────────────────
 export default function NavigatorTabs({ defaultTab, productData }) {
   const [activeTab, setActiveTab] = useState(defaultTab || 'features');
+  const { data: navigatorConfigurator } = useConfiguratorData('navigator-configurator');
 
   const renderContent = () => {
     switch (activeTab) {
@@ -405,13 +406,13 @@ export default function NavigatorTabs({ defaultTab, productData }) {
       case 'choose':      return <ChooseModelTab />;
       case 'media':       return <MediaTab />;
       case 'accessories': return <AccessoriesTab />;
-      case 'configure':   return (
+      case 'configure':   return navigatorConfigurator ? (
         <ConfiguratorModule
           configuratorData={navigatorConfigurator}
           verticalId="police"
           categoryId="light-bars"
         />
-      );
+      ) : null;
       default: return null;
     }
   };
