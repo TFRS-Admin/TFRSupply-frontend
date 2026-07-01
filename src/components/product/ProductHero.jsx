@@ -4,8 +4,9 @@ import { ChevronLeft, ChevronRight, MapPin, MessageSquare, Settings, BookOpen } 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 // ── Image Gallery ─────────────────────────────────────────────────────────────
-function ImageGallery({ images }) {
+function ImageGallery({ images = [] }) {
   const [active, setActive] = useState(0);
+  if (!images.length) return null;
   const prev = () => setActive(i => (i - 1 + images.length) % images.length);
   const next = () => setActive(i => (i + 1) % images.length);
 
@@ -48,8 +49,9 @@ function ImageGallery({ images }) {
 }
 
 // ── Product Hero ──────────────────────────────────────────────────────────────
-export default function ProductHero({ title, bullets = [], images = [], actions = {}, tabs = [] }) {
+export default function ProductHero({ title, subtitle, bullets = [], images = [], actions = {}, tabs = [], actionLabels = {} }) {
   const { whereToBuyUrl = '#', requestInfoUrl = '#', configuratorUrl = '#', manualUrl = '#' } = actions;
+  const { configurator = 'Configure\nLightbar', manual = 'Manual' } = actionLabels;
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-8 pb-10">
@@ -65,6 +67,8 @@ export default function ProductHero({ title, bullets = [], images = [], actions 
 
         {/* Right — 40% */}
         <div style={{ flex: '0 0 40%', maxWidth: '40%' }}>
+          {subtitle && <p style={{ ...FS, fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1.25rem' }}>{subtitle}</p>}
+
           {/* Bullets */}
           <ul style={{ ...FS, listStyle: 'disc', paddingLeft: '1.2rem', marginBottom: '1.5rem' }}>
             {bullets.map((b, i) => (
@@ -89,8 +93,8 @@ export default function ProductHero({ title, bullets = [], images = [], actions 
           {/* Icon-above-label secondary links */}
           <div style={{ display: 'flex', gap: '1.5rem', paddingTop: '1rem', borderTop: '1px solid #e5e5e5', marginBottom: '1.5rem' }}>
             {[
-              { href: configuratorUrl, icon: <Settings size={26} />, label: 'Configure\nLightbar' },
-              { href: manualUrl, icon: <BookOpen size={26} />, label: 'Manual' },
+              { href: configuratorUrl, icon: <Settings size={26} />, label: configurator },
+              { href: manualUrl, icon: <BookOpen size={26} />, label: manual },
             ].map(({ href, icon, label }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="group"
                 style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textAlign: 'center' }}
