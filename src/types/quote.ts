@@ -1,7 +1,7 @@
 import type { BaseEntity, Metadata, Money } from './common';
-import type { Price } from './commerce';
-import type { PackageAssemblyResult, PackageDefinition } from './package';
-import type { QuotePricingResult, PricingSubject } from './pricing';
+import type { CommerceLookupResult, Price, ShopifyProduct, VariantMapping } from './commerce';
+import type { PackageAssemblyInput, PackageAssemblyResult, PackageDefinition } from './package';
+import type { PricingContext, PricingResolution, QuotePricingResult, PricingSubject } from './pricing';
 import type { Vehicle } from './vehicle';
 
 export type QuoteReviewFlagSeverity = 'info' | 'warning' | 'error' | 'review-required';
@@ -134,6 +134,41 @@ export interface QuoteAssemblyResult {
 
 export interface QuoteValidationResult {
   valid: boolean;
+  reviewFlags: ReviewFlag[];
+}
+
+export interface QuotePipelinePackageInput extends PackageAssemblyInput {
+  packageId: string;
+}
+
+export interface QuotePipelineLineInput extends QuoteLineAssemblyInput {
+  configuratorId?: string;
+}
+
+export interface QuotePipelineInput {
+  draftId?: string;
+  customer: QuoteCustomerMetadata;
+  verticalId?: string;
+  vehicle?: Vehicle;
+  lines: QuotePipelineLineInput[];
+  packages?: QuotePipelinePackageInput[];
+  pricingContext: PricingContext;
+  metadata?: Metadata;
+}
+
+export interface QuotePipelineCommerceReference {
+  sku?: string;
+  productId?: string;
+  productLookup?: CommerceLookupResult<ShopifyProduct>;
+  variantMappingLookup?: CommerceLookupResult<VariantMapping>;
+}
+
+export interface QuotePipelineResult {
+  status: 'assembled' | 'pending' | 'invalid' | 'unavailable';
+  quote: QuoteAssemblyResult;
+  packageReferences: QuotePackageReference[];
+  pricing: PricingResolution<QuotePricingResult>;
+  commerceReferences: QuotePipelineCommerceReference[];
   reviewFlags: ReviewFlag[];
 }
 

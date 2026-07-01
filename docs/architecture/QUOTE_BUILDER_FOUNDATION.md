@@ -51,3 +51,34 @@ This foundation does not implement pricing calculations, checkout, Shopify integ
 ## Rollback
 
 Because this work is additive and unwired, rollback is a code revert of the quote-builder type, schema, adapter, service, hook, and documentation additions. Existing configurator, quote request, admin quote, pricing, commerce, checkout, and package builder paths remain unchanged.
+
+## Issue 23 Quote Pipeline Orchestration
+
+The Quote Pipeline adds an additive `QuotePipelineService` boundary that composes the existing catalog, configurator, package builder, pricing, commerce, vehicle fitment, and quote builder services without wiring any React route, component, checkout flow, email delivery, PDF generation, or Shopify API call.
+
+### Ownership
+
+- `src/types/quote.ts` owns the typed quote pipeline input, line, package, commerce-reference, and result contracts.
+- `src/schemas/quote.schema.ts` owns Zod validation for pipeline inputs, composed commerce references, and pipeline results.
+- `src/services/quotePipeline/quotePipelineService.ts` owns orchestration only: it validates input, checks vehicle fitment before package assembly, delegates package assembly, delegates pricing resolution, gathers commerce/catalog/configurator references, and hands the composed draft input to Quote Builder.
+
+### Dependency Direction
+
+```text
+future React quote hooks → quotePipelineService
+                         ├─ catalogService
+                         ├─ configuratorService
+                         ├─ vehicleFitmentService
+                         ├─ packageBuilderService
+                         ├─ pricingService
+                         ├─ commerceService
+                         └─ quoteBuilderService
+                                  ↓
+                         quote pipeline schemas / quote types
+```
+
+The pipeline is intentionally service composition only. It does not calculate prices, duplicate fitment rules, build package business logic, persist drafts directly, mutate commerce state, call Shopify APIs, perform checkout, send email, generate PDFs, change routing, or change visible UI.
+
+### Runtime Boundary
+
+The exported default pipeline uses the existing unavailable or typed-foundation adapters beneath each domain service. As a result, existing runtime behavior remains unchanged until a later issue explicitly migrates UI or API consumers to this service and replaces unavailable adapters with approved providers.
