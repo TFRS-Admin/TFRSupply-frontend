@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { loadProduct, loadCategory } from '@/lib/dataLoader';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
@@ -9,6 +8,7 @@ import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import ProductTabs from '@/components/product/ProductTabs';
+import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
 
 import { ChevronRight, ExternalLink, FileDown, Phone, Settings, Clock } from 'lucide-react';
 
@@ -165,18 +165,28 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
   );
 }
 
-export default function ProductDetailTemplate() {
-  const { verticalId, categoryId, productId } = useParams();
-  const data = loadProduct(productId);
+export function ProductDetailTemplateView({
+  verticalId,
+  categoryId,
+  productId,
+  product,
+  productLoading,
+  productError,
+  category,
+  categoryLoading,
+  categoryError,
+}) {
+  if (productLoading || (!product && categoryLoading)) return null;
+  if (productError) throw productError;
 
-  if (!data) {
-    // Check if product exists in category JSON as a stub
-    const categoryData = loadCategory(categoryId);
-    const stub = categoryData?.products?.find(p => p.id === productId);
+  if (!product) {
+    if (categoryError) throw categoryError;
+    const stub = category?.products?.find(p => p.id === productId);
     if (stub) return <ProductComingSoon product={stub} verticalId={verticalId} categoryId={categoryId} />;
     return <NotFound type="product" backTo={`/${verticalId}/${categoryId}`} backLabel="Return to Category" />;
   }
 
+  const data = product;
   const { title, subtitle, breadcrumbs, media, marketing, commerce, cta } = data;
 
   return (
@@ -253,5 +263,25 @@ export default function ProductDetailTemplate() {
       <DebugToggle />
       <DebugPanel />
     </div>
+  );
+}
+
+export default function ProductDetailTemplate() {
+  const { verticalId, categoryId, productId } = useParams();
+  const productState = useCatalogProduct(productId);
+  const categoryState = useCatalogCategory(categoryId);
+
+  return (
+    <ProductDetailTemplateView
+      verticalId={verticalId}
+      categoryId={categoryId}
+      productId={productId}
+      product={productState.data}
+      productLoading={productState.loading}
+      productError={productState.error}
+      category={categoryState.data}
+      categoryLoading={categoryState.loading}
+      categoryError={categoryState.error}
+    />
   );
 }

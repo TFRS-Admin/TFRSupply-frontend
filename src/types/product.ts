@@ -108,6 +108,8 @@ export interface Feature extends BaseEntity {
   sortOrder?: number;
 }
 
+export type ProductSpecificationValue = string | number | boolean | string[] | number[] | boolean[];
+
 export interface Specification {
   id: string;
   label: string;
@@ -117,6 +119,72 @@ export interface Specification {
   sortOrder?: number;
 }
 
+export interface ProductMediaAsset {
+  src: string;
+  alt?: string;
+}
+
+export interface ProductMedia {
+  hero?: string;
+  gallery?: ProductMediaAsset[];
+  videos?: string[];
+}
+
+export interface ProductMarketing {
+  features?: string[];
+  benefits?: string[];
+  applications?: string[];
+}
+
+export interface ProductDocumentationItem {
+  label: string;
+  url?: string;
+  type?: string;
+  [key: string]: string | undefined;
+}
+
+export interface ProductDocumentation {
+  manuals?: ProductDocumentationItem[];
+  brochures?: ProductDocumentationItem[];
+  cad_files?: ProductDocumentationItem[];
+  certifications?: ProductDocumentationItem[];
+}
+
+export interface ProductCommerceAccessory {
+  sku?: string;
+  label?: string;
+  price?: number;
+}
+
+export interface ProductSkuRow {
+  sku?: string;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+export interface ProductCommerce {
+  sku_root?: string;
+  msrp_display?: string;
+  availability?: string;
+  price_display?: string;
+  accessories?: ProductCommerceAccessory[];
+  related_products?: string[];
+  sku_table?: ProductSkuRow[];
+  [key: string]: unknown;
+}
+
+export interface ProductCTA {
+  where_to_buy_url?: string;
+  request_info_url?: string;
+  configurator_url?: string;
+  manual_url?: string;
+}
+
+export interface ProductTab {
+  id: string;
+  label: string;
+  content_type: string;
+}
+
 export interface Product extends BaseEntity {
   slug: string;
   sku?: string;
@@ -124,9 +192,25 @@ export interface Product extends BaseEntity {
   verticalIds: string[];
   categoryIds: string[];
   features?: Feature[];
-  specifications?: Specification[];
+  specifications?: Record<string, ProductSpecificationValue>;
   dimensions?: Dimensions;
   images?: ImageAsset[];
   documentIds?: string[];
   metadata?: Metadata;
+
+  title?: string;
+  subtitle?: string;
+  vendor?: string;
+  category?: string;
+  verticals?: string[];
+  product_family?: string;
+  tabs_component?: string;
+  tabs?: ProductTab[];
+  breadcrumbs?: CategoryBreadcrumb[];
+  media?: ProductMedia;
+  marketing?: ProductMarketing;
+  documentation?: ProductDocumentation;
+  commerce?: ProductCommerce;
+  cta?: ProductCTA;
+  configuratorId?: string;
 }

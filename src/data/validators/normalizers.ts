@@ -1,4 +1,4 @@
-import type { Category, Configurator, ConfiguratorOption, ConfiguratorSection, Product, Specification, Vertical } from '@/types';
+import type { Category, Configurator, ConfiguratorOption, ConfiguratorSection, Product, ProductDocumentationItem, ProductMediaAsset, ProductSpecificationValue, ProductTab, Vertical } from '@/types';
 
 interface RawRecord {
   [key: string]: unknown;
@@ -16,8 +16,121 @@ function asStringArray(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
 }
 
+function asOptionalStringArray(value: unknown): string[] | undefined {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : undefined;
+}
+
 function titleFromRaw(raw: RawRecord): string {
   return asString(raw.title, asString(raw.label, asString(raw.id)));
+}
+
+function normalizeProductSpecificationValue(value: unknown): ProductSpecificationValue | undefined {
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    if (value.every((item) => typeof item === 'string')) return value;
+    if (value.every((item) => typeof item === 'number')) return value;
+    if (value.every((item) => typeof item === 'boolean')) return value;
+  }
+
+  return undefined;
+}
+
+function normalizeProductSpecifications(value: unknown): Record<string, ProductSpecificationValue> | undefined {
+  const record = asRecord(value);
+  const entries = Object.entries(record)
+    .map(([key, specificationValue]) => [key, normalizeProductSpecificationValue(specificationValue)] as const)
+    .filter((entry): entry is readonly [string, ProductSpecificationValue] => entry[1] !== undefined);
+
+  return entries.length > 0 ? Object.fromEntries(entries) : undefined;
+}
+
+function normalizeProductMediaAsset(value: unknown): ProductMediaAsset | null {
+  const record = asRecord(value);
+  const src = asString(record.src);
+
+  if (!src) return null;
+
+  return {
+    src,
+    alt: asString(record.alt, undefined),
+  };
+}
+
+function normalizeProductDocumentationItem(value: unknown): ProductDocumentationItem | null {
+  const record = asRecord(value);
+  const label = asString(record.label);
+
+  if (!label) return null;
+
+  return {
+    label,
+    url: asString(record.url, undefined),
+    type: asString(record.type, undefined),
+  };
+}
+
+function normalizeProductDocumentationItems(value: unknown): ProductDocumentationItem[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+
+  const items = value
+    .map(normalizeProductDocumentationItem)
+    .filter((item): item is ProductDocumentationItem => item !== null);
+
+  return items.length > 0 ? items : undefined;
+}
+
+function normalizeProductTabs(value: unknown): ProductTab[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+
+  const tabs = value.map((item) => {
+    const record = asRecord(item);
+    return {
+      id: asString(record.id),
+      label: asString(record.label),
+      content_type: asString(record.content_type),
+    };
+  }).filter((tab) => tab.id && tab.label && tab.content_type);
+
+  return tabs.length > 0 ? tabs : undefined;
+}
+
+function normalizeProductSkuTable(value: unknown) {
+  if (!Array.isArray(value)) return undefined;
+
+  return value.map((item) => {
+    const record = asRecord(item);
+    const normalized: Record<string, string | number | boolean | null | undefined> = {};
+
+    Object.entries(record).forEach(([key, recordValue]) => {
+      if (
+        typeof recordValue === 'string'
+        || typeof recordValue === 'number'
+        || typeof recordValue === 'boolean'
+        || recordValue === null
+        || recordValue === undefined
+      ) {
+        normalized[key] = recordValue as string | number | boolean | null | undefined;
+      }
+    });
+
+    return normalized;
+  });
+}
+
+function normalizeProductAccessories(value: unknown) {
+  if (!Array.isArray(value)) return undefined;
+
+  return value.map((item) => {
+    const record = asRecord(item);
+    return {
+      sku: asString(record.sku, undefined),
+      label: asString(record.label, undefined),
+      price: typeof record.price === 'number' ? record.price : undefined,
+    };
+  });
 }
 
 
@@ -96,38 +209,84 @@ export function normalizeProduct(rawValue: unknown): Product {
   const raw = asRecord(rawValue);
   const media = asRecord(raw.media);
   const marketing = asRecord(raw.marketing);
-  const specifications = asRecord(raw.specifications);
+  const documentation = asRecord(raw.documentation);
+  const commerce = asRecord(raw.commerce);
   const gallery = Array.isArray(media.gallery) ? media.gallery : [];
+  const normalizedGallery = gallery
+    .map(normalizeProductMediaAsset)
+    .filter((item): item is ProductMediaAsset => item !== null);
   const features = asStringArray(marketing.features).map((feature, index) => ({
     id: `${asString(raw.id, 'product')}-feature-${index + 1}`,
     label: feature,
     sortOrder: index + 1,
   }));
-  const specificationEntries: Specification[] = Object.entries(specifications).map(([key, value]) => ({
-    id: key,
-    label: key,
-    value: Array.isArray(value) ? value.join(', ') : typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' ? value : String(value),
-  }));
+  const normalizedSpecifications = normalizeProductSpecifications(raw.specifications);
 
   return {
     id: asString(raw.id),
     label: titleFromRaw(raw),
     description: asString(raw.description, undefined),
     slug: asString(raw.slug, asString(raw.id)),
-    sku: asString(asRecord(raw.commerce).sku_root, undefined),
+    sku: asString(commerce.sku_root, undefined),
     familyId: asString(raw.product_family, undefined),
     verticalIds: asStringArray(raw.verticals),
     categoryIds: asString(raw.category) ? [asString(raw.category)] : [],
     features,
-    specifications: specificationEntries,
-    images: gallery.map((item, index) => {
-      const image = asRecord(item);
+    specifications: normalizedSpecifications,
+    images: normalizedGallery.map((image, index) => {
       return {
         id: `${asString(raw.id, 'product')}-image-${index + 1}`,
-        src: asString(image.src, asString(media.hero)),
+        src: image.src || asString(media.hero),
         alt: asString(image.alt, titleFromRaw(raw)),
       };
     }),
+    title: titleFromRaw(raw),
+    subtitle: asString(raw.subtitle, undefined),
+    vendor: asString(raw.vendor, undefined),
+    category: asString(raw.category, undefined),
+    verticals: asStringArray(raw.verticals),
+    product_family: asString(raw.product_family, undefined),
+    tabs_component: asString(raw.tabs_component, undefined),
+    tabs: normalizeProductTabs(raw.tabs),
+    breadcrumbs: Array.isArray(raw.breadcrumbs) ? raw.breadcrumbs.map((crumb) => {
+      const crumbRecord = asRecord(crumb);
+      return {
+        label: asString(crumbRecord.label),
+        to: asString(crumbRecord.to, undefined),
+      };
+    }) : undefined,
+    media: Object.keys(media).length > 0 ? {
+      hero: asString(media.hero, undefined),
+      gallery: normalizedGallery,
+      videos: asOptionalStringArray(media.videos),
+    } : undefined,
+    marketing: Object.keys(marketing).length > 0 ? {
+      features: asOptionalStringArray(marketing.features),
+      benefits: asOptionalStringArray(marketing.benefits),
+      applications: asOptionalStringArray(marketing.applications),
+    } : undefined,
+    documentation: Object.keys(documentation).length > 0 ? {
+      manuals: normalizeProductDocumentationItems(documentation.manuals),
+      brochures: normalizeProductDocumentationItems(documentation.brochures),
+      cad_files: normalizeProductDocumentationItems(documentation.cad_files),
+      certifications: normalizeProductDocumentationItems(documentation.certifications),
+    } : undefined,
+    commerce: Object.keys(commerce).length > 0 ? {
+      sku_root: asString(commerce.sku_root, undefined),
+      msrp_display: asString(commerce.msrp_display, undefined),
+      availability: asString(commerce.availability, undefined),
+      price_display: asString(commerce.price_display, undefined),
+      accessories: normalizeProductAccessories(commerce.accessories),
+      related_products: asOptionalStringArray(commerce.related_products),
+      sku_table: normalizeProductSkuTable(commerce.sku_table),
+    } : undefined,
+    cta: Object.keys(asRecord(raw.cta)).length > 0 ? {
+      where_to_buy_url: asString(asRecord(raw.cta).where_to_buy_url, undefined),
+      request_info_url: asString(asRecord(raw.cta).request_info_url, undefined),
+      configurator_url: asString(asRecord(raw.cta).configurator_url, undefined),
+      manual_url: asString(asRecord(raw.cta).manual_url, undefined),
+    } : undefined,
+    configuratorId: asString(raw.configuratorId, undefined),
   };
 }
 

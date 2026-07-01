@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductFamily, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
+import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductDocumentation, ProductDocumentationItem, ProductFamily, ProductMedia, ProductMediaAsset, ProductTab, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
 import { baseEntityObjectSchema, dimensionsSchema, imageAssetSchema, metadataSchema } from './common.schema';
 
 
@@ -118,6 +118,51 @@ export const specificationSchema = z.object({
   sortOrder: z.number().optional(),
 }) as z.ZodType<Specification>;
 
+const productSpecificationValueSchema = z.union([
+  z.string(),
+  z.number(),
+  z.boolean(),
+  z.array(z.string()),
+  z.array(z.number()),
+  z.array(z.boolean()),
+]);
+
+export const productMediaAssetSchema = z.object({
+  src: z.string(),
+  alt: z.string().optional(),
+}) as z.ZodType<ProductMediaAsset>;
+
+export const productMediaSchema = z.object({
+  hero: z.string().optional(),
+  gallery: z.array(productMediaAssetSchema).optional(),
+  videos: z.array(z.string()).optional(),
+}) as z.ZodType<ProductMedia>;
+
+export const productMarketingSchema = z.object({
+  features: z.array(z.string()).optional(),
+  benefits: z.array(z.string()).optional(),
+  applications: z.array(z.string()).optional(),
+});
+
+export const productDocumentationItemSchema = z.object({
+  label: z.string(),
+  url: z.string().optional(),
+  type: z.string().optional(),
+}).catchall(z.string().optional()) as z.ZodType<ProductDocumentationItem>;
+
+export const productDocumentationSchema = z.object({
+  manuals: z.array(productDocumentationItemSchema).optional(),
+  brochures: z.array(productDocumentationItemSchema).optional(),
+  cad_files: z.array(productDocumentationItemSchema).optional(),
+  certifications: z.array(productDocumentationItemSchema).optional(),
+}) as z.ZodType<ProductDocumentation>;
+
+export const productTabSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  content_type: z.string(),
+}) as z.ZodType<ProductTab>;
+
 export const productSchema = baseEntityObjectSchema.extend({
   slug: z.string(),
   sku: z.string().optional(),
@@ -125,9 +170,41 @@ export const productSchema = baseEntityObjectSchema.extend({
   verticalIds: z.array(z.string()),
   categoryIds: z.array(z.string()),
   features: z.array(featureSchema).optional(),
-  specifications: z.array(specificationSchema).optional(),
+  specifications: z.record(productSpecificationValueSchema).optional(),
   dimensions: dimensionsSchema.optional(),
   images: z.array(imageAssetSchema).optional(),
   documentIds: z.array(z.string()).optional(),
   metadata: metadataSchema.optional(),
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  vendor: z.string().optional(),
+  category: z.string().optional(),
+  verticals: z.array(z.string()).optional(),
+  product_family: z.string().optional(),
+  tabs_component: z.string().optional(),
+  tabs: z.array(productTabSchema).optional(),
+  breadcrumbs: z.array(categoryBreadcrumbSchema).optional(),
+  media: productMediaSchema.optional(),
+  marketing: productMarketingSchema.optional(),
+  documentation: productDocumentationSchema.optional(),
+  commerce: z.object({
+    sku_root: z.string().optional(),
+    msrp_display: z.string().optional(),
+    availability: z.string().optional(),
+    price_display: z.string().optional(),
+    accessories: z.array(z.object({
+      sku: z.string().optional(),
+      label: z.string().optional(),
+      price: z.number().optional(),
+    })).optional(),
+    related_products: z.array(z.string()).optional(),
+    sku_table: z.array(z.record(z.union([z.string(), z.number(), z.boolean(), z.null(), z.undefined()]))).optional(),
+  }).catchall(z.unknown()).optional(),
+  cta: z.object({
+    where_to_buy_url: z.string().optional(),
+    request_info_url: z.string().optional(),
+    configurator_url: z.string().optional(),
+    manual_url: z.string().optional(),
+  }).optional(),
+  configuratorId: z.string().optional(),
 }) as z.ZodType<Product>;
