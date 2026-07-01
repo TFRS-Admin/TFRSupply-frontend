@@ -82,6 +82,20 @@ function normalizeProductDocumentationItems(value: unknown): ProductDocumentatio
   return items.length > 0 ? items : undefined;
 }
 
+function normalizeProductHeroTabLinks(value: unknown) {
+  if (!Array.isArray(value)) return undefined;
+
+  const links = value.map((item) => {
+    const record = asRecord(item);
+    return {
+      label: asString(record.label),
+      href: asString(record.href),
+    };
+  }).filter((link) => link.label && link.href);
+
+  return links.length > 0 ? links : undefined;
+}
+
 function normalizeProductTabs(value: unknown): ProductTab[] | undefined {
   if (!Array.isArray(value)) return undefined;
 
@@ -286,6 +300,20 @@ export function normalizeProduct(rawValue: unknown): Product {
       configurator_url: asString(asRecord(raw.cta).configurator_url, undefined),
       manual_url: asString(asRecord(raw.cta).manual_url, undefined),
     } : undefined,
+    summary_bullets: asOptionalStringArray(raw.summary_bullets),
+    actions: Object.keys(asRecord(raw.actions)).length > 0 ? {
+      whereToBuyUrl: asString(asRecord(raw.actions).whereToBuyUrl, undefined),
+      requestInfoUrl: asString(asRecord(raw.actions).requestInfoUrl, undefined),
+      configuratorUrl: asString(asRecord(raw.actions).configuratorUrl, undefined),
+      manualUrl: asString(asRecord(raw.actions).manualUrl, undefined),
+    } : Object.keys(asRecord(raw.cta)).length > 0 ? {
+      whereToBuyUrl: asString(asRecord(raw.cta).where_to_buy_url, undefined),
+      requestInfoUrl: asString(asRecord(raw.cta).request_info_url, undefined),
+      configuratorUrl: asString(asRecord(raw.cta).configurator_url, undefined),
+      manualUrl: asString(asRecord(raw.cta).manual_url, undefined),
+    } : undefined,
+    hero_tabs: normalizeProductHeroTabLinks(raw.hero_tabs),
+    shopify: Object.keys(asRecord(raw.shopify)).length > 0 ? asRecord(raw.shopify) : undefined,
     configuratorId: asString(raw.configuratorId, undefined),
   };
 }

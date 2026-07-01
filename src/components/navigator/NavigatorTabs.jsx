@@ -3,7 +3,6 @@ import { NAVIGATOR_SKUS, NAVIGATOR_UPSELLS } from '@/data/navigatorData';
 import { CheckCircle, AlertTriangle, ExternalLink, PlayCircle } from 'lucide-react';
 import ShopifyReadinessPanel from '@/components/navigator/ShopifyReadinessPanel';
 import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
-import navigatorProduct from '@/data/products/navigator.json';
 import navigatorConfigurator from '@/data/configurators/navigator-configurator.json';
 
 const TABS = [
@@ -397,7 +396,7 @@ function MediaTab() {
 }
 
 // ── Main Tabs Component ───────────────────────────────────────────────────────
-export default function NavigatorTabs({ defaultTab }) {
+export default function NavigatorTabs({ defaultTab, productData }) {
   const [activeTab, setActiveTab] = useState(defaultTab || 'features');
 
   const renderContent = () => {
@@ -445,7 +444,7 @@ export default function NavigatorTabs({ defaultTab }) {
         {activeTab !== 'configure' && (
           <div className="mt-4 px-2">
             <ShopifyReadinessPanel
-              productData={navigatorProduct}
+              productData={productData}
               configuratorData={navigatorConfigurator}
             />
           </div>

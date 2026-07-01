@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, MapPin, Menu, X, Home, ChevronDown, Truck } from 'lucide-react';
-import { loadVertical } from '@/lib/dataLoader';
+import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 
@@ -29,8 +29,8 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const verticalId = pathSegments[0] || activeVerticalProp;
   const urlCategoryId = pathSegments[1] || null;
 
-  // Load categories from JSON — falls back to empty array if vertical not found
-  const verticalData = loadVertical(verticalId);
+  // Load categories through the catalog hook — falls back to empty array if vertical not found
+  const { data: verticalData } = useCatalogVertical(verticalId);
   const categories = verticalData?.categories_section?.items || [];
 
   return (
