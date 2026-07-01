@@ -563,9 +563,10 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   const [selectedSkuId, setSelectedSkuId]       = useState(null);
 
   const {
-    sections, skuOptions = [], vehicleRules = [],
+    sectionMap, skuOptions = [], vehicleRules = [],
     productFamily, id: configuratorId
   } = configuratorData;
+  const sections = sectionMap ?? configuratorData.sections ?? {};
 
   // Commerce lookup — runs once per configurator load, keyed by SKU
   const commerceData = useMemo(

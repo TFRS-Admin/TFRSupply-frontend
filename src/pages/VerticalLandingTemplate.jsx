@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { loadVertical } from '@/lib/dataLoader';
+import { useCatalogVertical } from '@/hooks/useCatalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
@@ -18,10 +18,9 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 const ICON_MAP = { Phone, FileDown, Settings, Shield };
 
-export default function VerticalLandingTemplate() {
-  const { verticalId } = useParams();
-  const data = loadVertical(verticalId);
-
+export function VerticalLandingTemplateView({ verticalId, data, loading, error }) {
+  if (error) throw error;
+  if (loading) return null;
   if (!data) return <NotFound type="vertical" backTo="/" backLabel="Return Home" />;
 
   const {
@@ -177,5 +176,18 @@ export default function VerticalLandingTemplate() {
       <DebugToggle />
       <DebugPanel />
     </div>
+  );
+}
+export default function VerticalLandingTemplate() {
+  const { verticalId } = useParams();
+  const { data, loading, error } = useCatalogVertical(verticalId);
+
+  return (
+    <VerticalLandingTemplateView
+      verticalId={verticalId}
+      data={data}
+      loading={loading}
+      error={error}
+    />
   );
 }
