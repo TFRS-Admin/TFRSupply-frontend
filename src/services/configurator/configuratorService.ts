@@ -1,5 +1,4 @@
 import type { Configurator } from '@/types';
- { Configurator } from '@/types';
 import {
   listTypedConfigurators,
   loadTypedConfigurator,
