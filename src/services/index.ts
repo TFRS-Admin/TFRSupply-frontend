@@ -9,3 +9,4 @@ export { vehicleService, type VehicleService } from './vehicle';
 export { vehicleFitmentService, createVehicleFitmentService, type VehicleFitmentService } from './vehicleFitment';
 export { createShopifySyncService, shopifySyncService, type ShopifySyncService } from './shopifySync';
 export { createQuotePipelineService, quotePipelineService, type QuotePipelineService, type QuotePipelineServiceDependencies } from './quotePipeline';
+export { createPricingImportService, pricingImportService, type PricingImportService } from './pricingImport';
