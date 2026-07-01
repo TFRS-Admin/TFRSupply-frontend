@@ -15,6 +15,7 @@ src/schemas/
   vehicle.schema.ts       Zod schemas for vehicle and fitment interfaces
   package.schema.ts       Zod schemas for package builder interfaces
   quote.schema.ts         Zod schemas for quote and review interfaces
+  quotePdf.schema.ts      Zod schemas for quote PDF render and document metadata interfaces
   index.ts                Runtime schema barrel for future consumers
 ```
 
@@ -36,6 +37,7 @@ The validation layer includes schemas for every shared domain interface:
 - Vehicle: `Vehicle`, `Make`, `Model`, `Year`, `Fitment`
 - Package Builder: `Package`, `PackageDefinition`, `PackageLine`, `Accessory`, `PackageAssemblyInput`, `PackageAssemblyResult`, `PackageCompatibilityResult`, `PackageCompatibilityIssue`, `PackageValidationResult`
 - Quote: `Quote`, `QuoteLine`, `QuotePayload`, `ReviewFlag`
+- Quote PDF: `QuotePdfRenderInput`, `QuotePdfDocumentMetadata`, `QuotePdfRenderResult`, `QuotePdfRenderError`
 
 ## Import Rules
 
