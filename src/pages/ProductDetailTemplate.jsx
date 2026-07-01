@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
@@ -8,92 +8,24 @@ import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import ProductTabs from '@/components/product/ProductTabs';
+import ProductHero from '@/components/product/ProductHero';
+import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
 import { configuratorService } from '@/services/configurator';
 
-import { ChevronRight, ExternalLink, FileDown, Phone, Settings, Clock } from 'lucide-react';
+import { Clock, Phone } from 'lucide-react';
 
 import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
 
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-function Breadcrumbs({ crumbs = [] }) {
-  return (
-    <div className="bg-gray-50 border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center gap-1" style={{ ...FS, fontSize: 12, color: '#888' }}>
-        {crumbs.map((c, i) => (
-          <React.Fragment key={i}>
-            {i > 0 && <ChevronRight size={12} />}
-            {c.to ? <Link to={c.to} style={{ color: '#c8102e', textDecoration: 'none' }}>{c.label}</Link> : <span style={{ color: '#444' }}>{c.label}</span>}
-          </React.Fragment>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ImageGallery({ gallery = [], hero }) {
-  const images = gallery.length > 0 ? gallery : hero ? [{ src: hero, alt: 'Product image' }] : [];
-  const [active, setActive] = useState(0);
-  if (!images.length) return null;
-
-  return (
-    <div>
-      <div className="border border-gray-200 overflow-hidden flex items-center justify-center bg-white" style={{ height: 380 }}>
-        <img src={images[active]?.src} alt={images[active]?.alt || ''} className="max-h-full max-w-full object-contain" />
-      </div>
-      {images.length > 1 && (
-        <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-          {images.map((img, i) => (
-            <button key={i} onClick={() => setActive(i)}
-              style={{ width: 64, height: 64, border: `2px solid ${active === i ? '#c8102e' : '#e5e7eb'}`, background: '#fff', overflow: 'hidden', cursor: 'pointer', padding: 0, flexShrink: 0 }}>
-              <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function CTAPanel({ cta = {}, commerce = {} }) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 20 }}>
-      {cta.configurator_url && (
-        <a href={cta.configurator_url} target="_blank" rel="noopener noreferrer"
-          style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#fff', background: '#c8102e', padding: '11px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
-          <Settings size={16} /> Configure This Product
-        </a>
-      )}
-      {cta.where_to_buy_url && (
-        <a href={cta.where_to_buy_url} target="_blank" rel="noopener noreferrer"
-          style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#1a2744', background: '#fff', border: '2px solid #1a2744', padding: '10px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
-          <ExternalLink size={16} /> Where to Buy
-        </a>
-      )}
-      {cta.request_info_url && (
-        <a href={cta.request_info_url}
-          style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#c8102e', border: '2px solid #c8102e', padding: '10px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', background: '#fff' }}>
-          <Phone size={16} /> Request Information
-        </a>
-      )}
-      {cta.manual_url && (
-        <a href={cta.manual_url}
-          style={{ ...FS, fontSize: 13, color: '#555', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center', paddingTop: 4 }}>
-          <FileDown size={14} /> Download Manual
-        </a>
-      )}
-    </div>
-  );
-}
-
 function ProductComingSoon({ product, verticalId, categoryId }) {
   return (
     <div className="min-h-screen bg-white" style={FS}>
       <PrototypeBanner />
       <SiteHeader activeVertical={verticalId} activeCategory={categoryId} />
-      <Breadcrumbs crumbs={[
+      <ProductBreadcrumb crumbs={[
         { label: 'Home', to: '/' },
         { label: verticalId?.replace(/-/g, ' '), to: `/${verticalId}` },
         { label: product.label, to: `/${verticalId}/${categoryId}` },
@@ -180,31 +112,34 @@ export function ProductDetailTemplateView({
   }
 
   const data = product;
-  const { title, subtitle, breadcrumbs, media, marketing, commerce, cta } = data;
+  const { title, breadcrumbs, media, marketing, cta } = data;
+  const heroImages = media?.gallery?.length
+    ? media.gallery
+    : media?.hero
+      ? [{ src: media.hero, alt: title || 'Product image' }]
+      : [];
+  const heroActions = {
+    whereToBuyUrl: cta?.where_to_buy_url,
+    requestInfoUrl: cta?.request_info_url,
+    configuratorUrl: cta?.configurator_url,
+    manualUrl: cta?.manual_url,
+  };
 
   return (
     <div className="min-h-screen bg-white text-gray-900" style={FS}>
       <PrototypeBanner />
       <SiteHeader activeVertical={verticalId || data.verticals?.[0]} activeCategory={data.category} />
-      <Breadcrumbs crumbs={breadcrumbs || [{ label: 'Home', to: '/' }, { label: title }]} />
+      <ProductBreadcrumb crumbs={breadcrumbs || [{ label: 'Home', to: '/' }, { label: title }]} />
 
-      {/* Product Hero */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <h1 style={{ fontSize: 'clamp(1.4rem,2.5vw,1.9rem)', fontWeight: 700, color: '#1a1a1a', textAlign: 'center', marginBottom: '2rem' }}>{title}</h1>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'flex-start' }}>
-          <ImageGallery gallery={media?.gallery} hero={media?.hero} />
-
-          <div>
-            {subtitle && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1.25rem' }}>{subtitle}</p>}
-            {marketing?.features?.length > 0 && (
-              <ul style={{ fontSize: 15, color: '#333', lineHeight: 1.8, paddingLeft: '1.25rem', marginBottom: '0.5rem' }}>
-                {marketing.features.map((f, i) => <li key={i}>{f}</li>)}
-              </ul>
-            )}
-            <CTAPanel cta={cta || {}} commerce={commerce || {}} />
-          </div>
-        </div>
-      </div>
+      <ProductHero
+        title={title}
+        subtitle={data.subtitle}
+        bullets={data.summary_bullets ?? marketing?.features ?? []}
+        images={heroImages}
+        actions={data.actions ?? heroActions}
+        tabs={data.hero_tabs ?? []}
+        actionLabels={{ configurator: 'Configure This Product', manual: 'Download Manual' }}
+      />
 
       {/* Product Tabs */}
       {data.tabs_component === 'NavigatorTabs' ? (
