@@ -20,6 +20,53 @@ export interface Vehicle extends BaseEntity {
   year: Year;
   bodyStyle?: string;
   trim?: string;
+  chassis?: string;
+}
+
+export type FitmentSubjectType = 'product' | 'package';
+
+export type FitmentEvaluationStatus = 'compatible' | 'incompatible' | 'unknown';
+
+export type FitmentIssueSeverity = 'info' | 'warning' | 'error';
+
+export interface FitmentSubject {
+  type: FitmentSubjectType;
+  id: string;
+  sku?: string;
+}
+
+export interface FitmentRequest {
+  vehicle: Vehicle;
+  subject: FitmentSubject;
+  requestedOptionIds?: string[];
+}
+
+export interface FitmentIssue {
+  code: string;
+  severity: FitmentIssueSeverity;
+  message: string;
+  field?: string;
+}
+
+export interface FitmentResult {
+  status: FitmentEvaluationStatus;
+  compatible: boolean;
+  vehicleId?: string;
+  subject: FitmentSubject;
+  notes?: string;
+  requiredOptionIds?: string[];
+  excludedOptionIds?: string[];
+  issues: FitmentIssue[];
+}
+
+export interface ProductFitmentRequest extends Omit<FitmentRequest, 'subject'> {
+  productId: string;
+  sku?: string;
+}
+
+export interface PackageFitmentRequest extends Omit<FitmentRequest, 'subject'> {
+  packageId: string;
+  sku?: string;
 }
 
 export interface Fitment {
