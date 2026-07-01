@@ -1,4 +1,12 @@
 import type { Category, Product, Vertical } from '@/types';
+import {
+  listTypedCategories,
+  listTypedProducts,
+  listTypedVerticals,
+  loadTypedCategory,
+  loadTypedProduct,
+  loadTypedVertical,
+} from '@/data/loaders';
 
 export interface CatalogService {
   getProduct(productId: string): Promise<Product | null>;
@@ -10,22 +18,22 @@ export interface CatalogService {
 }
 
 export const catalogService: CatalogService = {
-  async getProduct(): Promise<Product | null> {
-    throw new Error('Not implemented');
+  async getProduct(productId: string): Promise<Product | null> {
+    return loadTypedProduct(productId);
   },
   async listProducts(): Promise<Product[]> {
-    throw new Error('Not implemented');
+    return listTypedProducts();
   },
-  async getCategory(): Promise<Category | null> {
-    throw new Error('Not implemented');
+  async getCategory(categoryId: string): Promise<Category | null> {
+    return loadTypedCategory(categoryId);
   },
   async listCategories(): Promise<Category[]> {
-    throw new Error('Not implemented');
+    return listTypedCategories();
   },
-  async getVertical(): Promise<Vertical | null> {
-    throw new Error('Not implemented');
+  async getVertical(verticalId: string): Promise<Vertical | null> {
+    return loadTypedVertical(verticalId);
   },
   async listVerticals(): Promise<Vertical[]> {
-    throw new Error('Not implemented');
+    return listTypedVerticals();
   },
 };
