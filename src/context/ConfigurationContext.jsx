@@ -6,25 +6,17 @@
 
 import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
 import { initializeEngine, applySelection, clearStep, computeSummary } from '@/domain/configuration/configuratorEngine';
+import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
 const ConfigurationContext = createContext(null);
 
-// Dynamic loader for configurator JSON files
-const configuratorModules = import.meta.glob('../data/configurators/*.json', { eager: true });
-
-function loadConfigurator(configuratorId) {
-  const key = Object.keys(configuratorModules).find(k => k.endsWith(`/${configuratorId}.json`));
-  if (!key) return null;
-  return configuratorModules[key]?.default ?? configuratorModules[key] ?? null;
-}
-
 export function ConfigurationProvider({ configuratorId, children }) {
-  const configuratorJson = useMemo(() => loadConfigurator(configuratorId), [configuratorId]);
+  const { data: configuratorJson } = useConfiguratorData(configuratorId);
 
-  const [engineState] = useState(() => {
+  const engineState = useMemo(() => {
     if (!configuratorJson) return null;
     return initializeEngine(configuratorJson);
-  });
+  }, [configuratorJson]);
 
   const [selections, setSelections] = useState({});
 

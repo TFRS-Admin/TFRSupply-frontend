@@ -15,7 +15,7 @@
 import React, { useState } from 'react';
 import { FileDown, ExternalLink } from 'lucide-react';
 import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
-import { configuratorService } from '@/services/configurator';
+import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -110,7 +110,7 @@ function DocumentationContent({ documentation = {} }) {
 }
 
 function ConfiguratorContent({ configuratorId, verticalId, categoryId }) {
-  const configuratorData = configuratorService.getConfigurator(configuratorId);
+  const { data: configuratorData } = useConfiguratorData(configuratorId);
   if (!configuratorData) return (
     <p style={{ ...FS, fontSize: 13, color: '#888' }}>Configurator data not found for: {configuratorId}</p>
   );
