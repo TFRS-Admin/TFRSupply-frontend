@@ -12,4 +12,6 @@ export type { BundlePricing, BundlePricingInput, BundlePricingItem, ContractPric
 
 export type { PricingImportIssue, PricingImportNormalizer, PricingImportParser, PricingImportRecordKind, PricingImportRequest, PricingImportResult, PricingImportSeverity, PricingImportSource, PricingImportSourceKind, PricingImportStatus, PricingImportValidationResult, PricingImportValidator, PricingNormalizedBaseRecord, PricingNormalizedBundleRecord, PricingNormalizedContractPriceRecord, PricingNormalizedDealerContractRecord, PricingNormalizedDealerCostRecord, PricingNormalizedListPriceRecord, PricingNormalizedQuantityBreakRecord, PricingNormalizedRecord, PricingParsedDocument, PricingParsedRow } from './pricingImport';
 
+export type { PricingImportDashboardData, PricingImportDashboardStatistics, PricingImportDashboardSummary, PricingImportDuplicateRecordGroup, PricingImportHistoryEntry, PricingImportRun, PricingImportUploadStatus } from './pricingImportDashboard';
+
 export type { ContractWindowEvaluation, ContractWindowEvaluationStatus, DealerContractResolutionRequest, DealerContractResolutionResult, DealerContractResolutionStatus, DealerContractSelection, PromotionalBundleResolution, QuantityBreakSelection } from './dealerContractResolution';

@@ -205,3 +205,37 @@ The service accepts already-imported or already-resolved `DealerContract` and `P
 ### Non-goals
 
 This engine intentionally does not implement final pricing arithmetic, selling-price or margin calculation, live contract/bundle data fetching, an adapter boundary, Quote Builder integration, commerce integration, or UI wiring. Future issues should connect this engine's result to a pricing calculation step and to Quote Builder through explicit, tested migration work.
+
+## Issue 28 Admin Pricing Import Dashboard
+
+The admin pricing import dashboard is the first UI surface built on top of the pricing import pipeline (Issue 24). It renders Upload Status, Import History, Import Validation Results, Import Summary, Failed Records, Duplicate Detection, and Import Statistics for a set of mock import runs. It does not implement file storage, database persistence, live Excel/CSV parsing, authentication, dealer pricing calculations, or quote generation.
+
+### Ownership
+
+- `src/types/pricingImportDashboard.ts` owns dashboard-facing aggregate contracts (`PricingImportRun`, `PricingImportHistoryEntry`, `PricingImportDuplicateRecordGroup`, `PricingImportDashboardSummary`, `PricingImportDashboardStatistics`, `PricingImportDashboardData`).
+- `src/schemas/pricingImportDashboard.schema.ts` owns Zod validation for those aggregate contracts, composing `pricingImport.schema.ts` schemas rather than redefining pipeline shapes.
+- `src/domain/pricingImportDashboard/duplicateDetector.ts` owns the pure `detectDuplicateRecords` function that groups normalized records sharing a record kind and SKU across one or more import runs.
+- `src/adapters/pricingImportDashboard/mockPricingImportAdapters.ts` owns mock `PricingImportParser`/`PricingImportNormalizer` pairs and inline fixture rows for Excel workbook, CSV file, Federal Signal MSRP price book, dealer contract, and promotional bundle definition sources, plus one intentionally-throwing parser used to exercise the dashboard's failed-run path. No file I/O, network access, or storage occurs in these adapters.
+- `src/services/pricingImportDashboard/pricingImportDashboardService.ts` owns `loadDashboard()`, which runs each mock definition through the existing `pricingImportService.importPricing()`, catches per-run parser/normalizer failures without throwing, and aggregates results into upload status, history, issues, duplicates, summary, and statistics.
+- `src/hooks/pricingImportDashboard/usePricingImportDashboard.ts` owns the typed React-facing hook (`{ data, loading, error, loadDashboard }`); it does not call `loadDashboard` during render.
+- `src/pages/AdminPricingImportDashboard.jsx` owns the admin route at `/admin/pricing-imports`, gated by the existing `checkAdminAccess` prototype guard, matching the layout conventions of `src/pages/AdminQuotesPage.jsx`.
+
+### Runtime Boundary
+
+```text
+AdminPricingImportDashboard page → usePricingImportDashboard hook → pricingImportDashboardService
+                                                                              ↓
+                                                    pricingImportService.importPricing() (existing, unchanged)
+                                                                              ↓
+                                          mock parsers/normalizers → pricing import Zod schemas
+                                                                              ↓
+                                                    detectDuplicateRecords (pure domain function)
+                                                                              ↓
+                                              pricingImportDashboardDataSchema (dashboard aggregate)
+```
+
+`pricingImportDashboardService` does not modify `pricingImportService`, `defaultPricingImportValidator`, or any pricing import schema — it only orchestrates the existing pipeline against mock adapters and reshapes the results for display.
+
+### Non-goals
+
+This dashboard intentionally does not implement live file uploads, file storage, database persistence, live Excel/CSV parsing libraries, real authentication (it reuses the existing `checkAdminAccess` prototype guard), dealer pricing calculations, or quote generation. Duplicate detection only evaluates records that carry a `sku` field (list-price, dealer-cost, contract-price, bundle-pricing); dealer-contract and quantity-break records are not evaluated for duplication in this issue.

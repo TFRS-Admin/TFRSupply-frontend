@@ -13,4 +13,6 @@ export { shopifyInventorySyncPayloadSchema, shopifyPricingReferenceSyncPayloadSc
 
 export { pricingImportIssueSchema, pricingImportRecordKindSchema, pricingImportResultSchema, pricingImportSeveritySchema, pricingImportSourceKindSchema, pricingImportSourceSchema, pricingImportStatusSchema, pricingImportValidationResultSchema, pricingNormalizedRecordSchema, pricingParsedDocumentSchema, pricingParsedRowSchema } from './pricingImport.schema';
 
+export { pricingImportDashboardDataSchema, pricingImportDashboardStatisticsSchema, pricingImportDashboardSummarySchema, pricingImportDuplicateRecordGroupSchema, pricingImportHistoryEntrySchema, pricingImportRunSchema, pricingImportUploadStatusSchema } from './pricingImportDashboard.schema';
+
 export { contractWindowEvaluationSchema, contractWindowEvaluationStatusSchema, dealerContractResolutionRequestSchema, dealerContractResolutionResultSchema, dealerContractResolutionStatusSchema, dealerContractSelectionSchema, promotionalBundleResolutionSchema, quantityBreakSelectionSchema } from './dealerContractResolution.schema';
