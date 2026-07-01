@@ -79,3 +79,44 @@ This architecture foundation intentionally does not include:
 - `src/types/pricing.ts` owns the pricing domain interfaces.
 - `src/schemas/pricing.schema.ts` owns Zod validation for pricing interfaces.
 - `src/services/pricing/pricingTypes.ts` exposes type-only service imports for future pure pricing helpers.
+
+## Issue 18 Pricing Engine Foundation
+
+The pricing foundation now adds architecture-only service, adapter, engine-contract, hook, and Zod validation boundaries for future pricing work. These additions are intentionally inert until a later issue connects validated pricing data.
+
+### Runtime Boundary
+
+Current dependency direction for future pricing consumers is:
+
+```text
+React pricing hooks → pricingService → PricingAdapter → future pricing provider
+                                ↓
+                 pricing schemas / pricing engine contracts
+                                ↓
+                         pricing domain types
+```
+
+The default adapter is `unavailablePricingAdapter`, which returns pending `PricingResolution` values. This preserves existing runtime behavior and avoids live MSRP, dealer cost, contract, bundle, or quote calculations.
+
+### File Ownership
+
+- `src/types/pricing.ts` owns pricing domain contracts, inputs, result envelopes, warnings, calculation contracts, MSRP, dealer cost, contract windows, quantity breaks, promotional bundles, margin, and quote-pricing handoff types.
+- `src/schemas/pricing.schema.ts` owns runtime validation for pricing inputs and outputs.
+- `src/adapters/pricing` owns adapter contracts and the unavailable default adapter.
+- `src/services/pricing/pricingService.ts` owns pricing use-case validation and adapter orchestration.
+- `src/domain/pricing/pricingEngine.ts` owns calculation-contract validation helpers only; it does not implement pricing arithmetic.
+- `src/hooks/pricing/usePricing.ts` owns typed React-facing hooks for future migration.
+
+### Supported Foundation Concepts
+
+- MSRP/list price through `ListPrice` and `getListPrice`.
+- Dealer cost through `DealerCost` and `getDealerCost`.
+- Contract pricing through `ContractPrice`, `DealerContract`, `ContractWindow`, and `getContractPrice`.
+- Quantity pricing through `QuantityBreak` and `appliedQuantityBreak` fields.
+- Promotional bundles through `BundlePricingInput`, `BundlePricing`, `PromotionalBundle`, and `priceBundle`.
+- Quote-pricing handoff through `QuotePricingInput`, `QuotePricingResult`, and `priceQuote`.
+- Margin contracts through `Margin`; no margin arithmetic is implemented in this foundation.
+
+### Follow-up Work
+
+Future pricing issues should add pure calculation implementations behind these contracts, fixture-based tests for each pricing rule, real adapter implementations, contract-window active/expired evaluation, margin-policy logic, and explicit UI or quote-builder migrations. Those follow-ups must not bypass service validation or couple pricing directly to commerce, configurator, or product catalog runtime code.

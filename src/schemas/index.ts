@@ -6,4 +6,4 @@ export { fitmentSchema, makeSchema, modelSchema, vehicleSchema, yearSchema } fro
 export { accessorySchema, packageLineSchema, packageSchema } from './package.schema';
 export { quoteLineSchema, quotePayloadSchema, quoteSchema, reviewFlagSchema } from './quote.schema';
 
-export { bundlePricingItemSchema, bundlePricingSchema, contractPriceSchema, contractWindowSchema, dealerContractSchema, dealerCostSchema, listPriceSchema, marginSchema, priceSourceSchema, pricingWarningSchema, promotionalBundleSchema, quantityBreakSchema, quotePricingLineSchema, quotePricingResultSchema } from './pricing.schema';
+export { bundlePricingInputSchema, bundlePricingItemSchema, bundlePricingSchema, contractPriceSchema, contractWindowSchema, dealerContractSchema, dealerCostSchema, listPriceSchema, marginSchema, priceSourceSchema, priceSourceTypeSchema, pricingContextSchema, pricingLineInputSchema, pricingResolutionSchema, pricingResultStatusSchema, pricingSubjectSchema, pricingWarningSchema, pricingWarningSeveritySchema, promotionalBundleSchema, quantityBreakSchema, quotePricingInputSchema, quotePricingLineSchema, quotePricingResultSchema } from './pricing.schema';

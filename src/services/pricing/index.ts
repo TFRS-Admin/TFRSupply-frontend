@@ -1,6 +1,7 @@
-export { pricingService, type PricingService } from './pricingService';
+export { createPricingService, pricingService, type PricingService } from './pricingService';
 export type {
   BundlePricing,
+  BundlePricingInput,
   BundlePricingItem,
   ContractPrice,
   ContractWindow,
@@ -9,9 +10,19 @@ export type {
   ListPrice,
   Margin,
   PriceSource,
+  PriceSourceType,
+  PricingCalculationContract,
+  PricingContext,
+  PricingCurrencyCode,
+  PricingLineInput,
+  PricingResolution,
+  PricingResultStatus,
+  PricingSubject,
   PricingWarning,
+  PricingWarningSeverity,
   PromotionalBundle,
   QuantityBreak,
+  QuotePricingInput,
   QuotePricingLine,
   QuotePricingResult,
 } from './pricingTypes';
