@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductDocumentation, ProductDocumentationItem, ProductFamily, ProductMedia, ProductMediaAsset, ProductTab, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
+import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductDocumentation, ProductDocumentationItem, ProductFamily, ProductHeroActionLinks, ProductHeroTabLink, ProductMedia, ProductMediaAsset, ProductTab, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
 import { baseEntityObjectSchema, dimensionsSchema, imageAssetSchema, metadataSchema } from './common.schema';
 
 
@@ -163,6 +163,18 @@ export const productTabSchema = z.object({
   content_type: z.string(),
 }) as z.ZodType<ProductTab>;
 
+export const productHeroActionLinksSchema = z.object({
+  whereToBuyUrl: z.string().optional(),
+  requestInfoUrl: z.string().optional(),
+  configuratorUrl: z.string().optional(),
+  manualUrl: z.string().optional(),
+}) as z.ZodType<ProductHeroActionLinks>;
+
+export const productHeroTabLinkSchema = z.object({
+  label: z.string(),
+  href: z.string(),
+}) as z.ZodType<ProductHeroTabLink>;
+
 export const productSchema = baseEntityObjectSchema.extend({
   slug: z.string(),
   sku: z.string().optional(),
@@ -206,5 +218,9 @@ export const productSchema = baseEntityObjectSchema.extend({
     configurator_url: z.string().optional(),
     manual_url: z.string().optional(),
   }).optional(),
+  summary_bullets: z.array(z.string()).optional(),
+  actions: productHeroActionLinksSchema.optional(),
+  hero_tabs: z.array(productHeroTabLinkSchema).optional(),
+  shopify: z.record(z.unknown()).optional(),
   configuratorId: z.string().optional(),
 }) as z.ZodType<Product>;

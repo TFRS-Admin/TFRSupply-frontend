@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react';
+import type { DependencyList } from 'react';
 import { catalogService } from '@/services/catalog';
+import type { Category, Product, Vertical } from '@/types';
 
-function useCatalogResource(load, dependencies) {
-  const [state, setState] = useState({
+interface CatalogResourceState<T> {
+  data: T | null;
+  loading: boolean;
+  error: unknown;
+}
+
+function useCatalogResource<T>(load: () => T | null, dependencies: DependencyList): CatalogResourceState<T> {
+  const [state, setState] = useState<CatalogResourceState<T>>({
     data: null,
     loading: true,
     error: null,
@@ -36,21 +44,21 @@ function useCatalogResource(load, dependencies) {
   return state;
 }
 
-export function useCatalogCategory(categoryId) {
+export function useCatalogCategory(categoryId: string | null | undefined): CatalogResourceState<Category> {
   return useCatalogResource(
     () => (categoryId ? catalogService.getCategory(categoryId) : null),
     [categoryId],
   );
 }
 
-export function useCatalogProduct(productId) {
+export function useCatalogProduct(productId: string | null | undefined): CatalogResourceState<Product> {
   return useCatalogResource(
     () => (productId ? catalogService.getProduct(productId) : null),
     [productId],
   );
 }
 
-export function useCatalogVertical(verticalId) {
+export function useCatalogVertical(verticalId: string | null | undefined): CatalogResourceState<Vertical> {
   return useCatalogResource(
     () => (verticalId ? catalogService.getVertical(verticalId) : null),
     [verticalId],

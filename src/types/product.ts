@@ -179,6 +179,18 @@ export interface ProductCTA {
   manual_url?: string;
 }
 
+export interface ProductHeroActionLinks {
+  whereToBuyUrl?: string;
+  requestInfoUrl?: string;
+  configuratorUrl?: string;
+  manualUrl?: string;
+}
+
+export interface ProductHeroTabLink {
+  label: string;
+  href: string;
+}
+
 export interface ProductTab {
   id: string;
   label: string;
@@ -212,5 +224,9 @@ export interface Product extends BaseEntity {
   documentation?: ProductDocumentation;
   commerce?: ProductCommerce;
   cta?: ProductCTA;
+  summary_bullets?: string[];
+  actions?: ProductHeroActionLinks;
+  hero_tabs?: ProductHeroTabLink[];
+  shopify?: Record<string, unknown>;
   configuratorId?: string;
 }
