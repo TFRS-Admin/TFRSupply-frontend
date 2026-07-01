@@ -134,4 +134,4 @@ import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
 
 ## Current Implementation Boundary
 
-All service implementations currently throw `new Error('Not implemented')`. This is intentional. The PR creates typed boundaries only and does not wire those boundaries into runtime application paths.
+Service implementations are additive boundaries only and do not wire new behavior into existing runtime application paths. Some foundations use unavailable default adapters that return pending or null results until future issues connect approved providers.

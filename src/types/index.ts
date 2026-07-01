@@ -3,7 +3,7 @@ export type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, Catego
 export type { CompatibilityRule, Configurator, ConfiguratorAccessoryItem, ConfiguratorOption, ConfiguratorSection, ConfiguratorSkuOption, ConfiguratorStep, ConfiguratorVehicleRule, DependencyRule, SKUOption } from './configurator';
 export type { CartLineDraft, CommerceAvailabilityState, CommerceChannel, CommerceLookupRequest, CommerceLookupResult, CommerceLookupStatus, CommerceProductReference, InventoryStatus, Price, ShopifyProduct, ShopifyVariant, VariantMapping } from './commerce';
 export type { Fitment, Make, Model, Vehicle, Year } from './vehicle';
-export type { Accessory, Package, PackageLine } from './package';
+export type { Accessory, Package, PackageAccessoryRequirement, PackageAssemblyInput, PackageAssemblyResult, PackageAssemblyStatus, PackageCompatibilityIssue, PackageCompatibilityResult, PackageCompatibilityStatus, PackageDefinition, PackageLine, PackageLineItemType, PackageMetadata, PackageValidationResult, PackageValidationSeverity } from './package';
 export type { Quote, QuoteLine, QuotePayload, ReviewFlag } from './quote';
 
 export type { BundlePricing, BundlePricingInput, BundlePricingItem, ContractPrice, ContractWindow, DealerContract, DealerCost, ListPrice, Margin, PriceSource, PriceSourceType, PricingCalculationContract, PricingContext, PricingCurrencyCode, PricingLineInput, PricingResolution, PricingResultStatus, PricingSubject, PricingWarning, PricingWarningSeverity, PromotionalBundle, QuantityBreak, QuotePricingInput, QuotePricingLine, QuotePricingResult } from './pricing';
