@@ -165,3 +165,43 @@ Each normalized record preserves import provenance through `importId`, source me
 ### Non-goals
 
 This pipeline intentionally does not implement live uploads, spreadsheet parsing libraries, CSV parsing, product data mutation, price persistence, pricing calculations, commerce behavior, Quote Builder behavior, or UI rendering. Future implementation issues should add concrete parser adapters and persistence behind these contracts while keeping validation at the boundary.
+
+## Issue 25 Dealer Contract Resolution Engine
+
+The dealer contract resolution engine determines which dealer contract price, quantity break, promotional bundle, and contract window apply to a pricing request built from imported dealer contract, MSRP, dealer cost, and bundle data. It selects between already-resolved pricing records; it does not calculate a final selling price, does not implement margin arithmetic, and is not wired into Quote Builder, commerce, or any UI route.
+
+### Ownership
+
+- `src/types/dealerContractResolution.ts` owns the resolution request, contract selection, quantity break selection, promotional bundle resolution, contract window evaluation, and result contracts.
+- `src/schemas/dealerContractResolution.schema.ts` owns Zod validation for resolution requests and results.
+- `src/domain/dealerContractResolution/contractWindowEvaluator.ts` owns pure `ContractWindow` active/upcoming/expiring-soon/expired evaluation.
+- `src/domain/dealerContractResolution/contractSelector.ts` owns dealer contract and contract-price selection, prioritized by `PriceSource.priority` among contracts whose window is currently eligible.
+- `src/domain/dealerContractResolution/quantityBreakSelector.ts` owns selection of the highest eligible `QuantityBreak` for a requested quantity.
+- `src/domain/dealerContractResolution/promotionalBundleResolver.ts` owns promotional bundle eligibility by SKU membership, promotion code, and contract window.
+- `src/services/dealerContractResolution/dealerContractResolutionService.ts` owns request validation, orchestration of the selectors above, warning aggregation, and result validation.
+- `src/hooks/dealerContractResolution/useDealerContractResolution.ts` owns a typed React-facing hook for future migration work.
+
+### Runtime Boundary
+
+```text
+React resolution hook → dealerContractResolutionService → contract selector / quantity break selector / bundle resolver
+                                     ↓                                    ↓
+                     dealer contract resolution schemas          contract window evaluator
+                                     ↓
+                          pricing domain schemas/types
+```
+
+The service accepts already-imported or already-resolved `DealerContract` and `PromotionalBundle` candidates on the request (for example, records produced by the pricing import pipeline) and selects among them. It does not fetch candidates itself and has no adapter boundary, because resolution is a pure, deterministic selection over supplied pricing data.
+
+### Supported Resolution Concepts
+
+- MSRP and dealer cost references remain untouched pass-through fields on the selected `ContractPrice` (`listPrice`, `dealerCost`); this engine does not recompute them.
+- Contract pricing references are resolved through `selectDealerContract`, which matches a `DealerContract` to the requested dealer/agency/contract context, requires an eligible `ContractWindow`, and prefers the highest `PriceSource.priority` when multiple contracts qualify.
+- Effective date windows are evaluated through `evaluateContractWindow`, which classifies a window as `active`, `upcoming`, `expired`, or `expiring-soon` (using `expirationAlertDays`) as of the request's `pricingDate`.
+- Quantity break eligibility is resolved through `selectQuantityBreak`, which returns every eligible break plus the single highest-`minQuantity` break that applies to the requested quantity.
+- Bundle eligibility is resolved through `resolvePromotionalBundle`, which requires the bundle to include the requested SKU, matches any required `promotionCode` against the request's `context.promotionCodes`, and requires an eligible bundle window when one is present.
+- `DealerContractResolutionResult.warnings` surfaces review-required and warning-level `PricingWarning`s for missing contract matches and contracts nearing expiration; it does not compute margin or final selling price.
+
+### Non-goals
+
+This engine intentionally does not implement final pricing arithmetic, selling-price or margin calculation, live contract/bundle data fetching, an adapter boundary, Quote Builder integration, commerce integration, or UI wiring. Future issues should connect this engine's result to a pricing calculation step and to Quote Builder through explicit, tested migration work.
