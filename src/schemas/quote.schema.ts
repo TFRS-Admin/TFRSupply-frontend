@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import type { Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePricingReference, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
+import type { Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuotePipelineResult, QuotePricingReference, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
 import { baseEntityObjectSchema, metadataSchema, moneySchema } from './common.schema';
-import { priceSchema } from './commerce.schema';
+import { commerceLookupResultSchema, priceSchema, shopifyProductSchema, variantMappingSchema } from './commerce.schema';
 import { packageAssemblyResultSchema, packageDefinitionSchema } from './package.schema';
-import { quotePricingResultSchema, pricingSubjectSchema } from './pricing.schema';
+import { pricingContextSchema, pricingResolutionSchema, quotePricingResultSchema, pricingSubjectSchema } from './pricing.schema';
 import { vehicleSchema } from './vehicle.schema';
 
 const nonEmptyString = z.string().min(1);
@@ -163,6 +163,53 @@ export const quoteValidationResultSchema = z.object({
   valid: z.boolean(),
   reviewFlags: z.array(reviewFlagSchema),
 }) as z.ZodType<QuoteValidationResult>;
+
+export const quotePipelinePackageInputSchema = z.object({
+  packageId: nonEmptyString,
+  definition: packageDefinitionSchema.optional(),
+  selectedOptionalAccessoryIds: z.array(z.string()).optional(),
+  vehicle: vehicleSchema.optional(),
+  fitment: z.array(z.object({
+    vehicleId: z.string().optional(),
+    productId: z.string().optional(),
+    compatible: z.boolean(),
+    notes: z.string().optional(),
+    requiredOptionIds: z.array(z.string()).optional(),
+    excludedOptionIds: z.array(z.string()).optional(),
+  })).optional(),
+  metadata: metadataSchema.optional(),
+}) as z.ZodType<QuotePipelinePackageInput>;
+
+export const quotePipelineLineInputSchema = quoteLineAssemblyInputSchema.and(z.object({
+  configuratorId: z.string().optional(),
+})) as z.ZodType<QuotePipelineLineInput>;
+
+export const quotePipelineInputSchema = z.object({
+  draftId: z.string().optional(),
+  customer: quoteCustomerMetadataSchema,
+  verticalId: z.string().optional(),
+  vehicle: vehicleSchema.optional(),
+  lines: z.array(quotePipelineLineInputSchema).min(1),
+  packages: z.array(quotePipelinePackageInputSchema).optional(),
+  pricingContext: pricingContextSchema,
+  metadata: metadataSchema.optional(),
+}) as z.ZodType<QuotePipelineInput>;
+
+export const quotePipelineCommerceReferenceSchema = z.object({
+  sku: z.string().optional(),
+  productId: z.string().optional(),
+  productLookup: commerceLookupResultSchema(shopifyProductSchema).optional(),
+  variantMappingLookup: commerceLookupResultSchema(variantMappingSchema).optional(),
+}) as z.ZodType<QuotePipelineCommerceReference>;
+
+export const quotePipelineResultSchema = z.object({
+  status: z.enum(['assembled', 'pending', 'invalid', 'unavailable']),
+  quote: quoteAssemblyResultSchema,
+  packageReferences: z.array(quotePackageReferenceSchema),
+  pricing: pricingResolutionSchema(quotePricingResultSchema),
+  commerceReferences: z.array(quotePipelineCommerceReferenceSchema),
+  reviewFlags: z.array(reviewFlagSchema),
+}) as z.ZodType<QuotePipelineResult>;
 
 export const quotePayloadSchema = z.object({
   quote: quoteSchema,
