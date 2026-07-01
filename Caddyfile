@@ -1,0 +1,16 @@
+{
+	auto_https off
+}
+
+:{$PORT:8080} {
+	root * /usr/share/caddy
+	encode zstd gzip
+
+	try_files {path} {path}/ /index.html
+	file_server
+
+	header {
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { loadCategory } from '@/lib/dataLoader';
+import { useCatalogCategory } from '@/hooks/useCatalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
@@ -27,9 +27,11 @@ function Breadcrumbs({ crumbs = [] }) {
 
 export default function CategoryTemplate() {
   const { verticalId, categoryId } = useParams();
-  const data = loadCategory(categoryId);
+  const { data, loading, error } = useCatalogCategory(categoryId);
   const [activeFilter, setActiveFilter] = useState({});
 
+  if (error) throw error;
+  if (loading) return null;
   if (!data) return <NotFound type="category" backTo={`/${verticalId}`} backLabel="Return to Vertical" />;
 
   const { hero, description, filters = [], products = [], breadcrumbs } = data;
