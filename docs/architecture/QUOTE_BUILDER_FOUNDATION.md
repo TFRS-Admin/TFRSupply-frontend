@@ -82,3 +82,7 @@ The pipeline is intentionally service composition only. It does not calculate pr
 ### Runtime Boundary
 
 The exported default pipeline uses the existing unavailable or typed-foundation adapters beneath each domain service. As a result, existing runtime behavior remains unchanged until a later issue explicitly migrates UI or API consumers to this service and replaces unavailable adapters with approved providers.
+
+## Issue 26 Quote PDF Generation
+
+Quote PDF generation is architected in [QUOTE_PDF_GENERATION.md](./QUOTE_PDF_GENERATION.md) as an additive, unwired boundary that consumes `QuoteDraft` by contract only. It does not add PDF generation, email delivery, or persistence to this foundation.

@@ -119,6 +119,7 @@ import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
 | Commerce | `src/services/commerce` | Shopify-facing commerce boundaries |
 | Pricing | `src/services/pricing` | Pricing sources, bundles, margins, quote pricing |
 | Quote | `src/services/quote` | Quote lifecycle boundaries |
+| Quote PDF | `src/services/quotePdf` | Quote PDF render orchestration and validation |
 | Vehicle | `src/services/vehicle` | Vehicle lookup and fitment |
 | Package Builder | `src/services/packageBuilder` | Package composition and validation |
 
