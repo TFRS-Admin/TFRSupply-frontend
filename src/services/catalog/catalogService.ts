@@ -9,31 +9,31 @@ import {
 } from '@/data/loaders';
 
 export interface CatalogService {
-  getProduct(productId: string): Promise<Product | null>;
-  listProducts(): Promise<Product[]>;
-  getCategory(categoryId: string): Promise<Category | null>;
-  listCategories(): Promise<Category[]>;
-  getVertical(verticalId: string): Promise<Vertical | null>;
-  listVerticals(): Promise<Vertical[]>;
+  getProduct(productId: string): Product | null;
+  listProducts(): Product[];
+  getCategory(categoryId: string): Category | null;
+  listCategories(): Category[];
+  getVertical(verticalId: string): Vertical | null;
+  listVerticals(): Vertical[];
 }
 
 export const catalogService: CatalogService = {
-  async getProduct(productId: string): Promise<Product | null> {
+  getProduct(productId: string): Product | null {
     return loadTypedProduct(productId);
   },
-  async listProducts(): Promise<Product[]> {
+  listProducts(): Product[] {
     return listTypedProducts();
   },
-  async getCategory(categoryId: string): Promise<Category | null> {
+  getCategory(categoryId: string): Category | null {
     return loadTypedCategory(categoryId);
   },
-  async listCategories(): Promise<Category[]> {
+  listCategories(): Category[] {
     return listTypedCategories();
   },
-  async getVertical(verticalId: string): Promise<Vertical | null> {
+  getVertical(verticalId: string): Vertical | null {
     return loadTypedVertical(verticalId);
   },
-  async listVerticals(): Promise<Vertical[]> {
+  listVerticals(): Vertical[] {
     return listTypedVerticals();
   },
 };

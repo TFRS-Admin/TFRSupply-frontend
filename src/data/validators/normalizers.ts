@@ -63,6 +63,39 @@ export function normalizeCategory(rawValue: unknown): Category {
   const raw = asRecord(rawValue);
   const verticals = asStringArray(raw.verticals);
   const hero = asRecord(raw.hero);
+  const filters = Array.isArray(raw.filters) ? raw.filters.map((filter) => {
+    const filterRecord = asRecord(filter);
+    return {
+      id: asString(filterRecord.id),
+      label: asString(filterRecord.label, asString(filterRecord.id)),
+      options: asStringArray(filterRecord.options),
+    };
+  }) : undefined;
+  const products = Array.isArray(raw.products) ? raw.products.map((product) => {
+    const productRecord = asRecord(product);
+    const normalized: Record<string, string | string[] | undefined> = {};
+
+    Object.entries(productRecord).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        normalized[key] = value;
+      } else if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
+        normalized[key] = value;
+      }
+    });
+
+    return {
+      ...normalized,
+      id: asString(productRecord.id),
+      label: asString(productRecord.label, asString(productRecord.id)),
+    };
+  }) : undefined;
+  const breadcrumbs = Array.isArray(raw.breadcrumbs) ? raw.breadcrumbs.map((crumb) => {
+    const crumbRecord = asRecord(crumb);
+    return {
+      label: asString(crumbRecord.label),
+      to: asString(crumbRecord.to, undefined),
+    };
+  }) : undefined;
 
   return {
     id: asString(raw.id),
@@ -74,6 +107,15 @@ export function normalizeCategory(rawValue: unknown): Category {
       src: asString(hero.image),
       alt: asString(hero.imageAlt, asString(raw.label, asString(raw.id))),
     } : undefined,
+    hero: Object.keys(hero).length > 0 ? {
+      title: asString(hero.title, undefined),
+      subtitle: asString(hero.subtitle, undefined),
+      image: asString(hero.image, undefined),
+      imageAlt: asString(hero.imageAlt, undefined),
+    } : undefined,
+    filters,
+    products,
+    breadcrumbs,
   };
 }
 

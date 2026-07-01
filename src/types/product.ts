@@ -5,11 +5,44 @@ export interface Vertical extends BaseEntity {
   priority?: number;
 }
 
+export interface CategoryHero {
+  title?: string;
+  subtitle?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+export interface CategoryFilter {
+  id: string;
+  label: string;
+  options: string[];
+}
+
+export interface CategoryProductCard {
+  id: string;
+  label: string;
+  href?: string;
+  image?: string;
+  tagline?: string;
+  specs?: string[];
+  badges?: string[];
+  [key: string]: string | string[] | undefined;
+}
+
+export interface CategoryBreadcrumb {
+  label: string;
+  to?: string;
+}
+
 export interface Category extends BaseEntity {
   slug: string;
   verticalId: string;
   parentCategoryId?: string;
   image?: ImageAsset;
+  hero?: CategoryHero;
+  filters?: CategoryFilter[];
+  products?: CategoryProductCard[];
+  breadcrumbs?: CategoryBreadcrumb[];
 }
 
 export interface ProductFamily extends BaseEntity {
