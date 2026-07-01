@@ -11,3 +11,4 @@ export { createShopifySyncService, shopifySyncService, type ShopifySyncService }
 export { createQuotePipelineService, quotePipelineService, type QuotePipelineService, type QuotePipelineServiceDependencies } from './quotePipeline';
 export { createPricingImportService, pricingImportService, type PricingImportService } from './pricingImport';
 export { createDealerContractResolutionService, dealerContractResolutionService, type DealerContractResolutionService } from './dealerContractResolution';
+export { createPricingImportDashboardService, pricingImportDashboardService, type PricingImportDashboardService, type PricingImportDashboardServiceDependencies } from './pricingImportDashboard';
