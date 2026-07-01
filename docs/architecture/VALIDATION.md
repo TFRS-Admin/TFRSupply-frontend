@@ -34,7 +34,7 @@ The validation layer includes schemas for every shared domain interface:
 - Configurator: `Configurator`, `ConfiguratorSection`, `ConfiguratorOption`, `SKUOption`, `DependencyRule`, `CompatibilityRule`
 - Commerce: `ShopifyProduct`, `ShopifyVariant`, `VariantMapping`, `Price`, `InventoryStatus`
 - Vehicle: `Vehicle`, `Make`, `Model`, `Year`, `Fitment`
-- Package Builder: `Package`, `PackageLine`, `Accessory`
+- Package Builder: `Package`, `PackageDefinition`, `PackageLine`, `Accessory`, `PackageAssemblyInput`, `PackageAssemblyResult`, `PackageCompatibilityResult`, `PackageCompatibilityIssue`, `PackageValidationResult`
 - Quote: `Quote`, `QuoteLine`, `QuotePayload`, `ReviewFlag`
 
 ## Import Rules

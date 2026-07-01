@@ -1,1 +1,1 @@
-export { packageBuilderService, type PackageBuilderService } from './packageBuilderService';
+export { createPackageBuilderService, packageBuilderService, type PackageBuilderService } from './packageBuilderService';

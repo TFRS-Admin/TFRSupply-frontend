@@ -1,19 +1,26 @@
-import type { Package, PackageLine } from '@/types';
+import { unavailablePackageBuilderAdapter } from '@/adapters/packageBuilder';
+import type { PackageBuilderAdapter } from '@/adapters/packageBuilder';
+import { packageAssemblyInputSchema } from '@/schemas/package.schema';
+import type { PackageAssemblyInput, PackageAssemblyResult, PackageDefinition, PackageValidationResult } from '@/types';
 
 export interface PackageBuilderService {
-  getPackage(packageId: string): Promise<Package | null>;
-  createPackage(lines: PackageLine[]): Promise<Package>;
-  validatePackage(packageId: string): Promise<Package>;
+  getPackageDefinition(packageId: string): Promise<PackageDefinition | null>;
+  assemblePackage(input: PackageAssemblyInput): Promise<PackageAssemblyResult>;
+  validatePackage(input: PackageAssemblyInput): Promise<PackageValidationResult>;
 }
 
-export const packageBuilderService: PackageBuilderService = {
-  async getPackage(): Promise<Package | null> {
-    throw new Error('Not implemented');
-  },
-  async createPackage(): Promise<Package> {
-    throw new Error('Not implemented');
-  },
-  async validatePackage(): Promise<Package> {
-    throw new Error('Not implemented');
-  },
-};
+export function createPackageBuilderService(adapter: PackageBuilderAdapter = unavailablePackageBuilderAdapter): PackageBuilderService {
+  return {
+    getPackageDefinition(packageId) {
+      return adapter.getPackageDefinition(packageId);
+    },
+    assemblePackage(input) {
+      return adapter.assemblePackage(packageAssemblyInputSchema.parse(input));
+    },
+    validatePackage(input) {
+      return adapter.validatePackage(packageAssemblyInputSchema.parse(input));
+    },
+  };
+}
+
+export const packageBuilderService: PackageBuilderService = createPackageBuilderService();
