@@ -1,0 +1,1 @@
+export { useDealerContractResolution } from './useDealerContractResolution';
