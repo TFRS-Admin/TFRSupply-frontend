@@ -1,5 +1,5 @@
 export { baseEntitySchema, dimensionsSchema, imageAssetSchema, metadataSchema, moneySchema } from './common.schema';
-export { categoryBreadcrumbSchema, categoryFilterSchema, categoryHeroSchema, categoryProductCardSchema, categorySchema, featureSchema, productFamilySchema, productSchema, specificationSchema, verticalSchema } from './product.schema';
+export { categoryBreadcrumbSchema, categoryFilterSchema, categoryHeroSchema, categoryProductCardSchema, categorySchema, featureSchema, linkActionSchema, productFamilySchema, productSchema, specificationSchema, verticalArticleSchema, verticalCardItemSchema, verticalHeroSchema, verticalSchema, verticalSectionSchema } from './product.schema';
 export { compatibilityRuleSchema, configuratorOptionSchema, configuratorSchema, configuratorSectionSchema, dependencyRuleSchema, skuOptionSchema } from './configurator.schema';
 export { inventoryStatusSchema, priceSchema, shopifyProductSchema, shopifyVariantSchema, variantMappingSchema } from './commerce.schema';
 export { fitmentSchema, makeSchema, modelSchema, vehicleSchema, yearSchema } from './vehicle.schema';

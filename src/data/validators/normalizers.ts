@@ -20,6 +20,78 @@ function titleFromRaw(raw: RawRecord): string {
   return asString(raw.title, asString(raw.label, asString(raw.id)));
 }
 
+
+function normalizeLinkAction(value: unknown) {
+  const record = asRecord(value);
+  const label = asString(record.label);
+  const href = asString(record.href);
+
+  return label && href ? { label, href } : undefined;
+}
+
+function normalizeVerticalCardItem(value: unknown) {
+  const record = asRecord(value);
+
+  return {
+    label: asString(record.label),
+    desc: asString(record.desc, undefined),
+    image: asString(record.image, undefined),
+    imageAlt: asString(record.imageAlt, undefined),
+    href: asString(record.href, undefined),
+    icon: asString(record.icon, undefined),
+    categoryId: typeof record.categoryId === 'string' ? record.categoryId : record.categoryId === null ? null : undefined,
+    tagline: asString(record.tagline, undefined),
+    external: typeof record.external === 'boolean' ? record.external : undefined,
+  };
+}
+
+function normalizeVerticalSection(value: unknown) {
+  const record = asRecord(value);
+  const title = asString(record.title);
+  const items = Array.isArray(record.items) ? record.items.map(normalizeVerticalCardItem) : [];
+
+  if (!title) return undefined;
+
+  return {
+    eyebrow: asString(record.eyebrow, undefined),
+    title,
+    subtitle: asString(record.subtitle, undefined),
+    body: asString(record.body, undefined),
+    cta: normalizeLinkAction(record.cta),
+    items,
+  };
+}
+
+function normalizeVerticalArticle(value: unknown) {
+  const record = asRecord(value);
+  const title = asString(record.title);
+
+  if (!title) return undefined;
+
+  return {
+    eyebrow: asString(record.eyebrow, undefined),
+    title,
+    body: asString(record.body, undefined),
+    image: asString(record.image, undefined),
+    imageAlt: asString(record.imageAlt, undefined),
+    cta: normalizeLinkAction(record.cta),
+  };
+}
+
+function normalizeVerticalHero(value: unknown) {
+  const record = asRecord(value);
+
+  if (Object.keys(record).length === 0) return undefined;
+
+  return {
+    title: asString(record.title, undefined),
+    subtitle: asString(record.subtitle, undefined),
+    image: asString(record.image, undefined),
+    imageAlt: asString(record.imageAlt, undefined),
+    cta: normalizeLinkAction(record.cta),
+  };
+}
+
 export function normalizeProduct(rawValue: unknown): Product {
   const raw = asRecord(rawValue);
   const media = asRecord(raw.media);
@@ -126,6 +198,13 @@ export function normalizeVertical(rawValue: unknown): Vertical {
     id: asString(raw.id),
     label: asString(raw.label, asString(raw.id)),
     slug: asString(raw.id),
+    hero: normalizeVerticalHero(raw.hero),
+    featured_article: normalizeVerticalArticle(raw.featured_article),
+    featured_products_section: normalizeVerticalSection(raw.featured_products_section),
+    categories_section: normalizeVerticalSection(raw.categories_section),
+    configurators_section: normalizeVerticalSection(raw.configurators_section),
+    contracts_section: normalizeVerticalSection(raw.contracts_section),
+    resources_section: normalizeVerticalSection(raw.resources_section),
   };
 }
 

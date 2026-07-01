@@ -1,5 +1,5 @@
 export type { BaseEntity, Dimensions, ImageAsset, Metadata, Money } from './common';
-export type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, Product, ProductFamily, Specification, Vertical } from './product';
+export type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductFamily, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from './product';
 export type { CompatibilityRule, Configurator, ConfiguratorOption, ConfiguratorSection, DependencyRule, SKUOption } from './configurator';
 export type { InventoryStatus, Price, ShopifyProduct, ShopifyVariant, VariantMapping } from './commerce';
 export type { Fitment, Make, Model, Vehicle, Year } from './vehicle';

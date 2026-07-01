@@ -1,10 +1,61 @@
 import { z } from 'zod';
-import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, Product, ProductFamily, Specification, Vertical } from '@/types';
+import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductFamily, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
 import { baseEntityObjectSchema, dimensionsSchema, imageAssetSchema, metadataSchema } from './common.schema';
+
+
+export const linkActionSchema = z.object({
+  label: z.string(),
+  href: z.string(),
+}) as z.ZodType<LinkAction>;
+
+export const verticalHeroSchema = z.object({
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  image: z.string().optional(),
+  imageAlt: z.string().optional(),
+  cta: linkActionSchema.optional(),
+}) as z.ZodType<VerticalHero>;
+
+export const verticalCardItemSchema = z.object({
+  label: z.string(),
+  desc: z.string().optional(),
+  image: z.string().optional(),
+  imageAlt: z.string().optional(),
+  href: z.string().optional(),
+  icon: z.string().optional(),
+  categoryId: z.string().nullable().optional(),
+  tagline: z.string().optional(),
+  external: z.boolean().optional(),
+}) as z.ZodType<VerticalCardItem>;
+
+export const verticalSectionSchema = z.object({
+  eyebrow: z.string().optional(),
+  title: z.string(),
+  subtitle: z.string().optional(),
+  body: z.string().optional(),
+  cta: linkActionSchema.optional(),
+  items: z.array(verticalCardItemSchema),
+}) as z.ZodType<VerticalSection>;
+
+export const verticalArticleSchema = z.object({
+  eyebrow: z.string().optional(),
+  title: z.string(),
+  body: z.string().optional(),
+  image: z.string().optional(),
+  imageAlt: z.string().optional(),
+  cta: linkActionSchema.optional(),
+}) as z.ZodType<VerticalArticle>;
 
 export const verticalSchema = baseEntityObjectSchema.extend({
   slug: z.string(),
   priority: z.number().optional(),
+  hero: verticalHeroSchema.optional(),
+  featured_article: verticalArticleSchema.optional(),
+  featured_products_section: verticalSectionSchema.optional(),
+  categories_section: verticalSectionSchema.optional(),
+  configurators_section: verticalSectionSchema.optional(),
+  contracts_section: verticalSectionSchema.optional(),
+  resources_section: verticalSectionSchema.optional(),
 }) as z.ZodType<Vertical>;
 
 export const categoryHeroSchema = z.object({
