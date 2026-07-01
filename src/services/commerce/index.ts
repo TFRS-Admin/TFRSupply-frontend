@@ -1,1 +1,1 @@
-export { commerceService, type CommerceService } from './commerceService';
+export { commerceService, createCommerceService, type CommerceService } from './commerceService';

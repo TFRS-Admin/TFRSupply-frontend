@@ -1,23 +1,46 @@
-import type { ShopifyProduct, ShopifyVariant, VariantMapping } from '@/types';
+import { unavailableCommerceAdapter } from '@/adapters/commerce';
+import type { CommerceAdapter } from '@/adapters/commerce';
+import type { CartLineDraft, CommerceLookupResult, ShopifyProduct, ShopifyVariant, VariantMapping } from '@/types';
 
 export interface CommerceService {
-  getShopifyProduct(productId: string): Promise<ShopifyProduct | null>;
-  getShopifyVariant(sku: string): Promise<ShopifyVariant | null>;
-  getVariantMapping(sku: string): Promise<VariantMapping | null>;
-  prepareVariantMapping(sku: string, quantity: number): Promise<VariantMapping>;
+  getShopifyProduct(productId: string): Promise<CommerceLookupResult<ShopifyProduct>>;
+  getShopifyVariant(sku: string): Promise<CommerceLookupResult<ShopifyVariant>>;
+  getVariantMapping(sku: string): Promise<CommerceLookupResult<VariantMapping>>;
+  prepareCartLine(sku: string, quantity: number): Promise<CommerceLookupResult<CartLineDraft>>;
 }
 
-export const commerceService: CommerceService = {
-  async getShopifyProduct(): Promise<ShopifyProduct | null> {
-    throw new Error('Not implemented');
-  },
-  async getShopifyVariant(): Promise<ShopifyVariant | null> {
-    throw new Error('Not implemented');
-  },
-  async getVariantMapping(): Promise<VariantMapping | null> {
-    throw new Error('Not implemented');
-  },
-  async prepareVariantMapping(): Promise<VariantMapping> {
-    throw new Error('Not implemented');
-  },
-};
+export function createCommerceService(adapter: CommerceAdapter = unavailableCommerceAdapter): CommerceService {
+  return {
+    getShopifyProduct(productId: string): Promise<CommerceLookupResult<ShopifyProduct>> {
+      return adapter.getProduct({ productId, channel: 'shopify' });
+    },
+    getShopifyVariant(sku: string): Promise<CommerceLookupResult<ShopifyVariant>> {
+      return adapter.getVariant({ sku, channel: 'shopify' });
+    },
+    getVariantMapping(sku: string): Promise<CommerceLookupResult<VariantMapping>> {
+      return adapter.getVariantMapping({ sku, channel: 'shopify' });
+    },
+    async prepareCartLine(sku: string, quantity: number): Promise<CommerceLookupResult<CartLineDraft>> {
+      const mappingResult = await adapter.getVariantMapping({ sku, channel: 'shopify' });
+
+      if (mappingResult.status !== 'ready' || !mappingResult.data) {
+        return {
+          status: mappingResult.status,
+          data: null,
+          message: mappingResult.message ?? 'Variant mapping is not ready for cart preparation.',
+        };
+      }
+
+      return {
+        status: 'ready',
+        data: {
+          sku,
+          quantity,
+          variantMapping: mappingResult.data,
+        },
+      };
+    },
+  };
+}
+
+export const commerceService: CommerceService = createCommerceService();
