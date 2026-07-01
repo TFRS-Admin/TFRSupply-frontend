@@ -6,4 +6,4 @@ export type { Fitment, Make, Model, Vehicle, Year } from './vehicle';
 export type { Accessory, Package, PackageLine } from './package';
 export type { Quote, QuoteLine, QuotePayload, ReviewFlag } from './quote';
 
-export type { BundlePricing, BundlePricingItem, ContractPrice, ContractWindow, DealerContract, DealerCost, ListPrice, Margin, PriceSource, PricingWarning, PromotionalBundle, QuantityBreak, QuotePricingLine, QuotePricingResult } from './pricing';
+export type { BundlePricing, BundlePricingInput, BundlePricingItem, ContractPrice, ContractWindow, DealerContract, DealerCost, ListPrice, Margin, PriceSource, PriceSourceType, PricingCalculationContract, PricingContext, PricingCurrencyCode, PricingLineInput, PricingResolution, PricingResultStatus, PricingSubject, PricingWarning, PricingWarningSeverity, PromotionalBundle, QuantityBreak, QuotePricingInput, QuotePricingLine, QuotePricingResult } from './pricing';
