@@ -11,6 +11,8 @@ export { bundlePricingInputSchema, bundlePricingItemSchema, bundlePricingSchema,
 
 export { shopifyCustomerAddressSchema, shopifyCustomerErrorCodeSchema, shopifyCustomerErrorSchema, shopifyCustomerMappingSchema, shopifyCustomerRequestSchema, shopifyCustomerResultSchema, shopifyCustomerSchema, shopifyCustomerStatusSchema, shopifyCustomerSyncStatusSchema } from './shopifyCustomer.schema';
 
+export { shopifyCatalogErrorCodeSchema, shopifyCatalogErrorSchema, shopifyCatalogMappingSchema, shopifyCatalogPublishActionSchema, shopifyCatalogSyncItemSchema, shopifyCatalogSyncRequestSchema, shopifyCatalogSyncResultSchema, shopifyCatalogSyncStatusSchema } from './shopifyCatalog.schema';
+
 export { shopifyOrderAddressSchema, shopifyOrderCustomerSchema, shopifyOrderErrorCodeSchema, shopifyOrderErrorSchema, shopifyOrderLineSchema, shopifyOrderMappingSchema, shopifyOrderRequestSchema, shopifyOrderResultSchema, shopifyOrderSchema, shopifyOrderStatusSchema, shopifyOrderSyncStatusSchema } from './shopifyOrder.schema';
 
 export { shopifyInventorySyncPayloadSchema, shopifyPricingReferenceSyncPayloadSchema, shopifyProductSyncPayloadSchema, shopifySyncDirectionSchema, shopifySyncEntityTypeSchema, shopifySyncErrorCodeSchema, shopifySyncErrorSchema, shopifySyncPayloadSchema, shopifySyncRequestSchema, shopifySyncResultSchema, shopifySyncRetryMetadataSchema, shopifySyncStatusSchema, shopifySyncSubjectSchema, shopifyVariantSyncPayloadSchema } from './shopifySync.schema';
