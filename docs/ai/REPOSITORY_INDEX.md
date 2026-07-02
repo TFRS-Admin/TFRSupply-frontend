@@ -42,6 +42,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `SHOPIFY_WEBHOOK_FOUNDATION.md` | Shopify inbound webhook receive/validate/normalize/route foundation |
 | `SHOPIFY_SYNC_ORCHESTRATOR.md` | Shopify synchronization orchestrator coordination layer |
 | `SHOPIFY_JOB_QUEUE_FOUNDATION.md` | Shopify job queue contracts, adapter boundary, and dependency handling foundation |
+| `SHOPIFY_SYNC_ADMIN_DASHBOARD.md` | `/admin/shopify-sync` dashboard composing existing Shopify services for a visible, mock-backed readiness check |
 | `VEHICLE_FITMENT_SERVICE.md` | Vehicle lookup and fitment evaluation service |
 | `PACKAGE_BUILDER_FOUNDATION.md` | Package composition and validation service |
 
