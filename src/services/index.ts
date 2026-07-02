@@ -11,6 +11,7 @@ export { createShopifyOrderService, shopifyOrderService, type ShopifyOrderServic
 export { createShopifySyncService, shopifySyncService, type ShopifySyncService } from './shopifySync';
 export { createShopifyPricingService, shopifyPricingService, type ShopifyPricingService } from './shopifyPricing';
 export { createShopifyInventoryService, shopifyInventoryService, type ShopifyInventoryService } from './shopifyInventory';
+export { createShopifyWebhookService, normalizeShopifyWebhookRequest, shopifyWebhookService, SHOPIFY_WEBHOOK_TOPIC_DOMAINS, ShopifyWebhookNormalizationError, type ShopifyWebhookService } from './shopifyWebhook';
 export { createQuotePipelineService, quotePipelineService, type QuotePipelineService, type QuotePipelineServiceDependencies } from './quotePipeline';
 export { createPricingImportService, pricingImportService, type PricingImportService } from './pricingImport';
 export { createDealerContractResolutionService, dealerContractResolutionService, type DealerContractResolutionService } from './dealerContractResolution';
