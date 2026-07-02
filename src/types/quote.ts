@@ -50,12 +50,19 @@ export interface QuoteWorkflowState {
   status: QuoteWorkflowStatus;
   approvalStatus: QuoteApprovalStatus;
   submittedAt?: string;
+  submittedBy?: string;
   reviewedAt?: string;
   reviewedBy?: string;
   approvedAt?: string;
   approvedBy?: string;
   rejectedAt?: string;
   rejectedBy?: string;
+  changesRequestedAt?: string;
+  changesRequestedBy?: string;
+  cancelledAt?: string;
+  cancelledBy?: string;
+  reviewerAssignment?: QuoteReviewerAssignment;
+  auditTrail?: QuoteApprovalAuditEvent[];
   expiresAt?: string;
   reviewFlags?: ReviewFlag[];
 }
@@ -236,6 +243,79 @@ export interface QuoteUpdateResult {
   quoteId: string;
   expectedVersion: number;
   currentVersion?: number;
+}
+
+
+export type QuoteApprovalActionType = 'submit-for-review' | 'assign-reviewer' | 'approve' | 'reject' | 'request-changes' | 'cancel-approval';
+export type QuoteAuditEventType = QuoteApprovalActionType;
+
+export interface QuoteReviewerAssignment {
+  reviewerId: string;
+  assignedBy: string;
+  assignedAt: string;
+  dueAt?: string;
+  note?: string;
+}
+
+export interface QuoteApprovalAuditEvent {
+  id: string;
+  quoteId: string;
+  type: QuoteAuditEventType;
+  actorId: string;
+  occurredAt: string;
+  fromStatus: QuoteWorkflowStatus;
+  toStatus: QuoteWorkflowStatus;
+  fromApprovalStatus: QuoteApprovalStatus;
+  toApprovalStatus: QuoteApprovalStatus;
+  reviewerAssignment?: QuoteReviewerAssignment;
+  reason?: string;
+  note?: string;
+  revision: QuoteRevisionMetadata;
+}
+
+export interface QuoteApprovalWorkflowState {
+  quote: Quote;
+  revision: QuoteRevisionMetadata;
+  auditTrail: QuoteApprovalAuditEvent[];
+}
+
+export interface QuoteApprovalActionInput {
+  quoteId: string;
+  expectedVersion: number;
+  actorId: string;
+  occurredAt?: string;
+  note?: string;
+}
+
+export interface SubmitQuoteForReviewInput extends QuoteApprovalActionInput {
+  reviewer?: Omit<QuoteReviewerAssignment, 'assignedAt'> & { assignedAt?: string };
+}
+
+export interface AssignQuoteReviewerInput extends QuoteApprovalActionInput {
+  reviewer: Omit<QuoteReviewerAssignment, 'assignedAt'> & { assignedAt?: string };
+}
+
+export interface ApproveQuoteInput extends QuoteApprovalActionInput {}
+
+export interface RejectQuoteInput extends QuoteApprovalActionInput {
+  reason: string;
+}
+
+export interface RequestQuoteChangesInput extends QuoteApprovalActionInput {
+  reason: string;
+}
+
+export interface CancelQuoteApprovalInput extends QuoteApprovalActionInput {
+  reason?: string;
+}
+
+export interface QuoteApprovalActionResult {
+  status: 'updated' | 'not-found' | 'conflict' | 'invalid-transition';
+  quoteId: string;
+  expectedVersion: number;
+  currentVersion?: number;
+  state?: QuoteApprovalWorkflowState;
+  reviewFlags: ReviewFlag[];
 }
 
 export interface QuoteHistoryResult {
