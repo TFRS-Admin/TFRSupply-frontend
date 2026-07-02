@@ -1,17 +1,19 @@
-import type { Metadata } from './common';
-import type { ShopifyCatalogSyncResult } from './shopifyCatalog';
-import type { ShopifyCustomerResult } from './shopifyCustomer';
-import type { ShopifyFulfillmentResult } from './shopifyFulfillment';
-import type { ShopifyInventorySyncResult } from './shopifyInventory';
-import type { ShopifyJobResult } from './shopifyJobQueue';
-import type { ShopifyOrderResult } from './shopifyOrder';
-import type { ShopifyPricingSyncResult } from './shopifyPricing';
-import type { ShopifySyncExecutionPlan, ShopifySyncOrchestratorResult } from './shopifySyncOrchestrator';
-import type { ShopifyWebhookResult } from './shopifyWebhook';
-import type { ShopifyWebhookVerificationResult } from './shopifyWebhookVerification';
+import type {
+  ShopifyCatalogSyncResult,
+  ShopifyCustomerResult,
+  ShopifyFulfillmentResult,
+  ShopifyInventorySyncResult,
+  ShopifyJobResult,
+  ShopifyOrderResult,
+  ShopifyPricingSyncResult,
+  ShopifySyncExecutionPlan,
+  ShopifySyncOrchestratorResult,
+  ShopifyWebhookResult,
+  ShopifyWebhookVerificationResult,
+} from './index';
 
 export interface ShopifySyncDashboardOrchestratorSection {
-  plan: ShopifySyncExecutionPlan;
+  executionPlan: ShopifySyncExecutionPlan;
   result: ShopifySyncOrchestratorResult;
 }
 
@@ -22,6 +24,16 @@ export interface ShopifySyncDashboardJobQueueSection {
 export interface ShopifySyncDashboardWebhookSection {
   received: ShopifyWebhookResult;
   routed: ShopifyWebhookResult;
+}
+
+export interface ShopifySyncDashboardWebhookVerificationSection {
+  verified: ShopifyWebhookVerificationResult;
+  mismatched: ShopifyWebhookVerificationResult;
+}
+
+export interface ShopifySyncDashboardSummary {
+  sectionCount: number;
+  statusesByArea: Record<string, string>;
 }
 
 export interface ShopifySyncDashboardData {
@@ -35,6 +47,6 @@ export interface ShopifySyncDashboardData {
   order: ShopifyOrderResult;
   fulfillment: ShopifyFulfillmentResult;
   webhook: ShopifySyncDashboardWebhookSection;
-  webhookVerification: ShopifyWebhookVerificationResult;
-  metadata?: Metadata;
+  webhookVerification: ShopifySyncDashboardWebhookVerificationSection;
+  summary: ShopifySyncDashboardSummary;
 }

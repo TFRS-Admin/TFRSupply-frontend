@@ -3,9 +3,10 @@ import type {
   ShopifySyncDashboardData,
   ShopifySyncDashboardJobQueueSection,
   ShopifySyncDashboardOrchestratorSection,
+  ShopifySyncDashboardSummary,
   ShopifySyncDashboardWebhookSection,
+  ShopifySyncDashboardWebhookVerificationSection,
 } from '@/types/shopifySyncDashboard';
-import { metadataSchema } from './common.schema';
 import { shopifyCatalogSyncResultSchema } from './shopifyCatalog.schema';
 import { shopifyCustomerResultSchema } from './shopifyCustomer.schema';
 import { shopifyFulfillmentResultSchema } from './shopifyFulfillment.schema';
@@ -18,9 +19,10 @@ import { shopifyWebhookResultSchema } from './shopifyWebhook.schema';
 import { shopifyWebhookVerificationResultSchema } from './shopifyWebhookVerification.schema';
 
 const nonEmptyString = z.string().min(1);
+const nonNegativeInt = z.number().int().nonnegative();
 
 export const shopifySyncDashboardOrchestratorSectionSchema = z.object({
-  plan: shopifySyncExecutionPlanSchema,
+  executionPlan: shopifySyncExecutionPlanSchema,
   result: shopifySyncOrchestratorResultSchema,
 }) as z.ZodType<ShopifySyncDashboardOrchestratorSection>;
 
@@ -33,6 +35,16 @@ export const shopifySyncDashboardWebhookSectionSchema = z.object({
   routed: shopifyWebhookResultSchema,
 }) as z.ZodType<ShopifySyncDashboardWebhookSection>;
 
+export const shopifySyncDashboardWebhookVerificationSectionSchema = z.object({
+  verified: shopifyWebhookVerificationResultSchema,
+  mismatched: shopifyWebhookVerificationResultSchema,
+}) as z.ZodType<ShopifySyncDashboardWebhookVerificationSection>;
+
+export const shopifySyncDashboardSummarySchema = z.object({
+  sectionCount: nonNegativeInt,
+  statusesByArea: z.record(nonEmptyString),
+}) as z.ZodType<ShopifySyncDashboardSummary>;
+
 export const shopifySyncDashboardDataSchema = z.object({
   generatedAt: nonEmptyString,
   orchestrator: shopifySyncDashboardOrchestratorSectionSchema,
@@ -44,6 +56,6 @@ export const shopifySyncDashboardDataSchema = z.object({
   order: shopifyOrderResultSchema,
   fulfillment: shopifyFulfillmentResultSchema,
   webhook: shopifySyncDashboardWebhookSectionSchema,
-  webhookVerification: shopifyWebhookVerificationResultSchema,
-  metadata: metadataSchema.optional(),
+  webhookVerification: shopifySyncDashboardWebhookVerificationSectionSchema,
+  summary: shopifySyncDashboardSummarySchema,
 }) as z.ZodType<ShopifySyncDashboardData>;

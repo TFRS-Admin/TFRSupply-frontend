@@ -1,9 +1,1 @@
-export {
-  dashboardInventoryLocations,
-  dashboardProduct,
-  dashboardQuote,
-  dashboardRequestedAt,
-  dashboardWebhookHeaders,
-  dashboardWebhookRawBody,
-  dashboardWebhookVerificationRequest,
-} from './mockShopifySyncDashboardFixtures';
+export { mockShopifySyncDashboardScenario, type ShopifySyncDashboardScenario } from './mockShopifySyncDashboardScenario';

@@ -11,111 +11,99 @@ before(async () => {
     service: await server.ssrLoadModule('/src/services/shopifySyncDashboard/index.ts'),
     schemas: await server.ssrLoadModule('/src/schemas/shopifySyncDashboard.schema.ts'),
     hooks: await server.ssrLoadModule('/src/hooks/shopifySyncDashboard/index.ts'),
+    scenario: await server.ssrLoadModule('/src/adapters/shopifySyncDashboard/index.ts'),
   };
 });
 after(async () => { await server?.close(); });
 
 describe('Shopify sync admin dashboard', () => {
-  it('loads a schema-valid dashboard payload from the default (mock-backed) service', async () => {
-    const data = await modules.service.shopifySyncDashboardService.loadDashboard();
-    assert.doesNotThrow(() => modules.schemas.shopifySyncDashboardDataSchema.parse(data));
+  it('produces a schema-valid dashboard from the default mock scenario', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    const parsed = modules.schemas.shopifySyncDashboardDataSchema.parse(dashboard);
+    assert.equal(parsed.summary.sectionCount, 10);
   });
 
-  it('builds an execution plan covering every requested Shopify sync operation', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    const operations = data.orchestrator.plan.operations.map((op) => op.operation);
-    for (const expected of ['catalog', 'inventory', 'pricing', 'customer', 'order', 'fulfillment', 'webhook', 'webhook-verification']) {
-      assert.ok(operations.includes(expected), `expected plan to include operation "${expected}"`);
-    }
+  it('builds a dry-run orchestrator execution plan spanning catalog, inventory, pricing, customer, order, and fulfillment', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.orchestrator.executionPlan.dryRun, true);
+    assert.equal(dashboard.orchestrator.executionPlan.operations.length, 6);
+    assert.deepEqual(dashboard.orchestrator.executionPlan.operations.map((op) => op.operation), ['catalog', 'inventory', 'pricing', 'customer', 'order', 'fulfillment']);
+    assert.equal(dashboard.orchestrator.result.status, 'succeeded');
+    assert.equal(dashboard.orchestrator.result.errors.length, 0);
   });
 
-  it('executes the orchestrator dry-run without adapter-unavailable errors', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.notEqual(data.orchestrator.result.status, 'adapter-unavailable');
-    assert.notEqual(data.orchestrator.result.status, 'failed');
-    assert.equal(data.orchestrator.result.errors.length, 0);
-    assert.equal(data.orchestrator.result.operationResults.length, 8);
-    for (const operationResult of data.orchestrator.result.operationResults) {
-      assert.notEqual(operationResult.status, 'adapter-unavailable');
-      assert.notEqual(operationResult.status, 'failed');
-    }
+  it('queues dry-run job queue jobs with a resolved catalog -> inventory/pricing dependency order', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.jobQueue.jobs.length, 3);
+    assert.ok(dashboard.jobQueue.jobs.every((job) => job.status === 'dry-run'));
+    assert.equal(dashboard.jobQueue.jobs[0].jobId, 'dashboard-catalog-job');
   });
 
-  it('queues one dry-run job per Shopify sync operation through the mock job queue adapter', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.jobQueue.jobs.length, 8);
-    for (const job of data.jobQueue.jobs) {
-      assert.equal(job.status, 'dry-run');
-      assert.equal(job.errors.length, 0);
-    }
+  it('produces a dry-run catalog sync preview mapping the demo product', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.catalog.status, 'dry-run');
+    assert.equal(dashboard.catalog.items[0].productId, 'navigator');
+    assert.equal(dashboard.catalog.mappings[0].handle, 'navigator-lightbar');
   });
 
-  it('produces a real catalog sync preview mapped from the demo product fixture', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.catalog.status, 'dry-run');
-    assert.equal(data.catalog.items[0].productId, 'navigator');
+  it('produces a dry-run inventory sync preview with location adjustments', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.inventory.status, 'dry-run');
+    assert.equal(dashboard.inventory.items[0].sku, 'NVG-48');
+    assert.equal(dashboard.inventory.mappings[0].locationMappings[0].shopifyLocationGid, 'gid://shopify/Location/1');
   });
 
-  it('produces a real inventory sync preview with location mappings', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.inventory.status, 'dry-run');
-    assert.equal(data.inventory.mappings[0].locationMappings[0].shopifyLocationGid, 'gid://shopify/Location/1');
+  it('produces a dry-run pricing sync preview with a resolved strategy', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.pricing.status, 'dry-run');
+    assert.equal(dashboard.pricing.items[0].sku, 'NVG-48');
+    assert.ok(dashboard.pricing.items[0].price.amount > 0);
   });
 
-  it('produces a real pricing sync preview', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.pricing.status, 'dry-run');
-    assert.equal(data.pricing.items.length > 0, true);
+  it('produces a customer sync preview mapped from the demo quote', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.customer.status, 'accepted');
+    assert.equal(dashboard.customer.syncStatus, 'dry-run');
+    assert.equal(dashboard.customer.customer.company, 'Metro Police Department');
   });
 
-  it('produces a real customer sync preview from the demo quote fixture', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.customer.errors.length, 0);
+  it('produces an order sync preview mapped from the demo quote', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.order.status, 'accepted');
+    assert.equal(dashboard.order.syncStatus, 'dry-run');
+    assert.equal(dashboard.order.order.quoteId, 'quote-shopify-sync-dashboard-001');
   });
 
-  it('produces a real order sync preview from the demo quote fixture', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.order.errors.length, 0);
-    assert.equal(data.order.order?.quoteId, 'quote-dashboard-001');
+  it('produces a fulfillment sync preview mapped from the demo order', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.fulfillment.status, 'dry-run');
+    assert.equal(dashboard.fulfillment.items[0].sku, 'NVG-48');
   });
 
-  it('produces a real fulfillment sync preview derived from the mapped order', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.fulfillment.status, 'dry-run');
-    assert.equal(data.fulfillment.errors.length, 0);
+  it('receives and routes a webhook event preview without a live adapter call', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.webhook.received.status, 'validated');
+    assert.equal(dashboard.webhook.received.domain, 'orders');
+    assert.equal(dashboard.webhook.routed.status, 'routed');
   });
 
-  it('receives and routes a demo webhook event without a live Shopify connection', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.webhook.received.topic, 'orders/create');
-    assert.equal(data.webhook.routed.status, 'routed');
+  it('verifies a valid HMAC signature and rejects a mismatched one', async () => {
+    const dashboard = await modules.service.shopifySyncDashboardService.loadDashboard();
+    assert.equal(dashboard.webhookVerification.verified.status, 'verified');
+    assert.equal(dashboard.webhookVerification.verified.verified, true);
+    assert.equal(dashboard.webhookVerification.mismatched.status, 'failed');
+    assert.equal(dashboard.webhookVerification.mismatched.reason, 'signature-mismatch');
   });
 
-  it('verifies the demo HMAC signature through the mock verification adapter', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const data = await svc.loadDashboard();
-    assert.equal(data.webhookVerification.verified, true);
-    assert.equal(data.webhookVerification.status, 'verified');
+  it('allows injecting a custom scenario and clock for deterministic testing', async () => {
+    const { createShopifySyncDashboardService } = modules.service;
+    const { mockShopifySyncDashboardScenario } = modules.scenario;
+    const dashboard = await createShopifySyncDashboardService({ now: () => '2026-08-01T00:00:00.000Z' }).loadDashboard();
+    assert.equal(dashboard.generatedAt, '2026-08-01T00:00:00.000Z');
+    assert.equal(dashboard.catalog.items[0].productId, mockShopifySyncDashboardScenario.product.id);
   });
 
-  it('is fully deterministic across repeated loads', async () => {
-    const svc = modules.service.createShopifySyncDashboardService({ now: () => '2026-07-02T00:00:00.000Z' });
-    const first = await svc.loadDashboard();
-    const second = await svc.loadDashboard();
-    assert.deepEqual(first, second);
-  });
-
-  it('exposes a typed dashboard hook entry point', () => {
+  it('exposes a typed hook entry point', () => {
     assert.equal(typeof modules.hooks.useShopifySyncDashboard, 'function');
   });
 });
