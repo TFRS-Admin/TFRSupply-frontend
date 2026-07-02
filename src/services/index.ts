@@ -7,6 +7,7 @@ export { quoteBuilderService, type QuoteBuilderService } from './quoteBuilder';
 export { quoteService, type QuoteService } from './quote';
 export { vehicleService, type VehicleService } from './vehicle';
 export { vehicleFitmentService, createVehicleFitmentService, type VehicleFitmentService } from './vehicleFitment';
+export { createShopifyOrderService, shopifyOrderService, type ShopifyOrderService } from './shopifyOrder';
 export { createShopifySyncService, shopifySyncService, type ShopifySyncService } from './shopifySync';
 export { createQuotePipelineService, quotePipelineService, type QuotePipelineService, type QuotePipelineServiceDependencies } from './quotePipeline';
 export { createPricingImportService, pricingImportService, type PricingImportService } from './pricingImport';

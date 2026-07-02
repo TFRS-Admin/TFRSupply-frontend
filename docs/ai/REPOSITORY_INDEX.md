@@ -35,6 +35,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `PRICING_DOMAIN.md` | Pricing service, adapter, engine-contract, and pricing import pipeline foundations |
 | `QUOTE_BUILDER_FOUNDATION.md` | Quote lifecycle service and contract foundations |
 | `QUOTE_PDF_GENERATION.md` | Quote PDF render orchestration and validation |
+| `SHOPIFY_ORDER_INTEGRATION.md` | Shopify order creation and synchronization foundation |
 | `VEHICLE_FITMENT_SERVICE.md` | Vehicle lookup and fitment evaluation service |
 | `PACKAGE_BUILDER_FOUNDATION.md` | Package composition and validation service |
 
