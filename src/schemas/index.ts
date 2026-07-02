@@ -21,6 +21,8 @@ export { shopifyOrderAddressSchema, shopifyOrderCustomerSchema, shopifyOrderErro
 
 export { shopifyFulfillmentErrorCodeSchema, shopifyFulfillmentErrorSchema, shopifyFulfillmentItemSchema, shopifyFulfillmentMappingSchema, shopifyFulfillmentRequestSchema, shopifyFulfillmentResultSchema, shopifyFulfillmentStatusSchema, shopifyShipmentSchema, shopifyShipmentStatusSchema, shopifyTrackingInformationSchema } from './shopifyFulfillment.schema';
 
+export { shopifyWebhookDomainSchema, shopifyWebhookErrorCodeSchema, shopifyWebhookErrorSchema, shopifyWebhookEventSchema, shopifyWebhookHeadersSchema, shopifyWebhookRequestSchema, shopifyWebhookResultSchema, shopifyWebhookStatusSchema, shopifyWebhookTopicSchema } from './shopifyWebhook.schema';
+
 export { shopifyInventorySyncPayloadSchema, shopifyPricingReferenceSyncPayloadSchema, shopifyProductSyncPayloadSchema, shopifySyncDirectionSchema, shopifySyncEntityTypeSchema, shopifySyncErrorCodeSchema, shopifySyncErrorSchema, shopifySyncPayloadSchema, shopifySyncRequestSchema, shopifySyncResultSchema, shopifySyncRetryMetadataSchema, shopifySyncStatusSchema, shopifySyncSubjectSchema, shopifyVariantSyncPayloadSchema } from './shopifySync.schema';
 
 export { pricingImportIssueSchema, pricingImportRecordKindSchema, pricingImportResultSchema, pricingImportSeveritySchema, pricingImportSourceKindSchema, pricingImportSourceSchema, pricingImportStatusSchema, pricingImportValidationResultSchema, pricingNormalizedRecordSchema, pricingParsedDocumentSchema, pricingParsedRowSchema } from './pricingImport.schema';
