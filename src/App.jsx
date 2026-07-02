@@ -20,8 +20,10 @@ import AdminQuotesPage from '@/pages/AdminQuotesPage';
 import AdminPricingImportDashboard from '@/pages/AdminPricingImportDashboard';
 import AdminQuoteBuilderPage from '@/pages/AdminQuoteBuilderPage';
 import AdminShopifySyncDashboard from '@/pages/AdminShopifySyncDashboard';
+import AdminLoginPage from '@/pages/AdminLoginPage';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
+import AdminAuthGuard from '@/components/AdminAuthGuard';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -59,10 +61,19 @@ const AuthenticatedApp = () => {
         {/* Static pages */}
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/quotes" element={<AdminQuotesPage />} />
-        <Route path="/admin/quote-builder" element={<AdminQuoteBuilderPage />} />
+        <Route path="/admin/quote-builder" element={
+          <AdminAuthGuard requiredPermission="admin.quote-builder.view">
+            <AdminQuoteBuilderPage />
+          </AdminAuthGuard>
+        } />
         <Route path="/admin/pricing-imports" element={<AdminPricingImportDashboard />} />
-        <Route path="/admin/shopify-sync" element={<AdminShopifySyncDashboard />} />
+        <Route path="/admin/shopify-sync" element={
+          <AdminAuthGuard requiredPermission="admin.shopify-sync.view">
+            <AdminShopifySyncDashboard />
+          </AdminAuthGuard>
+        } />
         <Route path="/showcase" element={<ComponentShowcase />} />
         <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
         <Route path="*" element={<PageNotFound />} />

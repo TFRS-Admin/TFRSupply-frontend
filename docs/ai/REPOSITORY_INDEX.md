@@ -45,6 +45,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `SHOPIFY_SYNC_ADMIN_DASHBOARD.md` | Visible `/admin/shopify-sync` dashboard composing existing Shopify sync services against mock adapters |
 | `VEHICLE_FITMENT_SERVICE.md` | Vehicle lookup and fitment evaluation service |
 | `PACKAGE_BUILDER_FOUNDATION.md` | Package composition and validation service |
+| `ADMIN_AUTHENTICATION_WORKSPACE.md` | Frontend admin authentication service, adapter boundary, and mock-identity session gate for `/admin/shopify-sync` and `/admin/quote-builder` |
 
 ## TypeScript (`docs/typescript/`)
 
