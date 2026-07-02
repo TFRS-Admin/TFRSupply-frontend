@@ -117,6 +117,7 @@ import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
 | Catalog | `src/services/catalog` | Products, categories, verticals |
 | Configurator | `src/services/configurator` | Configurator definitions and future selection orchestration |
 | Commerce | `src/services/commerce` | Shopify-facing commerce boundaries |
+| Shopify Sync Orchestrator | `src/services/shopifySyncOrchestrator` | Dry-run orchestration across existing Shopify synchronization services |
 | Pricing | `src/services/pricing` | Pricing sources, bundles, margins, quote pricing |
 | Quote | `src/services/quote` | Quote lifecycle boundaries |
 | Quote PDF | `src/services/quotePdf` | Quote PDF render orchestration and validation |
