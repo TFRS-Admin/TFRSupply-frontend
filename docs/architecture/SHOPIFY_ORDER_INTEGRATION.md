@@ -51,6 +51,7 @@ The initial flow is dry-run only:
 - Webhook reconciliation and background sync jobs.
 - Persistence of mappings after database persistence is designed.
 - Rich tax, shipping, discount, and payment status mapping.
+- Fulfillment and shipment synchronization builds on this foundation's `ShopifyOrder`/`ShopifyOrderAddress` contracts; see `SHOPIFY_FULFILLMENT_FOUNDATION.md`.
 
 ## Explicit non-goals
 

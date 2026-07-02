@@ -37,6 +37,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `QUOTE_PDF_GENERATION.md` | Quote PDF render orchestration and validation |
 | `SHOPIFY_CUSTOMER_INTEGRATION.md` | Shopify customer creation and synchronization foundation |
 | `SHOPIFY_ORDER_INTEGRATION.md` | Shopify order creation and synchronization foundation |
+| `SHOPIFY_FULFILLMENT_FOUNDATION.md` | Shopify fulfillment and shipment synchronization foundation |
 | `SHOPIFY_INVENTORY_SYNCHRONIZATION.md` | Shopify inventory synchronization foundation |
 | `VEHICLE_FITMENT_SERVICE.md` | Vehicle lookup and fitment evaluation service |
 | `PACKAGE_BUILDER_FOUNDATION.md` | Package composition and validation service |
