@@ -105,3 +105,38 @@ The default export remains unwired to routes, React components, checkout, Shopif
 ### Non-goals
 
 This orchestration does not persist quotes, render PDFs, submit checkout, call Shopify, add routes, add UI, send email, or recalculate pricing outside the pricing service and dealer-contract resolution engine.
+
+## Issue 32 Quote Persistence and Versioning Boundary
+
+Quote persistence is now represented by an additive repository/service boundary that can save, load, update, and inspect history for generated `Quote` objects without changing any live UI, checkout, Shopify, PDF, email, or routing behavior.
+
+### Ownership
+
+- `src/types/quote.ts` owns quote revision metadata, persistence records, history snapshots, optimistic-version update inputs, and save/load/update/history result contracts.
+- `src/schemas/quote.schema.ts` owns runtime validation for quote persistence inputs and results by composing the existing `quoteSchema` instead of duplicating quote generation or materialization rules.
+- `src/adapters/quotePersistence/quoteRepository.ts` owns the repository abstraction and the in-memory adapter used for deterministic tests and future service wiring.
+- `src/services/quotePersistence/quotePersistenceService.ts` owns orchestration only: it validates inputs, assigns revision metadata, increments versions on successful updates, and surfaces conflict/not-found states from the repository.
+- `tests/quote-persistence-versioning.test.mjs` covers save, load, update, optimistic conflict behavior, and history snapshots.
+
+### Dependency Direction
+
+```text
+future React quote hooks → quotePersistenceService → QuoteRepository → future database/provider adapter
+                                      ↓
+                           quote persistence schemas / quote types
+                                      ↓
+                             existing Quote domain contract
+```
+
+The in-memory adapter is intentionally local and deterministic. It is not database persistence and is not wired into runtime quote generation. Future database work should implement `QuoteRepository` behind the same service contract rather than changing quote generation services.
+
+### Versioning Semantics
+
+- `saveQuote` creates version `1` and stores an initial history snapshot.
+- `updateQuote` requires an `expectedVersion`; matching versions produce a new record with `version = expectedVersion + 1`.
+- Mismatched versions return a `conflict` result with the current record and current version, leaving the stored quote unchanged.
+- `getQuoteHistory` returns ordered immutable snapshots for each saved revision.
+
+### Non-goals
+
+This boundary does not implement database persistence, authentication, UI, routing, PDF rendering, email sending, checkout, Shopify calls, or quote generation. It persists already-materialized `Quote` objects by contract only and reuses the existing quote schemas and domain types.

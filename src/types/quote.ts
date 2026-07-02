@@ -187,6 +187,63 @@ export interface LiveQuoteBuilderResult {
   pdfReady: boolean;
 }
 
+export interface QuoteRevisionMetadata {
+  quoteId: string;
+  version: number;
+  savedAt: string;
+  savedBy?: string;
+  source?: string;
+  note?: string;
+}
+
+export interface QuoteHistorySnapshot {
+  quote: Quote;
+  revision: QuoteRevisionMetadata;
+}
+
+export interface QuotePersistenceRecord {
+  quote: Quote;
+  revision: QuoteRevisionMetadata;
+  history: QuoteHistorySnapshot[];
+}
+
+export interface QuoteSaveInput {
+  quote: Quote;
+  revision?: Partial<Omit<QuoteRevisionMetadata, 'quoteId' | 'version' | 'savedAt'>> & { savedAt?: string };
+}
+
+export interface QuoteUpdateInput {
+  quoteId: string;
+  quote: Quote;
+  expectedVersion: number;
+  revision?: Partial<Omit<QuoteRevisionMetadata, 'quoteId' | 'version' | 'savedAt'>> & { savedAt?: string };
+}
+
+export interface QuoteSaveResult {
+  status: 'saved';
+  record: QuotePersistenceRecord;
+}
+
+export interface QuoteLoadResult {
+  status: 'found' | 'not-found';
+  record?: QuotePersistenceRecord;
+  quoteId: string;
+}
+
+export interface QuoteUpdateResult {
+  status: 'updated' | 'not-found' | 'conflict';
+  record?: QuotePersistenceRecord;
+  quoteId: string;
+  expectedVersion: number;
+  currentVersion?: number;
+}
+
+export interface QuoteHistoryResult {
+  status: 'found' | 'not-found';
+  quoteId: string;
+  history: QuoteHistorySnapshot[];
+}
+
 export interface QuotePayload {
   quote: Quote;
   source: string;
