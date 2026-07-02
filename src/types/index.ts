@@ -15,3 +15,4 @@ export type { PricingImportIssue, PricingImportNormalizer, PricingImportParser, 
 export type { PricingImportDashboardData, PricingImportDashboardStatistics, PricingImportDashboardSummary, PricingImportDuplicateRecordGroup, PricingImportHistoryEntry, PricingImportRun, PricingImportUploadStatus } from './pricingImportDashboard';
 
 export type { ContractWindowEvaluation, ContractWindowEvaluationStatus, DealerContractResolutionRequest, DealerContractResolutionResult, DealerContractResolutionStatus, DealerContractSelection, PromotionalBundleResolution, QuantityBreakSelection } from './dealerContractResolution';
+export type { EmailNotificationContext, EmailNotificationEventType, EmailNotificationRecipient, EmailNotificationRecipientRole, EmailNotificationRequest, EmailNotificationResult, EmailNotificationStatus, EmailNotificationTemplateContract, QuoteNotificationEventMapping } from './notification';

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, ApproveQuoteInput, AssignQuoteReviewerInput, CancelQuoteApprovalInput, QuoteApprovalActionInput, QuoteApprovalActionResult, QuoteApprovalActionType, QuoteApprovalAuditEvent, QuoteApprovalWorkflowState, QuoteAuditEventType, QuoteReviewerAssignment, RejectQuoteInput, RequestQuoteChangesInput, QuoteValidationResult, QuoteWorkflowState, ReviewFlag, SubmitQuoteForReviewInput } from '@/types';
+import type { EmailNotificationContext, EmailNotificationEventType, EmailNotificationRecipient, EmailNotificationRequest, EmailNotificationResult, EmailNotificationTemplateContract, LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, ApproveQuoteInput, AssignQuoteReviewerInput, CancelQuoteApprovalInput, QuoteApprovalActionInput, QuoteApprovalActionResult, QuoteApprovalActionType, QuoteApprovalAuditEvent, QuoteApprovalWorkflowState, QuoteAuditEventType, QuoteReviewerAssignment, RejectQuoteInput, RequestQuoteChangesInput, QuoteValidationResult, QuoteWorkflowState, ReviewFlag, SubmitQuoteForReviewInput } from '@/types';
 import { baseEntityObjectSchema, metadataSchema, moneySchema } from './common.schema';
 import { commerceLookupResultSchema, priceSchema, shopifyProductSchema, variantMappingSchema } from './commerce.schema';
 import { packageAssemblyResultSchema, packageDefinitionSchema } from './package.schema';
@@ -365,6 +365,62 @@ export const quoteApprovalActionResultSchema = z.object({
   state: quoteApprovalWorkflowStateSchema.optional(),
   reviewFlags: z.array(reviewFlagSchema),
 }) as z.ZodType<QuoteApprovalActionResult>;
+
+
+export const emailNotificationEventTypeSchema = z.enum([
+  'quote.submitted_for_review',
+  'quote.reviewer_assigned',
+  'quote.approved',
+  'quote.rejected',
+  'quote.changes_requested',
+  'quote.approval_cancelled',
+]) as z.ZodType<EmailNotificationEventType>;
+
+export const emailNotificationRecipientSchema = z.object({
+  email: z.string().email(),
+  name: z.string().optional(),
+  role: z.enum(['requestor', 'reviewer', 'sales', 'manager', 'observer']).optional(),
+  userId: z.string().optional(),
+}) as z.ZodType<EmailNotificationRecipient>;
+
+export const emailNotificationTemplateContractSchema = z.object({
+  id: nonEmptyString,
+  eventType: emailNotificationEventTypeSchema,
+  subject: nonEmptyString,
+  requiredFields: z.array(nonEmptyString),
+  description: z.string().optional(),
+}) as z.ZodType<EmailNotificationTemplateContract>;
+
+export const emailNotificationContextSchema = z.object({
+  quote: quoteSchema,
+  actorId: z.string().optional(),
+  occurredAt: z.string().optional(),
+  auditEvent: quoteApprovalAuditEventSchema.optional(),
+  reviewerAssignment: quoteReviewerAssignmentSchema.optional(),
+  reason: z.string().optional(),
+  note: z.string().optional(),
+  metadata: z.record(quoteMetadataValueSchema).optional(),
+}) as z.ZodType<EmailNotificationContext>;
+
+export const emailNotificationRequestSchema = z.object({
+  id: z.string().optional(),
+  eventType: emailNotificationEventTypeSchema,
+  recipients: z.array(emailNotificationRecipientSchema),
+  templateId: z.string().optional(),
+  context: emailNotificationContextSchema,
+  dryRun: z.boolean().optional(),
+}) as z.ZodType<EmailNotificationRequest>;
+
+export const emailNotificationResultSchema = z.object({
+  status: z.enum(['queued', 'skipped', 'failed', 'unavailable']),
+  requestId: nonEmptyString,
+  eventType: emailNotificationEventTypeSchema,
+  templateId: nonEmptyString,
+  recipients: z.array(emailNotificationRecipientSchema),
+  providerMessageId: z.string().optional(),
+  reviewFlags: z.array(reviewFlagSchema),
+  error: z.string().optional(),
+}) as z.ZodType<EmailNotificationResult>;
 
 export const quotePayloadSchema = z.object({
   quote: quoteSchema,

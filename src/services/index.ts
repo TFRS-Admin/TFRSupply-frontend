@@ -15,3 +15,4 @@ export { createPricingImportDashboardService, pricingImportDashboardService, typ
 export { createLiveQuoteBuilderService, liveQuoteBuilderService, type LiveQuoteBuilderService, type LiveQuoteBuilderServiceDependencies } from './liveQuoteBuilder';
 export { createQuotePersistenceService, quotePersistenceService, type QuotePersistenceService } from './quotePersistence';
 export { createQuoteApprovalService, quoteApprovalService, type QuoteApprovalService } from './quoteApproval';
+export { createEmailNotificationService, emailNotificationService, quoteNotificationEventMappings, quoteNotificationTemplates, type EmailNotificationService, type EmailNotificationServiceDependencies } from './emailNotification';
