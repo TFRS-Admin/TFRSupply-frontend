@@ -2,28 +2,27 @@
  * pages/AdminShopifySyncDashboard.jsx
  * Issue 45 — Admin Shopify Sync Dashboard.
  *
- * Consumes shopifySyncAdminDashboardService, which wires the existing Shopify
- * foundation services (sync orchestrator, job queue, catalog, inventory, pricing,
- * customer, order, fulfillment, webhook, webhook HMAC verification) to their
- * deterministic mock adapters. No live Shopify calls, no persistence, no auth —
- * every value on this page is a dry-run/preview result returned by real services.
+ * Consumes shopifySyncDashboardService, which composes the existing Shopify sync
+ * orchestrator, job queue, catalog, inventory, pricing, customer, order, fulfillment,
+ * webhook, and webhook HMAC verification services against their existing mock adapters.
+ * No live Shopify calls, file uploads, or persistence happen here — every result on this
+ * page is a dry-run/preview produced by the real service layer.
  */
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useShopifySyncAdminDashboard } from '@/hooks/shopifySyncAdminDashboard';
+import { useShopifySyncDashboard } from '@/hooks/shopifySyncDashboard';
 import {
-  AlertTriangle, Boxes, CheckCircle2, ClipboardList, Clock, Globe2, Layers,
-  Package, RefreshCw, ShieldCheck, ShoppingCart, Truck, User, Webhook, XCircle,
+  Bug, CheckCircle2, ClipboardList, GitBranch, Layers, RefreshCw, ShieldCheck,
+  ShoppingCart, Truck, Users, Webhook, XCircle,
 } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-const TABS = ['summary', 'orchestrator', 'jobs', 'catalog', 'inventory', 'pricing', 'customer', 'order', 'fulfillment', 'webhook', 'hmac'];
+const TABS = ['orchestrator', 'job-queue', 'catalog', 'inventory', 'pricing', 'customer', 'order', 'fulfillment', 'webhook', 'webhook-verification'];
 const TAB_LABELS = {
-  summary: 'Summary',
   orchestrator: 'Sync Orchestrator',
-  jobs: 'Job Queue',
+  'job-queue': 'Job Queue',
   catalog: 'Catalog Sync',
   inventory: 'Inventory Sync',
   pricing: 'Pricing Sync',
@@ -31,53 +30,38 @@ const TAB_LABELS = {
   order: 'Order Sync',
   fulfillment: 'Fulfillment Sync',
   webhook: 'Webhook Routing',
-  hmac: 'HMAC Verification',
+  'webhook-verification': 'HMAC Verification',
 };
 const TAB_ICONS = {
-  summary: ClipboardList, orchestrator: Layers, jobs: Boxes, catalog: Package, inventory: Boxes,
-  pricing: ShoppingCart, customer: User, order: ShoppingCart, fulfillment: Truck, webhook: Webhook, hmac: ShieldCheck,
+  orchestrator: GitBranch,
+  'job-queue': ClipboardList,
+  catalog: Layers,
+  inventory: Layers,
+  pricing: Layers,
+  customer: Users,
+  order: ShoppingCart,
+  fulfillment: Truck,
+  webhook: Webhook,
+  'webhook-verification': ShieldCheck,
 };
 
-const GOOD_STATUSES = new Set(['succeeded', 'accepted', 'dry-run', 'validated', 'mapped', 'verified', 'routed', 'queued', 'ready', 'planned', 'cancelled']);
-const WARN_STATUSES = new Set(['partial', 'blocked']);
-const BAD_STATUSES = new Set(['failed', 'adapter-unavailable', 'unavailable']);
+const FAILURE_STATUSES = new Set(['failed', 'blocked', 'cancelled', 'adapter-unavailable', 'partial']);
 
-function toneForStatus(status) {
-  if (GOOD_STATUSES.has(status)) return 'good';
-  if (WARN_STATUSES.has(status)) return 'warning';
-  if (BAD_STATUSES.has(status)) return 'critical';
-  return 'neutral';
-}
-
-function StatusBadge({ status }) {
-  const tone = toneForStatus(status);
-  const palette = {
-    good: { bg: '#dcfce7', text: '#15803d', border: '#86efac', Icon: CheckCircle2 },
-    warning: { bg: '#fef3c7', text: '#92400e', border: '#fde68a', Icon: AlertTriangle },
-    critical: { bg: '#fee2e2', text: '#b91c1c', border: '#fecaca', Icon: XCircle },
-    neutral: { bg: '#f3f4f6', text: '#6b7280', border: '#d1d5db', Icon: Clock },
-  }[tone];
-  const Icon = palette.Icon;
+function StatusBadge({ value }) {
+  const isFailure = FAILURE_STATUSES.has(value);
+  const bg = isFailure ? '#fee2e2' : '#dcfce7';
+  const text = isFailure ? '#b91c1c' : '#15803d';
+  const border = isFailure ? '#fecaca' : '#86efac';
+  const Icon = isFailure ? XCircle : CheckCircle2;
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 4,
       fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
       padding: '2px 8px', borderRadius: 2,
-      background: palette.bg, color: palette.text, border: `1px solid ${palette.border}`,
+      background: bg, color: text, border: `1px solid ${border}`,
     }}>
-      <Icon size={11} /> {status ?? 'unknown'}
+      <Icon size={11} /> {value ?? 'unknown'}
     </span>
-  );
-}
-
-function StatTile({ label, value, sublabel, tone = 'neutral' }) {
-  const toneColors = { neutral: '#1a2744', good: '#15803d', warning: '#92400e', critical: '#b91c1c' };
-  return (
-    <div style={{ background: '#fff', border: '1px solid #e5e7eb', padding: '16px 18px', borderRadius: 2 }}>
-      <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#888' }}>{label}</p>
-      <p style={{ margin: '6px 0 0', fontSize: 26, fontWeight: 800, color: toneColors[tone] || toneColors.neutral }}>{value}</p>
-      {sublabel && <p style={{ margin: '4px 0 0', fontSize: 11, color: '#aaa' }}>{sublabel}</p>}
-    </div>
   );
 }
 
@@ -91,80 +75,45 @@ function Section({ title, description, children }) {
   );
 }
 
-function KeyValueTable({ rows }) {
+function KeyValueGrid({ rows }) {
   return (
-    <div style={{ background: '#fff', border: '1px solid #e5e7eb', overflowX: 'auto' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-        <tbody>
-          {rows.map(([key, value]) => (
-            <tr key={key} style={{ borderBottom: '1px solid #f0f0f0' }}>
-              <td style={{ padding: '9px 12px', fontWeight: 600, color: '#1a2744', width: 220, whiteSpace: 'nowrap', verticalAlign: 'top' }}>{key}</td>
-              <td style={{ padding: '9px 12px', color: '#1a1a1a', fontFamily: 'monospace', wordBreak: 'break-word' }}>{value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 2 }}>
+      {rows.map(([label, value], i) => (
+        <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, padding: '10px 14px', borderBottom: i === rows.length - 1 ? 'none' : '1px solid #f0f0f0', fontSize: 12 }}>
+          <span style={{ color: '#888' }}>{label}</span>
+          <span style={{ color: '#1a1a1a', fontWeight: 600, textAlign: 'right' }}>{value}</span>
+        </div>
+      ))}
     </div>
   );
 }
 
-function ErrorsList({ errors }) {
-  if (!errors || errors.length === 0) {
-    return <p style={{ fontSize: 12, color: '#15803d', margin: '8px 0 0' }}>No errors.</p>;
-  }
+function JsonPreview({ value }) {
   return (
-    <ul style={{ margin: '8px 0 0', paddingLeft: 18, fontSize: 12, color: '#b91c1c' }}>
-      {errors.map((err, i) => <li key={i}>{err.code}: {err.message}</li>)}
-    </ul>
+    <pre style={{
+      background: '#0f172a', color: '#e2e8f0', fontSize: 11.5, lineHeight: 1.6,
+      padding: 16, borderRadius: 2, overflowX: 'auto', margin: 0,
+    }}>{JSON.stringify(value, null, 2)}</pre>
   );
+}
+
+function money(value) {
+  if (!value || typeof value.amount !== 'number') return '—';
+  return `$${value.amount.toLocaleString()} ${value.currencyCode ?? ''}`.trim();
 }
 
 // ── Panels ────────────────────────────────────────────────────────────────────
 
-function SummaryPanel({ data }) {
-  const { summary } = data;
-  return (
-    <>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 24 }}>
-        <StatTile label="Sections" value={summary.sectionCount} />
-        <StatTile label="Plan Operations" value={summary.operationCount} />
-        <StatTile label="Dry-Run Jobs" value={summary.jobCount} />
-        <StatTile label="Errors" value={summary.errorCount} tone={summary.errorCount > 0 ? 'warning' : 'good'} />
-      </div>
-      <Section title="Status Counts Across All Previews" description="Every service result on this page is tallied by its status value.">
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          {Object.entries(summary.statusCounts).map(([status, count]) => (
-            <span key={status} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, padding: '6px 12px', background: '#f4f5f7', border: '1px solid #e5e7eb', borderRadius: 2, color: '#1a1a1a' }}>
-              <StatusBadge status={status} /> <strong>{count}</strong>
-            </span>
-          ))}
-        </div>
-      </Section>
-      <Section title="What This Dashboard Proves" description="Each tab exercises a real Shopify foundation service against deterministic demo data.">
-        <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: '#555', lineHeight: 1.8 }}>
-          <li>Sync Orchestrator builds a dependency-ordered execution plan and runs it dry-run.</li>
-          <li>Job Queue accepts jobs, resolves dependencies, and previews each job&apos;s execution plan.</li>
-          <li>Catalog, Inventory, Pricing, Customer, Order, and Fulfillment services map demo products/quotes to Shopify-shaped payloads.</li>
-          <li>Webhook service normalizes and routes a sample inbound event.</li>
-          <li>HMAC verification service checks a valid and an invalid signature.</li>
-        </ul>
-      </Section>
-    </>
-  );
-}
-
 function OrchestratorPanel({ data }) {
-  const { plan, result } = data.orchestrator;
+  const { executionPlan, result } = data.orchestrator;
   return (
     <>
-      <Section title="Execution Plan" description="Deterministic dry-run plan built by shopifySyncOrchestratorService.buildExecutionPlan().">
-        <KeyValueTable rows={[
-          ['Plan ID', plan.planId],
-          ['Request ID', plan.requestId],
-          ['Status', <StatusBadge status={plan.status} key="s" />],
-          ['Dry Run', String(plan.dryRun)],
-          ['Operations', plan.operations.length],
-          ['Created At', plan.createdAt],
+      <Section title="Execution Plan" description="Deterministic operation sequence built by shopifySyncOrchestratorService.buildExecutionPlan(), with dependency ordering across domains.">
+        <KeyValueGrid rows={[
+          ['Plan ID', executionPlan.planId],
+          ['Status', <StatusBadge key="s" value={executionPlan.status} />],
+          ['Dry Run', String(executionPlan.dryRun)],
+          ['Operations', executionPlan.operations.length],
         ]} />
       </Section>
       <Section title="Planned Operations">
@@ -172,17 +121,17 @@ function OrchestratorPanel({ data }) {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
             <thead>
               <tr style={{ background: '#1a2744', color: '#fff' }}>
-                {['Seq', 'Operation ID', 'Operation', 'Depends On'].map((h) => (
+                {['Seq', 'Operation', 'Operation ID', 'Depends On'].map((h) => (
                   <th key={h} style={{ padding: '10px 12px', textAlign: 'left', fontWeight: 700, fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {plan.operations.map((op, i) => (
+              {executionPlan.operations.map((op, i) => (
                 <tr key={op.operationId} style={{ background: i % 2 === 0 ? '#f9fafb' : '#fff', borderBottom: '1px solid #f0f0f0' }}>
-                  <td style={{ padding: '10px 12px', color: '#1a1a1a' }}>{op.sequence}</td>
-                  <td style={{ padding: '10px 12px', fontFamily: 'monospace', color: '#1a1a1a' }}>{op.operationId}</td>
-                  <td style={{ padding: '10px 12px', color: '#1a1a1a' }}>{op.operation}</td>
+                  <td style={{ padding: '10px 12px' }}>{op.sequence}</td>
+                  <td style={{ padding: '10px 12px', fontWeight: 600, color: '#1a2744' }}>{op.operation}</td>
+                  <td style={{ padding: '10px 12px', fontFamily: 'monospace' }}>{op.operationId}</td>
                   <td style={{ padding: '10px 12px', color: '#888' }}>{op.dependsOn.length ? op.dependsOn.join(', ') : '—'}</td>
                 </tr>
               ))}
@@ -190,75 +139,51 @@ function OrchestratorPanel({ data }) {
           </table>
         </div>
       </Section>
-      <Section title="Orchestration Result" description="Result of shopifySyncOrchestratorService.orchestrate() executing the plan against dry-run adapters.">
-        <KeyValueTable rows={[
-          ['Overall Status', <StatusBadge status={result.status} key="s" />],
-          ['Started At', result.startedAt],
-          ['Completed At', result.completedAt],
-          ['Error Count', result.errors.length],
+      <Section title="Dry-Run Execution Result" description="Aggregated result of orchestrate() running every planned operation through its dry-run adapter.">
+        <KeyValueGrid rows={[
+          ['Overall Status', <StatusBadge key="s" value={result.status} />],
+          ['Operation Results', result.operationResults.length],
+          ['Errors', result.errors.length],
         ]} />
-        <div style={{ marginTop: 12 }}>
-          {result.operationResults.map((op) => (
-            <div key={op.operationId} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 14, marginBottom: 8, borderRadius: 2 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                <strong style={{ fontSize: 12, color: '#1a2744' }}>{op.operationId} ({op.operation})</strong>
-                <StatusBadge status={op.status} />
-              </div>
-              <ErrorsList errors={op.errors} />
-            </div>
-          ))}
-        </div>
+      </Section>
+      <Section title="Operation Results (Raw)">
+        <JsonPreview value={result.operationResults.map((r) => ({ operationId: r.operationId, operation: r.operation, status: r.status }))} />
       </Section>
     </>
   );
 }
 
-function JobsPanel({ data }) {
+function JobQueuePanel({ data }) {
   const { jobs } = data.jobQueue;
   return (
-    <Section title="Dry-Run Jobs" description="Jobs queued through shopifyJobQueueService.queueJobs(), including dependency resolution and priority ordering.">
-      <div style={{ background: '#fff', border: '1px solid #e5e7eb', overflowX: 'auto' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-          <thead>
-            <tr style={{ background: '#1a2744', color: '#fff' }}>
-              {['Job ID', 'Type', 'Priority', 'Status', 'Depends On', 'Errors'].map((h) => (
-                <th key={h} style={{ padding: '10px 12px', textAlign: 'left', fontWeight: 700, fontSize: 11, textTransform: 'uppercase' }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {jobs.map((result, i) => (
-              <tr key={result.jobId} style={{ background: i % 2 === 0 ? '#f9fafb' : '#fff', borderBottom: '1px solid #f0f0f0' }}>
-                <td style={{ padding: '10px 12px', fontFamily: 'monospace', color: '#1a1a1a' }}>{result.jobId}</td>
-                <td style={{ padding: '10px 12px', color: '#1a1a1a' }}>{result.job?.jobType ?? '—'}</td>
-                <td style={{ padding: '10px 12px', color: '#1a1a1a' }}>{result.job?.priority ?? '—'}</td>
-                <td style={{ padding: '10px 12px' }}><StatusBadge status={result.status} /></td>
-                <td style={{ padding: '10px 12px', color: '#888' }}>{result.job?.dependsOn?.length ? result.job.dependsOn.map((d) => d.dependsOnJobId).join(', ') : '—'}</td>
-                <td style={{ padding: '10px 12px', color: result.errors.length ? '#b91c1c' : '#aaa' }}>{result.errors.length || '—'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <Section title="Dry-Run Jobs" description="Queued through shopifyJobQueueService.queueJobs() against the mock job queue adapter, with a catalog -> inventory / pricing dependency chain.">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 }}>
+        {jobs.map((result) => (
+          <div key={result.jobId} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 16, borderRadius: 2 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{result.jobId}</p>
+              <StatusBadge value={result.status} />
+            </div>
+            <p style={{ fontSize: 11, color: '#888', margin: '0 0 6px' }}>{result.job?.jobType} · priority {result.job?.priority}</p>
+            <p style={{ fontSize: 11, color: '#aaa', margin: 0 }}>Depends on: {result.job?.dependsOn?.length ? result.job.dependsOn.map((d) => d.dependsOnJobId).join(', ') : 'none'}</p>
+          </div>
+        ))}
       </div>
     </Section>
   );
 }
 
 function CatalogPanel({ data }) {
-  const { catalog } = data;
+  const result = data.catalog;
   return (
     <>
-      <Section title="Catalog Sync Result" description="shopifyCatalogService.syncCatalog() mapping demo products to Shopify catalog items.">
-        <KeyValueTable rows={[['Status', <StatusBadge status={catalog.status} key="s" />], ['Items', catalog.items.length], ['Mappings', catalog.mappings.length]]} />
-      </Section>
-      <Section title="Mapped Items">
-        {catalog.items.map((item) => (
-          <div key={item.sku} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 14, marginBottom: 8, borderRadius: 2 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <strong style={{ fontSize: 12, color: '#1a2744' }}>{item.title} — {item.sku}</strong>
-              <StatusBadge status={item.status} />
-            </div>
-            <p style={{ fontSize: 11, color: '#888', margin: 0 }}>Handle: {item.handle} · Action: {item.action} · Variants: {item.variants.length}</p>
+      <KeyValueGrid rows={[['Status', <StatusBadge key="s" value={result.status} />], ['Items', result.items.length], ['Mappings', result.mappings.length], ['Errors', result.errors.length]]} />
+      <div style={{ height: 20 }} />
+      <Section title="Catalog Sync Items">
+        {result.items.map((item) => (
+          <div key={item.productId} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 16, borderRadius: 2, marginBottom: 10 }}>
+            <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{item.title} <span style={{ fontWeight: 400, color: '#888' }}>({item.handle})</span></p>
+            <p style={{ margin: 0, fontSize: 11, color: '#888' }}>Action: {item.action} · Variants: {item.variants.length} · Price: {money(item.price)}</p>
           </div>
         ))}
       </Section>
@@ -267,22 +192,16 @@ function CatalogPanel({ data }) {
 }
 
 function InventoryPanel({ data }) {
-  const { inventory } = data;
+  const result = data.inventory;
   return (
     <>
-      <Section title="Inventory Sync Result" description="shopifyInventoryService.syncInventory() computing per-location adjustments.">
-        <KeyValueTable rows={[['Status', <StatusBadge status={inventory.status} key="s" />], ['Items', inventory.items.length], ['Mappings', inventory.mappings.length]]} />
-      </Section>
-      <Section title="Item Adjustments">
-        {inventory.items.map((item) => (
-          <div key={item.sku} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 14, marginBottom: 8, borderRadius: 2 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <strong style={{ fontSize: 12, color: '#1a2744' }}>{item.sku}</strong>
-              <StatusBadge status={item.status} />
-            </div>
-            <p style={{ fontSize: 11, color: '#888', margin: 0 }}>
-              Available: {item.inventoryStatus.quantityAvailable} · Locations: {item.locations.map((l) => l.name).join(', ')}
-            </p>
+      <KeyValueGrid rows={[['Status', <StatusBadge key="s" value={result.status} />], ['Items', result.items.length], ['Errors', result.errors.length]]} />
+      <div style={{ height: 20 }} />
+      <Section title="Inventory Sync Items">
+        {result.items.map((item) => (
+          <div key={item.sku} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 16, borderRadius: 2, marginBottom: 10 }}>
+            <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{item.sku}</p>
+            <p style={{ margin: 0, fontSize: 11, color: '#888' }}>Available: {item.inventoryStatus.quantityAvailable} · Locations: {item.locations.map((l) => l.name).join(', ')}</p>
           </div>
         ))}
       </Section>
@@ -291,22 +210,16 @@ function InventoryPanel({ data }) {
 }
 
 function PricingPanel({ data }) {
-  const { pricing } = data;
+  const result = data.pricing;
   return (
     <>
-      <Section title="Pricing Sync Result" description="shopifyPricingService.syncPricing() resolving prices from demo products.">
-        <KeyValueTable rows={[['Status', <StatusBadge status={pricing.status} key="s" />], ['Items', pricing.items.length], ['Mappings', pricing.mappings.length]]} />
-      </Section>
-      <Section title="Resolved Prices">
-        {pricing.items.map((item) => (
-          <div key={item.sku} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 14, marginBottom: 8, borderRadius: 2 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <strong style={{ fontSize: 12, color: '#1a2744' }}>{item.sku}</strong>
-              <StatusBadge status={item.status} />
-            </div>
-            <p style={{ fontSize: 11, color: '#888', margin: 0 }}>
-              Price: ${item.price.amount.toFixed(2)} {item.price.currencyCode} · Strategy: {item.strategy}
-            </p>
+      <KeyValueGrid rows={[['Status', <StatusBadge key="s" value={result.status} />], ['Items', result.items.length], ['Errors', result.errors.length]]} />
+      <div style={{ height: 20 }} />
+      <Section title="Pricing Sync Items">
+        {result.items.map((item) => (
+          <div key={item.sku} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: 16, borderRadius: 2, marginBottom: 10 }}>
+            <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1a2744' }}>{item.sku}</p>
+            <p style={{ margin: 0, fontSize: 11, color: '#888' }}>Strategy: {item.strategy} · Price: {money(item.price)}</p>
           </div>
         ))}
       </Section>
@@ -315,104 +228,106 @@ function PricingPanel({ data }) {
 }
 
 function CustomerPanel({ data }) {
-  const { customer } = data;
-  return (
-    <Section title="Customer Sync Preview" description="shopifyCustomerService.createCustomer() mapping the demo quote's customer metadata.">
-      <KeyValueTable rows={[
-        ['Status', <StatusBadge status={customer.status} key="s" />],
-        ['Sync Status', customer.syncStatus],
-        ['Shopify Customer ID', customer.customer?.shopifyCustomerId ?? '—'],
-        ['Email', customer.customer?.email ?? '—'],
-        ['Company', customer.customer?.company ?? '—'],
-        ['Tags', customer.customer?.tags?.join(', ') ?? '—'],
-      ]} />
-      <div style={{ marginTop: 12 }}><ErrorsList errors={customer.errors} /></div>
-    </Section>
-  );
-}
-
-function OrderPanel({ data }) {
-  const { order } = data;
-  return (
-    <Section title="Order Sync Preview" description="shopifyOrderService.createOrder() mapping the demo quote to a Shopify order draft.">
-      <KeyValueTable rows={[
-        ['Status', <StatusBadge status={order.status} key="s" />],
-        ['Sync Status', order.syncStatus],
-        ['Order ID', order.order?.id ?? '—'],
-        ['Lines', order.order?.lines?.length ?? 0],
-        ['Total', order.order?.total ? `$${order.order.total.amount.toFixed(2)} ${order.order.total.currencyCode}` : '—'],
-      ]} />
-      <div style={{ marginTop: 12 }}><ErrorsList errors={order.errors} /></div>
-    </Section>
-  );
-}
-
-function FulfillmentPanel({ data }) {
-  const { fulfillment } = data;
-  return (
-    <Section title="Fulfillment Sync Preview" description="shopifyFulfillmentService.createFulfillment() mapping the draft order to a shipment.">
-      <KeyValueTable rows={[
-        ['Status', <StatusBadge status={fulfillment.status} key="s" />],
-        ['Items', fulfillment.items.length],
-        ['Shipment Status', fulfillment.shipment?.status ?? '—'],
-        ['Shipment ID', fulfillment.shipment?.id ?? '—'],
-      ]} />
-      <div style={{ marginTop: 12 }}><ErrorsList errors={fulfillment.errors} /></div>
-    </Section>
-  );
-}
-
-function WebhookPanel({ data }) {
-  const { webhook } = data;
+  const result = data.customer;
   return (
     <>
-      <Section title="Webhook Received" description="shopifyWebhookService.receiveWebhook() normalizing an inbound orders/create webhook.">
-        <KeyValueTable rows={[
-          ['Status', <StatusBadge status={webhook.received.status} key="s" />],
-          ['Topic', webhook.received.topic],
-          ['Domain', webhook.received.domain ?? '—'],
-          ['Event ID', webhook.received.event?.id ?? '—'],
+      <KeyValueGrid rows={[['Status', <StatusBadge key="s" value={result.status} />], ['Sync Status', <StatusBadge key="ss" value={result.syncStatus} />], ['Errors', result.errors.length]]} />
+      <div style={{ height: 20 }} />
+      <Section title="Mapped Shopify Customer">
+        <KeyValueGrid rows={[
+          ['Shopify Customer ID', result.customer?.shopifyCustomerId ?? '—'],
+          ['Company', result.customer?.company ?? '—'],
+          ['Name', [result.customer?.firstName, result.customer?.lastName].filter(Boolean).join(' ') || '—'],
+          ['Email', result.customer?.email ?? '—'],
+          ['Quote ID', result.customer?.quoteId ?? '—'],
         ]} />
-        <div style={{ marginTop: 12 }}><ErrorsList errors={webhook.received.errors} /></div>
-      </Section>
-      <Section title="Webhook Routed" description="shopifyWebhookService.routeWebhookEvent() routing the normalized event to its domain handler.">
-        <KeyValueTable rows={[
-          ['Status', <StatusBadge status={webhook.routed.status} key="s" />],
-          ['Routed To', webhook.routed.metadata?.attributes?.routedTo ?? '—'],
-        ]} />
-        <div style={{ marginTop: 12 }}><ErrorsList errors={webhook.routed.errors} /></div>
       </Section>
     </>
   );
 }
 
-function HmacPanel({ data }) {
-  const { hmacVerification } = data;
+function OrderPanel({ data }) {
+  const result = data.order;
   return (
     <>
-      <Section title="Valid Signature" description="shopifyWebhookVerificationService.verifyWebhookSignature() with a matching mock HMAC header.">
-        <KeyValueTable rows={[
-          ['Status', <StatusBadge status={hmacVerification.valid.status} key="s" />],
-          ['Verified', String(hmacVerification.valid.verified)],
-          ['Reason', hmacVerification.valid.reason ?? '—'],
+      <KeyValueGrid rows={[['Status', <StatusBadge key="s" value={result.status} />], ['Sync Status', <StatusBadge key="ss" value={result.syncStatus} />], ['Errors', result.errors.length]]} />
+      <div style={{ height: 20 }} />
+      <Section title="Mapped Shopify Order">
+        <KeyValueGrid rows={[
+          ['Order ID', result.order?.id ?? '—'],
+          ['Quote ID', result.order?.quoteId ?? '—'],
+          ['Lines', result.order?.lines.length ?? 0],
+          ['Total', money(result.order?.total)],
         ]} />
       </Section>
-      <Section title="Invalid Signature" description="Same verification service call, with a mismatched HMAC header, to demonstrate rejection.">
-        <KeyValueTable rows={[
-          ['Status', <StatusBadge status={hmacVerification.invalid.status} key="s" />],
-          ['Verified', String(hmacVerification.invalid.verified)],
-          ['Reason', hmacVerification.invalid.reason ?? '—'],
+    </>
+  );
+}
+
+function FulfillmentPanel({ data }) {
+  const result = data.fulfillment;
+  return (
+    <>
+      <KeyValueGrid rows={[['Status', <StatusBadge key="s" value={result.status} />], ['Items', result.items.length], ['Errors', result.errors.length]]} />
+      <div style={{ height: 20 }} />
+      <Section title="Shipment Preview">
+        <KeyValueGrid rows={[
+          ['Shipment ID', result.shipment?.id ?? '—'],
+          ['Shipment Status', <StatusBadge key="s" value={result.shipment?.status} />],
+          ['Items', result.shipment?.items.length ?? 0],
         ]} />
-        <div style={{ marginTop: 12 }}><ErrorsList errors={hmacVerification.invalid.failures} /></div>
+      </Section>
+    </>
+  );
+}
+
+function WebhookPanel({ data }) {
+  const { received, routed } = data.webhook;
+  return (
+    <>
+      <Section title="Received & Normalized">
+        <KeyValueGrid rows={[
+          ['Status', <StatusBadge key="s" value={received.status} />],
+          ['Topic', received.topic ?? '—'],
+          ['Domain', received.domain ?? '—'],
+          ['Event ID', received.event?.id ?? '—'],
+        ]} />
+      </Section>
+      <Section title="Routed">
+        <KeyValueGrid rows={[
+          ['Status', <StatusBadge key="s" value={routed.status} />],
+          ['Routed To', routed.metadata?.attributes?.routedTo ?? '—'],
+        ]} />
+      </Section>
+    </>
+  );
+}
+
+function WebhookVerificationPanel({ data }) {
+  const { verified, mismatched } = data.webhookVerification;
+  return (
+    <>
+      <Section title="Valid HMAC Signature">
+        <KeyValueGrid rows={[
+          ['Status', <StatusBadge key="s" value={verified.status} />],
+          ['Verified', String(verified.verified)],
+          ['Reason', verified.reason ?? '—'],
+        ]} />
+      </Section>
+      <Section title="Mismatched HMAC Signature" description="Same payload verified again with a signature that does not match, demonstrating the failure path.">
+        <KeyValueGrid rows={[
+          ['Status', <StatusBadge key="s" value={mismatched.status} />],
+          ['Verified', String(mismatched.verified)],
+          ['Reason', mismatched.reason ?? '—'],
+        ]} />
       </Section>
     </>
   );
 }
 
 const PANELS = {
-  summary: SummaryPanel,
   orchestrator: OrchestratorPanel,
-  jobs: JobsPanel,
+  'job-queue': JobQueuePanel,
   catalog: CatalogPanel,
   inventory: InventoryPanel,
   pricing: PricingPanel,
@@ -420,14 +335,14 @@ const PANELS = {
   order: OrderPanel,
   fulfillment: FulfillmentPanel,
   webhook: WebhookPanel,
-  hmac: HmacPanel,
+  'webhook-verification': WebhookVerificationPanel,
 };
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function AdminShopifySyncDashboard() {
-  const [activeTab, setActiveTab] = useState('summary');
-  const { data, loading, error, loadDashboard } = useShopifySyncAdminDashboard();
+  const [activeTab, setActiveTab] = useState('orchestrator');
+  const { data, loading, error, loadDashboard } = useShopifySyncDashboard();
 
   useEffect(() => {
     loadDashboard().catch(() => {});
@@ -456,8 +371,8 @@ export default function AdminShopifySyncDashboard() {
             >
               <RefreshCw size={13} /> {loading ? 'Loading…' : 'Refresh'}
             </button>
-            <Link to="/admin/pricing-imports" style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center', gap: 5, textDecoration: 'none' }}>
-              <Globe2 size={13} /> Pricing Imports
+            <Link to="/admin/debug" style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center', gap: 5, textDecoration: 'none' }}>
+              <Bug size={13} /> Debug
             </Link>
             <Link to="/" style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>← Store</Link>
           </div>
@@ -466,29 +381,44 @@ export default function AdminShopifySyncDashboard() {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '28px 32px' }}>
         <div style={{ background: '#eef2ff', border: '1px solid #c7d2fe', color: '#3730a3', fontSize: 12, padding: '10px 14px', borderRadius: 2, marginBottom: 20 }}>
-          Demo data only — every result on this dashboard comes from the real shopifySyncOrchestrator, shopifyJobQueue, shopifyCatalog,
-          shopifyInventory, shopifyPricing, shopifyCustomer, shopifyOrder, shopifyFulfillment, shopifyWebhook, and shopifyWebhookVerification
-          services, wired to deterministic mock adapters. No live Shopify API calls are made and nothing is persisted.
+          Demo data only — every result on this dashboard is produced by the real Shopify sync orchestrator, job queue, catalog, inventory, pricing, customer, order, fulfillment, webhook, and HMAC verification services running in dry-run mode against their existing mock adapters. No Shopify calls are made and nothing is persisted.
         </div>
+
+        {data && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10, marginBottom: 20 }}>
+            {TABS.map((tab) => {
+              const Icon = TAB_ICONS[tab];
+              const status = data.summary.statusesByArea[tab === 'job-queue' ? 'jobQueue' : tab === 'webhook-verification' ? 'webhookVerification' : tab];
+              return (
+                <div key={tab} style={{ background: '#fff', border: '1px solid #e5e7eb', padding: '10px 12px', borderRadius: 2 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, color: '#888' }}>
+                    <Icon size={13} />
+                    <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{TAB_LABELS[tab]}</span>
+                  </div>
+                  <StatusBadge value={status} />
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         <div style={{ display: 'flex', gap: 4, marginBottom: 20, flexWrap: 'wrap' }}>
           {TABS.map((tab) => {
             const isActive = activeTab === tab;
-            const Icon = TAB_ICONS[tab];
             return (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 style={{
-                  padding: '7px 14px', fontSize: 12, fontWeight: isActive ? 700 : 400,
-                  cursor: 'pointer', border: '1.5px solid', display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '7px 16px', fontSize: 12, fontWeight: isActive ? 700 : 400,
+                  cursor: 'pointer', border: '1.5px solid',
                   borderColor: isActive ? '#1a2744' : '#d1d5db',
                   background: isActive ? '#1a2744' : '#fff',
                   color: isActive ? '#fff' : '#555',
                   borderRadius: 2,
                 }}
               >
-                <Icon size={12} /> {TAB_LABELS[tab]}
+                {TAB_LABELS[tab]}
               </button>
             );
           })}
