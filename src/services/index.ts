@@ -20,3 +20,4 @@ export { createLiveQuoteBuilderService, liveQuoteBuilderService, type LiveQuoteB
 export { createQuotePersistenceService, quotePersistenceService, type QuotePersistenceService } from './quotePersistence';
 export { createQuoteApprovalService, quoteApprovalService, type QuoteApprovalService } from './quoteApproval';
 export { createEmailNotificationService, emailNotificationService, quoteNotificationEventMappings, quoteNotificationTemplates, type EmailNotificationService, type EmailNotificationServiceDependencies } from './emailNotification';
+export { createShopifySyncOrchestratorService, shopifySyncOrchestratorService, type ShopifySyncOrchestratorDependencies, type ShopifySyncOrchestratorService } from './shopifySyncOrchestrator';
