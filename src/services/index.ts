@@ -14,3 +14,4 @@ export { createDealerContractResolutionService, dealerContractResolutionService,
 export { createPricingImportDashboardService, pricingImportDashboardService, type PricingImportDashboardService, type PricingImportDashboardServiceDependencies } from './pricingImportDashboard';
 export { createLiveQuoteBuilderService, liveQuoteBuilderService, type LiveQuoteBuilderService, type LiveQuoteBuilderServiceDependencies } from './liveQuoteBuilder';
 export { createQuotePersistenceService, quotePersistenceService, type QuotePersistenceService } from './quotePersistence';
+export { createQuoteApprovalService, quoteApprovalService, type QuoteApprovalService } from './quoteApproval';

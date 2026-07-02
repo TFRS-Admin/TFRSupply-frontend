@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
+import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, ApproveQuoteInput, AssignQuoteReviewerInput, CancelQuoteApprovalInput, QuoteApprovalActionInput, QuoteApprovalActionResult, QuoteApprovalActionType, QuoteApprovalAuditEvent, QuoteApprovalWorkflowState, QuoteAuditEventType, QuoteReviewerAssignment, RejectQuoteInput, RequestQuoteChangesInput, QuoteValidationResult, QuoteWorkflowState, ReviewFlag, SubmitQuoteForReviewInput } from '@/types';
 import { baseEntityObjectSchema, metadataSchema, moneySchema } from './common.schema';
 import { commerceLookupResultSchema, priceSchema, shopifyProductSchema, variantMappingSchema } from './commerce.schema';
 import { packageAssemblyResultSchema, packageDefinitionSchema } from './package.schema';
@@ -20,6 +20,8 @@ export const quoteApprovalStatusSchema = z.enum(['draft', 'pending-review', 'app
 export const quoteWorkflowStatusSchema = z.enum(['draft', 'assembling', 'ready-for-review', 'in-review', 'approved', 'rejected', 'submitted', 'cancelled']);
 export const quoteLineItemTypeSchema = z.enum(['product', 'accessory', 'service', 'kit', 'package', 'custom']);
 export const quoteBuilderResultStatusSchema = z.enum(['draft', 'pending', 'assembled', 'invalid', 'unavailable']);
+export const quoteApprovalActionTypeSchema = z.enum(['submit-for-review', 'assign-reviewer', 'approve', 'reject', 'request-changes', 'cancel-approval']) as z.ZodType<QuoteApprovalActionType>;
+export const quoteAuditEventTypeSchema: z.ZodType<QuoteAuditEventType> = quoteApprovalActionTypeSchema;
 
 export const reviewFlagSchema = z.object({
   code: nonEmptyString,
@@ -57,16 +59,49 @@ export const quotePricingReferenceSchema = z.object({
   warnings: z.array(reviewFlagSchema).optional(),
 }) as z.ZodType<QuotePricingReference>;
 
+
+const quoteReviewerAssignmentObjectSchema = z.object({
+  reviewerId: nonEmptyString,
+  assignedBy: nonEmptyString,
+  assignedAt: nonEmptyString,
+  dueAt: z.string().optional(),
+  note: z.string().optional(),
+});
+export const quoteReviewerAssignmentSchema = quoteReviewerAssignmentObjectSchema as z.ZodType<QuoteReviewerAssignment>;
+
+export const quoteApprovalAuditEventSchema: z.ZodType<QuoteApprovalAuditEvent> = z.lazy(() => z.object({
+  id: nonEmptyString,
+  quoteId: nonEmptyString,
+  type: quoteAuditEventTypeSchema,
+  actorId: nonEmptyString,
+  occurredAt: nonEmptyString,
+  fromStatus: quoteWorkflowStatusSchema,
+  toStatus: quoteWorkflowStatusSchema,
+  fromApprovalStatus: quoteApprovalStatusSchema,
+  toApprovalStatus: quoteApprovalStatusSchema,
+  reviewerAssignment: quoteReviewerAssignmentSchema.optional(),
+  reason: z.string().optional(),
+  note: z.string().optional(),
+  revision: quoteRevisionMetadataSchema,
+})) as unknown as z.ZodType<QuoteApprovalAuditEvent>;
+
 export const quoteWorkflowStateSchema = z.object({
   status: quoteWorkflowStatusSchema,
   approvalStatus: quoteApprovalStatusSchema,
   submittedAt: z.string().optional(),
+  submittedBy: z.string().optional(),
   reviewedAt: z.string().optional(),
   reviewedBy: z.string().optional(),
   approvedAt: z.string().optional(),
   approvedBy: z.string().optional(),
   rejectedAt: z.string().optional(),
   rejectedBy: z.string().optional(),
+  changesRequestedAt: z.string().optional(),
+  changesRequestedBy: z.string().optional(),
+  cancelledAt: z.string().optional(),
+  cancelledBy: z.string().optional(),
+  reviewerAssignment: quoteReviewerAssignmentSchema.optional(),
+  auditTrail: z.array(quoteApprovalAuditEventSchema).optional(),
   expiresAt: z.string().optional(),
   reviewFlags: z.array(reviewFlagSchema).optional(),
 }) as z.ZodType<QuoteWorkflowState>;
@@ -75,12 +110,19 @@ const quoteWorkflowStateInputSchema = z.object({
   status: quoteWorkflowStatusSchema.optional(),
   approvalStatus: quoteApprovalStatusSchema.optional(),
   submittedAt: z.string().optional(),
+  submittedBy: z.string().optional(),
   reviewedAt: z.string().optional(),
   reviewedBy: z.string().optional(),
   approvedAt: z.string().optional(),
   approvedBy: z.string().optional(),
   rejectedAt: z.string().optional(),
   rejectedBy: z.string().optional(),
+  changesRequestedAt: z.string().optional(),
+  changesRequestedBy: z.string().optional(),
+  cancelledAt: z.string().optional(),
+  cancelledBy: z.string().optional(),
+  reviewerAssignment: quoteReviewerAssignmentSchema.optional(),
+  auditTrail: z.array(quoteApprovalAuditEventSchema).optional(),
   expiresAt: z.string().optional(),
   reviewFlags: z.array(reviewFlagSchema).optional(),
 });
@@ -289,6 +331,40 @@ export const liveQuoteBuilderResultSchema = z.object({
   reviewFlags: z.array(reviewFlagSchema),
   pdfReady: z.boolean(),
 }) as z.ZodType<LiveQuoteBuilderResult>;
+
+
+export const quoteApprovalWorkflowStateSchema = z.object({
+  quote: quoteSchema,
+  revision: quoteRevisionMetadataSchema,
+  auditTrail: z.array(quoteApprovalAuditEventSchema),
+}) as z.ZodType<QuoteApprovalWorkflowState>;
+
+const quoteApprovalActionInputObjectSchema = z.object({
+  quoteId: nonEmptyString,
+  expectedVersion: z.number().int().positive(),
+  actorId: nonEmptyString,
+  occurredAt: z.string().optional(),
+  note: z.string().optional(),
+});
+export const quoteApprovalActionInputSchema = quoteApprovalActionInputObjectSchema as z.ZodType<QuoteApprovalActionInput>;
+
+const reviewerInputSchema = quoteReviewerAssignmentObjectSchema.omit({ assignedAt: true }).extend({ assignedAt: z.string().optional() });
+
+export const submitQuoteForReviewInputSchema = quoteApprovalActionInputObjectSchema.extend({ reviewer: reviewerInputSchema.optional() }) as z.ZodType<SubmitQuoteForReviewInput>;
+export const assignQuoteReviewerInputSchema = quoteApprovalActionInputObjectSchema.extend({ reviewer: reviewerInputSchema }) as z.ZodType<AssignQuoteReviewerInput>;
+export const approveQuoteInputSchema = quoteApprovalActionInputObjectSchema as z.ZodType<ApproveQuoteInput>;
+export const rejectQuoteInputSchema = quoteApprovalActionInputObjectSchema.extend({ reason: nonEmptyString }) as z.ZodType<RejectQuoteInput>;
+export const requestQuoteChangesInputSchema = quoteApprovalActionInputObjectSchema.extend({ reason: nonEmptyString }) as z.ZodType<RequestQuoteChangesInput>;
+export const cancelQuoteApprovalInputSchema = quoteApprovalActionInputObjectSchema.extend({ reason: z.string().optional() }) as z.ZodType<CancelQuoteApprovalInput>;
+
+export const quoteApprovalActionResultSchema = z.object({
+  status: z.enum(['updated', 'not-found', 'conflict', 'invalid-transition']),
+  quoteId: nonEmptyString,
+  expectedVersion: z.number().int().positive(),
+  currentVersion: z.number().int().positive().optional(),
+  state: quoteApprovalWorkflowStateSchema.optional(),
+  reviewFlags: z.array(reviewFlagSchema),
+}) as z.ZodType<QuoteApprovalActionResult>;
 
 export const quotePayloadSchema = z.object({
   quote: quoteSchema,
