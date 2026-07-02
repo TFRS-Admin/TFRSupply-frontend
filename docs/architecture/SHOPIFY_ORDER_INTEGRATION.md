@@ -55,3 +55,8 @@ The initial flow is dry-run only:
 ## Explicit non-goals
 
 This foundation does not implement live Shopify calls, checkout, payment processing, authentication, OAuth, webhooks, background jobs, database persistence, UI changes, or routing changes.
+
+
+## Related Customer Foundation
+
+Shopify customer creation and synchronization are represented separately in [SHOPIFY_CUSTOMER_INTEGRATION.md](./SHOPIFY_CUSTOMER_INTEGRATION.md). Order integration may consume customer mapping metadata in a future issue, but this order foundation remains unchanged and does not call the customer service automatically.
