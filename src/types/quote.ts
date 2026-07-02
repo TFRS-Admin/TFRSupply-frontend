@@ -1,7 +1,7 @@
 import type { BaseEntity, Metadata, Money } from './common';
 import type { CommerceLookupResult, Price, ShopifyProduct, VariantMapping } from './commerce';
 import type { PackageAssemblyInput, PackageAssemblyResult, PackageDefinition } from './package';
-import type { PricingContext, PricingResolution, QuotePricingResult, PricingSubject } from './pricing';
+import type { Margin, PricingContext, PricingResolution, QuantityBreak, QuotePricingResult, PricingSubject } from './pricing';
 import type { Vehicle } from './vehicle';
 
 export type QuoteReviewFlagSeverity = 'info' | 'warning' | 'error' | 'review-required';
@@ -90,6 +90,10 @@ export interface QuoteLine {
   pricingReference?: QuotePricingReference;
   price?: Price;
   subtotal?: Money;
+  listPrice?: Money;
+  dealerCost?: Money;
+  margin?: Margin;
+  appliedQuantityBreak?: QuantityBreak;
   reviewFlags?: ReviewFlag[];
   metadata?: Metadata;
 }
@@ -118,6 +122,19 @@ export interface QuoteDraft extends BaseEntity {
   metadata?: Metadata;
 }
 
+export type QuotePricingValidationStatus = 'valid' | 'warning' | 'invalid' | 'unavailable';
+
+export interface QuotePricingSummary {
+  status: QuotePricingValidationStatus;
+  subtotal: Money;
+  totalCost: Money;
+  grossProfit: Money;
+  grossMarginPercent: number;
+  totalQuantity: number;
+  lineCount: number;
+  warnings?: ReviewFlag[];
+}
+
 export interface Quote extends BaseEntity {
   customerId?: string;
   customer?: QuoteCustomerMetadata;
@@ -128,6 +145,7 @@ export interface Quote extends BaseEntity {
   lines: QuoteLine[];
   packageReferences?: QuotePackageReference[];
   pricingReference?: QuotePricingReference;
+  pricingSummary?: QuotePricingSummary;
   reviewFlags?: ReviewFlag[];
   total?: Money;
   metadata?: Metadata;
@@ -189,6 +207,7 @@ export interface LiveQuoteBuilderResult {
   pipeline: QuotePipelineResult;
   packageReferences: QuotePackageReference[];
   pricing: PricingResolution<QuotePricingResult>;
+  pricingSummary: QuotePricingSummary;
   commerceReferences: QuotePipelineCommerceReference[];
   reviewFlags: ReviewFlag[];
   pdfReady: boolean;

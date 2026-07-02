@@ -274,3 +274,19 @@ Future caller with typed pricing records → pricingService → live PricingAdap
 ### Non-goals
 
 This issue does not connect pricing to React UI, Quote Builder persistence, checkout, Shopify, imports, uploaded files, PDF generation, email sending, authentication, or database storage. Future issues must explicitly provide the typed record source and opt into `createLivePricingAdapter()`.
+
+## Issue 46 Quote Builder Pricing Integration
+
+Quote Builder is now connected to the Live Pricing Engine at `/admin/quote-builder`. See [QUOTE_BUILDER_FOUNDATION.md](./QUOTE_BUILDER_FOUNDATION.md) Issue 46 for the full ownership list and runtime boundary; this section documents the pricing-side half of the integration boundary and the one gap it fixed inside the Pricing Engine's own scope.
+
+### Promotional Bundle Pricing on Quote Lines
+
+`livePricingAdapter.priceQuote()` previously resolved promotional bundle eligibility per line through `dealerContractResolutionService` (as documented in Issue 29) but discarded the result — only `priceBundle()` applied it. `priceQuote()` now applies an eligible bundle's per-unit selling price and dealer cost (derived from the bundle's aggregate `sellingPrice`/`dealerCost` divided by the matching bundle item's quantity) to that line's effective contract price before calling `priceQuoteLine()`. This is a fix inside the Pricing Engine's adapter layer — it reuses the existing `money()` and `calculateMargin()` primitives and does not introduce a new pricing calculation. The existing resolution priority inside `resolveUnitSellingPrice()` (`requestedUnitPrice` → quantity break → contract/bundle price → list price) is unchanged.
+
+### Pricing Validation Status
+
+Quote Builder derives a `QuotePricingValidationStatus` (`valid` | `warning` | `invalid` | `unavailable`) per quote by reading — not recalculating — existing pricing engine output: the `PricingResolution.status`, review flag severities, and the pricing engine's own `pricing.line.missing-selling-price` warning code (a line with no resolvable price is treated as `invalid`; a priced line with only missing-dealer-cost or contract-expiring warnings is treated as `warning`). See `buildPricingSummary()` in `liveQuoteBuilderService.ts`.
+
+### Non-goals
+
+This integration does not change quantity break selection, contract selection priority, MSRP/dealer cost lookup, or margin arithmetic. It does not add a new `PricingAdapter` implementation — `createLivePricingAdapter()` is the same adapter used since Issue 29, with the promotional-bundle-on-quote-lines fix described above.

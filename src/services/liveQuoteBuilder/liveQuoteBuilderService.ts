@@ -2,7 +2,7 @@ import { quotePipelineService, type QuotePipelineService } from '@/services/quot
 import { quoteBuilderService, type QuoteBuilderService } from '@/services/quoteBuilder';
 import { quotePdfService, type QuotePdfService } from '@/services/quotePdf';
 import { liveQuoteBuilderRequestSchema, liveQuoteBuilderResultSchema } from '@/schemas/quote.schema';
-import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteDraft, QuoteLine, QuotePricingReference, ReviewFlag } from '@/types';
+import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, PricingResolution, Quote, QuoteDraft, QuoteLine, QuotePricingReference, QuotePricingResult, QuotePricingSummary, ReviewFlag } from '@/types';
 
 export interface LiveQuoteBuilderServiceDependencies {
   quotePipeline: QuotePipelineService;
@@ -57,12 +57,45 @@ function applyPricingToLines(draft: QuoteDraft, pricing: LiveQuoteBuilderResult[
       },
       price: { amount: pricedLine.sellingPrice.amount / pricedLine.quantity, currencyCode: pricedLine.sellingPrice.currencyCode },
       subtotal: pricedLine.sellingPrice,
+      listPrice: pricedLine.listPrice?.price,
+      dealerCost: pricedLine.dealerCost?.cost,
+      margin: pricedLine.margin,
+      appliedQuantityBreak: pricedLine.appliedQuantityBreak,
       reviewFlags: pricedLine.warnings?.map((warning) => reviewFlag(warning.code, warning.severity, warning.message, 'pricing', warning.fieldPath)),
     };
   });
 }
 
-function materializeQuote(draft: QuoteDraft, pricing: LiveQuoteBuilderResult['pricing'], reviewFlags: ReviewFlag[]): Quote {
+function hasUnresolvedSellingPrice(pricing: PricingResolution<QuotePricingResult>): boolean {
+  return Boolean(pricing.data?.lines.some((line) => line.warnings?.some((warning) => warning.code === 'pricing.line.missing-selling-price')));
+}
+
+function pricingSummaryStatus(pricing: PricingResolution<QuotePricingResult>, reviewFlags: ReviewFlag[]): QuotePricingSummary['status'] {
+  if (pricing.status === 'unavailable') return 'unavailable';
+  if (pricing.status !== 'priced' || !pricing.data) return 'invalid';
+  if (reviewFlags.some((flag) => flag.severity === 'error')) return 'invalid';
+  if (hasUnresolvedSellingPrice(pricing)) return 'invalid';
+  if (reviewFlags.some((flag) => flag.severity === 'warning' || flag.severity === 'review-required')) return 'warning';
+  return 'valid';
+}
+
+function buildPricingSummary(pricing: PricingResolution<QuotePricingResult>, reviewFlags: ReviewFlag[]): QuotePricingSummary {
+  const currencyCode = pricing.data?.subtotal.currencyCode ?? 'USD';
+  const pricingFlags = reviewFlags.filter((flag) => flag.source === 'pricing');
+
+  return {
+    status: pricingSummaryStatus(pricing, reviewFlags),
+    subtotal: pricing.data?.subtotal ?? { amount: 0, currencyCode },
+    totalCost: pricing.data?.margin?.cost ?? { amount: 0, currencyCode },
+    grossProfit: pricing.data?.margin?.grossProfit ?? { amount: 0, currencyCode },
+    grossMarginPercent: pricing.data?.margin?.grossMarginPercent ?? 0,
+    totalQuantity: pricing.data?.lines.reduce((total, line) => total + line.quantity, 0) ?? 0,
+    lineCount: pricing.data?.lines.length ?? 0,
+    warnings: pricingFlags.length ? pricingFlags : undefined,
+  };
+}
+
+function materializeQuote(draft: QuoteDraft, pricing: LiveQuoteBuilderResult['pricing'], reviewFlags: ReviewFlag[], pricingSummary: QuotePricingSummary): Quote {
   return {
     id: draft.id,
     label: draft.label,
@@ -75,6 +108,7 @@ function materializeQuote(draft: QuoteDraft, pricing: LiveQuoteBuilderResult['pr
     lines: applyPricingToLines(draft, pricing),
     packageReferences: draft.packageReferences,
     pricingReference: buildPricingReference(draft, pricing),
+    pricingSummary,
     reviewFlags,
     total: pricing.data?.subtotal,
     metadata: draft.metadata,
@@ -106,7 +140,8 @@ export function createLiveQuoteBuilderService(dependencies: Partial<LiveQuoteBui
         reviewFlags.push(reviewFlag(error.code, 'review-required', error.message, 'quote-builder', error.fieldPath));
       }
 
-      const quote = draft ? materializeQuote(draft, pipeline.pricing, reviewFlags) : null;
+      const pricingSummary = buildPricingSummary(pipeline.pricing, reviewFlags);
+      const quote = draft ? materializeQuote(draft, pipeline.pricing, reviewFlags, pricingSummary) : null;
 
       return liveQuoteBuilderResultSchema.parse({
         status: statusFrom(reviewFlags, pipeline.status, quote),
@@ -115,6 +150,7 @@ export function createLiveQuoteBuilderService(dependencies: Partial<LiveQuoteBui
         pipeline,
         packageReferences: pipeline.packageReferences,
         pricing: pipeline.pricing,
+        pricingSummary,
         commerceReferences: pipeline.commerceReferences,
         reviewFlags,
         pdfReady: pdfValidation?.valid ?? false,

@@ -1,8 +1,44 @@
 import { dealerContractResolutionService } from '@/services/dealerContractResolution';
-import { calculateMargin, priceBundle as calculateBundle, priceQuote as calculateQuote, findDealerCost, findListPrice } from '@/domain/pricing';
+import { calculateMargin, money, priceBundle as calculateBundle, priceQuote as calculateQuote, findDealerCost, findListPrice } from '@/domain/pricing';
 import { bundlePricingSchema, dealerCostSchema, listPriceSchema, pricingResolutionSchema, quotePricingResultSchema } from '@/schemas/pricing.schema';
-import type { BundlePricing, BundlePricingInput, ContractPrice, DealerContract, DealerCost, ListPrice, PricingContext, PricingResolution, PricingSubject, PromotionalBundle, QuotePricingInput, QuotePricingResult } from '@/types';
+import type { BundlePricing, BundlePricingInput, ContractPrice, DealerContract, DealerCost, ListPrice, Money, PricingContext, PricingResolution, PricingSubject, PromotionalBundle, QuotePricingInput, QuotePricingResult } from '@/types';
 import type { PricingAdapter } from './pricingAdapter';
+
+function dealerCostWithBundleOverride(contractPrice: ContractPrice | undefined, bundle: PromotionalBundle, subject: PricingSubject, unitDealerCost: Money | undefined): DealerCost | undefined {
+  if (!unitDealerCost) return contractPrice?.dealerCost;
+  if (contractPrice?.dealerCost) return { ...contractPrice.dealerCost, cost: unitDealerCost };
+
+  return {
+    id: `${bundle.id}-dealer-cost`,
+    label: `${bundle.label} Dealer Cost`,
+    sku: subject.sku,
+    productId: subject.productId,
+    cost: unitDealerCost,
+    source: bundle.source ?? { id: `${bundle.id}-source`, label: bundle.label, sourceType: 'promotional-bundle', priority: 0, currencyCode: unitDealerCost.currencyCode },
+  };
+}
+
+function contractPriceWithPromotionalBundle(contractPrice: ContractPrice | undefined, bundle: PromotionalBundle | undefined, subject: PricingSubject): ContractPrice | undefined {
+  if (!bundle?.sellingPrice) return contractPrice;
+  const item = bundle.items.find((candidate) => candidate.sku === subject.sku);
+  if (!item || !item.quantity) return contractPrice;
+
+  const unitSellingPrice = money(bundle.sellingPrice.amount / item.quantity, bundle.sellingPrice.currencyCode);
+  const unitDealerCost = bundle.dealerCost ? money(bundle.dealerCost.amount / item.quantity, bundle.dealerCost.currencyCode) : undefined;
+
+  return {
+    id: contractPrice?.id ?? bundle.id,
+    label: contractPrice?.label ?? bundle.label,
+    sku: subject.sku,
+    productId: subject.productId ?? contractPrice?.productId,
+    contractId: contractPrice?.contractId ?? bundle.id,
+    sellingPrice: unitSellingPrice,
+    dealerCost: dealerCostWithBundleOverride(contractPrice, bundle, subject, unitDealerCost),
+    listPrice: contractPrice?.listPrice,
+    quantityBreaks: contractPrice?.quantityBreaks,
+    window: contractPrice?.window,
+  };
+}
 
 export interface LivePricingAdapterRecords {
   listPrices?: ListPrice[];
@@ -53,7 +89,8 @@ export function createLivePricingAdapter(records: LivePricingAdapterRecords): Pr
     },
     async priceQuote(input: QuotePricingInput): Promise<PricingResolution<QuotePricingResult>> {
       const resolutions = await Promise.all(input.lines.map((line) => resolveContractPrice(line, input.context, records)));
-      const data = calculateQuote(input, recordSet, resolutions.map((resolution) => resolution.contractPrice));
+      const contractPrices = input.lines.map((line, index) => contractPriceWithPromotionalBundle(resolutions[index].contractPrice, resolutions[index].promotionalBundle, line));
+      const data = calculateQuote(input, recordSet, contractPrices);
       const warnings = [...resolutions.flatMap((resolution) => resolution.warnings ?? []), ...(data.warnings ?? [])];
       return pricingResolutionSchema(quotePricingResultSchema).parse({ status: 'priced', data: { ...data, warnings: warnings.length ? warnings : undefined }, warnings: warnings.length ? warnings : undefined });
     },
