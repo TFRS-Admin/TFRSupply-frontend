@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuotePipelineResult, QuotePricingReference, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
+import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuotePipelineResult, QuotePricingReference, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
 import { baseEntityObjectSchema, metadataSchema, moneySchema } from './common.schema';
 import { commerceLookupResultSchema, priceSchema, shopifyProductSchema, variantMappingSchema } from './commerce.schema';
 import { packageAssemblyResultSchema, packageDefinitionSchema } from './package.schema';
@@ -210,6 +210,21 @@ export const quotePipelineResultSchema = z.object({
   commerceReferences: z.array(quotePipelineCommerceReferenceSchema),
   reviewFlags: z.array(reviewFlagSchema),
 }) as z.ZodType<QuotePipelineResult>;
+
+
+export const liveQuoteBuilderRequestSchema: z.ZodType<LiveQuoteBuilderRequest> = quotePipelineInputSchema;
+
+export const liveQuoteBuilderResultSchema = z.object({
+  status: z.enum(['priced', 'pending', 'invalid', 'unavailable']),
+  quote: quoteSchema.nullable(),
+  draft: quoteDraftSchema.nullable(),
+  pipeline: quotePipelineResultSchema,
+  packageReferences: z.array(quotePackageReferenceSchema),
+  pricing: pricingResolutionSchema(quotePricingResultSchema),
+  commerceReferences: z.array(quotePipelineCommerceReferenceSchema),
+  reviewFlags: z.array(reviewFlagSchema),
+  pdfReady: z.boolean(),
+}) as z.ZodType<LiveQuoteBuilderResult>;
 
 export const quotePayloadSchema = z.object({
   quote: quoteSchema,

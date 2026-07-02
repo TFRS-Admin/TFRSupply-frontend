@@ -12,3 +12,4 @@ export { createQuotePipelineService, quotePipelineService, type QuotePipelineSer
 export { createPricingImportService, pricingImportService, type PricingImportService } from './pricingImport';
 export { createDealerContractResolutionService, dealerContractResolutionService, type DealerContractResolutionService } from './dealerContractResolution';
 export { createPricingImportDashboardService, pricingImportDashboardService, type PricingImportDashboardService, type PricingImportDashboardServiceDependencies } from './pricingImportDashboard';
+export { createLiveQuoteBuilderService, liveQuoteBuilderService, type LiveQuoteBuilderService, type LiveQuoteBuilderServiceDependencies } from './liveQuoteBuilder';
