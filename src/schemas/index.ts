@@ -13,6 +13,8 @@ export { shopifyCustomerAddressSchema, shopifyCustomerErrorCodeSchema, shopifyCu
 
 export { shopifyCatalogErrorCodeSchema, shopifyCatalogErrorSchema, shopifyCatalogMappingSchema, shopifyCatalogPublishActionSchema, shopifyCatalogSyncItemSchema, shopifyCatalogSyncRequestSchema, shopifyCatalogSyncResultSchema, shopifyCatalogSyncStatusSchema } from './shopifyCatalog.schema';
 
+export { shopifyInventoryAdjustmentReasonSchema, shopifyInventoryAdjustmentSchema, shopifyInventoryErrorCodeSchema, shopifyInventoryErrorSchema, shopifyInventoryLocationSchema, shopifyInventoryMappingSchema, shopifyInventorySyncItemSchema, shopifyInventorySyncRequestSchema, shopifyInventorySyncResultSchema, shopifyInventorySyncStatusSchema } from './shopifyInventory.schema';
+
 export { shopifyOrderAddressSchema, shopifyOrderCustomerSchema, shopifyOrderErrorCodeSchema, shopifyOrderErrorSchema, shopifyOrderLineSchema, shopifyOrderMappingSchema, shopifyOrderRequestSchema, shopifyOrderResultSchema, shopifyOrderSchema, shopifyOrderStatusSchema, shopifyOrderSyncStatusSchema } from './shopifyOrder.schema';
 
 export { shopifyInventorySyncPayloadSchema, shopifyPricingReferenceSyncPayloadSchema, shopifyProductSyncPayloadSchema, shopifySyncDirectionSchema, shopifySyncEntityTypeSchema, shopifySyncErrorCodeSchema, shopifySyncErrorSchema, shopifySyncPayloadSchema, shopifySyncRequestSchema, shopifySyncResultSchema, shopifySyncRetryMetadataSchema, shopifySyncStatusSchema, shopifySyncSubjectSchema, shopifyVariantSyncPayloadSchema } from './shopifySync.schema';
