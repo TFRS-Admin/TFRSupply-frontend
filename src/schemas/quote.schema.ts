@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import type { EmailNotificationContext, EmailNotificationEventType, EmailNotificationRecipient, EmailNotificationRequest, EmailNotificationResult, EmailNotificationTemplateContract, LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, ApproveQuoteInput, AssignQuoteReviewerInput, CancelQuoteApprovalInput, QuoteApprovalActionInput, QuoteApprovalActionResult, QuoteApprovalActionType, QuoteApprovalAuditEvent, QuoteApprovalWorkflowState, QuoteAuditEventType, QuoteReviewerAssignment, RejectQuoteInput, RequestQuoteChangesInput, QuoteValidationResult, QuoteWorkflowState, ReviewFlag, SubmitQuoteForReviewInput } from '@/types';
+import type { EmailNotificationContext, EmailNotificationEventType, EmailNotificationRecipient, EmailNotificationRequest, EmailNotificationResult, EmailNotificationTemplateContract, LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuotePricingSummary, QuotePricingValidationStatus, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, ApproveQuoteInput, AssignQuoteReviewerInput, CancelQuoteApprovalInput, QuoteApprovalActionInput, QuoteApprovalActionResult, QuoteApprovalActionType, QuoteApprovalAuditEvent, QuoteApprovalWorkflowState, QuoteAuditEventType, QuoteReviewerAssignment, RejectQuoteInput, RequestQuoteChangesInput, QuoteValidationResult, QuoteWorkflowState, ReviewFlag, SubmitQuoteForReviewInput } from '@/types';
 import { baseEntityObjectSchema, metadataSchema, moneySchema } from './common.schema';
 import { commerceLookupResultSchema, priceSchema, shopifyProductSchema, variantMappingSchema } from './commerce.schema';
 import { packageAssemblyResultSchema, packageDefinitionSchema } from './package.schema';
-import { pricingContextSchema, pricingResolutionSchema, quotePricingResultSchema, pricingSubjectSchema } from './pricing.schema';
+import { marginSchema, quantityBreakSchema, pricingContextSchema, pricingResolutionSchema, quotePricingResultSchema, pricingSubjectSchema } from './pricing.schema';
 import { vehicleSchema } from './vehicle.schema';
 
 const nonEmptyString = z.string().min(1);
@@ -152,9 +152,26 @@ export const quoteLineSchema = z.object({
   pricingReference: quotePricingReferenceSchema.optional(),
   price: priceSchema.optional(),
   subtotal: moneySchema.optional(),
+  listPrice: moneySchema.optional(),
+  dealerCost: moneySchema.optional(),
+  margin: marginSchema.optional(),
+  appliedQuantityBreak: quantityBreakSchema.optional(),
   reviewFlags: z.array(reviewFlagSchema).optional(),
   metadata: metadataSchema.optional(),
 }) as z.ZodType<QuoteLine>;
+
+export const quotePricingValidationStatusSchema = z.enum(['valid', 'warning', 'invalid', 'unavailable']) as z.ZodType<QuotePricingValidationStatus>;
+
+export const quotePricingSummarySchema = z.object({
+  status: quotePricingValidationStatusSchema,
+  subtotal: moneySchema,
+  totalCost: moneySchema,
+  grossProfit: moneySchema,
+  grossMarginPercent: z.number(),
+  totalQuantity: z.number().int().nonnegative(),
+  lineCount: z.number().int().nonnegative(),
+  warnings: z.array(reviewFlagSchema).optional(),
+}) as z.ZodType<QuotePricingSummary>;
 
 export const quoteAssemblyInputSchema = z.object({
   draftId: z.string().optional(),
@@ -190,6 +207,7 @@ export const quoteSchema = baseEntityObjectSchema.extend({
   lines: z.array(quoteLineSchema),
   packageReferences: z.array(quotePackageReferenceSchema).optional(),
   pricingReference: quotePricingReferenceSchema.optional(),
+  pricingSummary: quotePricingSummarySchema.optional(),
   reviewFlags: z.array(reviewFlagSchema).optional(),
   total: moneySchema.optional(),
   metadata: metadataSchema.optional(),
@@ -327,6 +345,7 @@ export const liveQuoteBuilderResultSchema = z.object({
   pipeline: quotePipelineResultSchema,
   packageReferences: z.array(quotePackageReferenceSchema),
   pricing: pricingResolutionSchema(quotePricingResultSchema),
+  pricingSummary: quotePricingSummarySchema,
   commerceReferences: z.array(quotePipelineCommerceReferenceSchema),
   reviewFlags: z.array(reviewFlagSchema),
   pdfReady: z.boolean(),

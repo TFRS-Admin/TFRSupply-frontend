@@ -146,3 +146,41 @@ This boundary does not implement database persistence, authentication, UI, routi
 Quote workflow email notifications are represented by an additive, architecture-only service boundary in [EMAIL_NOTIFICATION_SERVICE.md](./EMAIL_NOTIFICATION_SERVICE.md). The service maps existing quote approval actions to validated notification requests and template contracts while defaulting to dry-run or unavailable provider responses so no real email is sent.
 
 This issue does not wire notifications into UI, authentication, SMTP, SendGrid, Mailgun, SES, or quote approval runtime state transitions. Future delivery providers must implement the `EmailProviderAdapter` boundary without changing quote approval or persistence contracts.
+
+## Issue 46 Quote Builder Pricing Integration
+
+This is the first business-facing surface built on top of the Quote Builder and Live Pricing Engine foundations. It composes the existing `liveQuoteBuilderService` (Issue 31), `quotePipelineService` (Issue 23), `pricingService` + `livePricingAdapter` + `dealerContractResolutionService` (Issues 18, 25, 29) and the existing quote domain contracts into a working pricing experience at `/admin/quote-builder`. It does not add a new pricing engine, does not duplicate pricing arithmetic, and does not implement checkout, Shopify, payments, PDF generation, email delivery, authentication, or database changes.
+
+### Integration Boundary
+
+Quote Builder orchestration owns three responsibilities only: requesting pricing from the existing pricing engine, aggregating quote totals, and exposing pricing summaries. It does not calculate prices, resolve dealer contracts, select quantity breaks, or evaluate promotional bundle eligibility — those remain the Pricing Engine's responsibility (`pricingEngine`, `livePricingAdapter`, `dealerContractResolutionService`).
+
+```text
+AdminQuoteBuilderPage → useQuoteBuilderWorkspace → quoteBuilderWorkspaceService
+                                                              ↓
+                                          liveQuoteBuilderService.generateQuote()
+                                          ├─ quotePipelineService.assembleQuote()
+                                          │    ├─ pricingService.priceQuote() → livePricingAdapter → dealerContractResolutionService
+                                          │    └─ quoteBuilderService.assembleQuote() → QuoteBuilderAdapter
+                                          └─ buildPricingSummary() (pure aggregation, no pricing arithmetic)
+```
+
+### Ownership
+
+- `src/types/quote.ts` owns `QuotePricingSummary` and `QuotePricingValidationStatus`, the Quote Builder's aggregate pricing output (subtotal, total cost, gross profit, gross margin percent, total quantity, line count, validation status). It also extends `QuoteLine` with `listPrice`, `dealerCost`, `margin`, and `appliedQuantityBreak` so already-computed per-line pricing engine output (from `QuotePricingLine`) can be surfaced without recalculation, and extends `Quote`/`LiveQuoteBuilderResult` with `pricingSummary`.
+- `src/schemas/quote.schema.ts` owns `quotePricingSummarySchema` and the extended `quoteLineSchema`/`quoteSchema`/`liveQuoteBuilderResultSchema`, composing the existing `pricing.schema.ts` schemas (`marginSchema`, `quantityBreakSchema`) rather than redefining pricing shapes.
+- `src/services/liveQuoteBuilder/liveQuoteBuilderService.ts` gains `buildPricingSummary()`, a pure aggregation function (sum of line quantities, pass-through of the pricing engine's existing `Margin`, and a validation-status derivation from existing review flags and the pricing engine's own `pricing.line.missing-selling-price` warning code). It performs no pricing arithmetic. `applyPricingToLines()` now also copies `listPrice`, `dealerCost`, `margin`, and `appliedQuantityBreak` from each already-priced `QuotePricingLine` onto the materialized `QuoteLine`.
+- `src/adapters/pricing/livePricingAdapter.ts` fixes a pre-existing gap where `priceQuote()` resolved promotional bundle eligibility per line (via `dealerContractResolutionService`) but never applied it, unlike `priceBundle()`. `priceQuote()` now applies the resolved bundle's per-unit selling price and dealer cost to a matching line's effective contract price before pricing, reusing the same `money()`/`calculateMargin()` primitives already used elsewhere in the pricing engine. This is a Pricing Engine-owned fix (promotional logic remains the Pricing Engine's responsibility), not new Quote Builder pricing logic.
+- `src/adapters/quoteBuilder/inMemoryQuoteBuilderAdapter.ts` is a new deterministic, in-memory `QuoteBuilderAdapter` implementation (assembles a `QuoteDraft` from a validated `QuoteAssemblyInput`, keeps drafts in a process-local `Map`). It does not replace the default `unavailableQuoteBuilderAdapter`; `quoteBuilderService`'s default export is unchanged. Callers that want draft assembly to actually run (like the new workspace service) inject it explicitly via `createQuoteBuilderService(inMemoryQuoteBuilderAdapter)`.
+- `src/adapters/quoteBuilderWorkspace/quoteBuilderWorkspaceFixtures.ts` owns deterministic fixture `ListPrice`, `DealerCost`, `DealerContract`, and `PromotionalBundle` records plus named demo quote scenarios (single line, multi-line, quantity break, promotional bundle, mixed contract, invalid pricing). No file uploads, network calls, or persistence occur here.
+- `src/services/quoteBuilderWorkspace/quoteBuilderWorkspaceService.ts` composes `createLivePricingAdapter()`, `createInMemoryQuoteBuilderAdapter()`, `createQuotePipelineService()`, and `createLiveQuoteBuilderService()` against the fixture records and runs each demo scenario through `generateQuote()`. This is orchestration only; every calculation still happens inside the composed services.
+- `src/hooks/quoteBuilderWorkspace/useQuoteBuilderWorkspace.ts` is the typed React-facing hook (`{ data, loading, error, loadScenarios }`); it does not call `loadScenarios` during render.
+- `src/pages/AdminQuoteBuilderPage.jsx` owns the admin route at `/admin/quote-builder`, gated by the existing `checkAdminAccess` prototype guard, matching the layout conventions of `AdminPricingImportDashboard.jsx`. It renders Line MSRP, Dealer Cost, Selling Price, Margin %, Profit $, Quote Totals, and Pricing Status directly from `LiveQuoteBuilderResult` — it performs no pricing calculations of its own.
+
+### Runtime Boundary
+
+`liveQuoteBuilderService`'s and `pricingService`'s default exports are unchanged — they still use `unavailableQuoteBuilderAdapter` and `unavailablePricingAdapter` respectively, so no existing runtime path is affected. Only `quoteBuilderWorkspaceService` explicitly composes the live adapters, and only the new `/admin/quote-builder` route consumes it.
+
+### Non-goals
+
+This integration does not implement checkout, Shopify synchronization, payments, PDF generation, email delivery, authentication, or database persistence. It does not add a new pricing calculation path — every price, margin, quantity break, and promotional bundle value displayed comes from the existing `pricingEngine`/`livePricingAdapter`/`dealerContractResolutionService` composition. See [PRICING_DOMAIN.md](./PRICING_DOMAIN.md) Issue 46 for the pricing-side half of this boundary.

@@ -22,3 +22,4 @@ export { createQuoteApprovalService, quoteApprovalService, type QuoteApprovalSer
 export { createEmailNotificationService, emailNotificationService, quoteNotificationEventMappings, quoteNotificationTemplates, type EmailNotificationService, type EmailNotificationServiceDependencies } from './emailNotification';
 export { createShopifySyncOrchestratorService, shopifySyncOrchestratorService, type ShopifySyncOrchestratorDependencies, type ShopifySyncOrchestratorService } from './shopifySyncOrchestrator';
 export { createShopifyJobQueueService, shopifyJobQueueService, type ShopifyJobQueueService } from './shopifyJobQueue';
+export { createQuoteBuilderWorkspaceService, quoteBuilderWorkspaceService, type QuoteBuilderWorkspaceScenarioResult, type QuoteBuilderWorkspaceService } from './quoteBuilderWorkspace';
