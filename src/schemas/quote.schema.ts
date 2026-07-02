@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuotePipelineResult, QuotePricingReference, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
+import type { LiveQuoteBuilderRequest, LiveQuoteBuilderResult, Quote, QuoteAssemblyInput, QuoteAssemblyResult, QuoteCustomerMetadata, QuoteDraft, QuoteLine, QuoteLineAssemblyInput, QuotePackageReference, QuotePayload, QuotePipelineCommerceReference, QuotePipelineInput, QuotePipelineLineInput, QuotePipelinePackageInput, QuoteHistoryResult, QuoteHistorySnapshot, QuoteLoadResult, QuotePersistenceRecord, QuotePipelineResult, QuotePricingReference, QuoteRevisionMetadata, QuoteSaveInput, QuoteSaveResult, QuoteUpdateInput, QuoteUpdateResult, QuoteValidationResult, QuoteWorkflowState, ReviewFlag } from '@/types';
 import { baseEntityObjectSchema, metadataSchema, moneySchema } from './common.schema';
 import { commerceLookupResultSchema, priceSchema, shopifyProductSchema, variantMappingSchema } from './commerce.schema';
 import { packageAssemblyResultSchema, packageDefinitionSchema } from './package.schema';
@@ -152,6 +152,70 @@ export const quoteSchema = baseEntityObjectSchema.extend({
   total: moneySchema.optional(),
   metadata: metadataSchema.optional(),
 }) as z.ZodType<Quote>;
+
+export const quoteRevisionMetadataSchema = z.object({
+  quoteId: nonEmptyString,
+  version: z.number().int().positive(),
+  savedAt: nonEmptyString,
+  savedBy: z.string().optional(),
+  source: z.string().optional(),
+  note: z.string().optional(),
+}) as z.ZodType<QuoteRevisionMetadata>;
+
+export const quoteHistorySnapshotSchema = z.object({
+  quote: quoteSchema,
+  revision: quoteRevisionMetadataSchema,
+}) as z.ZodType<QuoteHistorySnapshot>;
+
+export const quotePersistenceRecordSchema = z.object({
+  quote: quoteSchema,
+  revision: quoteRevisionMetadataSchema,
+  history: z.array(quoteHistorySnapshotSchema),
+}) as z.ZodType<QuotePersistenceRecord>;
+
+const quoteRevisionInputSchema = z.object({
+  savedAt: z.string().optional(),
+  savedBy: z.string().optional(),
+  source: z.string().optional(),
+  note: z.string().optional(),
+}).optional();
+
+export const quoteSaveInputSchema = z.object({
+  quote: quoteSchema,
+  revision: quoteRevisionInputSchema,
+}) as z.ZodType<QuoteSaveInput>;
+
+export const quoteUpdateInputSchema = z.object({
+  quoteId: nonEmptyString,
+  quote: quoteSchema,
+  expectedVersion: z.number().int().positive(),
+  revision: quoteRevisionInputSchema,
+}) as z.ZodType<QuoteUpdateInput>;
+
+export const quoteSaveResultSchema = z.object({
+  status: z.literal('saved'),
+  record: quotePersistenceRecordSchema,
+}) as z.ZodType<QuoteSaveResult>;
+
+export const quoteLoadResultSchema = z.object({
+  status: z.enum(['found', 'not-found']),
+  record: quotePersistenceRecordSchema.optional(),
+  quoteId: nonEmptyString,
+}) as z.ZodType<QuoteLoadResult>;
+
+export const quoteUpdateResultSchema = z.object({
+  status: z.enum(['updated', 'not-found', 'conflict']),
+  record: quotePersistenceRecordSchema.optional(),
+  quoteId: nonEmptyString,
+  expectedVersion: z.number().int().positive(),
+  currentVersion: z.number().int().positive().optional(),
+}) as z.ZodType<QuoteUpdateResult>;
+
+export const quoteHistoryResultSchema = z.object({
+  status: z.enum(['found', 'not-found']),
+  quoteId: nonEmptyString,
+  history: z.array(quoteHistorySnapshotSchema),
+}) as z.ZodType<QuoteHistoryResult>;
 
 export const quoteAssemblyResultSchema = z.object({
   status: quoteBuilderResultStatusSchema,

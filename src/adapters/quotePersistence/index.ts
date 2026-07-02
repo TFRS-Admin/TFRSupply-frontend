@@ -1,0 +1,1 @@
+export { createInMemoryQuoteRepository, inMemoryQuoteRepository, type QuoteRepository, type QuoteRepositorySaveInput, type QuoteRepositoryUpdateInput, type QuoteRepositoryUpdateResult } from './quoteRepository';
