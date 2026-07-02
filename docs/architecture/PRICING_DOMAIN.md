@@ -239,3 +239,38 @@ AdminPricingImportDashboard page → usePricingImportDashboard hook → pricingI
 ### Non-goals
 
 This dashboard intentionally does not implement live file uploads, file storage, database persistence, live Excel/CSV parsing libraries, real authentication (it reuses the existing `checkAdminAccess` prototype guard), dealer pricing calculations, or quote generation. Duplicate detection only evaluates records that carry a `sku` field (list-price, dealer-cost, contract-price, bundle-pricing); dealer-contract and quantity-break records are not evaluated for duplication in this issue.
+
+## Issue 29 Live Pricing Engine
+
+The live pricing engine adds the first real pricing implementation over already-supplied typed pricing records. It remains intentionally data-source agnostic: no file uploads, persistence, Shopify calls, UI wiring, checkout behavior, PDF generation, or email behavior are introduced.
+
+### Ownership
+
+- `src/domain/pricing/pricingEngine.ts` owns deterministic pricing arithmetic for MSRP/list lookups, dealer-cost lookups, quantity-break unit price selection, quote-line pricing, bundle totals, quote subtotal, gross profit, and gross margin percent.
+- `src/adapters/pricing/livePricingAdapter.ts` owns the typed adapter that prices from in-memory pricing-domain records and reuses `dealerContractResolutionService` for dealer contract, quantity break, and promotional bundle eligibility.
+- `src/services/pricing/pricingService.ts` remains the service validation boundary and continues to accept any `PricingAdapter`; the default `pricingService` still uses `unavailablePricingAdapter` so existing runtime behavior remains unchanged until a caller explicitly injects the live adapter.
+- `tests/live-pricing-engine.test.mjs` covers list price, dealer cost, contract selling price, quantity break selection, promotional bundle pricing, quote line totals, quote subtotal, gross profit, gross margin percent, and runtime output validation.
+
+### Runtime Boundary
+
+```text
+Future caller with typed pricing records → pricingService → live PricingAdapter → dealerContractResolutionService
+                                                ↓                     ↓
+                                      pricing schemas          pricingEngine pure functions
+                                                ↓                     ↓
+                                         pricing domain types / imported records
+```
+
+### Pricing Rules
+
+- MSRP/list price is selected from supplied `ListPrice` records by SKU/product/variant match and highest `PriceSource.priority`.
+- Dealer cost is selected from supplied `DealerCost` records by the same deterministic subject matching and priority rules.
+- Contract selling price is selected by the existing dealer contract resolution service from supplied `DealerContract` records.
+- Quantity breaks use the selected contract price's breaks and apply the highest eligible `minQuantity` break for the requested quantity.
+- Promotional bundles are resolved by the existing promotional bundle resolver; when an eligible bundle supplies aggregate selling price or dealer cost, those values override the calculated bundle aggregate.
+- Quote lines multiply the resolved unit selling price by quantity, calculate extended dealer cost, and attach line margin.
+- Quote subtotal sums priced line selling prices and quote margin aggregates subtotal revenue against summed extended dealer cost.
+
+### Non-goals
+
+This issue does not connect pricing to React UI, Quote Builder persistence, checkout, Shopify, imports, uploaded files, PDF generation, email sending, authentication, or database storage. Future issues must explicitly provide the typed record source and opt into `createLivePricingAdapter()`.
