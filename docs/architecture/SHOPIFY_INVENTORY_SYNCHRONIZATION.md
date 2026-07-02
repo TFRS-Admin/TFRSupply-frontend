@@ -69,3 +69,7 @@ Inventory mapping is deterministic and additive:
 ## Explicit non-goals
 
 This foundation intentionally does not implement live Shopify API calls, inventory publishing, warehouse integration, fulfillment, authentication, OAuth, webhooks, background jobs, database persistence, UI changes, routing changes, or changes to current cart/checkout behavior.
+
+## Related pricing synchronization boundary
+
+Shopify inventory synchronization remains quantity-focused. Shopify price translation is handled by the separate dry-run-only foundation documented in `docs/architecture/SHOPIFY_PRICING_SYNCHRONIZATION.md`, which reuses the same adapter-boundary and service-orchestration conventions without changing inventory runtime behavior.
