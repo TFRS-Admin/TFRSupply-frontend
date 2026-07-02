@@ -18,6 +18,7 @@ import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
 import AdminPricingImportDashboard from '@/pages/AdminPricingImportDashboard';
+import AdminShopifySyncDashboard from '@/pages/AdminShopifySyncDashboard';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
 
@@ -59,6 +60,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
         <Route path="/admin/quotes" element={<AdminQuotesPage />} />
         <Route path="/admin/pricing-imports" element={<AdminPricingImportDashboard />} />
+        <Route path="/admin/shopify-sync" element={<AdminShopifySyncDashboard />} />
         <Route path="/showcase" element={<ComponentShowcase />} />
         <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
         <Route path="*" element={<PageNotFound />} />

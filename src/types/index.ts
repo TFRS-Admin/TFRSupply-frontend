@@ -26,3 +26,5 @@ export type { ContractWindowEvaluation, ContractWindowEvaluationStatus, DealerCo
 export type { EmailNotificationContext, EmailNotificationEventType, EmailNotificationRecipient, EmailNotificationRecipientRole, EmailNotificationRequest, EmailNotificationResult, EmailNotificationStatus, EmailNotificationTemplateContract, QuoteNotificationEventMapping } from './notification';
 export type { ShopifySyncExecutionError, ShopifySyncExecutionPlan, ShopifySyncExecutionStatus, ShopifySyncOperation, ShopifySyncOperationResult, ShopifySyncOperationRequest, ShopifySyncOperationServiceResult, ShopifySyncOrchestratorRequest, ShopifySyncOrchestratorResult } from './shopifySyncOrchestrator';
 export type { ShopifyJob, ShopifyJobDependency, ShopifyJobError, ShopifyJobExecution, ShopifyJobPriority, ShopifyJobRequest, ShopifyJobResult, ShopifyJobStatus, ShopifyJobType } from './shopifyJobQueue';
+
+export type { ShopifySyncAdminDashboardData, ShopifySyncAdminDashboardHmacSection, ShopifySyncAdminDashboardJobQueueSection, ShopifySyncAdminDashboardOrchestratorSection, ShopifySyncAdminDashboardSummary, ShopifySyncAdminDashboardWebhookSection } from './shopifySyncAdminDashboard';
