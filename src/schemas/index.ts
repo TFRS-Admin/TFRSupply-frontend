@@ -9,6 +9,8 @@ export { quotePdfDocumentMetadataInputSchema, quotePdfDocumentMetadataSchema, qu
 
 export { bundlePricingInputSchema, bundlePricingItemSchema, bundlePricingSchema, contractPriceSchema, contractWindowSchema, dealerContractSchema, dealerCostSchema, listPriceSchema, marginSchema, priceSourceSchema, priceSourceTypeSchema, pricingContextSchema, pricingLineInputSchema, pricingResolutionSchema, pricingResultStatusSchema, pricingSubjectSchema, pricingWarningSchema, pricingWarningSeveritySchema, promotionalBundleSchema, quantityBreakSchema, quotePricingInputSchema, quotePricingLineSchema, quotePricingResultSchema } from './pricing.schema';
 
+export { shopifyCustomerAddressSchema, shopifyCustomerErrorCodeSchema, shopifyCustomerErrorSchema, shopifyCustomerMappingSchema, shopifyCustomerRequestSchema, shopifyCustomerResultSchema, shopifyCustomerSchema, shopifyCustomerStatusSchema, shopifyCustomerSyncStatusSchema } from './shopifyCustomer.schema';
+
 export { shopifyOrderAddressSchema, shopifyOrderCustomerSchema, shopifyOrderErrorCodeSchema, shopifyOrderErrorSchema, shopifyOrderLineSchema, shopifyOrderMappingSchema, shopifyOrderRequestSchema, shopifyOrderResultSchema, shopifyOrderSchema, shopifyOrderStatusSchema, shopifyOrderSyncStatusSchema } from './shopifyOrder.schema';
 
 export { shopifyInventorySyncPayloadSchema, shopifyPricingReferenceSyncPayloadSchema, shopifyProductSyncPayloadSchema, shopifySyncDirectionSchema, shopifySyncEntityTypeSchema, shopifySyncErrorCodeSchema, shopifySyncErrorSchema, shopifySyncPayloadSchema, shopifySyncRequestSchema, shopifySyncResultSchema, shopifySyncRetryMetadataSchema, shopifySyncStatusSchema, shopifySyncSubjectSchema, shopifyVariantSyncPayloadSchema } from './shopifySync.schema';

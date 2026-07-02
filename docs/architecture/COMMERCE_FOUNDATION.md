@@ -65,3 +65,8 @@ The synchronization contracts support dry-run requests for:
 ### Non-goals
 
 This foundation does not implement live Shopify synchronization, Shopify API clients, scheduled jobs, webhook handling, commerce behavior changes, pricing behavior changes, package-builder changes, configurator changes, product-data mutations, or checkout changes. Future implementation work must keep Shopify API calls behind `ShopifySyncAdapter` and validate external payloads through the synchronization Zod schemas before exposing results to services or hooks.
+
+
+## Shopify Customer Synchronization
+
+Customer creation and synchronization are documented in [SHOPIFY_CUSTOMER_INTEGRATION.md](./SHOPIFY_CUSTOMER_INTEGRATION.md). The customer foundation follows the same adapter/service/hook pattern as Shopify product, variant, inventory, pricing reference, and order synchronization, while remaining unwired from checkout and live Shopify API calls.
