@@ -86,3 +86,22 @@ The exported default pipeline uses the existing unavailable or typed-foundation 
 ## Issue 26 Quote PDF Generation
 
 Quote PDF generation is architected in [QUOTE_PDF_GENERATION.md](./QUOTE_PDF_GENERATION.md) as an additive, unwired boundary that consumes `QuoteDraft` by contract only. It does not add PDF generation, email delivery, or persistence to this foundation.
+
+## Issue 31 Live Quote Builder Orchestration
+
+The Live Quote Builder adds `src/services/liveQuoteBuilder/liveQuoteBuilderService.ts` as an additive orchestration boundary for producing a fully priced quote object from a validated quote request. The service composes the existing quote pipeline, quote builder, pricing, package builder, vehicle fitment, commerce, dealer contract resolution, and quote PDF foundations through their existing service contracts rather than duplicating domain rules or pricing calculations.
+
+### Ownership
+
+- `src/types/quote.ts` owns `LiveQuoteBuilderRequest` and `LiveQuoteBuilderResult`, including the materialized quote, draft, pipeline references, pricing result, commerce references, review flags, and PDF-readiness signal.
+- `src/schemas/quote.schema.ts` owns runtime validation for live quote requests and results by composing the existing quote pipeline, quote, pricing, package, commerce, and review-flag schemas.
+- `src/services/liveQuoteBuilder/liveQuoteBuilderService.ts` owns orchestration only: it validates the request, invokes Quote Builder validation, delegates package/fitment/pricing/commerce orchestration to Quote Pipeline, maps resolved pricing onto quote lines, keeps review flags attached, and validates PDF handoff readiness without rendering a PDF.
+- `tests/live-quote-builder.test.mjs` covers successful materialization, dependency failure flags, and runtime validation failure paths.
+
+### Runtime Boundary
+
+The default export remains unwired to routes, React components, checkout, Shopify calls, persistence, and PDF rendering. Existing runtime behavior is unchanged until a future issue explicitly connects a UI or API surface to `liveQuoteBuilderService` and provides approved adapters behind the composed services.
+
+### Non-goals
+
+This orchestration does not persist quotes, render PDFs, submit checkout, call Shopify, add routes, add UI, send email, or recalculate pricing outside the pricing service and dealer-contract resolution engine.

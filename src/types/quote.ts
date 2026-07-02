@@ -172,6 +172,21 @@ export interface QuotePipelineResult {
   reviewFlags: ReviewFlag[];
 }
 
+
+export type LiveQuoteBuilderRequest = QuotePipelineInput;
+
+export interface LiveQuoteBuilderResult {
+  status: 'priced' | 'pending' | 'invalid' | 'unavailable';
+  quote: Quote | null;
+  draft: QuoteDraft | null;
+  pipeline: QuotePipelineResult;
+  packageReferences: QuotePackageReference[];
+  pricing: PricingResolution<QuotePricingResult>;
+  commerceReferences: QuotePipelineCommerceReference[];
+  reviewFlags: ReviewFlag[];
+  pdfReady: boolean;
+}
+
 export interface QuotePayload {
   quote: Quote;
   source: string;
