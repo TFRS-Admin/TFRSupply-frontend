@@ -140,3 +140,9 @@ The in-memory adapter is intentionally local and deterministic. It is not databa
 ### Non-goals
 
 This boundary does not implement database persistence, authentication, UI, routing, PDF rendering, email sending, checkout, Shopify calls, or quote generation. It persists already-materialized `Quote` objects by contract only and reuses the existing quote schemas and domain types.
+
+## Issue 34 Email Notification Service
+
+Quote workflow email notifications are represented by an additive, architecture-only service boundary in [EMAIL_NOTIFICATION_SERVICE.md](./EMAIL_NOTIFICATION_SERVICE.md). The service maps existing quote approval actions to validated notification requests and template contracts while defaulting to dry-run or unavailable provider responses so no real email is sent.
+
+This issue does not wire notifications into UI, authentication, SMTP, SendGrid, Mailgun, SES, or quote approval runtime state transitions. Future delivery providers must implement the `EmailProviderAdapter` boundary without changing quote approval or persistence contracts.

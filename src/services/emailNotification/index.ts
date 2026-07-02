@@ -1,0 +1,1 @@
+export { createEmailNotificationService, emailNotificationService, quoteNotificationEventMappings, quoteNotificationTemplates, type EmailNotificationService, type EmailNotificationServiceDependencies } from './emailNotificationService';
