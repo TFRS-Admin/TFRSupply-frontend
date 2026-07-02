@@ -40,6 +40,8 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `SHOPIFY_FULFILLMENT_FOUNDATION.md` | Shopify fulfillment and shipment synchronization foundation |
 | `SHOPIFY_INVENTORY_SYNCHRONIZATION.md` | Shopify inventory synchronization foundation |
 | `SHOPIFY_WEBHOOK_FOUNDATION.md` | Shopify inbound webhook receive/validate/normalize/route foundation |
+| `SHOPIFY_SYNC_ORCHESTRATOR.md` | Shopify synchronization orchestrator coordination layer |
+| `SHOPIFY_JOB_QUEUE_FOUNDATION.md` | Shopify job queue contracts, adapter boundary, and dependency handling foundation |
 | `VEHICLE_FITMENT_SERVICE.md` | Vehicle lookup and fitment evaluation service |
 | `PACKAGE_BUILDER_FOUNDATION.md` | Package composition and validation service |
 

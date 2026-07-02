@@ -49,7 +49,7 @@ If a future live adapter is introduced, the orchestrator should continue to call
 
 ## Future live synchronization flow
 
-A future live flow can build on this foundation by adding live adapters behind the existing service interfaces and then adding a separate scheduler or worker layer that consumes `ShopifySyncExecutionPlan` records. That future layer should:
+A future live flow can build on this foundation by adding live adapters behind the existing service interfaces and then adding a separate scheduler or worker layer that consumes `ShopifySyncExecutionPlan` records. The Shopify Job Queue Foundation (`docs/architecture/SHOPIFY_JOB_QUEUE_FOUNDATION.md`) builds one layer toward that future flow: `shopifyJobQueueService` wraps `buildExecutionPlan()` to preview per-job execution plans and models dependency-aware admission, but it still stops short of dispatching, scheduling, or executing anything — it is not the worker layer described below. That future layer should:
 
 - Resolve dependency ordering before dispatch.
 - Persist plan and operation state outside this pure frontend foundation.
