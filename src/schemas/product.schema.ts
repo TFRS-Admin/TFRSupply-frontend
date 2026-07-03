@@ -210,6 +210,7 @@ export const productSchema = baseEntityObjectSchema.extend({
       price: z.number().optional(),
     })).optional(),
     related_products: z.array(z.string()).optional(),
+    related_packages: z.array(z.string()).optional(),
     sku_table: z.array(z.record(z.union([z.string(), z.number(), z.boolean(), z.null(), z.undefined()]))).optional(),
   }).catchall(z.unknown()).optional(),
   cta: z.object({

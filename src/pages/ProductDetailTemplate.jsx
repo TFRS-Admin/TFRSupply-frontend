@@ -10,6 +10,11 @@ import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import ProductTabs from '@/components/product/ProductTabs';
 import ProductHero from '@/components/product/ProductHero';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
+import ProductCommerceSummary from '@/components/product/ProductCommerceSummary';
+import CommerceActionPanel from '@/components/product/CommerceActionPanel';
+import FitmentSummary from '@/components/product/FitmentSummary';
+import RelatedPackages from '@/components/product/RelatedPackages';
+import RecommendedProducts from '@/components/product/RecommendedProducts';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
 import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
@@ -75,7 +80,7 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
   if (!configuratorData) return null;
 
   return (
-    <div className="border-t border-gray-100 bg-gray-50">
+    <div className="border-t border-gray-100 bg-gray-50" id="build-configure">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
           Build &amp; Configure
@@ -139,7 +144,10 @@ export function ProductDetailTemplateView({
         actions={data.actions ?? heroActions}
         tabs={data.hero_tabs ?? []}
         actionLabels={{ configurator: 'Configure This Product', manual: 'Download Manual' }}
+        infoPanel={<ProductCommerceSummary product={data} />}
       />
+
+      <CommerceActionPanel product={data} />
 
       {/* Product Tabs */}
       {data.tabs_component === 'NavigatorTabs' ? (
@@ -149,7 +157,7 @@ export function ProductDetailTemplateView({
           </div>
         </div>
       ) : data.tabs_component === 'ProductTabs' ? (
-        <div className="border-t border-gray-200 bg-white">
+        <div className="border-t border-gray-200 bg-white" id="build-configure">
           <div className="max-w-7xl mx-auto px-6 py-0">
             <ProductTabs
               productData={data}
@@ -186,6 +194,14 @@ export function ProductDetailTemplateView({
           )}
         </>
       )}
+
+      <FitmentSummary product={data} />
+      <RelatedPackages product={data} />
+      <RecommendedProducts
+        product={data}
+        verticalId={verticalId || data.verticals?.[0]}
+        categoryId={categoryId || data.category}
+      />
 
       <PrototypeFooter />
       <DebugToggle />

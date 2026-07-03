@@ -49,7 +49,7 @@ function ImageGallery({ images = [] }) {
 }
 
 // ── Product Hero ──────────────────────────────────────────────────────────────
-export default function ProductHero({ title, subtitle, bullets = [], images = [], actions = {}, tabs = [], actionLabels = {} }) {
+export default function ProductHero({ title, subtitle, bullets = [], images = [], actions = {}, tabs = [], actionLabels = {}, infoPanel = null }) {
   const { whereToBuyUrl = '#', requestInfoUrl = '#', configuratorUrl = '#', manualUrl = '#' } = actions;
   const { configurator = 'Configure\nLightbar', manual = 'Manual' } = actionLabels;
 
@@ -68,6 +68,8 @@ export default function ProductHero({ title, subtitle, bullets = [], images = []
         {/* Right — 40% */}
         <div style={{ flex: '0 0 40%', maxWidth: '40%' }}>
           {subtitle && <p style={{ ...FS, fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1.25rem' }}>{subtitle}</p>}
+
+          {infoPanel}
 
           {/* Bullets */}
           <ul style={{ ...FS, listStyle: 'disc', paddingLeft: '1.2rem', marginBottom: '1.5rem' }}>

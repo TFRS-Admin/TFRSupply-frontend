@@ -49,6 +49,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `ADMIN_SALES_DASHBOARD.md` | Authenticated `/admin` landing page composing authentication, Shopify sync, pricing import, and quote builder/persistence foundations into one status and metrics overview |
 | `CUSTOMER_WORKSPACE.md` | Customer Workspace Foundation — `/admin/customers` list/search/filter/detail view over deterministic customer fixtures, reusing `QuoteCustomerMetadata` and `ShopifyCustomerSyncStatus` |
 | `PRODUCT_DISCOVERY.md` | Product Discovery Foundation — customer-facing `/search` page, `catalogService.searchProducts()`, and the shared `ProductCard`/`ProductSearchBar`/`ProductFilterPanel` components reused by `CategoryTemplate` |
+| `PRODUCT_DETAIL_EXPERIENCE.md` | Product Detail Experience — commerce summary, fitment summary, deterministic recommendations, related packages, and CTA area composed onto `ProductDetailTemplate` from the Catalog Service, Commerce Foundation, Vehicle Fitment Service, and Package Builder Foundation |
 
 ## TypeScript (`docs/typescript/`)
 
