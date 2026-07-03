@@ -61,7 +61,7 @@ export default function VehicleConfigurationSummary() {
       </div>
 
       <div style={{ padding: '14px 16px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
+        <div className="vehicle-config-fields" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 12 }}>
           <Field label="Year" value={selectedVehicle?.year} />
           <Field label="Make" value={selectedVehicle?.make} />
           <Field label="Model" value={selectedVehicle?.model} />

@@ -22,6 +22,7 @@ export default function MiniCart() {
     <button
       onClick={() => navigate('/cart')}
       aria-label={`View cart, ${itemCount} item${itemCount === 1 ? '' : 's'}`}
+      className="minicart-btn"
       style={{
         display: 'flex', alignItems: 'center', gap: 8,
         background: '#f5f5f5', color: '#1a1a1a',
@@ -43,7 +44,7 @@ export default function MiniCart() {
           </span>
         )}
       </span>
-      <span>{loading ? 'Cart…' : formatMoney(summary?.subtotal?.amount, summary?.currencyCode)}</span>
+      <span className="minicart-amount">{loading ? 'Cart…' : formatMoney(summary?.subtotal?.amount, summary?.currencyCode)}</span>
     </button>
   );
 }

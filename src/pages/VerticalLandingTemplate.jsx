@@ -99,7 +99,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
           <div className="max-w-7xl mx-auto px-6">
             <SectionLabel text={configs.eyebrow} />
             <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>{configs.title}</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <div className="landing-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
               {configs.items.map(c => {
                 const Icon = ICON_MAP[c.icon] || Settings;
                 return (
@@ -126,7 +126,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
         <div className="max-w-7xl mx-auto px-6 py-14">
           <SectionLabel text={contracts.eyebrow} />
           <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>{contracts.title}</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
             {contracts.items.map(c => (
               <div key={c.label} className="border border-gray-200 p-5">
                 <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{c.label}</p>
@@ -142,7 +142,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
       {resources && (
         <div className="bg-gray-50 py-14">
           <div className="max-w-7xl mx-auto px-6">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+            <div className="landing-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
               <div>
                 <SectionLabel text={resources.eyebrow} />
                 <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>{resources.title}</h2>

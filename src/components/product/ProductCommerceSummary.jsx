@@ -53,7 +53,7 @@ export default function ProductCommerceSummary({ product }) {
 
   return (
     <div style={{ ...FS, border: '1px solid #e5e7eb', background: '#fafafa', padding: '14px 16px', marginBottom: '1.25rem' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 8, columnGap: 12 }}>
+      <div className="storefront-status-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 8, columnGap: 12 }}>
         {rows.map((row) => (
           <div key={row.label}>
             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#888' }}>{row.label}</div>

@@ -14,7 +14,7 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 export default function CategoryIconGrid({ items = [], columns = 4 }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns},1fr)`, gap: '1.5rem' }}>
+    <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${columns},1fr)`, gap: '1.5rem' }}>
       {items.map(cat => {
         const Icon = ICON_MAP[cat.icon] || Tag;
         const inner = (

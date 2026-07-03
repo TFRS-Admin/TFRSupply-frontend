@@ -5,7 +5,7 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 export default function ProductCardGrid({ items = [], columns = 4 }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns},1fr)`, gap: '1.5rem' }}>
+    <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${columns},1fr)`, gap: '1.5rem' }}>
       {items.map(p => {
         const inner = (
           <div className="bg-white border border-gray-200 overflow-hidden h-full flex flex-col"

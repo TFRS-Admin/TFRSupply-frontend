@@ -102,8 +102,8 @@ export default function CartWorkspace() {
         )}
 
         {data && lines.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, alignItems: 'flex-start' }} className="cart-workspace-grid">
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '4px 22px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, alignItems: 'flex-start', minWidth: 0 }} className="cart-workspace-grid">
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '4px 22px', minWidth: 0 }}>
               {lines.map((line) => (
                 <CartLineRow
                   key={line.id}
@@ -123,7 +123,7 @@ export default function CartWorkspace() {
               </div>
             </div>
 
-            <div>
+            <div style={{ minWidth: 0 }}>
               <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading} />
               <CheckoutReadinessPanel result={readiness} loading={readinessLoading} storefrontAvailability={storefrontAvailability} storefrontCartPreview={storefrontCartPreview} checkoutUrlPreview={checkoutUrlPreview} storefrontCapabilitySummary={storefrontCapabilitySummary} />
             </div>

@@ -12,7 +12,7 @@ function ImageGallery({ images = [] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative bg-white overflow-hidden flex items-center justify-center" style={{ minHeight: 400 }}>
+      <div className="product-hero-gallery-main relative bg-white overflow-hidden flex items-center justify-center" style={{ minHeight: 400 }}>
         <img
           src={images[active].src}
           alt={images[active].alt}
@@ -30,7 +30,7 @@ function ImageGallery({ images = [] }) {
           </>
         )}
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 overflow-x-auto">
         {images.map((img, i) => (
           <button
             key={i}
@@ -55,18 +55,18 @@ export default function ProductHero({ title, subtitle, bullets = [], images = []
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-8 pb-10">
-      <h1 style={{ ...FS, fontSize: '2rem', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, marginBottom: '1.5rem' }}>
+      <h1 style={{ ...FS, fontSize: 'clamp(1.5rem,5vw,2rem)', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, marginBottom: '1.5rem' }}>
         {title}
       </h1>
 
-      <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'flex-start' }}>
+      <div className="product-hero-row" style={{ display: 'flex', gap: '2.5rem', alignItems: 'flex-start' }}>
         {/* Left — 60% */}
-        <div style={{ flex: '0 0 60%', maxWidth: '60%' }}>
+        <div className="product-hero-media" style={{ flex: '0 0 60%', maxWidth: '60%' }}>
           <ImageGallery images={images} />
         </div>
 
         {/* Right — 40% */}
-        <div style={{ flex: '0 0 40%', maxWidth: '40%' }}>
+        <div className="product-hero-info" style={{ flex: '0 0 40%', maxWidth: '40%' }}>
           {subtitle && <p style={{ ...FS, fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1.25rem' }}>{subtitle}</p>}
 
           {infoPanel}

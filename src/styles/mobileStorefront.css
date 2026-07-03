@@ -1,0 +1,152 @@
+/**
+ * Mobile storefront layout fixes.
+ *
+ * Most storefront components use inline styles for desktop layout, so the
+ * targeted overrides below use classNames + `!important` to win against
+ * inline styles only inside the documented mobile breakpoints. Nothing here
+ * changes desktop layout (all rules are gated behind max-width media
+ * queries) or removes functionality — it only changes how existing content
+ * stacks/wraps/scrolls at small viewport widths.
+ */
+
+/* Guarantees no accidental page-level horizontal scroll on mobile, on top
+   of the structural fixes below. */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  /* ── Site header ─────────────────────────────────────────────────── */
+  .site-header-row1-inner {
+    padding: 0 12px !important;
+  }
+
+  .site-header-verticals {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-header-verticals::-webkit-scrollbar {
+    display: none;
+  }
+  .site-header-verticals button {
+    padding: 9px 12px !important;
+    font-size: 11px !important;
+  }
+
+  .site-header-row2-inner {
+    padding: 10px 12px !important;
+    gap: 10px !important;
+  }
+  .site-header-actions {
+    gap: 6px !important;
+  }
+
+  .site-header-wtb-btn {
+    padding: 10px 12px !important;
+  }
+  .site-header-wtb-label {
+    display: none !important;
+  }
+
+  .site-header-hamburger {
+    padding: 10px !important;
+  }
+
+  .minicart-btn {
+    padding: 8px 10px !important;
+    gap: 6px !important;
+  }
+  .minicart-amount {
+    display: none !important;
+  }
+
+  /* ── Product search / category filter + grid layout ─────────────── */
+  .pd-filter-layout {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .pd-filter-panel {
+    width: 100% !important;
+  }
+  .pd-product-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .landing-2col {
+    grid-template-columns: 1fr !important;
+  }
+  .landing-4col {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── Product hero (image gallery + info column) ──────────────────── */
+  .product-hero-row {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .product-hero-media,
+  .product-hero-info {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+  .product-hero-gallery-main {
+    min-height: 260px !important;
+  }
+
+  .product-coming-soon-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Storefront status panels (product/collection/commerce) ──────── */
+  .storefront-status-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Configurator experience ──────────────────────────────────────── */
+  .configurator-columns {
+    grid-template-columns: 1fr !important;
+  }
+  .vehicle-config-fields {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── Cart workspace ───────────────────────────────────────────────── */
+  .cart-workspace-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .cart-line-row {
+    gap: 12px !important;
+  }
+  .cart-line-image {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  .cart-line-controls {
+    flex-wrap: wrap !important;
+    row-gap: 10px !important;
+  }
+  .cart-line-actions {
+    flex-wrap: wrap !important;
+    row-gap: 8px !important;
+  }
+  .cart-line-actions button,
+  .cart-line-actions a {
+    padding: 6px 4px !important;
+  }
+  .cart-line-qty-btn {
+    padding: 9px 13px !important;
+  }
+
+  /* ── Vehicle selector modal ───────────────────────────────────────── */
+  .vehicle-selector-modal {
+    width: calc(100% - 32px) !important;
+    max-width: calc(100% - 32px) !important;
+  }
+
+  /* ── Store landing utility bar ────────────────────────────────────── */
+  .store-landing-utility-bar {
+    flex-wrap: wrap !important;
+    row-gap: 6px !important;
+  }
+}

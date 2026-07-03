@@ -155,7 +155,7 @@ export default function VehicleSelectorModal({ onClose }) {
       />
 
       {/* Modal */}
-      <div style={{
+      <div className="vehicle-selector-modal" style={{
         ...FS,
         position: 'fixed',
         top: '50%',

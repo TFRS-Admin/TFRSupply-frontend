@@ -107,7 +107,7 @@ export default function ProductSearchPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+        <div className="pd-filter-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
           <ProductFilterPanel
             groups={filterGroups}
             active={{ vertical: verticalParam, category: categoryParam }}
@@ -115,12 +115,12 @@ export default function ProductSearchPage() {
             onReset={() => updateParams({ vertical: null, category: null })}
           />
 
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>
               {loading ? 'Searching…' : `${products.length} product${products.length !== 1 ? 's' : ''}`}
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
+            <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {products.map((product) => (
                 <ProductCard key={product.id} {...toProductCardViewModel(product)} />
               ))}

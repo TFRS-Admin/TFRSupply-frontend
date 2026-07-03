@@ -45,7 +45,7 @@ export default function StorefrontCollectionPanel({ categoryId }) {
           {loading ? 'Checking collection readiness…' : ready ? 'Collection Ready' : 'Collection Not Ready'}
         </span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 8, columnGap: 12 }}>
+      <div className="storefront-status-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 8, columnGap: 12 }}>
         <div>
           <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#888' }}>Mapping Status</div>
           <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1a1a' }}>{mapping ? (mapping.mapped ? 'Mapped' : 'Unmapped') : '—'}</div>

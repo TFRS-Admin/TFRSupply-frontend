@@ -89,7 +89,7 @@ export default function ResourcesPage() {
               <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888', marginBottom: 6 }}>Browse by Category</p>
               <div style={{ width: 40, height: 3, background: '#c8102e', marginBottom: 24 }} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }}>
+            <div className="landing-4col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }}>
               {RESOURCE_CATEGORIES.map(cat => {
                 const Icon = ICON_MAP[cat.icon];
                 return (
