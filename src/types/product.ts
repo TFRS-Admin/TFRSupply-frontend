@@ -168,6 +168,7 @@ export interface ProductCommerce {
   price_display?: string;
   accessories?: ProductCommerceAccessory[];
   related_products?: string[];
+  related_packages?: string[];
   sku_table?: ProductSkuRow[];
   [key: string]: unknown;
 }

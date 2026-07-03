@@ -88,3 +88,7 @@ This PR does not:
 ## Service Ownership
 
 `src/services/catalog/catalogService.ts` owns the read-only catalog service boundary. Product data shape validation remains owned by the Product Data Platform loaders, normalizers, and Zod schemas.
+
+## Product Detail Experience Consumer
+
+`ProductDetailTemplate` (`src/pages/ProductDetailTemplate.jsx`) and its composed components — `ProductCommerceSummary`, `RecommendedProducts` — are catalog service consumers. `RecommendedProducts` reuses `catalogService.getProduct()` and `catalogService.searchProducts()` for deterministic, catalog-relationship-based recommendations (`product.commerce.related_products` first, same-category fallback second). No new read path was added; see `PRODUCT_DETAIL_EXPERIENCE.md` for the full composition.

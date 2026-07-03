@@ -58,6 +58,10 @@ Errors are not silently ignored. The loader throws when a JSON payload cannot be
 
 This PR does not replace `src/lib/dataLoader.js`, does not modify React components, does not change `ConfiguratorModule`, does not change `ProductDetailTemplate`, and does not modify commerce logic. The typed loaders are additive infrastructure for future migration work.
 
+## Product Detail Experience Field Addition
+
+`ProductCommerce` (`src/types/product.ts`) and `productSchema`'s commerce object (`src/schemas/product.schema.ts`) gained one optional field, `related_packages?: string[]`, mirroring the existing `related_products` field. It is additive — existing product JSON validates unchanged — and lets a product opt into the Package Builder Foundation composition added by `PRODUCT_DETAIL_EXPERIENCE.md`.
+
 ## Future Extension Points
 
 - Wire typed loaders into admin-only validation tooling.
