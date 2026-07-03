@@ -74,3 +74,7 @@ Customer creation and synchronization are documented in [SHOPIFY_CUSTOMER_INTEGR
 ## Cart Workspace Experience
 
 The customer-facing Cart Workspace (`/cart` and the reusable header `MiniCart`) is documented in [CART_WORKSPACE_EXPERIENCE.md](./CART_WORKSPACE_EXPERIENCE.md). It consumes this foundation's `commerceService.prepareCartLine(sku, quantity)` from `cartWorkspaceService.prepareCheckout()` to build a future Shopify checkout payload — it adds no new commerce lookup logic, no Shopify API calls, and no checkout behavior. Because `commerceService`'s default adapter remains the unavailable adapter described above, `prepareCheckout()` reports every line as not-yet-ready until a real `CommerceAdapter` is connected in a dedicated issue.
+
+## Configurator Experience
+
+The customer-facing Configurator Experience is documented in [CONFIGURATOR_EXPERIENCE.md](./CONFIGURATOR_EXPERIENCE.md). Its `ConfiguratorCommerceActions` panel is the first real UI consumer of `cartWorkspaceService.addLine()` — it converts the existing configurator's selected SKU and accessories into a `CartLineInput` and adds it to the same in-memory cart the Cart Workspace and `MiniCart` already read from. It also composes `quoteBuilderService.assembleQuote()` (Quote Builder Foundation) alongside the existing `mailto:` request-quote pattern. No checkout, live commerce API, or quote persistence behavior is added.

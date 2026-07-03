@@ -44,9 +44,9 @@ This service does not implement pricing, quote builder integration, package buil
 
 1. Add validated fitment fixtures or provider integration behind `VehicleFitmentAdapter`.
 2. Add service tests for compatible, incompatible, unknown, invalid request, and invalid adapter result paths.
-3. Migrate a non-critical product compatibility consumer to `src/hooks/vehicleFitment` after behavior-preservation criteria are approved.
+3. Migrate a non-critical product compatibility consumer to `src/hooks/vehicleFitment` after behavior-preservation criteria are approved. **Done** — `FitmentSummary` on the product detail page (see `PRODUCT_DETAIL_EXPERIENCE.md`).
 4. Connect package compatibility only through a dedicated package-builder issue.
-5. Connect configurator compatibility only through a dedicated configurator issue.
+5. Connect configurator compatibility only through a dedicated configurator issue. **Done** — `ConfiguratorFitmentFeedback` and `ConfiguratorSummaryPanel`'s compatibility status row (see `CONFIGURATOR_EXPERIENCE.md`), composed around the selected vehicle and the configurator's selected SKU via `useProductFitment`. Because the default adapter remains unavailable, every result today is still `unknown`.
 
 ## Rollback
 
