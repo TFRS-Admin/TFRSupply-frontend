@@ -51,6 +51,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `PRODUCT_DISCOVERY.md` | Product Discovery Foundation — customer-facing `/search` page, `catalogService.searchProducts()`, and the shared `ProductCard`/`ProductSearchBar`/`ProductFilterPanel` components reused by `CategoryTemplate` |
 | `PRODUCT_DETAIL_EXPERIENCE.md` | Product Detail Experience — commerce summary, fitment summary, deterministic recommendations, related packages, and CTA area composed onto `ProductDetailTemplate` from the Catalog Service, Commerce Foundation, Vehicle Fitment Service, and Package Builder Foundation |
 | `CART_WORKSPACE_EXPERIENCE.md` | Cart Workspace Experience — customer-facing `/cart` page, reusable header `MiniCart`, `cartWorkspaceService`'s deterministic in-memory adapter, and checkout-preparation handoff to the existing Commerce Foundation |
+| `CONFIGURATOR_EXPERIENCE.md` | Configurator Experience — vehicle summary, configuration summary, pricing summary, fitment feedback, and commerce action panels composed around the existing, unchanged `ConfiguratorModule` from the Vehicle Fitment Service, Package Builder Foundation, Pricing Engine, Cart Workspace, and Quote Builder |
 
 ## TypeScript (`docs/typescript/`)
 

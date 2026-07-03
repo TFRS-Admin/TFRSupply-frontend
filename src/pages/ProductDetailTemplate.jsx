@@ -20,7 +20,7 @@ import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
 import { Clock, Phone } from 'lucide-react';
 
-import ConfiguratorModule from '@/components/configurator/ConfiguratorModule';
+import ConfiguratorExperience from '@/components/configurator/ConfiguratorExperience';
 
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -75,7 +75,7 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
   );
 }
 
-function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
+function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId }) {
   const { data: configuratorData } = useConfiguratorData(configuratorId);
   if (!configuratorData) return null;
 
@@ -85,10 +85,11 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId }) {
         <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
           Build &amp; Configure
         </p>
-        <ConfiguratorModule
+        <ConfiguratorExperience
           configuratorData={configuratorData}
           verticalId={verticalId}
           categoryId={categoryId}
+          packageId={packageId}
         />
       </div>
     </div>
@@ -190,6 +191,7 @@ export function ProductDetailTemplateView({
               configuratorId={data.configuratorId}
               verticalId={verticalId || data.verticals?.[0]}
               categoryId={categoryId || data.category}
+              packageId={data.commerce?.related_packages?.[0]}
             />
           )}
         </>

@@ -89,3 +89,7 @@ Use the Railway deployment as a preview environment only; do not treat it as pro
 ## Recommended Next Issue
 
 Add browser-capable configurator interaction tests for filter selection, dead-end prevention, SKU row selection, accessory toggling, and quote payload output before migrating deeper configurator behavior.
+
+## Configurator Experience
+
+The customer-facing Configurator Experience (`ConfiguratorExperience` and the vehicle summary / configuration summary / pricing summary / fitment feedback / commerce action panels it composes) is documented in [CONFIGURATOR_EXPERIENCE.md](../architecture/CONFIGURATOR_EXPERIENCE.md). It sits around this migration's unchanged `ConfiguratorModule` and reads only `ConfiguratorModule`'s existing `quotePayload`, surfaced via one additive `onConfigurationChange` prop — SKU filtering, dead-end prevention, and quote-payload construction remain exactly as migrated above.

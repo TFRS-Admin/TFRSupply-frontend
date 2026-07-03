@@ -17,7 +17,7 @@
  *   0 remaining SKUs, it is disabled before the customer can click it.
  */
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useVehicle } from '@/context/VehicleContext';
 import { lookupSkus } from '@/services/commerceLookupService';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
@@ -555,7 +555,7 @@ function QuotePanel({ quotePayload, accSection }) {
 
 // ─── Main Module ───────────────────────────────────────────────────────────
 
-export default function ConfiguratorModule({ configuratorData, verticalId, categoryId }) {
+export default function ConfiguratorModule({ configuratorData, verticalId, categoryId, onConfigurationChange }) {
   const { selectedVehicle } = useVehicle();
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [filterSelections, setFilterSelections] = useState({});
@@ -668,6 +668,12 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       checkoutReady: baseCommerce?.status === 'matched',
     };
   }, [resolvedSkuObj, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
+
+  // Surface the existing quote payload to composing parents (Configurator Experience)
+  // without changing any configurator behavior — additive and optional.
+  useEffect(() => {
+    onConfigurationChange?.(quotePayload);
+  }, [quotePayload, onConfigurationChange]);
 
   const showPackage = !!resolvedSkuObj;
 
