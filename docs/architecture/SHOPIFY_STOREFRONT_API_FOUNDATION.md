@@ -84,3 +84,7 @@ A future issue can introduce a real Storefront API client by:
 ## Explicit non-goals
 
 This foundation does not implement: real Shopify Storefront API calls, GraphQL execution, checkout creation, customer login, orders, payments, shipping, taxes, or inventory mutations. It does not change any existing checkout, cart, pricing, configurator, or catalog runtime behavior. `mockShopifyStorefrontAdapter`'s dry-run response is not a substitute for real product or cart data and must not be treated as one.
+
+## Shopify Storefront Cart Adapter Foundation
+
+The Shopify Storefront Cart Adapter Foundation is documented in [SHOPIFY_STOREFRONT_CART_ADAPTER.md](./SHOPIFY_STOREFRONT_CART_ADAPTER.md). It connects this foundation to the Cart Workspace and Checkout Preparation Layer's cart contracts, adding a parallel `ShopifyStorefrontCartAdapter` boundary and `shopifyStorefrontCartService` for cart-line mapping and Storefront cart mutation previews. Its live adapter stub reuses `buildStorefrontFetchRequest()` from this foundation rather than redefining the Storefront GraphQL request shape. It adds no new Storefront operation type, live API call, or checkout behavior to this foundation.
