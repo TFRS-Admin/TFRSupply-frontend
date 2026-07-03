@@ -29,8 +29,13 @@ function ReadinessRow({ label, ready }) {
  * calculation of its own — every readiness flag, blocker, warning, and
  * payload preview line is read directly from the already-computed result.
  * This panel never calls Shopify and never redirects to checkout.
+ *
+ * storefrontAvailability is an optional ShopifyStorefrontAvailability
+ * contract from useStorefrontAvailability() (Shopify Storefront API
+ * Foundation). It is display-only — it never changes checkout readiness,
+ * blockers, or the payload preview above.
  */
-export default function CheckoutReadinessPanel({ result, loading }) {
+export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability }) {
   if (loading && !result) {
     return (
       <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '20px 22px', marginTop: 16 }}>
@@ -106,6 +111,20 @@ export default function CheckoutReadinessPanel({ result, loading }) {
           <p style={{ fontSize: 11, color: '#6366f1', marginTop: 8 }}>
             This is a preview only — no Shopify checkout session has been created and no redirect will occur.
           </p>
+        </div>
+      )}
+
+      {storefrontAvailability && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, paddingTop: 12, borderTop: '1px solid #eee', fontSize: 11, color: '#6b7280' }}>
+          <span style={{
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', padding: '1px 6px', borderRadius: 2,
+            background: storefrontAvailability.available ? '#dcfce7' : '#f3f4f6',
+            color: storefrontAvailability.available ? '#15803d' : '#6b7280',
+            border: `1px solid ${storefrontAvailability.available ? '#86efac' : '#e5e7eb'}`,
+          }}>
+            {storefrontAvailability.available ? 'Storefront API Connected' : 'Storefront API Not Connected'}
+          </span>
+          <span>{storefrontAvailability.reason || 'No live Shopify Storefront API call is made by this panel.'}</span>
         </div>
       )}
     </div>

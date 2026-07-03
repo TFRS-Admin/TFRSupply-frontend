@@ -53,6 +53,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `CART_WORKSPACE_EXPERIENCE.md` | Cart Workspace Experience — customer-facing `/cart` page, reusable header `MiniCart`, `cartWorkspaceService`'s deterministic in-memory adapter, and checkout-preparation handoff to the existing Commerce Foundation |
 | `CONFIGURATOR_EXPERIENCE.md` | Configurator Experience — vehicle summary, configuration summary, pricing summary, fitment feedback, and commerce action panels composed around the existing, unchanged `ConfiguratorModule` from the Vehicle Fitment Service, Package Builder Foundation, Pricing Engine, Cart Workspace, and Quote Builder |
 | `CHECKOUT_PREPARATION.md` | Checkout Preparation Layer — `checkoutPreparationService`, the `/cart` Checkout Readiness panel, and cart/configuration/package/pricing/commerce validation and payload-preview generation composed from the Cart Workspace, Commerce Foundation, Package Builder, and Pricing Engine, with no live Shopify calls, redirects, or payments |
+| `SHOPIFY_STOREFRONT_API_FOUNDATION.md` | Shopify Storefront API Foundation — `ShopifyStorefrontAdapter` boundary (mock/unavailable/live-stub), `shopifyStorefrontService`, and `useShopifyStorefront()`/`useStorefrontAvailability()` hooks; a read-only availability badge is the only current integration point, surfaced in the `/cart` Checkout Readiness panel, with no live Storefront API calls |
 
 ## TypeScript (`docs/typescript/`)
 

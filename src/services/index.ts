@@ -24,3 +24,4 @@ export { createShopifySyncOrchestratorService, shopifySyncOrchestratorService, t
 export { createShopifyJobQueueService, shopifyJobQueueService, type ShopifyJobQueueService } from './shopifyJobQueue';
 export { createQuoteBuilderWorkspaceService, quoteBuilderWorkspaceService, type QuoteBuilderWorkspaceScenarioResult, type QuoteBuilderWorkspaceService } from './quoteBuilderWorkspace';
 export { createCustomerWorkspaceService, customerWorkspaceService, buildCustomerWorkspaceSummary, type CustomerWorkspaceService } from './customerWorkspace';
+export { createShopifyStorefrontService, shopifyStorefrontService, type ShopifyStorefrontService } from './shopifyStorefront';
