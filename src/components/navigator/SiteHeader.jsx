@@ -4,6 +4,7 @@ import { Search, MapPin, Menu, X, Home, ChevronDown, Truck } from 'lucide-react'
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+import MiniCart from '@/components/cart/MiniCart';
 
 const VERTICALS = [
   { id: 'police',      label: 'Police',             path: '/police' },
@@ -192,6 +193,9 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 </span>
               )}
             </button>
+
+            {/* Mini cart */}
+            <MiniCart />
 
             {/* Where to Buy — red filled with pin icon */}
             <button
