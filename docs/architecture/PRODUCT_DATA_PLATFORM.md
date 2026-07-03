@@ -62,6 +62,10 @@ This PR does not replace `src/lib/dataLoader.js`, does not modify React componen
 
 `ProductCommerce` (`src/types/product.ts`) and `productSchema`'s commerce object (`src/schemas/product.schema.ts`) gained one optional field, `related_packages?: string[]`, mirroring the existing `related_products` field. It is additive — existing product JSON validates unchanged — and lets a product opt into the Package Builder Foundation composition added by `PRODUCT_DETAIL_EXPERIENCE.md`.
 
+## Shopify Storefront Product Sync
+
+`SHOPIFY_STOREFRONT_PRODUCT_SYNC.md` documents a read-only consumer of this platform's typed catalog read path. `shopifyStorefrontProductService.buildStorefrontProductMapping()` derives a `ShopifyStorefrontProductMapping` (handle, variant count, media count, Shopify identifiers) from an existing `catalogService.getProduct()` result — the same synchronous typed read the Catalog Service already exposes. No new loader, normalizer, or schema was added to the Product Data Platform for this; the existing, optional `Product.shopify` metadata bag (`src/types/product.ts`) is reused as the future source of Shopify identifiers.
+
 ## Future Extension Points
 
 - Wire typed loaders into admin-only validation tooling.

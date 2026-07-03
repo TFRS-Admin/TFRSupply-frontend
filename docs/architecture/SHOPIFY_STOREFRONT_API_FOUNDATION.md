@@ -88,3 +88,7 @@ This foundation does not implement: real Shopify Storefront API calls, GraphQL e
 ## Shopify Storefront Cart Adapter Foundation
 
 The Shopify Storefront Cart Adapter Foundation is documented in [SHOPIFY_STOREFRONT_CART_ADAPTER.md](./SHOPIFY_STOREFRONT_CART_ADAPTER.md). It connects this foundation to the Cart Workspace and Checkout Preparation Layer's cart contracts, adding a parallel `ShopifyStorefrontCartAdapter` boundary and `shopifyStorefrontCartService` for cart-line mapping and Storefront cart mutation previews. Its live adapter stub reuses `buildStorefrontFetchRequest()` from this foundation rather than redefining the Storefront GraphQL request shape. It adds no new Storefront operation type, live API call, or checkout behavior to this foundation.
+
+## Shopify Storefront Product Sync
+
+The Shopify Storefront Product Sync Foundation is documented in [SHOPIFY_STOREFRONT_PRODUCT_SYNC.md](./SHOPIFY_STOREFRONT_PRODUCT_SYNC.md). It connects this foundation to the Product Data Platform and Catalog Service, adding a parallel `ShopifyStorefrontProductAdapter` boundary and `shopifyStorefrontProductService` for product-to-Shopify mapping derivation and read-only query previews. Its live adapter stub reuses `buildStorefrontFetchRequest()` from this foundation rather than redefining the Storefront GraphQL request shape. It adds no new Storefront operation type, live API call, or checkout behavior to this foundation.
