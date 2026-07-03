@@ -77,3 +77,7 @@ A future issue can introduce a real checkout URL by:
 ## Explicit non-goals
 
 This foundation does not implement: a real Shopify checkout URL, checkout redirect, GraphQL execution, payments, orders, customer login, shipping, taxes, or authentication changes. It does not change any existing Cart Workspace, Checkout Preparation, Shopify Storefront Cart Adapter, Commerce, pricing, configurator, or catalog runtime behavior. `mockShopifyCheckoutPreviewAdapter`'s deterministic response is not a substitute for a real Shopify checkout URL and must not be treated as one.
+
+## Shopify Storefront Live Configuration Readiness
+
+The Shopify Storefront Live Configuration Readiness foundation (see [SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md](./SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md)) is a read-only, additive consumer of the Shopify Storefront API Foundation's capabilities — it does not read or change anything owned by this foundation's `shopifyCheckoutPreviewService`, and its `liveAdapterReady`/config-status rows are rendered in the `/cart` Checkout Readiness panel alongside, not in place of, this foundation's checkout URL preview.

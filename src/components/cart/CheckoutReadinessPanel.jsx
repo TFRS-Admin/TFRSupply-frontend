@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import StorefrontConfigReadinessRow from '@/components/shopify/StorefrontConfigReadinessRow';
 
 function formatMoney(money) {
   if (!money || typeof money.amount !== 'number') return '—';
@@ -49,8 +50,14 @@ function ReadinessRow({ label, ready }) {
  * readiness, blockers, or the payload preview above, its own
  * checkoutUrlPreview is never a real Shopify checkout URL, and this panel
  * never redirects to it or calls Shopify.
+ *
+ * storefrontCapabilitySummary is an optional ShopifyStorefrontCapabilitySummary
+ * contract from useShopifyStorefrontCapabilities() (Shopify Storefront Live
+ * Configuration Readiness). It is display-only — it never changes checkout
+ * readiness, blockers, or the payload preview above, never renders a
+ * Storefront access token, and never triggers a live Shopify API call.
  */
-export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview, checkoutUrlPreview }) {
+export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview, checkoutUrlPreview, storefrontCapabilitySummary }) {
   if (loading && !result) {
     return (
       <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '20px 22px', marginTop: 16 }}>
@@ -218,6 +225,15 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
             Checkout redirect disabled — this is a preview only. No Shopify API is called and no redirect will occur.
           </p>
         </div>
+      )}
+
+      {storefrontCapabilitySummary && (
+        <>
+          <StorefrontConfigReadinessRow validation={storefrontCapabilitySummary.configValidation} />
+          <div style={{ marginTop: 8, fontSize: 11, color: '#6b7280' }}>
+            Live adapter ready: <strong>{storefrontCapabilitySummary.liveAdapterReady ? 'Yes' : 'No'}</strong> — {storefrontCapabilitySummary.liveAdapterReadinessReason}
+          </div>
+        </>
       )}
     </div>
   );
