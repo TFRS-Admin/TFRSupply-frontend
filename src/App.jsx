@@ -20,6 +20,7 @@ import AdminQuotesPage from '@/pages/AdminQuotesPage';
 import AdminPricingImportDashboard from '@/pages/AdminPricingImportDashboard';
 import AdminQuoteBuilderPage from '@/pages/AdminQuoteBuilderPage';
 import AdminShopifySyncDashboard from '@/pages/AdminShopifySyncDashboard';
+import AdminSalesDashboard from '@/pages/AdminSalesDashboard';
 import AdminLoginPage from '@/pages/AdminLoginPage';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
@@ -62,6 +63,11 @@ const AuthenticatedApp = () => {
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/admin/debug" element={<AdminDebugSummary />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin" element={
+          <AdminAuthGuard>
+            <AdminSalesDashboard />
+          </AdminAuthGuard>
+        } />
         <Route path="/admin/quotes" element={<AdminQuotesPage />} />
         <Route path="/admin/quote-builder" element={
           <AdminAuthGuard requiredPermission="admin.quote-builder.view">

@@ -46,6 +46,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `VEHICLE_FITMENT_SERVICE.md` | Vehicle lookup and fitment evaluation service |
 | `PACKAGE_BUILDER_FOUNDATION.md` | Package composition and validation service |
 | `ADMIN_AUTHENTICATION_WORKSPACE.md` | Frontend admin authentication service, adapter boundary, and mock-identity session gate for `/admin/shopify-sync` and `/admin/quote-builder` |
+| `ADMIN_SALES_DASHBOARD.md` | Authenticated `/admin` landing page composing authentication, Shopify sync, pricing import, and quote builder/persistence foundations into one status and metrics overview |
 
 ## TypeScript (`docs/typescript/`)
 

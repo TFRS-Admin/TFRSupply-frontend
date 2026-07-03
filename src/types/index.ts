@@ -28,3 +28,4 @@ export type { ShopifySyncExecutionError, ShopifySyncExecutionPlan, ShopifySyncEx
 export type { ShopifyJob, ShopifyJobDependency, ShopifyJobError, ShopifyJobExecution, ShopifyJobPriority, ShopifyJobRequest, ShopifyJobResult, ShopifyJobStatus, ShopifyJobType } from './shopifyJobQueue';
 export type { ShopifySyncDashboardData, ShopifySyncDashboardJobQueueSection, ShopifySyncDashboardOrchestratorSection, ShopifySyncDashboardWebhookSection } from './shopifySyncDashboard';
 export type { AdminAuthError, AdminAuthErrorCode, AdminPermission, AdminRole, AdminSession, AdminSignInRequest, AdminSignInResult, AdminUser, AuthenticationStatus } from './adminAuth';
+export type { AdminPlatformComponentStatus, AdminSalesDashboardActivityEntry, AdminSalesDashboardActivityKind, AdminSalesDashboardData, AdminSalesDashboardMetrics, AdminSalesDashboardPlatformStatus, AdminSalesDashboardQuickAction, AdminSalesDashboardSystemHealth } from './adminSalesDashboard';
