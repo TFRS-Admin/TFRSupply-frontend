@@ -55,6 +55,10 @@ CheckoutReadinessPanel (on /cart) ── useCheckoutPreparation() ── checkou
 
 `/cart`'s Checkout Readiness panel also renders an optional, read-only Storefront cart preview from `useShopifyStorefrontCartPreview()` (Shopify Storefront Cart Adapter Foundation, see [SHOPIFY_STOREFRONT_CART_ADAPTER.md](./SHOPIFY_STOREFRONT_CART_ADAPTER.md)) via a `storefrontCartPreview` prop. This is purely additive display — Storefront cart status, cart line count, a checkout URL preview placeholder, mutation preview metadata, and adapter mode — and never changes `checkoutPreparationService`'s readiness decision, blockers, warnings, or payload preview.
 
+## Integration with the Shopify Checkout URL Preview Foundation
+
+`checkoutPreparationService.prepareCheckout()`'s `blockers`/`warnings` are also consumed by the Shopify Checkout URL Preview Foundation (see [SHOPIFY_CHECKOUT_URL_PREVIEW.md](./SHOPIFY_CHECKOUT_URL_PREVIEW.md)), which combines them with the Shopify Storefront Cart Adapter's checkout-preview metadata to produce a final, read-only Shopify checkout URL preview on `/cart`. That foundation reuses these blockers/warnings verbatim — it adds no new cart, configuration, package, pricing, or commerce validation rule, and never mutates `CheckoutPreparationResult`.
+
 ## Non-goals
 
 This layer does not implement Shopify checkout, a Shopify cart/draft-order API call, payments, order creation, tax calculation, shipping calculation, or customer authentication. It does not resolve pricing, evaluate package compatibility, or look up commerce availability itself — those decisions come from the existing Pricing Engine, Package Builder, and Commerce Foundation via the `CartLineItem`/`commerceService` contracts they already populate. Because `commerceService`'s default adapter remains the unavailable adapter described in `COMMERCE_FOUNDATION.md`, `checkoutPreparationService.prepareCheckout()` reports `status: 'blocked'` (commerce unavailable) for every real cart line until a real `CommerceAdapter` is connected in a dedicated issue.
