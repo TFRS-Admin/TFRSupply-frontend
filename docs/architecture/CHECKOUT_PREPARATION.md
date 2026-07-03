@@ -51,6 +51,10 @@ CheckoutReadinessPanel (on /cart) ── useCheckoutPreparation() ── checkou
 
 `/cart` renders a Checkout Readiness panel beneath the Cart Summary showing pass/fail indicators for cart, configuration, package, pricing, and commerce validation, plus overall readiness. When not ready, it lists every blocker (and any warnings, such as backorder lines, which do not block). When ready, it shows a read-only preview of the checkout payload — SKU, quantity, resolved Shopify variant reference, and estimated total — with an explicit note that no Shopify checkout session has been created and no redirect occurs.
 
+## Integration with the Shopify Storefront Cart Adapter Foundation
+
+`/cart`'s Checkout Readiness panel also renders an optional, read-only Storefront cart preview from `useShopifyStorefrontCartPreview()` (Shopify Storefront Cart Adapter Foundation, see [SHOPIFY_STOREFRONT_CART_ADAPTER.md](./SHOPIFY_STOREFRONT_CART_ADAPTER.md)) via a `storefrontCartPreview` prop. This is purely additive display — Storefront cart status, cart line count, a checkout URL preview placeholder, mutation preview metadata, and adapter mode — and never changes `checkoutPreparationService`'s readiness decision, blockers, warnings, or payload preview.
+
 ## Non-goals
 
 This layer does not implement Shopify checkout, a Shopify cart/draft-order API call, payments, order creation, tax calculation, shipping calculation, or customer authentication. It does not resolve pricing, evaluate package compatibility, or look up commerce availability itself — those decisions come from the existing Pricing Engine, Package Builder, and Commerce Foundation via the `CartLineItem`/`commerceService` contracts they already populate. Because `commerceService`'s default adapter remains the unavailable adapter described in `COMMERCE_FOUNDATION.md`, `checkoutPreparationService.prepareCheckout()` reports `status: 'blocked'` (commerce unavailable) for every real cart line until a real `CommerceAdapter` is connected in a dedicated issue.

@@ -34,8 +34,15 @@ function ReadinessRow({ label, ready }) {
  * contract from useStorefrontAvailability() (Shopify Storefront API
  * Foundation). It is display-only — it never changes checkout readiness,
  * blockers, or the payload preview above.
+ *
+ * storefrontCartPreview is an optional ShopifyStorefrontCartResult contract
+ * from useShopifyStorefrontCartPreview() (Shopify Storefront Cart Adapter
+ * Foundation). It is also display-only — it never changes checkout
+ * readiness, blockers, or the payload preview above, and its
+ * checkoutUrlPreview is never a real Shopify checkout URL; this panel never
+ * redirects to it.
  */
-export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability }) {
+export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview }) {
   if (loading && !result) {
     return (
       <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '20px 22px', marginTop: 16 }}>
@@ -125,6 +132,37 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
             {storefrontAvailability.available ? 'Storefront API Connected' : 'Storefront API Not Connected'}
           </span>
           <span>{storefrontAvailability.reason || 'No live Shopify Storefront API call is made by this panel.'}</span>
+        </div>
+      )}
+
+      {storefrontCartPreview && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #eee' }}>
+          <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Storefront Cart Preview
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Storefront Cart Status</span>
+            <span style={{ fontWeight: 700 }}>{storefrontCartPreview.status}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Storefront Cart Lines</span>
+            <span style={{ fontWeight: 700 }}>{storefrontCartPreview.lineCount}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Checkout URL Preview</span>
+            <span style={{ fontWeight: 700 }}>{storefrontCartPreview.checkoutPreview?.checkoutUrlPreview || 'Not available'}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Mutation Preview</span>
+            <span style={{ fontWeight: 700 }}>{storefrontCartPreview.mutationPreview?.operationName || '—'}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Adapter Mode</span>
+            <span style={{ fontWeight: 700 }}>{storefrontCartPreview.metadata?.attributes?.adapterMode || 'unavailable'}</span>
+          </div>
+          <p style={{ fontSize: 11, color: '#6b7280', marginTop: 6 }}>
+            This is a preview only — no Shopify Storefront cart mutation has been executed and this URL is not a real checkout link.
+          </p>
         </div>
       )}
     </div>
