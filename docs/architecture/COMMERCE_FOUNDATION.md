@@ -70,3 +70,7 @@ This foundation does not implement live Shopify synchronization, Shopify API cli
 ## Shopify Customer Synchronization
 
 Customer creation and synchronization are documented in [SHOPIFY_CUSTOMER_INTEGRATION.md](./SHOPIFY_CUSTOMER_INTEGRATION.md). The customer foundation follows the same adapter/service/hook pattern as Shopify product, variant, inventory, pricing reference, and order synchronization, while remaining unwired from checkout and live Shopify API calls.
+
+## Cart Workspace Experience
+
+The customer-facing Cart Workspace (`/cart` and the reusable header `MiniCart`) is documented in [CART_WORKSPACE_EXPERIENCE.md](./CART_WORKSPACE_EXPERIENCE.md). It consumes this foundation's `commerceService.prepareCartLine(sku, quantity)` from `cartWorkspaceService.prepareCheckout()` to build a future Shopify checkout payload — it adds no new commerce lookup logic, no Shopify API calls, and no checkout behavior. Because `commerceService`'s default adapter remains the unavailable adapter described above, `prepareCheckout()` reports every line as not-yet-ready until a real `CommerceAdapter` is connected in a dedicated issue.
