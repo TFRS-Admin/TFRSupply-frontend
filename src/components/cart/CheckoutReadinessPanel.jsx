@@ -121,9 +121,9 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
             Checkout Payload Preview
           </p>
           {result.payloadPreview.lines.map((line) => (
-            <div key={line.sku} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#3730a3', padding: '2px 0' }}>
+            <div key={line.sku} style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 4, fontSize: 12, color: '#3730a3', padding: '2px 0' }}>
               <span>{line.sku} × {line.quantity}</span>
-              <span>{line.variantMapping.shopifyVariantGid || line.variantMapping.shopifyVariantId || 'unmapped variant'}</span>
+              <span style={{ wordBreak: 'break-all', textAlign: 'right' }}>{line.variantMapping.shopifyVariantGid || line.variantMapping.shopifyVariantId || 'unmapped variant'}</span>
             </div>
           ))}
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 700, color: '#3730a3', marginTop: 8, borderTop: '1px solid #c7d2fe', paddingTop: 8 }}>
@@ -163,9 +163,9 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
             <span>Storefront Cart Lines</span>
             <span style={{ fontWeight: 700 }}>{storefrontCartPreview.lineCount}</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 4, fontSize: 12, color: '#374151', padding: '2px 0' }}>
             <span>Checkout URL Preview</span>
-            <span style={{ fontWeight: 700 }}>{storefrontCartPreview.checkoutPreview?.checkoutUrlPreview || 'Not available'}</span>
+            <span style={{ fontWeight: 700, wordBreak: 'break-all', textAlign: 'right' }}>{storefrontCartPreview.checkoutPreview?.checkoutUrlPreview || 'Not available'}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
             <span>Mutation Preview</span>
@@ -194,9 +194,9 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
             <span>Adapter Mode</span>
             <span style={{ fontWeight: 700 }}>{checkoutUrlPreview.adapterMode}</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 4, fontSize: 12, color: '#374151', padding: '2px 0' }}>
             <span>Checkout URL Preview</span>
-            <span style={{ fontWeight: 700 }}>{checkoutUrlPreview.urlPreview?.checkoutUrlPreview || 'Not available'}</span>
+            <span style={{ fontWeight: 700, wordBreak: 'break-all', textAlign: 'right' }}>{checkoutUrlPreview.urlPreview?.checkoutUrlPreview || 'Not available'}</span>
           </div>
 
           {checkoutUrlPreview.blockers.length > 0 && (

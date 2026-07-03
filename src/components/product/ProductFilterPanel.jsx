@@ -9,7 +9,7 @@ export default function ProductFilterPanel({ groups = [], active = {}, onChange,
   const hasActive = Object.values(active).some(Boolean);
 
   return (
-    <div style={{ width: 220, flexShrink: 0 }}>
+    <div className="pd-filter-panel" style={{ width: 220, flexShrink: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: 0 }}>Filter By</p>
         {hasActive && (

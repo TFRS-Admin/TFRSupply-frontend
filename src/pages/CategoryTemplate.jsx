@@ -66,11 +66,11 @@ export default function CategoryTemplate() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+        <div className="pd-filter-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
 
           {/* Sidebar Filters */}
           {filters.length > 0 && (
-            <div style={{ width: 220, flexShrink: 0 }}>
+            <div className="pd-filter-panel" style={{ width: 220, flexShrink: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: 0 }}>Filter By</p>
                 {Object.values(activeFilter).some(Boolean) && (
@@ -102,11 +102,11 @@ export default function CategoryTemplate() {
           )}
 
           {/* Product Grid */}
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             {description && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: '1.5rem' }}>{description}</p>}
             <StorefrontCollectionPanel categoryId={data.id} />
             <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
+            <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
                 <ProductCard
                   key={p.id}

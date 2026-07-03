@@ -45,7 +45,7 @@ export default function ConfiguratorExperience({ configuratorData, verticalId, c
       />
 
       {configState?.selectedBaseSku && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 16 }}>
+        <div className="configurator-columns" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 16 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <ConfiguratorSummaryPanel
               configuratorData={configuratorData}

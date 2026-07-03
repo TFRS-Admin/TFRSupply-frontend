@@ -38,7 +38,7 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
         { label: product.label }
       ]} />
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'flex-start' }}>
+        <div className="product-coming-soon-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'flex-start' }}>
           {product.image && (
             <div className="border border-gray-200 flex items-center justify-center bg-white overflow-hidden" style={{ height: 380 }}>
               <img src={product.image} alt={product.label} className="max-h-full max-w-full object-contain" />

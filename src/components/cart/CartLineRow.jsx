@@ -26,8 +26,8 @@ export default function CartLineRow({ line, onUpdateQuantity, onRemove, onConfig
   const config = CONFIG_LABEL[line.configurationStatus] ?? CONFIG_LABEL.unknown;
 
   return (
-    <div style={{ display: 'flex', gap: 16, padding: '18px 0', borderBottom: '1px solid #f0f0f0' }}>
-      <div style={{ width: 84, height: 84, flexShrink: 0, background: '#f4f5f7', borderRadius: 4, overflow: 'hidden' }}>
+    <div className="cart-line-row" style={{ display: 'flex', gap: 16, padding: '18px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <div className="cart-line-image" style={{ width: 84, height: 84, flexShrink: 0, background: '#f4f5f7', borderRadius: 4, overflow: 'hidden' }}>
         {line.image?.src && (
           <img src={line.image.src} alt={line.image.alt || line.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         )}
@@ -56,9 +56,10 @@ export default function CartLineRow({ line, onUpdateQuantity, onRemove, onConfig
           <span style={{ fontSize: 11, color: config.color }}>{config.label}</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 }}>
+        <div className="cart-line-controls" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #d0d0d0', borderRadius: 3 }}>
             <button
+              className="cart-line-qty-btn"
               onClick={() => onUpdateQuantity(line.id, Math.max(1, line.quantity - 1))}
               aria-label={`Decrease quantity of ${line.label}`}
               style={{ border: 'none', background: 'none', padding: '6px 10px', cursor: 'pointer' }}
@@ -67,6 +68,7 @@ export default function CartLineRow({ line, onUpdateQuantity, onRemove, onConfig
             </button>
             <span style={{ minWidth: 28, textAlign: 'center', fontSize: 13, fontWeight: 700 }}>{line.quantity}</span>
             <button
+              className="cart-line-qty-btn"
               onClick={() => onUpdateQuantity(line.id, line.quantity + 1)}
               aria-label={`Increase quantity of ${line.label}`}
               style={{ border: 'none', background: 'none', padding: '6px 10px', cursor: 'pointer' }}
@@ -75,7 +77,7 @@ export default function CartLineRow({ line, onUpdateQuantity, onRemove, onConfig
             </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div className="cart-line-actions" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <span style={{ fontSize: 12, color: '#888' }}>{formatMoney(line.unitPrice)} / unit</span>
             {line.configurationStatus === 'incomplete' && (
               <button onClick={() => onConfigure(line)} style={{ fontSize: 12, color: '#1a2744', fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>

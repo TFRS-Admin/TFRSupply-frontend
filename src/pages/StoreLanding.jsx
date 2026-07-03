@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Flame, Truck, Radio, Zap, Search, Phone, Mail, ArrowRight, ChevronRight, Package, Car } from 'lucide-react';
+import { Shield, Flame, Truck, Radio, Zap, Search, Phone, Mail, ArrowRight, ChevronRight, Package, Car, Menu, X } from 'lucide-react';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import { useVehicle } from '@/context/VehicleContext';
@@ -62,16 +62,26 @@ const VERTICALS = [
   },
 ];
 
+const NAV_LINKS = [
+  { label: 'Police',            route: '/police' },
+  { label: 'Fire/EMS',          route: '/fire' },
+  { label: 'Work Truck',        route: '/work-truck' },
+  { label: 'Emergency Beacon',  route: null },
+  { label: 'Mass Notification', route: null },
+];
+
 export default function StoreLanding() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { selectedVehicle } = useVehicle();
 
   function submitSearch(e) {
     e.preventDefault();
     const query = search.trim();
     navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
+    setMobileNavOpen(false);
   }
 
   return (
@@ -79,36 +89,37 @@ export default function StoreLanding() {
       <PrototypeBanner />
 
       {/* Top utility bar */}
-      <div className="bg-[#003580] text-white text-xs px-6 py-1.5 flex items-center justify-between">
-        <div className="flex items-center gap-6">
+      <div className="store-landing-utility-bar bg-[#003580] text-white text-xs px-4 md:px-6 py-1.5 flex items-center justify-between gap-2">
+        <div className="hidden md:flex items-center gap-6">
           <span>For Upfitters &amp; Resellers</span>
           <span>For Government &amp; Fleets</span>
           <span>TradeBridge Login</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4 min-w-0">
           {/* Vehicle selector — prominent, matches Upfitter Pro Shop reference */}
           <button
             onClick={() => setVehicleModalOpen(true)}
-            className="flex items-center gap-2 font-bold text-xs px-4 py-1.5 rounded transition-all"
+            className="flex items-center gap-2 font-bold text-xs px-3 md:px-4 py-1.5 rounded transition-all min-w-0"
             style={{
               background: selectedVehicle ? '#1e3a5f' : '#2563eb',
               color: '#fff',
               border: selectedVehicle ? '1px solid #3b82f6' : 'none',
-              whiteSpace: 'nowrap',
             }}
           >
-            <Truck size={13} />
-            {selectedVehicle
-              ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
-              : 'Select Your Vehicle'}
+            <Truck size={13} className="shrink-0" />
+            <span className="truncate">
+              {selectedVehicle
+                ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+                : 'Select Your Vehicle'}
+            </span>
             {selectedVehicle && (
-              <span className="text-[9px] bg-blue-400/30 border border-blue-400/50 px-1.5 py-0.5 rounded font-bold">
+              <span className="hidden sm:inline text-[9px] bg-blue-400/30 border border-blue-400/50 px-1.5 py-0.5 rounded font-bold shrink-0">
                 CHANGE
               </span>
             )}
           </button>
-          <span className="text-blue-200">Find a Dealer</span>
-          <span className="text-blue-200">800-621-9959</span>
+          <span className="hidden sm:inline text-blue-200 whitespace-nowrap">Find a Dealer</span>
+          <span className="text-blue-200 whitespace-nowrap">800-621-9959</span>
         </div>
       </div>
 
@@ -116,7 +127,7 @@ export default function StoreLanding() {
 
       {/* Main nav */}
       <nav className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4 md:gap-6">
           {/* Logo */}
           <div className="flex items-center gap-3 shrink-0">
             <div className="w-9 h-9 bg-[#003580] rounded flex items-center justify-center">
@@ -130,13 +141,7 @@ export default function StoreLanding() {
 
           {/* Vertical nav tabs */}
           <div className="hidden md:flex items-center gap-1 text-sm font-semibold">
-            {[
-              { label: 'Police',            route: '/police' },
-              { label: 'Fire/EMS',          route: '/fire' },
-              { label: 'Work Truck',        route: '/work-truck' },
-              { label: 'Emergency Beacon',  route: null },
-              { label: 'Mass Notification', route: null },
-            ].map(({ label, route }) => (
+            {NAV_LINKS.map(({ label, route }) => (
               <button
                 key={label}
                 onClick={route ? () => navigate(route) : undefined}
@@ -167,11 +172,61 @@ export default function StoreLanding() {
 
           <button
             onClick={() => navigate('/police')}
-            className="shrink-0 flex items-center gap-2 bg-[#003580] hover:bg-[#002a6a] text-white text-sm font-bold px-4 py-2 rounded transition-all"
+            className="hidden md:flex shrink-0 items-center gap-2 bg-[#003580] hover:bg-[#002a6a] text-white text-sm font-bold px-4 py-2 rounded transition-all"
           >
             Where to Buy →
           </button>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileNavOpen(o => !o)}
+            aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
+            className="md:hidden shrink-0 flex items-center justify-center p-2 text-[#003580]"
+          >
+            {mobileNavOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
+
+        {/* Mobile nav drawer */}
+        {mobileNavOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4">
+            <form onSubmit={submitSearch} className="mb-4">
+              <div className="relative">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder="Search products..."
+                  aria-label="Search products"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-full pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:border-blue-400"
+                />
+              </div>
+            </form>
+
+            <div className="flex flex-col gap-2 text-sm font-semibold mb-4">
+              {NAV_LINKS.map(({ label, route }) => (
+                <button
+                  key={label}
+                  onClick={route ? () => { navigate(route); setMobileNavOpen(false); } : undefined}
+                  className={`text-left px-4 py-2.5 rounded transition-colors ${
+                    route
+                      ? 'bg-[#003580] text-white hover:bg-[#002a6a]'
+                      : 'text-gray-400 opacity-50 cursor-not-allowed'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => { navigate('/police'); setMobileNavOpen(false); }}
+              className="w-full flex items-center justify-center gap-2 bg-[#003580] hover:bg-[#002a6a] text-white text-sm font-bold px-4 py-2.5 rounded transition-all"
+            >
+              Where to Buy →
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Hero Banner */}

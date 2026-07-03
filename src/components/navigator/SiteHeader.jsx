@@ -47,10 +47,10 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
       {/* ── Row 1: Dark vertical/utility bar ───────────────────────────────── */}
       <div style={{ background: '#1c1c1c' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
+        <div className="site-header-row1-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
 
           {/* Left: home icon + vertical tabs */}
-          <div style={{ display: 'flex', alignItems: 'stretch' }}>
+          <div className="site-header-verticals" style={{ display: 'flex', alignItems: 'stretch', minWidth: 0 }}>
             {/* Home icon pill */}
             <Link
               to="/"
@@ -94,7 +94,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </div>
 
           {/* Right: utility links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }} className="hidden md:flex">
+          <div style={{ alignItems: 'center', gap: 24 }} className="hidden md:flex">
             {UTILITY_LINKS.map(link => (
               <button
                 key={link}
@@ -111,7 +111,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
       {/* ── Row 2: White main header ────────────────────────────────────────── */}
       <div style={{ background: '#ffffff', borderBottom: '1px solid #e8e8e8' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 24 }}>
+        <div className="site-header-row2-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 24 }}>
 
           {/* Logo — Fed Sig style: red mark + wordmark */}
           <button
@@ -130,7 +130,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </button>
 
           {/* Search bar — center, flex-grow */}
-          <form onSubmit={submitSearch} style={{ flex: 1, maxWidth: 560, display: 'flex', alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden' }} className="hidden md:flex">
+          <form onSubmit={submitSearch} style={{ flex: 1, maxWidth: 560, alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden' }} className="hidden md:flex">
             <input
               type="text"
               value={searchQuery}
@@ -151,13 +151,13 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </form>
 
           {/* Right actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
+          <div className="site-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
 
             {/* Vehicle selector button */}
             <button
               onClick={() => setVehicleModalOpen(true)}
               style={{
-                display: 'flex', alignItems: 'center', gap: 8,
+                alignItems: 'center', gap: 8,
                 background: selectedVehicle ? '#1a2744' : '#f5f5f5',
                 color: selectedVehicle ? '#fff' : '#444',
                 border: `1.5px solid ${selectedVehicle ? '#1a2744' : '#d0d0d0'}`,
@@ -199,6 +199,8 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
             {/* Where to Buy — red filled with pin icon */}
             <button
+              className="site-header-wtb-btn"
+              aria-label="Where to Buy"
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
                 background: '#c8102e', color: '#fff',
@@ -210,15 +212,16 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
               onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
               onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
             >
-              Where to Buy
+              <span className="site-header-wtb-label">Where to Buy</span>
               <MapPin size={15} />
             </button>
 
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(o => !o)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', color: '#333' }}
-              className="md:hidden"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', alignItems: 'center', color: '#333' }}
+              className="md:hidden site-header-hamburger flex"
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
