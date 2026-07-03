@@ -68,6 +68,12 @@ export default function StoreLanding() {
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const { selectedVehicle } = useVehicle();
 
+  function submitSearch(e) {
+    e.preventDefault();
+    const query = search.trim();
+    navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <PrototypeBanner />
@@ -146,17 +152,18 @@ export default function StoreLanding() {
           </div>
 
           {/* Search */}
-          <div className="flex-1 max-w-xs hidden md:block">
+          <form onSubmit={submitSearch} className="flex-1 max-w-xs hidden md:block">
             <div className="relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Search products..."
+                aria-label="Search products"
                 className="w-full bg-gray-50 border border-gray-200 rounded-full pl-9 pr-4 py-2 text-sm focus:outline-none focus:border-blue-400"
               />
             </div>
-          </div>
+          </form>
 
           <button
             onClick={() => navigate('/police')}

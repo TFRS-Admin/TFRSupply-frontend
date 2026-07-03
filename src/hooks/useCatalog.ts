@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { DependencyList } from 'react';
 import { catalogService } from '@/services/catalog';
-import type { Category, Product, Vertical } from '@/types';
+import type { Category, Product, ProductListResult, ProductSearchQuery, Vertical } from '@/types';
 
 interface CatalogResourceState<T> {
   data: T | null;
@@ -104,4 +104,33 @@ export function useCatalogLists() {
   }, []);
 
   return state;
+}
+
+interface ProductSearchState {
+  data: ProductListResult | null;
+  loading: boolean;
+  error: unknown;
+}
+
+/**
+ * React-facing entry point for product discovery search and filtering.
+ * Formats catalogService.searchProducts() results into render-ready state;
+ * it does not implement query matching or filter logic itself.
+ */
+export function useProductSearch() {
+  const [state, setState] = useState<ProductSearchState>({ data: null, loading: false, error: null });
+
+  const search = useCallback((query?: ProductSearchQuery) => {
+    setState((current) => ({ ...current, loading: true, error: null }));
+    try {
+      const data = catalogService.searchProducts(query);
+      setState({ data, loading: false, error: null });
+      return data;
+    } catch (error) {
+      setState({ data: null, loading: false, error });
+      throw error;
+    }
+  }, []);
+
+  return { ...state, search };
 }

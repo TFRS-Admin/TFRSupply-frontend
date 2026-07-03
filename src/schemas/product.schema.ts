@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductDocumentation, ProductDocumentationItem, ProductFamily, ProductHeroActionLinks, ProductHeroTabLink, ProductMedia, ProductMediaAsset, ProductTab, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
+import type { Category, CategoryBreadcrumb, CategoryFilter, CategoryHero, CategoryProductCard, Feature, LinkAction, Product, ProductDocumentation, ProductDocumentationItem, ProductFamily, ProductHeroActionLinks, ProductHeroTabLink, ProductListResult, ProductListStatus, ProductMedia, ProductMediaAsset, ProductSearchFilter, ProductSearchQuery, ProductTab, Specification, Vertical, VerticalArticle, VerticalCardItem, VerticalHero, VerticalSection } from '@/types';
 import { baseEntityObjectSchema, dimensionsSchema, imageAssetSchema, metadataSchema } from './common.schema';
 
 
@@ -224,3 +224,22 @@ export const productSchema = baseEntityObjectSchema.extend({
   shopify: z.record(z.unknown()).optional(),
   configuratorId: z.string().optional(),
 }) as z.ZodType<Product>;
+
+export const productListStatusSchema = z.enum(['ready', 'empty', 'unavailable']) satisfies z.ZodType<ProductListStatus>;
+
+export const productSearchFilterSchema = z.object({
+  verticalId: z.string().optional(),
+  categoryId: z.string().optional(),
+  vendor: z.string().optional(),
+}) as z.ZodType<ProductSearchFilter>;
+
+export const productSearchQuerySchema = z.object({
+  query: z.string().optional(),
+  filter: productSearchFilterSchema.optional(),
+}) as z.ZodType<ProductSearchQuery>;
+
+export const productListResultSchema = z.object({
+  status: productListStatusSchema,
+  products: z.array(productSchema),
+  total: z.number().int().nonnegative(),
+}) as z.ZodType<ProductListResult>;

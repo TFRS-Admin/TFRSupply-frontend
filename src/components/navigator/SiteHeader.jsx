@@ -22,7 +22,15 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { selectedVehicle } = useVehicle();
+
+  function submitSearch(e) {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
+    setMobileOpen(false);
+  }
 
   // Derive verticalId from URL: first path segment
   const pathSegments = location.pathname.split('/').filter(Boolean);
@@ -121,20 +129,25 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </button>
 
           {/* Search bar — center, flex-grow */}
-          <div style={{ flex: 1, maxWidth: 560, display: 'flex', alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden' }} className="hidden md:flex">
+          <form onSubmit={submitSearch} style={{ flex: 1, maxWidth: 560, display: 'flex', alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden' }} className="hidden md:flex">
             <input
               type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search for products"
+              aria-label="Search products"
               style={{ flex: 1, padding: '10px 16px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: "'Roboto','Inter',sans-serif" }}
             />
             <button
+              type="submit"
+              aria-label="Search"
               style={{ background: '#c8102e', border: 'none', padding: '0 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
               onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
               onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
             >
               <Search size={17} color="#fff" />
             </button>
-          </div>
+          </form>
 
           {/* Right actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
@@ -255,16 +268,19 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
       {/* ── Mobile menu drawer ──────────────────────────────────────────────── */}
       {mobileOpen && (
         <div style={{ background: '#fff', borderBottom: '1px solid #e8e8e8', padding: '12px 24px' }}>
-          <div style={{ display: 'flex', alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
+          <form onSubmit={submitSearch} style={{ display: 'flex', alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
             <input
               type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search for products"
+              aria-label="Search products"
               style={{ flex: 1, padding: '10px 14px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: "'Roboto','Inter',sans-serif" }}
             />
-            <button style={{ background: '#c8102e', border: 'none', padding: '0 16px', cursor: 'pointer' }}>
+            <button type="submit" aria-label="Search" style={{ background: '#c8102e', border: 'none', padding: '0 16px', cursor: 'pointer' }}>
               <Search size={16} color="#fff" />
             </button>
-          </div>
+          </form>
           {/* Mobile vehicle selector */}
           <button
             onClick={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
