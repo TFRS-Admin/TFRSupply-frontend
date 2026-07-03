@@ -92,3 +92,7 @@ This PR does not:
 ## Product Detail Experience Consumer
 
 `ProductDetailTemplate` (`src/pages/ProductDetailTemplate.jsx`) and its composed components — `ProductCommerceSummary`, `RecommendedProducts` — are catalog service consumers. `RecommendedProducts` reuses `catalogService.getProduct()` and `catalogService.searchProducts()` for deterministic, catalog-relationship-based recommendations (`product.commerce.related_products` first, same-category fallback second). No new read path was added; see `PRODUCT_DETAIL_EXPERIENCE.md` for the full composition.
+
+## Shopify Storefront Collection Sync Consumer
+
+`SHOPIFY_STOREFRONT_COLLECTION_SYNC.md` documents a read-only consumer of this service's category and search read paths. `shopifyStorefrontCollectionService` resolves a category via `catalogService.getCategory(categoryId)` and its product count via `catalogService.searchProducts({ filter: { categoryId } })` — the same synchronous, typed reads this service already exposes to `CategoryTemplate` and Product Discovery. No new method was added to `CatalogService`; `Category` gained one additive, optional `shopify` metadata field (mirroring `Product.shopify`) so a future sync source has somewhere to record Shopify collection identifiers.

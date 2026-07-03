@@ -95,6 +95,7 @@ export const categorySchema = baseEntityObjectSchema.extend({
   filters: z.array(categoryFilterSchema).optional(),
   products: z.array(categoryProductCardSchema).optional(),
   breadcrumbs: z.array(categoryBreadcrumbSchema).optional(),
+  shopify: z.record(z.unknown()).optional(),
 }) as z.ZodType<Category>;
 
 export const productFamilySchema = baseEntityObjectSchema.extend({

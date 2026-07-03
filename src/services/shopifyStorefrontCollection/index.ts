@@ -1,0 +1,1 @@
+export { createShopifyStorefrontCollectionService, shopifyStorefrontCollectionService, buildStorefrontCollectionMapping, type ShopifyStorefrontCollectionService } from './shopifyStorefrontCollectionService';
