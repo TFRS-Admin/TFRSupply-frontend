@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, MapPin, Menu, X, Home, ChevronDown, Truck } from 'lucide-react';
+import { Search, MapPin, Menu, X, ChevronDown, Truck } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
-
-const VERTICALS = [
-  { id: 'police',      label: 'Police',             path: '/police' },
-  { id: 'fire',        label: 'Fire/EMS',           path: '/fire' },
-  { id: 'work-truck',  label: 'Work Truck',         path: '/work-truck' },
-  { id: 'signaling',   label: 'Signaling Devices',  path: null },
-  { id: 'mass',        label: 'Mass Notification',  path: null },
-];
+import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
+import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
@@ -47,51 +41,10 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
       {/* ── Row 1: Dark vertical/utility bar ───────────────────────────────── */}
       <div style={{ background: '#1c1c1c' }}>
-        <div className="site-header-row1-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
+        <div className="site-header-row1-inner hidden md:flex" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', alignItems: 'stretch', justifyContent: 'space-between', minHeight: 40 }}>
 
-          {/* Left: home icon + vertical tabs */}
-          <div className="site-header-verticals" style={{ display: 'flex', alignItems: 'stretch', minWidth: 0 }}>
-            {/* Home icon pill */}
-            <Link
-              to="/"
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                padding: '0 16px', color: '#ccc',
-              }}
-              onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-              onMouseLeave={e => e.currentTarget.style.color = '#ccc'}
-            >
-              <Home size={14} />
-            </Link>
-
-            {/* Vertical pills */}
-            {VERTICALS.map(v => {
-              const isActive = v.id === verticalId;
-              return (
-                <button
-                  key={v.id}
-                  onClick={() => v.path && navigate(v.path)}
-                  style={{
-                    padding: '10px 18px',
-                    fontSize: 12,
-                    fontWeight: isActive ? 700 : 400,
-                    letterSpacing: '0.02em',
-                    textTransform: 'uppercase',
-                    background: isActive ? '#ffffff' : 'transparent',
-                    color: isActive ? '#1c1c1c' : '#aaaaaa',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'background 0.15s, color 0.15s',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onMouseEnter={e => { if (!isActive) { e.currentTarget.style.color = '#ffffff'; } }}
-                  onMouseLeave={e => { if (!isActive) { e.currentTarget.style.color = '#aaaaaa'; } }}
-                >
-                  {v.label}
-                </button>
-              );
-            })}
-          </div>
+          {/* Left: home icon + mega menu triggers */}
+          <NavigationMegaMenu activeVerticalId={verticalId} />
 
           {/* Right: utility links */}
           <div style={{ alignItems: 'center', gap: 24 }} className="hidden md:flex">
@@ -272,57 +225,18 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
       {/* ── Vehicle selector modal ─────────────────────────────────────────── */}
       {vehicleModalOpen && <VehicleSelectorModal onClose={() => setVehicleModalOpen(false)} />}
 
-      {/* ── Mobile menu drawer ──────────────────────────────────────────────── */}
-      {mobileOpen && (
-        <div style={{ background: '#fff', borderBottom: '1px solid #e8e8e8', padding: '12px 24px' }}>
-          <form onSubmit={submitSearch} style={{ display: 'flex', alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search for products"
-              aria-label="Search products"
-              style={{ flex: 1, padding: '10px 14px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: "'Roboto','Inter',sans-serif" }}
-            />
-            <button type="submit" aria-label="Search" style={{ background: '#c8102e', border: 'none', padding: '0 16px', cursor: 'pointer' }}>
-              <Search size={16} color="#fff" />
-            </button>
-          </form>
-          {/* Mobile vehicle selector */}
-          <button
-            onClick={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 8, width: '100%',
-              background: selectedVehicle ? '#1a2744' : '#f5f5f5',
-              color: selectedVehicle ? '#fff' : '#444',
-              border: `1.5px solid ${selectedVehicle ? '#1a2744' : '#d0d0d0'}`,
-              borderRadius: 3, cursor: 'pointer',
-              fontSize: 13, fontWeight: 600,
-              padding: '10px 14px', marginBottom: 12,
-              fontFamily: "'Roboto','Inter',sans-serif",
-            }}
-          >
-            <Truck size={13} style={{ flexShrink: 0 }} />
-            {selectedVehicle
-              ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
-              : 'Select Your Vehicle'}
-          </button>
-
-          {categories.map(cat => {
-            const catId = cat.categoryId || null;
-            const isEnabled = !!catId;
-            return (
-              <button
-                key={cat.label}
-                onClick={isEnabled ? () => { navigate(`/${verticalId}/${catId}`); setMobileOpen(false); } : undefined}
-                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 0', fontSize: 14, color: isEnabled ? '#3d3d3d' : '#bbbbbb', background: 'none', border: 'none', borderBottom: '1px solid #f0f0f0', cursor: isEnabled ? 'pointer' : 'default', fontFamily: "'Roboto','Inter',sans-serif" }}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {/* ── Mobile off-canvas drawer ──────────────────────────────────────── */}
+      <MobileNavDrawer
+        open={mobileOpen}
+        onOpenChange={setMobileOpen}
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+        onSubmitSearch={submitSearch}
+        selectedVehicle={selectedVehicle}
+        onOpenVehicleModal={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
+        activeVerticalId={verticalId}
+        utilityLinks={UTILITY_LINKS}
+      />
     </header>
   );
 }
