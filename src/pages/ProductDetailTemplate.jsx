@@ -11,6 +11,7 @@ import ProductTabs from '@/components/product/ProductTabs';
 import ProductHero from '@/components/product/ProductHero';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductCommerceSummary from '@/components/product/ProductCommerceSummary';
+import StorefrontProductPanel from '@/components/product/StorefrontProductPanel';
 import CommerceActionPanel from '@/components/product/CommerceActionPanel';
 import FitmentSummary from '@/components/product/FitmentSummary';
 import RelatedPackages from '@/components/product/RelatedPackages';
@@ -149,6 +150,10 @@ export function ProductDetailTemplateView({
       />
 
       <CommerceActionPanel product={data} />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <StorefrontProductPanel product={data} />
+      </div>
 
       {/* Product Tabs */}
       {data.tabs_component === 'NavigatorTabs' ? (

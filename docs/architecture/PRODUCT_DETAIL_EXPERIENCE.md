@@ -67,6 +67,10 @@ This is the same catalog relationship data `CategoryTemplate` and `ProductSearch
 
 `CommerceActionPanel` always renders "Configure Product" (when configurator data exists), "Request Quote" (`mailto:` using `appConfig.quoteRecipientEmail`), and "Contact Sales" (`tel:800-621-9959`, matching the existing `StoreLanding` convention). "Add to Cart" only renders when `useCommerceProduct` reports `cartEligible: true` — with the default unavailable Commerce adapter this is always `false`, so the button is correctly absent until a real commerce adapter is wired in. Clicking "Add to Cart" calls `commerceService.prepareCartLine`; it does not implement checkout, cart persistence, or a Shopify API call.
 
+## Storefront Product Panel
+
+`StorefrontProductPanel` (`src/components/product/StorefrontProductPanel.jsx`), rendered below `CommerceActionPanel`, is a read-only consumer of the Shopify Storefront Product Sync Foundation (`SHOPIFY_STOREFRONT_PRODUCT_SYNC.md`). It calls `useShopifyStorefrontProductPreview(product.id)` and renders storefront readiness, mapping status, variant count, media count, handle, and adapter mode. It is purely additive — it never changes the hero, commerce summary, fitment, recommendation, or CTA behavior described above — and because that foundation's default adapter is unavailable, the panel always shows "Storefront Not Ready" / "Not Connected" today.
+
 ## Non-goals
 
 This work does not implement checkout, live inventory, authentication, customer accounts, CRM integration, reviews, ratings, or AI-generated recommendations. It does not add a package data source — `RelatedPackages` and the "Compatible Packages" list stay empty until a future issue supplies `product.commerce.related_packages` values and a real `PackageBuilderAdapter`.
