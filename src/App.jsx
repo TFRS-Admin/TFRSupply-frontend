@@ -14,6 +14,7 @@ import StoreLanding from '@/pages/StoreLanding';
 import VerticalLandingTemplate from '@/pages/VerticalLandingTemplate';
 import CategoryTemplate from '@/pages/CategoryTemplate';
 import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
+import ProductSearchPage from '@/pages/ProductSearchPage';
 
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
@@ -52,6 +53,7 @@ const AuthenticatedApp = () => {
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
+        <Route path="/search" element={<ProductSearchPage />} />
 
         {/* Template-driven routes — JSON-powered, no new pages needed */}
         <Route path="/:verticalId" element={<VerticalLandingTemplate />} />

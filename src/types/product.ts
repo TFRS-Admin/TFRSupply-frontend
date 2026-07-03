@@ -197,6 +197,25 @@ export interface ProductTab {
   content_type: string;
 }
 
+export type ProductListStatus = 'ready' | 'empty' | 'unavailable';
+
+export interface ProductSearchFilter {
+  verticalId?: string;
+  categoryId?: string;
+  vendor?: string;
+}
+
+export interface ProductSearchQuery {
+  query?: string;
+  filter?: ProductSearchFilter;
+}
+
+export interface ProductListResult {
+  status: ProductListStatus;
+  products: Product[];
+  total: number;
+}
+
 export interface Product extends BaseEntity {
   slug: string;
   sku?: string;

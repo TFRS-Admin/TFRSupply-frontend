@@ -6,6 +6,7 @@ import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import SectionLabel from '@/components/templates/SectionLabel';
 import NotFound from '@/components/templates/NotFound';
+import ProductCard from '@/components/product/ProductCard';
 import { ChevronRight } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -105,30 +106,16 @@ export default function CategoryTemplate() {
             <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
-                <Link key={p.id} to={`/${verticalId}/${categoryId}/${p.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <div className="border border-gray-200 overflow-hidden h-full flex flex-col"
-                    style={{ transition: 'border-color 0.15s' }}
-                    onMouseEnter={e => e.currentTarget.style.borderColor = '#c8102e'}
-                    onMouseLeave={e => e.currentTarget.style.borderColor = '#e5e7eb'}>
-                    {p.image && <img src={p.image} alt={p.label} className="w-full object-cover" style={{ height: 180 }} />}
-                    <div className="p-4 flex flex-col flex-1">
-                      <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 4 }}>{p.label}</p>
-                      {p.tagline && <p style={{ fontSize: 12, color: '#c8102e', fontStyle: 'italic', marginBottom: 6 }}>{p.tagline}</p>}
-                      {p.specs && (
-                        <ul style={{ fontSize: 12, color: '#777', paddingLeft: '1rem', flex: 1 }}>
-                          {p.specs.map((s, i) => <li key={i}>{s}</li>)}
-                        </ul>
-                      )}
-                      {p.badges && (
-                        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 8 }}>
-                          {p.badges.map(b => (
-                            <span key={b} style={{ fontSize: 10, fontWeight: 700, background: '#f0f4ff', color: '#1a2744', padding: '2px 6px', letterSpacing: '0.05em' }}>{b}</span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </Link>
+                <ProductCard
+                  key={p.id}
+                  id={p.id}
+                  href={`/${verticalId}/${categoryId}/${p.id}`}
+                  label={p.label}
+                  image={p.image}
+                  tagline={p.tagline}
+                  specs={p.specs}
+                  badges={p.badges}
+                />
               ))}
             </div>
             {filtered.length === 0 && (

@@ -48,6 +48,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `ADMIN_AUTHENTICATION_WORKSPACE.md` | Frontend admin authentication service, adapter boundary, and mock-identity session gate for `/admin/shopify-sync` and `/admin/quote-builder` |
 | `ADMIN_SALES_DASHBOARD.md` | Authenticated `/admin` landing page composing authentication, Shopify sync, pricing import, and quote builder/persistence foundations into one status and metrics overview |
 | `CUSTOMER_WORKSPACE.md` | Customer Workspace Foundation — `/admin/customers` list/search/filter/detail view over deterministic customer fixtures, reusing `QuoteCustomerMetadata` and `ShopifyCustomerSyncStatus` |
+| `PRODUCT_DISCOVERY.md` | Product Discovery Foundation — customer-facing `/search` page, `catalogService.searchProducts()`, and the shared `ProductCard`/`ProductSearchBar`/`ProductFilterPanel` components reused by `CategoryTemplate` |
 
 ## TypeScript (`docs/typescript/`)
 

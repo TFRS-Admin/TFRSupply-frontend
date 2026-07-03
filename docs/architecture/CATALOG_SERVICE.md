@@ -14,8 +14,9 @@ The service supports:
 - Getting a category by ID.
 - Listing verticals.
 - Getting a vertical by ID.
+- Searching/filtering products by free-text query and by vertical, category, or vendor (`searchProducts`, added by the Product Discovery Foundation — see `PRODUCT_DISCOVERY.md`).
 
-It does not create, update, delete, enrich, price, or merchandize catalog records. It delegates all reads to the typed product data loaders.
+It does not create, update, delete, enrich, price, or merchandize catalog records. It delegates all reads — including search — to the same typed product data loaders `listProducts()`/`getProduct()` already use; `searchProducts()` is a filter over `listTypedProducts()`, not a second read path.
 
 ## Dependency Flow
 
