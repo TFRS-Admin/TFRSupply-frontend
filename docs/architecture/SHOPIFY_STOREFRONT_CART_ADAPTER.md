@@ -72,3 +72,7 @@ A future issue can introduce a real Storefront cart mutation client by:
 ## Explicit non-goals
 
 This foundation does not implement: real Shopify Storefront cart mutations, a real Shopify checkout URL, checkout redirect, payments, orders, customer login, shipping, taxes, or inventory mutations. It does not change any existing Cart Workspace, Checkout Preparation, Commerce, pricing, configurator, or catalog runtime behavior. `mockShopifyStorefrontCartAdapter`'s dry-run response is not a substitute for a real Shopify cart and must not be treated as one.
+
+## Shopify Checkout URL Preview Foundation
+
+`shopifyStorefrontCartService.previewCart()`'s `checkoutPreview` (`ShopifyStorefrontCheckoutPreview`) is also consumed by the Shopify Checkout URL Preview Foundation (see [SHOPIFY_CHECKOUT_URL_PREVIEW.md](./SHOPIFY_CHECKOUT_URL_PREVIEW.md)), which combines it with the Checkout Preparation Layer's blockers/warnings to produce the final, read-only `ShopifyCheckoutUrlPreview` shown on `/cart`. That foundation is a read-only consumer only — it never mutates `ShopifyStorefrontCartResult`, never calls this foundation's adapter directly, and adds no cart-line-mapping or mutation-preview logic of its own.

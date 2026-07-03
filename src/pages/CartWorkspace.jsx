@@ -21,6 +21,7 @@ import { useCartWorkspace } from '@/hooks/cartWorkspace';
 import { useCheckoutPreparation } from '@/hooks/checkoutPreparation';
 import { useStorefrontAvailability } from '@/hooks/shopifyStorefront';
 import { useShopifyStorefrontCartPreview } from '@/hooks/shopifyStorefrontCart';
+import { useShopifyCheckoutPreview } from '@/hooks/shopifyCheckoutPreview';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -29,6 +30,7 @@ export default function CartWorkspace() {
   const { data: readiness, loading: readinessLoading, refresh: refreshReadiness } = useCheckoutPreparation();
   const { availability: storefrontAvailability } = useStorefrontAvailability();
   const { result: storefrontCartPreview } = useShopifyStorefrontCartPreview();
+  const { result: checkoutUrlPreview } = useShopifyCheckoutPreview();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
@@ -121,7 +123,7 @@ export default function CartWorkspace() {
 
             <div>
               <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading} />
-              <CheckoutReadinessPanel result={readiness} loading={readinessLoading} storefrontAvailability={storefrontAvailability} storefrontCartPreview={storefrontCartPreview} />
+              <CheckoutReadinessPanel result={readiness} loading={readinessLoading} storefrontAvailability={storefrontAvailability} storefrontCartPreview={storefrontCartPreview} checkoutUrlPreview={checkoutUrlPreview} />
             </div>
           </div>
         )}

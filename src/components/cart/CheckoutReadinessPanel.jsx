@@ -41,8 +41,16 @@ function ReadinessRow({ label, ready }) {
  * readiness, blockers, or the payload preview above, and its
  * checkoutUrlPreview is never a real Shopify checkout URL; this panel never
  * redirects to it.
+ *
+ * checkoutUrlPreview is an optional ShopifyCheckoutPreviewResult contract
+ * from useShopifyCheckoutPreview() (Shopify Checkout URL Preview
+ * foundation) — the final, read-only boundary before a future live Shopify
+ * checkout redirect. It is display-only: it never changes checkout
+ * readiness, blockers, or the payload preview above, its own
+ * checkoutUrlPreview is never a real Shopify checkout URL, and this panel
+ * never redirects to it or calls Shopify.
  */
-export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview }) {
+export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview, checkoutUrlPreview }) {
   if (loading && !result) {
     return (
       <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '20px 22px', marginTop: 16 }}>
@@ -162,6 +170,52 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
           </div>
           <p style={{ fontSize: 11, color: '#6b7280', marginTop: 6 }}>
             This is a preview only — no Shopify Storefront cart mutation has been executed and this URL is not a real checkout link.
+          </p>
+        </div>
+      )}
+
+      {checkoutUrlPreview && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #eee' }}>
+          <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Shopify Checkout URL Preview
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Preview Status</span>
+            <span style={{ fontWeight: 700 }}>{checkoutUrlPreview.status}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Adapter Mode</span>
+            <span style={{ fontWeight: 700 }}>{checkoutUrlPreview.adapterMode}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Checkout URL Preview</span>
+            <span style={{ fontWeight: 700 }}>{checkoutUrlPreview.urlPreview?.checkoutUrlPreview || 'Not available'}</span>
+          </div>
+
+          {checkoutUrlPreview.blockers.length > 0 && (
+            <div style={{ marginTop: 10, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 3, padding: '10px 14px' }}>
+              <p style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#991b1b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Checkout Preview Blockers</p>
+              {checkoutUrlPreview.blockers.map((blocker, index) => (
+                <p key={`${blocker.code}-${blocker.lineId ?? index}`} style={{ margin: '2px 0', fontSize: 12, color: '#991b1b' }}>
+                  {blocker.message}
+                </p>
+              ))}
+            </div>
+          )}
+
+          {checkoutUrlPreview.warnings.length > 0 && (
+            <div style={{ marginTop: 10, background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 3, padding: '10px 14px' }}>
+              <p style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#92400e', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Checkout Preview Warnings</p>
+              {checkoutUrlPreview.warnings.map((warning, index) => (
+                <p key={`${warning.code}-${warning.lineId ?? index}`} style={{ margin: '2px 0', fontSize: 12, color: '#92400e' }}>
+                  {warning.message}
+                </p>
+              ))}
+            </div>
+          )}
+
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#b91c1c', marginTop: 8 }}>
+            Checkout redirect disabled — this is a preview only. No Shopify API is called and no redirect will occur.
           </p>
         </div>
       )}
