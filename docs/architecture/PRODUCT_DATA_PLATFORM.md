@@ -66,6 +66,10 @@ This PR does not replace `src/lib/dataLoader.js`, does not modify React componen
 
 `SHOPIFY_STOREFRONT_PRODUCT_SYNC.md` documents a read-only consumer of this platform's typed catalog read path. `shopifyStorefrontProductService.buildStorefrontProductMapping()` derives a `ShopifyStorefrontProductMapping` (handle, variant count, media count, Shopify identifiers) from an existing `catalogService.getProduct()` result — the same synchronous typed read the Catalog Service already exposes. No new loader, normalizer, or schema was added to the Product Data Platform for this; the existing, optional `Product.shopify` metadata bag (`src/types/product.ts`) is reused as the future source of Shopify identifiers.
 
+## Shopify Storefront Collection Sync
+
+`SHOPIFY_STOREFRONT_COLLECTION_SYNC.md` documents a read-only consumer of this platform's typed category read path. `shopifyStorefrontCollectionService.buildStorefrontCollectionMapping()` derives a `ShopifyStorefrontCollectionMapping` (handle, product count, Shopify identifiers) from an existing `catalogService.getCategory()` result and a `catalogService.searchProducts()` total — the same synchronous typed reads the Catalog Service already exposes. `Category` (`src/types/product.ts`) and `categorySchema` (`src/schemas/product.schema.ts`) gained one additive, optional `shopify?: Record<string, unknown>` field, mirroring `Product.shopify`, as the future source of Shopify collection identifiers. No new loader or normalizer was added; `categoryLoader.ts` and `categorySchema` validate the new field like any other optional `Category` field.
+
 ## Future Extension Points
 
 - Wire typed loaders into admin-only validation tooling.

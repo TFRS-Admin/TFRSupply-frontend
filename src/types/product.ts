@@ -94,6 +94,7 @@ export interface Category extends BaseEntity {
   filters?: CategoryFilter[];
   products?: CategoryProductCard[];
   breadcrumbs?: CategoryBreadcrumb[];
+  shopify?: Record<string, unknown>;
 }
 
 export interface ProductFamily extends BaseEntity {

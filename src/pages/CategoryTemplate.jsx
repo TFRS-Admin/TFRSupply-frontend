@@ -7,6 +7,7 @@ import PrototypeFooter from '@/components/PrototypeFooter';
 import SectionLabel from '@/components/templates/SectionLabel';
 import NotFound from '@/components/templates/NotFound';
 import ProductCard from '@/components/product/ProductCard';
+import StorefrontCollectionPanel from '@/components/product/StorefrontCollectionPanel';
 import { ChevronRight } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -103,6 +104,7 @@ export default function CategoryTemplate() {
           {/* Product Grid */}
           <div style={{ flex: 1 }}>
             {description && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: '1.5rem' }}>{description}</p>}
+            <StorefrontCollectionPanel categoryId={data.id} />
             <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
