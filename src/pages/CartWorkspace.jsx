@@ -16,17 +16,21 @@ import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import CartLineRow from '@/components/cart/CartLineRow';
 import CartSummary from '@/components/cart/CartSummary';
+import CheckoutReadinessPanel from '@/components/cart/CheckoutReadinessPanel';
 import { useCartWorkspace } from '@/hooks/cartWorkspace';
+import { useCheckoutPreparation } from '@/hooks/checkoutPreparation';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 export default function CartWorkspace() {
   const { data, loading, error, refresh, updateQuantity, removeLine, clearCart, prepareCheckout } = useCartWorkspace();
+  const { data: readiness, loading: readinessLoading, refresh: refreshReadiness } = useCheckoutPreparation();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
     refresh();
-  }, [refresh]);
+    refreshReadiness();
+  }, [refresh, refreshReadiness]);
 
   async function handleCheckout() {
     const result = await prepareCheckout();
@@ -111,7 +115,10 @@ export default function CartWorkspace() {
               </div>
             </div>
 
-            <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading} />
+            <div>
+              <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading} />
+              <CheckoutReadinessPanel result={readiness} loading={readinessLoading} />
+            </div>
           </div>
         )}
       </div>

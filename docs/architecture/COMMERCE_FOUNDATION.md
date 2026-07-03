@@ -78,3 +78,7 @@ The customer-facing Cart Workspace (`/cart` and the reusable header `MiniCart`) 
 ## Configurator Experience
 
 The customer-facing Configurator Experience is documented in [CONFIGURATOR_EXPERIENCE.md](./CONFIGURATOR_EXPERIENCE.md). Its `ConfiguratorCommerceActions` panel is the first real UI consumer of `cartWorkspaceService.addLine()` — it converts the existing configurator's selected SKU and accessories into a `CartLineInput` and adds it to the same in-memory cart the Cart Workspace and `MiniCart` already read from. It also composes `quoteBuilderService.assembleQuote()` (Quote Builder Foundation) alongside the existing `mailto:` request-quote pattern. No checkout, live commerce API, or quote persistence behavior is added.
+
+## Checkout Preparation Layer
+
+The Checkout Preparation Layer is documented in [CHECKOUT_PREPARATION.md](./CHECKOUT_PREPARATION.md). Its `checkoutPreparationService.prepareCheckout()` composes this foundation's `commerceService.prepareCartLine(sku, quantity)` per cart line — the same call `cartWorkspaceService.prepareCheckout()` already makes — to decide commerce readiness for the `/cart` Checkout Readiness panel. It adds no new commerce lookup logic, no Shopify API calls, and no checkout, payment, order, tax, or shipping behavior. Because `commerceService`'s default adapter remains the unavailable adapter described above, every real cart line reports commerce-unavailable until a real `CommerceAdapter` is connected in a dedicated issue.
