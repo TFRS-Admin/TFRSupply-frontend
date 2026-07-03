@@ -23,3 +23,4 @@ export { createEmailNotificationService, emailNotificationService, quoteNotifica
 export { createShopifySyncOrchestratorService, shopifySyncOrchestratorService, type ShopifySyncOrchestratorDependencies, type ShopifySyncOrchestratorService } from './shopifySyncOrchestrator';
 export { createShopifyJobQueueService, shopifyJobQueueService, type ShopifyJobQueueService } from './shopifyJobQueue';
 export { createQuoteBuilderWorkspaceService, quoteBuilderWorkspaceService, type QuoteBuilderWorkspaceScenarioResult, type QuoteBuilderWorkspaceService } from './quoteBuilderWorkspace';
+export { createCustomerWorkspaceService, customerWorkspaceService, buildCustomerWorkspaceSummary, type CustomerWorkspaceService } from './customerWorkspace';
