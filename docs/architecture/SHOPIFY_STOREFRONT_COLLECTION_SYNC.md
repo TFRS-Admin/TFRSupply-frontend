@@ -110,3 +110,7 @@ A future issue can introduce a real Storefront collection lookup by:
 ## Explicit non-goals
 
 This foundation does not implement: real Shopify Storefront API calls, GraphQL execution, collection publishing or mutation, inventory sync, checkout creation or changes, authentication changes, or customer account changes. It does not change any existing checkout, cart, pricing, configurator, or catalog runtime behavior. `mockShopifyStorefrontCollectionAdapter`'s dry-run response is not a substitute for real Shopify collection data and must not be treated as one.
+
+## Shopify Storefront Live Configuration Readiness
+
+The Shopify Storefront Live Configuration Readiness foundation (see [SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md](./SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md)) reads this foundation's `shopifyStorefrontCollectionService.getCapabilities()`'s `adapterMode` into its aggregated `ShopifyStorefrontCapabilitySummary`. `StorefrontCollectionPanel` additionally renders a shared, read-only `StorefrontConfigReadinessRow` (config status, required env var presence, redacted store domain) via `useShopifyStorefrontConfig()`, alongside the existing mapping/adapter-mode display, without changing any mapping derivation or adapter-selection logic.

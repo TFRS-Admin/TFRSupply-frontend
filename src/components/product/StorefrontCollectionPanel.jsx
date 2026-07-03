@@ -1,5 +1,7 @@
 import React from 'react';
 import { useShopifyStorefrontCollectionPreview } from '@/hooks/shopifyStorefrontCollection';
+import { useShopifyStorefrontConfig } from '@/hooks/shopifyStorefrontConfig';
+import StorefrontConfigReadinessRow from '@/components/shopify/StorefrontConfigReadinessRow';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -15,9 +17,14 @@ const ADAPTER_MODE_LABEL = {
  * Storefront Collection Sync foundation reports and never performs a live
  * Shopify API call itself — with the default unavailable adapter this
  * always shows "Not Ready" and "Not Connected".
+ *
+ * Also renders the Shopify Storefront Live Configuration Readiness summary
+ * via useShopifyStorefrontConfig() — display-only, never reads or shows a
+ * Storefront access token, and never calls Shopify.
  */
 export default function StorefrontCollectionPanel({ categoryId }) {
   const { result, loading } = useShopifyStorefrontCollectionPreview(categoryId);
+  const { validation } = useShopifyStorefrontConfig();
 
   if (!categoryId) return null;
 
@@ -56,6 +63,7 @@ export default function StorefrontCollectionPanel({ categoryId }) {
           <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1a1a' }}>{adapterMode ? (ADAPTER_MODE_LABEL[adapterMode] ?? adapterMode) : '—'}</div>
         </div>
       </div>
+      <StorefrontConfigReadinessRow validation={validation} />
     </div>
   );
 }

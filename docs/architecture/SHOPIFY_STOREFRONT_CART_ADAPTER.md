@@ -76,3 +76,7 @@ This foundation does not implement: real Shopify Storefront cart mutations, a re
 ## Shopify Checkout URL Preview Foundation
 
 `shopifyStorefrontCartService.previewCart()`'s `checkoutPreview` (`ShopifyStorefrontCheckoutPreview`) is also consumed by the Shopify Checkout URL Preview Foundation (see [SHOPIFY_CHECKOUT_URL_PREVIEW.md](./SHOPIFY_CHECKOUT_URL_PREVIEW.md)), which combines it with the Checkout Preparation Layer's blockers/warnings to produce the final, read-only `ShopifyCheckoutUrlPreview` shown on `/cart`. That foundation is a read-only consumer only — it never mutates `ShopifyStorefrontCartResult`, never calls this foundation's adapter directly, and adds no cart-line-mapping or mutation-preview logic of its own.
+
+## Shopify Storefront Live Configuration Readiness
+
+The Shopify Storefront Live Configuration Readiness foundation (see [SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md](./SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md)) reads this foundation's `shopifyStorefrontCartService.getCapabilities()`'s `adapterMode` into its aggregated `ShopifyStorefrontCapabilitySummary`, and its `liveAdapterReady` flag is surfaced alongside the existing Storefront Cart Preview in the `/cart` Checkout Readiness panel. It adds no new cart-line mapping, mutation-preview, or adapter-selection logic to this foundation.
