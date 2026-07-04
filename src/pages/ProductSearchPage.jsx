@@ -9,6 +9,7 @@ import ProductCard from '@/components/product/ProductCard';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductSearchBar from '@/components/product/ProductSearchBar';
 import ProductFilterPanel from '@/components/product/ProductFilterPanel';
+import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -125,6 +126,8 @@ export default function ProductSearchPage() {
           </div>
         </div>
       </div>
+
+      <RecentlyViewedProducts />
 
       <PrototypeFooter />
     </div>

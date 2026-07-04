@@ -10,6 +10,7 @@ import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
 import { VehicleProvider } from '@/context/VehicleContext';
 import { CompareProvider } from '@/context/CompareContext';
 import CompareTray from '@/components/product/CompareTray';
+import { RecentlyViewedProvider } from '@/context/RecentlyViewedContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
@@ -55,6 +56,7 @@ const AuthenticatedApp = () => {
   return (
     <VehicleProvider>
     <CompareProvider>
+    <RecentlyViewedProvider>
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
@@ -97,6 +99,7 @@ const AuthenticatedApp = () => {
       </Routes>
       <CompareTray />
     </ConfiguratorProvider>
+    </RecentlyViewedProvider>
     </CompareProvider>
     </VehicleProvider>
   );

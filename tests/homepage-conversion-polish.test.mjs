@@ -17,6 +17,7 @@ before(async () => {
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     compare: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
+    recentlyViewed: await server.ssrLoadModule('/src/context/RecentlyViewedContext.jsx'),
   };
 });
 
@@ -29,12 +30,15 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { VehicleProvider } = modules.vehicle;
   const { ConfiguratorProvider } = modules.configurator;
   const { CompareProvider } = modules.compare;
+  const { RecentlyViewedProvider } = modules.recentlyViewed;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries },
       React.createElement(VehicleProvider, null,
         React.createElement(CompareProvider, null,
-          React.createElement(ConfiguratorProvider, null, element),
+          React.createElement(RecentlyViewedProvider, null,
+            React.createElement(ConfiguratorProvider, null, element),
+          ),
         ),
       ),
     ),
