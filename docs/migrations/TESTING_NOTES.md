@@ -14,6 +14,7 @@ These notes describe the focused test coverage added for the migrated catalog ar
 - `useCatalogCategory`, `useCatalogProduct`, `useCatalogVertical`, and `useCatalogLists` initial loading-state contracts under server rendering.
 - `VerticalLandingTemplateView` loading, error, and successful-render states from the existing migration test suite.
 - Shopify Storefront Catalog Adapter: Storefront→Product/Collection mapping, mock/unavailable/live adapter behavior (including injected-fetch success, network error, HTTP error, and GraphQL error paths), `catalogAdapterService` runtime adapter selection and graceful fallback, `catalogService`'s snapshot-with-fallback wiring, schema validation, and the `/dev/storefront` dashboard hook (`tests/shopify-storefront-catalog-adapter.test.mjs`).
+- Shopify Storefront Cart Mutation Readiness: `cartAdapterService` cart line mapping validation (mapped and missing-merchandise-ID cases), runtime adapter selection (mock/unavailable/live) and graceful fallback on incomplete live config, cart mutation request preview generation with no network call, schema validation, and the shared `useCartAdapterStatus()` hook consumed by both the `/dev/storefront` dashboard and the `/cart` Checkout Readiness panel (`tests/shopify-storefront-cart-mutation-readiness.test.mjs`).
 
 ## Not Covered Yet
 

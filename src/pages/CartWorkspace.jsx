@@ -17,6 +17,7 @@ import PrototypeFooter from '@/components/PrototypeFooter';
 import CartLineRow from '@/components/cart/CartLineRow';
 import CartSummary from '@/components/cart/CartSummary';
 import CheckoutReadinessPanel from '@/components/cart/CheckoutReadinessPanel';
+import { useCartAdapterStatus } from '@/hooks/cartAdapter';
 import { useCartWorkspace } from '@/hooks/cartWorkspace';
 import { useCheckoutPreparation } from '@/hooks/checkoutPreparation';
 import { useStorefrontAvailability } from '@/hooks/shopifyStorefront';
@@ -33,6 +34,7 @@ export default function CartWorkspace() {
   const { result: storefrontCartPreview } = useShopifyStorefrontCartPreview();
   const { result: checkoutUrlPreview } = useShopifyCheckoutPreview();
   const { summary: storefrontCapabilitySummary } = useShopifyStorefrontCapabilities();
+  const { status: cartAdapterStatus } = useCartAdapterStatus();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
@@ -125,7 +127,7 @@ export default function CartWorkspace() {
 
             <div style={{ minWidth: 0 }}>
               <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading} />
-              <CheckoutReadinessPanel result={readiness} loading={readinessLoading} storefrontAvailability={storefrontAvailability} storefrontCartPreview={storefrontCartPreview} checkoutUrlPreview={checkoutUrlPreview} storefrontCapabilitySummary={storefrontCapabilitySummary} />
+              <CheckoutReadinessPanel result={readiness} loading={readinessLoading} storefrontAvailability={storefrontAvailability} storefrontCartPreview={storefrontCartPreview} checkoutUrlPreview={checkoutUrlPreview} storefrontCapabilitySummary={storefrontCapabilitySummary} cartAdapterStatus={cartAdapterStatus} />
             </div>
           </div>
         )}
