@@ -1,57 +1,49 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCatalogCategory } from '@/hooks/useCatalog';
+import { catalogService } from '@/services/catalog';
+import { filterCategoryProducts } from '@/domain/catalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
-import SectionLabel from '@/components/templates/SectionLabel';
 import NotFound from '@/components/templates/NotFound';
 import ProductCard from '@/components/product/ProductCard';
+import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
+import ProductFilterPanel from '@/components/product/ProductFilterPanel';
+import ProductSearchBar from '@/components/product/ProductSearchBar';
 import StorefrontCollectionPanel from '@/components/product/StorefrontCollectionPanel';
-import { ChevronRight } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-function Breadcrumbs({ crumbs = [] }) {
-  return (
-    <div className="bg-gray-50 border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center gap-1" style={{ ...FS, fontSize: 12, color: '#888' }}>
-        {crumbs.map((c, i) => (
-          <React.Fragment key={i}>
-            {i > 0 && <ChevronRight size={12} />}
-            {c.to ? <Link to={c.to} style={{ color: '#c8102e', textDecoration: 'none' }}>{c.label}</Link> : <span style={{ color: '#444' }}>{c.label}</span>}
-          </React.Fragment>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default function CategoryTemplate() {
-  const { verticalId, categoryId } = useParams();
-  const { data, loading, error } = useCatalogCategory(categoryId);
+/**
+ * Pure view for the category page — data-fetching is kept in the default
+ * export so this can be rendered directly in tests with fixture props,
+ * matching the StoreLandingView/VerticalLandingTemplateView split used
+ * elsewhere in src/pages.
+ */
+export function CategoryTemplateView({ verticalId, categoryId, data, loading, error }) {
   const [activeFilter, setActiveFilter] = useState({});
+  const [keyword, setKeyword] = useState('');
 
   if (error) throw error;
   if (loading) return null;
   if (!data) return <NotFound type="category" backTo={`/${verticalId}`} backLabel="Return to Vertical" />;
 
-  const { hero, description, filters = [], products = [], breadcrumbs } = data;
+  const { hero, description, filters = [], products = [] } = data;
+  const verticalLabel = catalogService.getVertical(verticalId)?.label
+    ?? (verticalId.charAt(0).toUpperCase() + verticalId.slice(1).replace(/-/g, ' '));
 
-  const filtered = products.filter(p => {
-    return Object.entries(activeFilter).every(([key, val]) => {
-      if (!val) return true;
-      return p[key] === val || (Array.isArray(p[key]) && p[key].includes(val));
-    });
-  });
+  const filtered = filterCategoryProducts(products, activeFilter, keyword);
+
+  const hasActiveSearch = Boolean(keyword.trim()) || Object.values(activeFilter).some(Boolean);
 
   return (
     <div className="min-h-screen bg-white" style={FS}>
       <PrototypeBanner />
       <SiteHeader activeVertical={verticalId} />
-      <Breadcrumbs crumbs={[
+      <ProductBreadcrumb crumbs={[
         { label: 'Home', to: '/' },
-        { label: verticalId.charAt(0).toUpperCase() + verticalId.slice(1).replace(/-/g, ' '), to: `/${verticalId}` },
+        { label: verticalLabel, to: `/${verticalId}` },
         { label: data.label }
       ]} />
 
@@ -70,41 +62,21 @@ export default function CategoryTemplate() {
 
           {/* Sidebar Filters */}
           {filters.length > 0 && (
-            <div className="pd-filter-panel" style={{ width: 220, flexShrink: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: 0 }}>Filter By</p>
-                {Object.values(activeFilter).some(Boolean) && (
-                  <button onClick={() => setActiveFilter({})} style={{ fontSize: 11, color: '#c8102e', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0 }}>
-                    Reset All
-                  </button>
-                )}
-              </div>
-              {filters.map(f => (
-                <div key={f.id} style={{ marginBottom: '1.25rem' }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{f.label}</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    <button
-                      onClick={() => setActiveFilter(prev => ({ ...prev, [f.id]: null }))}
-                      style={{ textAlign: 'left', fontSize: 13, color: !activeFilter[f.id] ? '#c8102e' : '#555', fontWeight: !activeFilter[f.id] ? 700 : 400, background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0' }}>
-                      All
-                    </button>
-                    {f.options.map(opt => (
-                      <button key={opt}
-                        onClick={() => setActiveFilter(prev => ({ ...prev, [f.id]: opt }))}
-                        style={{ textAlign: 'left', fontSize: 13, color: activeFilter[f.id] === opt ? '#c8102e' : '#555', fontWeight: activeFilter[f.id] === opt ? 700 : 400, background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0' }}>
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ProductFilterPanel
+              groups={filters}
+              active={activeFilter}
+              onChange={(groupId, value) => setActiveFilter(prev => ({ ...prev, [groupId]: value }))}
+              onReset={() => setActiveFilter({})}
+            />
           )}
 
           {/* Product Grid */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {description && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: '1.5rem' }}>{description}</p>}
             <StorefrontCollectionPanel categoryId={data.id} />
+            <div style={{ maxWidth: 360, marginBottom: '1.25rem' }}>
+              <ProductSearchBar value={keyword} onSearch={setKeyword} placeholder="Search this category…" />
+            </div>
             <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
             <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
@@ -122,7 +94,9 @@ export default function CategoryTemplate() {
             </div>
             {filtered.length === 0 && (
               <div className="text-center py-16">
-                <p style={{ fontSize: 14, color: '#999' }}>No products match the selected filters.</p>
+                <p style={{ fontSize: 14, color: '#999' }}>
+                  {hasActiveSearch ? 'No products match your search or filters.' : 'No products are available in this category yet.'}
+                </p>
               </div>
             )}
           </div>
@@ -131,5 +105,20 @@ export default function CategoryTemplate() {
 
       <PrototypeFooter />
     </div>
+  );
+}
+
+export default function CategoryTemplate() {
+  const { verticalId, categoryId } = useParams();
+  const { data, loading, error } = useCatalogCategory(categoryId);
+
+  return (
+    <CategoryTemplateView
+      verticalId={verticalId}
+      categoryId={categoryId}
+      data={data}
+      loading={loading}
+      error={error}
+    />
   );
 }

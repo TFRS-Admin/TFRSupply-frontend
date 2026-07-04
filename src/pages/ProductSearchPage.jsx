@@ -1,28 +1,16 @@
 import React, { useEffect, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import { useCatalogLists, useProductSearch } from '@/hooks/useCatalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductCard from '@/components/product/ProductCard';
+import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductSearchBar from '@/components/product/ProductSearchBar';
 import ProductFilterPanel from '@/components/product/ProductFilterPanel';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
-function Breadcrumbs({ query }) {
-  return (
-    <div className="bg-gray-50 border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center gap-1" style={{ ...FS, fontSize: 12, color: '#888' }}>
-        <Link to="/" style={{ color: '#c8102e', textDecoration: 'none' }}>Home</Link>
-        <ChevronRight size={12} />
-        <span style={{ color: '#444' }}>{query ? `Search: "${query}"` : 'Browse Products'}</span>
-      </div>
-    </div>
-  );
-}
 
 export function toProductCardViewModel(product) {
   const href = resolveProductDetailPath(product);
@@ -92,7 +80,10 @@ export default function ProductSearchPage() {
     <div className="min-h-screen bg-white" style={FS}>
       <PrototypeBanner />
       <SiteHeader />
-      <Breadcrumbs query={queryParam} />
+      <ProductBreadcrumb crumbs={[
+        { label: 'Home', to: '/' },
+        { label: queryParam ? `Search: "${queryParam}"` : 'Browse Products' },
+      ]} />
 
       <div className="relative overflow-hidden" style={{ background: '#1a2744', minHeight: 160 }}>
         <div className="relative max-w-7xl mx-auto px-6 py-10">
