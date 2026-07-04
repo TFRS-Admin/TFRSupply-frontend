@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CompareToggleButton from '@/components/product/CompareToggleButton';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -12,9 +13,10 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [] }) {
   const content = (
     <div className="border border-gray-200 overflow-hidden h-full flex flex-col bg-white"
-      style={{ transition: 'border-color 0.15s' }}
+      style={{ position: 'relative', transition: 'border-color 0.15s' }}
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#c8102e'; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}>
+      {href && <CompareToggleButton productId={id} variant="icon" />}
       {image && <img src={image} alt={imageAlt || label} className="w-full object-cover" style={{ height: 180 }} />}
       <div className="p-4 flex flex-col flex-1" style={FS}>
         <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 4 }}>{label}</p>

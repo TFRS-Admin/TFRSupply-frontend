@@ -8,6 +8,8 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 import { ConfiguratorProvider } from '@/context/ConfiguratorContext';
 import { VehicleProvider } from '@/context/VehicleContext';
+import { CompareProvider } from '@/context/CompareContext';
+import CompareTray from '@/components/product/CompareTray';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
@@ -15,6 +17,7 @@ import VerticalLandingTemplate from '@/pages/VerticalLandingTemplate';
 import CategoryTemplate from '@/pages/CategoryTemplate';
 import ProductDetailTemplate from '@/pages/ProductDetailTemplate';
 import ProductSearchPage from '@/pages/ProductSearchPage';
+import ComparePage from '@/pages/ComparePage';
 import CartWorkspace from '@/pages/CartWorkspace';
 
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
@@ -51,10 +54,12 @@ const AuthenticatedApp = () => {
 
   return (
     <VehicleProvider>
+    <CompareProvider>
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
         <Route path="/search" element={<ProductSearchPage />} />
+        <Route path="/compare" element={<ComparePage />} />
         <Route path="/cart" element={<CartWorkspace />} />
 
         {/* Template-driven routes — JSON-powered, no new pages needed */}
@@ -90,7 +95,9 @@ const AuthenticatedApp = () => {
         <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      <CompareTray />
     </ConfiguratorProvider>
+    </CompareProvider>
     </VehicleProvider>
   );
 };
