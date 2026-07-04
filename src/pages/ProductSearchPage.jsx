@@ -26,6 +26,7 @@ export function toProductCardViewModel(product) {
     tagline: product.subtitle,
     specs: product.marketing?.features?.slice(0, 3) ?? [],
     badges: product.verticalIds ?? [],
+    product,
   };
 }
 

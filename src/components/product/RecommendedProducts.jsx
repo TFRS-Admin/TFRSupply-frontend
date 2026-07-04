@@ -13,6 +13,7 @@ function toCardProps(candidate, verticalId, categoryId) {
     image: candidate.media?.hero,
     tagline: candidate.subtitle,
     badges: candidate.marketing?.features?.slice(0, 2) ?? [],
+    product: candidate,
   };
 }
 
