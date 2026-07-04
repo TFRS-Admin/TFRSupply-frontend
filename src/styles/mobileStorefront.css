@@ -143,10 +143,4 @@ html, body {
     width: calc(100% - 32px) !important;
     max-width: calc(100% - 32px) !important;
   }
-
-  /* ── Store landing utility bar ────────────────────────────────────── */
-  .store-landing-utility-bar {
-    flex-wrap: wrap !important;
-    row-gap: 6px !important;
-  }
 }

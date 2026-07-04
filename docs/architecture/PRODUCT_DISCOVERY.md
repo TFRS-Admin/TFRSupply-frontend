@@ -38,7 +38,7 @@ ProductSearchPage → useProductSearch / useCatalogLists → catalogService.sear
 
 Product Discovery's job stops at getting a shopper from a search/browse result to the right product detail page — `ProductDetailTemplate.jsx` already owns the configurator (`ConfiguratorModule`), quote/where-to-buy links (`Product.cta`), and commerce display fields (`Product.commerce`). No configurator, quote, cart, or checkout logic was added or duplicated by this foundation.
 
-The storefront's two existing decorative search inputs (`SiteHeader.jsx`'s desktop/mobile bars and `StoreLanding.jsx`'s nav search box) are now wired to submit to `/search?q=<value>` instead of being inert `<input>` elements with no handler.
+The storefront's search input (`SiteHeader.jsx`'s desktop/mobile bars, shared by every route including the homepage) is wired to submit to `/search?q=<value>` instead of being an inert `<input>` element with no handler.
 
 ## Explicit Non-goals
 
