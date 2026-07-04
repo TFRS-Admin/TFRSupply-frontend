@@ -74,3 +74,7 @@ This foundation does not implement: real Shopify Storefront API calls, Storefron
 - Wiring `VITE_SHOPIFY_STOREFRONT_ENABLED` (and a resolved store domain/API version) into actual adapter selection for `shopifyStorefrontService` and its siblings, once a token strategy exists.
 - Introducing a backend/proxy or another approved secret strategy for the Storefront access token, after which `liveAdapterReady` can become a genuinely computed value instead of a fixed `false`.
 - Extending `getCapabilitySummary()` to include a live availability probe (reusing `shopifyStorefrontService.getAvailability()`) once a live adapter is actually connected.
+
+## Shopify Storefront Runtime Readiness
+
+The Shopify Storefront Runtime Readiness foundation is documented in [SHOPIFY_STOREFRONT_RUNTIME_READINESS.md](./SHOPIFY_STOREFRONT_RUNTIME_READINESS.md). It reuses this foundation's `getCapabilitySummary()`/`readEnvironmentConfig()` verbatim as the `capabilitySummary` in its aggregated `ShopifyStorefrontRuntimeStatus`, and adds a developer-facing runtime mode, capability matrix, feature flag summary, and environment diagnostics on top, surfaced only on the developer-only `/dev/storefront` dashboard. It does not change this foundation's env-reading, validation, or redaction logic.
