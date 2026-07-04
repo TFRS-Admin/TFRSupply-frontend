@@ -8,6 +8,27 @@ import {
   loadTypedProduct,
   loadTypedVertical,
 } from '@/data/loaders';
+import { catalogAdapterService } from '@/services/catalogAdapter';
+
+/**
+ * Reads through the Catalog Adapter's synced snapshot (Shopify Storefront
+ * Catalog Adapter Foundation) when one is available, falling back to the
+ * existing typed loaders otherwise. `catalogAdapterService` only populates a
+ * snapshot after a successful, schema-validated live sync — by default (and
+ * whenever a sync hasn't run or has failed) this simply returns the loader
+ * result, so runtime behavior is unchanged unless a live sync has actually
+ * succeeded. Verticals have no Shopify equivalent and always read from the
+ * loaders; category verticalId is inherited from the existing local record
+ * when live collection data enriches it (see
+ * docs/architecture/SHOPIFY_STOREFRONT_CATALOG_ADAPTER.md).
+ */
+function resolveProducts(): Product[] {
+  return catalogAdapterService.getSyncedProducts() ?? listTypedProducts();
+}
+
+function resolveCategories(): Category[] {
+  return catalogAdapterService.getSyncedCategories() ?? listTypedCategories();
+}
 
 export interface CatalogService {
   getProduct(productId: string): Product | null;
@@ -46,16 +67,20 @@ function matchesProductQuery(product: Product, query: string): boolean {
 
 export const catalogService: CatalogService = {
   getProduct(productId: string): Product | null {
+    const synced = catalogAdapterService.getSyncedProducts();
+    if (synced) return synced.find((product) => product.id === productId) ?? null;
     return loadTypedProduct(productId);
   },
   listProducts(): Product[] {
-    return listTypedProducts();
+    return resolveProducts();
   },
   getCategory(categoryId: string): Category | null {
+    const synced = catalogAdapterService.getSyncedCategories();
+    if (synced) return synced.find((category) => category.id === categoryId) ?? null;
     return loadTypedCategory(categoryId);
   },
   listCategories(): Category[] {
-    return listTypedCategories();
+    return resolveCategories();
   },
   getVertical(verticalId: string): Vertical | null {
     return loadTypedVertical(verticalId);
@@ -65,7 +90,7 @@ export const catalogService: CatalogService = {
   },
   searchProducts(query?: ProductSearchQuery): ProductListResult {
     const validated = productSearchQuerySchema.parse(query ?? {});
-    const allProducts = listTypedProducts();
+    const allProducts = resolveProducts();
     const filtered = allProducts
       .filter((product) => (validated.filter ? matchesProductFilter(product, validated.filter) : true))
       .filter((product) => (validated.query ? matchesProductQuery(product, validated.query) : true));

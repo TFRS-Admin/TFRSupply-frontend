@@ -26,4 +26,5 @@ export { createQuoteBuilderWorkspaceService, quoteBuilderWorkspaceService, type 
 export { createCustomerWorkspaceService, customerWorkspaceService, buildCustomerWorkspaceSummary, type CustomerWorkspaceService } from './customerWorkspace';
 export { createShopifyStorefrontService, shopifyStorefrontService, type ShopifyStorefrontService } from './shopifyStorefront';
 export { createShopifyStorefrontProductService, shopifyStorefrontProductService, buildStorefrontProductMapping, type ShopifyStorefrontProductService } from './shopifyStorefrontProduct';
+export { catalogAdapterService, createCatalogAdapterService, type CatalogAdapterService } from './catalogAdapter';
 export { createShopifyStorefrontRuntimeService, shopifyStorefrontRuntimeService, type ShopifyStorefrontRuntimeService } from './shopifyStorefrontRuntime';

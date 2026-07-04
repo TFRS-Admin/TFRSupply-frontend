@@ -13,6 +13,7 @@ These notes describe the focused test coverage added for the migrated catalog ar
 - Product validation error formatting with filename, product ID, SKU, field path, and validation message context.
 - `useCatalogCategory`, `useCatalogProduct`, `useCatalogVertical`, and `useCatalogLists` initial loading-state contracts under server rendering.
 - `VerticalLandingTemplateView` loading, error, and successful-render states from the existing migration test suite.
+- Shopify Storefront Catalog Adapter: Storefront→Product/Collection mapping, mock/unavailable/live adapter behavior (including injected-fetch success, network error, HTTP error, and GraphQL error paths), `catalogAdapterService` runtime adapter selection and graceful fallback, `catalogService`'s snapshot-with-fallback wiring, schema validation, and the `/dev/storefront` dashboard hook (`tests/shopify-storefront-catalog-adapter.test.mjs`).
 
 ## Not Covered Yet
 
