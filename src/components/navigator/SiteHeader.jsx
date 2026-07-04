@@ -5,6 +5,7 @@ import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
+import SavedProductsButton from '@/components/navigator/SavedProductsButton';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 
@@ -146,6 +147,9 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 </span>
               )}
             </button>
+
+            {/* Saved products */}
+            <SavedProductsButton />
 
             {/* Mini cart */}
             <MiniCart />

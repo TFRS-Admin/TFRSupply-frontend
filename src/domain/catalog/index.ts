@@ -13,3 +13,8 @@ export {
   MAX_RECENTLY_VIEWED_PRODUCTS,
   trackRecentlyViewedProduct,
 } from './recentlyViewed';
+export {
+  saveProduct,
+  unsaveProduct,
+  isProductSaved,
+} from './savedProducts';

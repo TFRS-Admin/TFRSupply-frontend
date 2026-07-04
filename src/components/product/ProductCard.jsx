@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CompareToggleButton from '@/components/product/CompareToggleButton';
+import SaveForLaterButton from '@/components/product/SaveForLaterButton';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -16,6 +17,7 @@ export default function ProductCard({ id, href, label, image, imageAlt, tagline,
       style={{ position: 'relative', transition: 'border-color 0.15s' }}
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#c8102e'; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}>
+      {href && <SaveForLaterButton productId={id} variant="icon" />}
       {href && <CompareToggleButton productId={id} variant="icon" />}
       {image && <img src={image} alt={imageAlt || label} className="w-full object-cover" style={{ height: 180 }} />}
       <div className="p-4 flex flex-col flex-1" style={FS}>
