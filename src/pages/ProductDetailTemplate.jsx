@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
@@ -16,9 +16,11 @@ import CommerceActionPanel from '@/components/product/CommerceActionPanel';
 import FitmentSummary from '@/components/product/FitmentSummary';
 import RelatedPackages from '@/components/product/RelatedPackages';
 import RecommendedProducts from '@/components/product/RecommendedProducts';
+import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import SectionHeading from '@/components/product/SectionHeading';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
 import { useConfiguratorData } from '@/hooks/useConfiguratorData';
+import { useRecentlyViewed } from '@/context/RecentlyViewedContext';
 
 import { Clock, Phone } from 'lucide-react';
 
@@ -210,6 +212,7 @@ export function ProductDetailTemplateView({
         verticalId={verticalId || data.verticals?.[0]}
         categoryId={categoryId || data.category}
       />
+      <RecentlyViewedProducts excludeProductId={data.id} />
 
       <PrototypeFooter />
       <DebugToggle />
@@ -222,6 +225,11 @@ export default function ProductDetailTemplate() {
   const { verticalId, categoryId, productId } = useParams();
   const productState = useCatalogProduct(productId);
   const categoryState = useCatalogCategory(categoryId);
+  const { trackView } = useRecentlyViewed();
+
+  useEffect(() => {
+    if (productState.data) trackView(productState.data.id);
+  }, [productState.data, trackView]);
 
   return (
     <ProductDetailTemplateView

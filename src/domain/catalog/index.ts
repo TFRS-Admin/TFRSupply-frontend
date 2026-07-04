@@ -9,3 +9,7 @@ export {
   isProductInCompare,
   isCompareFull,
 } from './compareSelection';
+export {
+  MAX_RECENTLY_VIEWED_PRODUCTS,
+  trackRecentlyViewedProduct,
+} from './recentlyViewed';

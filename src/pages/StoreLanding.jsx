@@ -5,6 +5,7 @@ import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductCard from '@/components/product/ProductCard';
+import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import { toProductCardViewModel } from '@/pages/ProductSearchPage';
 import { useCatalogLists } from '@/hooks/useCatalog';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
@@ -83,6 +84,8 @@ export function StoreLandingView({ products = [], categories = [] }) {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
       </div>
+
+      <RecentlyViewedProducts />
 
       {/* Vertical navigation cards */}
       <div className="max-w-7xl mx-auto px-6 py-16">
