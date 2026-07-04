@@ -13,6 +13,7 @@ import CompareTray from '@/components/product/CompareTray';
 import { RecentlyViewedProvider } from '@/context/RecentlyViewedContext';
 import { SavedProductsProvider } from '@/context/SavedProductsContext';
 import { FleetBuildsProvider } from '@/context/FleetBuildsContext';
+import { FleetTemplatesProvider } from '@/context/FleetTemplatesContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
@@ -64,6 +65,7 @@ const AuthenticatedApp = () => {
     <RecentlyViewedProvider>
     <SavedProductsProvider>
     <FleetBuildsProvider>
+    <FleetTemplatesProvider>
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
@@ -109,6 +111,7 @@ const AuthenticatedApp = () => {
       </Routes>
       <CompareTray />
     </ConfiguratorProvider>
+    </FleetTemplatesProvider>
     </FleetBuildsProvider>
     </SavedProductsProvider>
     </RecentlyViewedProvider>

@@ -14,16 +14,56 @@
  * used throughout src/pages and src/components/product.
  */
 import React, { useState } from 'react';
-import { Wrench, ArrowRight } from 'lucide-react';
+import { Wrench, ArrowRight, Copy } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
-import { calculateFleetBuildCompletion, classifyProductUpfitCategory, getBuildStyleLabel, getUpfitCategoryLabel } from '@/domain/fleetBuilds';
+import { useFleetTemplates } from '@/context/FleetTemplatesContext';
+import {
+  calculateFleetBuildCompletion,
+  classifyProductUpfitCategory,
+  cloneSourceFromBuild,
+  getBuildStyleLabel,
+  getTemplateById,
+  getUpfitCategoryLabel,
+} from '@/domain/fleetBuilds';
+import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import SectionHeading from '@/components/product/SectionHeading';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import FleetBuildCompletionBadge from './FleetBuildCompletionBadge';
 import AddToAllCompatibleBuildsButton from './AddToAllCompatibleBuildsButton';
+import CloneBuildDialog, { summarizeCompatibilityResult } from './CloneBuildDialog';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+
+function getProductVerticalIds(productId) {
+  return catalogService.getProduct(productId)?.verticalIds ?? null;
+}
+
+function TemplatePickerForm({ templates, onApply }) {
+  const [selected, setSelected] = useState(templates[0]?.id ?? '');
+
+  return (
+    <form
+      onSubmit={(e) => { e.preventDefault(); if (selected) onApply(selected); }}
+      style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}
+    >
+      <select
+        value={selected}
+        onChange={(e) => setSelected(e.target.value)}
+        aria-label="Select a template to apply"
+        style={{ ...FS, fontSize: 12.5, padding: '9px 8px', border: '1.5px solid #d0d0d0', borderRadius: 2, background: '#fff', color: '#1a1a1a' }}
+      >
+        {templates.map((template) => <option key={template.id} value={template.id}>{template.name}</option>)}
+      </select>
+      <button
+        type="submit"
+        style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#fff', background: '#1a2744', border: 'none', padding: '10px 16px', minHeight: 44, cursor: 'pointer' }}
+      >
+        Apply Template
+      </button>
+    </form>
+  );
+}
 
 function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
   return (
@@ -37,7 +77,10 @@ function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
   );
 }
 
-export function FinishYourUpfitPanelView({ builds, activeBuild, product, onAddToActiveBuild, onOpenFleetBuilds }) {
+export function FinishYourUpfitPanelView({
+  builds, activeBuild, product, templates = [], appliedTemplate = null,
+  onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild,
+}) {
   if (!builds || builds.length === 0) return null;
 
   const completion = activeBuild ? calculateFleetBuildCompletion(activeBuild) : null;
@@ -107,6 +150,26 @@ export function FinishYourUpfitPanelView({ builds, activeBuild, product, onAddTo
               <AddToAllCompatibleBuildsButton product={product} variant="inline" />
               <OpenFleetBuildsButton onOpen={onOpenFleetBuilds} label="Fleet Builds" />
             </div>
+
+            <div style={{ ...FS, marginTop: 20, paddingTop: 16, borderTop: '1px solid #eee' }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#999', marginBottom: 8 }}>
+                Current Template
+              </p>
+              <p style={{ fontSize: 13, color: '#444', marginBottom: 14 }} data-testid="current-template-label">
+                {appliedTemplate ? appliedTemplate.name : 'No template applied to this build yet.'}
+              </p>
+
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+                {templates.length > 0 && <TemplatePickerForm templates={templates} onApply={onApplyTemplate} />}
+                <button
+                  type="button"
+                  onClick={onCloneActiveBuild}
+                  style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#1a2744', background: '#fff', border: '2px solid #1a2744', padding: '10px 16px', minHeight: 44, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                >
+                  <Copy size={14} /> Clone Current Build
+                </button>
+              </div>
+            </div>
           </>
         )}
       </div>
@@ -115,8 +178,12 @@ export function FinishYourUpfitPanelView({ builds, activeBuild, product, onAddTo
 }
 
 export default function FinishYourUpfitPanel({ product }) {
-  const { builds, activeBuild, addProductToActiveBuild } = useFleetBuilds();
+  const { builds, activeBuild, addProductToActiveBuild, applyTemplate, cloneBuild } = useFleetBuilds();
+  const { templates, touchUsage } = useFleetTemplates();
   const [modalOpen, setModalOpen] = useState(false);
+  const [cloneDialogOpen, setCloneDialogOpen] = useState(false);
+
+  const appliedTemplate = getTemplateById(templates, activeBuild?.templateId);
 
   function handleAddToActiveBuild() {
     const category = classifyProductUpfitCategory(product);
@@ -134,16 +201,50 @@ export default function FinishYourUpfitPanel({ product }) {
     });
   }
 
+  function handleApplyTemplate(templateId) {
+    const template = templates.find((item) => item.id === templateId);
+    if (!template || !activeBuild) return;
+    const result = applyTemplate(activeBuild.id, template, getProductVerticalIds);
+    if (!result) return;
+    touchUsage(template.id);
+    toast(summarizeCompatibilityResult(result, `Applied "${template.name}"`));
+  }
+
+  function handleCloneActiveBuild(destination) {
+    if (!activeBuild) return;
+    const result = cloneBuild(cloneSourceFromBuild(activeBuild), destination, getProductVerticalIds);
+    setCloneDialogOpen(false);
+    if (!result) {
+      toast({ title: 'Fleet build limit reached', description: 'Remove a build to clone another.' });
+      return;
+    }
+    toast(summarizeCompatibilityResult(result, `Cloned to "${destination.name}"`));
+  }
+
   return (
     <>
       <FinishYourUpfitPanelView
         builds={builds}
         activeBuild={activeBuild}
         product={product}
+        templates={templates}
+        appliedTemplate={appliedTemplate}
         onAddToActiveBuild={handleAddToActiveBuild}
         onOpenFleetBuilds={() => setModalOpen(true)}
+        onApplyTemplate={handleApplyTemplate}
+        onCloneActiveBuild={() => setCloneDialogOpen(true)}
       />
       {modalOpen && <VehicleSelectorModal initialTab="fleet" onClose={() => setModalOpen(false)} />}
+      {cloneDialogOpen && activeBuild && (
+        <CloneBuildDialog
+          sourceLabel="Build"
+          sourceName={activeBuild.name}
+          sourceVehicle={activeBuild.vehicle}
+          sourceQuantity={activeBuild.quantity}
+          onClose={() => setCloneDialogOpen(false)}
+          onClone={handleCloneActiveBuild}
+        />
+      )}
     </>
   );
 }

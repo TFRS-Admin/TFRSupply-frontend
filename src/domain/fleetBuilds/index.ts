@@ -16,3 +16,22 @@ export {
 } from './fleetBuildRules';
 export { calculateFleetBuildCompletion } from './completion';
 export { addProductToAllCompatibleBuilds } from './addToAllCompatibleBuilds';
+export {
+  cloneCategorySelections,
+  reevaluateSelectionsCompatibility,
+  cloneSourceFromBuild,
+  cloneSourceFromTemplate,
+  cloneFleetBuildFromSource,
+  applyTemplateToBuild,
+} from './cloneRules';
+export {
+  MAX_FLEET_TEMPLATES,
+  defaultTemplateName,
+  createTemplateFromBuild,
+  addTemplate,
+  removeTemplate,
+  renameTemplate,
+  touchTemplateUsage,
+  getTemplateById,
+  countBuildsUsingTemplate,
+} from './templateRules';

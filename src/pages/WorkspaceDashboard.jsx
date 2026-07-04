@@ -27,12 +27,14 @@ import { useCompare, MAX_COMPARE_PRODUCTS } from '@/context/CompareContext';
 import { useVehicle } from '@/context/VehicleContext';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
+import { useFleetTemplates } from '@/context/FleetTemplatesContext';
 import { useMiniCart } from '@/hooks/cartWorkspace';
 import { catalogService } from '@/services/catalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import { resolveSavedProducts } from '@/components/product/SavedProductsSection';
 import { resolveRecentlyViewedProducts } from '@/components/product/RecentlyViewedProducts';
 import FleetBuildsWorkspaceSection from '@/components/fleetBuilds/FleetBuildsWorkspaceSection';
+import FleetTemplatesWorkspaceSection from '@/components/fleetBuilds/FleetTemplatesWorkspaceSection';
 import appConfig from '@/config/appConfig';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -113,6 +115,7 @@ export function WorkspaceDashboardView({
   recentlyViewedProducts,
   compareProducts,
   fleetBuilds = [],
+  fleetTemplates = [],
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -270,6 +273,8 @@ export function WorkspaceDashboardView({
 
         <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
 
+        <FleetTemplatesWorkspaceSection templates={fleetTemplates} builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
+
         {/* Saved Products */}
         <section style={{ marginBottom: 32 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
@@ -329,6 +334,7 @@ export default function WorkspaceDashboard() {
   const { selectedVehicle } = useVehicle();
   const { state: configuratorState } = useConfigurator();
   const { builds: fleetBuilds } = useFleetBuilds();
+  const { templates: fleetTemplates } = useFleetTemplates();
   const { summary: cartSummary, loading: cartLoading } = useMiniCart();
   // null = closed; 'shop' | 'fleet' selects which VehicleSelectorModal tab
   // opens — the Selected Vehicle card and the Fleet Builds section share one
@@ -346,6 +352,7 @@ export default function WorkspaceDashboard() {
         recentlyViewedProducts={recentlyViewedProducts}
         compareProducts={compareProducts}
         fleetBuilds={fleetBuilds}
+        fleetTemplates={fleetTemplates}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}
