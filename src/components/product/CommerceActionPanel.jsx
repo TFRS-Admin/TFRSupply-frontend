@@ -7,7 +7,7 @@ import appConfig from '@/config/appConfig';
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 const SALES_PHONE = '800-621-9959';
 
-function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary', disabled = false }) {
+function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary', disabled = false, fullWidth = false }) {
   const styles = {
     primary: { background: '#c8102e', color: '#fff', border: '2px solid #c8102e' },
     secondary: { background: '#fff', color: '#1a2744', border: '2px solid #1a2744' },
@@ -15,21 +15,30 @@ function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary',
   const commonStyle = {
     ...FS,
     ...styles[variant],
-    fontSize: 13, fontWeight: 700, padding: '10px 16px', textDecoration: 'none',
+    fontSize: 13, fontWeight: 700, padding: '12px 16px', textDecoration: 'none', minHeight: 44,
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
     opacity: disabled ? 0.5 : 1, cursor: disabled ? 'not-allowed' : 'pointer',
+    gridColumn: fullWidth ? '1 / -1' : undefined, transition: 'background-color 0.15s, color 0.15s',
   };
+  const hoverStyle = variant === 'primary'
+    ? { background: '#a80d26' }
+    : { background: '#1a2744', color: '#fff' };
+
+  const handleEnter = (e) => { if (!disabled) Object.assign(e.currentTarget.style, hoverStyle); };
+  const handleLeave = (e) => { if (!disabled) Object.assign(e.currentTarget.style, styles[variant]); };
 
   if (href) {
     return (
-      <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" style={commonStyle}>
+      <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
+        style={commonStyle} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
         <Icon size={15} /> {label}
       </a>
     );
   }
 
   return (
-    <button type="button" onClick={onClick} disabled={disabled} style={commonStyle}>
+    <button type="button" onClick={onClick} disabled={disabled} style={commonStyle}
+      onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <Icon size={15} /> {label}
     </button>
   );
@@ -61,9 +70,9 @@ export default function CommerceActionPanel({ product }) {
   return (
     <div className="border-t border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="pd-cta-grid grid grid-cols-2 md:grid-cols-4 gap-3">
           {configuratorHref && (
-            <ActionButton href={configuratorHref} icon={Settings} label="Configure Product" variant="primary" />
+            <ActionButton href={configuratorHref} icon={Settings} label="Configure Product" variant="primary" fullWidth />
           )}
           <ActionButton href={quoteHref} icon={FileText} label="Request Quote" />
           {cartEligible && (

@@ -52,17 +52,20 @@ export default function ProductCommerceSummary({ product }) {
   if (!rows.length && !commerceStatus) return null;
 
   return (
-    <div style={{ ...FS, border: '1px solid #e5e7eb', background: '#fafafa', padding: '14px 16px', marginBottom: '1.25rem' }}>
-      <div className="storefront-status-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 8, columnGap: 12 }}>
+    <div style={{ ...FS, border: '1px solid #e5e7eb', background: '#fafafa', padding: '16px 18px', marginBottom: '1.25rem' }}>
+      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#888', marginBottom: 10 }}>
+        Product Overview
+      </div>
+      <div className="storefront-status-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 12, columnGap: 16 }}>
         {rows.map((row) => (
           <div key={row.label}>
             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#888' }}>{row.label}</div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1a1a' }}>{row.value}</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', marginTop: 2 }}>{row.value}</div>
           </div>
         ))}
       </div>
       {commerceStatus && (
-        <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', gap: 8 }}>
           <span
             style={{
               width: 8, height: 8, borderRadius: '50%', flexShrink: 0,

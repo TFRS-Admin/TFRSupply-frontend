@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { CheckCircle2, HelpCircle, ShieldAlert, Truck } from 'lucide-react';
+import { Box, CheckCircle2, Gauge, HelpCircle, ShieldAlert, Truck } from 'lucide-react';
 import { useVehicle } from '@/context/VehicleContext';
 import { useProductFitment } from '@/hooks/vehicleFitment';
 import { usePackageDefinition } from '@/hooks/packageBuilder';
+import SectionHeading from '@/components/product/SectionHeading';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -70,16 +71,16 @@ export default function FitmentSummary({ product }) {
 
   return (
     <div className="border-t border-gray-200 bg-white" id="fitment">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <p style={{ ...FS, fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
+      <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+        <SectionHeading description="Confirm which vehicles this product supports and check it against your selected fleet vehicle.">
           Vehicle Fitment
-        </p>
+        </SectionHeading>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10" style={FS}>
+        <div className="pd-fitment-grid grid grid-cols-1 md:grid-cols-3 gap-10" style={FS}>
           {vehicleTypes.length > 0 && (
             <div>
               <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Truck size={16} /> Supported Vehicle Types
+                <Truck size={16} style={{ color: '#c8102e' }} /> Supported Vehicle Types
               </h3>
               <ul style={{ fontSize: 13, color: '#444', lineHeight: 1.8, paddingLeft: '1.25rem', margin: 0 }}>
                 {vehicleTypes.map((type) => <li key={type}>{type}</li>)}
@@ -89,7 +90,9 @@ export default function FitmentSummary({ product }) {
 
           {packageIds.length > 0 && (
             <div>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>Compatible Packages</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Box size={16} style={{ color: '#c8102e' }} /> Compatible Packages
+              </h3>
               <ul style={{ paddingLeft: '1.25rem', margin: 0 }}>
                 {packageIds.map((packageId) => <RelatedPackageLabel key={packageId} packageId={packageId} />)}
               </ul>
@@ -97,7 +100,9 @@ export default function FitmentSummary({ product }) {
           )}
 
           <div>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>Vehicle Compatibility Summary</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Gauge size={16} style={{ color: '#c8102e' }} /> Vehicle Compatibility Summary
+            </h3>
             {!selectedVehicle && (
               <p style={{ fontSize: 13, color: '#888', lineHeight: 1.7 }}>
                 Select a vehicle from the header to check compatibility with your fleet.
