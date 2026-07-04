@@ -16,6 +16,14 @@ html, body {
   max-width: 100%;
 }
 
+/* ── Tablet: product/category grids step down to 2 columns before
+   collapsing fully at the mobile breakpoint below. ────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .pd-product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 @media (max-width: 767px) {
   /* ── Site header ─────────────────────────────────────────────────── */
   .site-header-row1-inner {
