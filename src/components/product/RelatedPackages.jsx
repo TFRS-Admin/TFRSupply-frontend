@@ -1,15 +1,29 @@
 import React from 'react';
 import { Box } from 'lucide-react';
 import { usePackageDefinition } from '@/hooks/packageBuilder';
+import SectionHeading from '@/components/product/SectionHeading';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
+function RelatedPackageCardSkeleton() {
+  return (
+    <div className="border border-gray-200 bg-white p-4 animate-pulse" style={FS}>
+      <div style={{ height: 14, width: '60%', background: '#eee', marginBottom: 10 }} />
+      <div style={{ height: 10, width: '40%', background: '#f2f2f2', marginBottom: 8 }} />
+      <div style={{ height: 10, width: '30%', background: '#f2f2f2' }} />
+    </div>
+  );
+}
+
 function RelatedPackageCard({ packageId }) {
   const { data: packageDefinition, loading } = usePackageDefinition(packageId);
-  if (loading || !packageDefinition) return null;
+  if (loading) return <RelatedPackageCardSkeleton />;
+  if (!packageDefinition) return null;
 
   return (
-    <div className="border border-gray-200 bg-white p-4" style={FS}>
+    <div className="border border-gray-200 bg-white p-4 transition-colors" style={FS}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#c8102e'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
         <Box size={16} style={{ color: '#c8102e' }} />
         <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a' }}>{packageDefinition.label}</p>
@@ -39,11 +53,9 @@ export default function RelatedPackages({ product }) {
 
   return (
     <div className="border-t border-gray-200 bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <p style={{ ...FS, fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
-          Related Packages
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+        <SectionHeading>Related Packages</SectionHeading>
+        <div className="pd-package-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           {packageIds.map((packageId) => (
             <RelatedPackageCard key={packageId} packageId={packageId} />
           ))}

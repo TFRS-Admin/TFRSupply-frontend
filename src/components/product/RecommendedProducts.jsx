@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { catalogService } from '@/services/catalog';
 import ProductCard from '@/components/product/ProductCard';
+import SectionHeading from '@/components/product/SectionHeading';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 const MAX_RECOMMENDATIONS = 3;
 
 function toCardProps(candidate, verticalId, categoryId) {
@@ -42,11 +42,9 @@ export default function RecommendedProducts({ product, verticalId, categoryId })
 
   return (
     <div className="border-t border-gray-200 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <p style={{ ...FS, fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
-          Recommended Products
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+        <SectionHeading>Recommended Products</SectionHeading>
+        <div className="pd-recommend-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           {recommendations.map((candidate) => (
             <ProductCard key={candidate.id} {...toCardProps(candidate, verticalId, categoryId)} />
           ))}

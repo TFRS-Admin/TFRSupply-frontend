@@ -22,6 +22,21 @@ html, body {
   .pd-product-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+
+  /* Product detail card grids (recommendations, packages) and the
+     3-up fitment layout get the same tablet step-down as the main
+     product grid, instead of jumping straight from 1 to 3 columns. */
+  .pd-recommend-grid,
+  .pd-package-grid,
+  .pd-fitment-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Give the hero media/info split a bit more breathing room before
+     it collapses to a single column at the mobile breakpoint. */
+  .product-hero-row {
+    gap: 1.75rem !important;
+  }
 }
 
 @media (max-width: 767px) {
@@ -100,6 +115,19 @@ html, body {
   }
   .product-hero-gallery-main {
     min-height: 260px !important;
+  }
+  .product-hero-quick-links {
+    gap: 0.5rem !important;
+  }
+  .product-hero-quick-links a {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+  }
+
+  /* ── Commerce CTA row: keep primary CTA full-width and give the
+     remaining actions comfortable tap targets when stacked 2-up. ──── */
+  .pd-cta-grid {
+    gap: 10px !important;
   }
 
   .product-coming-soon-grid {

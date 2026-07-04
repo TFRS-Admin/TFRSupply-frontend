@@ -16,6 +16,7 @@ import CommerceActionPanel from '@/components/product/CommerceActionPanel';
 import FitmentSummary from '@/components/product/FitmentSummary';
 import RelatedPackages from '@/components/product/RelatedPackages';
 import RecommendedProducts from '@/components/product/RecommendedProducts';
+import SectionHeading from '@/components/product/SectionHeading';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
 import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 
@@ -82,10 +83,10 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId
 
   return (
     <div className="border-t border-gray-100 bg-gray-50" id="build-configure">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 20 }}>
+      <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+        <SectionHeading description="Select a base model and options below to build a fitment-checked, priced configuration for this product.">
           Build &amp; Configure
-        </p>
+        </SectionHeading>
         <ConfiguratorExperience
           configuratorData={configuratorData}
           verticalId={verticalId}
@@ -151,7 +152,7 @@ export function ProductDetailTemplateView({
 
       <CommerceActionPanel product={data} />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 pt-6">
         <StorefrontProductPanel product={data} />
       </div>
 
@@ -176,14 +177,14 @@ export function ProductDetailTemplateView({
         <>
           {data.specifications && Object.keys(data.specifications).length > 0 && (
             <div className="border-t border-gray-200 bg-white">
-              <div className="max-w-7xl mx-auto px-6 py-10">
-                <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a2744', borderBottom: '2px solid #1a2744', paddingBottom: 6, marginBottom: 12 }}>Specifications</p>
+              <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+                <SectionHeading>Specifications</SectionHeading>
                 <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
                   <tbody>
                     {Object.entries(data.specifications).map(([k, v], i) => (
                       <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
-                        <td style={{ padding: '7px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
-                        <td style={{ padding: '7px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
+                        <td style={{ padding: '10px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
+                        <td style={{ padding: '10px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
                       </tr>
                     ))}
                   </tbody>
