@@ -28,3 +28,4 @@ export { createShopifyStorefrontService, shopifyStorefrontService, type ShopifyS
 export { createShopifyStorefrontProductService, shopifyStorefrontProductService, buildStorefrontProductMapping, type ShopifyStorefrontProductService } from './shopifyStorefrontProduct';
 export { catalogAdapterService, createCatalogAdapterService, type CatalogAdapterService } from './catalogAdapter';
 export { createShopifyStorefrontRuntimeService, shopifyStorefrontRuntimeService, type ShopifyStorefrontRuntimeService } from './shopifyStorefrontRuntime';
+export { cartAdapterService, createCartAdapterService, type CartAdapterService } from './cartAdapter';

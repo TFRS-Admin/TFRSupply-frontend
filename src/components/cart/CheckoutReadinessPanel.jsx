@@ -56,8 +56,14 @@ function ReadinessRow({ label, ready }) {
  * Configuration Readiness). It is display-only — it never changes checkout
  * readiness, blockers, or the payload preview above, never renders a
  * Storefront access token, and never triggers a live Shopify API call.
+ *
+ * cartAdapterStatus is an optional CartAdapterStatusSnapshot contract from
+ * useCartAdapterStatus() (Shopify Storefront Cart Mutation Readiness). It is
+ * also display-only — it never changes checkout readiness, blockers, or the
+ * payload preview above, and it never triggers a live Shopify Storefront
+ * cart mutation.
  */
-export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview, checkoutUrlPreview, storefrontCapabilitySummary }) {
+export default function CheckoutReadinessPanel({ result, loading, storefrontAvailability, storefrontCartPreview, checkoutUrlPreview, storefrontCapabilitySummary, cartAdapterStatus }) {
   if (loading && !result) {
     return (
       <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '20px 22px', marginTop: 16 }}>
@@ -234,6 +240,36 @@ export default function CheckoutReadinessPanel({ result, loading, storefrontAvai
             Live adapter ready: <strong>{storefrontCapabilitySummary.liveAdapterReady ? 'Yes' : 'No'}</strong> — {storefrontCapabilitySummary.liveAdapterReadinessReason}
           </div>
         </>
+      )}
+
+      {cartAdapterStatus && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #eee' }}>
+          <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Cart Mutation Readiness
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+            <span>Cart Adapter Mode</span>
+            <span style={{ fontWeight: 700 }}>{cartAdapterStatus.adapterMode}</span>
+          </div>
+          {cartAdapterStatus.mappingValidation && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#374151', padding: '2px 0' }}>
+              <span>Cart Lines Mapped</span>
+              <span style={{ fontWeight: 700 }}>
+                {cartAdapterStatus.mappingValidation.mappedLineCount}/{cartAdapterStatus.mappingValidation.totalLineCount}
+              </span>
+            </div>
+          )}
+          {cartAdapterStatus.diagnostics
+            .filter((diagnostic) => diagnostic.level !== 'info')
+            .map((diagnostic, index) => (
+              <p key={`${diagnostic.code}-${index}`} style={{ margin: '4px 0 0', fontSize: 11, color: diagnostic.level === 'error' ? '#991b1b' : '#92400e' }}>
+                {diagnostic.message}
+              </p>
+            ))}
+          <p style={{ fontSize: 11, color: '#6b7280', marginTop: 6 }}>
+            This is a preview only — no live Shopify Storefront cart mutation has been performed.
+          </p>
+        </div>
       )}
     </div>
   );
