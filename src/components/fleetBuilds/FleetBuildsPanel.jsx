@@ -4,20 +4,52 @@
  * vehicle, quantity, build style, and upfit selections via FleetBuildCard.
  * All state comes from useFleetBuilds() (localStorage-backed, client-only).
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, LayoutGrid } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
-import { MAX_FLEET_BUILDS } from '@/domain/fleetBuilds';
+import { useFleetTemplates } from '@/context/FleetTemplatesContext';
+import { MAX_FLEET_BUILDS, cloneSourceFromBuild } from '@/domain/fleetBuilds';
+import { catalogService } from '@/services/catalog';
+import { toast } from '@/components/ui/use-toast';
 import FleetBuildCard from './FleetBuildCard';
+import FleetTemplatesSection from './FleetTemplatesSection';
+import CloneBuildDialog, { summarizeCompatibilityResult } from './CloneBuildDialog';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+
+function getProductVerticalIds(productId) {
+  return catalogService.getProduct(productId)?.verticalIds ?? null;
+}
 
 export default function FleetBuildsPanel() {
   const {
     builds, activeBuildId, isFull,
     addBuild, removeBuild, setActiveBuild, renameBuild,
     updateVehicle, updateQuantity, updateStyle, removeProductFromBuild,
+    cloneBuild,
   } = useFleetBuilds();
+  const { saveTemplateFromBuild } = useFleetTemplates();
+  const [cloneSourceBuild, setCloneSourceBuild] = useState(null);
+
+  function handleSaveAsTemplate(build) {
+    const template = saveTemplateFromBuild(build);
+    if (!template) {
+      toast({ title: 'Template limit reached', description: 'Delete a saved template to save another.' });
+      return;
+    }
+    toast({ title: 'Saved as template', description: `"${template.name}" is now available in Fleet Templates.` });
+  }
+
+  function handleCloneSubmit(destination) {
+    if (!cloneSourceBuild) return;
+    const result = cloneBuild(cloneSourceFromBuild(cloneSourceBuild), destination, getProductVerticalIds);
+    setCloneSourceBuild(null);
+    if (!result) {
+      toast({ title: 'Fleet build limit reached', description: 'Remove a build to clone another.' });
+      return;
+    }
+    toast(summarizeCompatibilityResult(result, `Cloned to "${destination.name}"`));
+  }
 
   return (
     <div data-testid="fleet-builds-panel">
@@ -68,6 +100,8 @@ export default function FleetBuildsPanel() {
               onUpdateQuantity={(quantity) => updateQuantity(build.id, quantity)}
               onUpdateStyle={(styleId) => updateStyle(build.id, styleId)}
               onRemoveProduct={(categoryId, productId) => removeProductFromBuild(build.id, categoryId, productId)}
+              onSaveAsTemplate={() => handleSaveAsTemplate(build)}
+              onCloneBuild={() => setCloneSourceBuild(build)}
             />
           ))}
           {isFull && (
@@ -76,6 +110,19 @@ export default function FleetBuildsPanel() {
             </p>
           )}
         </div>
+      )}
+
+      <FleetTemplatesSection />
+
+      {cloneSourceBuild && (
+        <CloneBuildDialog
+          sourceLabel="Build"
+          sourceName={cloneSourceBuild.name}
+          sourceVehicle={cloneSourceBuild.vehicle}
+          sourceQuantity={cloneSourceBuild.quantity}
+          onClose={() => setCloneSourceBuild(null)}
+          onClone={handleCloneSubmit}
+        />
       )}
     </div>
   );

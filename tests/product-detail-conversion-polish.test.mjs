@@ -26,6 +26,7 @@ before(async () => {
     recommendedProducts: await server.ssrLoadModule('/src/components/product/RecommendedProducts.jsx'),
     relatedPackages: await server.ssrLoadModule('/src/components/product/RelatedPackages.jsx'),
     fleetBuilds: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
+    fleetTemplates: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
   };
 });
 
@@ -41,6 +42,7 @@ function renderWithProviders(element, initialEntries = ['/fire/light-bars/naviga
   const { RecentlyViewedProvider } = modules.recentlyViewed;
   const { SavedProductsProvider } = modules.savedProducts;
   const { FleetBuildsProvider } = modules.fleetBuilds;
+  const { FleetTemplatesProvider } = modules.fleetTemplates;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries },
@@ -49,7 +51,9 @@ function renderWithProviders(element, initialEntries = ['/fire/light-bars/naviga
           React.createElement(RecentlyViewedProvider, null,
             React.createElement(SavedProductsProvider, null,
               React.createElement(FleetBuildsProvider, null,
-                React.createElement(ConfiguratorProvider, null, element),
+                React.createElement(FleetTemplatesProvider, null,
+                  React.createElement(ConfiguratorProvider, null, element),
+                ),
               ),
             ),
           ),

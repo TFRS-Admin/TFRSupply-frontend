@@ -7,7 +7,7 @@
  * holds no persistence logic of its own.
  */
 import React, { useState } from 'react';
-import { Star, Trash2, X } from 'lucide-react';
+import { Copy, Save, Star, Trash2, X } from 'lucide-react';
 import { BUILD_STYLES, calculateFleetBuildCompletion, getUpfitCategoryLabel } from '@/domain/fleetBuilds';
 import { listVehicleYears, listVehicleMakes, listVehicleModels, findVehicleMasterEntry } from '@/data/vehicles/vehicleMaster';
 import FleetBuildCompletionBadge from './FleetBuildCompletionBadge';
@@ -40,6 +40,8 @@ export default function FleetBuildCard({
   onUpdateQuantity,
   onUpdateStyle,
   onRemoveProduct,
+  onSaveAsTemplate,
+  onCloneBuild,
 }) {
   const [name, setName] = useState(build.name);
   const [year, setYear] = useState(build.vehicle?.year || '');
@@ -126,6 +128,24 @@ export default function FleetBuildCard({
         <FleetBuildCompletionBadge completion={completion} />
       </div>
 
+      {/* Fleet Templates & Vehicle Cloning */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
+        <button
+          type="button"
+          onClick={onSaveAsTemplate}
+          style={{ ...FS, fontSize: 11, fontWeight: 700, color: '#1a2744', background: 'none', border: '1.5px solid #1a2744', borderRadius: 2, padding: '5px 9px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+        >
+          <Save size={12} /> Save as Template
+        </button>
+        <button
+          type="button"
+          onClick={onCloneBuild}
+          style={{ ...FS, fontSize: 11, fontWeight: 700, color: '#1a2744', background: 'none', border: '1.5px solid #1a2744', borderRadius: 2, padding: '5px 9px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+        >
+          <Copy size={12} /> Clone Build
+        </button>
+      </div>
+
       {build.vehicle && (
         <p style={{ ...FS, fontSize: 12, color: '#444', margin: '0 0 8px' }}>
           Vehicle: <strong>{build.vehicle.year} {build.vehicle.make} {build.vehicle.model}</strong>
@@ -209,13 +229,24 @@ export default function FleetBuildCard({
                 <p style={{ fontSize: 12, fontWeight: 700, color: '#1a1a1a', margin: '0 0 3px' }}>{getUpfitCategoryLabel(categoryId)}</p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {(build.selections[categoryId] ?? []).map((item) => (
-                    <span key={item.productId} style={{ fontSize: 11, color: '#1a2744', background: '#f0f4ff', padding: '3px 6px', borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    <span
+                      key={item.productId}
+                      title={item.incompatible ? 'Incompatible with selected vehicle.' : undefined}
+                      style={{
+                        fontSize: 11,
+                        color: item.incompatible ? '#b91c1c' : '#1a2744',
+                        background: item.incompatible ? '#fee2e2' : '#f0f4ff',
+                        border: item.incompatible ? '1px solid #fca5a5' : 'none',
+                        padding: '3px 6px', borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 4,
+                      }}
+                    >
                       {item.label}
+                      {item.incompatible && <span style={{ fontWeight: 700 }}>· Incompatible with selected vehicle.</span>}
                       <button
                         type="button"
                         onClick={() => onRemoveProduct(categoryId, item.productId)}
                         aria-label={`Remove ${item.label} from ${getUpfitCategoryLabel(categoryId)}`}
-                        style={{ background: 'none', border: 'none', color: '#1a2744', cursor: 'pointer', padding: 0, display: 'flex' }}
+                        style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, display: 'flex' }}
                       >
                         <X size={10} />
                       </button>

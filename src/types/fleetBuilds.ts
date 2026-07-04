@@ -61,6 +61,13 @@ export interface FleetBuildProductSelection {
   productId: string;
   label: string;
   addedAt: number;
+  /**
+   * Set by a clone or "Apply Template" compatibility re-evaluation against a
+   * (possibly new) destination vehicle. Never causes removal — see
+   * docs/architecture/FLEET_TEMPLATES_AND_CLONING.md. Absent on selections
+   * that have never gone through that re-evaluation.
+   */
+  incompatible?: boolean;
 }
 
 export type FleetBuildCategorySelections = Partial<Record<UpfitCategoryId, FleetBuildProductSelection[]>>;
@@ -73,6 +80,62 @@ export interface FleetBuild {
   buildStyle: FleetBuildStyleId | null;
   selections: FleetBuildCategorySelections;
   createdAt: number;
+  /** The saved template (if any) last applied to or cloned into this build — informational lineage only, not a hard link. */
+  templateId?: string | null;
+}
+
+/**
+ * Fleet Templates & Vehicle Cloning — a reusable snapshot of a complete fleet
+ * build (vehicle, build style, category selections, and a completion % taken
+ * at save time) that can later be applied to another build or cloned into a
+ * brand-new one. Client-side, localStorage-only, mirroring FleetBuild.
+ */
+export interface FleetBuildTemplate {
+  id: string;
+  name: string;
+  vehicle: FleetBuildVehicle | null;
+  buildStyle: FleetBuildStyleId | null;
+  selections: FleetBuildCategorySelections;
+  /** Completion percent snapshotted from the source build at save time (see calculateFleetBuildCompletion). */
+  completionPercent: number;
+  /** The build this template was saved from — informational only; the build may since have been edited, renamed, or removed. */
+  sourceBuildId: string | null;
+  createdAt: number;
+  updatedAt: number;
+  /** Incremented each time this template is applied to a build or cloned into a new one. */
+  usageCount: number;
+  lastUsedAt: number | null;
+}
+
+/**
+ * The minimal shape a clone source (an existing FleetBuild or a saved
+ * FleetBuildTemplate) must provide — just what cloneFleetBuildFromSource
+ * actually copies. Destination name/vehicle/quantity always come from
+ * FleetBuildCloneDestination, never from the source.
+ */
+export interface FleetBuildCloneableSource {
+  buildStyle: FleetBuildStyleId | null;
+  selections: FleetBuildCategorySelections;
+  templateId?: string | null;
+}
+
+export interface FleetBuildCloneDestination {
+  name: string;
+  vehicle: FleetBuildVehicle | null;
+  quantity: number;
+}
+
+/** One product flagged incompatible during a clone or template-apply compatibility re-evaluation. */
+export interface FleetBuildCompatibilityFlag {
+  categoryId: UpfitCategoryId;
+  productId: string;
+  label: string;
+}
+
+/** Shared result shape for both "Clone Build" and "Apply Template" — the mutated/created build plus anything flagged incompatible along the way. */
+export interface FleetBuildCloneResult {
+  build: FleetBuild;
+  flaggedIncompatible: FleetBuildCompatibilityFlag[];
 }
 
 export type FleetBuildCompletionColor = 'red' | 'yellow' | 'green';

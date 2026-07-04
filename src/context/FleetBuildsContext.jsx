@@ -21,6 +21,8 @@ import {
   addProductToBuildCategory,
   removeProductFromBuildCategory,
   addProductToAllCompatibleBuilds,
+  cloneFleetBuildFromSource,
+  applyTemplateToBuild as applyTemplateToBuildDomain,
 } from '@/domain/fleetBuilds';
 
 const STORAGE_KEY = 'tfr_fleet_builds';
@@ -173,6 +175,41 @@ export function FleetBuildsProvider({ children }) {
     return outcome;
   }, []);
 
+  // Fleet Templates & Vehicle Cloning — clone an existing build or saved
+  // template into a brand-new build. Does not switch the active build, since
+  // cloning is typically used to spin off copies for other vehicles while
+  // staying focused on the build already being edited.
+  const cloneBuild = useCallback((source, destination, getProductVerticalIds) => {
+    const newId = generateBuildId();
+    const createdAt = Date.now();
+    let outcome = null;
+    setState((current) => {
+      if (current.builds.length >= MAX_FLEET_BUILDS) return current;
+      const { build, flaggedIncompatible } = cloneFleetBuildFromSource(newId, createdAt, source, destination, getProductVerticalIds);
+      outcome = { build, flaggedIncompatible };
+      const builds = addFleetBuild(current.builds, build);
+      saveToStorage(builds, current.activeBuildId);
+      return { ...current, builds };
+    });
+    return outcome;
+  }, []);
+
+  // Applies a saved template's build style + selections onto an existing
+  // build in place (see applyTemplateToBuild in src/domain/fleetBuilds).
+  const applyTemplate = useCallback((buildId, template, getProductVerticalIds) => {
+    let outcome = null;
+    setState((current) => {
+      const build = current.builds.find((b) => b.id === buildId);
+      if (!build) return current;
+      const { build: updatedBuild, flaggedIncompatible } = applyTemplateToBuildDomain(build, template, getProductVerticalIds);
+      outcome = { build: updatedBuild, flaggedIncompatible };
+      const builds = current.builds.map((b) => (b.id === buildId ? updatedBuild : b));
+      saveToStorage(builds, current.activeBuildId);
+      return { ...current, builds };
+    });
+    return outcome;
+  }, []);
+
   const activeBuild = useMemo(
     () => state.builds.find((build) => build.id === state.activeBuildId) ?? null,
     [state.builds, state.activeBuildId],
@@ -194,10 +231,13 @@ export function FleetBuildsProvider({ children }) {
     removeProductFromBuild,
     addProductToActiveBuild,
     addToAllCompatibleBuilds,
+    cloneBuild,
+    applyTemplate,
   }), [
     state.builds, state.activeBuildId, activeBuild,
     addBuild, removeBuild, setActiveBuild, renameBuild, updateVehicle, updateQuantity, updateStyle,
     addProductToBuild, removeProductFromBuild, addProductToActiveBuild, addToAllCompatibleBuilds,
+    cloneBuild, applyTemplate,
   ]);
 
   return <FleetBuildsContext.Provider value={value}>{children}</FleetBuildsContext.Provider>;

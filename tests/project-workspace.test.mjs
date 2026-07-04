@@ -20,6 +20,7 @@ before(async () => {
     savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     fleetBuilds: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
+    fleetTemplates: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
   };
 });
 
@@ -34,6 +35,7 @@ function renderWithProviders(element, initialEntries = ['/workspace']) {
   const { RecentlyViewedProvider } = modules.recentlyViewed;
   const { SavedProductsProvider } = modules.savedProducts;
   const { FleetBuildsProvider } = modules.fleetBuilds;
+  const { FleetTemplatesProvider } = modules.fleetTemplates;
   const { ConfiguratorProvider } = modules.configurator;
 
   return renderToString(
@@ -43,7 +45,9 @@ function renderWithProviders(element, initialEntries = ['/workspace']) {
           React.createElement(RecentlyViewedProvider, null,
             React.createElement(SavedProductsProvider, null,
               React.createElement(FleetBuildsProvider, null,
-                React.createElement(ConfiguratorProvider, null, element),
+                React.createElement(FleetTemplatesProvider, null,
+                  React.createElement(ConfiguratorProvider, null, element),
+                ),
               ),
             ),
           ),
@@ -59,6 +63,7 @@ function baseViewProps(overrides = {}) {
     recentlyViewedProducts: [],
     compareProducts: [],
     fleetBuilds: [],
+    fleetTemplates: [],
     cartSummary: null,
     cartLoading: false,
     selectedVehicle: null,
