@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Truck } from 'lucide-react';
+import { Search, Truck, LayoutDashboard } from 'lucide-react';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
@@ -21,6 +21,7 @@ export default function MobileNavDrawer({
   onSubmitSearch,
   selectedVehicle,
   onOpenVehicleModal,
+  onNavigateWorkspace,
   activeVerticalId,
   utilityLinks = [],
 }) {
@@ -78,6 +79,20 @@ export default function MobileNavDrawer({
               {selectedVehicle
                 ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
                 : 'Select Your Vehicle'}
+            </button>
+
+            <button
+              onClick={onNavigateWorkspace}
+              className="flex items-center gap-2 w-full rounded-sm mb-5"
+              style={{
+                background: '#f5f5f5', color: '#1a1a1a',
+                border: '1.5px solid #d0d0d0',
+                fontSize: 14, fontWeight: 600,
+                padding: '12px 16px', minHeight: 44,
+              }}
+            >
+              <LayoutDashboard size={15} style={{ flexShrink: 0 }} />
+              My Workspace
             </button>
 
             <Accordion type="single" collapsible defaultValue={activeVerticalId}>

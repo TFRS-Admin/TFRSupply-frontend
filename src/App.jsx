@@ -22,6 +22,7 @@ import ProductSearchPage from '@/pages/ProductSearchPage';
 import ComparePage from '@/pages/ComparePage';
 import SavedProductsPage from '@/pages/SavedProductsPage';
 import CartWorkspace from '@/pages/CartWorkspace';
+import WorkspaceDashboard from '@/pages/WorkspaceDashboard';
 
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
@@ -67,6 +68,7 @@ const AuthenticatedApp = () => {
         <Route path="/compare" element={<ComparePage />} />
         <Route path="/saved-products" element={<SavedProductsPage />} />
         <Route path="/cart" element={<CartWorkspace />} />
+        <Route path="/workspace" element={<WorkspaceDashboard />} />
 
         {/* Template-driven routes — JSON-powered, no new pages needed */}
         <Route path="/:verticalId" element={<VerticalLandingTemplate />} />
