@@ -20,6 +20,7 @@ before(async () => {
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     compare: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
+    savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
   };
 });
@@ -33,6 +34,7 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { VehicleProvider } = modules.vehicle;
   const { CompareProvider } = modules.compare;
   const { RecentlyViewedProvider } = modules.recentlyViewedContext;
+  const { SavedProductsProvider } = modules.savedProducts;
   const { ConfiguratorProvider } = modules.configurator;
 
   return renderToString(
@@ -40,7 +42,9 @@ function renderWithProviders(element, initialEntries = ['/']) {
       React.createElement(VehicleProvider, null,
         React.createElement(CompareProvider, null,
           React.createElement(RecentlyViewedProvider, null,
-            React.createElement(ConfiguratorProvider, null, element),
+            React.createElement(SavedProductsProvider, null,
+              React.createElement(ConfiguratorProvider, null, element),
+            ),
           ),
         ),
       ),

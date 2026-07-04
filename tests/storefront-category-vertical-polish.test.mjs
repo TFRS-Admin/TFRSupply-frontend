@@ -20,6 +20,7 @@ before(async () => {
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     compare: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
     recentlyViewed: await server.ssrLoadModule('/src/context/RecentlyViewedContext.jsx'),
+    savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
   };
 });
 
@@ -33,13 +34,16 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { ConfiguratorProvider } = modules.configurator;
   const { CompareProvider } = modules.compare;
   const { RecentlyViewedProvider } = modules.recentlyViewed;
+  const { SavedProductsProvider } = modules.savedProducts;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries },
       React.createElement(VehicleProvider, null,
         React.createElement(CompareProvider, null,
           React.createElement(RecentlyViewedProvider, null,
-            React.createElement(ConfiguratorProvider, null, element),
+            React.createElement(SavedProductsProvider, null,
+              React.createElement(ConfiguratorProvider, null, element),
+            ),
           ),
         ),
       ),
