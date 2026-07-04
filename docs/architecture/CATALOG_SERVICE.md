@@ -96,3 +96,7 @@ This PR does not:
 ## Shopify Storefront Collection Sync Consumer
 
 `SHOPIFY_STOREFRONT_COLLECTION_SYNC.md` documents a read-only consumer of this service's category and search read paths. `shopifyStorefrontCollectionService` resolves a category via `catalogService.getCategory(categoryId)` and its product count via `catalogService.searchProducts({ filter: { categoryId } })` — the same synchronous, typed reads this service already exposes to `CategoryTemplate` and Product Discovery. No new method was added to `CatalogService`; `Category` gained one additive, optional `shopify` metadata field (mirroring `Product.shopify`) so a future sync source has somewhere to record Shopify collection identifiers.
+
+## Shopify Storefront Catalog Adapter
+
+`SHOPIFY_STOREFRONT_CATALOG_ADAPTER.md` documents the first foundation to change what this service's read methods can return, not just read from them. `getProduct`, `listProducts`, `getCategory`, `listCategories`, and `searchProducts` now consult `catalogAdapterService`'s in-memory snapshot first, falling back to the unchanged typed loaders whenever no live sync has succeeded — the `CatalogService` interface above is otherwise identical to what shipped in this service's original PR. `listVerticals`/`getVertical` are unaffected and always loader-based.
