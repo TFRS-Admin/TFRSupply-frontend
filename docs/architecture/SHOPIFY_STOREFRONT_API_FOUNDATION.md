@@ -100,3 +100,7 @@ The Shopify Storefront Collection Sync Foundation is documented in [SHOPIFY_STOR
 ## Shopify Storefront Live Configuration Readiness
 
 The Shopify Storefront Live Configuration Readiness foundation is documented in [SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md](./SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md). It reads frontend-safe env variables (`VITE_SHOPIFY_STORE_DOMAIN`, `VITE_SHOPIFY_STOREFRONT_API_VERSION`, `VITE_SHOPIFY_STOREFRONT_ENABLED`) and reports `shopifyStorefrontService.getCapabilities()`'s `adapterMode` as part of an aggregated `ShopifyStorefrontCapabilitySummary`, alongside a config validation result and a fixed `liveAdapterReady: false` (since no Storefront access token can be present in frontend-safe env config). It introduces no new adapter, no new operation type, and no live API call, and it never changes this foundation's default `unavailableShopifyStorefrontAdapter` selection.
+
+## Shopify Storefront Runtime Readiness
+
+The Shopify Storefront Runtime Readiness foundation is documented in [SHOPIFY_STOREFRONT_RUNTIME_READINESS.md](./SHOPIFY_STOREFRONT_RUNTIME_READINESS.md). It reads this foundation's `shopifyStorefrontService.getCapabilities()`'s `adapterMode`/`dryRunOnly`/`liveCallsEnabled` into a developer-facing capability matrix row alongside the Cart Adapter, Product Sync, Collection Sync, and Checkout URL Preview foundations, surfaced only on the developer-only `/dev/storefront` dashboard. It adds no new operation type, adapter, or live API call to this foundation.

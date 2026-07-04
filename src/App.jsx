@@ -35,6 +35,7 @@ import AdminLoginPage from '@/pages/AdminLoginPage';
 import ComponentShowcase from '@/pages/ComponentShowcase';
 import ResourcesPage from '@/pages/ResourcesPage.jsx';
 import AdminAuthGuard from '@/components/AdminAuthGuard';
+import DevStorefrontDashboard from '@/pages/DevStorefrontDashboard';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -101,6 +102,7 @@ const AuthenticatedApp = () => {
         } />
         <Route path="/showcase" element={<ComponentShowcase />} />
         <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
+        <Route path="/dev/storefront" element={<DevStorefrontDashboard />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <CompareTray />
