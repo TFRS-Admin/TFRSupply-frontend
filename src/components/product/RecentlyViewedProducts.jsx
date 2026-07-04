@@ -15,6 +15,7 @@ function toCardProps(product) {
     image: product.media?.hero || product.images?.[0]?.src,
     tagline: product.subtitle,
     badges: product.marketing?.features?.slice(0, 2) ?? [],
+    product,
   };
 }
 

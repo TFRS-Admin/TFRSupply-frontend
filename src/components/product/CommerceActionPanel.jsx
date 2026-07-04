@@ -5,6 +5,7 @@ import { commerceService } from '@/services/commerce';
 import appConfig from '@/config/appConfig';
 import CompareToggleButton from '@/components/product/CompareToggleButton';
 import SaveForLaterButton from '@/components/product/SaveForLaterButton';
+import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCompatibleBuildsButton';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 const SALES_PHONE = '800-621-9959';
@@ -83,6 +84,7 @@ export default function CommerceActionPanel({ product }) {
           <ActionButton href={`tel:${SALES_PHONE}`} icon={Phone} label="Contact Sales" />
           <CompareToggleButton productId={product.id} variant="inline" />
           <SaveForLaterButton productId={product.id} variant="inline" />
+          <AddToAllCompatibleBuildsButton product={product} variant="inline" />
         </div>
         {cartMessage && (
           <p style={{ ...FS, fontSize: 12, color: '#888', marginTop: 10 }}>{cartMessage}</p>

@@ -22,6 +22,7 @@ before(async () => {
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
+    fleetBuilds: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
   };
 });
 
@@ -35,13 +36,16 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { CompareProvider } = modules.compareContext;
   const { ConfiguratorProvider } = modules.configurator;
   const { SavedProductsProvider } = modules.savedProducts;
+  const { FleetBuildsProvider } = modules.fleetBuilds;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries },
       React.createElement(VehicleProvider, null,
         React.createElement(CompareProvider, null,
           React.createElement(SavedProductsProvider, null,
-            React.createElement(ConfiguratorProvider, null, element),
+            React.createElement(FleetBuildsProvider, null,
+              React.createElement(ConfiguratorProvider, null, element),
+            ),
           ),
         ),
       ),

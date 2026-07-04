@@ -26,11 +26,13 @@ import { useRecentlyViewed } from '@/context/RecentlyViewedContext';
 import { useCompare, MAX_COMPARE_PRODUCTS } from '@/context/CompareContext';
 import { useVehicle } from '@/context/VehicleContext';
 import { useConfigurator } from '@/context/ConfiguratorContext';
+import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useMiniCart } from '@/hooks/cartWorkspace';
 import { catalogService } from '@/services/catalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import { resolveSavedProducts } from '@/components/product/SavedProductsSection';
 import { resolveRecentlyViewedProducts } from '@/components/product/RecentlyViewedProducts';
+import FleetBuildsWorkspaceSection from '@/components/fleetBuilds/FleetBuildsWorkspaceSection';
 import appConfig from '@/config/appConfig';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -43,6 +45,7 @@ function toCardProps(product) {
     image: product.media?.hero || product.images?.[0]?.src,
     tagline: product.subtitle,
     badges: product.marketing?.features?.slice(0, 2) ?? [],
+    product,
   };
 }
 
@@ -109,6 +112,7 @@ export function WorkspaceDashboardView({
   savedProducts,
   recentlyViewedProducts,
   compareProducts,
+  fleetBuilds = [],
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -118,6 +122,7 @@ export function WorkspaceDashboardView({
   onRemoveFromCompare,
   onClearCompare,
   onOpenVehicleModal,
+  onOpenFleetBuilds,
 }) {
   const cartHasItems = (cartSummary?.itemCount ?? 0) > 0;
   const hasInProgressConfiguration = Boolean(configuratorState?.selectedFamily);
@@ -263,6 +268,8 @@ export function WorkspaceDashboardView({
           </WorkspaceSectionCard>
         </div>
 
+        <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
+
         {/* Saved Products */}
         <section style={{ marginBottom: 32 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
@@ -321,8 +328,12 @@ export default function WorkspaceDashboard() {
   const { productIds: compareIds, removeFromCompare, clearCompare } = useCompare();
   const { selectedVehicle } = useVehicle();
   const { state: configuratorState } = useConfigurator();
+  const { builds: fleetBuilds } = useFleetBuilds();
   const { summary: cartSummary, loading: cartLoading } = useMiniCart();
-  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  // null = closed; 'shop' | 'fleet' selects which VehicleSelectorModal tab
+  // opens — the Selected Vehicle card and the Fleet Builds section share one
+  // modal instance instead of each managing its own.
+  const [vehicleModalTab, setVehicleModalTab] = useState(null);
 
   const savedProducts = resolveSavedProducts(savedIds);
   const recentlyViewedProducts = resolveRecentlyViewedProducts(recentIds);
@@ -334,6 +345,7 @@ export default function WorkspaceDashboard() {
         savedProducts={savedProducts}
         recentlyViewedProducts={recentlyViewedProducts}
         compareProducts={compareProducts}
+        fleetBuilds={fleetBuilds}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}
@@ -342,9 +354,10 @@ export default function WorkspaceDashboard() {
         onClearRecentlyViewed={clearRecentlyViewed}
         onRemoveFromCompare={removeFromCompare}
         onClearCompare={clearCompare}
-        onOpenVehicleModal={() => setVehicleModalOpen(true)}
+        onOpenVehicleModal={() => setVehicleModalTab('shop')}
+        onOpenFleetBuilds={() => setVehicleModalTab('fleet')}
       />
-      {vehicleModalOpen && <VehicleSelectorModal onClose={() => setVehicleModalOpen(false)} />}
+      {vehicleModalTab && <VehicleSelectorModal initialTab={vehicleModalTab} onClose={() => setVehicleModalTab(null)} />}
     </>
   );
 }
