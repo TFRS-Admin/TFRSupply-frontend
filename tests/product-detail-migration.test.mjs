@@ -16,6 +16,7 @@ before(async () => {
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
+    compare: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
   };
 });
 
@@ -27,11 +28,14 @@ function renderWithProviders(element) {
   const { MemoryRouter } = modules.router;
   const { VehicleProvider } = modules.vehicle;
   const { ConfiguratorProvider } = modules.configurator;
+  const { CompareProvider } = modules.compare;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries: ['/fire/light-bars/navigator'] },
       React.createElement(VehicleProvider, null,
-        React.createElement(ConfiguratorProvider, null, element),
+        React.createElement(CompareProvider, null,
+          React.createElement(ConfiguratorProvider, null, element),
+        ),
       ),
     ),
   );
