@@ -6,6 +6,7 @@ import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
 import SavedProductsButton from '@/components/navigator/SavedProductsButton';
+import WorkspaceButton from '@/components/navigator/WorkspaceButton';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 
@@ -148,6 +149,9 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
               )}
             </button>
 
+            {/* Workspace */}
+            <WorkspaceButton />
+
             {/* Saved products */}
             <SavedProductsButton />
 
@@ -238,6 +242,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         onSubmitSearch={submitSearch}
         selectedVehicle={selectedVehicle}
         onOpenVehicleModal={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
+        onNavigateWorkspace={() => { navigate('/workspace'); setMobileOpen(false); }}
         activeVerticalId={verticalId}
         utilityLinks={UTILITY_LINKS}
       />
