@@ -27,3 +27,4 @@ export { createCustomerWorkspaceService, customerWorkspaceService, buildCustomer
 export { createShopifyStorefrontService, shopifyStorefrontService, type ShopifyStorefrontService } from './shopifyStorefront';
 export { createShopifyStorefrontProductService, shopifyStorefrontProductService, buildStorefrontProductMapping, type ShopifyStorefrontProductService } from './shopifyStorefrontProduct';
 export { catalogAdapterService, createCatalogAdapterService, type CatalogAdapterService } from './catalogAdapter';
+export { createShopifyStorefrontRuntimeService, shopifyStorefrontRuntimeService, type ShopifyStorefrontRuntimeService } from './shopifyStorefrontRuntime';
