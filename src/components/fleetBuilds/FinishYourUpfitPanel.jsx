@@ -14,11 +14,12 @@
  * used throughout src/pages and src/components/product.
  */
 import React, { useState } from 'react';
-import { Wrench, ArrowRight, Copy, ShieldCheck } from 'lucide-react';
+import { Wrench, ArrowRight, Copy, ShieldCheck, ListChecks } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
+import { useUpfitBuilder } from '@/context/UpfitBuilderContext';
 import {
   calculateFleetBuildCompletion,
   classifyProductUpfitCategory,
@@ -28,6 +29,7 @@ import {
   getUpfitCategoryLabel,
 } from '@/domain/fleetBuilds';
 import { evaluateFleetBuildIntelligence, resolveEffectiveStandard } from '@/domain/departmentStandards';
+import { isCategoryStep, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
 import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import SectionHeading from '@/components/product/SectionHeading';
@@ -115,6 +117,47 @@ function DepartmentStandardStatus({ report, currentProductCategoryId, onAddToAct
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
+/**
+ * Guided Vehicle Upfit Builder integration — a "Continue Guided Build" CTA
+ * plus, when the guided flow's current step is one of the 12 upfit
+ * categories, an "Add to This Step" action that adds the current product
+ * directly to that category (bypassing classifyProductUpfitCategory, since
+ * the guided step already names the target category explicitly). Renders
+ * even with no guided progress yet, as a "Start Guided Build" entry point.
+ */
+function GuidedBuildStatus({ stepId, onAddToStep }) {
+  const stepLabel = stepId ? getUpfitBuilderStepLabel(stepId) : null;
+  const canAddHere = Boolean(stepId) && isCategoryStep(stepId);
+
+  return (
+    <div
+      style={{ ...FS, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginTop: 10 }}
+      data-testid="finish-your-upfit-guided-status"
+    >
+      {stepLabel && (
+        <span style={{ fontSize: 12, color: '#666' }}>
+          Guided Step: <strong style={{ color: '#1a1a1a' }}>{stepLabel}</strong>
+        </span>
+      )}
+      {canAddHere && (
+        <button
+          type="button"
+          onClick={onAddToStep}
+          style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#1a2744', background: 'none', border: '1.5px solid #1a2744', borderRadius: 2, padding: '6px 10px', cursor: 'pointer' }}
+        >
+          Add to This Step
+        </button>
+      )}
+      <a
+        href="/upfit-builder"
+        style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#c8102e', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+      >
+        <ListChecks size={12} /> {stepLabel ? 'Continue Guided Build' : 'Start Guided Build'} <ArrowRight size={12} />
+      </a>
+    </div>
+  );
+}
+
 function getProductVerticalIds(productId) {
   return catalogService.getProduct(productId)?.verticalIds ?? null;
 }
@@ -159,8 +202,8 @@ function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
 
 export function FinishYourUpfitPanelView({
   builds, activeBuild, product, templates = [], appliedTemplate = null, activeProject = null,
-  effectiveStandard = null,
-  onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild,
+  effectiveStandard = null, currentGuidedStepId = null,
+  onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild, onAddToCurrentStep,
 }) {
   if (!builds || builds.length === 0) return null;
 
@@ -186,6 +229,8 @@ export function FinishYourUpfitPanelView({
             <strong style={{ color: '#1a1a1a' }}>Current Template:</strong> {appliedTemplate ? appliedTemplate.name : 'None applied'}
           </span>
         </div>
+
+        <GuidedBuildStatus stepId={currentGuidedStepId} onAddToStep={onAddToCurrentStep} />
 
         {!activeBuild ? (
           <>
@@ -285,10 +330,12 @@ export default function FinishYourUpfitPanel({ product }) {
   const { templates, touchUsage } = useFleetTemplates();
   const { activeProject } = useFleetProject();
   const { companyStandards } = useDepartmentStandards();
+  const { getCurrentStepId } = useUpfitBuilder();
   const [modalOpen, setModalOpen] = useState(false);
   const [cloneDialogOpen, setCloneDialogOpen] = useState(false);
 
   const effectiveStandard = activeBuild ? resolveEffectiveStandard(activeBuild, activeProject, companyStandards) : null;
+  const currentGuidedStepId = activeBuild ? getCurrentStepId(activeBuild.id) : null;
 
   const appliedTemplate = getTemplateById(templates, activeBuild?.templateId);
 
@@ -305,6 +352,15 @@ export default function FinishYourUpfitPanel({ product }) {
     toast({
       title: 'Added to active build',
       description: `${product.title ?? product.label ?? 'Product'} added to ${getUpfitCategoryLabel(category)} for "${activeBuild.name}".`,
+    });
+  }
+
+  function handleAddToCurrentStep() {
+    if (!activeBuild || !isCategoryStep(currentGuidedStepId)) return;
+    addProductToActiveBuild(currentGuidedStepId, product);
+    toast({
+      title: 'Added to guided step',
+      description: `${product.title ?? product.label ?? 'Product'} added to ${getUpfitBuilderStepLabel(currentGuidedStepId)} for "${activeBuild.name}".`,
     });
   }
 
@@ -338,10 +394,12 @@ export default function FinishYourUpfitPanel({ product }) {
         appliedTemplate={appliedTemplate}
         activeProject={activeProject}
         effectiveStandard={effectiveStandard}
+        currentGuidedStepId={currentGuidedStepId}
         onAddToActiveBuild={handleAddToActiveBuild}
         onOpenFleetBuilds={() => setModalOpen(true)}
         onApplyTemplate={handleApplyTemplate}
         onCloneActiveBuild={() => setCloneDialogOpen(true)}
+        onAddToCurrentStep={handleAddToCurrentStep}
       />
       {modalOpen && <VehicleSelectorModal initialTab="fleet" onClose={() => setModalOpen(false)} />}
       {cloneDialogOpen && activeBuild && (

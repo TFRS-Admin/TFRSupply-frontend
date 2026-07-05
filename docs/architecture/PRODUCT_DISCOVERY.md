@@ -33,6 +33,7 @@ ProductSearchPage → useProductSearch / useCatalogLists → catalogService.sear
 - Calls `useProductSearch().search({ query, filter: { verticalId, categoryId } })` whenever the URL-derived query or filters change.
 - Renders results as `ProductCard`s linking to `resolveProductDetailPath(product)`; a product with no vertical/category association renders as a non-clickable "Details coming soon" card instead of a broken link.
 - Shows a loading count, an empty-state message when a search/filter combination matches nothing, and a "Browse All Products" heading when no query is present.
+- Also reads two additive query params from the Guided Vehicle Upfit Builder's "Browse" CTA (`GUIDED_UPFIT_BUILDER.md`): `upfitCategory` and `guidedBuild=1` (plus `fleetProjectId`/`fleetBuildId` when known). When `guidedBuild=1` is present, the page shows a "Recommended for this build" banner naming the upfit category and a link back to `/upfit-builder` — these params never filter or gate the search results themselves, which still come from the same `q`-driven free-text `searchProducts()` call every other visitor triggers.
 
 ## CTA Flow
 

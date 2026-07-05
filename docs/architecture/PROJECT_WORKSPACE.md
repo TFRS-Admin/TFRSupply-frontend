@@ -20,12 +20,14 @@ It is **not** a CRM, not authentication, and not a customer account system. No l
 | Recently Viewed | `resolveRecentlyViewedProducts` (`RecentlyViewedProducts`), `useRecentlyViewed` (`RecentlyViewedContext`), `ProductCard` |
 | Fleet Readiness (`WorkspaceFleetIntelligenceSection`) | `summarizeFleetHealth` (Fleet Intelligence & Department Standards, `FLEET_INTELLIGENCE.md`) across every Fleet Project's builds |
 | Department Standards (`DepartmentStandardsSection`) | `useDepartmentStandards` (`DepartmentStandardsContext`) — browse the 12 default standards and any saved company standards, clone/rename/delete/edit tiers |
+| Guided Upfit Builder (`GuidedUpfitBuilderWorkspaceSection`) | `buildGuidedUpfitChecklist`/`useUpfitBuilder` (Guided Vehicle Upfit Builder, `GUIDED_UPFIT_BUILDER.md`) — the active Fleet Build's guided-completion percent and next recommended step, with a link into `/upfit-builder` |
 
 `src/pages/WorkspaceDashboard.jsx` exports `resolveCompareQueueProducts(productIds, { getProduct })` — a pure id → product resolution for the Compare Queue section, following the same `resolveSavedProducts`/`resolveRecentlyViewedProducts` pattern (drops any id that no longer resolves to a catalog product). It also exports `WorkspaceDashboardView`, a pure presentational component (no context/router required beyond `SiteHeader`'s own dependencies) split from the connected `WorkspaceDashboard` default export, matching the `SavedProductsPageView`/`ComparePageView` convention already used in `src/pages`.
 
 ## Placement
 
 - **`/workspace`**: the full dashboard — `WorkspaceDashboard`, routed in `src/App.jsx` inside the same provider nesting (`VehicleProvider`/`CompareProvider`/`RecentlyViewedProvider`/`SavedProductsProvider`/`ConfiguratorProvider`) every other customer route already uses.
+- **`/upfit-builder`**: the Guided Vehicle Upfit Builder wizard, a separate route sharing the same provider stack plus `UpfitBuilderProvider` — see `GUIDED_UPFIT_BUILDER.md`.
 - **Header** (`SiteHeader.jsx`): `WorkspaceButton` (`src/components/navigator/WorkspaceButton.jsx`) sits in the header's right-actions cluster, next to the vehicle selector button. It is desktop-only (`hidden md:flex`), matching the vehicle-selector button's existing responsive rule — see Mobile Layout below for why.
 - **Mobile drawer** (`MobileNavDrawer.jsx`): a "My Workspace" entry sits directly below the vehicle selector button, wired through a new `onNavigateWorkspace` prop threaded from `SiteHeader`.
 

@@ -22,6 +22,7 @@ before(async () => {
     fleetTemplatesContext: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
     configuratorContext: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     departmentStandardsContext: await server.ssrLoadModule('/src/context/DepartmentStandardsContext.jsx'),
+    upfitBuilderContext: await server.ssrLoadModule('/src/context/UpfitBuilderContext.jsx'),
     workspaceFleetIntelligenceSection: await server.ssrLoadModule('/src/components/workspace/WorkspaceFleetIntelligenceSection.jsx'),
     departmentStandardsSection: await server.ssrLoadModule('/src/components/departmentStandards/DepartmentStandardsSection.jsx'),
     departmentStandardBadge: await server.ssrLoadModule('/src/components/departmentStandards/DepartmentStandardBadge.jsx'),
@@ -62,6 +63,7 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { FleetBuildsProvider } = modules.fleetBuildsContext;
   const { FleetTemplatesProvider } = modules.fleetTemplatesContext;
   const { DepartmentStandardsProvider } = modules.departmentStandardsContext;
+  const { UpfitBuilderProvider } = modules.upfitBuilderContext;
   const { ConfiguratorProvider } = modules.configuratorContext;
 
   return stripHtmlComments(renderToString(
@@ -74,7 +76,9 @@ function renderWithProviders(element, initialEntries = ['/']) {
                 React.createElement(FleetBuildsProvider, null,
                   React.createElement(FleetTemplatesProvider, null,
                     React.createElement(DepartmentStandardsProvider, null,
-                      React.createElement(ConfiguratorProvider, null, element),
+                      React.createElement(UpfitBuilderProvider, null,
+                        React.createElement(ConfiguratorProvider, null, element),
+                      ),
                     ),
                   ),
                 ),

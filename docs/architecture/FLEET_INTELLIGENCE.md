@@ -35,6 +35,8 @@ It returns `null` when `standard` is `null` — a build with no standard assigne
 
 No products are hardcoded anywhere in this engine — it only ever compares `UpfitCategoryId` sets already produced by the existing `classifyProductUpfitCategory`/`FleetBuild.selections` data.
 
+**Reused by the Guided Vehicle Upfit Builder.** `src/domain/upfitBuilder/guidedChecklist.ts`'s `buildGuidedUpfitChecklist(build, standard, skippedStepIds)` calls `evaluateFleetBuildIntelligence` directly for its per-category tiers, `completionPercent`, and `departmentCompliant` — it does not re-derive or duplicate this engine's scoring, only adds a step-by-step UI and per-build skip-tracking on top. See `GUIDED_UPFIT_BUILDER.md`.
+
 ## Assigning a standard (Feature 7)
 
 `FleetBuild.departmentStandardId` and `FleetProject.departmentStandardId` are both optional strings (a default standard's key or a company standard's id). `resolveAssignedStandardId(build, project)` (`src/domain/departmentStandards/standardAssignment.ts`) prefers the build's own assignment, falling back to its project's; `resolveEffectiveStandard` resolves that id into the full record across both defaults and company standards. `AssignStandardControl` (`src/components/departmentStandards/AssignStandardControl.jsx`) is the one `<select>` control reused on both `FleetBuildCard` (assign to an individual build) and `FleetProjectCard` (assign to a project) — assigning at the project level sets every build without its own explicit assignment to inherit it.
