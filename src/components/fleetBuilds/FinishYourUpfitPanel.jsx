@@ -30,13 +30,47 @@ import {
 } from '@/domain/fleetBuilds';
 import { evaluateFleetBuildIntelligence, resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { isCategoryStep, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
+import { generateRecommendations, resolveRecommendationProducts, resolveRelatedProductIdsForBuild } from '@/domain/recommendations';
 import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import SectionHeading from '@/components/product/SectionHeading';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+import RecommendationCard, { RecommendationCardGrid } from '@/components/recommendations/RecommendationCard';
 import FleetBuildCompletionBadge from './FleetBuildCompletionBadge';
 import AddToAllCompatibleBuildsButton from './AddToAllCompatibleBuildsButton';
 import CloneBuildDialog, { summarizeCompatibilityResult } from './CloneBuildDialog';
+
+const MAX_RECOMMENDED_NEXT_PRODUCTS = 3;
+
+/**
+ * Vehicle Build Recommendations Engine — "top 3 products based on current
+ * build gaps." Distinct from DepartmentStandardStatus's own "Recommended
+ * Next Products" list above (which only names missing categories); this
+ * shows real, scored catalog products with reasons, ranked by
+ * generateRecommendations.
+ */
+function RecommendedNextProducts({ recommendedProducts, onAddToActiveBuild }) {
+  return (
+    <div style={{ ...FS, marginTop: 22, paddingTop: 18, borderTop: '1px solid #eee' }} data-testid="finish-your-upfit-recommended-products">
+      <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>Recommended Products for This Build</h3>
+      {recommendedProducts.length > 0 ? (
+        <RecommendationCardGrid>
+          {recommendedProducts.map(({ recommendation, product }) => (
+            <RecommendationCard
+              key={product.id}
+              recommendation={recommendation}
+              product={product}
+              onAddToBuild={onAddToActiveBuild}
+              addLabel="Add to Active Build"
+            />
+          ))}
+        </RecommendationCardGrid>
+      ) : (
+        <p style={{ fontSize: 13, color: '#888', margin: 0 }}>No additional product recommendations right now.</p>
+      )}
+    </div>
+  );
+}
 
 function browseCategoryHref(categoryLabel) {
   return `/search?q=${encodeURIComponent(categoryLabel)}`;
@@ -202,8 +236,8 @@ function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
 
 export function FinishYourUpfitPanelView({
   builds, activeBuild, product, templates = [], appliedTemplate = null, activeProject = null,
-  effectiveStandard = null, currentGuidedStepId = null,
-  onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild, onAddToCurrentStep,
+  effectiveStandard = null, currentGuidedStepId = null, recommendedProducts = [],
+  onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild, onAddToCurrentStep, onAddRecommendedProduct,
 }) {
   if (!builds || builds.length === 0) return null;
 
@@ -299,6 +333,8 @@ export function FinishYourUpfitPanelView({
               />
             )}
 
+            <RecommendedNextProducts recommendedProducts={recommendedProducts} onAddToActiveBuild={onAddRecommendedProduct} />
+
             <div style={{ ...FS, marginTop: 20, paddingTop: 16, borderTop: '1px solid #eee' }}>
               <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#999', marginBottom: 8 }}>
                 Current Template
@@ -339,6 +375,18 @@ export default function FinishYourUpfitPanel({ product }) {
 
   const appliedTemplate = getTemplateById(templates, activeBuild?.templateId);
 
+  const recommendedProducts = activeBuild
+    ? resolveRecommendationProducts(
+      generateRecommendations(catalogService.listProducts(), {
+        build: activeBuild,
+        standard: effectiveStandard,
+        currentStepCategoryId: isCategoryStep(currentGuidedStepId) ? currentGuidedStepId : null,
+        relatedProductIds: resolveRelatedProductIdsForBuild(activeBuild, { getProduct: catalogService.getProduct }),
+      }, { limit: MAX_RECOMMENDED_NEXT_PRODUCTS }),
+      catalogService.getProduct,
+    )
+    : [];
+
   function handleAddToActiveBuild() {
     const category = classifyProductUpfitCategory(product);
     if (!category) {
@@ -361,6 +409,16 @@ export default function FinishYourUpfitPanel({ product }) {
     toast({
       title: 'Added to guided step',
       description: `${product.title ?? product.label ?? 'Product'} added to ${getUpfitBuilderStepLabel(currentGuidedStepId)} for "${activeBuild.name}".`,
+    });
+  }
+
+  function handleAddRecommendedProduct(recommendedProduct, recommendation) {
+    const category = recommendation.matchingCategoryId ?? classifyProductUpfitCategory(recommendedProduct);
+    if (!activeBuild || !category) return;
+    addProductToActiveBuild(category, recommendedProduct);
+    toast({
+      title: 'Added to active build',
+      description: `${recommendedProduct.title ?? recommendedProduct.label ?? 'Product'} added to ${getUpfitCategoryLabel(category)} for "${activeBuild.name}".`,
     });
   }
 
@@ -395,11 +453,13 @@ export default function FinishYourUpfitPanel({ product }) {
         activeProject={activeProject}
         effectiveStandard={effectiveStandard}
         currentGuidedStepId={currentGuidedStepId}
+        recommendedProducts={recommendedProducts}
         onAddToActiveBuild={handleAddToActiveBuild}
         onOpenFleetBuilds={() => setModalOpen(true)}
         onApplyTemplate={handleApplyTemplate}
         onCloneActiveBuild={() => setCloneDialogOpen(true)}
         onAddToCurrentStep={handleAddToCurrentStep}
+        onAddRecommendedProduct={handleAddRecommendedProduct}
       />
       {modalOpen && <VehicleSelectorModal initialTab="fleet" onClose={() => setModalOpen(false)} />}
       {cloneDialogOpen && activeBuild && (

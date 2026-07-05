@@ -1,0 +1,13 @@
+export { RECOMMENDATION_SCORE_WEIGHTS } from './scoringWeights';
+export { getSelectedProductIds, categoryHasIncompatibleSelection, resolveRelatedProductIdsForBuild } from './buildContext';
+export type { RelatedProductIdsDeps } from './buildContext';
+export { scoreProductForBuild } from './scoreProduct';
+export type { RecommendationScoringContext } from './scoreProduct';
+export { generateRecommendations } from './generateRecommendations';
+export type { GenerateRecommendationsOptions } from './generateRecommendations';
+export { groupProductRelationships } from './productRelationships';
+export type { ProductRelationshipGroups, GroupProductRelationshipsOptions } from './productRelationships';
+export { summarizeRecommendedNextActions } from './workspaceSummary';
+export type { RecommendedNextAction, FleetBuildStandardEntry, SummarizeRecommendedNextActionsOptions } from './workspaceSummary';
+export { resolveRecommendationProducts } from './resolveRecommendationProducts';
+export type { RecommendationWithProduct } from './resolveRecommendationProducts';

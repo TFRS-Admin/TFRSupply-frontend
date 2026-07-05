@@ -16,12 +16,14 @@ import { ShieldCheck } from 'lucide-react';
 import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
 import { getStandardsForProduct, getRequiredByStandards, getRecommendedForStandards } from '@/domain/departmentStandards';
 import { resolveRelatedProducts } from '@/domain/catalog';
+import { groupProductRelationships } from '@/domain/recommendations';
 import { catalogService } from '@/services/catalog';
 import SectionHeading from './SectionHeading';
 import ProductCard from './ProductCard';
 import { StandardTierChip } from '@/components/departmentStandards/DepartmentStandardBadge';
 
 const MAX_COMMONLY_INSTALLED = 3;
+const MAX_RELATIONSHIP_GROUP = 3;
 
 function toCardProps(candidate, verticalId, categoryId) {
   return {
@@ -44,8 +46,12 @@ function StandardNameList({ standards, emptyLabel }) {
   );
 }
 
-export function ProductIntelligencePanelView({ product, matches, commonlyInstalledWith, verticalId, categoryId }) {
-  if (matches.length === 0 && commonlyInstalledWith.length === 0) return null;
+export function ProductIntelligencePanelView({
+  product, matches, commonlyInstalledWith, relationshipGroups = { companions: [], upgrades: [] }, verticalId, categoryId,
+}) {
+  const { companions, upgrades } = relationshipGroups;
+  const hasRelationshipGroups = companions.length > 0 || upgrades.length > 0;
+  if (matches.length === 0 && commonlyInstalledWith.length === 0 && !hasRelationshipGroups) return null;
 
   const requiredBy = getRequiredByStandards(matches);
   const recommendedFor = getRecommendedForStandards(matches);
@@ -81,10 +87,32 @@ export function ProductIntelligencePanelView({ product, matches, commonlyInstall
         )}
 
         {commonlyInstalledWith.length > 0 && (
-          <div>
+          <div style={{ marginBottom: hasRelationshipGroups ? 32 : 0 }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 14 }}>Commonly Installed With</h3>
             <div className="pi-commonly-installed-grid grid grid-cols-1 md:grid-cols-3 gap-6">
               {commonlyInstalledWith.map((candidate) => (
+                <ProductCard key={candidate.id} {...toCardProps(candidate, verticalId, categoryId)} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {companions.length > 0 && (
+          <div style={{ marginBottom: upgrades.length > 0 ? 32 : 0 }} data-testid="product-intelligence-companions">
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 14 }}>Companion Products</h3>
+            <div className="pi-companion-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+              {companions.map((candidate) => (
+                <ProductCard key={candidate.id} {...toCardProps(candidate, verticalId, categoryId)} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {upgrades.length > 0 && (
+          <div data-testid="product-intelligence-upgrades">
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 14 }}>Upgrade / Alternative Products</h3>
+            <div className="pi-upgrade-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+              {upgrades.map((candidate) => (
                 <ProductCard key={candidate.id} {...toCardProps(candidate, verticalId, categoryId)} />
               ))}
             </div>
@@ -98,21 +126,29 @@ export function ProductIntelligencePanelView({ product, matches, commonlyInstall
 export default function ProductIntelligencePanel({ product, verticalId, categoryId }) {
   const { allStandards } = useDepartmentStandards();
 
+  const relatedProductsDeps = {
+    getProduct: (id) => catalogService.getProduct(id),
+    searchByCategory: (catId) => catalogService.searchProducts({ filter: { categoryId: catId } }).products,
+  };
+
   const matches = useMemo(() => getStandardsForProduct(product, allStandards), [product, allStandards]);
   const commonlyInstalledWith = useMemo(() => resolveRelatedProducts(
     product,
-    {
-      getProduct: (id) => catalogService.getProduct(id),
-      searchByCategory: (catId) => catalogService.searchProducts({ filter: { categoryId: catId } }).products,
-    },
+    relatedProductsDeps,
     MAX_COMMONLY_INSTALLED,
   ), [product]);
+  const relationshipGroups = useMemo(() => groupProductRelationships(
+    product,
+    relatedProductsDeps,
+    { limit: MAX_RELATIONSHIP_GROUP, excludeProductIds: commonlyInstalledWith.map((candidate) => candidate.id) },
+  ), [product, commonlyInstalledWith]);
 
   return (
     <ProductIntelligencePanelView
       product={product}
       matches={matches}
       commonlyInstalledWith={commonlyInstalledWith}
+      relationshipGroups={relationshipGroups}
       verticalId={verticalId}
       categoryId={categoryId}
     />

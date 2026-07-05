@@ -54,6 +54,8 @@ It buckets each build's `quantity` (vehicle count, mirroring `FleetProjectSummar
 
 `FinishYourUpfitPanel` keeps its existing build-style-based "Missing Upfit Categories"/"Suggested Next Categories" columns unchanged, and adds a new block underneath (only when the active build has an effective standard): "Department Standard: {name}," Missing Required Equipment, Missing Recommended Equipment, and "Recommended Next Products" — for each of the first 5 missing required/recommended categories, an "Add {category}" action when it matches the current product's own classified category (reusing the existing `onAddToActiveBuild` handler), or a "Browse {category}" link. That link reuses the existing `/search?q=` free-text query (`ProductSearchPage`) rather than introducing a second recommendation engine or a new upfit-category-to-catalog-category mapping.
 
+The Vehicle Build Recommendations Engine (`VEHICLE_BUILD_RECOMMENDATIONS.md`) later added a separate "Recommended Products for This Build" block further down the panel — real, scored catalog products (not just category names) via `generateRecommendations`. It is additive and distinct from the category-name list above, which is unchanged.
+
 ## Feature 5: Product Intelligence
 
 `ProductIntelligencePanel` (`src/components/product/ProductIntelligencePanel.jsx`), composed onto `ProductDetailTemplateView` directly after `FinishYourUpfitPanel`, shows:
@@ -61,6 +63,7 @@ It buckets each build's `quantity` (vehicle count, mirroring `FleetProjectSummar
 - **Recommended For** / **Required By** — `getStandardsForProduct(product, standards)` (`src/domain/departmentStandards/productIntelligence.ts`) classifies the product into its upfit category via the existing `classifyProductUpfitCategory` and matches it against every standard's tiers (one match per standard, its highest-priority tier). "Required By" is the subset matched at the `required` tier; "Recommended For" is `required` or `recommended` (a product required by one department is also, generally, worth recommending).
 - **Department Standards** — the full tier-by-tier match list (every standard referencing this product's category, with its tier badge), a complete reference table beyond the curated Recommended For/Required By lists.
 - **Commonly Installed With** — reuses `resolveRelatedProducts` (extracted from `RecommendedProducts.jsx` into `src/domain/catalog/relatedProducts.ts`): `product.commerce.related_products` first, then same-category catalog products. This is the same relationship data `RecommendedProducts` already reads, not a second recommendation engine, per this feature's explicit "no duplicate recommendation engine" requirement.
+- **Companion Products** / **Upgrade / Alternative Products** — added by the Vehicle Build Recommendations Engine (`VEHICLE_BUILD_RECOMMENDATIONS.md`): `groupProductRelationships` splits the same `resolveRelatedProducts` data into a different-category "companions" group and a same-category "upgrades/alternatives" group (excluding whatever "Commonly Installed With" already shows), rather than introducing a third relationship source.
 
 No AI and no network calls — every field above reads `catalogService` or `DepartmentStandardsContext` synchronously.
 

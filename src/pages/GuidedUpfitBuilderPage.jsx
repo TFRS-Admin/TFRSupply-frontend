@@ -42,6 +42,7 @@ import {
   getUpfitBuilderStepLabel,
   UPFIT_BUILDER_STEP_SEQUENCE,
 } from '@/domain/upfitBuilder';
+import { generateRecommendations, resolveRecommendationProducts, resolveRelatedProductIdsForBuild } from '@/domain/recommendations';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 import UpfitBuilderStepperSidebar from '@/components/upfitBuilder/UpfitBuilderStepperSidebar';
@@ -64,6 +65,7 @@ export function GuidedUpfitBuilderPageView({
   stepperItems,
   checklist,
   suggestedProducts,
+  recommendations = [],
   browseHref,
   onAddProductToCategory, onRemoveProductFromCategory,
   onSkipStep, onUnskipStep,
@@ -135,6 +137,7 @@ export function GuidedUpfitBuilderPageView({
         <UpfitBuilderCategoryStep
           step={step}
           suggestedProducts={suggestedProducts}
+          recommendations={recommendations}
           browseHref={browseHref}
           onAddProduct={(product) => onAddProductToCategory(currentStepId, product)}
           onRemoveProduct={(productId) => onRemoveProductFromCategory(currentStepId, productId)}
@@ -229,6 +232,17 @@ export default function GuidedUpfitBuilderPage() {
   const suggestedProducts = isCategoryStep(currentStepId)
     ? resolveSuggestedProductsForCategory(currentStepId, { searchProducts: catalogService.searchProducts })
     : [];
+  const recommendations = isCategoryStep(currentStepId)
+    ? resolveRecommendationProducts(
+      generateRecommendations(catalogService.listProducts(), {
+        build: activeBuild,
+        standard: effectiveStandard,
+        currentStepCategoryId: currentStepId,
+        relatedProductIds: resolveRelatedProductIdsForBuild(activeBuild, { getProduct: catalogService.getProduct }),
+      }, { limit: 4 }),
+      catalogService.getProduct,
+    )
+    : [];
   const browseHref = isCategoryStep(currentStepId)
     ? resolveUpfitBrowseHref(currentStepId, { fleetProjectId: activeProjectId, fleetBuildId: activeBuild?.id })
     : '/search';
@@ -296,6 +310,7 @@ export default function GuidedUpfitBuilderPage() {
       stepperItems={stepperItems}
       checklist={checklist}
       suggestedProducts={suggestedProducts}
+      recommendations={recommendations}
       browseHref={browseHref}
       onAddProductToCategory={handleAddProductToCategory}
       onRemoveProductFromCategory={(categoryId, productId) => activeBuild && removeProductFromBuild(activeBuild.id, categoryId, productId)}

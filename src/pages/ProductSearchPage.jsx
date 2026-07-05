@@ -4,6 +4,14 @@ import { ArrowLeft, ListChecks } from 'lucide-react';
 import { useCatalogLists, useProductSearch } from '@/hooks/useCatalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import { getUpfitCategoryLabel } from '@/domain/fleetBuilds';
+import { useFleetBuilds } from '@/context/FleetBuildsContext';
+import { useFleetProject } from '@/context/FleetProjectContext';
+import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
+import { useUpfitBuilder } from '@/context/UpfitBuilderContext';
+import { resolveEffectiveStandard } from '@/domain/departmentStandards';
+import { isCategoryStep } from '@/domain/upfitBuilder';
+import { generateRecommendations, resolveRecommendationProducts, resolveRelatedProductIdsForBuild } from '@/domain/recommendations';
+import { catalogService } from '@/services/catalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
@@ -12,6 +20,9 @@ import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductSearchBar from '@/components/product/ProductSearchBar';
 import ProductFilterPanel from '@/components/product/ProductFilterPanel';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
+import RecommendationCard, { RecommendationCardGrid } from '@/components/recommendations/RecommendationCard';
+
+const MAX_RECOMMENDED_FOR_SEARCH = 4;
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -46,6 +57,36 @@ export default function ProductSearchPage() {
 
   const { data, loading, error, search } = useProductSearch();
   const { verticals, categories } = useCatalogLists();
+
+  // Vehicle Build Recommendations Engine — "Recommended for Your Build," an
+  // additive section shown above regular results when a fleet build is
+  // active. Never reorders or filters `products` below; see
+  // docs/architecture/VEHICLE_BUILD_RECOMMENDATIONS.md.
+  const { activeBuild, addProductToActiveBuild } = useFleetBuilds();
+  const { activeProject } = useFleetProject();
+  const { companyStandards } = useDepartmentStandards();
+  const { getCurrentStepId } = useUpfitBuilder();
+  const effectiveStandard = activeBuild ? resolveEffectiveStandard(activeBuild, activeProject, companyStandards) : null;
+  const currentGuidedStepId = activeBuild ? getCurrentStepId(activeBuild.id) : null;
+  const currentStepCategoryId = upfitCategoryParam
+    ?? (isCategoryStep(currentGuidedStepId) ? currentGuidedStepId : null);
+
+  const recommendedForBuild = activeBuild
+    ? resolveRecommendationProducts(
+      generateRecommendations(catalogService.listProducts(), {
+        build: activeBuild,
+        standard: effectiveStandard,
+        currentStepCategoryId,
+        relatedProductIds: resolveRelatedProductIdsForBuild(activeBuild, { getProduct: catalogService.getProduct }),
+      }, { limit: MAX_RECOMMENDED_FOR_SEARCH }),
+      catalogService.getProduct,
+    )
+    : [];
+
+  function handleAddRecommendedProduct(recommendedProduct, recommendation) {
+    if (!activeBuild || !recommendation.matchingCategoryId) return;
+    addProductToActiveBuild(recommendation.matchingCategoryId, recommendedProduct);
+  }
 
   useEffect(() => {
     search({
@@ -124,6 +165,24 @@ export default function ProductSearchPage() {
       )}
 
       <div className="max-w-7xl mx-auto px-6 py-10">
+        {recommendedForBuild.length > 0 && (
+          <div style={{ marginBottom: '2rem' }} data-testid="recommended-for-your-build-section">
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1a2744', margin: '0 0 12px' }}>
+              Recommended for Your Build
+            </p>
+            <RecommendationCardGrid>
+              {recommendedForBuild.map(({ recommendation, product }) => (
+                <RecommendationCard
+                  key={product.id}
+                  recommendation={recommendation}
+                  product={product}
+                  onAddToBuild={recommendation.matchingCategoryId ? handleAddRecommendedProduct : undefined}
+                  addLabel="Add to Active Build"
+                />
+              ))}
+            </RecommendationCardGrid>
+          </div>
+        )}
         <div className="pd-filter-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
           <ProductFilterPanel
             groups={filterGroups}
