@@ -30,6 +30,7 @@ import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetProjectActions } from '@/hooks/useFleetProjectActions';
+import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
 import { useMiniCart } from '@/hooks/cartWorkspace';
 import { catalogService } from '@/services/catalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
@@ -38,7 +39,10 @@ import { resolveRecentlyViewedProducts } from '@/components/product/RecentlyView
 import FleetBuildsWorkspaceSection from '@/components/fleetBuilds/FleetBuildsWorkspaceSection';
 import FleetTemplatesWorkspaceSection from '@/components/fleetBuilds/FleetTemplatesWorkspaceSection';
 import FleetProjectsWorkspaceSection from '@/components/fleetProjects/FleetProjectsWorkspaceSection';
+import WorkspaceFleetIntelligenceSection from '@/components/workspace/WorkspaceFleetIntelligenceSection';
+import DepartmentStandardsSection from '@/components/departmentStandards/DepartmentStandardsSection';
 import { summarizeFleetProject } from '@/domain/fleetProjects';
+import { resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 
@@ -122,6 +126,8 @@ export function WorkspaceDashboardView({
   fleetBuilds = [],
   fleetTemplates = [],
   fleetProjects,
+  fleetIntelligenceEntries = [],
+  departmentStandards,
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -277,7 +283,11 @@ export function WorkspaceDashboardView({
           </WorkspaceSectionCard>
         </div>
 
+        <WorkspaceFleetIntelligenceSection entries={fleetIntelligenceEntries} onOpenFleetBuilds={onOpenFleetBuilds} />
+
         {fleetProjects && <FleetProjectsWorkspaceSection {...fleetProjects} />}
+
+        {departmentStandards && <DepartmentStandardsSection {...departmentStandards} />}
 
         <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
 
@@ -346,8 +356,13 @@ export default function WorkspaceDashboard() {
   const {
     projects, activeProjectId, isFull: projectsFull,
     createProject, renameProject, archiveProject, unarchiveProject, setActiveProject,
+    assignDepartmentStandard: assignProjectStandard,
   } = useFleetProject();
   const { duplicateProjectWithContents, deleteProjectWithContents } = useFleetProjectActions();
+  const {
+    defaultStandards, companyStandards, isFull: standardsFull,
+    cloneStandard, renameStandard, deleteStandard, addCategory, removeCategory,
+  } = useDepartmentStandards();
   const { summary: cartSummary, loading: cartLoading } = useMiniCart();
   // null = closed; 'shop' | 'fleet' selects which VehicleSelectorModal tab
   // opens — the Selected Vehicle card and the Fleet Builds section share one
@@ -364,6 +379,24 @@ export default function WorkspaceDashboard() {
   const projectSummaries = Object.fromEntries(
     projects.map((project) => [project.id, summarizeFleetProject(project, allBuilds, allTemplates)]),
   );
+
+  // Fleet Intelligence & Department Standards — every build's effective
+  // standard (its own assignment, falling back to its project's), grouped
+  // per project for each Fleet Project's Fleet Health card and flattened for
+  // the workspace-wide Fleet Readiness section. Builds whose project no
+  // longer exists (should not happen outside test fixtures) resolve against
+  // a null project, i.e. no inherited standard.
+  const projectById = new Map(projects.map((project) => [project.id, project]));
+  const fleetIntelligenceEntries = allBuilds.map((build) => ({
+    build,
+    standard: resolveEffectiveStandard(build, projectById.get(build.projectId) ?? null, companyStandards),
+  }));
+  const entriesByProjectId = fleetIntelligenceEntries.reduce((byProjectId, entry) => {
+    const projectId = entry.build.projectId;
+    if (!byProjectId[projectId]) byProjectId[projectId] = [];
+    byProjectId[projectId].push(entry);
+    return byProjectId;
+  }, {});
 
   function handleCreateProject() {
     const created = createProject();
@@ -407,6 +440,30 @@ export default function WorkspaceDashboard() {
     onArchive: (projectId) => archiveProject(projectId),
     onUnarchive: (projectId) => unarchiveProject(projectId),
     onDelete: handleDeleteProject,
+    defaultStandards,
+    companyStandards,
+    onAssignStandard: (projectId, standardId) => assignProjectStandard(projectId, standardId),
+    entriesByProjectId,
+  };
+
+  function handleCloneStandard(standard) {
+    const created = cloneStandard(standard);
+    if (!created) {
+      toast({ title: 'Company standards limit reached', description: 'Delete a company standard to clone another.' });
+      return;
+    }
+    toast({ title: 'Standard cloned', description: `"${created.name}" is now available as a Company Standard.` });
+  }
+
+  const departmentStandardsProps = {
+    defaultStandards,
+    companyStandards,
+    isFull: standardsFull,
+    onClone: handleCloneStandard,
+    onRename: (standardId, name) => renameStandard(standardId, name),
+    onDelete: (standardId) => deleteStandard(standardId),
+    onAddCategory: (standardId, tier, categoryId) => addCategory(standardId, tier, categoryId),
+    onRemoveCategory: (standardId, tier, categoryId) => removeCategory(standardId, tier, categoryId),
   };
 
   return (
@@ -418,6 +475,8 @@ export default function WorkspaceDashboard() {
         fleetBuilds={fleetBuilds}
         fleetTemplates={fleetTemplates}
         fleetProjects={fleetProjectsProps}
+        fleetIntelligenceEntries={fleetIntelligenceEntries}
+        departmentStandards={departmentStandardsProps}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}

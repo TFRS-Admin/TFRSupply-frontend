@@ -106,6 +106,16 @@ customer accounts, configuration persistence, or AI recommendations. It does
 not change `ConfiguratorModule`'s filtering, dead-end prevention, or SKU
 matching behavior.
 
+## Relationship to Fleet Intelligence & Department Standards
+
+Fleet Intelligence & Department Standards (`FLEET_INTELLIGENCE.md`) surfaces
+department-standard scoring and product-to-standard matching on Product
+Detail (`FinishYourUpfitPanel`, `ProductIntelligencePanel`) and `/workspace`.
+It does not touch `ConfiguratorExperience`, `ConfiguratorModule`,
+`ConfiguratorContext`, or any component in this doc — a configurator
+selection and a fleet build's Department Standard are read independently,
+with no code-level coupling between them.
+
 ## Testing
 
 `tests/configurator-experience.test.mjs` covers: vehicle summary rendering

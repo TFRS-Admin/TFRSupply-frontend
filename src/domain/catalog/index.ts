@@ -18,3 +18,5 @@ export {
   unsaveProduct,
   isProductSaved,
 } from './savedProducts';
+export { resolveRelatedProducts } from './relatedProducts';
+export type { RelatedProductsDeps } from './relatedProducts';

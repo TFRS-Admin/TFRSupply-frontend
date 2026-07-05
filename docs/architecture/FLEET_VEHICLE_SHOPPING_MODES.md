@@ -48,7 +48,9 @@ These priority lists are **guidance, not a hard dependency gate** — a build's 
 
 ## Completion
 
-`calculateFleetBuildCompletion(build)` (`src/domain/fleetBuilds/completion.ts`) computes `percent`/`color`/`missingCategories`/`selectedCategories`/`suggestedNextCategories` against the build's style's priority categories, or the full 12-category list before a style is chosen. `color` is `red` at 0%, `yellow` between 0–100%, `green` at 100%. `selectedCategories` reflects every category with at least one product — including ones outside the style's priority list — so a customer's real selections are always visible; only the percentage calculation is scoped to the priority set, keeping the guidance non-blocking.
+`calculateFleetBuildCompletion(build)` (`src/domain/fleetBuilds/completion.ts`) computes `percent`/`color`/`missingCategories`/`selectedCategories`/`suggestedNextCategories` against the build's style's priority categories, or the full 12-category list before a style is chosen. `color` is `red` at 0%, `yellow` between 0–100%, `green` at 100%. `selectedCategories` reflects every category with at least one product — including ones outside the style's priority list — so a customer's real selections are always visible; only the percentage calculation is scoped to the priority set, keeping the guidance non-blocking. `getFilledUpfitCategories` (the "does this category have a product" check this function uses internally) is also exported, so Fleet Intelligence & Department Standards' completion engine (`FLEET_INTELLIGENCE.md`) can reuse it rather than re-deriving fill state.
+
+This build-style-based completion is independent of, and unchanged by, Department Standards scoring (`FLEET_INTELLIGENCE.md`) — a build can have both a `buildStyle` (driving this badge) and a separately-assigned Department Standard (driving the Fleet Completion Engine's own required/recommended/optional scoring). `FinishYourUpfitPanel` (below) renders both when applicable.
 
 ## Add to All Compatible Builds
 
@@ -73,6 +75,8 @@ Per the issue's scope, product/category browsing is not gated by fleet build sta
 ## Product Detail: Finish Your Upfit
 
 `FinishYourUpfitPanel` (`src/components/fleetBuilds/`), rendered on `ProductDetailTemplate` directly after `FitmentSummary`, shows the active fleet build's name/vehicle/style, its completion badge, missing upfit categories, suggested next categories (the first 3 missing), and three actions: Add to Active Build, Add to All Compatible Builds, and a CTA into the Fleet Builds tab (`initialTab="fleet"`). It renders nothing until at least one fleet build exists. It is split into a pure `FinishYourUpfitPanelView` (props-driven — builds/activeBuild/product, fixture-testable) and a connected default export that reads `useFleetBuilds()`, matching the `ComparePageView`/`RecentlyViewedProductsView` convention used elsewhere. Existing CTA behavior (Configure/Quote/Cart/Contact in `CommerceActionPanel`) is unchanged.
+
+When the active build has an effective Department Standard assigned (Feature 7 of `FLEET_INTELLIGENCE.md`), the panel additionally renders a Department Standard status block underneath this existing grid — Missing Required/Recommended Equipment and Recommended Next Products — layered on top of, not replacing, the build-style completion above. See `FLEET_INTELLIGENCE.md`'s Feature 4 for that block's own logic.
 
 ## Project Workspace Integration
 

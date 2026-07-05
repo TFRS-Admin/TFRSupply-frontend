@@ -13,6 +13,12 @@ export interface FleetProject {
   archived: boolean;
   createdAt: number;
   updatedAt: number;
+  /**
+   * The Department Standard (see src/types/departmentStandards.ts) assigned
+   * to this project — the default standard its builds are measured against
+   * unless a build sets its own FleetBuild.departmentStandardId.
+   */
+  departmentStandardId?: string | null;
 }
 
 export type FleetProjectCompletionColor = 'red' | 'yellow' | 'green';

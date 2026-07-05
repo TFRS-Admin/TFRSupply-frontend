@@ -15,6 +15,7 @@ import StorefrontProductPanel from '@/components/product/StorefrontProductPanel'
 import CommerceActionPanel from '@/components/product/CommerceActionPanel';
 import FitmentSummary from '@/components/product/FitmentSummary';
 import FinishYourUpfitPanel from '@/components/fleetBuilds/FinishYourUpfitPanel';
+import ProductIntelligencePanel from '@/components/product/ProductIntelligencePanel';
 import RelatedPackages from '@/components/product/RelatedPackages';
 import RecommendedProducts from '@/components/product/RecommendedProducts';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
@@ -208,6 +209,11 @@ export function ProductDetailTemplateView({
 
       <FitmentSummary product={data} />
       <FinishYourUpfitPanel product={data} />
+      <ProductIntelligencePanel
+        product={data}
+        verticalId={verticalId || data.verticals?.[0]}
+        categoryId={categoryId || data.category}
+      />
       <RelatedPackages product={data} />
       <RecommendedProducts
         product={data}

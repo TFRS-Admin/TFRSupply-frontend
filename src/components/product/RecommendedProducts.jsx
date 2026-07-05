@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { catalogService } from '@/services/catalog';
+import { resolveRelatedProducts } from '@/domain/catalog';
 import ProductCard from '@/components/product/ProductCard';
 import SectionHeading from '@/components/product/SectionHeading';
 
@@ -23,21 +24,14 @@ function toCardProps(candidate, verticalId, categoryId) {
  * the same category. No AI ranking and no external services are involved.
  */
 export default function RecommendedProducts({ product, verticalId, categoryId }) {
-  const recommendations = useMemo(() => {
-    const relatedIds = product.commerce?.related_products ?? [];
-    const explicit = relatedIds
-      .map((id) => catalogService.getProduct(id))
-      .filter((candidate) => candidate && candidate.id !== product.id);
-
-    if (explicit.length >= MAX_RECOMMENDATIONS) return explicit.slice(0, MAX_RECOMMENDATIONS);
-
-    const seenIds = new Set([product.id, ...explicit.map((candidate) => candidate.id)]);
-    const sameCategory = catalogService
-      .searchProducts({ filter: { categoryId: product.categoryIds?.[0] ?? product.category } })
-      .products.filter((candidate) => !seenIds.has(candidate.id));
-
-    return [...explicit, ...sameCategory].slice(0, MAX_RECOMMENDATIONS);
-  }, [product]);
+  const recommendations = useMemo(() => resolveRelatedProducts(
+    product,
+    {
+      getProduct: (id) => catalogService.getProduct(id),
+      searchByCategory: (catId) => catalogService.searchProducts({ filter: { categoryId: catId } }).products,
+    },
+    MAX_RECOMMENDATIONS,
+  ), [product]);
 
   if (!recommendations.length) return null;
 

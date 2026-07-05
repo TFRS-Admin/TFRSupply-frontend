@@ -177,6 +177,21 @@ export function FleetBuildsProvider({ children }) {
     });
   }, []);
 
+  // Fleet Intelligence & Department Standards — assigns (or clears, with
+  // standardId=null) a department standard directly on this build, overriding
+  // whatever standard its Fleet Project has assigned. See
+  // src/domain/departmentStandards/standardAssignment.ts for how this is
+  // resolved back out.
+  const assignDepartmentStandard = useCallback((buildId, standardId) => {
+    setState((current) => {
+      const allBuilds = current.allBuilds.map((build) => (
+        build.id === buildId ? { ...build, departmentStandardId: standardId } : build
+      ));
+      saveToStorage(allBuilds, current.activeBuildIdByProject);
+      return { ...current, allBuilds };
+    });
+  }, []);
+
   const addProductToBuild = useCallback((buildId, categoryId, product) => {
     const selection = toProductSelection(product, Date.now());
     setState((current) => {
@@ -319,11 +334,12 @@ export function FleetBuildsProvider({ children }) {
     applyTemplate,
     duplicateBuildsForProject,
     removeBuildsForProject,
+    assignDepartmentStandard,
   }), [
     scopedBuilds, state.allBuilds, activeBuildId, activeBuild,
     addBuild, removeBuild, setActiveBuild, renameBuild, updateVehicle, updateQuantity, updateStyle,
     addProductToBuild, removeProductFromBuild, addProductToActiveBuild, addToAllCompatibleBuilds,
-    cloneBuild, applyTemplate, duplicateBuildsForProject, removeBuildsForProject,
+    cloneBuild, applyTemplate, duplicateBuildsForProject, removeBuildsForProject, assignDepartmentStandard,
   ]);
 
   return <FleetBuildsContext.Provider value={value}>{children}</FleetBuildsContext.Provider>;
