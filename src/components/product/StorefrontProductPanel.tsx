@@ -2,14 +2,19 @@ import React from 'react';
 import { useShopifyStorefrontProductPreview } from '@/hooks/shopifyStorefrontProduct';
 import { useShopifyStorefrontConfig } from '@/hooks/shopifyStorefrontConfig';
 import StorefrontConfigReadinessRow from '@/components/shopify/StorefrontConfigReadinessRow';
+import type { Product, ShopifyStorefrontProductAdapterMode } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-const ADAPTER_MODE_LABEL = {
+const ADAPTER_MODE_LABEL: Record<ShopifyStorefrontProductAdapterMode, string> = {
   mock: 'Mock',
   unavailable: 'Not Connected',
   live: 'Live (Stub)',
 };
+
+interface StorefrontProductPanelProps {
+  product: Product | null | undefined;
+}
 
 /**
  * Read-only Storefront Product panel for Product Detail. Renders whatever
@@ -23,14 +28,14 @@ const ADAPTER_MODE_LABEL = {
  * useShopifyStorefrontConfig() — display-only, never reads or shows a
  * Storefront access token, and never calls Shopify.
  */
-export default function StorefrontProductPanel({ product }) {
+export default function StorefrontProductPanel({ product }: StorefrontProductPanelProps) {
   const { result, loading } = useShopifyStorefrontProductPreview(product?.id);
   const { validation } = useShopifyStorefrontConfig();
 
   if (!product) return null;
 
   const mapping = result?.mapping ?? null;
-  const adapterMode = result?.metadata?.attributes?.adapterMode ?? null;
+  const adapterMode = (result?.metadata?.attributes?.adapterMode as ShopifyStorefrontProductAdapterMode | undefined) ?? null;
   const ready = result?.status === 'dry-run' && Boolean(mapping?.mapped);
 
   if (!result && !loading) return null;

@@ -11,7 +11,7 @@ before(async () => {
   server = await createServer({ logLevel: 'error' });
   modules = {
     configuratorService: await server.ssrLoadModule('/src/services/configurator/configuratorService.ts'),
-    configuratorModule: await server.ssrLoadModule('/src/components/configurator/ConfiguratorModule.jsx'),
+    configuratorModule: await server.ssrLoadModule('/src/components/configurator/ConfiguratorModule.tsx'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
   };
 });

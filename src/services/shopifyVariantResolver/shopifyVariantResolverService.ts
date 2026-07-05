@@ -20,7 +20,7 @@
 import { commerceService } from '@/services/commerce';
 import type { CommerceService } from '@/services/commerce';
 import { lookupSku } from '@/services/commerceLookupService';
-import type { ShopifyVariantResolution, ShopifyVariantResolutionStatus } from '@/types';
+import type { ShopifyVariantResolution } from '@/types';
 
 export interface ShopifyVariantResolverService {
   /** Synchronous resolution from the existing Shopify-export catalog data. */
@@ -55,7 +55,7 @@ export function resolveFromCatalog(sku: string): ShopifyVariantResolution {
     price,
     currency: 'USD',
     availability: toAvailability(entry.available),
-    status: entry.status as ShopifyVariantResolutionStatus,
+    status: entry.status,
     canAddToCart: Boolean(shopifyVariantId) && price != null,
     reviewFlag: entry.reviewFlag ?? null,
     source: 'shopify-export',

@@ -11,15 +11,15 @@ before(async () => {
   server = await createServer({ logLevel: 'error' });
   modules = {
     catalog: await server.ssrLoadModule('/src/services/catalog/catalogService.ts'),
-    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.jsx'),
+    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.tsx'),
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     compare: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
     recentlyViewed: await server.ssrLoadModule('/src/context/RecentlyViewedContext.jsx'),
     savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
-    productCommerceSummary: await server.ssrLoadModule('/src/components/product/ProductCommerceSummary.jsx'),
-    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.jsx'),
+    productCommerceSummary: await server.ssrLoadModule('/src/components/product/ProductCommerceSummary.tsx'),
+    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.tsx'),
     fitmentSummary: await server.ssrLoadModule('/src/components/product/FitmentSummary.jsx'),
     recommendedProducts: await server.ssrLoadModule('/src/components/product/RecommendedProducts.jsx'),
     relatedPackages: await server.ssrLoadModule('/src/components/product/RelatedPackages.jsx'),

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import type { ComponentType, MouseEvent } from 'react';
 import { Settings, FileText, ShoppingCart, Phone } from 'lucide-react';
 import { useCommerceProduct } from '@/hooks/commerce';
 import { commerceService } from '@/services/commerce';
@@ -6,12 +7,25 @@ import appConfig from '@/config/appConfig';
 import CompareToggleButton from '@/components/product/CompareToggleButton';
 import SaveForLaterButton from '@/components/product/SaveForLaterButton';
 import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCompatibleBuildsButton';
+import type { Product } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 const SALES_PHONE = '800-621-9959';
 
-function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary', disabled = false, fullWidth = false }) {
-  const styles = {
+type ActionButtonVariant = 'primary' | 'secondary';
+
+interface ActionButtonProps {
+  href?: string;
+  onClick?: () => void;
+  icon: ComponentType<{ size?: number | string }>;
+  label: string;
+  variant?: ActionButtonVariant;
+  disabled?: boolean;
+  fullWidth?: boolean;
+}
+
+function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary', disabled = false, fullWidth = false }: ActionButtonProps) {
+  const styles: Record<ActionButtonVariant, { background: string; color: string; border: string }> = {
     primary: { background: '#c8102e', color: '#fff', border: '2px solid #c8102e' },
     secondary: { background: '#fff', color: '#1a2744', border: '2px solid #1a2744' },
   };
@@ -27,8 +41,8 @@ function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary',
     ? { background: '#a80d26' }
     : { background: '#1a2744', color: '#fff' };
 
-  const handleEnter = (e) => { if (!disabled) Object.assign(e.currentTarget.style, hoverStyle); };
-  const handleLeave = (e) => { if (!disabled) Object.assign(e.currentTarget.style, styles[variant]); };
+  const handleEnter = (e: MouseEvent<HTMLElement>) => { if (!disabled) Object.assign(e.currentTarget.style, hoverStyle); };
+  const handleLeave = (e: MouseEvent<HTMLElement>) => { if (!disabled) Object.assign(e.currentTarget.style, styles[variant]); };
 
   if (href) {
     return (
@@ -47,15 +61,19 @@ function ActionButton({ href, onClick, icon: Icon, label, variant = 'secondary',
   );
 }
 
+interface CommerceActionPanelProps {
+  product: Product;
+}
+
 /**
  * Commerce CTA Area — composes the existing configurator, commerce, and
  * quote-request affordances into one action panel. Add to Cart only appears
  * once the Commerce Foundation reports the product as cart-eligible; no
  * checkout or cart persistence is implemented here.
  */
-export default function CommerceActionPanel({ product }) {
+export default function CommerceActionPanel({ product }: CommerceActionPanelProps) {
   const { data: shopifyProduct } = useCommerceProduct(product.id);
-  const [cartMessage, setCartMessage] = useState(null);
+  const [cartMessage, setCartMessage] = useState<string | null | undefined>(null);
 
   const configuratorHref = product.configuratorId
     ? '#build-configure'
@@ -66,7 +84,7 @@ export default function CommerceActionPanel({ product }) {
   const cartEligible = shopifyProduct?.cartEligible === true;
 
   async function handleAddToCart() {
-    const result = await commerceService.prepareCartLine(product.sku, 1);
+    const result = await commerceService.prepareCartLine(product.sku ?? '', 1);
     setCartMessage(result.status === 'ready' ? 'Ready to add — connect checkout to finish.' : result.message);
   }
 

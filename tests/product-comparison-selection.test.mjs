@@ -17,7 +17,7 @@ before(async () => {
     compareTray: await server.ssrLoadModule('/src/components/product/CompareTray.jsx'),
     comparePage: await server.ssrLoadModule('/src/pages/ComparePage.jsx'),
     productCard: await server.ssrLoadModule('/src/components/product/ProductCard.jsx'),
-    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.jsx'),
+    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.tsx'),
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),

@@ -12,7 +12,7 @@ before(async () => {
   modules = {
     catalog: await server.ssrLoadModule('/src/services/catalog/catalogService.ts'),
     hooks: await server.ssrLoadModule('/src/hooks/useCatalog.ts'),
-    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.jsx'),
+    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.tsx'),
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),

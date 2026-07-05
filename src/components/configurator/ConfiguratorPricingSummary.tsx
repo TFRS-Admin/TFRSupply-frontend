@@ -1,5 +1,5 @@
 /**
- * components/configurator/ConfiguratorPricingSummary.jsx
+ * components/configurator/ConfiguratorPricingSummary.tsx
  *
  * Pricing Summary panel for the Configurator Experience. Composes the
  * existing Pricing Engine (pricingService / useListPrice / useDealerCost /
@@ -11,17 +11,25 @@
  */
 
 import React, { useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { DollarSign } from 'lucide-react';
 import { useBundlePricing, useDealerCost, useListPrice } from '@/hooks/pricing';
+import type { BundlePricingInput, ConfiguratorQuotePayload, PricingContext, PricingSubject } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-function formatUsd(amount) {
+function formatUsd(amount: number | null | undefined): string | null {
   if (typeof amount !== 'number' || !Number.isFinite(amount)) return null;
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
-function PriceRow({ label, value, testId }) {
+interface PriceRowProps {
+  label: string;
+  value: ReactNode;
+  testId: string;
+}
+
+function PriceRow({ label, value, testId }: PriceRowProps) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #f0f0f0', fontSize: 12 }} data-testid={testId}>
       <span style={{ color: '#666' }}>{label}</span>
@@ -30,14 +38,18 @@ function PriceRow({ label, value, testId }) {
   );
 }
 
-function buildPricingContext() {
+function buildPricingContext(): PricingContext {
   return { pricingDate: new Date().toISOString().slice(0, 10), currencyCode: 'USD' };
 }
 
-export default function ConfiguratorPricingSummary({ configState }) {
+interface ConfiguratorPricingSummaryProps {
+  configState: ConfiguratorQuotePayload | null;
+}
+
+export default function ConfiguratorPricingSummary({ configState }: ConfiguratorPricingSummaryProps) {
   const context = useMemo(() => buildPricingContext(), []);
 
-  const baseSubject = useMemo(
+  const baseSubject = useMemo<PricingSubject | null>(
     () => (configState?.selectedBaseSku ? { sku: configState.selectedBaseSku, productId: configState.configuratorId } : null),
     [configState],
   );
@@ -45,10 +57,12 @@ export default function ConfiguratorPricingSummary({ configState }) {
   const { result: listPriceResult, data: listPrice, loading: listPriceLoading } = useListPrice(baseSubject, context);
   const { result: dealerCostResult, data: dealerCost } = useDealerCost(baseSubject, context);
 
-  const bundleInput = useMemo(() => {
+  const bundleInput = useMemo<BundlePricingInput | null>(() => {
     const lines = configState?.commerceLines ?? [];
-    if (!lines.length) return null;
+    if (!configState || !lines.length) return null;
     return {
+      id: configState.selectedBaseSku,
+      label: configState.productFamily ?? configState.selectedBaseSku,
       context,
       items: lines.map((line) => ({ sku: line.sku, productId: configState.configuratorId, quantity: 1 })),
     };
