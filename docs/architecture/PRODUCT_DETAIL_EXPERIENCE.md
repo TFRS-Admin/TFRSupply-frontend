@@ -29,12 +29,14 @@ ProductHero (infoPanel = ProductCommerceSummary)
 CommerceActionPanel
 Specifications / ProductTabs / ConfiguratorSection   (unchanged)
 FitmentSummary
-FinishYourUpfitPanel                                 (Fleet Vehicle Shopping Modes)
+FinishYourUpfitPanel                                 (Fleet Vehicle Shopping Modes; Guided Build status block, GUIDED_UPFIT_BUILDER.md)
 ProductIntelligencePanel                             (Fleet Intelligence & Department Standards)
 RelatedPackages
 RecommendedProducts
 PrototypeFooter
 ```
+
+`FinishYourUpfitPanel` additionally renders a Guided Build status block (`GUIDED_UPFIT_BUILDER.md`): a "Continue Guided Build"/"Start Guided Build" link into `/upfit-builder`, the guided flow's current step, and — only when that step is one of the 12 upfit categories — an "Add to This Step" action that adds the current product directly to that category. This is additive to the panel's existing build-style/department-standard completion display, not a replacement.
 
 `ConfiguratorSection` and the `ProductTabs` configurator wrapper each gained `id="build-configure"` so `CommerceActionPanel`'s "Configure Product" button can deep-link to the existing configurator UI when `product.configuratorId` is set, instead of opening an external URL.
 

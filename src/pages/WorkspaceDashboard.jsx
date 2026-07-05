@@ -31,6 +31,7 @@ import { useFleetTemplates } from '@/context/FleetTemplatesContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetProjectActions } from '@/hooks/useFleetProjectActions';
 import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
+import { useUpfitBuilder } from '@/context/UpfitBuilderContext';
 import { useMiniCart } from '@/hooks/cartWorkspace';
 import { catalogService } from '@/services/catalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
@@ -41,8 +42,10 @@ import FleetTemplatesWorkspaceSection from '@/components/fleetBuilds/FleetTempla
 import FleetProjectsWorkspaceSection from '@/components/fleetProjects/FleetProjectsWorkspaceSection';
 import WorkspaceFleetIntelligenceSection from '@/components/workspace/WorkspaceFleetIntelligenceSection';
 import DepartmentStandardsSection from '@/components/departmentStandards/DepartmentStandardsSection';
+import GuidedUpfitBuilderWorkspaceSection from '@/components/upfitBuilder/GuidedUpfitBuilderWorkspaceSection';
 import { summarizeFleetProject } from '@/domain/fleetProjects';
 import { resolveEffectiveStandard } from '@/domain/departmentStandards';
+import { buildGuidedUpfitChecklist, resolveDefaultStepId, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 
@@ -128,6 +131,7 @@ export function WorkspaceDashboardView({
   fleetProjects,
   fleetIntelligenceEntries = [],
   departmentStandards,
+  guidedUpfitBuilder = {},
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -289,6 +293,8 @@ export function WorkspaceDashboardView({
 
         {departmentStandards && <DepartmentStandardsSection {...departmentStandards} />}
 
+        <GuidedUpfitBuilderWorkspaceSection {...guidedUpfitBuilder} />
+
         <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
 
         <FleetTemplatesWorkspaceSection templates={fleetTemplates} builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
@@ -351,10 +357,10 @@ export default function WorkspaceDashboard() {
   const { productIds: compareIds, removeFromCompare, clearCompare } = useCompare();
   const { selectedVehicle } = useVehicle();
   const { state: configuratorState } = useConfigurator();
-  const { builds: fleetBuilds, allBuilds } = useFleetBuilds();
+  const { builds: fleetBuilds, allBuilds, activeBuild } = useFleetBuilds();
   const { templates: fleetTemplates, allTemplates } = useFleetTemplates();
   const {
-    projects, activeProjectId, isFull: projectsFull,
+    projects, activeProject, activeProjectId, isFull: projectsFull,
     createProject, renameProject, archiveProject, unarchiveProject, setActiveProject,
     assignDepartmentStandard: assignProjectStandard,
   } = useFleetProject();
@@ -363,6 +369,7 @@ export default function WorkspaceDashboard() {
     defaultStandards, companyStandards, isFull: standardsFull,
     cloneStandard, renameStandard, deleteStandard, addCategory, removeCategory,
   } = useDepartmentStandards();
+  const { getCurrentStepId, getSkippedSteps } = useUpfitBuilder();
   const { summary: cartSummary, loading: cartLoading } = useMiniCart();
   // null = closed; 'shop' | 'fleet' selects which VehicleSelectorModal tab
   // opens — the Selected Vehicle card and the Fleet Builds section share one
@@ -397,6 +404,30 @@ export default function WorkspaceDashboard() {
     byProjectId[projectId].push(entry);
     return byProjectId;
   }, {});
+
+  // Guided Vehicle Upfit Builder — the active Fleet Build's guided progress
+  // (reusing the same effective-standard resolution already computed above
+  // for fleetIntelligenceEntries) and its next recommended step, for the
+  // /workspace shortcut into /upfit-builder.
+  const activeBuildStandard = activeBuild
+    ? fleetIntelligenceEntries.find((entry) => entry.build.id === activeBuild.id)?.standard ?? null
+    : null;
+  const guidedSkippedStepIds = activeBuild ? getSkippedSteps(activeBuild.id) : [];
+  const guidedChecklist = activeBuild ? buildGuidedUpfitChecklist(activeBuild, activeBuildStandard, guidedSkippedStepIds) : null;
+  const guidedCurrentStepId = activeBuild
+    ? (getCurrentStepId(activeBuild.id) ?? resolveDefaultStepId({
+      hasActiveProject: Boolean(activeProject),
+      hasActiveBuild: true,
+      hasVehicle: Boolean(activeBuild.vehicle),
+      hasStandard: Boolean(activeBuildStandard),
+      hasStyle: Boolean(activeBuild.buildStyle),
+    }, guidedSkippedStepIds))
+    : null;
+  const guidedUpfitBuilderProps = {
+    activeBuild,
+    checklist: guidedChecklist,
+    currentStepLabel: guidedCurrentStepId ? getUpfitBuilderStepLabel(guidedCurrentStepId) : null,
+  };
 
   function handleCreateProject() {
     const created = createProject();
@@ -477,6 +508,7 @@ export default function WorkspaceDashboard() {
         fleetProjects={fleetProjectsProps}
         fleetIntelligenceEntries={fleetIntelligenceEntries}
         departmentStandards={departmentStandardsProps}
+        guidedUpfitBuilder={guidedUpfitBuilderProps}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}

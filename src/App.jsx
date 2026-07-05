@@ -16,6 +16,7 @@ import { FleetProjectProvider } from '@/context/FleetProjectContext';
 import { FleetBuildsProvider } from '@/context/FleetBuildsContext';
 import { FleetTemplatesProvider } from '@/context/FleetTemplatesContext';
 import { DepartmentStandardsProvider } from '@/context/DepartmentStandardsContext';
+import { UpfitBuilderProvider } from '@/context/UpfitBuilderContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
@@ -27,6 +28,7 @@ import ComparePage from '@/pages/ComparePage';
 import SavedProductsPage from '@/pages/SavedProductsPage';
 import CartWorkspace from '@/pages/CartWorkspace';
 import WorkspaceDashboard from '@/pages/WorkspaceDashboard';
+import GuidedUpfitBuilderPage from '@/pages/GuidedUpfitBuilderPage';
 
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
@@ -70,6 +72,7 @@ const AuthenticatedApp = () => {
     <FleetBuildsProvider>
     <FleetTemplatesProvider>
     <DepartmentStandardsProvider>
+    <UpfitBuilderProvider>
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
@@ -78,6 +81,7 @@ const AuthenticatedApp = () => {
         <Route path="/saved-products" element={<SavedProductsPage />} />
         <Route path="/cart" element={<CartWorkspace />} />
         <Route path="/workspace" element={<WorkspaceDashboard />} />
+        <Route path="/upfit-builder" element={<GuidedUpfitBuilderPage />} />
 
         {/* Template-driven routes — JSON-powered, no new pages needed */}
         <Route path="/:verticalId" element={<VerticalLandingTemplate />} />
@@ -115,6 +119,7 @@ const AuthenticatedApp = () => {
       </Routes>
       <CompareTray />
     </ConfiguratorProvider>
+    </UpfitBuilderProvider>
     </DepartmentStandardsProvider>
     </FleetTemplatesProvider>
     </FleetBuildsProvider>
