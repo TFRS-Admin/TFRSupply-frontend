@@ -3,10 +3,12 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, MapPin, Menu, X, ChevronDown, Truck } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
+import { useFleetProject } from '@/context/FleetProjectContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
 import SavedProductsButton from '@/components/navigator/SavedProductsButton';
 import WorkspaceButton from '@/components/navigator/WorkspaceButton';
+import FleetProjectIndicator from '@/components/fleetProjects/FleetProjectIndicator';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 
@@ -21,6 +23,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { selectedVehicle } = useVehicle();
+  const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
 
   function submitSearch(e) {
     e.preventDefault();
@@ -107,6 +110,9 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
           {/* Right actions */}
           <div className="site-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
+
+            {/* Fleet Project indicator/switcher */}
+            <FleetProjectIndicator />
 
             {/* Vehicle selector button */}
             <button
@@ -243,6 +249,9 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         selectedVehicle={selectedVehicle}
         onOpenVehicleModal={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
         onNavigateWorkspace={() => { navigate('/workspace'); setMobileOpen(false); }}
+        fleetProjects={fleetProjectsList.filter((project) => !project.archived)}
+        activeFleetProject={activeFleetProject}
+        onSwitchFleetProject={(projectId) => { setActiveFleetProject(projectId); setMobileOpen(false); }}
         activeVerticalId={verticalId}
         utilityLinks={UTILITY_LINKS}
       />

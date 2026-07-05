@@ -17,6 +17,7 @@ before(async () => {
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
     savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
+    fleetProject: await server.ssrLoadModule('/src/context/FleetProjectContext.jsx'),
   };
 });
 
@@ -29,12 +30,15 @@ function renderWithProviders(element) {
   const { VehicleProvider } = modules.vehicle;
   const { ConfiguratorProvider } = modules.configurator;
   const { SavedProductsProvider } = modules.savedProducts;
+  const { FleetProjectProvider } = modules.fleetProject;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries: ['/police'] },
       React.createElement(VehicleProvider, null,
         React.createElement(SavedProductsProvider, null,
-          React.createElement(ConfiguratorProvider, null, element),
+          React.createElement(FleetProjectProvider, null,
+            React.createElement(ConfiguratorProvider, null, element),
+          ),
         ),
       ),
     ),

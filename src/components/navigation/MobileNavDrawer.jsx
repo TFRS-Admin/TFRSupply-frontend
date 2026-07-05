@@ -22,6 +22,9 @@ export default function MobileNavDrawer({
   selectedVehicle,
   onOpenVehicleModal,
   onNavigateWorkspace,
+  fleetProjects = [],
+  activeFleetProject = null,
+  onSwitchFleetProject,
   activeVerticalId,
   utilityLinks = [],
 }) {
@@ -96,6 +99,35 @@ export default function MobileNavDrawer({
             </button>
 
             <Accordion type="single" collapsible defaultValue={activeVerticalId}>
+              {fleetProjects.length > 0 && (
+                <AccordionItem value="fleet-project" style={{ borderColor: '#eee' }}>
+                  <AccordionTrigger
+                    className="hover:no-underline"
+                    style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', minHeight: 44 }}
+                  >
+                    {`Fleet Project: ${activeFleetProject?.name ?? 'None'}`}
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="flex flex-col gap-1">
+                      {fleetProjects.map((project) => (
+                        <button
+                          key={project.id}
+                          onClick={() => onSwitchFleetProject(project.id)}
+                          className="text-left rounded-sm"
+                          style={{
+                            fontSize: 14, padding: '10px 12px', minHeight: 44,
+                            fontWeight: project.id === activeFleetProject?.id ? 700 : 500,
+                            color: project.id === activeFleetProject?.id ? '#c8102e' : '#333',
+                            background: project.id === activeFleetProject?.id ? '#fff5f5' : 'transparent',
+                          }}
+                        >
+                          {project.name}
+                        </button>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
               {NAV_VERTICALS.map((vertical) => (
                 <AccordionItem key={vertical.id} value={vertical.id} style={{ borderColor: '#eee' }}>
                   <AccordionTrigger

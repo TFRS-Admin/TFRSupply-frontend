@@ -14,6 +14,7 @@ before(async () => {
     catalog: await server.ssrLoadModule('/src/services/catalog/catalogService.ts'),
     vehicleMaster: await server.ssrLoadModule('/src/data/vehicles/vehicleMaster.ts'),
     fleetBuildsDomain: await server.ssrLoadModule('/src/domain/fleetBuilds/index.ts'),
+    fleetProjectContext: await server.ssrLoadModule('/src/context/FleetProjectContext.jsx'),
     fleetBuildsContext: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
     fleetTemplatesContext: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
     vehicleContext: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
@@ -59,6 +60,7 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { CompareProvider } = modules.compareContext;
   const { RecentlyViewedProvider } = modules.recentlyViewedContext;
   const { SavedProductsProvider } = modules.savedProductsContext;
+  const { FleetProjectProvider } = modules.fleetProjectContext;
   const { FleetBuildsProvider } = modules.fleetBuildsContext;
   const { FleetTemplatesProvider } = modules.fleetTemplatesContext;
   const { ConfiguratorProvider } = modules.configuratorContext;
@@ -69,9 +71,11 @@ function renderWithProviders(element, initialEntries = ['/']) {
         React.createElement(CompareProvider, null,
           React.createElement(RecentlyViewedProvider, null,
             React.createElement(SavedProductsProvider, null,
-              React.createElement(FleetBuildsProvider, null,
-                React.createElement(FleetTemplatesProvider, null,
-                  React.createElement(ConfiguratorProvider, null, element),
+              React.createElement(FleetProjectProvider, null,
+                React.createElement(FleetBuildsProvider, null,
+                  React.createElement(FleetTemplatesProvider, null,
+                    React.createElement(ConfiguratorProvider, null, element),
+                  ),
                 ),
               ),
             ),

@@ -82,6 +82,13 @@ export interface FleetBuild {
   createdAt: number;
   /** The saved template (if any) last applied to or cloned into this build — informational lineage only, not a hard link. */
   templateId?: string | null;
+  /**
+   * The Fleet Project this build belongs to (see src/types/fleetProjects.ts).
+   * Optional so the domain constructors here stay unaware of Fleet Projects
+   * — FleetBuildsContext stamps it on at creation time and normalizes any
+   * build loaded without one onto DEFAULT_PROJECT_ID (pre-Fleet-Projects data).
+   */
+  projectId?: string;
 }
 
 /**
@@ -105,6 +112,8 @@ export interface FleetBuildTemplate {
   /** Incremented each time this template is applied to a build or cloned into a new one. */
   usageCount: number;
   lastUsedAt: number | null;
+  /** The Fleet Project this template belongs to — see FleetBuild.projectId above. */
+  projectId?: string;
 }
 
 /**
