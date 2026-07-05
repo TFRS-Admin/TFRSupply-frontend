@@ -1,5 +1,5 @@
 /**
- * components/configurator/ConfiguratorFitmentFeedback.jsx
+ * components/configurator/ConfiguratorFitmentFeedback.tsx
  *
  * Fitment Feedback panel for the Configurator Experience. Composes the
  * existing Vehicle Fitment Service (useProductFitment) against the
@@ -13,14 +13,26 @@
  */
 
 import React, { useMemo } from 'react';
+import type { ComponentType, CSSProperties } from 'react';
 import { CheckCircle2, HelpCircle, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { useVehicle } from '@/context/VehicleContext';
 import { useProductFitment } from '@/hooks/vehicleFitment';
 import { toFitmentVehicle } from '@/components/product/FitmentSummary';
+import type { ConfiguratorVehicleSelection, FitmentResult, ProductFitmentRequest } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-const PRESENTATION = {
+export type FitmentPresentationCategory = 'compatible' | 'warning' | 'incompatible' | 'unknown';
+
+interface FitmentPresentationMeta {
+  icon: ComponentType<{ size?: number | string; style?: CSSProperties }>;
+  color: string;
+  bg: string;
+  border: string;
+  label: string;
+}
+
+const PRESENTATION: Record<FitmentPresentationCategory, FitmentPresentationMeta> = {
   compatible: { icon: CheckCircle2, color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', label: 'Compatible' },
   warning: { icon: AlertTriangle, color: '#d97706', bg: '#fffbeb', border: '#fde68a', label: 'Compatible — Advisory' },
   incompatible: { icon: ShieldAlert, color: '#c8102e', bg: '#fef2f2', border: '#fecaca', label: 'Incompatible' },
@@ -33,7 +45,7 @@ const PRESENTATION = {
  * issue severities — a "compatible" result carrying a warning-severity
  * issue is presented as "warning" rather than a flat green check.
  */
-export function deriveFitmentPresentation(fitmentResult) {
+export function deriveFitmentPresentation(fitmentResult: FitmentResult | null | undefined): FitmentPresentationCategory {
   if (!fitmentResult) return 'unknown';
   if (fitmentResult.status === 'compatible') {
     const hasWarning = (fitmentResult.issues ?? []).some((issue) => issue.severity === 'warning' || issue.severity === 'error');
@@ -42,8 +54,13 @@ export function deriveFitmentPresentation(fitmentResult) {
   return fitmentResult.status ?? 'unknown';
 }
 
-export default function ConfiguratorFitmentFeedback({ configuratorId, sku }) {
-  const { selectedVehicle } = useVehicle();
+interface ConfiguratorFitmentFeedbackProps {
+  configuratorId?: string;
+  sku?: string;
+}
+
+export default function ConfiguratorFitmentFeedback({ configuratorId, sku }: ConfiguratorFitmentFeedbackProps) {
+  const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
   const vehicle = useMemo(() => toFitmentVehicle(selectedVehicle), [selectedVehicle]);
 
   const fitmentRequest = useMemo(

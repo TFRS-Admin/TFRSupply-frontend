@@ -1,5 +1,5 @@
 /**
- * components/configurator/ConfiguratorSummaryPanel.jsx
+ * components/configurator/ConfiguratorSummaryPanel.tsx
  *
  * Configuration Summary panel for the Configurator Experience. Reads the
  * existing configurator output (the `quotePayload` ConfiguratorModule
@@ -13,16 +13,21 @@ import React, { useMemo } from 'react';
 import { CheckCircle2, AlertTriangle, Package, ListChecks } from 'lucide-react';
 import { usePackageDefinition } from '@/hooks/packageBuilder';
 import { deriveFitmentPresentation } from '@/components/configurator/ConfiguratorFitmentFeedback';
+import type { Configurator, ConfiguratorQuotePayload, ConfiguratorSection, ConfiguratorStep, FitmentResult } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-function labelForSelection(steps, stepId, optionId) {
+function labelForSelection(steps: ConfiguratorStep[], stepId: string, optionId: string): { stepLabel: string; optionLabel: string } {
   const step = steps.find((s) => s.id === stepId);
   const option = step?.options?.find((o) => o.id === optionId);
   return { stepLabel: step?.label ?? stepId, optionLabel: option?.label ?? optionId };
 }
 
-function PackageSummary({ packageId }) {
+interface PackageSummaryProps {
+  packageId?: string;
+}
+
+function PackageSummary({ packageId }: PackageSummaryProps) {
   const { data: packageDefinition, loading } = usePackageDefinition(packageId);
 
   if (!packageId) {
@@ -43,8 +48,16 @@ function PackageSummary({ packageId }) {
   );
 }
 
-export default function ConfiguratorSummaryPanel({ configuratorData, configState, fitmentResult, packageId }) {
-  const steps = configuratorData?.sectionMap?.skuSelector?.steps ?? configuratorData?.sections?.skuSelector?.steps ?? [];
+interface ConfiguratorSummaryPanelProps {
+  configuratorData?: Configurator | null;
+  configState: ConfiguratorQuotePayload | null;
+  fitmentResult?: FitmentResult | null;
+  packageId?: string;
+}
+
+export default function ConfiguratorSummaryPanel({ configuratorData, configState, fitmentResult, packageId }: ConfiguratorSummaryPanelProps) {
+  const legacySections = configuratorData?.sections as unknown as Record<string, ConfiguratorSection> | undefined;
+  const steps = configuratorData?.sectionMap?.skuSelector?.steps ?? legacySections?.skuSelector?.steps ?? [];
 
   const selectedOptions = useMemo(() => {
     const selections = configState?.selectedFilters ?? {};

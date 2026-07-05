@@ -17,8 +17,8 @@ before(async () => {
     savedProductsPage: await server.ssrLoadModule('/src/pages/SavedProductsPage.jsx'),
     saveForLaterButton: await server.ssrLoadModule('/src/components/product/SaveForLaterButton.jsx'),
     productCard: await server.ssrLoadModule('/src/components/product/ProductCard.jsx'),
-    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.jsx'),
-    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.jsx'),
+    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.tsx'),
+    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.tsx'),
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     compare: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
@@ -264,7 +264,7 @@ describe('Composition — Product Cards, Product Detail, and App wire in Save fo
 
   it('CommerceActionPanel source wires SaveForLaterButton onto Product Detail', async () => {
     const { readFileSync } = await import('node:fs');
-    const source = readFileSync(new URL('../src/components/product/CommerceActionPanel.jsx', import.meta.url), 'utf8');
+    const source = readFileSync(new URL('../src/components/product/CommerceActionPanel.tsx', import.meta.url), 'utf8');
     assert.match(source, /<SaveForLaterButton productId=\{product\.id\} variant="inline" \/>/);
   });
 

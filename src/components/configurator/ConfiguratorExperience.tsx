@@ -1,5 +1,5 @@
 /**
- * components/configurator/ConfiguratorExperience.jsx
+ * components/configurator/ConfiguratorExperience.tsx
  *
  * Customer-facing Configurator Experience — composes the existing
  * Configurator (ConfiguratorModule), Vehicle Fitment Service, Package
@@ -21,10 +21,18 @@ import ConfiguratorFitmentFeedback from '@/components/configurator/ConfiguratorF
 import { useVehicle } from '@/context/VehicleContext';
 import { useProductFitment } from '@/hooks/vehicleFitment';
 import { toFitmentVehicle } from '@/components/product/FitmentSummary';
+import type { Configurator, ConfiguratorQuotePayload, ConfiguratorVehicleSelection } from '@/types';
 
-export default function ConfiguratorExperience({ configuratorData, verticalId, categoryId, packageId }) {
-  const [configState, setConfigState] = useState(null);
-  const { selectedVehicle } = useVehicle();
+interface ConfiguratorExperienceProps {
+  configuratorData: Configurator;
+  verticalId?: string;
+  categoryId?: string;
+  packageId?: string;
+}
+
+export default function ConfiguratorExperience({ configuratorData, verticalId, categoryId, packageId }: ConfiguratorExperienceProps) {
+  const [configState, setConfigState] = useState<ConfiguratorQuotePayload | null>(null);
+  const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
 
   const vehicle = React.useMemo(() => toFitmentVehicle(selectedVehicle), [selectedVehicle]);
   const fitmentRequest = React.useMemo(

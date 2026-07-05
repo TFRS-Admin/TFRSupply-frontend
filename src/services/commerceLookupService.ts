@@ -1,5 +1,5 @@
 /**
- * commerceLookupService.js
+ * commerceLookupService.ts
  *
  * Resolves SKU → commerce data in this order:
  *   1. src/data/shopify/shopify-variant-index.json  (generated from Shopify CSV export — source of truth)
@@ -14,15 +14,74 @@
  *   "unmatched"  — not found in either source
  */
 
-import shopifyIndex from '../data/shopify/shopify-variant-index.json';
+import shopifyIndexJson from '../data/shopify/shopify-variant-index.json';
+
+export type ShopifyExportLookupStatus = 'matched' | 'price_only' | 'unmatched';
+export type CommerceLookupSource = 'shopify_export' | 'product_json' | 'none';
+
+export interface CommerceLookupEntry {
+  sku: string;
+  shopifyVariantId: string | null;
+  shopifyProductId: string | null;
+  price: number | null;
+  available: boolean | null;
+  productHandle: string | null;
+  productTitle: string | null;
+  image: string | null;
+  source: CommerceLookupSource;
+  status: ShopifyExportLookupStatus;
+  reviewFlag: string | null;
+}
+
+interface ShopifyExportVariantEntry {
+  sku: string;
+  shopifyVariantId: string | null;
+  shopifyProductId: string | null;
+  price: number | null;
+  available: boolean | null;
+  productHandle: string | null;
+  productTitle: string | null;
+  image: string | null;
+}
+
+interface ShopifyExportIndex {
+  variants: Record<string, ShopifyExportVariantEntry>;
+}
+
+interface ProductVariantMapping {
+  sku?: string;
+  shopify_variant_id?: string | null;
+  price?: number | null;
+}
+
+interface ProductJsonModule {
+  title?: string;
+  shopify?: {
+    product_id?: string | null;
+    handle?: string | null;
+    variant_mappings?: ProductVariantMapping[];
+  };
+}
+
+interface FallbackIndexEntry {
+  shopifyVariantId: string | null;
+  shopifyProductId: string | null;
+  price: number | null;
+  available: boolean | null;
+  productHandle: string | null;
+  productTitle: string | null;
+  image: string | null;
+}
+
+const shopifyIndex = shopifyIndexJson as unknown as ShopifyExportIndex;
 
 // Fallback: product JSON variant_mappings
-const productModules = import.meta.glob('../data/products/*.json', { eager: true });
+const productModules = import.meta.glob('../data/products/*.json', { eager: true }) as Record<string, { default: ProductJsonModule }>;
 
-function buildFallbackIndex() {
-  const index = {};
+function buildFallbackIndex(): Record<string, FallbackIndexEntry> {
+  const index: Record<string, FallbackIndexEntry> = {};
   for (const mod of Object.values(productModules)) {
-    const product = mod?.default ?? mod;
+    const product = mod.default ?? {};
     const productId = product?.shopify?.product_id ?? null;
     const mappings = product?.shopify?.variant_mappings ?? [];
     for (const variant of mappings) {
@@ -41,8 +100,8 @@ function buildFallbackIndex() {
   return index;
 }
 
-let _fallbackIndex = null;
-function getFallbackIndex() {
+let _fallbackIndex: Record<string, FallbackIndexEntry> | null = null;
+function getFallbackIndex(): Record<string, FallbackIndexEntry> {
   if (!_fallbackIndex) _fallbackIndex = buildFallbackIndex();
   return _fallbackIndex;
 }
@@ -50,7 +109,7 @@ function getFallbackIndex() {
 /**
  * Look up a single SKU.
  */
-export function lookupSku(sku) {
+export function lookupSku(sku: string): CommerceLookupEntry {
   // 1. Try Shopify export index
   const exportEntry = shopifyIndex.variants?.[sku];
   if (exportEntry) {
@@ -111,6 +170,6 @@ export function lookupSku(sku) {
 /**
  * Look up multiple SKUs. Returns object keyed by SKU.
  */
-export function lookupSkus(skus) {
+export function lookupSkus(skus: string[]): Record<string, CommerceLookupEntry> {
   return Object.fromEntries(skus.map(sku => [sku, lookupSku(sku)]));
 }

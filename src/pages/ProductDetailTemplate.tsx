@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
@@ -6,7 +7,7 @@ import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
-import NavigatorTabs from '@/components/navigator/NavigatorTabs';
+import NavigatorTabsUntyped from '@/components/navigator/NavigatorTabs';
 import ProductTabs from '@/components/product/ProductTabs';
 import ProductHero from '@/components/product/ProductHero';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
@@ -19,7 +20,7 @@ import ProductIntelligencePanel from '@/components/product/ProductIntelligencePa
 import RelatedPackages from '@/components/product/RelatedPackages';
 import RecommendedProducts from '@/components/product/RecommendedProducts';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
-import SectionHeading from '@/components/product/SectionHeading';
+import SectionHeadingUntyped from '@/components/product/SectionHeading';
 import { useCatalogCategory, useCatalogProduct } from '@/hooks/useCatalog';
 import { useConfiguratorData } from '@/hooks/useConfiguratorData';
 import { useRecentlyViewed } from '@/context/RecentlyViewedContext';
@@ -27,11 +28,28 @@ import { useRecentlyViewed } from '@/context/RecentlyViewedContext';
 import { Clock, Phone } from 'lucide-react';
 
 import ConfiguratorExperience from '@/components/configurator/ConfiguratorExperience';
-
+import type { Category, CategoryProductCard, Product } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-function ProductComingSoon({ product, verticalId, categoryId }) {
+// NavigatorTabs and SectionHeading are shared, still-JS components outside
+// this conversion's scope. Both destructure their props with no defaults, so
+// an untyped import would infer every prop as required — cast to the actual
+// (optional) contract each is used with here, without touching either file.
+const NavigatorTabs = NavigatorTabsUntyped as ComponentType<{ defaultTab?: string; productData?: Product }>;
+const SectionHeading = SectionHeadingUntyped as ComponentType<{
+  icon?: ComponentType<{ size?: number }>;
+  children?: ReactNode;
+  description?: string;
+}>;
+
+interface ProductComingSoonProps {
+  product: CategoryProductCard;
+  verticalId: string | undefined;
+  categoryId: string | undefined;
+}
+
+function ProductComingSoon({ product, verticalId, categoryId }: ProductComingSoonProps) {
   return (
     <div className="min-h-screen bg-white" style={FS}>
       <PrototypeBanner />
@@ -81,7 +99,14 @@ function ProductComingSoon({ product, verticalId, categoryId }) {
   );
 }
 
-function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId }) {
+interface ConfiguratorSectionProps {
+  configuratorId: string;
+  verticalId: string | undefined;
+  categoryId: string | undefined;
+  packageId: string | undefined;
+}
+
+function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId }: ConfiguratorSectionProps) {
   const { data: configuratorData } = useConfiguratorData(configuratorId);
   if (!configuratorData) return null;
 
@@ -102,6 +127,18 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId
   );
 }
 
+interface ProductDetailTemplateViewProps {
+  verticalId: string | undefined;
+  categoryId: string | undefined;
+  productId: string | undefined;
+  product: Product | null;
+  productLoading: boolean;
+  productError: unknown;
+  category: Category | null;
+  categoryLoading: boolean;
+  categoryError: unknown;
+}
+
 export function ProductDetailTemplateView({
   verticalId,
   categoryId,
@@ -112,7 +149,7 @@ export function ProductDetailTemplateView({
   category,
   categoryLoading,
   categoryError,
-}) {
+}: ProductDetailTemplateViewProps) {
   if (productLoading || (!product && categoryLoading)) return null;
   if (productError) throw productError;
 

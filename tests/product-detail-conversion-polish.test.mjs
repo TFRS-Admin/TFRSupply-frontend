@@ -12,7 +12,7 @@ before(async () => {
   server = await createServer({ logLevel: 'error' });
   modules = {
     catalog: await server.ssrLoadModule('/src/services/catalog/catalogService.ts'),
-    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.jsx'),
+    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.tsx'),
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
     vehicle: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     configurator: await server.ssrLoadModule('/src/context/ConfiguratorContext.jsx'),
@@ -21,7 +21,7 @@ before(async () => {
     savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
     sectionHeading: await server.ssrLoadModule('/src/components/product/SectionHeading.jsx'),
     productHero: await server.ssrLoadModule('/src/components/product/ProductHero.jsx'),
-    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.jsx'),
+    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.tsx'),
     fitmentSummary: await server.ssrLoadModule('/src/components/product/FitmentSummary.jsx'),
     recommendedProducts: await server.ssrLoadModule('/src/components/product/RecommendedProducts.jsx'),
     relatedPackages: await server.ssrLoadModule('/src/components/product/RelatedPackages.jsx'),
@@ -91,7 +91,7 @@ describe('SectionHeading (shared section title)', () => {
       '../src/components/product/RecommendedProducts.jsx',
       '../src/components/product/RelatedPackages.jsx',
       '../src/components/product/FitmentSummary.jsx',
-      '../src/pages/ProductDetailTemplate.jsx',
+      '../src/pages/ProductDetailTemplate.tsx',
     ]) {
       const source = readFileSync(new URL(path, import.meta.url), 'utf8');
       assert.match(source, /SectionHeading/, `${path} should reuse SectionHeading`);

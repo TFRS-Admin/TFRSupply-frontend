@@ -14,7 +14,7 @@ before(async () => {
     recentlyViewedDomain: await server.ssrLoadModule('/src/domain/catalog/recentlyViewed.ts'),
     recentlyViewedContext: await server.ssrLoadModule('/src/context/RecentlyViewedContext.jsx'),
     recentlyViewedProducts: await server.ssrLoadModule('/src/components/product/RecentlyViewedProducts.jsx'),
-    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.jsx'),
+    productDetail: await server.ssrLoadModule('/src/pages/ProductDetailTemplate.tsx'),
     productSearchPage: await server.ssrLoadModule('/src/pages/ProductSearchPage.jsx'),
     storeLanding: await server.ssrLoadModule('/src/pages/StoreLanding.jsx'),
     router: await server.ssrLoadModule('/node_modules/react-router-dom/dist/index.js'),
@@ -193,7 +193,7 @@ describe('Composition — Product Detail, Search, and Homepage render the sectio
 
   it('ProductDetailTemplate source tracks the viewed product id and excludes it from its own section', async () => {
     const { readFileSync } = await import('node:fs');
-    const source = readFileSync(new URL('../src/pages/ProductDetailTemplate.jsx', import.meta.url), 'utf8');
+    const source = readFileSync(new URL('../src/pages/ProductDetailTemplate.tsx', import.meta.url), 'utf8');
     assert.match(source, /trackView\(productState\.data\.id\)/);
     assert.match(source, /<RecentlyViewedProducts excludeProductId=\{data\.id\} \/>/);
   });

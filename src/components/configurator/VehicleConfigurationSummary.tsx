@@ -1,5 +1,5 @@
 /**
- * components/configurator/VehicleConfigurationSummary.jsx
+ * components/configurator/VehicleConfigurationSummary.tsx
  *
  * Vehicle Selection panel for the Configurator Experience. Reads the
  * existing VehicleContext (the same context ConfiguratorModule's inline
@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { Truck, Pencil } from 'lucide-react';
 import { useVehicle } from '@/context/VehicleContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+import type { ConfiguratorVehicleSelection } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -19,14 +20,19 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
  * Pure summary-sentence builder, extracted so it can be unit tested without
  * needing to fake VehicleContext / localStorage in a server-rendered test.
  */
-export function buildVehicleSummary(selectedVehicle) {
+export function buildVehicleSummary(selectedVehicle: ConfiguratorVehicleSelection | null | undefined): string {
   if (!selectedVehicle) {
     return 'No vehicle selected — fitment recommendations and compatibility checks are unavailable until a vehicle is chosen.';
   }
   return `Configuring products for a ${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}${selectedVehicle.trim ? ` ${selectedVehicle.trim}` : ''}.`;
 }
 
-function Field({ label, value }) {
+interface FieldProps {
+  label: string;
+  value: string | number | undefined;
+}
+
+function Field({ label, value }: FieldProps) {
   return (
     <div>
       <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#888' }}>{label}</div>
@@ -36,7 +42,7 @@ function Field({ label, value }) {
 }
 
 export default function VehicleConfigurationSummary() {
-  const { selectedVehicle } = useVehicle();
+  const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
   const [modalOpen, setModalOpen] = useState(false);
 
   const summary = buildVehicleSummary(selectedVehicle);

@@ -33,7 +33,7 @@ before(async () => {
     addToAllButton: await server.ssrLoadModule('/src/components/fleetBuilds/AddToAllCompatibleBuildsButton.jsx'),
     finishYourUpfitPanel: await server.ssrLoadModule('/src/components/fleetBuilds/FinishYourUpfitPanel.jsx'),
     workspaceSection: await server.ssrLoadModule('/src/components/fleetBuilds/FleetBuildsWorkspaceSection.jsx'),
-    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.jsx'),
+    commerceActionPanel: await server.ssrLoadModule('/src/components/product/CommerceActionPanel.tsx'),
     productCard: await server.ssrLoadModule('/src/components/product/ProductCard.jsx'),
   };
 });
@@ -823,13 +823,13 @@ describe('Composition — existing product surfaces gain fleet actions without c
   });
 
   it('source: ProductDetailTemplate renders the Finish Your Upfit panel', async () => {
-    const source = readFileSync(new URL('../src/pages/ProductDetailTemplate.jsx', import.meta.url), 'utf8');
+    const source = readFileSync(new URL('../src/pages/ProductDetailTemplate.tsx', import.meta.url), 'utf8');
     assert.match(source, /import FinishYourUpfitPanel from '@\/components\/fleetBuilds\/FinishYourUpfitPanel'/);
     assert.match(source, /<FinishYourUpfitPanel /);
   });
 
   it('source: CommerceActionPanel wires the Add to All Compatible Builds action', async () => {
-    const source = readFileSync(new URL('../src/components/product/CommerceActionPanel.jsx', import.meta.url), 'utf8');
+    const source = readFileSync(new URL('../src/components/product/CommerceActionPanel.tsx', import.meta.url), 'utf8');
     assert.match(source, /<AddToAllCompatibleBuildsButton /);
   });
 });

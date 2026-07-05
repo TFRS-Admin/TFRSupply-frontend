@@ -1,9 +1,10 @@
 import React from 'react';
 import { useCommerceProduct } from '@/hooks/commerce';
+import type { CommerceLookupStatus, Product, ProductSkuRow } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
-const COMMERCE_STATUS_LABEL = {
+const COMMERCE_STATUS_LABEL: Record<CommerceLookupStatus, string> = {
   ready: 'Storefront Connected',
   pending: 'Commerce Sync Pending',
   'not-found': 'Not on Storefront',
@@ -11,27 +12,31 @@ const COMMERCE_STATUS_LABEL = {
   unavailable: 'Storefront Unavailable',
 };
 
-function lowestSkuPrice(skuTable = []) {
+function lowestSkuPrice(skuTable: ProductSkuRow[] = []): number | null {
   const prices = skuTable
     .map((row) => row?._price)
-    .filter((value) => typeof value === 'number' && Number.isFinite(value));
+    .filter((value): value is number => typeof value === 'number' && Number.isFinite(value));
   if (!prices.length) return null;
   return Math.min(...prices);
 }
 
-function formatUsd(amount) {
+function formatUsd(amount: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
-function humanize(value) {
+function humanize(value: string | undefined): string | undefined {
   return value ? value.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : value;
+}
+
+interface ProductCommerceSummaryProps {
+  product: Product | null | undefined;
 }
 
 /**
  * Product Hero Enhancements — availability, identifiers, and commerce status
  * composed alongside the existing ProductHero using catalog + commerce data.
  */
-export default function ProductCommerceSummary({ product }) {
+export default function ProductCommerceSummary({ product }: ProductCommerceSummaryProps) {
   const commerce = product?.commerce ?? {};
   const { result: commerceResult, data: shopifyProduct, loading } = useCommerceProduct(product?.id);
 

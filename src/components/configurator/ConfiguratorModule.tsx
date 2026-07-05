@@ -1,5 +1,5 @@
 /**
- * components/configurator/ConfiguratorModule.jsx
+ * components/configurator/ConfiguratorModule.tsx
  *
  * Generic, fully data-driven configurator module.
  * Vehicle comes from VehicleContext only — no vehicle selector inside this module.
@@ -27,20 +27,35 @@
  */
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import type { CSSProperties, MouseEvent } from 'react';
 import { useVehicle } from '@/context/VehicleContext';
 import { lookupSkus } from '@/services/commerceLookupService';
+import type { CommerceLookupEntry } from '@/services/commerceLookupService';
 import { useShopifyVariantResolver } from '@/hooks/shopifyVariantResolver';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import {
   CheckCircle, RotateCcw, ClipboardList,
   Truck, AlertTriangle, ShoppingCart, Send
 } from 'lucide-react';
+import type {
+  Configurator,
+  ConfiguratorAccessoryItem,
+  ConfiguratorCommerceLine,
+  ConfiguratorQuotePayload,
+  ConfiguratorSection,
+  ConfiguratorSkuOption,
+  ConfiguratorStep,
+  ConfiguratorVehicleSelection,
+  ShopifyVariantAvailability,
+} from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
+type FilterSelections = Record<string, string>;
+
 // ─── SKU Filtering Engine ──────────────────────────────────────────────────
 
-function filterSkus(skuOptions, selections, steps) {
+function filterSkus(skuOptions: ConfiguratorSkuOption[], selections: FilterSelections, steps: ConfiguratorStep[]): ConfiguratorSkuOption[] {
   return skuOptions.filter(skuOpt => {
     for (const step of steps) {
       if (!step.skuSegmentKey) continue;
@@ -62,14 +77,20 @@ function filterSkus(skuOptions, selections, steps) {
   });
 }
 
-function wouldHaveMatches(skuOptions, selections, steps, stepId, optionId) {
+function wouldHaveMatches(skuOptions: ConfiguratorSkuOption[], selections: FilterSelections, steps: ConfiguratorStep[], stepId: string, optionId: string): boolean {
   const hypothetical = { ...selections, [stepId]: optionId };
   return filterSkus(skuOptions, hypothetical, steps).length > 0;
 }
 
 // ─── Section Header ────────────────────────────────────────────────────────
 
-function SectionHeader({ number, label, description }) {
+interface SectionHeaderProps {
+  number: string;
+  label: string;
+  description?: string;
+}
+
+function SectionHeader({ number, label, description }: SectionHeaderProps) {
   return (
     <div style={{ borderBottom: '2px solid #1a2744', paddingBottom: 8, marginBottom: 16 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
@@ -87,7 +108,12 @@ function SectionHeader({ number, label, description }) {
 
 // ─── Vehicle Banner ────────────────────────────────────────────────────────
 
-function VehicleBanner({ selectedVehicle, onOpen }) {
+interface VehicleBannerProps {
+  selectedVehicle: ConfiguratorVehicleSelection | null;
+  onOpen: () => void;
+}
+
+function VehicleBanner({ selectedVehicle, onOpen }: VehicleBannerProps) {
   if (!selectedVehicle) {
     return (
       <div style={{
@@ -137,7 +163,15 @@ function VehicleBanner({ selectedVehicle, onOpen }) {
 
 // ─── SKU Filters ───────────────────────────────────────────────────────────
 
-function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments }) {
+interface SkuFiltersProps {
+  section: ConfiguratorSection;
+  skuOptions: ConfiguratorSkuOption[];
+  selections: FilterSelections;
+  onSelect: (stepId: string, optionId: string) => void;
+  recommendedSegments: string[];
+}
+
+function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments }: SkuFiltersProps) {
   const steps = section.steps ?? [];
 
   return (
@@ -158,7 +192,16 @@ function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegm
   );
 }
 
-function FilterStep({ step, skuOptions, selections, steps, onSelect, recommendedSegments }) {
+interface FilterStepProps {
+  step: ConfiguratorStep;
+  skuOptions: ConfiguratorSkuOption[];
+  selections: FilterSelections;
+  steps: ConfiguratorStep[];
+  onSelect: (stepId: string, optionId: string) => void;
+  recommendedSegments: string[];
+}
+
+function FilterStep({ step, skuOptions, selections, steps, onSelect, recommendedSegments }: FilterStepProps) {
   const currentVal = selections[step.id];
 
   return (
@@ -221,15 +264,28 @@ function FilterStep({ step, skuOptions, selections, steps, onSelect, recommended
 
 // ─── Available SKU Table ───────────────────────────────────────────────────
 
+interface AttrColumn {
+  key: string;
+  label: string;
+}
+
 // Derive attribute columns dynamically from whatever keys exist in skuOptions attributes
-function getAttrColumns(skuOptions) {
-  const keys = new Set();
+function getAttrColumns(skuOptions: ConfiguratorSkuOption[]): AttrColumn[] {
+  const keys = new Set<string>();
   skuOptions.forEach(s => Object.keys(s.attributes ?? {}).forEach(k => keys.add(k)));
-  const LABELS = { length: 'Length', color: 'Warning Color', mount: 'Mount', spec: 'Spec', wiring: 'Wiring' };
+  const LABELS: Record<string, string> = { length: 'Length', color: 'Warning Color', mount: 'Mount', spec: 'Spec', wiring: 'Wiring' };
   return [...keys].map(k => ({ key: k, label: LABELS[k] ?? k }));
 }
 
-function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, commerceData }) {
+interface SkuTableProps {
+  skuOptions: ConfiguratorSkuOption[];
+  remainingSkus: ConfiguratorSkuOption[];
+  selectedSkuId: string | null;
+  onSelectSku: (sku: string) => void;
+  commerceData: Record<string, CommerceLookupEntry>;
+}
+
+function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, commerceData }: SkuTableProps) {
   const count = remainingSkus.length;
   const total = skuOptions.length;
   const attrCols = useMemo(() => getAttrColumns(skuOptions), [skuOptions]);
@@ -329,14 +385,20 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, comme
   );
 }
 
-const TH = { padding: '8px 12px', textAlign: 'left', fontWeight: 700, fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' };
-const TD = { padding: '8px 12px', color: '#333', verticalAlign: 'middle' };
+const TH: CSSProperties = { padding: '8px 12px', textAlign: 'left', fontWeight: 700, fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' };
+const TD: CSSProperties = { padding: '8px 12px', color: '#333', verticalAlign: 'middle' };
 
 // Technical Details section removed from configurator — belongs in product page tabs only.
 
 // ─── Build Your Package (Section 3) ───────────────────────────────────────
 
-function AccessoriesSection({ section, selectedAccessories, onToggle }) {
+interface AccessoriesSectionProps {
+  section: ConfiguratorSection;
+  selectedAccessories: string[];
+  onToggle: (itemId: string) => void;
+}
+
+function AccessoriesSection({ section, selectedAccessories, onToggle }: AccessoriesSectionProps) {
   const items = section.items ?? [];
   const required = items.filter(i => i.type === 'required');
   const optional = items.filter(i => i.type !== 'required');
@@ -371,7 +433,14 @@ function AccessoriesSection({ section, selectedAccessories, onToggle }) {
   );
 }
 
-function AccessoryRow({ item, checked, onToggle, forceChecked }) {
+interface AccessoryRowProps {
+  item: ConfiguratorAccessoryItem;
+  checked: boolean;
+  onToggle?: () => void;
+  forceChecked?: boolean;
+}
+
+function AccessoryRow({ item, checked, onToggle, forceChecked }: AccessoryRowProps) {
   return (
     <div
       onClick={() => !forceChecked && onToggle?.()}
@@ -402,11 +471,11 @@ function AccessoryRow({ item, checked, onToggle, forceChecked }) {
 
 // ─── Quote Panel ───────────────────────────────────────────────────────────
 
-const AVAILABILITY_COPY = { available: 'In Stock', unavailable: 'Out of Stock', unknown: 'Availability Pending' };
-const AVAILABILITY_COLOR = { available: '#15803d', unavailable: '#991b1b', unknown: '#6b7280' };
-const AVAILABILITY_BG = { available: '#dcfce7', unavailable: '#fef2f2', unknown: '#f3f4f6' };
+const AVAILABILITY_COPY: Record<ShopifyVariantAvailability, string> = { available: 'In Stock', unavailable: 'Out of Stock', unknown: 'Availability Pending' };
+const AVAILABILITY_COLOR: Record<ShopifyVariantAvailability, string> = { available: '#15803d', unavailable: '#991b1b', unknown: '#6b7280' };
+const AVAILABILITY_BG: Record<ShopifyVariantAvailability, string> = { available: '#dcfce7', unavailable: '#fef2f2', unknown: '#f3f4f6' };
 
-function AvailabilityBadge({ state }) {
+function AvailabilityBadge({ state }: { state: ShopifyVariantAvailability }) {
   const color = AVAILABILITY_COLOR[state] ?? AVAILABILITY_COLOR.unknown;
   return (
     <span style={{
@@ -419,7 +488,15 @@ function AvailabilityBadge({ state }) {
   );
 }
 
-function QuoteLine({ label, sku, price, flagged, availability }) {
+interface QuoteLineProps {
+  label?: string;
+  sku?: string;
+  price?: number | null;
+  flagged?: boolean;
+  availability?: ShopifyVariantAvailability;
+}
+
+function QuoteLine({ label, sku, price, flagged, availability }: QuoteLineProps) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 10,
@@ -440,7 +517,12 @@ function QuoteLine({ label, sku, price, flagged, availability }) {
   );
 }
 
-function QuotePanel({ quotePayload, accSection }) {
+interface QuotePanelProps {
+  quotePayload: ConfiguratorQuotePayload | null;
+  accSection?: ConfiguratorSection;
+}
+
+function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
   if (!quotePayload) {
     return (
       <div style={{ padding: '14px 16px', background: '#f8fafc', border: '1px solid #e5e7eb', marginTop: 8 }}>
@@ -538,8 +620,8 @@ function QuotePanel({ quotePayload, accSection }) {
             border: 'none', fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
             letterSpacing: '0.04em', cursor: 'pointer',
           }}
-          onMouseEnter={e => e.currentTarget.style.background = '#243560'}
-          onMouseLeave={e => e.currentTarget.style.background = '#1a2744'}
+          onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => e.currentTarget.style.background = '#243560'}
+          onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => e.currentTarget.style.background = '#1a2744'}
           onClick={() => {/* quote submission handled by parent QuoteRequestPanel */}}
           title="Add this configuration to your quote request"
         >
@@ -595,18 +677,25 @@ function QuotePanel({ quotePayload, accSection }) {
 
 // ─── Main Module ───────────────────────────────────────────────────────────
 
-export default function ConfiguratorModule({ configuratorData, verticalId, categoryId, onConfigurationChange }) {
-  const { selectedVehicle } = useVehicle();
+export interface ConfiguratorModuleProps {
+  configuratorData: Configurator;
+  verticalId?: string;
+  categoryId?: string;
+  onConfigurationChange?: (payload: ConfiguratorQuotePayload | null) => void;
+}
+
+export default function ConfiguratorModule({ configuratorData, verticalId, categoryId, onConfigurationChange }: ConfiguratorModuleProps) {
+  const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
-  const [filterSelections, setFilterSelections] = useState({});
-  const [accessories, setAccessories]           = useState([]);
-  const [selectedSkuId, setSelectedSkuId]       = useState(null);
+  const [filterSelections, setFilterSelections] = useState<FilterSelections>({});
+  const [accessories, setAccessories]           = useState<string[]>([]);
+  const [selectedSkuId, setSelectedSkuId]       = useState<string | null>(null);
 
   const {
     sectionMap, skuOptions = [], vehicleRules = [],
     productFamily, id: configuratorId
   } = configuratorData;
-  const sections = sectionMap ?? configuratorData.sections ?? {};
+  const sections = (sectionMap ?? configuratorData.sections ?? {}) as Record<string, ConfiguratorSection>;
 
   // Commerce lookup — runs once per configurator load, keyed by SKU
   const commerceData = useMemo(
@@ -643,7 +732,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   // Shopify variant (variant ID, live price, availability, cart-eligibility).
   const { resolution: resolvedVariant } = useShopifyVariantResolver(resolvedSkuObj?.sku ?? null);
 
-  const handleFilterSelect = useCallback((stepId, optionId) => {
+  const handleFilterSelect = useCallback((stepId: string, optionId: string) => {
     setFilterSelections(prev => {
       const next = prev[stepId] === optionId
         ? (() => { const n = { ...prev }; delete n[stepId]; return n; })()
@@ -653,7 +742,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
     setSelectedSkuId(null); // clear row selection when filters change
   }, []);
 
-  const handleToggleAccessory = useCallback((itemId) => {
+  const handleToggleAccessory = useCallback((itemId: string) => {
     setAccessories(prev =>
       prev.includes(itemId) ? prev.filter(id => id !== itemId) : [...prev, itemId]
     );
@@ -666,7 +755,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   }, []);
 
   // Build quote payload when a SKU row is selected
-  const quotePayload = useMemo(() => {
+  const quotePayload = useMemo<ConfiguratorQuotePayload | null>(() => {
     if (!resolvedSkuObj) return null;
     const accItems = sections?.accessories?.items ?? [];
     const selectedOptAccs = accItems.filter(i => i.type !== 'required' && accessories.includes(i.id));
@@ -679,7 +768,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
     ];
     // Propagate the resolver's review flag (e.g. "Shopify variant ID pending — quote only, checkout disabled")
     if (resolvedVariant?.reviewFlag) reviewFlags.push(resolvedVariant.reviewFlag);
-    const commerceLines = [
+    const commerceLines: ConfiguratorCommerceLine[] = [
       {
         sku: resolvedSkuObj.sku,
         shopifyVariantId: resolvedVariant?.shopifyVariantId ?? null,
@@ -687,8 +776,8 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         price: resolvedVariant?.price ?? null,
         status: resolvedVariant?.status ?? 'unmatched',
       },
-      ...selectedOptAccs.filter(i => i.sku).map(i => ({
-        sku: i.sku,
+      ...selectedOptAccs.filter(i => i.sku).map((i): ConfiguratorCommerceLine => ({
+        sku: i.sku as string,
         shopifyVariantId: null,
         shopifyProductId: null,
         price: i.price ?? null,

@@ -12,7 +12,7 @@ before(async () => {
   modules = {
     resolverService: await server.ssrLoadModule('/src/services/shopifyVariantResolver/shopifyVariantResolverService.ts'),
     resolverHook: await server.ssrLoadModule('/src/hooks/shopifyVariantResolver/useShopifyVariantResolver.ts'),
-    commerceLookup: await server.ssrLoadModule('/src/services/commerceLookupService.js'),
+    commerceLookup: await server.ssrLoadModule('/src/services/commerceLookupService.ts'),
   };
 });
 

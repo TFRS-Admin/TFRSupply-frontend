@@ -1,5 +1,5 @@
 /**
- * components/configurator/ConfiguratorCommerceActions.jsx
+ * components/configurator/ConfiguratorCommerceActions.tsx
  *
  * Commerce Actions panel for the Configurator Experience. Composes the
  * existing Cart Workspace (useCartWorkspace / cartWorkspaceService) and
@@ -10,6 +10,7 @@
  */
 
 import React, { useState } from 'react';
+import type { ComponentType, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Save, Send, ArrowLeft } from 'lucide-react';
 import { useCartWorkspace } from '@/hooks/cartWorkspace';
@@ -18,6 +19,7 @@ import { money } from '@/domain/pricing';
 import { toFitmentVehicle } from '@/components/product/FitmentSummary';
 import { useVehicle } from '@/context/VehicleContext';
 import appConfig from '@/config/appConfig';
+import type { CartLineInput, ConfiguratorQuotePayload, ConfiguratorVehicleSelection, QuoteAssemblyInput, Vehicle } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -26,7 +28,7 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
  * for the Cart Workspace Foundation. Pure and side-effect free so it can
  * be unit tested independently of the cart hook / adapter.
  */
-export function buildCartLineInput(configState) {
+export function buildCartLineInput(configState: ConfiguratorQuotePayload | null | undefined): CartLineInput | null {
   if (!configState?.selectedBaseSku) return null;
   const hasReviewFlags = (configState.reviewFlags ?? []).length > 0;
   return {
@@ -55,10 +57,10 @@ export function buildCartLineInput(configState) {
  * QuoteAssemblyInput for the Quote Builder Foundation. Pure and side-effect
  * free so it can be unit tested independently of the service / adapter.
  */
-export function buildQuoteAssemblyInput(configState, vehicle) {
+export function buildQuoteAssemblyInput(configState: ConfiguratorQuotePayload | null | undefined, vehicle: Vehicle | null | undefined): QuoteAssemblyInput | null {
   if (!configState?.selectedBaseSku) return null;
   const accessoryLines = (configState.accessorySkus ?? []).map((sku) => ({
-    lineType: 'accessory',
+    lineType: 'accessory' as const,
     label: sku,
     quantity: 1,
     sku,
@@ -83,8 +85,20 @@ export function buildQuoteAssemblyInput(configState, vehicle) {
   };
 }
 
-function ActionButton({ onClick, href, icon: Icon, label, variant = 'secondary', disabled = false, title }) {
-  const styles = {
+type ActionButtonVariant = 'primary' | 'secondary';
+
+interface ActionButtonProps {
+  onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
+  href?: string;
+  icon: ComponentType<{ size?: number | string }>;
+  label: string;
+  variant?: ActionButtonVariant;
+  disabled?: boolean;
+  title?: string;
+}
+
+function ActionButton({ onClick, href, icon: Icon, label, variant = 'secondary', disabled = false, title }: ActionButtonProps) {
+  const styles: Record<ActionButtonVariant, { background: string; color: string; border: string }> = {
     primary: { background: '#c8102e', color: '#fff', border: '2px solid #c8102e' },
     secondary: { background: '#fff', color: '#1a2744', border: '2px solid #1a2744' },
   };
@@ -110,11 +124,17 @@ function ActionButton({ onClick, href, icon: Icon, label, variant = 'secondary',
   );
 }
 
-export default function ConfiguratorCommerceActions({ configState, verticalId, categoryId }) {
+interface ConfiguratorCommerceActionsProps {
+  configState: ConfiguratorQuotePayload | null;
+  verticalId?: string;
+  categoryId?: string;
+}
+
+export default function ConfiguratorCommerceActions({ configState, verticalId, categoryId }: ConfiguratorCommerceActionsProps) {
   const { addLine } = useCartWorkspace();
-  const { selectedVehicle } = useVehicle();
-  const [cartMessage, setCartMessage] = useState(null);
-  const [quoteMessage, setQuoteMessage] = useState(null);
+  const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
+  const [cartMessage, setCartMessage] = useState<string | null>(null);
+  const [quoteMessage, setQuoteMessage] = useState<string | null>(null);
 
   if (!configState?.selectedBaseSku) {
     return null;
