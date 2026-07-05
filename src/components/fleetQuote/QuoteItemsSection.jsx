@@ -8,8 +8,16 @@
 import React from 'react';
 import { ListOrdered } from 'lucide-react';
 import SectionHeading from '@/components/product/SectionHeading';
+import { DataPanel, ResponsiveTable } from '@/components/design-system';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+
+const GROUPED_ITEM_COLUMNS = [
+  { key: 'label', label: 'Product', hideOnMobile: true },
+  { key: 'categoryLabel', label: 'Category', cellClassName: 'text-gray-500' },
+  { key: 'quantity', label: 'Quantity', cellClassName: 'font-bold' },
+  { key: 'vehicleCount', label: 'Vehicle Count' },
+];
 
 export default function QuoteItemsSection({ sections, groupedItems }) {
   return (
@@ -48,35 +56,15 @@ export default function QuoteItemsSection({ sections, groupedItems }) {
         </div>
       )}
 
-      <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '18px 20px' }} data-testid="quote-items-grouped-table">
-        <p style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#1a2744', margin: '0 0 14px' }}>Grouped Equipment Summary</p>
-        {groupedItems.length === 0 ? (
-          <p style={{ ...FS, fontSize: 13, color: '#888', margin: 0 }}>No equipment selected across this project yet.</p>
-        ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ ...FS, width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 420 }}>
-              <thead>
-                <tr style={{ textAlign: 'left', color: '#999', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  <th style={{ padding: '6px 8px' }}>Product</th>
-                  <th style={{ padding: '6px 8px' }}>Category</th>
-                  <th style={{ padding: '6px 8px' }}>Quantity</th>
-                  <th style={{ padding: '6px 8px' }}>Vehicle Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                {groupedItems.map((item) => (
-                  <tr key={item.productId} style={{ borderTop: '1px solid #f0f0f0', color: '#1a1a1a' }}>
-                    <td style={{ padding: '8px' }}>{item.label}</td>
-                    <td style={{ padding: '8px', color: '#666' }}>{item.categoryLabel}</td>
-                    <td style={{ padding: '8px', fontWeight: 700 }}>{item.quantity}</td>
-                    <td style={{ padding: '8px' }}>{item.vehicleCount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <DataPanel title="Grouped Equipment Summary" data-testid="quote-items-grouped-table">
+        <ResponsiveTable
+          columns={GROUPED_ITEM_COLUMNS}
+          rows={groupedItems}
+          rowKey={(item) => item.productId}
+          mobileTitle={(item) => item.label}
+          emptyState={<p style={{ ...FS, fontSize: 13, color: '#888', margin: 0 }}>No equipment selected across this project yet.</p>}
+        />
+      </DataPanel>
     </section>
   );
 }

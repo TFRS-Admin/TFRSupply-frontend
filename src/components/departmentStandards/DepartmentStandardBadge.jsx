@@ -7,24 +7,26 @@
  * bar UI is never re-implemented for department-standard scoring.
  */
 import React from 'react';
+import StatusBadge from '@/components/design-system/StatusBadge';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
-const TIER_STYLES = {
-  required: { bg: '#fee2e2', fg: '#b91c1c', label: 'Required' },
-  recommended: { bg: '#fef3c7', fg: '#92400e', label: 'Recommended' },
-  optional: { bg: '#eef1f8', fg: '#1a2744', label: 'Optional' },
+const TIER_LABEL = {
+  required: 'Required',
+  recommended: 'Recommended',
+  optional: 'Optional',
 };
 
+/**
+ * Renders through the shared StatusBadge primitive (design-system/
+ * StatusBadge) so Required/Recommended/Optional match the same
+ * danger/warning/neutral colors used by every other status pill.
+ */
 export function StandardTierChip({ tier, compact = false }) {
-  const style = TIER_STYLES[tier] ?? TIER_STYLES.optional;
   return (
-    <span style={{
-      ...FS, fontSize: compact ? 10 : 11, fontWeight: 700, padding: compact ? '1px 6px' : '2px 8px',
-      borderRadius: 999, background: style.bg, color: style.fg, whiteSpace: 'nowrap',
-    }}>
-      {style.label}
-    </span>
+    <StatusBadge
+      status={tier}
+      label={TIER_LABEL[tier] ?? TIER_LABEL.optional}
+      compact={compact}
+    />
   );
 }
 

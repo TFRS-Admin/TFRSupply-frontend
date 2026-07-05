@@ -18,10 +18,8 @@
  * convention.
  */
 import React, { useState } from 'react';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
-import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
+import { Boxes } from 'lucide-react';
+import { PageLayout, PageHeader, EmptyState } from '@/components/design-system';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
@@ -42,8 +40,6 @@ import ProcurementPackagesSummaryBar from '@/components/procurementPackages/Proc
 import PackageSummaryCard from '@/components/procurementPackages/PackageSummaryCard';
 import PackageComparisonSection from '@/components/procurementPackages/PackageComparisonSection';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
 export function ProcurementPageView({
   hasActiveProject,
   packages = [],
@@ -60,65 +56,60 @@ export function ProcurementPageView({
   onAddRecommendedProduct,
 }) {
   return (
-    <div className="min-h-screen" style={{ ...FS, background: '#f4f5f7' }}>
-      <PrototypeBanner />
-      <SiteHeader />
-      <ProductBreadcrumb crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Procurement Packages' }]} />
+    <PageLayout crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Procurement Packages' }]}>
+      <PageHeader
+        title="Procurement Packages"
+        description="Your purchasing workspace — this Fleet Project's vehicles grouped into procurement-ready packages by department. This is not ordering: no checkout, no pricing, no PDF is generated here."
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, color: '#1a2744', marginBottom: 6 }}>Procurement Packages</h1>
-          <p style={{ fontSize: 14, color: '#666', maxWidth: 680, lineHeight: 1.6 }}>
-            Your purchasing workspace — this Fleet Project&apos;s vehicles grouped into procurement-ready packages by department. This is not ordering: no checkout, no pricing, no PDF is generated here.
-          </p>
-        </div>
+      {!hasActiveProject ? (
+        <EmptyState
+          data-testid="procurement-no-project"
+          icon={Boxes}
+          title="No active Fleet Project"
+          description="No active Fleet Project. Create or select one from Workspace to build its procurement packages."
+          primaryAction={{ label: 'Go to Workspace', to: '/workspace' }}
+        />
+      ) : (
+        <>
+          <ProcurementPackagesSummaryBar summary={summary} />
 
-        {!hasActiveProject ? (
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '24px 20px' }} data-testid="procurement-no-project">
-            <p style={{ fontSize: 13, color: '#888', lineHeight: 1.6, margin: 0 }}>
-              No active Fleet Project. Create or select one from Workspace to build its procurement packages.
-            </p>
-          </div>
-        ) : (
-          <>
-            <ProcurementPackagesSummaryBar summary={summary} />
-
-            {packages.length === 0 ? (
-              <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '24px 20px', marginBottom: 32 }} data-testid="procurement-no-packages">
-                <p style={{ fontSize: 13, color: '#888', lineHeight: 1.6, margin: 0 }}>
-                  No fleet builds in this project yet. Add a vehicle from Fleet Builds to generate procurement packages.
-                </p>
+          {packages.length === 0 ? (
+            <EmptyState
+              data-testid="procurement-no-packages"
+              className="mb-8"
+              icon={Boxes}
+              title="No procurement packages yet"
+              description="No fleet builds in this project yet. Add a vehicle from Fleet Builds to generate procurement packages."
+              primaryAction={{ label: 'Go to Workspace', to: '/workspace' }}
+            />
+          ) : (
+            <section className="mb-8" data-testid="package-list-section">
+              <div className="package-list-grid grid grid-cols-1 gap-4">
+                {packages.map((pkg) => (
+                  <PackageSummaryCard
+                    key={pkg.id}
+                    pkg={pkg}
+                    contents={contentsByPackageId[pkg.id]}
+                    expanded={expandedPackageId === pkg.id}
+                    onToggleExpand={() => onToggleExpand(pkg.id)}
+                    selected={selectedIds.includes(pkg.id)}
+                    selectionDisabled={!selectedIds.includes(pkg.id) && selectedIds.length >= MAX_COMPARISON_PACKAGES}
+                    onToggleSelected={() => onToggleSelected(pkg.id)}
+                    exportPreview={exportPreviews[pkg.id]}
+                    notes={notesByPackageId[pkg.id] ?? ''}
+                    onChangeNotes={(value) => onChangeNotes(pkg.id, value)}
+                    onAddRecommendedProduct={onAddRecommendedProduct}
+                  />
+                ))}
               </div>
-            ) : (
-              <section style={{ marginBottom: 32 }} data-testid="package-list-section">
-                <div className="package-list-grid grid grid-cols-1 gap-4">
-                  {packages.map((pkg) => (
-                    <PackageSummaryCard
-                      key={pkg.id}
-                      pkg={pkg}
-                      contents={contentsByPackageId[pkg.id]}
-                      expanded={expandedPackageId === pkg.id}
-                      onToggleExpand={() => onToggleExpand(pkg.id)}
-                      selected={selectedIds.includes(pkg.id)}
-                      selectionDisabled={!selectedIds.includes(pkg.id) && selectedIds.length >= MAX_COMPARISON_PACKAGES}
-                      onToggleSelected={() => onToggleSelected(pkg.id)}
-                      exportPreview={exportPreviews[pkg.id]}
-                      notes={notesByPackageId[pkg.id] ?? ''}
-                      onChangeNotes={(value) => onChangeNotes(pkg.id, value)}
-                      onAddRecommendedProduct={onAddRecommendedProduct}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
+            </section>
+          )}
 
-            <PackageComparisonSection packages={comparisonPackages} maxComparisonPackages={MAX_COMPARISON_PACKAGES} />
-          </>
-        )}
-      </div>
-
-      <PrototypeFooter />
-    </div>
+          <PackageComparisonSection packages={comparisonPackages} maxComparisonPackages={MAX_COMPARISON_PACKAGES} />
+        </>
+      )}
+    </PageLayout>
   );
 }
 

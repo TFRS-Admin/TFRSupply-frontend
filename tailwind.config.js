@@ -59,6 +59,17 @@ module.exports = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
+  			},
+  			// Design System Foundation (docs/architecture/DESIGN_SYSTEM.md) —
+  			// the storefront's actual brand palette, additive to the shadcn
+  			// tokens above so existing admin/showcase surfaces are unaffected.
+  			ink: {
+  				DEFAULT: '#1a2744',
+  				dark: '#0d1b2e'
+  			},
+  			brand: {
+  				DEFAULT: '#c8102e',
+  				hover: '#a50d25'
   			}
   		},
   		fontFamily: {

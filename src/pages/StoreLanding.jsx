@@ -1,17 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Phone, ShieldCheck, Award, Settings2, Headphones } from 'lucide-react';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductCard from '@/components/product/ProductCard';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import SavedProductsSection from '@/components/product/SavedProductsSection';
 import { toProductCardViewModel } from '@/pages/ProductSearchPage';
 import { useCatalogLists } from '@/hooks/useCatalog';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
-
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+import { PageLayout, ActionCard, InfoCard } from '@/components/design-system';
 
 const HERO_IMAGES = NAV_VERTICALS.filter((v) => v.path).map((v) => v.image);
 
@@ -48,10 +44,7 @@ export function StoreLandingView({ products = [], categories = [] }) {
   const featuredCategories = categories.filter((category) => category.verticalId);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900" style={FS}>
-      <PrototypeBanner />
-      <SiteHeader activeVertical={null} />
-
+    <PageLayout background="white" fullBleed activeVertical={null}>
       {/* Hero */}
       <div className="relative overflow-hidden" style={{ background: '#0d1b2e' }}>
         <div className="absolute inset-0 grid grid-cols-3 opacity-20">
@@ -96,41 +89,17 @@ export function StoreLandingView({ products = [], categories = [] }) {
         <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-8">Find Warning Equipment for Your Fleet</h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-          {NAV_VERTICALS.map((vertical) => {
-            const comingSoon = !vertical.path;
-            const card = (
-              <div
-                className={`group h-full border overflow-hidden transition-all duration-200 ${
-                  comingSoon ? 'border-gray-100 opacity-60' : 'border-gray-200 hover:border-[#c8102e] hover:shadow-lg'
-                }`}
-              >
-                <div className="relative h-32 overflow-hidden bg-gray-100">
-                  <img
-                    src={vertical.image}
-                    alt={vertical.imageAlt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {comingSoon && (
-                    <div className="absolute inset-0 bg-white/50 flex items-center justify-center">
-                      <span className="text-[10px] font-bold text-gray-600 bg-white px-2 py-1">Coming Soon</span>
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <p className="font-black text-sm text-gray-900 mb-1">{vertical.label}</p>
-                  <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{vertical.tagline}</p>
-                </div>
-              </div>
-            );
-
-            return comingSoon ? (
-              <div key={vertical.id}>{card}</div>
-            ) : (
-              <Link key={vertical.id} to={vertical.path} className="block">
-                {card}
-              </Link>
-            );
-          })}
+          {NAV_VERTICALS.map((vertical) => (
+            <ActionCard
+              key={vertical.id}
+              to={vertical.path}
+              disabled={!vertical.path}
+              image={vertical.image}
+              imageAlt={vertical.imageAlt}
+              title={vertical.label}
+              description={vertical.tagline}
+            />
+          ))}
         </div>
       </div>
 
@@ -144,27 +113,14 @@ export function StoreLandingView({ products = [], categories = [] }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {featuredCategories.map((category) => (
-                <Link
+                <ActionCard
                   key={category.id}
                   to={`/${category.verticalId}/${category.id}`}
-                  className="group block border border-gray-200 hover:border-[#c8102e] hover:shadow-lg transition-all duration-200 overflow-hidden bg-white"
-                >
-                  {category.image?.src && (
-                    <div className="h-36 overflow-hidden">
-                      <img
-                        src={category.image.src}
-                        alt={category.image.alt || category.label}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  )}
-                  <div className="p-4">
-                    <p className="font-black text-sm text-gray-900 mb-1">{category.label}</p>
-                    {category.description && (
-                      <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{category.description}</p>
-                    )}
-                  </div>
-                </Link>
+                  image={category.image?.src}
+                  imageAlt={category.image?.alt || category.label}
+                  title={category.label}
+                  description={category.description}
+                />
               ))}
             </div>
           </div>
@@ -193,16 +149,9 @@ export function StoreLandingView({ products = [], categories = [] }) {
           <h2 className="text-2xl md:text-3xl font-black text-white mb-10">Built for Fleets That Can&apos;t Afford to Fail</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TRUST_POINTS.map((point) => {
-              const Icon = point.icon;
-              return (
-                <div key={point.label} className="border border-white/10 p-5">
-                  <Icon size={28} className="text-red-400 mb-3" />
-                  <p className="font-black text-sm text-white mb-2">{point.label}</p>
-                  <p className="text-xs text-gray-400 leading-relaxed">{point.desc}</p>
-                </div>
-              );
-            })}
+            {TRUST_POINTS.map((point) => (
+              <InfoCard key={point.label} tone="dark" icon={point.icon} title={point.label} description={point.desc} />
+            ))}
           </div>
         </div>
       </div>
@@ -231,9 +180,7 @@ export function StoreLandingView({ products = [], categories = [] }) {
           </div>
         </div>
       </div>
-
-      <PrototypeFooter />
-    </div>
+    </PageLayout>
   );
 }
 

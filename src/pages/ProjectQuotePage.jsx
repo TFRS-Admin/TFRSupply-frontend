@@ -16,12 +16,8 @@
  * convention.
  */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Boxes } from 'lucide-react';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
-import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
+import { Boxes } from 'lucide-react';
+import { PageLayout, PageHeader, CTAButton, EmptyState } from '@/components/design-system';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
@@ -47,8 +43,6 @@ import ProjectTotalsSection from '@/components/fleetQuote/ProjectTotalsSection';
 import MissingEquipmentReportSection from '@/components/fleetQuote/MissingEquipmentReportSection';
 import ExportPreviewSection from '@/components/fleetQuote/ExportPreviewSection';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
 export function ProjectQuotePageView({
   hasActiveProject,
   projectSummary,
@@ -63,53 +57,42 @@ export function ProjectQuotePageView({
   onAddRecommendedProduct,
 }) {
   return (
-    <div className="min-h-screen" style={{ ...FS, background: '#f4f5f7' }}>
-      <PrototypeBanner />
-      <SiteHeader />
-      <ProductBreadcrumb crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Project Quote' }]} />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-        <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
-          <div>
-            <h1 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, color: '#1a2744', marginBottom: 6 }}>Project Quote</h1>
-            <p style={{ fontSize: 14, color: '#666', maxWidth: 640, lineHeight: 1.6 }}>
-              Turn this Fleet Project into a professional quote package — vehicle-by-vehicle equipment, missing items, and an export preview.
-            </p>
-          </div>
-          {hasActiveProject && (
-            <Link
-              to="/procurement"
-              data-testid="generate-procurement-package-link"
-              style={{
-                fontFamily: "'Roboto','Inter',sans-serif", fontSize: 13, fontWeight: 700, color: '#fff', background: '#1a2744',
-                padding: '10px 16px', minHeight: 44, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
-              }}
-            >
-              <Boxes size={14} /> Generate Procurement Package <ArrowRight size={14} />
-            </Link>
-          )}
-        </div>
-
-        {!hasActiveProject ? (
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 4, padding: '24px 20px' }} data-testid="project-quote-no-project">
-            <p style={{ fontSize: 13, color: '#888', lineHeight: 1.6, margin: 0 }}>
-              No active Fleet Project. Create or select one from Workspace to generate a project quote.
-            </p>
-          </div>
-        ) : (
-          <>
-            <ProjectQuoteSummaryCard summary={projectSummary} />
-            <VehicleSummarySection vehicles={vehicles} onAddRecommendedProduct={onAddRecommendedProduct} />
-            <QuoteItemsSection sections={sections} groupedItems={groupedItems} />
-            <ProjectTotalsSection totals={totals} />
-            <MissingEquipmentReportSection report={missingReport} />
-            <ExportPreviewSection preview={exportPreview} quoteNotes={quoteNotes} onChangeQuoteNotes={onChangeQuoteNotes} />
-          </>
+    <PageLayout crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Project Quote' }]}>
+      <PageHeader
+        title="Project Quote"
+        description="Turn this Fleet Project into a professional quote package — vehicle-by-vehicle equipment, missing items, and an export preview."
+        actions={hasActiveProject && (
+          <CTAButton
+            variant="secondary"
+            to="/procurement"
+            data-testid="generate-procurement-package-link"
+            icon={Boxes}
+            iconPosition="leading"
+          >
+            Generate Procurement Package
+          </CTAButton>
         )}
-      </div>
+      />
 
-      <PrototypeFooter />
-    </div>
+      {!hasActiveProject ? (
+        <EmptyState
+          data-testid="project-quote-no-project"
+          icon={Boxes}
+          title="No active Fleet Project"
+          description="No active Fleet Project. Create or select one from Workspace to generate a project quote."
+          primaryAction={{ label: 'Go to Workspace', to: '/workspace' }}
+        />
+      ) : (
+        <>
+          <ProjectQuoteSummaryCard summary={projectSummary} />
+          <VehicleSummarySection vehicles={vehicles} onAddRecommendedProduct={onAddRecommendedProduct} />
+          <QuoteItemsSection sections={sections} groupedItems={groupedItems} />
+          <ProjectTotalsSection totals={totals} />
+          <MissingEquipmentReportSection report={missingReport} />
+          <ExportPreviewSection preview={exportPreview} quoteNotes={quoteNotes} onChangeQuoteNotes={onChangeQuoteNotes} />
+        </>
+      )}
+    </PageLayout>
   );
 }
 

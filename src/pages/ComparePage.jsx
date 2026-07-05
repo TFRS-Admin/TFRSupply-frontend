@@ -1,14 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { X, GitCompare, Settings, FileText, Eye } from 'lucide-react';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
-import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import { useCompare, MAX_COMPARE_PRODUCTS } from '@/context/CompareContext';
 import { catalogService } from '@/services/catalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import appConfig from '@/config/appConfig';
+import { PageLayout, PageHeader, EmptyState, CTAButton } from '@/components/design-system';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -71,68 +68,44 @@ function ProductActions({ row }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {row.configureHref && (
-        <a href={row.configureHref}
-          style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#fff', background: '#c8102e', padding: '9px 12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-          <Settings size={13} /> Configure
-        </a>
+        <CTAButton variant="primary" href={row.configureHref} icon={Settings} iconPosition="leading">
+          Configure
+        </CTAButton>
       )}
       {row.detailHref ? (
-        <Link to={row.detailHref}
-          style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#1a2744', border: '2px solid #1a2744', padding: '7px 12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-          <Eye size={13} /> View Details
-        </Link>
+        <CTAButton variant="outline" to={row.detailHref} icon={Eye} iconPosition="leading">
+          View Details
+        </CTAButton>
       ) : (
         <span style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#aaa', border: '2px solid #eee', padding: '7px 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
           <Eye size={13} /> Details Unavailable
         </span>
       )}
-      <a href={row.quoteHref}
-        style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#1a2744', border: '2px solid #1a2744', padding: '7px 12px', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-        <FileText size={13} /> Request Quote
-      </a>
-    </div>
-  );
-}
-
-function EmptyCompareState() {
-  return (
-    <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-      <GitCompare size={40} style={{ color: '#c8102e', margin: '0 auto 1rem' }} />
-      <h1 style={{ ...FS, fontSize: 'clamp(1.3rem,2.5vw,1.8rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>
-        No products selected for comparison
-      </h1>
-      <p style={{ ...FS, fontSize: 14, color: '#666', maxWidth: 480, margin: '0 auto 1.5rem', lineHeight: 1.65 }}>
-        Browse the catalog and select up to {MAX_COMPARE_PRODUCTS} products to compare specifications, fitment, and pricing side by side.
-      </p>
-      <Link to="/search"
-        style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#fff', background: '#c8102e', padding: '11px 22px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-        Browse Products
-      </Link>
+      <CTAButton variant="outline" href={row.quoteHref} icon={FileText} iconPosition="leading">
+        Request Quote
+      </CTAButton>
     </div>
   );
 }
 
 export function ComparePageView({ rows, onRemove, onClear }) {
   return (
-    <div className="min-h-screen bg-white" style={FS}>
-      <PrototypeBanner />
-      <SiteHeader />
-      <ProductBreadcrumb crumbs={[{ label: 'Home', to: '/' }, { label: 'Compare Products' }]} />
-
+    <PageLayout background="white" crumbs={[{ label: 'Home', to: '/' }, { label: 'Compare Products' }]}>
       {rows.length === 0 ? (
-        <EmptyCompareState />
+        <EmptyState
+          headingLevel="h1"
+          icon={GitCompare}
+          title="No products selected for comparison"
+          description={`Browse the catalog and select up to ${MAX_COMPARE_PRODUCTS} products to compare specifications, fitment, and pricing side by side.`}
+          primaryAction={{ label: 'Browse Products', to: '/search' }}
+        />
       ) : (
-        <div className="max-w-7xl mx-auto px-6 py-10">
-          <div className="compare-page-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: 12 }}>
-            <div>
-              <h1 style={{ fontSize: 'clamp(1.4rem,2.5vw,1.9rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: 4 }}>Compare Products</h1>
-              <p style={{ fontSize: 13, color: '#888' }}>{`${rows.length} of ${MAX_COMPARE_PRODUCTS} products selected`}</p>
-            </div>
-            <button type="button" onClick={onClear}
-              style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#c8102e', background: 'none', border: '2px solid #c8102e', padding: '9px 16px', cursor: 'pointer' }}>
-              Clear Comparison
-            </button>
-          </div>
+        <>
+          <PageHeader
+            title="Compare Products"
+            description={`${rows.length} of ${MAX_COMPARE_PRODUCTS} products selected`}
+            actions={<CTAButton variant="outline" onClick={onClear}>Clear Comparison</CTAButton>}
+          />
 
           {/* Desktop: side-by-side sticky comparison table */}
           <div className="hidden md:block" style={{ border: '1px solid #e5e7eb', overflow: 'auto', maxHeight: 'calc(100vh - 220px)' }}>
@@ -197,11 +170,9 @@ export function ComparePageView({ rows, onRemove, onClear }) {
               </div>
             ))}
           </div>
-        </div>
+        </>
       )}
-
-      <PrototypeFooter />
-    </div>
+    </PageLayout>
   );
 }
 

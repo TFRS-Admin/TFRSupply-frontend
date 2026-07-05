@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
+import { useParams } from 'react-router-dom';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
 import ProductTabs from '@/components/product/ProductTabs';
 import ProductHero from '@/components/product/ProductHero';
-import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductCommerceSummary from '@/components/product/ProductCommerceSummary';
 import StorefrontProductPanel from '@/components/product/StorefrontProductPanel';
 import CommerceActionPanel from '@/components/product/CommerceActionPanel';
@@ -27,57 +23,53 @@ import { useRecentlyViewed } from '@/context/RecentlyViewedContext';
 import { Clock, Phone } from 'lucide-react';
 
 import ConfiguratorExperience from '@/components/configurator/ConfiguratorExperience';
-
-
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+import { PageLayout, PropertyGrid, StatusBadge, CTAButton } from '@/components/design-system';
 
 function ProductComingSoon({ product, verticalId, categoryId }) {
   return (
-    <div className="min-h-screen bg-white" style={FS}>
-      <PrototypeBanner />
-      <SiteHeader activeVertical={verticalId} activeCategory={categoryId} />
-      <ProductBreadcrumb crumbs={[
+    <PageLayout
+      background="white"
+      fullBleed
+      crumbs={[
         { label: 'Home', to: '/' },
         { label: verticalId?.replace(/-/g, ' '), to: `/${verticalId}` },
         { label: product.label, to: `/${verticalId}/${categoryId}` },
-        { label: product.label }
-      ]} />
+        { label: product.label },
+      ]}
+      activeVertical={verticalId}
+      activeCategory={categoryId}
+    >
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="product-coming-soon-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'flex-start' }}>
+        <div className="product-coming-soon-grid grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           {product.image && (
-            <div className="border border-gray-200 flex items-center justify-center bg-white overflow-hidden" style={{ height: 380 }}>
+            <div className="border border-gray-200 flex items-center justify-center bg-white overflow-hidden h-[380px]">
               <img src={product.image} alt={product.label} className="max-h-full max-w-full object-contain" />
             </div>
           )}
           <div>
-            <h1 style={{ fontSize: 'clamp(1.3rem,2.5vw,1.8rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>{product.label}</h1>
-            {product.tagline && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1rem' }}>{product.tagline}</p>}
+            <h1 className="text-[clamp(1.3rem,2.5vw,1.8rem)] font-bold text-gray-900 mb-3">{product.label}</h1>
+            {product.tagline && <p className="text-sm text-gray-600 leading-relaxed mb-4">{product.tagline}</p>}
             {product.badges?.length > 0 && (
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-                {product.badges.map(b => (
-                  <span key={b} style={{ fontSize: 11, fontWeight: 700, background: '#f0f4ff', color: '#1a2744', padding: '3px 8px', letterSpacing: '0.05em' }}>{b}</span>
-                ))}
+              <div className="flex gap-1.5 flex-wrap mb-6">
+                {product.badges.map((b) => <StatusBadge key={b} status={b} label={b} tone="info" compact />)}
               </div>
             )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 18px', background: '#fff8e1', border: '1px solid #ffe082', marginBottom: '1.5rem' }}>
-              <Clock size={18} style={{ color: '#f59e0b', flexShrink: 0 }} />
-              <p style={{ fontSize: 13, color: '#78350f', margin: 0 }}>Detailed product configuration is being prepared. Check back soon.</p>
+            <div className="flex items-center gap-2.5 px-4 py-3.5 bg-amber-50 border border-amber-200 mb-6 rounded-md">
+              <Clock size={18} className="text-amber-500 shrink-0" />
+              <p className="text-[13px] text-amber-900 m-0">Detailed product configuration is being prepared. Check back soon.</p>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <Link to={`/${verticalId}/${categoryId}`}
-                style={{ fontSize: 14, fontWeight: 700, color: '#1a2744', border: '2px solid #1a2744', padding: '10px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
+            <div className="flex flex-col gap-2.5">
+              <CTAButton variant="outline" to={`/${verticalId}/${categoryId}`}>
                 ← Back to {categoryId?.replace(/-/g, ' ')}
-              </Link>
-              <a href="#"
-                style={{ fontSize: 14, fontWeight: 700, color: '#fff', background: '#c8102e', padding: '11px 20px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
-                <Phone size={16} /> Request a Quote
-              </a>
+              </CTAButton>
+              <CTAButton variant="primary" href="#" icon={Phone} iconPosition="leading">
+                Request a Quote
+              </CTAButton>
             </div>
           </div>
         </div>
       </div>
-      <PrototypeFooter />
-    </div>
+    </PageLayout>
   );
 }
 
@@ -138,11 +130,13 @@ export function ProductDetailTemplateView({
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900" style={FS}>
-      <PrototypeBanner />
-      <SiteHeader activeVertical={verticalId || data.verticals?.[0]} activeCategory={data.category} />
-      <ProductBreadcrumb crumbs={breadcrumbs || [{ label: 'Home', to: '/' }, { label: title }]} />
-
+    <PageLayout
+      background="white"
+      fullBleed
+      activeVertical={verticalId || data.verticals?.[0]}
+      activeCategory={data.category}
+      crumbs={breadcrumbs || [{ label: 'Home', to: '/' }, { label: title }]}
+    >
       <ProductHero
         title={title}
         subtitle={data.subtitle}
@@ -183,16 +177,13 @@ export function ProductDetailTemplateView({
             <div className="border-t border-gray-200 bg-white">
               <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
                 <SectionHeading>Specifications</SectionHeading>
-                <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
-                  <tbody>
-                    {Object.entries(data.specifications).map(([k, v], i) => (
-                      <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
-                        <td style={{ padding: '10px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
-                        <td style={{ padding: '10px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <PropertyGrid
+                  columns={2}
+                  items={Object.entries(data.specifications).map(([k, v]) => ({
+                    label: k.replace(/_/g, ' '),
+                    value: Array.isArray(v) ? v.join(', ') : String(v),
+                  }))}
+                />
               </div>
             </div>
           )}
@@ -222,10 +213,9 @@ export function ProductDetailTemplateView({
       />
       <RecentlyViewedProducts excludeProductId={data.id} />
 
-      <PrototypeFooter />
       <DebugToggle />
       <DebugPanel />
-    </div>
+    </PageLayout>
   );
 }
 

@@ -18,10 +18,7 @@
  * FinishYourUpfitPanelView's convention.
  */
 import React, { useEffect } from 'react';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
-import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
+import { PageLayout, PageHeader } from '@/components/design-system';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
@@ -54,8 +51,6 @@ import {
 } from '@/components/upfitBuilder/UpfitBuilderSetupSteps';
 import UpfitBuilderCategoryStep from '@/components/upfitBuilder/UpfitBuilderCategoryStep';
 import UpfitBuilderReviewStep from '@/components/upfitBuilder/UpfitBuilderReviewStep';
-
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 export function GuidedUpfitBuilderPageView({
   projects, activeProject, activeProjectId, isProjectsFull, onCreateProject, onSelectProject,
@@ -155,37 +150,29 @@ export function GuidedUpfitBuilderPageView({
   }
 
   return (
-    <div className="min-h-screen" style={{ ...FS, background: '#f4f5f7' }}>
-      <PrototypeBanner />
-      <SiteHeader />
-      <ProductBreadcrumb crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Guided Upfit Builder' }]} />
-
-      <UpfitBuilderMobileProgress
-        stepLabel={stepLabel}
-        stepNumber={stepIndex + 1}
-        stepCount={UPFIT_BUILDER_STEP_SEQUENCE.length}
-        percent={checklist?.overallPercent ?? 0}
+    <PageLayout
+      crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Guided Upfit Builder' }]}
+      contentClassName="py-6 sm:py-10"
+      beforeContent={(
+        <UpfitBuilderMobileProgress
+          stepLabel={stepLabel}
+          stepNumber={stepIndex + 1}
+          stepCount={UPFIT_BUILDER_STEP_SEQUENCE.length}
+          percent={checklist?.overallPercent ?? 0}
+        />
+      )}
+    >
+      <PageHeader
+        title="Guided Vehicle Upfit Builder"
+        description="Work through your fleet build one step at a time — project, build, vehicle, department standard, build style, and every upfit category."
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-        <div style={{ marginBottom: 20 }}>
-          <h1 style={{ fontSize: 'clamp(1.4rem,3vw,1.9rem)', fontWeight: 900, color: '#1a2744', marginBottom: 6 }}>
-            Guided Vehicle Upfit Builder
-          </h1>
-          <p style={{ fontSize: 13, color: '#666', maxWidth: 640, lineHeight: 1.6 }}>
-            Work through your fleet build one step at a time — project, build, vehicle, department standard, build style, and every upfit category.
-          </p>
-        </div>
-
-        <div className="upfit-builder-layout" style={{ display: 'flex', gap: 24, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <UpfitBuilderStepperSidebar items={stepperItems} currentStepId={currentStepId} onGoToStep={onGoToStep} />
-          {renderActiveStep()}
-          <UpfitBuilderSummarySidebar project={activeProject} build={activeBuild} standardName={effectiveStandard?.name ?? null} checklist={checklist} />
-        </div>
+      <div className="upfit-builder-layout flex gap-6 items-start flex-wrap">
+        <UpfitBuilderStepperSidebar items={stepperItems} currentStepId={currentStepId} onGoToStep={onGoToStep} />
+        {renderActiveStep()}
+        <UpfitBuilderSummarySidebar project={activeProject} build={activeBuild} standardName={effectiveStandard?.name ?? null} checklist={checklist} />
       </div>
-
-      <PrototypeFooter />
-    </div>
+    </PageLayout>
   );
 }
 

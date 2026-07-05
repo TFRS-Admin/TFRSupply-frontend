@@ -1,37 +1,33 @@
 import React from 'react';
+import StatusBadge from '@/components/design-system/StatusBadge';
+import { FS } from '@/components/design-system/tokens';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+const LEVEL_TONE = {
+  ready: 'success',
+  minor_issues: 'warning',
+  needs_review: 'info',
+  blocked: 'danger',
+};
 
 /**
  * Shared readiness pill for the four Package Readiness levels
  * (src/domain/procurementPackages/packageReadiness.ts) — Ready/Minor
- * Issues/Needs Review/Blocked. Distinct color map from
- * src/components/fleetQuote/QuoteReadinessBadge.jsx since the level sets
- * differ ("needs_review" here vs. "incomplete" there).
+ * Issues/Needs Review/Blocked. Renders through the shared StatusBadge
+ * primitive (design-system/StatusBadge) so its colors match every other
+ * status pill in the app.
  */
-export const PACKAGE_READINESS_COLORS = {
-  ready: { bg: '#dcfce7', fg: '#166534' },
-  minor_issues: { bg: '#fef3c7', fg: '#92400e' },
-  needs_review: { bg: '#e0e7ff', fg: '#3730a3' },
-  blocked: { bg: '#fee2e2', fg: '#b91c1c' },
-};
-
 export default function PackageReadinessBadge({ readiness, compact = false, showReasons = true }) {
-  const colors = PACKAGE_READINESS_COLORS[readiness.level] ?? PACKAGE_READINESS_COLORS.blocked;
-
   return (
     <div style={FS} data-testid="package-readiness-badge">
-      <span
+      <StatusBadge
         data-testid="package-readiness-pill"
-        style={{
-          fontSize: compact ? 11 : 13, fontWeight: 700, padding: compact ? '2px 8px' : '4px 12px',
-          borderRadius: 999, background: colors.bg, color: colors.fg, whiteSpace: 'nowrap', display: 'inline-block',
-        }}
-      >
-        {readiness.label}
-      </span>
+        status={readiness.level}
+        label={readiness.label}
+        tone={LEVEL_TONE[readiness.level]}
+        compact={compact}
+      />
       {showReasons && readiness.reasons.length > 0 && (
-        <ul style={{ margin: '8px 0 0', padding: '0 0 0 16px', fontSize: 12, color: '#666', lineHeight: 1.7 }}>
+        <ul className="mt-2 pl-4 text-xs text-gray-500 leading-[1.7] list-disc">
           {readiness.reasons.map((reason) => <li key={reason}>{reason}</li>)}
         </ul>
       )}

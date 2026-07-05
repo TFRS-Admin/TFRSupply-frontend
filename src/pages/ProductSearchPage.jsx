@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ListChecks } from 'lucide-react';
+import { ArrowLeft, ListChecks, SearchX } from 'lucide-react';
 import { useCatalogLists, useProductSearch } from '@/hooks/useCatalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import { getUpfitCategoryLabel } from '@/domain/fleetBuilds';
@@ -12,19 +12,15 @@ import { resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { isCategoryStep } from '@/domain/upfitBuilder';
 import { generateRecommendations, resolveRecommendationProducts, resolveRelatedProductIdsForBuild } from '@/domain/recommendations';
 import { catalogService } from '@/services/catalog';
-import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductCard from '@/components/product/ProductCard';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductSearchBar from '@/components/product/ProductSearchBar';
 import ProductFilterPanel from '@/components/product/ProductFilterPanel';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import RecommendationCard, { RecommendationCardGrid } from '@/components/recommendations/RecommendationCard';
+import { PageLayout, EmptyState } from '@/components/design-system';
 
 const MAX_RECOMMENDED_FOR_SEARCH = 4;
-
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 export function toProductCardViewModel(product) {
   const href = resolveProductDetailPath(product);
@@ -128,9 +124,7 @@ export default function ProductSearchPage() {
   const showEmptyState = !loading && data && products.length === 0;
 
   return (
-    <div className="min-h-screen bg-white" style={FS}>
-      <PrototypeBanner />
-      <SiteHeader />
+    <PageLayout background="white" fullBleed>
       <ProductBreadcrumb crumbs={[
         { label: 'Home', to: '/' },
         { label: queryParam ? `Search: "${queryParam}"` : 'Browse Products' },
@@ -203,17 +197,19 @@ export default function ProductSearchPage() {
             </div>
 
             {showEmptyState && (
-              <div className="text-center py-16">
-                <p style={{ fontSize: 14, color: '#999' }}>No products match your search. Try a different term or clear your filters.</p>
-              </div>
+              <EmptyState
+                size="compact"
+                icon={SearchX}
+                title="No products match your search"
+                description="Try a different term or clear your filters to see more results."
+                primaryAction={{ label: 'Clear Filters', onClick: () => updateParams({ vertical: null, category: null, q: null }) }}
+              />
             )}
           </div>
         </div>
       </div>
 
       <RecentlyViewedProducts />
-
-      <PrototypeFooter />
-    </div>
+    </PageLayout>
   );
 }
