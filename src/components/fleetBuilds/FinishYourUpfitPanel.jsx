@@ -32,6 +32,7 @@ import { evaluateFleetBuildIntelligence, resolveEffectiveStandard } from '@/doma
 import { isCategoryStep, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
 import { generateRecommendations, resolveRecommendationProducts, resolveRelatedProductIdsForBuild } from '@/domain/recommendations';
 import { resolveProductQuoteInclusion } from '@/domain/fleetQuote';
+import { resolveProductPackageInclusion } from '@/domain/procurementPackages';
 import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import SectionHeading from '@/components/product/SectionHeading';
@@ -236,6 +237,51 @@ function ProductQuoteInclusionStatus({ inclusion, canAdd, onAdd, onRemove }) {
   );
 }
 
+/**
+ * Fleet Procurement Packages integration — is this product already selected
+ * in one of the active Fleet Project's Fleet Builds, and if so, which
+ * procurement package (Department Standard grouping) does that build belong
+ * to? Reuses the exact same FleetBuildsContext add/remove actions as
+ * ProductQuoteInclusionStatus above (no new cart/quote/package state) — a
+ * procurement package is a read-only grouping over the same build
+ * selections, not a separate purchasing cart.
+ */
+function ProductPackageInclusionStatus({ inclusion, canAdd, onAdd, onRemove }) {
+  return (
+    <div style={{ ...FS, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginTop: 10 }} data-testid="finish-your-upfit-package-inclusion">
+      <span
+        data-testid="finish-your-upfit-package-inclusion-badge"
+        style={{
+          fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
+          background: inclusion.included ? '#dcfce7' : '#f4f5f7',
+          color: inclusion.included ? '#166534' : '#666',
+        }}
+      >
+        {inclusion.included ? `Included In Procurement Package — ${inclusion.packageName}` : 'Not Included'}
+      </span>
+      {inclusion.included ? (
+        <button
+          type="button"
+          onClick={onRemove}
+          style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#b91c1c', background: 'none', border: '1.5px solid #fca5a5', borderRadius: 2, padding: '6px 10px', cursor: 'pointer' }}
+        >
+          Remove from Package
+        </button>
+      ) : (
+        canAdd && (
+          <button
+            type="button"
+            onClick={onAdd}
+            style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#1a2744', background: 'none', border: '1.5px solid #1a2744', borderRadius: 2, padding: '6px 10px', cursor: 'pointer' }}
+          >
+            Add to Package
+          </button>
+        )
+      )}
+    </div>
+  );
+}
+
 function getProductVerticalIds(productId) {
   return catalogService.getProduct(productId)?.verticalIds ?? null;
 }
@@ -281,9 +327,9 @@ function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
 export function FinishYourUpfitPanelView({
   builds, activeBuild, product, templates = [], appliedTemplate = null, activeProject = null,
   effectiveStandard = null, currentGuidedStepId = null, recommendedProducts = [],
-  quoteInclusion = null,
+  quoteInclusion = null, packageInclusion = null,
   onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild, onAddToCurrentStep, onAddRecommendedProduct,
-  onRemoveFromQuote,
+  onRemoveFromQuote, onRemoveFromPackage,
 }) {
   if (!builds || builds.length === 0) return null;
 
@@ -318,6 +364,15 @@ export function FinishYourUpfitPanelView({
             canAdd={Boolean(activeBuild)}
             onAdd={onAddToActiveBuild}
             onRemove={onRemoveFromQuote}
+          />
+        )}
+
+        {activeProject && packageInclusion && (
+          <ProductPackageInclusionStatus
+            inclusion={packageInclusion}
+            canAdd={Boolean(activeBuild)}
+            onAdd={onAddToActiveBuild}
+            onRemove={onRemoveFromPackage}
           />
         )}
 
@@ -428,6 +483,7 @@ export default function FinishYourUpfitPanel({ product }) {
   const effectiveStandard = activeBuild ? resolveEffectiveStandard(activeBuild, activeProject, companyStandards) : null;
   const currentGuidedStepId = activeBuild ? getCurrentStepId(activeBuild.id) : null;
   const quoteInclusion = resolveProductQuoteInclusion(builds, product.id);
+  const packageInclusion = resolveProductPackageInclusion(builds, product.id, activeProject, companyStandards);
 
   const appliedTemplate = getTemplateById(templates, activeBuild?.templateId);
 
@@ -487,6 +543,15 @@ export default function FinishYourUpfitPanel({ product }) {
     });
   }
 
+  function handleRemoveFromPackage() {
+    if (!packageInclusion.included) return;
+    removeProductFromBuild(packageInclusion.buildId, packageInclusion.categoryId, product.id);
+    toast({
+      title: 'Removed from package',
+      description: `${product.title ?? product.label ?? 'Product'} removed from "${packageInclusion.packageName}".`,
+    });
+  }
+
   function handleApplyTemplate(templateId) {
     const template = templates.find((item) => item.id === templateId);
     if (!template || !activeBuild) return;
@@ -520,6 +585,7 @@ export default function FinishYourUpfitPanel({ product }) {
         currentGuidedStepId={currentGuidedStepId}
         recommendedProducts={recommendedProducts}
         quoteInclusion={quoteInclusion}
+        packageInclusion={packageInclusion}
         onAddToActiveBuild={handleAddToActiveBuild}
         onOpenFleetBuilds={() => setModalOpen(true)}
         onApplyTemplate={handleApplyTemplate}
@@ -527,6 +593,7 @@ export default function FinishYourUpfitPanel({ product }) {
         onAddToCurrentStep={handleAddToCurrentStep}
         onAddRecommendedProduct={handleAddRecommendedProduct}
         onRemoveFromQuote={handleRemoveFromQuote}
+        onRemoveFromPackage={handleRemoveFromPackage}
       />
       {modalOpen && <VehicleSelectorModal initialTab="fleet" onClose={() => setModalOpen(false)} />}
       {cloneDialogOpen && activeBuild && (

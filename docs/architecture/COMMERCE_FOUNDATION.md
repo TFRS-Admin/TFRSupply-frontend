@@ -111,6 +111,10 @@ The Shopify Storefront Live Configuration Readiness foundation is documented in 
 
 The Fleet Quote Builder (`FLEET_QUOTE_BUILDER.md`, `/project-quote`) does not call `commerceService`, `CommerceAdapter`, `cartWorkspaceService`, or any cart/commerce contract in this document. It aggregates Fleet Project/Fleet Build state (equipment selections, not cart lines) into a read-only quote package with no pricing and no cart mutation — Product Detail's "Included In Quote"/"Not Yet Included" status reads and writes the existing `FleetBuildsContext` product-selection state, not the Cart Workspace's `CartLineItem`s.
 
+## Fleet Procurement Packages
+
+Fleet Procurement Packages (`FLEET_PROCUREMENT_PACKAGES.md`, `/procurement`) does not call `commerceService`, `CommerceAdapter`, `cartWorkspaceService`, or any cart/commerce contract in this document, and it is explicitly **not** an ordering surface. It groups Fleet Project/Fleet Build state (equipment selections, not cart lines) — the same read paths the Fleet Quote Builder already uses — into named, read-only procurement packages with no pricing, no checkout, and no cart mutation. Product Detail's "Included In Procurement Package"/"Not Included" status reads and writes the existing `FleetBuildsContext` product-selection state, the same state the Fleet Quote Builder's quote-inclusion status already reads and writes.
+
 ## Shopify Storefront Runtime Readiness
 
 The Shopify Storefront Runtime Readiness foundation is documented in [SHOPIFY_STOREFRONT_RUNTIME_READINESS.md](./SHOPIFY_STOREFRONT_RUNTIME_READINESS.md). It is a centralized, read-only reporting layer that composes `shopifyStorefrontConfigService` and the Storefront API, Cart Adapter, Product Sync, Collection Sync, and Checkout URL Preview foundations' `getCapabilities()` into one developer-facing `ShopifyStorefrontRuntimeStatus` (runtime mode, capability matrix, feature flags, environment diagnostics, and a readiness summary), surfaced only on the developer-only `/dev/storefront` dashboard. It introduces no new adapter, no new env variable, and no adapter-selection wiring.

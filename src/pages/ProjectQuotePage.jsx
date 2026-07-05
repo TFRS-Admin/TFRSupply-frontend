@@ -16,6 +16,8 @@
  * convention.
  */
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Boxes } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
@@ -67,11 +69,25 @@ export function ProjectQuotePageView({
       <ProductBreadcrumb crumbs={[{ label: 'Home', to: '/' }, { label: 'My Workspace', to: '/workspace' }, { label: 'Project Quote' }]} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, color: '#1a2744', marginBottom: 6 }}>Project Quote</h1>
-          <p style={{ fontSize: 14, color: '#666', maxWidth: 640, lineHeight: 1.6 }}>
-            Turn this Fleet Project into a professional quote package — vehicle-by-vehicle equipment, missing items, and an export preview.
-          </p>
+        <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
+          <div>
+            <h1 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 900, color: '#1a2744', marginBottom: 6 }}>Project Quote</h1>
+            <p style={{ fontSize: 14, color: '#666', maxWidth: 640, lineHeight: 1.6 }}>
+              Turn this Fleet Project into a professional quote package — vehicle-by-vehicle equipment, missing items, and an export preview.
+            </p>
+          </div>
+          {hasActiveProject && (
+            <Link
+              to="/procurement"
+              data-testid="generate-procurement-package-link"
+              style={{
+                fontFamily: "'Roboto','Inter',sans-serif", fontSize: 13, fontWeight: 700, color: '#fff', background: '#1a2744',
+                padding: '10px 16px', minHeight: 44, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
+              }}
+            >
+              <Boxes size={14} /> Generate Procurement Package <ArrowRight size={14} />
+            </Link>
+          )}
         </div>
 
         {!hasActiveProject ? (
