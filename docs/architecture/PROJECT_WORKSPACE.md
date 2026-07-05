@@ -18,6 +18,8 @@ It is **not** a CRM, not authentication, and not a customer account system. No l
 | Continue Shopping | A plain `react-router-dom` `Link` to `/search`, matching `CartWorkspace`'s existing "Continue Shopping" link |
 | Saved Products | `resolveSavedProducts` (`SavedProductsSection`), `useSavedProducts` (`SavedProductsContext`), `ProductCard` |
 | Recently Viewed | `resolveRecentlyViewedProducts` (`RecentlyViewedProducts`), `useRecentlyViewed` (`RecentlyViewedContext`), `ProductCard` |
+| Fleet Readiness (`WorkspaceFleetIntelligenceSection`) | `summarizeFleetHealth` (Fleet Intelligence & Department Standards, `FLEET_INTELLIGENCE.md`) across every Fleet Project's builds |
+| Department Standards (`DepartmentStandardsSection`) | `useDepartmentStandards` (`DepartmentStandardsContext`) — browse the 12 default standards and any saved company standards, clone/rename/delete/edit tiers |
 
 `src/pages/WorkspaceDashboard.jsx` exports `resolveCompareQueueProducts(productIds, { getProduct })` — a pure id → product resolution for the Compare Queue section, following the same `resolveSavedProducts`/`resolveRecentlyViewedProducts` pattern (drops any id that no longer resolves to a catalog product). It also exports `WorkspaceDashboardView`, a pure presentational component (no context/router required beyond `SiteHeader`'s own dependencies) split from the connected `WorkspaceDashboard` default export, matching the `SavedProductsPageView`/`ComparePageView` convention already used in `src/pages`.
 
@@ -34,6 +36,8 @@ Unlike the homepage's Saved Products/Recently Viewed sections (which render `nul
 The header's icon row (vehicle selector, saved products, mini cart, "Where to Buy", hamburger) is already at its practical width limit on a 390px viewport. Adding `WorkspaceButton` to that row as a 5th icon overflowed the page horizontally (measured `document.body.scrollWidth` of 415px against a 390px viewport). Rather than shrinking every icon further, `WorkspaceButton` follows the same `hidden md:flex` pattern already used by the vehicle selector button — desktop-only in the icon row, with the mobile off-canvas drawer carrying its own "My Workspace" entry point instead. This was verified with a headless-browser check confirming no horizontal overflow at 390px, both empty and with every section populated.
 
 The dashboard's summary cards use `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` (single column on mobile, widening on larger breakpoints). The Saved Products/Recently Viewed product grids reuse the existing `grid-cols-2 sm:grid-cols-3 lg:grid-cols-4` class already used by `SavedProductsSectionView`/`RecentlyViewedProductsView` elsewhere in the app.
+
+See `FLEET_INTELLIGENCE.md` for the Fleet Readiness and Department Standards sections' own domain logic, state, and testing — this doc only covers their placement on `/workspace`.
 
 ## Non-goals
 

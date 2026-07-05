@@ -9,8 +9,11 @@
 import React, { useState } from 'react';
 import { Copy, Save, Star, Trash2, X } from 'lucide-react';
 import { BUILD_STYLES, calculateFleetBuildCompletion, getUpfitCategoryLabel } from '@/domain/fleetBuilds';
+import { evaluateFleetBuildIntelligence } from '@/domain/departmentStandards';
 import { listVehicleYears, listVehicleMakes, listVehicleModels, findVehicleMasterEntry } from '@/data/vehicles/vehicleMaster';
 import FleetBuildCompletionBadge from './FleetBuildCompletionBadge';
+import AssignStandardControl from '@/components/departmentStandards/AssignStandardControl';
+import { toStandardCompletionBadge } from '@/components/departmentStandards/DepartmentStandardBadge';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 const years = listVehicleYears();
@@ -42,6 +45,10 @@ export default function FleetBuildCard({
   onRemoveProduct,
   onSaveAsTemplate,
   onCloneBuild,
+  defaultStandards = [],
+  companyStandards = [],
+  effectiveStandard = null,
+  onAssignStandard,
 }) {
   const [name, setName] = useState(build.name);
   const [year, setYear] = useState(build.vehicle?.year || '');
@@ -52,6 +59,7 @@ export default function FleetBuildCard({
   const makes = listVehicleMakes(year || null);
   const models = listVehicleModels(year || null, make || null);
   const completion = calculateFleetBuildCompletion(build);
+  const intelligenceReport = evaluateFleetBuildIntelligence(build, effectiveStandard);
 
   function commitName() {
     const trimmed = name.trim();
@@ -126,6 +134,28 @@ export default function FleetBuildCard({
 
       <div style={{ marginBottom: 12 }}>
         <FleetBuildCompletionBadge completion={completion} />
+      </div>
+
+      {/* Fleet Intelligence & Department Standards */}
+      <div style={{ marginBottom: 12 }}>
+        <AssignStandardControl
+          defaultStandards={defaultStandards}
+          companyStandards={companyStandards}
+          value={build.departmentStandardId ?? null}
+          inheritedLabel="Inherit from Project"
+          onChange={onAssignStandard}
+        />
+        {intelligenceReport && (
+          <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }} data-testid="fleet-build-standard-compliance">
+            <FleetBuildCompletionBadge completion={toStandardCompletionBadge(intelligenceReport)} compact />
+            <span style={{ ...FS, fontSize: 11, color: '#666' }}>
+              vs. {intelligenceReport.standardName}
+              {!intelligenceReport.departmentCompliant && intelligenceReport.missingRequired.length > 0 && (
+                <> — missing {intelligenceReport.missingRequired.map(getUpfitCategoryLabel).join(', ')}</>
+              )}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Fleet Templates & Vehicle Cloning */}

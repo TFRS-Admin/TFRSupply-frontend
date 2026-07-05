@@ -9,8 +9,10 @@ import { Plus, LayoutGrid } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
+import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
 import { MAX_FLEET_BUILDS, cloneSourceFromBuild } from '@/domain/fleetBuilds';
 import { summarizeFleetProject } from '@/domain/fleetProjects';
+import { resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import FleetBuildCard from './FleetBuildCard';
@@ -29,10 +31,11 @@ export default function FleetBuildsPanel() {
     builds, activeBuildId, isFull,
     addBuild, removeBuild, setActiveBuild, renameBuild,
     updateVehicle, updateQuantity, updateStyle, removeProductFromBuild,
-    cloneBuild,
+    cloneBuild, assignDepartmentStandard,
   } = useFleetBuilds();
   const { templates, saveTemplateFromBuild } = useFleetTemplates();
   const { activeProject } = useFleetProject();
+  const { defaultStandards, companyStandards } = useDepartmentStandards();
   const [cloneSourceBuild, setCloneSourceBuild] = useState(null);
 
   if (!activeProject) {
@@ -118,6 +121,10 @@ export default function FleetBuildsPanel() {
               onRemoveProduct={(categoryId, productId) => removeProductFromBuild(build.id, categoryId, productId)}
               onSaveAsTemplate={() => handleSaveAsTemplate(build)}
               onCloneBuild={() => setCloneSourceBuild(build)}
+              defaultStandards={defaultStandards}
+              companyStandards={companyStandards}
+              effectiveStandard={resolveEffectiveStandard(build, activeProject, companyStandards)}
+              onAssignStandard={(standardId) => assignDepartmentStandard(build.id, standardId)}
             />
           ))}
           {isFull && (

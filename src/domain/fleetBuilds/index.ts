@@ -14,7 +14,7 @@ export {
   addProductToBuildCategory,
   removeProductFromBuildCategory,
 } from './fleetBuildRules';
-export { calculateFleetBuildCompletion } from './completion';
+export { calculateFleetBuildCompletion, getFilledUpfitCategories } from './completion';
 export { addProductToAllCompatibleBuilds } from './addToAllCompatibleBuilds';
 export {
   cloneCategorySelections,

@@ -9,6 +9,7 @@
  */
 import React from 'react';
 import { FolderPlus, ChevronDown, ChevronUp } from 'lucide-react';
+import { summarizeFleetHealth } from '@/domain/departmentStandards';
 import FleetProjectCard from './FleetProjectCard';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -28,6 +29,10 @@ export default function FleetProjectsWorkspaceSection({
   onArchive,
   onUnarchive,
   onDelete,
+  defaultStandards = [],
+  companyStandards = [],
+  onAssignStandard,
+  entriesByProjectId = {},
 }) {
   return (
     <section style={{ marginBottom: 32 }} data-testid="fleet-projects-workspace-section">
@@ -65,6 +70,10 @@ export default function FleetProjectsWorkspaceSection({
             onRename={(name) => onRename(project.id, name)}
             onArchive={() => onArchive(project.id)}
             onDelete={() => onDelete(project.id)}
+            defaultStandards={defaultStandards}
+            companyStandards={companyStandards}
+            onAssignStandard={(standardId) => onAssignStandard(project.id, standardId)}
+            health={(entriesByProjectId[project.id] ?? []).length > 0 ? summarizeFleetHealth(entriesByProjectId[project.id]) : null}
           />
         ))
       ) : (

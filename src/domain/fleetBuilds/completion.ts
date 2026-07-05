@@ -8,7 +8,13 @@ function getReferenceCategories(build: FleetBuild): UpfitCategoryId[] {
   return style ? style.priorityCategories : ALL_UPFIT_CATEGORY_IDS;
 }
 
-function getSelectedCategories(build: FleetBuild): UpfitCategoryId[] {
+/**
+ * Every upfit category with at least one product selected, regardless of
+ * build style. Exported so other scoring modules (e.g.
+ * src/domain/departmentStandards/completionEngine.ts) can reuse the same
+ * "has this category been filled" rule instead of re-deriving it.
+ */
+export function getFilledUpfitCategories(build: FleetBuild): UpfitCategoryId[] {
   return ALL_UPFIT_CATEGORY_IDS.filter((categoryId) => (build.selections[categoryId]?.length ?? 0) > 0);
 }
 
@@ -23,7 +29,7 @@ function getSelectedCategories(build: FleetBuild): UpfitCategoryId[] {
  */
 export function calculateFleetBuildCompletion(build: FleetBuild): FleetBuildCompletion {
   const referenceCategories = getReferenceCategories(build);
-  const selectedCategories = getSelectedCategories(build);
+  const selectedCategories = getFilledUpfitCategories(build);
   const selectedSet = new Set(selectedCategories);
 
   const filledReferenceCount = referenceCategories.filter((categoryId) => selectedSet.has(categoryId)).length;

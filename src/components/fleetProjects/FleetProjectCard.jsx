@@ -8,8 +8,9 @@
  * (FleetProjectsWorkspaceSection); this component holds no persistence logic.
  */
 import React, { useState } from 'react';
-import { FolderOpen, Copy, Pencil, Archive, ArchiveRestore, Trash2 } from 'lucide-react';
+import { FolderOpen, Copy, Pencil, Archive, ArchiveRestore, Trash2, HeartPulse } from 'lucide-react';
 import FleetBuildCompletionBadge from '@/components/fleetBuilds/FleetBuildCompletionBadge';
+import AssignStandardControl from '@/components/departmentStandards/AssignStandardControl';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -31,9 +32,16 @@ function formatDate(timestamp) {
   return new Date(timestamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
+const HEALTH_COLORS = {
+  red: { bg: '#fee2e2', fg: '#b91c1c', bar: '#dc2626' },
+  yellow: { bg: '#fef3c7', fg: '#92400e', bar: '#d97706' },
+  green: { bg: '#dcfce7', fg: '#166534', bar: '#16a34a' },
+};
+
 export default function FleetProjectCard({
   project, summary, isActive,
   onOpen, onDuplicate, onRename, onArchive, onUnarchive, onDelete,
+  defaultStandards = [], companyStandards = [], onAssignStandard, health = null,
 }) {
   const [name, setName] = useState(project.name);
   const [editing, setEditing] = useState(false);
@@ -109,6 +117,53 @@ export default function FleetProjectCard({
       <div style={{ marginBottom: 14 }} data-testid="fleet-project-completion">
         <FleetBuildCompletionBadge completion={completion} />
       </div>
+
+      {!project.archived && (
+        <div style={{ marginBottom: 14 }}>
+          <AssignStandardControl
+            defaultStandards={defaultStandards}
+            companyStandards={companyStandards}
+            value={project.departmentStandardId ?? null}
+            inheritedLabel="No Standard Assigned"
+            onChange={onAssignStandard}
+          />
+        </div>
+      )}
+
+      {health && (
+        <div style={{ marginBottom: 14, border: '1px solid #e5e7eb', borderRadius: 4, padding: '12px 14px', background: '#f8f9fb' }} data-testid="fleet-project-health">
+          <p style={{
+            ...FS, fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+            color: '#1a2744', display: 'flex', alignItems: 'center', gap: 6, margin: '0 0 8px',
+          }}>
+            <HeartPulse size={12} /> Fleet Health
+          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: health.criticalGaps.length > 0 ? 8 : 0 }}>
+            <span style={{
+              fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+              background: (HEALTH_COLORS[health.color] ?? HEALTH_COLORS.red).bg,
+              color: (HEALTH_COLORS[health.color] ?? HEALTH_COLORS.red).fg,
+            }}>
+              {health.overallCompletionPercent}%
+            </span>
+            <div style={{ flex: 1, height: 6, background: '#eee', borderRadius: 999, overflow: 'hidden' }}>
+              <div style={{ width: `${health.overallCompletionPercent}%`, height: '100%', background: (HEALTH_COLORS[health.color] ?? HEALTH_COLORS.red).bar }} />
+            </div>
+          </div>
+          {health.criticalGaps.length > 0 && (
+            <div>
+              <p style={{ ...FS, fontSize: 10, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#b91c1c', margin: '0 0 4px' }}>Critical</p>
+              <ul style={{ margin: 0, padding: '0 0 0 16px' }}>
+                {health.criticalGaps.map((gap) => (
+                  <li key={gap.categoryId} style={{ ...FS, fontSize: 12, color: '#b91c1c' }}>
+                    {gap.vehicleCount} Vehicle{gap.vehicleCount === 1 ? '' : 's'} Missing {gap.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {project.archived ? (

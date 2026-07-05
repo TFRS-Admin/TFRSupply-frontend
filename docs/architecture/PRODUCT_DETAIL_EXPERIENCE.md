@@ -15,8 +15,9 @@ All new components live in `src/components/product/` and are rendered from `Prod
 | `ProductCommerceSummary` | SKU, brand, category, availability, MSRP, starting price, live commerce status | `catalogService` product fields, `useCommerceProduct` (Commerce Foundation) |
 | `CommerceActionPanel` | Configure Product, Request Quote, Add to Cart (conditional), Contact Sales | Existing `cta`/`actions` product fields, `configuratorId`, `useCommerceProduct`, `commerceService.prepareCartLine`, `appConfig.quoteRecipientEmail` |
 | `FitmentSummary` | Supported vehicle types, compatible packages, live vehicle compatibility summary | `product.marketing.applications`, `useVehicle` (`VehicleContext`), `useProductFitment` (Vehicle Fitment Service), `usePackageDefinition` (Package Builder Foundation) |
-| `RecommendedProducts` | Deterministic "you may also need" grid | `catalogService.getProduct`/`searchProducts`, `product.commerce.related_products`, existing `ProductCard` |
+| `RecommendedProducts` | Deterministic "you may also need" grid | `catalogService.getProduct`/`searchProducts`, `product.commerce.related_products`, existing `ProductCard` (its resolution logic now lives in the shared `resolveRelatedProducts`, `src/domain/catalog/relatedProducts.ts`) |
 | `RelatedPackages` | Package cards for packages linked to this product | `product.commerce.related_packages`, `usePackageDefinition` (Package Builder Foundation) |
+| `ProductIntelligencePanel` | Recommended For / Required By / Department Standards / Commonly Installed With (Fleet Intelligence & Department Standards, `FLEET_INTELLIGENCE.md`) | `DepartmentStandardsContext`, `classifyProductUpfitCategory`, the same `resolveRelatedProducts` `RecommendedProducts` reads |
 
 `ProductHero` gained one additive prop, `infoPanel` (a `ReactNode` rendered under the subtitle, above the bullet list). It is `null` by default, so every existing `ProductHero` caller is unaffected. `ProductDetailTemplateView` passes `<ProductCommerceSummary />` into it.
 
@@ -28,6 +29,8 @@ ProductHero (infoPanel = ProductCommerceSummary)
 CommerceActionPanel
 Specifications / ProductTabs / ConfiguratorSection   (unchanged)
 FitmentSummary
+FinishYourUpfitPanel                                 (Fleet Vehicle Shopping Modes)
+ProductIntelligencePanel                             (Fleet Intelligence & Department Standards)
 RelatedPackages
 RecommendedProducts
 PrototypeFooter
@@ -53,6 +56,8 @@ This mirrors the existing `related_products` field and is additive — no produc
 2. If fewer than 3 results are found, backfills with other products from `catalogService.searchProducts({ filter: { categoryId } })`, excluding the current product and anything already included.
 
 This is the same catalog relationship data `CategoryTemplate` and `ProductSearchPage` already read — no new data path was introduced.
+
+This resolution logic is extracted into `resolveRelatedProducts(product, { getProduct, searchByCategory }, limit)` (`src/domain/catalog/relatedProducts.ts`), a pure function `RecommendedProducts` calls with `catalogService` threaded in. Fleet Intelligence & Department Standards' `ProductIntelligencePanel` ("Commonly Installed With," `FLEET_INTELLIGENCE.md`) calls the same function rather than duplicating this resolution — behavior is unchanged for `RecommendedProducts` itself.
 
 ## Fitment Summary and the Vehicle Fitment Service
 
@@ -81,4 +86,4 @@ No shipped product JSON currently sets `commerce.related_packages`, so `RelatedP
 
 ## Testing
 
-`tests/product-detail-experience.test.mjs` covers hero commerce summary rendering (present/absent), CTA composition (configure/quote/cart/contact), fitment summary rendering and the `toFitmentVehicle` mapping, deterministic recommendation selection (explicit + fallback + empty), related package rendering, and full `ProductDetailTemplateView` composition.
+`tests/product-detail-experience.test.mjs` covers hero commerce summary rendering (present/absent), CTA composition (configure/quote/cart/contact), fitment summary rendering and the `toFitmentVehicle` mapping, deterministic recommendation selection (explicit + fallback + empty), related package rendering, and full `ProductDetailTemplateView` composition. `tests/fleet-intelligence.test.mjs` covers `ProductIntelligencePanel`'s own rendering (empty state, populated Recommended For/Required By/Department Standards/Commonly Installed With) — see `FLEET_INTELLIGENCE.md`.

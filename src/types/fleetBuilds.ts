@@ -89,6 +89,12 @@ export interface FleetBuild {
    * build loaded without one onto DEFAULT_PROJECT_ID (pre-Fleet-Projects data).
    */
   projectId?: string;
+  /**
+   * The Department Standard (see src/types/departmentStandards.ts) explicitly
+   * assigned to this build — overrides the parent Fleet Project's assigned
+   * standard, if any. Null/undefined means "inherit from the project."
+   */
+  departmentStandardId?: string | null;
 }
 
 /**

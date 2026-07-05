@@ -147,6 +147,21 @@ export function FleetProjectProvider({ children }) {
     });
   }, []);
 
+  // Fleet Intelligence & Department Standards — assigns (or clears, with
+  // standardId=null) the department standard every build in this project is
+  // measured against by default, unless a build sets its own
+  // FleetBuild.departmentStandardId. See
+  // src/domain/departmentStandards/standardAssignment.ts.
+  const assignDepartmentStandard = useCallback((projectId, standardId) => {
+    setState((current) => {
+      const projects = current.projects.map((project) => (
+        project.id === projectId ? { ...project, departmentStandardId: standardId, updatedAt: Date.now() } : project
+      ));
+      saveToStorage(projects, current.activeProjectId);
+      return { ...current, projects };
+    });
+  }, []);
+
   // Fleet Projects — Duplicate Project: creates the new project's metadata
   // only. The caller (useFleetProjectActions) also duplicates the source
   // project's builds/templates via FleetBuildsContext/FleetTemplatesContext,
@@ -184,9 +199,11 @@ export function FleetProjectProvider({ children }) {
     deleteProject,
     duplicateProject,
     setActiveProject,
+    assignDepartmentStandard,
   }), [
     state.projects, state.activeProjectId, activeProject,
     createProject, renameProject, archiveProject, unarchiveProject, deleteProject, duplicateProject, setActiveProject,
+    assignDepartmentStandard,
   ]);
 
   return <FleetProjectContext.Provider value={value}>{children}</FleetProjectContext.Provider>;

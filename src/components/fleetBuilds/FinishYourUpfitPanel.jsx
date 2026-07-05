@@ -14,10 +14,11 @@
  * used throughout src/pages and src/components/product.
  */
 import React, { useState } from 'react';
-import { Wrench, ArrowRight, Copy } from 'lucide-react';
+import { Wrench, ArrowRight, Copy, ShieldCheck } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
+import { useDepartmentStandards } from '@/context/DepartmentStandardsContext';
 import {
   calculateFleetBuildCompletion,
   classifyProductUpfitCategory,
@@ -26,6 +27,7 @@ import {
   getTemplateById,
   getUpfitCategoryLabel,
 } from '@/domain/fleetBuilds';
+import { evaluateFleetBuildIntelligence, resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import SectionHeading from '@/components/product/SectionHeading';
@@ -33,6 +35,83 @@ import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import FleetBuildCompletionBadge from './FleetBuildCompletionBadge';
 import AddToAllCompatibleBuildsButton from './AddToAllCompatibleBuildsButton';
 import CloneBuildDialog, { summarizeCompatibilityResult } from './CloneBuildDialog';
+
+function browseCategoryHref(categoryLabel) {
+  return `/search?q=${encodeURIComponent(categoryLabel)}`;
+}
+
+/**
+ * Feature 4: Department-standard-aware "Finish Your Upfit" expansion —
+ * Missing Required/Recommended Equipment, the standard's name, and
+ * Recommended Next Products (Add for the current product's own category,
+ * Browse — reusing the existing /search free-text query, no new
+ * recommendation engine — for every other missing category).
+ */
+function DepartmentStandardStatus({ report, currentProductCategoryId, onAddToActiveBuild }) {
+  const nextCategories = [...report.missingRequired, ...report.missingRecommended].slice(0, 5);
+
+  return (
+    <div style={{ ...FS, marginTop: 22, paddingTop: 18, borderTop: '1px solid #eee' }} data-testid="finish-your-upfit-standard-status">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#999', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <ShieldCheck size={13} /> Department Standard: {report.standardName}
+        </p>
+        <FleetBuildCompletionBadge
+          completion={{ percent: report.completionPercent, color: report.departmentCompliant ? 'green' : (report.requiredInstalled > 0 ? 'yellow' : 'red') }}
+          compact
+        />
+      </div>
+      <div className="fyu-standard-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 10 }}>Missing Required Equipment</h3>
+          {report.missingRequired.length > 0 ? (
+            <ul style={{ fontSize: 13, color: '#b91c1c', lineHeight: 1.8, paddingLeft: '1.1rem', margin: 0 }}>
+              {report.missingRequired.map((categoryId) => <li key={categoryId}>{getUpfitCategoryLabel(categoryId)}</li>)}
+            </ul>
+          ) : (
+            <p style={{ fontSize: 13, color: '#16a34a', margin: 0 }}>Fully department-compliant.</p>
+          )}
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginTop: 16, marginBottom: 10 }}>Missing Recommended Equipment</h3>
+          {report.missingRecommended.length > 0 ? (
+            <ul style={{ fontSize: 13, color: '#92400e', lineHeight: 1.8, paddingLeft: '1.1rem', margin: 0 }}>
+              {report.missingRecommended.map((categoryId) => <li key={categoryId}>{getUpfitCategoryLabel(categoryId)}</li>)}
+            </ul>
+          ) : (
+            <p style={{ fontSize: 13, color: '#888', margin: 0 }}>—</p>
+          )}
+        </div>
+        <div>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 10 }}>Recommended Next Products</h3>
+          {nextCategories.length > 0 ? (
+            <ul style={{ fontSize: 13, lineHeight: 2.1, paddingLeft: 0, margin: 0, listStyle: 'none' }}>
+              {nextCategories.map((categoryId) => (
+                categoryId === currentProductCategoryId ? (
+                  <li key={categoryId}>
+                    <button
+                      type="button"
+                      onClick={onAddToActiveBuild}
+                      style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#c8102e', background: 'none', border: 'none', padding: 0, cursor: 'pointer', textDecoration: 'underline' }}
+                    >
+                      Add {getUpfitCategoryLabel(categoryId)}
+                    </button>
+                  </li>
+                ) : (
+                  <li key={categoryId}>
+                    <a href={browseCategoryHref(getUpfitCategoryLabel(categoryId))} style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#1a2744', textDecoration: 'underline' }}>
+                      Browse {getUpfitCategoryLabel(categoryId)}
+                    </a>
+                  </li>
+                )
+              ))}
+            </ul>
+          ) : (
+            <p style={{ fontSize: 13, color: '#888', margin: 0 }}>Nothing outstanding.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -80,11 +159,14 @@ function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
 
 export function FinishYourUpfitPanelView({
   builds, activeBuild, product, templates = [], appliedTemplate = null, activeProject = null,
+  effectiveStandard = null,
   onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild,
 }) {
   if (!builds || builds.length === 0) return null;
 
   const completion = activeBuild ? calculateFleetBuildCompletion(activeBuild) : null;
+  const standardReport = activeBuild ? evaluateFleetBuildIntelligence(activeBuild, effectiveStandard) : null;
+  const currentProductCategoryId = classifyProductUpfitCategory(product);
 
   return (
     <div className="border-t border-gray-200 bg-white" id="finish-your-upfit" data-testid="finish-your-upfit-panel">
@@ -164,6 +246,14 @@ export function FinishYourUpfitPanelView({
               <OpenFleetBuildsButton onOpen={onOpenFleetBuilds} label="Fleet Builds" />
             </div>
 
+            {standardReport && (
+              <DepartmentStandardStatus
+                report={standardReport}
+                currentProductCategoryId={currentProductCategoryId}
+                onAddToActiveBuild={onAddToActiveBuild}
+              />
+            )}
+
             <div style={{ ...FS, marginTop: 20, paddingTop: 16, borderTop: '1px solid #eee' }}>
               <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#999', marginBottom: 8 }}>
                 Current Template
@@ -194,8 +284,11 @@ export default function FinishYourUpfitPanel({ product }) {
   const { builds, activeBuild, addProductToActiveBuild, applyTemplate, cloneBuild } = useFleetBuilds();
   const { templates, touchUsage } = useFleetTemplates();
   const { activeProject } = useFleetProject();
+  const { companyStandards } = useDepartmentStandards();
   const [modalOpen, setModalOpen] = useState(false);
   const [cloneDialogOpen, setCloneDialogOpen] = useState(false);
+
+  const effectiveStandard = activeBuild ? resolveEffectiveStandard(activeBuild, activeProject, companyStandards) : null;
 
   const appliedTemplate = getTemplateById(templates, activeBuild?.templateId);
 
@@ -244,6 +337,7 @@ export default function FinishYourUpfitPanel({ product }) {
         templates={templates}
         appliedTemplate={appliedTemplate}
         activeProject={activeProject}
+        effectiveStandard={effectiveStandard}
         onAddToActiveBuild={handleAddToActiveBuild}
         onOpenFleetBuilds={() => setModalOpen(true)}
         onApplyTemplate={handleApplyTemplate}

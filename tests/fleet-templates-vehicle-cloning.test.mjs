@@ -16,6 +16,7 @@ before(async () => {
     fleetProjectContext: await server.ssrLoadModule('/src/context/FleetProjectContext.jsx'),
     fleetBuildsContext: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
     fleetTemplatesContext: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
+    departmentStandardsContext: await server.ssrLoadModule('/src/context/DepartmentStandardsContext.jsx'),
     vehicleContext: await server.ssrLoadModule('/src/context/VehicleContext.jsx'),
     compareContext: await server.ssrLoadModule('/src/context/CompareContext.jsx'),
     recentlyViewedContext: await server.ssrLoadModule('/src/context/RecentlyViewedContext.jsx'),
@@ -57,6 +58,7 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { FleetProjectProvider } = modules.fleetProjectContext;
   const { FleetBuildsProvider } = modules.fleetBuildsContext;
   const { FleetTemplatesProvider } = modules.fleetTemplatesContext;
+  const { DepartmentStandardsProvider } = modules.departmentStandardsContext;
   const { ConfiguratorProvider } = modules.configuratorContext;
 
   return stripHtmlComments(renderToString(
@@ -68,7 +70,9 @@ function renderWithProviders(element, initialEntries = ['/']) {
               React.createElement(FleetProjectProvider, null,
                 React.createElement(FleetBuildsProvider, null,
                   React.createElement(FleetTemplatesProvider, null,
-                    React.createElement(ConfiguratorProvider, null, element),
+                    React.createElement(DepartmentStandardsProvider, null,
+                      React.createElement(ConfiguratorProvider, null, element),
+                    ),
                   ),
                 ),
               ),

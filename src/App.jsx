@@ -15,6 +15,7 @@ import { SavedProductsProvider } from '@/context/SavedProductsContext';
 import { FleetProjectProvider } from '@/context/FleetProjectContext';
 import { FleetBuildsProvider } from '@/context/FleetBuildsContext';
 import { FleetTemplatesProvider } from '@/context/FleetTemplatesContext';
+import { DepartmentStandardsProvider } from '@/context/DepartmentStandardsContext';
 
 // Page imports
 import StoreLanding from '@/pages/StoreLanding';
@@ -68,6 +69,7 @@ const AuthenticatedApp = () => {
     <FleetProjectProvider>
     <FleetBuildsProvider>
     <FleetTemplatesProvider>
+    <DepartmentStandardsProvider>
     <ConfiguratorProvider>
       <Routes>
         <Route path="/" element={<StoreLanding />} />
@@ -113,6 +115,7 @@ const AuthenticatedApp = () => {
       </Routes>
       <CompareTray />
     </ConfiguratorProvider>
+    </DepartmentStandardsProvider>
     </FleetTemplatesProvider>
     </FleetBuildsProvider>
     </FleetProjectProvider>

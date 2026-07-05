@@ -28,6 +28,7 @@ before(async () => {
     fleetProject: await server.ssrLoadModule('/src/context/FleetProjectContext.jsx'),
     fleetBuilds: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
     fleetTemplates: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
+    departmentStandards: await server.ssrLoadModule('/src/context/DepartmentStandardsContext.jsx'),
   };
 });
 
@@ -45,6 +46,7 @@ function renderWithProviders(element, initialEntries = ['/fire/light-bars/naviga
   const { FleetProjectProvider } = modules.fleetProject;
   const { FleetBuildsProvider } = modules.fleetBuilds;
   const { FleetTemplatesProvider } = modules.fleetTemplates;
+  const { DepartmentStandardsProvider } = modules.departmentStandards;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries },
@@ -55,7 +57,9 @@ function renderWithProviders(element, initialEntries = ['/fire/light-bars/naviga
               React.createElement(FleetProjectProvider, null,
                 React.createElement(FleetBuildsProvider, null,
                   React.createElement(FleetTemplatesProvider, null,
-                    React.createElement(ConfiguratorProvider, null, element),
+                    React.createElement(DepartmentStandardsProvider, null,
+                      React.createElement(ConfiguratorProvider, null, element),
+                    ),
                   ),
                 ),
               ),
