@@ -82,6 +82,10 @@ Two new `localStorage` keys, both following the existing defensive-parse-on-load
 
 The Fleet Quote Builder (`FLEET_QUOTE_BUILDER.md`, `/project-quote`) reuses this document's engine directly rather than re-deriving any tier or completion logic: its Project Summary's Fleet Health/vehicle count/completion percent are `summarizeFleetHealth`'s output, its "Required/Recommended Equipment Remaining" totals are vehicle-count-weighted the same way `criticalGaps` is, and its per-vehicle "Missing Required/Recommended Equipment" reads the Guided Upfit Builder's `buildGuidedUpfitChecklist` (which itself calls `evaluateFleetBuildIntelligence`). No completion, tier, or compliance rule is duplicated by that feature.
 
+## Fleet Procurement Packages integration
+
+Fleet Procurement Packages (`FLEET_PROCUREMENT_PACKAGES.md`, `/procurement`) groups Fleet Builds by their **effective Department Standard** — the same `resolveEffectiveStandard` resolution this document defines — into named purchasing packages, and calls `summarizeFleetHealth` per package (instead of per project or account-wide) for each package's Vehicles/Completion figures. No new standard, tier, or completion rule is introduced; the only new logic is the grouping itself and a duplicate-vehicle-configuration check scoped to one package's builds.
+
 ## Non-goals
 
 No backend, authentication, Shopify calls, checkout, pricing/quote changes, CRM, admin surface, or AI/ML ranking. No new upfit-category taxonomy — every standard's required/recommended/optional tiers are built from the existing 12 `UpfitCategoryId` values. No change to `calculateFleetBuildCompletion`'s existing build-style scoring — the new engine is additive, not a replacement.

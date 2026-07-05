@@ -45,11 +45,13 @@ import RecommendedNextActionsSection from '@/components/workspace/RecommendedNex
 import DepartmentStandardsSection from '@/components/departmentStandards/DepartmentStandardsSection';
 import GuidedUpfitBuilderWorkspaceSection from '@/components/upfitBuilder/GuidedUpfitBuilderWorkspaceSection';
 import ProjectQuoteWorkspaceSection from '@/components/fleetQuote/ProjectQuoteWorkspaceSection';
+import ProcurementPackagesWorkspaceSection from '@/components/procurementPackages/ProcurementPackagesWorkspaceSection';
 import { summarizeFleetProject } from '@/domain/fleetProjects';
 import { resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { buildGuidedUpfitChecklist, resolveDefaultStepId, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
 import { summarizeRecommendedNextActions, resolveRecommendationProducts } from '@/domain/recommendations';
 import { aggregateProjectQuote, buildFleetQuoteEntries, calculateProjectTotals, groupQuoteItems } from '@/domain/fleetQuote';
+import { aggregatePackageSummary, groupFleetQuoteEntriesIntoPackages, summarizeProcurementPackages } from '@/domain/procurementPackages';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 
@@ -138,6 +140,7 @@ export function WorkspaceDashboardView({
   departmentStandards,
   guidedUpfitBuilder = {},
   projectQuote = {},
+  procurementPackages = {},
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -311,6 +314,8 @@ export function WorkspaceDashboardView({
 
         <ProjectQuoteWorkspaceSection {...projectQuote} />
 
+        <ProcurementPackagesWorkspaceSection {...procurementPackages} />
+
         <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
 
         <FleetTemplatesWorkspaceSection templates={fleetTemplates} builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
@@ -471,6 +476,18 @@ export default function WorkspaceDashboard() {
     recommendedEquipmentRemaining: projectQuoteTotals.recommendedEquipmentRemaining,
   };
 
+  // Fleet Procurement Packages — the active Fleet Project's builds grouped
+  // into named packages by effective Department Standard, for the
+  // /procurement shortcut. Reuses the same projectQuoteEntries computed
+  // above rather than re-resolving each build's standard/checklist again.
+  const procurementPackagesList = groupFleetQuoteEntriesIntoPackages(projectQuoteEntries).map(
+    (group) => aggregatePackageSummary(group, { products: catalogService.listProducts(), getProduct: catalogService.getProduct }),
+  );
+  const procurementPackagesProps = {
+    hasActiveProject: Boolean(activeProject),
+    summary: summarizeProcurementPackages(procurementPackagesList),
+  };
+
   function handleAddRecommendedProductToBuild(buildId, product, recommendation) {
     if (!recommendation.matchingCategoryId) return;
     addProductToBuild(buildId, recommendation.matchingCategoryId, product);
@@ -559,6 +576,7 @@ export default function WorkspaceDashboard() {
         departmentStandards={departmentStandardsProps}
         guidedUpfitBuilder={guidedUpfitBuilderProps}
         projectQuote={projectQuoteProps}
+        procurementPackages={procurementPackagesProps}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}

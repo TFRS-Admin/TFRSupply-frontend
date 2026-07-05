@@ -30,6 +30,7 @@ import CartWorkspace from '@/pages/CartWorkspace';
 import WorkspaceDashboard from '@/pages/WorkspaceDashboard';
 import GuidedUpfitBuilderPage from '@/pages/GuidedUpfitBuilderPage';
 import ProjectQuotePage from '@/pages/ProjectQuotePage';
+import ProcurementPage from '@/pages/ProcurementPage';
 
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
@@ -84,6 +85,7 @@ const AuthenticatedApp = () => {
         <Route path="/workspace" element={<WorkspaceDashboard />} />
         <Route path="/upfit-builder" element={<GuidedUpfitBuilderPage />} />
         <Route path="/project-quote" element={<ProjectQuotePage />} />
+        <Route path="/procurement" element={<ProcurementPage />} />
 
         {/* Template-driven routes — JSON-powered, no new pages needed */}
         <Route path="/:verticalId" element={<VerticalLandingTemplate />} />
