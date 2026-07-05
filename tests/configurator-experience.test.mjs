@@ -236,6 +236,59 @@ describe('ConfiguratorCommerceActions (commerce action composition)', () => {
     assert.match(html, /Continue Shopping/);
     assert.match(html, /href="\/fire\/light-bars"/);
   });
+
+  it('applies the requested quantity and carries the resolver-provided shopifyVariantId into CartLineInput metadata', () => {
+    const { buildCartLineInput } = modules.commerceActions;
+    const { cartLineInputSchema } = modules.cartSchema;
+
+    const input = buildCartLineInput({ ...CONFIG_STATE, shopifyVariantId: 'gid://shopify/ProductVariant/123' }, 3);
+    const parsed = cartLineInputSchema.parse(input);
+
+    assert.equal(parsed.quantity, 3);
+    assert.equal(parsed.metadata?.attributes?.shopifyVariantId, 'gid://shopify/ProductVariant/123');
+  });
+
+  it('defaults quantity to 1 and clamps non-positive quantities to 1', () => {
+    const { buildCartLineInput } = modules.commerceActions;
+    assert.equal(buildCartLineInput(CONFIG_STATE).quantity, 1);
+    assert.equal(buildCartLineInput(CONFIG_STATE, 0).quantity, 1);
+    assert.equal(buildCartLineInput(CONFIG_STATE, -5).quantity, 1);
+  });
+
+  it('records a null shopifyVariantId in metadata when the resolver has not matched a Shopify variant', () => {
+    const { buildCartLineInput } = modules.commerceActions;
+    const input = buildCartLineInput({ ...CONFIG_STATE, shopifyVariantId: null });
+    assert.equal(input.metadata.attributes.shopifyVariantId, null);
+  });
+
+  it('disables Add to Cart and shows the disabled-reason notice when the resolver reports canAddToCart: false', () => {
+    const { default: ConfiguratorCommerceActions } = modules.commerceActions;
+    const notReady = { ...CONFIG_STATE, checkoutReady: false };
+    const html = renderWithProviders(React.createElement(ConfiguratorCommerceActions, { configState: notReady, verticalId: 'fire', categoryId: 'light-bars' }));
+
+    assert.match(html, /data-testid="cart-disabled-reason"/);
+    const addToCartButton = html.match(/<button[^>]*title="Shopify variant ID pending[^>]*>/);
+    assert.ok(addToCartButton, 'expected to find the Add to Cart button by its disabled title');
+    assert.match(addToCartButton[0], /disabled/);
+  });
+
+  it('enables Add to Cart with no disabled-reason notice when the resolver reports canAddToCart: true', () => {
+    const { default: ConfiguratorCommerceActions } = modules.commerceActions;
+    const html = renderWithProviders(React.createElement(ConfiguratorCommerceActions, { configState: CONFIG_STATE, verticalId: 'fire', categoryId: 'light-bars' }));
+
+    assert.doesNotMatch(html, /data-testid="cart-disabled-reason"/);
+    const addToCartButton = html.match(/<button[^>]*title="This configuration is ready to add to your cart\.[^>]*>/);
+    assert.ok(addToCartButton, 'expected to find the Add to Cart button by its enabled title');
+    assert.doesNotMatch(addToCartButton[0], /disabled/);
+  });
+
+  it('renders a quantity stepper defaulting to 1', () => {
+    const { default: ConfiguratorCommerceActions } = modules.commerceActions;
+    const html = renderWithProviders(React.createElement(ConfiguratorCommerceActions, { configState: CONFIG_STATE, verticalId: 'fire', categoryId: 'light-bars' }));
+
+    assert.match(html, /data-testid="cart-quantity-stepper"/);
+    assert.match(html, /data-testid="cart-quantity-value">1</);
+  });
 });
 
 describe('Cart Workspace integration', () => {
@@ -255,6 +308,22 @@ describe('Cart Workspace integration', () => {
     assert.ok(addedLine, 'expected the configured SKU to be present in the cart');
     assert.equal(addedLine.source, 'configurator');
     assert.equal(addedLine.unitPrice.amount, 4639);
+  });
+
+  it('adds the requested quantity as the line quantity and line total', async () => {
+    const { createCartWorkspaceService } = modules.cartService;
+    const { createMockCartWorkspaceAdapter } = modules.cartAdapters;
+    const { buildCartLineInput } = modules.commerceActions;
+
+    const service = createCartWorkspaceService(createMockCartWorkspaceAdapter());
+    const input = buildCartLineInput(CONFIG_STATE, 3);
+
+    const after_ = await service.addLine(input);
+
+    const addedLine = after_.lines.find((line) => line.sku === 'NVG45Z-NFPA20');
+    assert.ok(addedLine, 'expected the configured SKU to be present in the cart');
+    assert.equal(addedLine.quantity, 3);
+    assert.equal(addedLine.lineTotal.amount, 4639 * 3);
   });
 });
 
