@@ -29,6 +29,7 @@ import SavedProductsPage from '@/pages/SavedProductsPage';
 import CartWorkspace from '@/pages/CartWorkspace';
 import WorkspaceDashboard from '@/pages/WorkspaceDashboard';
 import GuidedUpfitBuilderPage from '@/pages/GuidedUpfitBuilderPage';
+import ProjectQuotePage from '@/pages/ProjectQuotePage';
 
 import AdminDebugSummary from '@/pages/AdminDebugSummary';
 import AdminQuotesPage from '@/pages/AdminQuotesPage';
@@ -82,6 +83,7 @@ const AuthenticatedApp = () => {
         <Route path="/cart" element={<CartWorkspace />} />
         <Route path="/workspace" element={<WorkspaceDashboard />} />
         <Route path="/upfit-builder" element={<GuidedUpfitBuilderPage />} />
+        <Route path="/project-quote" element={<ProjectQuotePage />} />
 
         {/* Template-driven routes — JSON-powered, no new pages needed */}
         <Route path="/:verticalId" element={<VerticalLandingTemplate />} />

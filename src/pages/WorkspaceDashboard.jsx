@@ -44,10 +44,12 @@ import WorkspaceFleetIntelligenceSection from '@/components/workspace/WorkspaceF
 import RecommendedNextActionsSection from '@/components/workspace/RecommendedNextActionsSection';
 import DepartmentStandardsSection from '@/components/departmentStandards/DepartmentStandardsSection';
 import GuidedUpfitBuilderWorkspaceSection from '@/components/upfitBuilder/GuidedUpfitBuilderWorkspaceSection';
+import ProjectQuoteWorkspaceSection from '@/components/fleetQuote/ProjectQuoteWorkspaceSection';
 import { summarizeFleetProject } from '@/domain/fleetProjects';
 import { resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { buildGuidedUpfitChecklist, resolveDefaultStepId, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
 import { summarizeRecommendedNextActions, resolveRecommendationProducts } from '@/domain/recommendations';
+import { aggregateProjectQuote, buildFleetQuoteEntries, calculateProjectTotals, groupQuoteItems } from '@/domain/fleetQuote';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 
@@ -135,6 +137,7 @@ export function WorkspaceDashboardView({
   recommendedNextActions = [],
   departmentStandards,
   guidedUpfitBuilder = {},
+  projectQuote = {},
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -306,6 +309,8 @@ export function WorkspaceDashboardView({
 
         <GuidedUpfitBuilderWorkspaceSection {...guidedUpfitBuilder} />
 
+        <ProjectQuoteWorkspaceSection {...projectQuote} />
+
         <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
 
         <FleetTemplatesWorkspaceSection templates={fleetTemplates} builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
@@ -452,6 +457,20 @@ export default function WorkspaceDashboard() {
     currentStepLabel: guidedCurrentStepId ? getUpfitBuilderStepLabel(guidedCurrentStepId) : null,
   };
 
+  // Fleet Quote Builder — the active Fleet Project's quote readiness and
+  // outstanding-equipment counts, for the /project-quote shortcut. `builds`
+  // is already scoped to the active project by FleetBuildsContext.
+  const projectQuoteEntries = buildFleetQuoteEntries(fleetBuilds, activeProject, companyStandards);
+  const projectQuoteSummary = aggregateProjectQuote(activeProject, projectQuoteEntries, null);
+  const projectQuoteTotals = calculateProjectTotals(projectQuoteEntries, groupQuoteItems(projectQuoteEntries));
+  const projectQuoteProps = {
+    hasActiveProject: Boolean(activeProject),
+    projectName: activeProject?.name ?? null,
+    quoteStatus: projectQuoteSummary.quoteStatus,
+    requiredEquipmentRemaining: projectQuoteTotals.requiredEquipmentRemaining,
+    recommendedEquipmentRemaining: projectQuoteTotals.recommendedEquipmentRemaining,
+  };
+
   function handleAddRecommendedProductToBuild(buildId, product, recommendation) {
     if (!recommendation.matchingCategoryId) return;
     addProductToBuild(buildId, recommendation.matchingCategoryId, product);
@@ -539,6 +558,7 @@ export default function WorkspaceDashboard() {
         recommendedNextActions={recommendedNextActions}
         departmentStandards={departmentStandardsProps}
         guidedUpfitBuilder={guidedUpfitBuilderProps}
+        projectQuote={projectQuoteProps}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}

@@ -43,6 +43,7 @@ import {
   UPFIT_BUILDER_STEP_SEQUENCE,
 } from '@/domain/upfitBuilder';
 import { generateRecommendations, resolveRecommendationProducts, resolveRelatedProductIdsForBuild } from '@/domain/recommendations';
+import { buildFleetQuoteEntries, meetsProjectQuoteReadinessThreshold, resolveQuoteReadiness } from '@/domain/fleetQuote';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 import UpfitBuilderStepperSidebar from '@/components/upfitBuilder/UpfitBuilderStepperSidebar';
@@ -70,6 +71,7 @@ export function GuidedUpfitBuilderPageView({
   onAddProductToCategory, onRemoveProductFromCategory,
   onSkipStep, onUnskipStep,
   quoteRecipientEmail,
+  showGenerateProjectQuote = false,
 }) {
   const stepIndex = getStepIndex(currentStepId);
   const stepLabel = getUpfitBuilderStepLabel(currentStepId);
@@ -128,6 +130,7 @@ export function GuidedUpfitBuilderPageView({
           onGoToStep={onGoToStep}
           quoteRecipientEmail={quoteRecipientEmail}
           onBack={backHandler}
+          showGenerateProjectQuote={showGenerateProjectQuote}
         />
       );
     }
@@ -229,6 +232,14 @@ export default function GuidedUpfitBuilderPage() {
   const checklist = activeBuild ? buildGuidedUpfitChecklist(activeBuild, effectiveStandard, skippedStepIds) : null;
   const stepperItems = buildUpfitBuilderStepperItems(setupState, checklist, skippedStepIds);
 
+  // Fleet Quote Builder — the Review step's "Generate Project Quote" button
+  // only appears once the active Fleet Project's overall quote readiness
+  // meets a configurable threshold (see PROJECT_QUOTE_READY_LEVELS,
+  // src/domain/fleetQuote/quoteReadiness.ts).
+  const projectQuoteEntries = buildFleetQuoteEntries(builds, activeProject, companyStandards);
+  const projectQuoteReadiness = resolveQuoteReadiness(Boolean(activeProject), projectQuoteEntries);
+  const showGenerateProjectQuote = meetsProjectQuoteReadinessThreshold(projectQuoteReadiness);
+
   const suggestedProducts = isCategoryStep(currentStepId)
     ? resolveSuggestedProductsForCategory(currentStepId, { searchProducts: catalogService.searchProducts })
     : [];
@@ -317,6 +328,7 @@ export default function GuidedUpfitBuilderPage() {
       onSkipStep={(stepId) => activeBuild && skipStep(activeBuild.id, stepId)}
       onUnskipStep={(stepId) => activeBuild && unskipStep(activeBuild.id, stepId)}
       quoteRecipientEmail={appConfig.quoteRecipientEmail}
+      showGenerateProjectQuote={showGenerateProjectQuote}
     />
   );
 }

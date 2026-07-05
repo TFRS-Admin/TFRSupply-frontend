@@ -9,7 +9,7 @@
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, ArrowRight, FileSpreadsheet, ShoppingCart } from 'lucide-react';
 import { getUpfitCategoryLabel } from '@/domain/fleetBuilds';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -36,7 +36,7 @@ function MissingList({ title, categoryIds, tone, onGoToStep }) {
   );
 }
 
-export default function UpfitBuilderReviewStep({ build, checklist, onGoToStep, quoteRecipientEmail, onBack }) {
+export default function UpfitBuilderReviewStep({ build, checklist, onGoToStep, quoteRecipientEmail, onBack, showGenerateProjectQuote = false }) {
   const nothingMissing = checklist.missingRequired.length === 0 && checklist.missingRecommended.length === 0;
 
   return (
@@ -94,6 +94,15 @@ export default function UpfitBuilderReviewStep({ build, checklist, onGoToStep, q
           </button>
         )}
         <div style={{ flex: 1 }} />
+        {showGenerateProjectQuote && (
+          <Link
+            to="/project-quote"
+            data-testid="upfit-builder-generate-project-quote"
+            style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#1a2744', background: '#fff', border: '2px solid #1a2744', padding: '10px 16px', minHeight: 44, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+          >
+            <FileSpreadsheet size={14} /> Generate Project Quote
+          </Link>
+        )}
         <Link
           to="/cart"
           style={{ ...FS, fontSize: 13, fontWeight: 700, color: '#1a2744', background: '#fff', border: '2px solid #1a2744', padding: '10px 16px', minHeight: 44, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}
