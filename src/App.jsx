@@ -12,6 +12,7 @@ import { CompareProvider } from '@/context/CompareContext';
 import CompareTray from '@/components/product/CompareTray';
 import { RecentlyViewedProvider } from '@/context/RecentlyViewedContext';
 import { SavedProductsProvider } from '@/context/SavedProductsContext';
+import { FleetProjectProvider } from '@/context/FleetProjectContext';
 import { FleetBuildsProvider } from '@/context/FleetBuildsContext';
 import { FleetTemplatesProvider } from '@/context/FleetTemplatesContext';
 
@@ -64,6 +65,7 @@ const AuthenticatedApp = () => {
     <CompareProvider>
     <RecentlyViewedProvider>
     <SavedProductsProvider>
+    <FleetProjectProvider>
     <FleetBuildsProvider>
     <FleetTemplatesProvider>
     <ConfiguratorProvider>
@@ -113,6 +115,7 @@ const AuthenticatedApp = () => {
     </ConfiguratorProvider>
     </FleetTemplatesProvider>
     </FleetBuildsProvider>
+    </FleetProjectProvider>
     </SavedProductsProvider>
     </RecentlyViewedProvider>
     </CompareProvider>

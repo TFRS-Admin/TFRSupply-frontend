@@ -17,6 +17,7 @@ import React, { useState } from 'react';
 import { Wrench, ArrowRight, Copy } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
+import { useFleetProject } from '@/context/FleetProjectContext';
 import {
   calculateFleetBuildCompletion,
   classifyProductUpfitCategory,
@@ -78,7 +79,7 @@ function OpenFleetBuildsButton({ onOpen, label = 'Open Fleet Builds' }) {
 }
 
 export function FinishYourUpfitPanelView({
-  builds, activeBuild, product, templates = [], appliedTemplate = null,
+  builds, activeBuild, product, templates = [], appliedTemplate = null, activeProject = null,
   onAddToActiveBuild, onOpenFleetBuilds, onApplyTemplate, onCloneActiveBuild,
 }) {
   if (!builds || builds.length === 0) return null;
@@ -91,6 +92,18 @@ export function FinishYourUpfitPanelView({
         <SectionHeading icon={Wrench} description="See how this product fits into your active fleet build.">
           Finish Your Upfit
         </SectionHeading>
+
+        <div style={{ ...FS, display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 20, fontSize: 12, color: '#666' }}>
+          <span data-testid="current-project-label">
+            <strong style={{ color: '#1a1a1a' }}>Current Project:</strong> {activeProject ? activeProject.name : 'None'}
+          </span>
+          <span data-testid="current-fleet-build-label">
+            <strong style={{ color: '#1a1a1a' }}>Current Fleet Build:</strong> {activeBuild ? activeBuild.name : 'None'}
+          </span>
+          <span data-testid="current-template-summary-label">
+            <strong style={{ color: '#1a1a1a' }}>Current Template:</strong> {appliedTemplate ? appliedTemplate.name : 'None applied'}
+          </span>
+        </div>
 
         {!activeBuild ? (
           <>
@@ -180,6 +193,7 @@ export function FinishYourUpfitPanelView({
 export default function FinishYourUpfitPanel({ product }) {
   const { builds, activeBuild, addProductToActiveBuild, applyTemplate, cloneBuild } = useFleetBuilds();
   const { templates, touchUsage } = useFleetTemplates();
+  const { activeProject } = useFleetProject();
   const [modalOpen, setModalOpen] = useState(false);
   const [cloneDialogOpen, setCloneDialogOpen] = useState(false);
 
@@ -229,6 +243,7 @@ export default function FinishYourUpfitPanel({ product }) {
         product={product}
         templates={templates}
         appliedTemplate={appliedTemplate}
+        activeProject={activeProject}
         onAddToActiveBuild={handleAddToActiveBuild}
         onOpenFleetBuilds={() => setModalOpen(true)}
         onApplyTemplate={handleApplyTemplate}

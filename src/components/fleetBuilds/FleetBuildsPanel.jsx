@@ -8,12 +8,15 @@ import React, { useState } from 'react';
 import { Plus, LayoutGrid } from 'lucide-react';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
+import { useFleetProject } from '@/context/FleetProjectContext';
 import { MAX_FLEET_BUILDS, cloneSourceFromBuild } from '@/domain/fleetBuilds';
+import { summarizeFleetProject } from '@/domain/fleetProjects';
 import { catalogService } from '@/services/catalog';
 import { toast } from '@/components/ui/use-toast';
 import FleetBuildCard from './FleetBuildCard';
 import FleetTemplatesSection from './FleetTemplatesSection';
 import CloneBuildDialog, { summarizeCompatibilityResult } from './CloneBuildDialog';
+import ProjectSummaryCard from '@/components/fleetProjects/ProjectSummaryCard';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -28,8 +31,19 @@ export default function FleetBuildsPanel() {
     updateVehicle, updateQuantity, updateStyle, removeProductFromBuild,
     cloneBuild,
   } = useFleetBuilds();
-  const { saveTemplateFromBuild } = useFleetTemplates();
+  const { templates, saveTemplateFromBuild } = useFleetTemplates();
+  const { activeProject } = useFleetProject();
   const [cloneSourceBuild, setCloneSourceBuild] = useState(null);
+
+  if (!activeProject) {
+    return (
+      <div data-testid="fleet-builds-panel">
+        <p style={{ ...FS, fontSize: 13, color: '#888', lineHeight: 1.6 }}>
+          No active fleet project. Create one from My Workspace to start planning fleet builds.
+        </p>
+      </div>
+    );
+  }
 
   function handleSaveAsTemplate(build) {
     const template = saveTemplateFromBuild(build);
@@ -53,6 +67,8 @@ export default function FleetBuildsPanel() {
 
   return (
     <div data-testid="fleet-builds-panel">
+      <ProjectSummaryCard projectName={activeProject.name} summary={summarizeFleetProject(activeProject, builds, templates)} />
+
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
         <p style={{ ...FS, fontSize: 12, color: '#666', lineHeight: 1.6, margin: 0, maxWidth: 380 }}>
           Create a build per vehicle spec, then switch between them while you shop — each tracks its own upfit progress.

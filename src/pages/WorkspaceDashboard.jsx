@@ -28,6 +28,8 @@ import { useVehicle } from '@/context/VehicleContext';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
 import { useFleetTemplates } from '@/context/FleetTemplatesContext';
+import { useFleetProject } from '@/context/FleetProjectContext';
+import { useFleetProjectActions } from '@/hooks/useFleetProjectActions';
 import { useMiniCart } from '@/hooks/cartWorkspace';
 import { catalogService } from '@/services/catalog';
 import { resolveProductDetailPath } from '@/domain/catalog';
@@ -35,6 +37,9 @@ import { resolveSavedProducts } from '@/components/product/SavedProductsSection'
 import { resolveRecentlyViewedProducts } from '@/components/product/RecentlyViewedProducts';
 import FleetBuildsWorkspaceSection from '@/components/fleetBuilds/FleetBuildsWorkspaceSection';
 import FleetTemplatesWorkspaceSection from '@/components/fleetBuilds/FleetTemplatesWorkspaceSection';
+import FleetProjectsWorkspaceSection from '@/components/fleetProjects/FleetProjectsWorkspaceSection';
+import { summarizeFleetProject } from '@/domain/fleetProjects';
+import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -116,6 +121,7 @@ export function WorkspaceDashboardView({
   compareProducts,
   fleetBuilds = [],
   fleetTemplates = [],
+  fleetProjects,
   cartSummary,
   cartLoading,
   selectedVehicle,
@@ -271,6 +277,8 @@ export function WorkspaceDashboardView({
           </WorkspaceSectionCard>
         </div>
 
+        {fleetProjects && <FleetProjectsWorkspaceSection {...fleetProjects} />}
+
         <FleetBuildsWorkspaceSection builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
 
         <FleetTemplatesWorkspaceSection templates={fleetTemplates} builds={fleetBuilds} onOpenFleetBuilds={onOpenFleetBuilds} />
@@ -333,17 +341,73 @@ export default function WorkspaceDashboard() {
   const { productIds: compareIds, removeFromCompare, clearCompare } = useCompare();
   const { selectedVehicle } = useVehicle();
   const { state: configuratorState } = useConfigurator();
-  const { builds: fleetBuilds } = useFleetBuilds();
-  const { templates: fleetTemplates } = useFleetTemplates();
+  const { builds: fleetBuilds, allBuilds } = useFleetBuilds();
+  const { templates: fleetTemplates, allTemplates } = useFleetTemplates();
+  const {
+    projects, activeProjectId, isFull: projectsFull,
+    createProject, renameProject, archiveProject, unarchiveProject, setActiveProject,
+  } = useFleetProject();
+  const { duplicateProjectWithContents, deleteProjectWithContents } = useFleetProjectActions();
   const { summary: cartSummary, loading: cartLoading } = useMiniCart();
   // null = closed; 'shop' | 'fleet' selects which VehicleSelectorModal tab
   // opens — the Selected Vehicle card and the Fleet Builds section share one
   // modal instance instead of each managing its own.
   const [vehicleModalTab, setVehicleModalTab] = useState(null);
+  const [showArchivedProjects, setShowArchivedProjects] = useState(false);
 
   const savedProducts = resolveSavedProducts(savedIds);
   const recentlyViewedProducts = resolveRecentlyViewedProducts(recentIds);
   const compareProducts = resolveCompareQueueProducts(compareIds);
+
+  const activeProjectsList = projects.filter((project) => !project.archived);
+  const archivedProjectsList = projects.filter((project) => project.archived);
+  const projectSummaries = Object.fromEntries(
+    projects.map((project) => [project.id, summarizeFleetProject(project, allBuilds, allTemplates)]),
+  );
+
+  function handleCreateProject() {
+    const created = createProject();
+    if (!created) {
+      toast({ title: 'Project limit reached', description: 'Delete a project to add another.' });
+      return;
+    }
+    toast({ title: 'Project created', description: `"${created.name}" is ready to plan.` });
+  }
+
+  function handleOpenProject(projectId) {
+    setActiveProject(projectId);
+    setVehicleModalTab('fleet');
+  }
+
+  function handleDuplicateProject(projectId) {
+    const source = projects.find((project) => project.id === projectId);
+    const created = duplicateProjectWithContents(projectId);
+    if (!created) return;
+    toast({ title: 'Project duplicated', description: `"${source?.name ?? 'Project'}" copied to "${created.name}".` });
+  }
+
+  function handleDeleteProject(projectId) {
+    const source = projects.find((project) => project.id === projectId);
+    deleteProjectWithContents(projectId);
+    toast({ title: 'Project deleted', description: `"${source?.name ?? 'Project'}" and its fleet builds/templates were removed.` });
+  }
+
+  const fleetProjectsProps = {
+    projects: activeProjectsList,
+    archivedProjects: archivedProjectsList,
+    activeProjectId,
+    summaries: projectSummaries,
+    isFull: projectsFull,
+    showArchived: showArchivedProjects,
+    onToggleShowArchived: () => setShowArchivedProjects((value) => !value),
+    onCreate: handleCreateProject,
+    onOpen: handleOpenProject,
+    onDuplicate: handleDuplicateProject,
+    onRename: (projectId, name) => renameProject(projectId, name),
+    onArchive: (projectId) => archiveProject(projectId),
+    onUnarchive: (projectId) => unarchiveProject(projectId),
+    onDelete: handleDeleteProject,
+  };
 
   return (
     <>
@@ -353,6 +417,7 @@ export default function WorkspaceDashboard() {
         compareProducts={compareProducts}
         fleetBuilds={fleetBuilds}
         fleetTemplates={fleetTemplates}
+        fleetProjects={fleetProjectsProps}
         cartSummary={cartSummary}
         cartLoading={cartLoading}
         selectedVehicle={selectedVehicle}
