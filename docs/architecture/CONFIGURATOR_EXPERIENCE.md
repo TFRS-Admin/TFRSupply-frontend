@@ -10,11 +10,40 @@ actions. This is composition, not a new configurator engine — every new
 component reads from a service, hook, or the configurator's own existing
 output that already existed before this change.
 
-`ConfiguratorModule`'s SKU filtering, dead-end prevention, and quote-payload
-construction are unchanged. It gained exactly one additive prop,
-`onConfigurationChange`, fired from a `useEffect` alongside its existing
-`quotePayload` state so a composing parent can read that same payload without
-recomputing it.
+`ConfiguratorModule`'s SKU filtering and dead-end prevention are unchanged. It
+gained exactly one additive prop, `onConfigurationChange`, fired from a
+`useEffect` alongside its existing `quotePayload` state so a composing parent
+can read that same payload without recomputing it.
+
+## Shopify Variant Resolver
+
+`ConfiguratorModule` keeps two concerns separate:
+
+- **UI selection state** — `filterSelections`, `accessories`, `selectedSkuId`.
+  Pure component state; it only decides which SKU row is the candidate.
+- **Shopify variant resolution** — once filtering narrows to exactly one SKU,
+  `useShopifyVariantResolver` (`src/hooks/shopifyVariantResolver`,
+  `src/services/shopifyVariantResolver`) resolves that SKU to a Shopify
+  variant: `shopifyVariantId`, live `price`, `availability`, and
+  `canAddToCart`. `quotePayload`'s commerce fields (`basePrice`,
+  `availability`, `checkoutReady`, `commerceLines[0]`) are read from this
+  resolver's output instead of indexing commerce data inline.
+
+The resolver composes two existing sources, preferring the live one exactly
+the way `ConfiguratorPricingSummary` already prefers the live Pricing Engine
+over a catalog fallback:
+
+1. The Commerce Foundation (`commerceService.getVariantMapping`) — live,
+   adapter-based, intentionally `unavailableCommerceAdapter` by default.
+2. `commerceLookupService` — the existing Shopify-export-backed lookup that
+   already powers the Available SKUs table's price/status columns.
+
+With today's default adapter and export data (no collected variant GIDs),
+the resolver honestly reports `canAddToCart: false` and the Package Quote's
+Add to Cart control stays disabled — the same "unavailable adapter, honest
+UI" pattern used by the Pricing Engine and Vehicle Fitment Service. The
+bulk per-row lookup that drives the Available SKUs table is untouched and
+still reads `commerceLookupService` directly.
 
 ## Composed Components
 

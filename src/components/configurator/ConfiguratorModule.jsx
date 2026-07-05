@@ -12,6 +12,15 @@
  *   - Accessories     — required deps + optional items
  *   - Quote Payload   — emitted when a SKU row is selected
  *
+ * UI state vs. variant resolution:
+ *   filterSelections/accessories/selectedSkuId (below) are pure UI selection
+ *   state — they only decide which SKU row is the candidate. Once filtering
+ *   narrows to exactly one SKU, `useShopifyVariantResolver` (a separate
+ *   module — see src/services/shopifyVariantResolver) resolves that SKU to
+ *   a Shopify variant: variant ID, live price, availability, and whether
+ *   Add to Cart is enabled. This module never computes that resolution
+ *   itself, so the two concerns can change independently.
+ *
  * Dead-end prevention:
  *   Each filter option is tested before render. If selecting it would produce
  *   0 remaining SKUs, it is disabled before the customer can click it.
@@ -20,6 +29,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useVehicle } from '@/context/VehicleContext';
 import { lookupSkus } from '@/services/commerceLookupService';
+import { useShopifyVariantResolver } from '@/hooks/shopifyVariantResolver';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import {
   CheckCircle, RotateCcw, ClipboardList,
@@ -392,7 +402,24 @@ function AccessoryRow({ item, checked, onToggle, forceChecked }) {
 
 // ─── Quote Panel ───────────────────────────────────────────────────────────
 
-function QuoteLine({ label, sku, price, flagged }) {
+const AVAILABILITY_COPY = { available: 'In Stock', unavailable: 'Out of Stock', unknown: 'Availability Pending' };
+const AVAILABILITY_COLOR = { available: '#15803d', unavailable: '#991b1b', unknown: '#6b7280' };
+const AVAILABILITY_BG = { available: '#dcfce7', unavailable: '#fef2f2', unknown: '#f3f4f6' };
+
+function AvailabilityBadge({ state }) {
+  const color = AVAILABILITY_COLOR[state] ?? AVAILABILITY_COLOR.unknown;
+  return (
+    <span style={{
+      marginLeft: 8, fontSize: 9, fontWeight: 700, color,
+      background: AVAILABILITY_BG[state] ?? AVAILABILITY_BG.unknown,
+      padding: '1px 5px', border: `1px solid ${color}`,
+    }}>
+      {AVAILABILITY_COPY[state] ?? AVAILABILITY_COPY.unknown}
+    </span>
+  );
+}
+
+function QuoteLine({ label, sku, price, flagged, availability }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 10,
@@ -401,6 +428,7 @@ function QuoteLine({ label, sku, price, flagged }) {
       <div style={{ flex: 1 }}>
         <span style={{ fontSize: 12, color: '#1a1a1a' }}>{label}</span>
         {sku && <span style={{ marginLeft: 8, fontFamily: 'monospace', fontSize: 11, color: '#6b7280' }}>{sku}</span>}
+        {availability && <AvailabilityBadge state={availability} />}
       </div>
       {flagged
         ? <span style={{ fontSize: 10, fontWeight: 700, color: '#92400e', background: '#fef3c7', padding: '2px 6px', border: '1px solid #fde68a', whiteSpace: 'nowrap' }}>NEEDS REVIEW</span>
@@ -461,7 +489,12 @@ function QuotePanel({ quotePayload, accSection }) {
       <div style={{ padding: '6px 10px', background: '#f7f8fa', borderBottom: '1px solid #d0d0d0' }}>
         <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#888' }}>Base Product</span>
       </div>
-      <QuoteLine label={quotePayload.productFamily} sku={quotePayload.selectedBaseSku} price={quotePayload.basePrice} />
+      <QuoteLine
+        label={quotePayload.productFamily}
+        sku={quotePayload.selectedBaseSku}
+        price={quotePayload.basePrice}
+        availability={quotePayload.availability}
+      />
 
       {/* Required Components */}
       {requiredItems.length > 0 && (
@@ -513,15 +546,22 @@ function QuotePanel({ quotePayload, accSection }) {
           <Send size={13} /> Add to Quote
         </button>
 
-        {/* Add to Cart — disabled until shopifyVariantId is collected */}
+        {/* Add to Cart — enabled once the Shopify Variant Resolver reports a
+            cart-eligible variant (a resolved shopifyVariantId + price) for
+            the selected SKU. Cart mutation itself lives in
+            ConfiguratorCommerceActions (Cart Workspace Foundation); this
+            button only reflects resolver state within the Package Quote. */}
         <button
-          disabled
-          title={quotePayload.checkoutReady ? undefined : 'Shopify variant ID pending — checkout disabled until GIDs are collected from Shopify Admin'}
+          disabled={!quotePayload.checkoutReady}
+          title={quotePayload.checkoutReady ? 'This configuration is ready to add to your cart.' : 'Shopify variant ID pending — checkout disabled until GIDs are collected from Shopify Admin'}
           style={{
             flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-            padding: '10px 16px', background: '#e5e7eb', color: '#9ca3af',
-            border: '1px solid #d1d5db', fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
-            letterSpacing: '0.04em', cursor: 'not-allowed',
+            padding: '10px 16px',
+            background: quotePayload.checkoutReady ? '#1a2744' : '#e5e7eb',
+            color: quotePayload.checkoutReady ? '#fff' : '#9ca3af',
+            border: quotePayload.checkoutReady ? 'none' : '1px solid #d1d5db',
+            fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
+            letterSpacing: '0.04em', cursor: quotePayload.checkoutReady ? 'pointer' : 'not-allowed',
           }}
         >
           <ShoppingCart size={13} /> Add to Cart
@@ -598,6 +638,11 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
     [remainingSkus, selectedSkuId]
   );
 
+  // Shopify Variant Resolver — separate from the UI selection state above.
+  // Once filtering narrows to exactly one SKU, this resolves that SKU to a
+  // Shopify variant (variant ID, live price, availability, cart-eligibility).
+  const { resolution: resolvedVariant } = useShopifyVariantResolver(resolvedSkuObj?.sku ?? null);
+
   const handleFilterSelect = useCallback((stepId, optionId) => {
     setFilterSelections(prev => {
       const next = prev[stepId] === optionId
@@ -632,16 +677,15 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         .map(s => `Unverified attribute: ${s.label}`),
       ...accItems.filter(i => i.type === 'required' && !i.sku).map(i => `Required component SKU unknown — needs review: ${i.label}`),
     ];
-    const baseCommerce = commerceData?.[resolvedSkuObj.sku] ?? null;
-    // Propagate commerce-level review flag (e.g. "Shopify variant ID pending — quote only, checkout disabled")
-    if (baseCommerce?.reviewFlag) reviewFlags.push(baseCommerce.reviewFlag);
+    // Propagate the resolver's review flag (e.g. "Shopify variant ID pending — quote only, checkout disabled")
+    if (resolvedVariant?.reviewFlag) reviewFlags.push(resolvedVariant.reviewFlag);
     const commerceLines = [
       {
         sku: resolvedSkuObj.sku,
-        shopifyVariantId: baseCommerce?.shopifyVariantId ?? null,
-        shopifyProductId: baseCommerce?.shopifyProductId ?? null,
-        price: baseCommerce?.price ?? null,
-        status: baseCommerce?.status ?? 'unmatched',
+        shopifyVariantId: resolvedVariant?.shopifyVariantId ?? null,
+        shopifyProductId: resolvedVariant?.shopifyProductId ?? null,
+        price: resolvedVariant?.price ?? null,
+        status: resolvedVariant?.status ?? 'unmatched',
       },
       ...selectedOptAccs.filter(i => i.sku).map(i => ({
         sku: i.sku,
@@ -661,13 +705,15 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         : null,
       selectedBaseSku: resolvedSkuObj.sku,
       selectedFilters: filterSelections,
-      basePrice: baseCommerce?.price ?? null,
+      shopifyVariantId: resolvedVariant?.shopifyVariantId ?? null,
+      availability: resolvedVariant?.availability ?? 'unknown',
+      basePrice: resolvedVariant?.price ?? null,
       accessorySkus: selectedOptAccs.map(i => i.sku).filter(Boolean),
       commerceLines,
       reviewFlags,
-      checkoutReady: baseCommerce?.status === 'matched',
+      checkoutReady: resolvedVariant?.canAddToCart ?? false,
     };
-  }, [resolvedSkuObj, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
+  }, [resolvedSkuObj, resolvedVariant, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
 
   // Surface the existing quote payload to composing parents (Configurator Experience)
   // without changing any configurator behavior — additive and optional.
