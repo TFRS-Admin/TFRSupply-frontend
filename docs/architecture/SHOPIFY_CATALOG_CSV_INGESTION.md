@@ -193,11 +193,7 @@ overlay entries were applied vs. rejected.
 
 ## Collecting real Shopify Variant GIDs
 
-This is a manual/administrative step outside this pipeline — consistent
-with every other Shopify integration boundary in this repo (see
-`SHOPIFY_CATALOG_SYNCHRONIZATION.md`, `SHOPIFY_INVENTORY_SYNCHRONIZATION.md`,
-etc.), none of which make live Shopify API calls. Two ways to get GIDs,
-in increasing order of scale:
+Two ways to get GIDs, in increasing order of scale:
 
 **Manual, per product (small batches):** In Shopify Admin, open
 Products → the product → the specific variant. The variant's numeric ID is
@@ -205,31 +201,29 @@ visible in the browser URL (`.../variants/<id>`); the GID is
 `gid://shopify/ProductVariant/<id>`. The parent product's GID
 (`gid://shopify/Product/<id>`) is likewise visible in the product page URL.
 
-**Admin GraphQL API, by SKU (recommended for full-catalog collection):**
-Using a custom/private app with the `read_products` scope, query variants
-by SKU and page through results:
+**Automated, full-catalog collection (recommended):**
+`scripts/shopify-variant-gid-overlay/` — see
+`SHOPIFY_VARIANT_GID_OVERLAY.md` — queries the Shopify Admin GraphQL API's
+`productVariants` connection, pages through every variant, matches by SKU
+against this pipeline's generated Variant Index, validates the result
+(rejecting malformed GIDs, duplicate SKU mappings, and mappings that
+conflict with a GID already on record), and writes a `--gid-overlay`-ready
+JSON file:
 
-```graphql
-query VariantsBySku($query: String!, $after: String) {
-  productVariants(first: 100, query: $query, after: $after) {
-    pageInfo { hasNextPage endCursor }
-    edges {
-      node {
-        id
-        sku
-        product { id }
-      }
-    }
-  }
-}
+```
+npm run shopify:gid-overlay
+npm run shopify:ingest -- --gid-overlay reports/shopify-variant-gid-overlay/latest-overlay.json
 ```
 
-`$query` accepts a SKU filter such as `"sku:8200SM8-A-42"`, or an `OR`-joined
-batch of SKUs per request. Map the response's `node.id` /
-`node.product.id` back onto each SKU to build the `--gid-overlay` JSON
-shown above. This requires an Admin API access token; keep it out of the
-repo and out of any client-side code — run the collection script/query from
-a trusted environment, never from the frontend this repository builds.
+It reads credentials only from `SHOPIFY_STORE_DOMAIN` /
+`SHOPIFY_ADMIN_ACCESS_TOKEN` environment variables — never a CLI flag,
+never hardcoded — and fails gracefully with an explanatory message when
+either is missing. It is the only script in this repository that makes a
+live Shopify API call; every other Shopify integration boundary documented
+here (`SHOPIFY_CATALOG_SYNCHRONIZATION.md`,
+`SHOPIFY_INVENTORY_SYNCHRONIZATION.md`, etc.) remains adapter-gated with no
+live calls, and this pipeline's own CSV/media parsing and index-building
+code is unchanged by it.
 
 ## What the report covers
 
