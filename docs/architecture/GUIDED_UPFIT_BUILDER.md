@@ -22,6 +22,10 @@ The Guided Vehicle Upfit Builder is a step-by-step wizard at `/upfit-builder` th
 
 No fleet, product, catalog, or configurator logic is duplicated. The wizard's setup stages (project/build/vehicle/standard/style) are thin UI wrapped around mutation callbacks these contexts already expose.
 
+## Recommendation panel (Vehicle Build Recommendations Engine)
+
+Each category step's product grid is now driven by `generateRecommendations` (`VEHICLE_BUILD_RECOMMENDATIONS.md`) rather than the free-text search alone: `GuidedUpfitBuilderPage` scores the catalog against the active build/standard/build style with `context.currentStepCategoryId` set to the current step, and `UpfitBuilderCategoryStep` renders the ranked results as scored `RecommendationCard`s (reasons, priority badge, "Add to This Build") under a "Recommended Products" heading. When the engine has nothing positive to score for a category (thin catalog), the panel falls back to the pre-existing free-text "Suggested Products" grid (`resolveSuggestedProductsForCategory`) described below — the "Browse More {category} Products" link is unchanged either way.
+
 ## Upfit Steps — step generation
 
 `buildGuidedUpfitChecklist(build, standard, skippedStepIds)` (`src/domain/upfitBuilder/guidedChecklist.ts`) is a pure function that generates the 12-category checklist for one build:

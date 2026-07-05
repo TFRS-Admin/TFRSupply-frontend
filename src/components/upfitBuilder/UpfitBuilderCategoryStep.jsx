@@ -10,6 +10,7 @@ import { X } from 'lucide-react';
 import { resolveProductDetailPath } from '@/domain/catalog';
 import ProductCard from '@/components/product/ProductCard';
 import { StandardTierChip } from '@/components/departmentStandards/DepartmentStandardBadge';
+import RecommendationCard, { RecommendationCardGrid } from '@/components/recommendations/RecommendationCard';
 import UpfitBuilderStepPanelShell from './UpfitBuilderStepPanelShell';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -48,7 +49,7 @@ function SuggestedProductTile({ product, onAdd }) {
 }
 
 export default function UpfitBuilderCategoryStep({
-  step, suggestedProducts = [], browseHref, onAddProduct, onRemoveProduct, onSkip, onUnskip, onNext, onBack,
+  step, suggestedProducts = [], recommendations = [], browseHref, onAddProduct, onRemoveProduct, onSkip, onUnskip, onNext, onBack,
 }) {
   return (
     <UpfitBuilderStepPanelShell
@@ -101,14 +102,26 @@ export default function UpfitBuilderCategoryStep({
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
         <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#999', margin: 0 }}>
-          Suggested Products
+          {recommendations.length > 0 ? 'Recommended Products' : 'Suggested Products'}
         </p>
         <a href={browseHref} style={{ ...FS, fontSize: 12, fontWeight: 700, color: '#c8102e', textDecoration: 'underline' }}>
-          Browse All {step.label} Products
+          Browse More {step.label} Products
         </a>
       </div>
 
-      {suggestedProducts.length > 0 ? (
+      {recommendations.length > 0 ? (
+        <RecommendationCardGrid>
+          {recommendations.map(({ recommendation, product }) => (
+            <RecommendationCard
+              key={product.id}
+              recommendation={recommendation}
+              product={product}
+              onAddToBuild={onAddProduct}
+              addLabel="Add to This Build"
+            />
+          ))}
+        </RecommendationCardGrid>
+      ) : suggestedProducts.length > 0 ? (
         <div className="upfit-builder-suggested-grid grid grid-cols-2 sm:grid-cols-3 gap-3">
           {suggestedProducts.map((product) => (
             <SuggestedProductTile key={product.id} product={product} onAdd={onAddProduct} />

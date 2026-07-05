@@ -17,7 +17,7 @@ All new components live in `src/components/product/` and are rendered from `Prod
 | `FitmentSummary` | Supported vehicle types, compatible packages, live vehicle compatibility summary | `product.marketing.applications`, `useVehicle` (`VehicleContext`), `useProductFitment` (Vehicle Fitment Service), `usePackageDefinition` (Package Builder Foundation) |
 | `RecommendedProducts` | Deterministic "you may also need" grid | `catalogService.getProduct`/`searchProducts`, `product.commerce.related_products`, existing `ProductCard` (its resolution logic now lives in the shared `resolveRelatedProducts`, `src/domain/catalog/relatedProducts.ts`) |
 | `RelatedPackages` | Package cards for packages linked to this product | `product.commerce.related_packages`, `usePackageDefinition` (Package Builder Foundation) |
-| `ProductIntelligencePanel` | Recommended For / Required By / Department Standards / Commonly Installed With (Fleet Intelligence & Department Standards, `FLEET_INTELLIGENCE.md`) | `DepartmentStandardsContext`, `classifyProductUpfitCategory`, the same `resolveRelatedProducts` `RecommendedProducts` reads |
+| `ProductIntelligencePanel` | Recommended For / Required By / Department Standards / Commonly Installed With (Fleet Intelligence & Department Standards, `FLEET_INTELLIGENCE.md`), plus Companion Products / Upgrade & Alternative Products (Vehicle Build Recommendations Engine, `VEHICLE_BUILD_RECOMMENDATIONS.md`) | `DepartmentStandardsContext`, `classifyProductUpfitCategory`, `resolveRelatedProducts`, `groupProductRelationships` |
 
 `ProductHero` gained one additive prop, `infoPanel` (a `ReactNode` rendered under the subtitle, above the bullet list). It is `null` by default, so every existing `ProductHero` caller is unaffected. `ProductDetailTemplateView` passes `<ProductCommerceSummary />` into it.
 
@@ -37,6 +37,8 @@ PrototypeFooter
 ```
 
 `FinishYourUpfitPanel` additionally renders a Guided Build status block (`GUIDED_UPFIT_BUILDER.md`): a "Continue Guided Build"/"Start Guided Build" link into `/upfit-builder`, the guided flow's current step, and — only when that step is one of the 12 upfit categories — an "Add to This Step" action that adds the current product directly to that category. This is additive to the panel's existing build-style/department-standard completion display, not a replacement.
+
+`FinishYourUpfitPanel` and `ProductIntelligencePanel` both gained further additive sections from the Vehicle Build Recommendations Engine (`VEHICLE_BUILD_RECOMMENDATIONS.md`): a "Recommended Products for This Build" block (scored `RecommendationCard`s reflecting the active build's gaps) on `FinishYourUpfitPanel`, and "Companion Products"/"Upgrade / Alternative Products" sections on `ProductIntelligencePanel`.
 
 `ConfiguratorSection` and the `ProductTabs` configurator wrapper each gained `id="build-configure"` so `CommerceActionPanel`'s "Configure Product" button can deep-link to the existing configurator UI when `product.configuratorId` is set, instead of opening an external URL.
 

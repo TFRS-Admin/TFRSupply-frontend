@@ -22,6 +22,10 @@ before(async () => {
     recentlyViewed: await server.ssrLoadModule('/src/context/RecentlyViewedContext.jsx'),
     savedProducts: await server.ssrLoadModule('/src/context/SavedProductsContext.jsx'),
     fleetProject: await server.ssrLoadModule('/src/context/FleetProjectContext.jsx'),
+    fleetBuilds: await server.ssrLoadModule('/src/context/FleetBuildsContext.jsx'),
+    fleetTemplates: await server.ssrLoadModule('/src/context/FleetTemplatesContext.jsx'),
+    departmentStandards: await server.ssrLoadModule('/src/context/DepartmentStandardsContext.jsx'),
+    upfitBuilder: await server.ssrLoadModule('/src/context/UpfitBuilderContext.jsx'),
   };
 });
 
@@ -37,6 +41,10 @@ function renderWithProviders(element, initialEntries = ['/']) {
   const { RecentlyViewedProvider } = modules.recentlyViewed;
   const { SavedProductsProvider } = modules.savedProducts;
   const { FleetProjectProvider } = modules.fleetProject;
+  const { FleetBuildsProvider } = modules.fleetBuilds;
+  const { FleetTemplatesProvider } = modules.fleetTemplates;
+  const { DepartmentStandardsProvider } = modules.departmentStandards;
+  const { UpfitBuilderProvider } = modules.upfitBuilder;
 
   return renderToString(
     React.createElement(MemoryRouter, { initialEntries },
@@ -45,7 +53,15 @@ function renderWithProviders(element, initialEntries = ['/']) {
           React.createElement(RecentlyViewedProvider, null,
             React.createElement(SavedProductsProvider, null,
               React.createElement(FleetProjectProvider, null,
-                React.createElement(ConfiguratorProvider, null, element),
+                React.createElement(FleetBuildsProvider, null,
+                  React.createElement(FleetTemplatesProvider, null,
+                    React.createElement(DepartmentStandardsProvider, null,
+                      React.createElement(UpfitBuilderProvider, null,
+                        React.createElement(ConfiguratorProvider, null, element),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

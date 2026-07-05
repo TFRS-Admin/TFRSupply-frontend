@@ -41,11 +41,13 @@ import FleetBuildsWorkspaceSection from '@/components/fleetBuilds/FleetBuildsWor
 import FleetTemplatesWorkspaceSection from '@/components/fleetBuilds/FleetTemplatesWorkspaceSection';
 import FleetProjectsWorkspaceSection from '@/components/fleetProjects/FleetProjectsWorkspaceSection';
 import WorkspaceFleetIntelligenceSection from '@/components/workspace/WorkspaceFleetIntelligenceSection';
+import RecommendedNextActionsSection from '@/components/workspace/RecommendedNextActionsSection';
 import DepartmentStandardsSection from '@/components/departmentStandards/DepartmentStandardsSection';
 import GuidedUpfitBuilderWorkspaceSection from '@/components/upfitBuilder/GuidedUpfitBuilderWorkspaceSection';
 import { summarizeFleetProject } from '@/domain/fleetProjects';
 import { resolveEffectiveStandard } from '@/domain/departmentStandards';
 import { buildGuidedUpfitChecklist, resolveDefaultStepId, getUpfitBuilderStepLabel } from '@/domain/upfitBuilder';
+import { summarizeRecommendedNextActions, resolveRecommendationProducts } from '@/domain/recommendations';
 import { toast } from '@/components/ui/use-toast';
 import appConfig from '@/config/appConfig';
 
@@ -130,6 +132,7 @@ export function WorkspaceDashboardView({
   fleetTemplates = [],
   fleetProjects,
   fleetIntelligenceEntries = [],
+  recommendedNextActions = [],
   departmentStandards,
   guidedUpfitBuilder = {},
   cartSummary,
@@ -142,6 +145,7 @@ export function WorkspaceDashboardView({
   onClearCompare,
   onOpenVehicleModal,
   onOpenFleetBuilds,
+  onAddRecommendedProductToBuild,
 }) {
   const cartHasItems = (cartSummary?.itemCount ?? 0) > 0;
   const hasInProgressConfiguration = Boolean(configuratorState?.selectedFamily);
@@ -289,6 +293,13 @@ export function WorkspaceDashboardView({
 
         <WorkspaceFleetIntelligenceSection entries={fleetIntelligenceEntries} onOpenFleetBuilds={onOpenFleetBuilds} />
 
+        <RecommendedNextActionsSection
+          actions={recommendedNextActions}
+          hasFleetBuilds={fleetBuilds.length > 0}
+          onAddToBuild={onAddRecommendedProductToBuild}
+          onOpenFleetBuilds={onOpenFleetBuilds}
+        />
+
         {fleetProjects && <FleetProjectsWorkspaceSection {...fleetProjects} />}
 
         {departmentStandards && <DepartmentStandardsSection {...departmentStandards} />}
@@ -357,7 +368,7 @@ export default function WorkspaceDashboard() {
   const { productIds: compareIds, removeFromCompare, clearCompare } = useCompare();
   const { selectedVehicle } = useVehicle();
   const { state: configuratorState } = useConfigurator();
-  const { builds: fleetBuilds, allBuilds, activeBuild } = useFleetBuilds();
+  const { builds: fleetBuilds, allBuilds, activeBuild, addProductToBuild } = useFleetBuilds();
   const { templates: fleetTemplates, allTemplates } = useFleetTemplates();
   const {
     projects, activeProject, activeProjectId, isFull: projectsFull,
@@ -405,6 +416,18 @@ export default function WorkspaceDashboard() {
     return byProjectId;
   }, {});
 
+  // Vehicle Build Recommendations Engine — "Recommended Next Actions," reusing
+  // the same fleetIntelligenceEntries computed above rather than re-resolving
+  // each build's effective standard a second time.
+  const recommendedNextActions = summarizeRecommendedNextActions(
+    fleetIntelligenceEntries,
+    catalogService.listProducts(),
+    { getProduct: catalogService.getProduct },
+  ).map((action) => ({
+    ...action,
+    recommendations: resolveRecommendationProducts(action.recommendations, catalogService.getProduct),
+  }));
+
   // Guided Vehicle Upfit Builder — the active Fleet Build's guided progress
   // (reusing the same effective-standard resolution already computed above
   // for fleetIntelligenceEntries) and its next recommended step, for the
@@ -428,6 +451,12 @@ export default function WorkspaceDashboard() {
     checklist: guidedChecklist,
     currentStepLabel: guidedCurrentStepId ? getUpfitBuilderStepLabel(guidedCurrentStepId) : null,
   };
+
+  function handleAddRecommendedProductToBuild(buildId, product, recommendation) {
+    if (!recommendation.matchingCategoryId) return;
+    addProductToBuild(buildId, recommendation.matchingCategoryId, product);
+    toast({ title: 'Added to build', description: `${product.title ?? product.label ?? 'Product'} added to ${getUpfitBuilderStepLabel(recommendation.matchingCategoryId)}.` });
+  }
 
   function handleCreateProject() {
     const created = createProject();
@@ -507,6 +536,7 @@ export default function WorkspaceDashboard() {
         fleetTemplates={fleetTemplates}
         fleetProjects={fleetProjectsProps}
         fleetIntelligenceEntries={fleetIntelligenceEntries}
+        recommendedNextActions={recommendedNextActions}
         departmentStandards={departmentStandardsProps}
         guidedUpfitBuilder={guidedUpfitBuilderProps}
         cartSummary={cartSummary}
@@ -519,6 +549,7 @@ export default function WorkspaceDashboard() {
         onClearCompare={clearCompare}
         onOpenVehicleModal={() => setVehicleModalTab('shop')}
         onOpenFleetBuilds={() => setVehicleModalTab('fleet')}
+        onAddRecommendedProductToBuild={handleAddRecommendedProductToBuild}
       />
       {vehicleModalTab && <VehicleSelectorModal initialTab={vehicleModalTab} onClose={() => setVehicleModalTab(null)} />}
     </>
