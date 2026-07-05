@@ -1,0 +1,2239 @@
+{
+  "meta": {
+    "generatedAt": "2026-07-05T22:53:07.160Z",
+    "productsSource": "data/shopify-exports/products_export.csv",
+    "mediaSource": "data/shopify-exports/media_export.xlsx"
+  },
+  "summary": {
+    "totalCsvRows": 1877,
+    "totalProducts": 115,
+    "activeProducts": 60,
+    "draftOrOtherProducts": 55,
+    "totalVariantRows": 1851,
+    "uniqueVariantsInIndex": 1839,
+    "duplicateSkuGroups": 12,
+    "variantsMissingPrice": 0,
+    "variantsMissingImage": 273,
+    "variantsWithVariantSpecificImage": 58,
+    "variantsUsingProductFallbackImage": 1508,
+    "imagesNotFoundInMediaExport": 0,
+    "mediaExportFileCount": 547,
+    "imageOnlyRowsSkipped": 24,
+    "rowsWithoutUsableVariantData": 2,
+    "appReferencedSkuCount": 66,
+    "appReferencedSkusUnmatched": 18,
+    "variantsWithShopifyVariantGid": 0,
+    "variantsPendingShopifyVariantGid": 1839
+  },
+  "duplicateSkus": [
+    {
+      "sku": "RLNT48J-AMBR2N4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1637,
+          "price": 2347
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1710,
+          "price": 2347
+        }
+      ]
+    },
+    {
+      "sku": "RLNT48J-AMBR2H4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1638,
+          "price": 2347
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1711,
+          "price": 2347
+        }
+      ]
+    },
+    {
+      "sku": "RLNT48J-AMBR2F4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1639,
+          "price": 2347
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1712,
+          "price": 2347
+        }
+      ]
+    },
+    {
+      "sku": "RLNT48J-ABRH4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1640,
+          "price": 2442
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1713,
+          "price": 2442
+        }
+      ]
+    },
+    {
+      "sku": "RLNT48J-ABWH4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1641,
+          "price": 2442
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1714,
+          "price": 2442
+        }
+      ]
+    },
+    {
+      "sku": "RLNT48J-ABWF4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1642,
+          "price": 2442
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1715,
+          "price": 2442
+        }
+      ]
+    },
+    {
+      "sku": "RLNT48J-AGWH4",
+      "canonicalHandle": "reliant-s2-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "reliant-s2-light-bar-work-truck",
+          "rowNumber": 1643,
+          "price": 2442
+        },
+        {
+          "handle": "reliant-light-bar-48",
+          "rowNumber": 1716,
+          "price": 2442
+        }
+      ]
+    },
+    {
+      "sku": "NVG45Z-MUNI1HC6",
+      "canonicalHandle": "navigator-light-bar-work-truck",
+      "occurrences": [
+        {
+          "handle": "navigator-light-bar-work-truck",
+          "rowNumber": 1648,
+          "price": 4859
+        },
+        {
+          "handle": "navigator-light-bar-45",
+          "rowNumber": 1779,
+          "price": 4859
+        }
+      ]
+    },
+    {
+      "sku": "INTG51J-P1BL",
+      "canonicalHandle": "integrity-light-bar-51",
+      "occurrences": [
+        {
+          "handle": "integrity-light-bar-51",
+          "rowNumber": 1861,
+          "price": 4797
+        },
+        {
+          "handle": "integrity-light-bar-44",
+          "rowNumber": 1870,
+          "price": 4797
+        }
+      ]
+    },
+    {
+      "sku": "INTG51J-P2BL",
+      "canonicalHandle": "integrity-light-bar-51",
+      "occurrences": [
+        {
+          "handle": "integrity-light-bar-51",
+          "rowNumber": 1863,
+          "price": 4797
+        },
+        {
+          "handle": "integrity-light-bar-44",
+          "rowNumber": 1871,
+          "price": 4797
+        }
+      ]
+    },
+    {
+      "sku": "INTG51J-PF3L",
+      "canonicalHandle": "integrity-light-bar-51",
+      "occurrences": [
+        {
+          "handle": "integrity-light-bar-51",
+          "rowNumber": 1862,
+          "price": 5584
+        },
+        {
+          "handle": "integrity-light-bar-44",
+          "rowNumber": 1872,
+          "price": 5584
+        }
+      ]
+    },
+    {
+      "sku": "INTG51J-F2H",
+      "canonicalHandle": "integrity-light-bar-51",
+      "occurrences": [
+        {
+          "handle": "integrity-light-bar-51",
+          "rowNumber": 1860,
+          "price": 5270
+        },
+        {
+          "handle": "integrity-light-bar-44",
+          "rowNumber": 1873,
+          "price": 5270
+        }
+      ]
+    }
+  ],
+  "missingPrices": [],
+  "missingImages": [
+    {
+      "sku": "416900BZ-B",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900-BZB",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900BZ-C",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900BZ-W",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900-VHB",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900XZ-BW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900XZ-RW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900Z-BA",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416900Z-RW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416910Z-W",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416912-A",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416912-B",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416912-R",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416912-W",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416918-AGW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416918-BAW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416918-RAW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416918-RBA",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416918-RBW",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "416918-RBW-SMK",
+      "productHandle": "quadraflare-accessories",
+      "productTitle": "Quadraflare Accessories",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-BCS21",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-BLZR24",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-COL15",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-COR20",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-DUR11",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-DUR11B-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-DUR11-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-DURR",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-EQX23",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-ESC20",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-EXD22",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FHD7",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FNTR",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FPIU20-44-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FPIU20-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FPIU20-LONG",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FPIU25-HP-SS",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FRD15-44-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FRD15-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FRD9",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-FREIGHT-M2",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-GUTR",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-KCK25",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-LPCHGR11-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-MAL7",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-MAV22",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-MME21",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-PTH22",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-RAM19",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-RAV23",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-RAV25RR",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-RNG19",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-RNGR24",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-ROG23",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-SAV",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-SIL17",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-TAC24",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-TAH21-44-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-TAH21-HP",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-THX23",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-TRAV22",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-TTN23",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-UNH1",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-UNH2",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-UNH3",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-UNH4",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-UNH5",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "HKB-UNH6",
+      "productHandle": "hook-brackets",
+      "productTitle": "Hook Brackets",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "CNTRLR-4B",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "CNTRLR-6B",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "CNTRLR-9B",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SW1",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SW2",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SW200-B",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SW30",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SW300-B",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SW400SS-B",
+      "productHandle": "switches-controls",
+      "productTitle": "Switches & Controls",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "MPSW6-A",
+      "productHandle": "micropulse-wide-angle-6",
+      "productTitle": "MicroPulse Wide Angle 6",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "MPSW6-B",
+      "productHandle": "micropulse-wide-angle-6",
+      "productTitle": "MicroPulse Wide Angle 6",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "MPSW6-BW",
+      "productHandle": "micropulse-wide-angle-6",
+      "productTitle": "MicroPulse Wide Angle 6",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "MPSW6-R",
+      "productHandle": "micropulse-wide-angle-6",
+      "productTitle": "MicroPulse Wide Angle 6",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "MPSW6-RB",
+      "productHandle": "micropulse-wide-angle-6",
+      "productTitle": "MicroPulse Wide Angle 6",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "LF12ESB-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF12ES-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF12TSB-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF12TS-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF18ER-LED-UV",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF18ES-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF18TSB-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF18TSB-LED-BLUE",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LF18TS-LED",
+      "productHandle": "littlite-gooseneck-lamps",
+      "productTitle": "Littlite Gooseneck Lamps",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "AD26-8-M44-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "AD26C-1-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "AD26C-7-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "AD26C-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "AD26D-1-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "AD26D-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "AD26-Z",
+      "productHandle": "intercom-systems",
+      "productTitle": "Intercom Systems",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "'650202",
+      "productHandle": "intelli-flash-controllers",
+      "productTitle": "Intelli-Flash Controllers",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "'650302",
+      "productHandle": "intelli-flash-controllers",
+      "productTitle": "Intelli-Flash Controllers",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "'670132",
+      "productHandle": "intelli-flash-controllers",
+      "productTitle": "Intelli-Flash Controllers",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "200B-SHORT",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200B-TALL",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200DC-SHORT",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200DC-TALL",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200767-95",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200POLY-MP10",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "205582-95",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TR-A",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TR-B",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TR-G",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TR-R",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TR-W",
+      "productHandle": "spire-accessories-hardware",
+      "productTitle": "Spire® Accessories & Hardware",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SC-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SC-B",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SC-G",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SC-R",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SC-W",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SD-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SD-B",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SD-G",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SD-R",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SD-W",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SDDC-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SDU-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SM-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SM-B",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SM-G",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SM-R",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SM-W",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SP-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SP-B",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SP-G",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SP-R",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SP-W",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SS-A",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SS-B",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SS-G",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SS-R",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200SS-W",
+      "productHandle": "spire-200-plus-short-led-beacon",
+      "productTitle": "Spire® 200 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TC-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TC-B",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TC-G",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TC-R",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TC-W",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TD-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TD-B",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TD-G",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TD-R",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TD-W",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TDDC-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TM-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TM-B",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TM-G",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TM-R",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TM-W",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TP-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TP-B",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TP-G",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TP-R",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TP-W",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TS-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TS-B",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TS-G",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TS-R",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100TS-W",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SR-A",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SR-B",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SR-G",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SR-R",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SR-W",
+      "productHandle": "spire-100-standard-tall-led-beacon",
+      "productTitle": "Spire® 100 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "210960-46",
+      "productHandle": "beacon-mounting-bars",
+      "productTitle": "Beacon Mounting Bars",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "210960-54",
+      "productHandle": "beacon-mounting-bars",
+      "productTitle": "Beacon Mounting Bars",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "210960-65",
+      "productHandle": "beacon-mounting-bars",
+      "productTitle": "Beacon Mounting Bars",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "210961SSG",
+      "productHandle": "beacon-mounting-bars",
+      "productTitle": "Beacon Mounting Bars",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "210962SSG",
+      "productHandle": "beacon-mounting-bars",
+      "productTitle": "Beacon Mounting Bars",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "210924SSG",
+      "productHandle": "beacon-mounting-bars",
+      "productTitle": "Beacon Mounting Bars",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SC-AB",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SC-AG",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SC-AR",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SC-AW",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SD-AB",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SD-AG",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SD-AR",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SD-AW",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SM-AB",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SM-AG",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SM-AR",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SM-AW",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SP-AB",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SP-AG",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SP-AR",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SP-AW",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SS-AB",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SS-AG",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SS-AR",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "220SS-AW",
+      "productHandle": "spire-220-plus-short-led-beacon",
+      "productTitle": "Spire® 220 Plus Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TC-A",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TC-B",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TC-G",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TC-R",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TC-W",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TD-A",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TD-B",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TD-G",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TD-R",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TD-W",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TDDC-A",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TM-A",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TM-B",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TM-G",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TM-R",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TM-W",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TP-A",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TP-B",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TP-G",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TP-R",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TP-W",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TS-A",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TS-B",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TS-G",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TS-R",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "200TS-W",
+      "productHandle": "spire-200-standard-tall-led-beacon",
+      "productTitle": "Spire® 200 Standard Tall LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SC-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SC-B",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SC-G",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SC-R",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SC-W",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SD-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SD-B",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SD-G",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SD-R",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SD-W",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SDDC-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SDU-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SM-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SM-B",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SM-G",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SM-R",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SM-W",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SP-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SP-B",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SP-G",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SP-R",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SP-W",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SS-A",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SS-B",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SS-G",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SS-R",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "100SS-W",
+      "productHandle": "spire-100-standard-short-led-beacon",
+      "productTitle": "Spire® 100 Standard Short LED Beacon",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "SSP2000B",
+      "productHandle": "ssp2000b-smart-siren-platinum",
+      "productTitle": "SSP2000B Smart Siren Platinum",
+      "exportStatus": "active"
+    },
+    {
+      "sku": "FC504K",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "KR-4-SB-R",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LT100",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LT101",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LTP570-NW0",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LTP580-NW0-A",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "LT-S102-A",
+      "productHandle": "commander-accessories",
+      "productTitle": "Commander® Accessories & Mount Kits",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-9",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-18",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-27",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-36",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-45",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-54",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMFLEX-63",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMINT5-W",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMSTLS18C-W",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMSTL-TANK",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMSTLF-A",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMSTL-DUALBKT45",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COMSTL-BKT",
+      "productHandle": "commander-strip-compartment-light",
+      "productTitle": "Commander® Strip Compartment Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "COM7K-900",
+      "productHandle": "com7-com9-scene-light",
+      "productTitle": "COM7/COM9 LED Scene Light",
+      "exportStatus": "draft"
+    },
+    {
+      "sku": "VSLR46-AMWH",
+      "productHandle": "vision-slr-light-bar-work-truck",
+      "productTitle": "Vision SLR® Light Bar — Work Truck",
+      "exportStatus": "draft"
+    }
+  ],
+  "imagesNotFoundInMediaExport": [],
+  "inactiveOrDraftProducts": [
+    {
+      "handle": "signalmaster-accessories",
+      "title": "SignalMaster Accessories",
+      "status": "draft",
+      "variantCount": 15
+    },
+    {
+      "handle": "quadraflare-accessories",
+      "title": "Quadraflare Accessories",
+      "status": "draft",
+      "variantCount": 20
+    },
+    {
+      "handle": "mounting-brackets-hardware",
+      "title": "Mounting Brackets & Hardware",
+      "status": "draft",
+      "variantCount": 87
+    },
+    {
+      "handle": "micropulse-mounts-brackets",
+      "title": "MicroPulse Mounts & Brackets",
+      "status": "draft",
+      "variantCount": 97
+    },
+    {
+      "handle": "hook-brackets",
+      "title": "Hook Brackets",
+      "status": "draft",
+      "variantCount": 48
+    },
+    {
+      "handle": "siren-speaker-mounting-brackets",
+      "title": "Siren Speaker Mounting Brackets",
+      "status": "draft",
+      "variantCount": 46
+    },
+    {
+      "handle": "worklights",
+      "title": "Worklights",
+      "status": "draft",
+      "variantCount": 11
+    },
+    {
+      "handle": "trailer-lights",
+      "title": "Trailer Lights",
+      "status": "draft",
+      "variantCount": 37
+    },
+    {
+      "handle": "switches-controls",
+      "title": "Switches & Controls",
+      "status": "draft",
+      "variantCount": 9
+    },
+    {
+      "handle": "signalmaster-brackets",
+      "title": "SignalMaster Brackets",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "running-board-brackets",
+      "title": "Running Board Brackets",
+      "status": "draft",
+      "variantCount": 7
+    },
+    {
+      "handle": "quadraflare-beacons",
+      "title": "Quadraflare Beacons",
+      "status": "draft",
+      "variantCount": 92
+    },
+    {
+      "handle": "other-miscellaneous",
+      "title": "Other Miscellaneous",
+      "status": "draft",
+      "variantCount": 45
+    },
+    {
+      "handle": "other-micropulse",
+      "title": "Other MicroPulse",
+      "status": "draft",
+      "variantCount": 11
+    },
+    {
+      "handle": "opticom-accessories",
+      "title": "Opticom Accessories",
+      "status": "draft",
+      "variantCount": 2
+    },
+    {
+      "handle": "message-boards",
+      "title": "Message Boards",
+      "status": "draft",
+      "variantCount": 2
+    },
+    {
+      "handle": "littlite-gooseneck-lamps",
+      "title": "Littlite Gooseneck Lamps",
+      "status": "draft",
+      "variantCount": 9
+    },
+    {
+      "handle": "elsd-d-pillar-shrouds",
+      "title": "MicroPulse® Ultra D-Pillar Lights",
+      "status": "draft",
+      "variantCount": 8
+    },
+    {
+      "handle": "cables-wiring",
+      "title": "Cables & Wiring",
+      "status": "draft",
+      "variantCount": 8
+    },
+    {
+      "handle": "vehicle-warning-accessories-hardware",
+      "title": "Vehicle Warning Accessories & Hardware",
+      "status": "draft",
+      "variantCount": 32
+    },
+    {
+      "handle": "spire-accessories-hardware",
+      "title": "Spire® Accessories & Hardware",
+      "status": "draft",
+      "variantCount": 12
+    },
+    {
+      "handle": "spire-200-plus-short-led-beacon",
+      "title": "Spire® 200 Plus Short LED Beacon",
+      "status": "draft",
+      "variantCount": 27
+    },
+    {
+      "handle": "spire-100-standard-tall-led-beacon",
+      "title": "Spire® 100 Standard Tall LED Beacon",
+      "status": "draft",
+      "variantCount": 31
+    },
+    {
+      "handle": "beacon-mounting-bars",
+      "title": "Beacon Mounting Bars",
+      "status": "draft",
+      "variantCount": 6
+    },
+    {
+      "handle": "spire-220-plus-tall-led-beacon",
+      "title": "Spire® 220 Plus Tall LED Beacon",
+      "status": "draft",
+      "variantCount": 20
+    },
+    {
+      "handle": "spire-220-plus-short-led-beacon",
+      "title": "Spire® 220 Plus Short LED Beacon",
+      "status": "draft",
+      "variantCount": 20
+    },
+    {
+      "handle": "spire-200-standard-tall-led-beacon",
+      "title": "Spire® 200 Standard Tall LED Beacon",
+      "status": "draft",
+      "variantCount": 26
+    },
+    {
+      "handle": "spire-100-standard-short-led-beacon",
+      "title": "Spire® 100 Standard Short LED Beacon",
+      "status": "draft",
+      "variantCount": 27
+    },
+    {
+      "handle": "duraforce-accessories-hardware",
+      "title": "DuraForce™ Accessories & Hardware",
+      "status": "draft",
+      "variantCount": 27
+    },
+    {
+      "handle": "littlite-gooseneck-lamp",
+      "title": "Littlite® LED Gooseneck Lamp",
+      "status": "draft",
+      "variantCount": 1
+    },
+    {
+      "handle": "vehicle-harness-kits",
+      "title": "Vehicle Harness Kits",
+      "status": "draft",
+      "variantCount": 6
+    },
+    {
+      "handle": "siren-accessories",
+      "title": "Siren Accessories",
+      "status": "draft",
+      "variantCount": 17
+    },
+    {
+      "handle": "rumbler-mounting-brackets",
+      "title": "Rumbler® Mounting Brackets",
+      "status": "draft",
+      "variantCount": 34
+    },
+    {
+      "handle": "stinger-accessories",
+      "title": "Stinger® Accessories & Consumables",
+      "status": "draft",
+      "variantCount": 9
+    },
+    {
+      "handle": "stinger-replacement-kits",
+      "title": "Stinger® Replacement Spike Kits",
+      "status": "draft",
+      "variantCount": 9
+    },
+    {
+      "handle": "stinger-trainer-system",
+      "title": "Stinger® Trainer System",
+      "status": "draft",
+      "variantCount": 3
+    },
+    {
+      "handle": "nightspire-accessories",
+      "title": "NightSpire® Accessories",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "nightspire-searchlight",
+      "title": "NightSpire® Searchlight",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "commander-accessories",
+      "title": "Commander® Accessories & Mount Kits",
+      "status": "draft",
+      "variantCount": 7
+    },
+    {
+      "handle": "commander-strip-compartment-light",
+      "title": "Commander® Strip Compartment Light",
+      "status": "draft",
+      "variantCount": 13
+    },
+    {
+      "handle": "com7-com9-scene-light",
+      "title": "COM7/COM9 LED Scene Light",
+      "status": "draft",
+      "variantCount": 1
+    },
+    {
+      "handle": "commander-sb-scene-light",
+      "title": "Commander® SB Series Scene Light",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "commander-m-scene-light",
+      "title": "Commander® M Series Scene Light",
+      "status": "draft",
+      "variantCount": 5
+    },
+    {
+      "handle": "commander-lc-scene-light",
+      "title": "Commander® LC Series Scene Light",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "commander-plus-scene-light",
+      "title": "Commander® Plus & Plus-S Series Scene Light",
+      "status": "draft",
+      "variantCount": 6
+    },
+    {
+      "handle": "commander-scene-light",
+      "title": "Commander® Series Scene Light",
+      "status": "draft",
+      "variantCount": 24
+    },
+    {
+      "handle": "vision-slr-light-bar-work-truck",
+      "title": "Vision SLR® Light Bar — Work Truck",
+      "status": "draft",
+      "variantCount": 1
+    },
+    {
+      "handle": "reliant-s2-light-bar-work-truck",
+      "title": "Reliant® S2 Light Bar — Work Truck",
+      "status": "draft",
+      "variantCount": 10
+    },
+    {
+      "handle": "navigator-light-bar-work-truck",
+      "title": "Navigator® Light Bar — Work Truck",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "allegiant-light-bar-work-truck",
+      "title": "Allegiant® Light Bar — Work Truck",
+      "status": "draft",
+      "variantCount": 5
+    },
+    {
+      "handle": "valor-light-bar-work-truck",
+      "title": "Valor® Light Bar — Work Truck",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "integrity-light-bar-work-truck",
+      "title": "Integrity® Light Bar — Work Truck",
+      "status": "draft",
+      "variantCount": 4
+    },
+    {
+      "handle": "navigator-light-bar-87",
+      "title": "Navigator® Light Bar - 87\"",
+      "status": "draft",
+      "variantCount": 3
+    },
+    {
+      "handle": "navigator-light-bar-73",
+      "title": "Navigator® Light Bar - 73\"",
+      "status": "draft",
+      "variantCount": 7
+    },
+    {
+      "handle": "allegiant-light-bar-80",
+      "title": "Allegiant® Max Discrete Light Bar - 80\" (Tow Configuration)",
+      "status": "draft",
+      "variantCount": 4
+    }
+  ],
+  "rowsWithoutUsableVariantData": [
+    {
+      "handle": "vision-slr-light-bar-work-truck",
+      "rowNumber": 1632,
+      "reason": "Row declares a variant option value but has no Variant SKU",
+      "optionSummary": "Vision SLR / 46\" / Amber"
+    },
+    {
+      "handle": "navigator-light-bar-work-truck",
+      "rowNumber": 1644,
+      "reason": "Row declares a variant option value but has no Variant SKU",
+      "optionSummary": "Default Title / 45\" / Amber"
+    }
+  ],
+  "appSkuCrossReference": {
+    "totalAppReferencedSkus": 66,
+    "unmatchedSkus": [
+      "NAV-BRKT-MAG",
+      "NAV-BRKT-STD",
+      "NAV-CABLE-10",
+      "NAV-CABLE-14",
+      "NAV-CTRL-SM4",
+      "NVG-BRKT",
+      "NVG-HARNESS-D",
+      "NVLM-HARNESS",
+      "NVLM-SUCTION",
+      "NVLM10-A",
+      "NVLM10-BW",
+      "NVLM10-RBW",
+      "NVLM18-A",
+      "NVLM18-BW",
+      "NVLM18-RBW",
+      "NVLM25-A",
+      "NVLM25-BW",
+      "NVLM25-RBW"
+    ]
+  },
+  "gid": {
+    "note": "The Shopify products CSV export does not contain Variant GIDs. See docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md for the Shopify Admin/API step required to collect them.",
+    "preservedFromExisting": 0,
+    "appliedFromOverlay": 0,
+    "rejectedOverlayEntries": []
+  }
+}
