@@ -31,6 +31,27 @@ function readyCommerceService(createCommerceService) {
   });
 }
 
+function unavailableCommerceService(createCommerceService) {
+  return createCommerceService({
+    async getProduct() { return { status: 'pending', data: null }; },
+    async getVariant() { return { status: 'pending', data: null }; },
+    async getVariantMapping() { return { status: 'pending', data: null, message: 'Commerce adapter is not connected.' }; },
+  });
+}
+
+function partialCommerceService(createCommerceService, mappedSkus) {
+  return createCommerceService({
+    async getProduct() { return { status: 'not-found', data: null }; },
+    async getVariant() { return { status: 'not-found', data: null }; },
+    async getVariantMapping(request) {
+      if (!mappedSkus.includes(request.sku)) {
+        return { status: 'pending', data: null, message: 'No Shopify variant mapped for this SKU.' };
+      }
+      return { status: 'ready', data: { sku: request.sku, shopifyVariantGid: `gid://shopify/ProductVariant/${request.sku}`, channel: 'shopify' } };
+    },
+  });
+}
+
 function fakeCartWorkspaceService(lines) {
   return {
     async getState() {
@@ -200,5 +221,68 @@ describe('Shopify Storefront cart creation — missing-credential failure', () =
     const service = createShopifyStorefrontCartCreateService(fakeCartWorkspaceService([baseLine()]), readyCommerceService(createCommerceService));
 
     await assert.doesNotReject(() => service.createCart(undefined, { credentials: { storeDomain: null, storefrontAccessToken: null, apiVersion: '2024-10' }, fetchImpl: fakeFetch([]) }));
+  });
+});
+
+describe('Shopify Storefront cart creation — Checkout Safety', () => {
+  const credentials = { storeDomain: 'acme-trucks.myshopify.com', storefrontAccessToken: 'shpat_public_token', apiVersion: '2024-10' };
+
+  it('does not call cartCreate when every cart line is unmapped (all invalid)', async () => {
+    const { createShopifyStorefrontCartCreateService } = modules.createService;
+    const { createCommerceService } = modules.commerceService;
+
+    const lines = [baseLine({ sku: 'SKU-UNMAPPED-1' }), baseLine({ id: 'cart-line-2', sku: 'SKU-UNMAPPED-2' })];
+    const fetchImpl = fakeFetch([]);
+    const service = createShopifyStorefrontCartCreateService(fakeCartWorkspaceService(lines), unavailableCommerceService(createCommerceService));
+
+    const result = await service.createCart(undefined, { credentials, fetchImpl });
+
+    assert.equal(result.status, 'failed');
+    assert.equal(result.errors[0].code, 'unmapped-line');
+    assert.equal(result.checkoutPreview, null);
+    assert.equal(fetchImpl.calls.length, 0);
+  });
+
+  it('proceeds with only the valid lines when the cart is mixed (some valid, some invalid)', async () => {
+    const { createShopifyStorefrontCartCreateService } = modules.createService;
+    const { createCommerceService } = modules.commerceService;
+
+    const lines = [baseLine({ sku: 'SKU-MAPPED' }), baseLine({ id: 'cart-line-2', sku: 'SKU-UNMAPPED' })];
+    const fetchImpl = fakeFetch([jsonResponse({
+      data: { cartCreate: { cart: { id: 'gid://shopify/Cart/mixed-service-1', checkoutUrl: 'https://acme-trucks.myshopify.com/cart/c/mixed-service-1' }, userErrors: [] } },
+    })]);
+    const service = createShopifyStorefrontCartCreateService(fakeCartWorkspaceService(lines), partialCommerceService(createCommerceService, ['SKU-MAPPED']));
+
+    const result = await service.createCart(undefined, { credentials, fetchImpl });
+
+    assert.equal(result.status, 'succeeded');
+    assert.equal(fetchImpl.calls.length, 1);
+    assert.equal(result.cartLines.length, 2);
+    assert.equal(result.cartLines.find((line) => line.sku === 'SKU-MAPPED').merchandiseId, 'gid://shopify/ProductVariant/SKU-MAPPED');
+    assert.equal(result.cartLines.find((line) => line.sku === 'SKU-UNMAPPED').merchandiseId, null);
+
+    const sentBody = JSON.parse(fetchImpl.calls[0].init.body);
+    assert.equal(sentBody.variables.input.lines.length, 1);
+    assert.equal(sentBody.variables.input.lines[0].merchandiseId, 'gid://shopify/ProductVariant/SKU-MAPPED');
+  });
+
+  it('proceeds normally when every line is valid (all valid)', async () => {
+    const { createShopifyStorefrontCartCreateService } = modules.createService;
+    const { createCommerceService } = modules.commerceService;
+
+    const lines = [baseLine({ sku: 'SKU-A' }), baseLine({ id: 'cart-line-2', sku: 'SKU-B' })];
+    const fetchImpl = fakeFetch([jsonResponse({
+      data: { cartCreate: { cart: { id: 'gid://shopify/Cart/all-valid-1', checkoutUrl: 'https://acme-trucks.myshopify.com/cart/c/all-valid-1' }, userErrors: [] } },
+    })]);
+    const service = createShopifyStorefrontCartCreateService(fakeCartWorkspaceService(lines), readyCommerceService(createCommerceService));
+
+    const result = await service.createCart(undefined, { credentials, fetchImpl });
+
+    assert.equal(result.status, 'succeeded');
+    assert.equal(fetchImpl.calls.length, 1);
+    assert.equal(result.cartLines.every((line) => line.merchandiseId), true);
+
+    const sentBody = JSON.parse(fetchImpl.calls[0].init.body);
+    assert.equal(sentBody.variables.input.lines.length, 2);
   });
 });

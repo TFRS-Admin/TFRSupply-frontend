@@ -232,6 +232,64 @@ describe('Shopify Storefront Cart Adapter adapters', () => {
     assert.equal(fetchImpl.calls.length, 0);
   });
 
+  it('liveShopifyStorefrontCartAdapter (Checkout Safety) never calls fetch when every cart line is unmapped', async () => {
+    const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
+    const fetchImpl = fakeFetch([]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter({ storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' }, fetchImpl);
+    const cartLines = [
+      { cartLineId: 'cart-line-1', sku: 'SKU-1', quantity: 1, merchandiseId: null, merchandiseAvailable: false },
+      { cartLineId: 'cart-line-2', sku: 'SKU-2', quantity: 1, merchandiseId: null, merchandiseAvailable: false },
+    ];
+    const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
+
+    const result = await liveAdapter.execute({ requestId: 'req-safety-1', cartLines, mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 0, currencyCode: 'USD' } });
+
+    assert.equal(result.status, 'failed');
+    assert.equal(result.errors[0].code, 'unmapped-line');
+    assert.equal(result.checkoutPreview, null);
+    assert.equal(fetchImpl.calls.length, 0);
+  });
+
+  it('liveShopifyStorefrontCartAdapter (Checkout Safety) never calls fetch for an empty cart', async () => {
+    const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
+    const fetchImpl = fakeFetch([]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter({ storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' }, fetchImpl);
+    const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
+
+    const result = await liveAdapter.execute({ requestId: 'req-safety-2', cartLines: [], mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 0, currencyCode: 'USD' } });
+
+    assert.equal(result.status, 'failed');
+    assert.equal(result.errors[0].code, 'unmapped-line');
+    assert.equal(fetchImpl.calls.length, 0);
+  });
+
+  it('liveShopifyStorefrontCartAdapter (Checkout Safety) proceeds with only the mapped lines when the cart is mixed', async () => {
+    const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
+    const fetchImpl = fakeFetch([jsonResponse({
+      data: { cartCreate: { cart: { id: 'gid://shopify/Cart/mixed-1', checkoutUrl: 'https://example.myshopify.com/cart/c/mixed-1' }, userErrors: [] } },
+    })]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter({ storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' }, fetchImpl);
+    const cartLines = [
+      { cartLineId: 'cart-line-mapped', sku: 'SKU-MAPPED', quantity: 2, merchandiseId: 'gid://shopify/ProductVariant/mapped', merchandiseAvailable: true },
+      { cartLineId: 'cart-line-unmapped', sku: 'SKU-UNMAPPED', quantity: 1, merchandiseId: null, merchandiseAvailable: false },
+    ];
+    const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
+
+    const result = await liveAdapter.execute({ requestId: 'req-safety-3', cartLines, mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 200, currencyCode: 'USD' } });
+
+    assert.equal(result.status, 'succeeded');
+    assert.equal(fetchImpl.calls.length, 1);
+    assert.equal(result.mutationPreview.variables.input.lines.length, 1);
+    assert.equal(result.mutationPreview.variables.input.lines[0].merchandiseId, 'gid://shopify/ProductVariant/mapped');
+    assert.equal(result.cartLines.length, 2);
+    assert.equal(result.cartLines.find((line) => line.cartLineId === 'cart-line-unmapped').merchandiseId, null);
+    assert.equal(result.checkoutPreview.checkoutUrlPreview, 'https://example.myshopify.com/cart/c/mixed-1');
+
+    const sentBody = JSON.parse(fetchImpl.calls[0].init.body);
+    assert.equal(sentBody.variables.input.lines.length, 1);
+    assert.equal(sentBody.variables.input.lines[0].merchandiseId, 'gid://shopify/ProductVariant/mapped');
+  });
+
   it('liveShopifyStorefrontCartAdapter performs a real cartCreate fetch and returns the real cart id and checkoutUrl on success', async () => {
     const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
     const fetchImpl = fakeFetch([jsonResponse({

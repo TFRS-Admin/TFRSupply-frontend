@@ -38,6 +38,10 @@ function isConfigured(config?: Partial<ShopifyStorefrontClientConfig>): boolean 
   return Boolean(config?.storeDomain && config?.storefrontAccessToken);
 }
 
+function hasMerchandiseId(line: ShopifyStorefrontCartLine): line is ShopifyStorefrontCartLine & { merchandiseId: string } {
+  return Boolean(line.merchandiseId);
+}
+
 function toCartLineInput(line: ShopifyStorefrontCartLine & { merchandiseId: string }): Record<string, unknown> {
   const input: Record<string, unknown> = { merchandiseId: line.merchandiseId, quantity: line.quantity };
   if (line.attributes) {
@@ -57,7 +61,7 @@ function toCartLineInput(line: ShopifyStorefrontCartLine & { merchandiseId: stri
  * requires a merchandiseId per line.
  */
 export function buildCartCreateMutationPreview(cartLines: ShopifyStorefrontCartLine[]): ShopifyStorefrontCartMutationPreview {
-  const mappableLines = cartLines.filter((line): line is ShopifyStorefrontCartLine & { merchandiseId: string } => Boolean(line.merchandiseId));
+  const mappableLines = cartLines.filter(hasMerchandiseId);
   return {
     operationName: CART_CREATE_OPERATION_NAME,
     query: CART_CREATE_QUERY,
@@ -76,12 +80,13 @@ function networkError(reason: unknown): ShopifyStorefrontCartError {
  * domain and a Storefront access token are configured, following the same
  * request-building (buildStorefrontFetchRequest), fetchImpl-injection, and
  * no-throw failure-mapping pattern createLiveShopifyStorefrontCatalogAdapter
- * already established. Every failure mode — missing config, network error,
- * a non-2xx response, top-level GraphQL errors, Shopify userErrors, or a
- * malformed success payload — resolves to a `failed`
- * ShopifyStorefrontCartResult instead of throwing, so callers always fail
- * gracefully. checkoutUrlPreview/cartId on a `succeeded` result are the
- * real Shopify cart ID and checkout URL Shopify returned — never a
+ * already established. Every failure mode — missing config, a cart with no
+ * Shopify-mapped lines at all (`unmapped-line`, the Checkout Safety gate —
+ * see below), network error, a non-2xx response, top-level GraphQL errors,
+ * Shopify userErrors, or a malformed success payload — resolves to a
+ * `failed` ShopifyStorefrontCartResult instead of throwing, so callers
+ * always fail gracefully. checkoutUrlPreview/cartId on a `succeeded` result
+ * are the real Shopify cart ID and checkout URL Shopify returned — never a
  * fabricated value.
  */
 export function createLiveShopifyStorefrontCartAdapter(
@@ -112,6 +117,26 @@ export function createLiveShopifyStorefrontCartAdapter(
             retryable: false,
           }],
           metadata: { source: 'live-shopify-storefront-cart-adapter', attributes: { configured: false } },
+        };
+      }
+
+      // Checkout safety gate: never call Shopify's cartCreate for a cart
+      // where not one line has a resolved Shopify Variant GID — that would
+      // create a real, empty Shopify cart and redirect the customer to an
+      // empty checkout. Mixed carts (some lines mapped, some not) still
+      // proceed below, with buildCartCreateMutationPreview() sending only
+      // the mappable lines; callers detect the dropped lines from the
+      // unchanged cartLines list on the returned result.
+      if (!input.cartLines.some(hasMerchandiseId)) {
+        return {
+          ...baseResult,
+          status: 'failed',
+          errors: [{
+            code: 'unmapped-line',
+            message: 'None of the items in this cart have a matching Shopify product variant yet; no cartCreate call was made.',
+            retryable: false,
+          }],
+          metadata: { source: 'live-shopify-storefront-cart-adapter', attributes: { configured: true } },
         };
       }
 

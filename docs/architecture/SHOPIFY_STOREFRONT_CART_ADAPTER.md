@@ -75,6 +75,12 @@ React hooks → shopifyStorefrontCartService → ShopifyStorefrontCartAdapter �
 
 This supersedes item 1 of the "Future live implementation plan" below for the cart-creation path specifically; `shopifyStorefrontCartService`'s own singleton (used by `useShopifyStorefrontCartPreview()`) is untouched and still defaults to `unavailableShopifyStorefrontCartAdapter`.
 
+### Checkout Safety: no cartCreate call for a cart with zero mapped lines
+
+`createLiveShopifyStorefrontCartAdapter`'s `execute()` runs a second gate — after the `isConfigured()` config check and before building the real Storefront `fetch()` request — that inspects the already-mapped `cartLines` it was given: if not one line has a resolved `merchandiseId` (an empty cart, or a cart where every SKU is unmapped), it returns `status: 'failed'` with error code `unmapped-line` and **never calls `fetch()`**, so no empty real Shopify cart is ever created. When the cart is mixed (some lines mapped, some not), it proceeds using only the mapped lines (`buildCartCreateMutationPreview()` already filtered these), while the returned `cartLines` still lists every original line (mapped and unmapped) so callers can detect what was dropped.
+
+`resolveShopifyCheckoutOutcome()` (`src/services/shopifyStorefrontCart/shopifyStorefrontCheckoutOutcome.ts`) is the pure function the `/cart` "Proceed to Checkout" button uses to react to this: an `unmapped-line` failure becomes a `no-valid-lines` outcome (a clear "your items aren't checkout-ready yet" message, no redirect); a `succeeded` result whose `cartLines` contains any line with a `null` merchandiseId becomes a `redirect` outcome carrying a `warning` message (still redirects to the real checkout for the valid lines, but tells the customer some items were left out); a fully-mapped `succeeded` result redirects with no warning.
+
 ## Future live implementation plan
 
 Remaining follow-up work:
