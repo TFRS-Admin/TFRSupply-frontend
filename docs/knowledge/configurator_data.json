@@ -1,0 +1,282 @@
+{
+  "_note": "TFRSupply Configurator Data — derived from Police and Fire/EMS Price Books and Shopify Variant Index. This is the ground truth for all configurator JSON generation. Never hardcode prices. Use shopify-variant-index.json for all price resolution.",
+  "_generated": "2026-07-06",
+  "_sources": [
+    "Police-Price-Book_M100.pdf",
+    "Fire-EMS-PriceBook_M130.pdf",
+    "shopify-variant-index.json",
+    "Hook Mount Reference Guide (Effective January 19, 2026) — pages 14.png and 17.png from Police-Price-Book_M100.pdf.zip"
+  ],
+
+  "product_families": {
+    "valor": {
+      "display_name": "Valor Light Bar",
+      "shopify_prefix": "VALR",
+      "verticals": ["police", "fire"],
+      "spec_discrepancy": "Spec said 46/53/60 inch. Real inventory is 44 and 51 inch only.",
+      "option_dimensions": {
+        "length": ["44\"", "51\""],
+        "color_config": ["Red/White", "Red/Blue/White", "Blue/White"],
+        "mount": ["Hook", "Low Hook"]
+      },
+      "sku_map": [
+        { "sku": "VALR44J-F2H",   "length": "44\"", "color": "Red/White",       "mount": "Hook",     "vertical": ["police", "fire"] },
+        { "sku": "VALR44J-P1BH",  "length": "44\"", "color": "Red/Blue/White",  "mount": "Hook",     "vertical": ["police"] },
+        { "sku": "VALR44J-P1BL",  "length": "44\"", "color": "Red/Blue/White",  "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "VALR44J-P2BL",  "length": "44\"", "color": "Blue/White",      "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "VALR44J-PF3AL", "length": "44\"", "color": "Red/Blue/White",  "mount": "Low Hook", "vertical": ["police", "fire"] },
+        { "sku": "VALR51J-F2H",   "length": "51\"", "color": "Red/White",       "mount": "Hook",     "vertical": ["police", "fire"] },
+        { "sku": "VALR51J-P1BH",  "length": "51\"", "color": "Red/Blue/White",  "mount": "Hook",     "vertical": ["police"] },
+        { "sku": "VALR51J-P1BL",  "length": "51\"", "color": "Red/Blue/White",  "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "VALR51J-P2BL",  "length": "51\"", "color": "Blue/White",      "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "VALR51J-PF3AL", "length": "51\"", "color": "Red/Blue/White",  "mount": "Low Hook", "vertical": ["police", "fire"] }
+      ]
+    },
+
+    "integrity": {
+      "display_name": "Integrity Light Bar",
+      "shopify_prefix": "INTG",
+      "verticals": ["police", "fire"],
+      "spec_discrepancy": "Spec said 46/53/60 inch. Real inventory is 44 and 51 inch only.",
+      "option_dimensions": {
+        "length": ["44\"", "51\""],
+        "color_config": ["Red/White", "Red/Blue/White", "Blue/White"],
+        "mount": ["Hook", "Low Hook"]
+      },
+      "sku_map": [
+        { "sku": "INTG44J-F2H",  "length": "44\"", "color": "Red/White",      "mount": "Hook",     "vertical": ["fire"] },
+        { "sku": "INTG44J-P1BL", "length": "44\"", "color": "Red/Blue/White", "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "INTG44J-P2BL", "length": "44\"", "color": "Blue/White",     "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "INTG44J-PF3L", "length": "44\"", "color": "Red/Blue/White", "mount": "Low Hook", "vertical": ["police", "fire"] },
+        { "sku": "INTG51J-F2H",  "length": "51\"", "color": "Red/White",      "mount": "Hook",     "vertical": ["fire"] },
+        { "sku": "INTG51J-P1BL", "length": "51\"", "color": "Red/Blue/White", "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "INTG51J-P2BL", "length": "51\"", "color": "Blue/White",     "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "INTG51J-PF3L", "length": "51\"", "color": "Red/Blue/White", "mount": "Low Hook", "vertical": ["police", "fire"] }
+      ]
+    },
+
+    "vision_slr_lightbar": {
+      "display_name": "Vision SLR Light Bar",
+      "shopify_prefix": "VSLR",
+      "verticals": ["police", "fire"],
+      "spec_discrepancy": "Spec combined lightbar and beacon. These are separate product families. Lightbar SKUs start with VSLR46, VSLR53, VSLR60.",
+      "option_dimensions": {
+        "length": ["46\"", "53\"", "60\""],
+        "color_config": ["Red/White/Blue", "Red/Blue", "Red/White"],
+        "pod_count": ["3/5 Pods", "6 Pods", "8 Pods"],
+        "mount": ["Hook", "Permanent"]
+      },
+      "sku_map": [
+        { "sku": "VSLR46-2664023",  "length": "46\"", "color": "Red/White/Blue", "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["police"] },
+        { "sku": "VSLR46-2664017",  "length": "46\"", "color": "Red/White/Blue", "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["police"] },
+        { "sku": "VSLR46S-2664014", "length": "46\"", "color": "Red/Blue",       "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["police"] },
+        { "sku": "VSLR46S-2664009", "length": "46\"", "color": "Red/Blue",       "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["police"] },
+        { "sku": "VSLR46S-NFPA1",   "length": "46\"", "color": "Red/White",      "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["fire"] },
+        { "sku": "VSLR46S-NFPA2",   "length": "46\"", "color": "Red/White",      "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["fire"] },
+        { "sku": "VSLR53S-NFPA1",   "length": "53\"", "color": "Red/White",      "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["fire"] },
+        { "sku": "VSLR53S-NFPA2",   "length": "53\"", "color": "Red/White",      "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["fire"] },
+        { "sku": "VSLR60S-NFPA1",   "length": "60\"", "color": "Red/White",      "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["fire"] },
+        { "sku": "VSLR60S-NFPA2",   "length": "60\"", "color": "Red/White",      "pods": "3/5 Pods", "mount": "Hook",      "vertical": ["fire"] },
+        { "sku": "VSLR6S-NFPA1",    "length": "N/A",  "color": "Red/White",      "pods": "6 Pods",   "mount": "Permanent", "vertical": ["fire"] },
+        { "sku": "VSLR8S-NFPA1",    "length": "N/A",  "color": "Red/White",      "pods": "8 Pods",   "mount": "Permanent", "vertical": ["fire"] }
+      ]
+    },
+
+    "vision_slr_beacon": {
+      "display_name": "Vision SLR Beacon",
+      "shopify_prefix": "VSLR1",
+      "verticals": ["fire"],
+      "spec_discrepancy": "Spec combined lightbar and beacon. These are separate product families. Beacon SKUs start with VSLR1.",
+      "option_dimensions": {
+        "led_color": ["Red", "Amber", "Green", "Blue"],
+        "dome_color": ["Matching", "Clear"]
+      },
+      "sku_map": [
+        { "sku": "VSLR1-R1", "led_color": "Red",   "dome": "Red dome",   "vertical": ["fire"] },
+        { "sku": "VSLR1-R2", "led_color": "Red",   "dome": "Clear dome", "vertical": ["fire"] },
+        { "sku": "VSLR1-A1", "led_color": "Amber", "dome": "Amber dome", "vertical": ["fire"] },
+        { "sku": "VSLR1-A2", "led_color": "Amber", "dome": "Clear dome", "vertical": ["fire"] },
+        { "sku": "VSLR1-G1", "led_color": "Green", "dome": "Green dome", "vertical": ["fire"] },
+        { "sku": "VSLR1-G2", "led_color": "Green", "dome": "Clear dome", "vertical": ["fire"] },
+        { "sku": "VSLR1-B1", "led_color": "Blue",  "dome": "Blue dome",  "vertical": ["fire"] },
+        { "sku": "VSLR1-B2", "led_color": "Blue",  "dome": "Clear dome", "vertical": ["fire"] }
+      ]
+    },
+
+    "navigator": {
+      "display_name": "Navigator Light Bar",
+      "shopify_prefix": "NVG",
+      "verticals": ["fire"],
+      "spec_discrepancy": "None — Navigator lengths in spec match real inventory.",
+      "option_dimensions": {
+        "length": ["10\"", "18\"", "25\"", "45\"", "53\"", "60\"", "73\"", "87\""],
+        "network": ["Discrete", "Convergence Network"],
+        "mount": ["Flat", "Riser", "Hook"]
+      },
+      "sku_map": [
+        { "sku": "NVG10D-NFPA21-D",  "length": "10\"", "color": "Red",       "network": "Discrete",   "mount": "Flat",  "vertical": ["fire"] },
+        { "sku": "NVG10D-NFPA21-P",  "length": "10\"", "color": "Red",       "network": "Discrete",   "mount": "Flat",  "vertical": ["fire"] },
+        { "sku": "NVG10D-NFPA20",    "length": "10\"", "color": "Red",       "network": "Discrete",   "mount": "Flat",  "vertical": ["fire"] },
+        { "sku": "NVG18D-NFPA20-D",  "length": "18\"", "color": "Red/White", "network": "Discrete",   "mount": "Riser", "vertical": ["fire"] },
+        { "sku": "NVG25D-NFPA20-D",  "length": "25\"", "color": "Red/White", "network": "Discrete",   "mount": "Riser", "vertical": ["fire"] },
+        { "sku": "NVG45Z-NFPA20",    "length": "45\"", "color": "Red/White", "network": "Convergence", "mount": "Hook",  "vertical": ["fire"] },
+        { "sku": "NVG53Z-NFPA20",    "length": "53\"", "color": "Red/White", "network": "Convergence", "mount": "Hook",  "vertical": ["fire"] },
+        { "sku": "NVG60D-NFPA20",    "length": "60\"", "color": "Red/White", "network": "Discrete",   "mount": "Riser", "vertical": ["fire"] },
+        { "sku": "NVG73D-NFPA20",    "length": "73\"", "color": "Red/White", "network": "Discrete",   "mount": "Riser", "vertical": ["fire"] },
+        { "sku": "NVG87D-NFPA20",    "length": "87\"", "color": "Red/White", "network": "Discrete",   "mount": "Riser", "vertical": ["fire"] }
+      ]
+    },
+
+    "allegiant_max": {
+      "display_name": "Allegiant Max Light Bar",
+      "shopify_prefix": "ALGT",
+      "verticals": ["police", "fire", "work_truck"],
+      "spec_discrepancy": "Spec used prefix ALMAX. Real inventory uses ALGT prefix shared with standard Allegiant. Max models use JX, XC, DX, DXS suffixes. Allegiant Max 21 inch is Work Truck only — excluded from Police and Fire launch.",
+      "option_dimensions": {
+        "length": ["45\"", "53\"", "61\"", "70\"", "80\"", "94\""],
+        "color_config": ["Red/Blue/White", "Amber/Red/White", "Green/Red/White", "Amber/Blue/White", "Red/White"],
+        "mount": ["Low Hook", "Permanent", "Flat"]
+      },
+      "sku_map": [
+        { "sku": "ALGT45JX-P1LC",   "length": "45\"", "color": "Red/Blue/White",      "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "ALGT45JX-P2LC",   "length": "45\"", "color": "Blue/White",           "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "ALGT45JX-P3LC",   "length": "45\"", "color": "Red/Blue/White",      "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "ALGT45JX-P4LC",   "length": "45\"", "color": "Red/Blue/White",      "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "ALGT45JX-F1LR",   "length": "45\"", "color": "Amber/Red/White",     "mount": "Low Hook", "vertical": ["fire"] },
+        { "sku": "ALGT45JX-F2LC",   "length": "45\"", "color": "Green/Red/White",     "mount": "Low Hook", "vertical": ["fire"] },
+        { "sku": "ALGT45JX-F3LC",   "length": "45\"", "color": "Amber/Blue/White",    "mount": "Low Hook", "vertical": ["fire"] },
+        { "sku": "ALGT45JX-F4LC",   "length": "45\"", "color": "Amber/Blue/Red/White","mount": "Low Hook", "vertical": ["fire"] },
+        { "sku": "ALGT53JX-P1LC",   "length": "53\"", "color": "Red/Blue/White",      "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "ALGT53JX-F1LR",   "length": "53\"", "color": "Amber/Red/White",     "mount": "Low Hook", "vertical": ["fire"] },
+        { "sku": "ALGT61XC-NFPA2",  "length": "61\"", "color": "Red/White",           "mount": "Permanent","vertical": ["fire"] },
+        { "sku": "ALGT70XC-NFPA2",  "length": "70\"", "color": "Red/White",           "mount": "Flat",     "vertical": ["fire"] }
+      ]
+    },
+
+    "reliant_s2": {
+      "display_name": "Reliant S2 Light Bar",
+      "shopify_prefix": "RLNT",
+      "verticals": ["police", "fire"],
+      "spec_discrepancy": "Spec used prefix RELS2. Real inventory uses RLNT prefix. Only 48 inch length found in inventory.",
+      "option_dimensions": {
+        "length": ["48\""],
+        "color_config": ["Red/Blue/White"],
+        "dome": ["Blue", "Clear", "Red/Blue", "Red"],
+        "mount": ["Low Hook"]
+      },
+      "sku_map": [
+        { "sku": "RLNT48J-01BB", "length": "48\"", "color": "Red/Blue/White", "dome": "Blue",     "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "RLNT48J-01CC", "length": "48\"", "color": "Red/Blue/White", "dome": "Clear",    "mount": "Low Hook", "vertical": ["police", "fire"] },
+        { "sku": "RLNT48J-01RB", "length": "48\"", "color": "Red/Blue/White", "dome": "Red/Blue", "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "RLNT48J-01RR", "length": "48\"", "color": "Red/Blue/White", "dome": "Red",      "mount": "Low Hook", "vertical": ["fire"] },
+        { "sku": "RLNT48J-02BB", "length": "48\"", "color": "Red/Blue/White", "dome": "Blue",     "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "RLNT48J-02CC", "length": "48\"", "color": "Red/Blue/White", "dome": "Clear",    "mount": "Low Hook", "vertical": ["police", "fire"] },
+        { "sku": "RLNT48J-02RB", "length": "48\"", "color": "Red/Blue/White", "dome": "Red/Blue", "mount": "Low Hook", "vertical": ["police"] },
+        { "sku": "RLNT48J-02RR", "length": "48\"", "color": "Red/Blue/White", "dome": "Red",      "mount": "Low Hook", "vertical": ["fire"] }
+      ]
+    }
+  },
+
+  "sirens_speakers": {
+    "_note": "Siren feature comparison from Police Price Book page 14 (Effective January 19, 2026). These are not configurator products — they are catalog products. Included here for category page data accuracy.",
+    "products": [
+      {
+        "display_name": "Pathfinder PF400",
+        "sku_prefix": "PF400",
+        "wattage": "400W",
+        "key_features": ["FS Convergence Network", "FSJoin", "Air Horn", "PA", "Siren Tones", "Remote Control Head*", "Slide Switch*", "Lighting Control", "SignalMaster Control", "Microphone", "Built-in Timer", "Programmable I/O", "Load Management", "OBD Integration", "Integrated Dual-Tone", "Integrated Rumbler", "Rotary Switch*"],
+        "warranty_years": 5
+      },
+      {
+        "display_name": "Pathfinder PF200",
+        "sku_prefix": "PF200",
+        "wattage": "200W",
+        "key_features": ["FS Convergence Network", "FSJoin", "Air Horn", "PA", "Siren Tones", "Remote Control Head*", "Slide Switch*", "Lighting Control", "SignalMaster Control", "Microphone", "Built-in Timer", "Programmable I/O", "Load Management", "OBD Integration", "Integrated Dual-Tone", "Integrated Rumbler", "Rotary Switch*"],
+        "warranty_years": 5
+      },
+      {
+        "display_name": "Pathway",
+        "sku_prefix": "PATHWAY",
+        "wattage": "100W",
+        "key_features": ["FS Convergence Network", "FSJoin", "Air Horn", "PA", "Siren Tones", "Remote Control Head*", "Slide Switch*", "Lighting Control", "SignalMaster Control", "Microphone", "Built-in Timer", "Programmable I/O", "Load Management", "Rotary Switch*"],
+        "warranty_years": 5
+      },
+      {
+        "display_name": "PA300-100",
+        "sku_prefix": "PA300",
+        "wattage": "100W",
+        "key_features": ["FS Convergence Network", "Air Horn", "PA", "Siren Tones", "Lighting Control†", "Microphone", "Built-in Timer", "Programmable I/O (inputs only)"],
+        "warranty_years": 5
+      },
+      {
+        "display_name": "MS4000U",
+        "sku_prefix": "MS4000U",
+        "wattage": "100W",
+        "key_features": ["Air Horn", "Siren Tones"],
+        "warranty_years": 3
+      }
+    ]
+  },
+
+  "vehicle_fitment_kits": {
+    "_note": "Complete Hook Mount Reference Guide — Effective January 19, 2026. Source: Police-Price-Book_M100.pdf.zip page 14.png. All prices resolve from shopify-variant-index.json at runtime. compatible_lengths lists the bar lengths this kit is designed for.",
+    "_important": "HKB SKUs are auto_bundle accessories. When a user selects a vehicle in the configurator, surface the matching HKB SKU in the accessories section. Match by vehicle make/model/year AND compatible_lengths overlap with the selected bar length.",
+    "kits": [
+      { "sku": "HKB-BCS21",         "vehicle": "Ford Bronco Sport (2021-2025)",                               "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-SAV",           "vehicle": "Ford E-Series Van/Cutaway (1975-2026)",                       "roof_width": "65.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\"", "60\""] },
+      { "sku": "HKB-UNH4",          "vehicle": "Ford Edge (2015-2024)",                                       "roof_width": "51.8\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-ESC20",         "vehicle": "Ford Escape (No Roof Rack Rails) (2020-2026)",                "roof_width": "45.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-EXD22",         "vehicle": "Ford Expedition (No Roof Rack) (2018-2026)",                  "roof_width": "55.5\"","compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-FRD15-44-HP",   "vehicle": "Ford F-150 Responder (2015-2026) — 44/45/46/48-in bars",     "roof_width": "55.5\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-FRD15-HP",      "vehicle": "Ford F-150 Responder (2015-2026) — 51/53-in bars, std foot", "roof_width": "55.5\"","compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-UNH6",          "vehicle": "Ford F-150 (2015-2026) — 44/45/46/48-in bars",               "roof_width": "55.5\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-UNH5",          "vehicle": "Ford F-150 (2015-2026) — 51/53-in bars, std foot",           "roof_width": "55.5\"","compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-FHD7",          "vehicle": "Ford F-250/350/450/550 (2017+) — all lengths",               "roof_width": "58.5\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\"", "60\""] },
+      { "sku": "HKB-MAV22",         "vehicle": "Ford F-650/750 (2026) — 51/53/60-in bars",                   "roof_width": "50.5\"","compatible_lengths": ["51\"", "53\"", "60\""] },
+      { "sku": "HKB-MME21",         "vehicle": "Ford Maverick (2026)",                                        "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-FPIU20-HP",     "vehicle": "Ford Mustang Mach-E (2021+, No Panoramic Roof)",              "roof_width": "52.8\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-FPIU20-LONG-HP","vehicle": "Ford Mustang (2020-2026)",                                    "roof_width": "52.8\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-FPIU20-HP",     "vehicle": "Ford Police Interceptor Utility / Explorer (2020-2026) — 44/45/46-in, No Rack", "roof_width": "52.8\"", "compatible_lengths": ["44\"", "45\"", "46\""] },
+      { "sku": "HKB-FPIU20-44-HP",  "vehicle": "Ford Police Interceptor Utility / Explorer (2020-2026) — 44-in, Valor low-profile foot", "roof_width": "52.8\"", "compatible_lengths": ["44\""] },
+      { "sku": "HKB-RNG19",         "vehicle": "Ford Police Interceptor Utility / Explorer (2019+) — 51/53-in, No Rack", "roof_width": "48.0\"", "compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-UNH4",          "vehicle": "Ford Police Interceptor Utility / Explorer (2024-2026) — 44-in, Roof Rail", "roof_width": "N/A", "compatible_lengths": ["44\""] },
+      { "sku": "HKB-BLZ R24",       "vehicle": "Chevrolet Blazer EV (2024+)",                                 "roof_width": "53.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-COL15",         "vehicle": "Chevrolet Colorado / GMC Canyon (2011+)",                     "roof_width": "50.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-SAV",           "vehicle": "Chevrolet Express / GMC Savana Van (2023+)",                  "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-UNH1",          "vehicle": "Chevrolet Malibu (2015+)",                                    "roof_width": "47.3\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-UNH3",          "vehicle": "Chevrolet Silverado/Sierra 1500 (2024+) — 44/45/48-in bars", "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "48\""] },
+      { "sku": "HKB-UNH4",          "vehicle": "Chevrolet Silverado/Sierra 1500 (2001+)",                     "roof_width": "61.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-TAH21-44-HP",   "vehicle": "Chevrolet Silverado PPV (2026) — 44/45/48-in bars",          "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "48\""] },
+      { "sku": "HKB-UNH2",          "vehicle": "Chevrolet Silverado PPV (2012-2023) — 44/45/48-in bars",     "roof_width": "48.0\"","compatible_lengths": ["44\"", "45\"", "48\""] },
+      { "sku": "HKB-SIL17",         "vehicle": "Chevrolet Silverado PPV (2019-2026) — 51/53-in bars",        "roof_width": "52.0\"","compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-TAH21-HP",      "vehicle": "Chevrolet Silverado PPV (2026) — 51/53-in bars",             "roof_width": "N/A",   "compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-UNH2",          "vehicle": "Chevrolet Silverado/Sierra 2500/3500 (2014-2018) — 44/45/48-in", "roof_width": "55.8\"","compatible_lengths": ["44\"", "45\"", "48\""] },
+      { "sku": "HKB-UNH3",          "vehicle": "Chevrolet Silverado/Sierra 2500/3500 (2019-2026) — 44/45/48-in", "roof_width": "52.0\"","compatible_lengths": ["44\"", "45\"", "48\""] },
+      { "sku": "HKB-UNH3",          "vehicle": "Chevrolet Silverado/Sierra 2500/3500 (2022+) — 51/53-in",    "roof_width": "55.0\"","compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-TAH21-44-HP",   "vehicle": "Chevrolet Tahoe/Suburban (No Roof Rails) (2026) — 44/45/46/48-in", "roof_width": "N/A", "compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-UNH4",          "vehicle": "Chevrolet Tahoe/Suburban (No Roof Rails) (2021+) — 44/45/46/48-in", "roof_width": "55.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-TAH21-HP",      "vehicle": "Chevrolet Tahoe/Suburban (No Roof Rails) (2026) — 51/53-in", "roof_width": "N/A",   "compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-LPCHGR11-HP",   "vehicle": "Chevrolet Tahoe/Suburban (No Roof Rails) (2026) — 51/53-in alt", "roof_width": "N/A", "compatible_lengths": ["51\"", "53\""] },
+      { "sku": "HKB-TRAV22",        "vehicle": "Chevrolet Traverse (No Rack) (2015-2020)",                   "roof_width": "55.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-LPCHGR11-HP",   "vehicle": "Dodge Charger (2011-2029)",                                  "roof_width": "50.3\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-DUR11B-HP",     "vehicle": "Dodge Durango (No Roof Rack) (2011-2026)",                   "roof_width": "52.8\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-DUR11B-HP",     "vehicle": "Jeep Grand Cherokee (No Roof Rack) (2018-2023)",             "roof_width": "54.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-RAM19",         "vehicle": "RAM 1500 (2011+, 4th Gen)",                                  "roof_width": "55.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-RAM19",         "vehicle": "RAM 1500 SSV (2019-2026)",                                   "roof_width": "55.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-FRD9",          "vehicle": "RAM 1500 Classic/SSV (2011+, 40th Gen)",                     "roof_width": "57.5\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-FRD9",          "vehicle": "RAM 2500/3500/4500 (2010-2026)",                             "roof_width": "57.5\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-RAV25RR",       "vehicle": "Toyota RAV4 (with Roof Rails) (2025)",                       "roof_width": "43.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-RAV23",         "vehicle": "Toyota RAV4 (No Roof Rails) (2023-2024)",                    "roof_width": "43.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-UNH1",          "vehicle": "Toyota RAV4 (2018-2022)",                                    "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-DUR11B-HP",     "vehicle": "Toyota 4-Runner (2022-2044)",                                "roof_width": "53.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-UNH1",          "vehicle": "Toyota 4-Runner (2016-2023)",                                "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-TAC24",         "vehicle": "Toyota Tacoma (2024-2025)",                                  "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-RAM19",         "vehicle": "Toyota Tundra (2022-2024)",                                  "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-FNTR",          "vehicle": "Nissan Frontier (2022+)",                                    "roof_width": "53.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-UNH1",          "vehicle": "Nissan Leaf (2023)",                                         "roof_width": "N/A",   "compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKN-ROG23",         "vehicle": "Nissan Rogue (No Roof Rails) (2015+)",                       "roof_width": "51.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\""] },
+      { "sku": "HKB-TTN23",         "vehicle": "Nissan Titan (2023)",                                        "roof_width": "58.0\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\""] },
+      { "sku": "HKB-FHD7",          "vehicle": "International Durastar/4300 cab (2002-2018 / 2023+)",        "roof_width": "65.8\"","compatible_lengths": ["44\"", "45\"", "46\"", "48\"", "51\"", "53\"", "60\""] }
+    ]
+  }
+}
