@@ -6,66 +6,80 @@
   "productFamily": "Reliant® S2 Police Light Bar",
   "label": "Reliant® S2 Police Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
-
   "skuOptions": [
     {
       "sku": "RLNT48J-01BB",
       "description": "Reliant S2 48\" Police — Zone Style 1 — Blue/Blue Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z1", "fill": "BB" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z1",
+        "fill": "BB"
+      }
     },
     {
       "sku": "RLNT48J-01CC",
       "description": "Reliant S2 48\" Police — Zone Style 1 — Clear-White/White Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z1", "fill": "CC" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z1",
+        "fill": "CC"
+      }
     },
     {
       "sku": "RLNT48J-01RB",
       "description": "Reliant S2 48\" Police — Zone Style 1 — Red/Blue Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z1", "fill": "RB" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z1",
+        "fill": "RB"
+      }
     },
     {
       "sku": "RLNT48J-01RR",
       "description": "Reliant S2 48\" Police — Zone Style 1 — Red/Red Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z1", "fill": "RR" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z1",
+        "fill": "RR"
+      }
     },
     {
       "sku": "RLNT48J-02BB",
       "description": "Reliant S2 48\" Police — Zone Style 2 — Blue/Blue Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z2", "fill": "BB" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z2",
+        "fill": "BB"
+      }
     },
     {
       "sku": "RLNT48J-02CC",
       "description": "Reliant S2 48\" Police — Zone Style 2 — Clear-White/White Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z2", "fill": "CC" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z2",
+        "fill": "CC"
+      }
     },
     {
       "sku": "RLNT48J-02RB",
       "description": "Reliant S2 48\" Police — Zone Style 2 — Red/Blue Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z2", "fill": "RB" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z2",
+        "fill": "RB"
+      }
     },
     {
       "sku": "RLNT48J-02RR",
       "description": "Reliant S2 48\" Police — Zone Style 2 — Red/Red Fill",
-      "price": null,
-      "_priceNote": "Price from Shopify export via index — $2,204",
-      "attributes": { "length": "48", "zone": "Z2", "fill": "RR" }
+      "attributes": {
+        "length": "48",
+        "zone": "Z2",
+        "fill": "RR"
+      }
     }
   ],
-
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
@@ -78,8 +92,18 @@
           "skuSegmentKey": "zone",
           "_verification": "confirmed",
           "options": [
-            { "id": "z1", "label": "Style 1 (01)", "skuSegment": "Z1", "description": "Zone programming style 1 — standard front/rear zone split" },
-            { "id": "z2", "label": "Style 2 (02)", "skuSegment": "Z2", "description": "Zone programming style 2 — alternate zone split configuration" }
+            {
+              "id": "z1",
+              "label": "Style 1 (01)",
+              "skuSegment": "Z1",
+              "description": "Zone programming style 1 — standard front/rear zone split"
+            },
+            {
+              "id": "z2",
+              "label": "Style 2 (02)",
+              "skuSegment": "Z2",
+              "description": "Zone programming style 2 — alternate zone split configuration"
+            }
           ]
         },
         {
@@ -89,15 +113,34 @@
           "skuSegmentKey": "fill",
           "_verification": "confirmed",
           "options": [
-            { "id": "rb", "label": "Red / Blue",          "skuSegment": "RB", "description": "Red front / Blue rear — most common police configuration" },
-            { "id": "rr", "label": "Red / Red",           "skuSegment": "RR", "description": "Red front and rear — Red-heavy police configuration" },
-            { "id": "bb", "label": "Blue / Blue",         "skuSegment": "BB", "description": "Blue front and rear — Blue-dominant police configuration" },
-            { "id": "cc", "label": "Clear-White / White", "skuSegment": "CC", "description": "Clear/White fill — high-visibility white-dominant configuration" }
+            {
+              "id": "rb",
+              "label": "Red / Blue",
+              "skuSegment": "RB",
+              "description": "Red front / Blue rear — most common police configuration"
+            },
+            {
+              "id": "rr",
+              "label": "Red / Red",
+              "skuSegment": "RR",
+              "description": "Red front and rear — Red-heavy police configuration"
+            },
+            {
+              "id": "bb",
+              "label": "Blue / Blue",
+              "skuSegment": "BB",
+              "description": "Blue front and rear — Blue-dominant police configuration"
+            },
+            {
+              "id": "cc",
+              "label": "Clear-White / White",
+              "skuSegment": "CC",
+              "description": "Clear/White fill — high-visibility white-dominant configuration"
+            }
           ]
         }
       ]
     },
-
     "accessories": {
       "label": "Build Your Package",
       "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories.",
@@ -145,18 +188,49 @@
       ]
     }
   },
-
   "vehicleRules": [
-    { "vehicleId": "FORD_PIU",            "displayName": "Ford Explorer PIU",          "recommendedLength": "48" },
-    { "vehicleId": "FORD_EXPEDITION_SSV", "displayName": "Ford Expedition SSV",        "recommendedLength": "48" },
-    { "vehicleId": "CHEVY_TAHOE_PPV",     "displayName": "Chevrolet Tahoe PPV / SSV",  "recommendedLength": "48" },
-    { "vehicleId": "CHEVY_BLAZER_EV_PPV", "displayName": "Chevrolet Blazer EV PPV",    "recommendedLength": "48" },
-    { "vehicleId": "DODGE_CHARGER",       "displayName": "Dodge Charger Pursuit",      "recommendedLength": "48" },
-    { "vehicleId": "DODGE_DURANGO",       "displayName": "Dodge Durango Pursuit",      "recommendedLength": "48" },
-    { "vehicleId": "FORD_F150_RESPONDER", "displayName": "Ford F-150 Responder",       "recommendedLength": "48" },
-    { "vehicleId": "RAM_1500_SSV",        "displayName": "Ram 1500 SSV",               "recommendedLength": "48" }
+    {
+      "vehicleId": "FORD_PIU",
+      "displayName": "Ford Explorer PIU",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "FORD_EXPEDITION_SSV",
+      "displayName": "Ford Expedition SSV",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "CHEVY_TAHOE_PPV",
+      "displayName": "Chevrolet Tahoe PPV / SSV",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "CHEVY_BLAZER_EV_PPV",
+      "displayName": "Chevrolet Blazer EV PPV",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "DODGE_CHARGER",
+      "displayName": "Dodge Charger Pursuit",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "DODGE_DURANGO",
+      "displayName": "Dodge Durango Pursuit",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "FORD_F150_RESPONDER",
+      "displayName": "Ford F-150 Responder",
+      "recommendedLength": "48"
+    },
+    {
+      "vehicleId": "RAM_1500_SSV",
+      "displayName": "Ram 1500 SSV",
+      "recommendedLength": "48"
+    }
   ],
-
   "compatibilityRules": [],
-  "dependencyRules": []
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
 }

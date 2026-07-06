@@ -6,17 +6,71 @@
   "productFamily": "Navigator Discrete",
   "label": "Navigator® Discrete Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
-
   "skuOptions": [
-    { "sku": "NVG25D-NFPA20-D", "price": 1708, "attributes": { "length": "25", "color": "RW", "spec": "NFPA20", "wiring": "D" } },
-    { "sku": "NVG25D-NFPA20-P", "price": 1708, "attributes": { "length": "25", "color": "RW", "spec": "NFPA20", "wiring": "P" } },
-    { "sku": "NVG25D-NFPA21",   "price": 1848, "attributes": { "length": "25", "color": "RW", "spec": "NFPA21", "wiring": "D" } },
-    { "sku": "NVG45Z-NFPA20",   "price": 4639, "attributes": { "length": "45", "color": "RW", "spec": "NFPA20", "wiring": "S" } },
-    { "sku": "NVG45Z-NFPA21",   "price": 4249, "attributes": { "length": "45", "color": "RW", "spec": "NFPA21", "wiring": "S" } },
-    { "sku": "NVG53Z-NFPA20",   "price": 5142, "attributes": { "length": "53", "color": "RW", "spec": "NFPA20", "wiring": "S" } },
-    { "sku": "NVG53Z-NFPA21",   "price": 4752, "attributes": { "length": "53", "color": "RW", "spec": "NFPA21", "wiring": "S" } }
+    {
+      "sku": "NVG25D-NFPA20-D",
+      "attributes": {
+        "length": "25",
+        "color": "RW",
+        "spec": "NFPA20",
+        "wiring": "D"
+      }
+    },
+    {
+      "sku": "NVG25D-NFPA20-P",
+      "attributes": {
+        "length": "25",
+        "color": "RW",
+        "spec": "NFPA20",
+        "wiring": "P"
+      }
+    },
+    {
+      "sku": "NVG25D-NFPA21",
+      "attributes": {
+        "length": "25",
+        "color": "RW",
+        "spec": "NFPA21",
+        "wiring": "D"
+      }
+    },
+    {
+      "sku": "NVG45Z-NFPA20",
+      "attributes": {
+        "length": "45",
+        "color": "RW",
+        "spec": "NFPA20",
+        "wiring": "S"
+      }
+    },
+    {
+      "sku": "NVG45Z-NFPA21",
+      "attributes": {
+        "length": "45",
+        "color": "RW",
+        "spec": "NFPA21",
+        "wiring": "S"
+      }
+    },
+    {
+      "sku": "NVG53Z-NFPA20",
+      "attributes": {
+        "length": "53",
+        "color": "RW",
+        "spec": "NFPA20",
+        "wiring": "S"
+      }
+    },
+    {
+      "sku": "NVG53Z-NFPA21",
+      "attributes": {
+        "length": "53",
+        "color": "RW",
+        "spec": "NFPA21",
+        "wiring": "S"
+      }
+    }
   ],
-
   "sections": {
     "skuSelector": {
       "label": "SKU Selector",
@@ -29,9 +83,24 @@
           "skuSegmentKey": "length",
           "_verification": "confirmed",
           "options": [
-            { "id": "25in", "label": "25\"", "skuSegment": "25", "description": "Discrete/mini with 4-inch riser" },
-            { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Full-size discrete" },
-            { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size discrete" }
+            {
+              "id": "25in",
+              "label": "25\"",
+              "skuSegment": "25",
+              "description": "Discrete/mini with 4-inch riser"
+            },
+            {
+              "id": "45in",
+              "label": "45\"",
+              "skuSegment": "45",
+              "description": "Full-size discrete"
+            },
+            {
+              "id": "53in",
+              "label": "53\"",
+              "skuSegment": "53",
+              "description": "Full-size discrete"
+            }
           ]
         },
         {
@@ -41,7 +110,12 @@
           "skuSegmentKey": "color",
           "_verification": "confirmed",
           "options": [
-            { "id": "rw", "label": "Red / White", "skuSegment": "RW", "description": "All lengths" }
+            {
+              "id": "rw",
+              "label": "Red / White",
+              "skuSegment": "RW",
+              "description": "All lengths"
+            }
           ]
         },
         {
@@ -51,8 +125,16 @@
           "skuSegmentKey": "spec",
           "_verification": "needs_verification",
           "options": [
-            { "id": "nfpa20", "label": "NFPA 2020", "skuSegment": "NFPA20" },
-            { "id": "nfpa21", "label": "NFPA 2021", "skuSegment": "NFPA21" }
+            {
+              "id": "nfpa20",
+              "label": "NFPA 2020",
+              "skuSegment": "NFPA20"
+            },
+            {
+              "id": "nfpa21",
+              "label": "NFPA 2021",
+              "skuSegment": "NFPA21"
+            }
           ]
         },
         {
@@ -62,14 +144,28 @@
           "skuSegmentKey": "wiring",
           "_verification": "confirmed",
           "options": [
-            { "id": "discrete", "label": "Discrete",          "skuSegment": "D", "description": "25\" only" },
-            { "id": "plug-in",  "label": "Plug-In (Pigtail)", "skuSegment": "P", "description": "25\" only" },
-            { "id": "serial",   "label": "Serial",            "skuSegment": "S", "description": "45\" / 53\" only" }
+            {
+              "id": "discrete",
+              "label": "Discrete",
+              "skuSegment": "D",
+              "description": "25\" only"
+            },
+            {
+              "id": "plug-in",
+              "label": "Plug-In (Pigtail)",
+              "skuSegment": "P",
+              "description": "25\" only"
+            },
+            {
+              "id": "serial",
+              "label": "Serial",
+              "skuSegment": "S",
+              "description": "45\" / 53\" only"
+            }
           ]
         }
       ]
     },
-
     "technicalOptions": {
       "label": "Technical Options",
       "description": "Product capabilities. These do not affect base SKU resolution.",
@@ -79,7 +175,11 @@
           "label": "Riser Height",
           "skuImpact": false,
           "options": [
-            { "id": "riser-4in", "label": "4-inch Riser", "description": "Standard on 25\" discrete" }
+            {
+              "id": "riser-4in",
+              "label": "4-inch Riser",
+              "description": "Standard on 25\" discrete"
+            }
           ]
         },
         {
@@ -87,7 +187,11 @@
           "label": "Dome Color",
           "skuImpact": false,
           "options": [
-            { "id": "dome-clear", "label": "Clear Dome", "description": "Standard on all discrete models" }
+            {
+              "id": "dome-clear",
+              "label": "Clear Dome",
+              "description": "Standard on all discrete models"
+            }
           ]
         },
         {
@@ -95,12 +199,14 @@
           "label": "Flash Patterns",
           "skuImpact": false,
           "options": [
-            { "id": "flash-30", "label": "30 User-Selectable Patterns" }
+            {
+              "id": "flash-30",
+              "label": "30 User-Selectable Patterns"
+            }
           ]
         }
       ]
     },
-
     "accessories": {
       "label": "Accessories & Add-ons",
       "description": "Required dependencies and optional accessories.",
@@ -124,14 +230,28 @@
       ]
     }
   },
-
   "vehicleRules": [
-    { "vehicleId": "CHARGER_PURSUIT",  "displayName": "Dodge Charger Pursuit",          "recommendedLength": "45" },
-    { "vehicleId": "PIU",              "displayName": "Ford Police Interceptor Utility", "recommendedLength": "53" },
-    { "vehicleId": "TAHOE_PPV",        "displayName": "Chevrolet Tahoe PPV",             "recommendedLength": "53" },
-    { "vehicleId": "DURANGO_PURSUIT",  "displayName": "Dodge Durango Pursuit",           "recommendedLength": "53" }
+    {
+      "vehicleId": "CHARGER_PURSUIT",
+      "displayName": "Dodge Charger Pursuit",
+      "recommendedLength": "45"
+    },
+    {
+      "vehicleId": "PIU",
+      "displayName": "Ford Police Interceptor Utility",
+      "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "TAHOE_PPV",
+      "displayName": "Chevrolet Tahoe PPV",
+      "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "DURANGO_PURSUIT",
+      "displayName": "Dodge Durango Pursuit",
+      "recommendedLength": "53"
+    }
   ],
-
   "compatibilityRules": [
     {
       "id": "excl-discrete-45-discrete-wiring",
@@ -179,6 +299,6 @@
       "message": "Serial wiring (S) is only available on 45\" and 53\" models."
     }
   ],
-
-  "dependencyRules": []
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
 }

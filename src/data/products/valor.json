@@ -3,23 +3,52 @@
   "slug": "valor",
   "vendor": "federal-signal",
   "category": "light-bars",
-  "verticals": ["police"],
+  "verticals": [
+    "police"
+  ],
   "product_family": "Valor",
   "title": "Valor® Police Light Bar",
   "subtitle": "Full-featured police light bar in 44\" and 51\" lengths. Available in 1-Color, 2-Color, and Full 3-Color configurations with Hook Mount or Low Profile options.",
   "description": "The Federal Signal Valor® light bar delivers high-output LED warning performance engineered for police vehicles. Multiple color and mount configurations available for patrol sedans, SUVs, and interceptors.",
   "tabs_component": "ProductTabs",
   "tabs": [
-    { "id": "features",       "label": "Features",          "content_type": "features" },
-    { "id": "specifications", "label": "Specifications",     "content_type": "specifications" },
-    { "id": "documentation",  "label": "Downloads",          "content_type": "documentation" },
-    { "id": "configure",      "label": "Build & Configure",  "content_type": "configurator" }
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
   ],
   "breadcrumbs": [
-    { "label": "Home",       "to": "/" },
-    { "label": "Police",     "to": "/police" },
-    { "label": "Light Bars", "to": "/police/light-bars" },
-    { "label": "Valor® Police Light Bar" }
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Valor® Police Light Bar"
+    }
   ],
   "media": {
     "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
@@ -59,24 +88,52 @@
   },
   "specifications": {
     "voltage": "12 Vdc",
-    "lengths": ["44\"", "51\""],
-    "color_configs": ["1-Color Blue/White", "2-Color Blue/White", "Full 3-Color Amber/Blue/White"],
-    "mount_options": ["Hook Mount", "Low Profile"],
+    "lengths": [
+      "44\"",
+      "51\""
+    ],
+    "color_configs": [
+      "1-Color Blue/White",
+      "2-Color Blue/White",
+      "Full 3-Color Amber/Blue/White"
+    ],
+    "mount_options": [
+      "Hook Mount",
+      "Low Profile"
+    ],
     "flash_patterns": "30 user-selectable",
     "warranty": "5-year limited",
-    "certifications": ["SAE J595"]
+    "certifications": [
+      "SAE J595"
+    ]
   },
   "documentation": {
     "manuals": [
-      { "label": "Valor® Installation Manual",  "url": "#", "type": "pdf" },
-      { "label": "Valor® Programming Guide",    "url": "#", "type": "pdf" }
+      {
+        "label": "Valor® Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Valor® Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
     ],
     "brochures": [
-      { "label": "Valor® Police Light Bar Brochure", "url": "#", "type": "pdf" }
+      {
+        "label": "Valor® Police Light Bar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
     ],
     "cad_files": [],
     "certifications": [
-      { "label": "SAE J595 Certification", "url": "#", "type": "pdf" }
+      {
+        "label": "SAE J595 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
     ]
   },
   "commerce": {
@@ -92,19 +149,76 @@
     "cart_eligible": false,
     "storefront_available": false,
     "variant_mappings": [
-      { "sku": "VALR44J-P1BH",  "shopify_variant_id": null, "option_length": "44\"", "option_color": "1-Color Blue/White", "option_mount": "Hook Mount",   "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR44J-P1BL",  "shopify_variant_id": null, "option_length": "44\"", "option_color": "1-Color Blue/White", "option_mount": "Low Profile",  "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR44J-P2BL",  "shopify_variant_id": null, "option_length": "44\"", "option_color": "2-Color Blue/White", "option_mount": "Low Profile",  "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR44J-PF3AL", "shopify_variant_id": null, "option_length": "44\"", "option_color": "Full 3-Color",       "option_mount": "Low Profile",  "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR51J-P1BH",  "shopify_variant_id": null, "option_length": "51\"", "option_color": "1-Color Blue/White", "option_mount": "Hook Mount",   "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR51J-P1BL",  "shopify_variant_id": null, "option_length": "51\"", "option_color": "1-Color Blue/White", "option_mount": "Low Profile",  "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR51J-P2BL",  "shopify_variant_id": null, "option_length": "51\"", "option_color": "2-Color Blue/White", "option_mount": "Low Profile",  "_missing": "shopify_variant_id, price" },
-      { "sku": "VALR51J-PF3AL", "shopify_variant_id": null, "option_length": "51\"", "option_color": "Full 3-Color",       "option_mount": "Low Profile",  "_missing": "shopify_variant_id, price" }
+      {
+        "sku": "VALR44J-P1BH",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "1-Color Blue/White",
+        "option_mount": "Hook Mount",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR44J-P1BL",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "1-Color Blue/White",
+        "option_mount": "Low Profile",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR44J-P2BL",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "2-Color Blue/White",
+        "option_mount": "Low Profile",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR44J-PF3AL",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "Full 3-Color",
+        "option_mount": "Low Profile",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR51J-P1BH",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "1-Color Blue/White",
+        "option_mount": "Hook Mount",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR51J-P1BL",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "1-Color Blue/White",
+        "option_mount": "Low Profile",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR51J-P2BL",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "2-Color Blue/White",
+        "option_mount": "Low Profile",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "VALR51J-PF3AL",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "Full 3-Color",
+        "option_mount": "Low Profile",
+        "_missing": "shopify_variant_id, price"
+      }
     ]
   },
   "configuratorId": "valor-configurator",
   "cta": {
     "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
     "request_info_url": "#"
-  }
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
 }

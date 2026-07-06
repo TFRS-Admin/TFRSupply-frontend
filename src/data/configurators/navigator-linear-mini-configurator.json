@@ -6,19 +6,71 @@
   "productFamily": "Navigator Linear Mini",
   "label": "Navigator® Linear Mini Configurator",
   "priceDisplay": "Contact for pricing",
-
   "skuOptions": [
-    { "sku": "NVLM10-A",  "price": null, "attributes": { "length": "10", "color": "A"  } },
-    { "sku": "NVLM10-RBW","price": null, "attributes": { "length": "10", "color": "RBW" } },
-    { "sku": "NVLM10-BW", "price": null, "attributes": { "length": "10", "color": "BW" } },
-    { "sku": "NVLM18-A",  "price": null, "attributes": { "length": "18", "color": "A"  } },
-    { "sku": "NVLM18-RBW","price": null, "attributes": { "length": "18", "color": "RBW" } },
-    { "sku": "NVLM18-BW", "price": null, "attributes": { "length": "18", "color": "BW" } },
-    { "sku": "NVLM25-A",  "price": null, "attributes": { "length": "25", "color": "A"  } },
-    { "sku": "NVLM25-RBW","price": null, "attributes": { "length": "25", "color": "RBW" } },
-    { "sku": "NVLM25-BW", "price": null, "attributes": { "length": "25", "color": "BW" } }
+    {
+      "sku": "NVLM10-A",
+      "attributes": {
+        "length": "10",
+        "color": "A"
+      }
+    },
+    {
+      "sku": "NVLM10-RBW",
+      "attributes": {
+        "length": "10",
+        "color": "RBW"
+      }
+    },
+    {
+      "sku": "NVLM10-BW",
+      "attributes": {
+        "length": "10",
+        "color": "BW"
+      }
+    },
+    {
+      "sku": "NVLM18-A",
+      "attributes": {
+        "length": "18",
+        "color": "A"
+      }
+    },
+    {
+      "sku": "NVLM18-RBW",
+      "attributes": {
+        "length": "18",
+        "color": "RBW"
+      }
+    },
+    {
+      "sku": "NVLM18-BW",
+      "attributes": {
+        "length": "18",
+        "color": "BW"
+      }
+    },
+    {
+      "sku": "NVLM25-A",
+      "attributes": {
+        "length": "25",
+        "color": "A"
+      }
+    },
+    {
+      "sku": "NVLM25-RBW",
+      "attributes": {
+        "length": "25",
+        "color": "RBW"
+      }
+    },
+    {
+      "sku": "NVLM25-BW",
+      "attributes": {
+        "length": "25",
+        "color": "BW"
+      }
+    }
   ],
-
   "sections": {
     "skuSelector": {
       "label": "SKU Selector",
@@ -31,9 +83,24 @@
           "skuSegmentKey": "length",
           "_verification": "confirmed",
           "options": [
-            { "id": "10in", "label": "10\"", "skuSegment": "10", "description": "Compact dash/deck mount" },
-            { "id": "18in", "label": "18\"", "skuSegment": "18", "description": "Mid-size mini lightbar" },
-            { "id": "25in", "label": "25\"", "skuSegment": "25", "description": "Extended mini lightbar" }
+            {
+              "id": "10in",
+              "label": "10\"",
+              "skuSegment": "10",
+              "description": "Compact dash/deck mount"
+            },
+            {
+              "id": "18in",
+              "label": "18\"",
+              "skuSegment": "18",
+              "description": "Mid-size mini lightbar"
+            },
+            {
+              "id": "25in",
+              "label": "25\"",
+              "skuSegment": "25",
+              "description": "Extended mini lightbar"
+            }
           ]
         },
         {
@@ -43,14 +110,28 @@
           "skuSegmentKey": "color",
           "_verification": "confirmed",
           "options": [
-            { "id": "amber",  "label": "Amber",              "skuSegment": "A",   "description": "Utility / warning package" },
-            { "id": "rbw",    "label": "Red / Blue / White", "skuSegment": "RBW", "description": "Police package" },
-            { "id": "bw",     "label": "Blue / White",       "skuSegment": "BW",  "description": "Police package" }
+            {
+              "id": "amber",
+              "label": "Amber",
+              "skuSegment": "A",
+              "description": "Utility / warning package"
+            },
+            {
+              "id": "rbw",
+              "label": "Red / Blue / White",
+              "skuSegment": "RBW",
+              "description": "Police package"
+            },
+            {
+              "id": "bw",
+              "label": "Blue / White",
+              "skuSegment": "BW",
+              "description": "Police package"
+            }
           ]
         }
       ]
     },
-
     "technicalOptions": {
       "label": "Technical Options",
       "description": "Product capabilities. These do not affect base SKU resolution.",
@@ -60,8 +141,16 @@
           "label": "Mounting Style",
           "skuImpact": false,
           "options": [
-            { "id": "perm-mount", "label": "Permanent Mount",  "description": "Roof or deck mounted" },
-            { "id": "temp-mount", "label": "Temporary Mount",  "description": "Suction cup or bracket" }
+            {
+              "id": "perm-mount",
+              "label": "Permanent Mount",
+              "description": "Roof or deck mounted"
+            },
+            {
+              "id": "temp-mount",
+              "label": "Temporary Mount",
+              "description": "Suction cup or bracket"
+            }
           ]
         },
         {
@@ -69,12 +158,15 @@
           "label": "Flash Patterns",
           "skuImpact": false,
           "options": [
-            { "id": "flash-std", "label": "Standard Patterns", "description": "Multiple user-selectable patterns" }
+            {
+              "id": "flash-std",
+              "label": "Standard Patterns",
+              "description": "Multiple user-selectable patterns"
+            }
           ]
         }
       ]
     },
-
     "accessories": {
       "label": "Accessories & Add-ons",
       "description": "Required dependencies and optional accessories.",
@@ -98,13 +190,26 @@
       ]
     }
   },
-
   "vehicleRules": [
-    { "vehicleId": "CHARGER_PURSUIT",  "displayName": "Dodge Charger Pursuit",          "recommendedLength": "18" },
-    { "vehicleId": "PIU",              "displayName": "Ford Police Interceptor Utility", "recommendedLength": "25" },
-    { "vehicleId": "TAHOE_PPV",        "displayName": "Chevrolet Tahoe PPV",             "recommendedLength": "25" }
+    {
+      "vehicleId": "CHARGER_PURSUIT",
+      "displayName": "Dodge Charger Pursuit",
+      "recommendedLength": "18"
+    },
+    {
+      "vehicleId": "PIU",
+      "displayName": "Ford Police Interceptor Utility",
+      "recommendedLength": "25"
+    },
+    {
+      "vehicleId": "TAHOE_PPV",
+      "displayName": "Chevrolet Tahoe PPV",
+      "recommendedLength": "25"
+    }
   ],
-
   "compatibilityRules": [],
-  "dependencyRules": []
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI.",
+  "_status": "coming_soon",
+  "_status_note": "Navigator Linear Mini (NVLM*) SKUs are not present in the Shopify catalog. Do not render this configurator in the UI until the products are published in Shopify Admin and the ingest script has been re-run."
 }

@@ -6,21 +6,85 @@
   "productFamily": "Navigator® Serial Light Bar",
   "label": "Navigator® Serial Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
-
   "skuOptions": [
-    { "sku": "NVG45Z-NFPA20",    "price": 4639, "attributes": { "length": "45", "color": "RW" } },
-    { "sku": "NVG45Z-NFPA21",    "price": 4249, "attributes": { "length": "45", "color": "RW" } },
-    { "sku": "NVG53D-MUNI1RHC",  "price": 4552, "attributes": { "length": "53", "color": "AW" } },
-    { "sku": "NVG53Z-MUNI1RHC6", "price": 5012, "attributes": { "length": "53", "color": "AW" } },
-    { "sku": "NVG53Z-NFPA20",    "price": 5142, "attributes": { "length": "53", "color": "RW" } },
-    { "sku": "NVG53Z-NFPA21",    "price": 4752, "attributes": { "length": "53", "color": "RW" } },
-    { "sku": "NVG60D-NFPA20",    "price": 3450, "attributes": { "length": "60", "color": "RW" } },
-    { "sku": "NVG60D-NFPA21",    "price": 3850, "attributes": { "length": "60", "color": "RW" } },
-    { "sku": "NVG60D-NFPA22",    "price": 4290, "attributes": { "length": "60", "color": "RW" } },
-    { "sku": "NVG60D-TOW2FC",    "price": 4750, "attributes": { "length": "60", "color": "CUSTOM" } },
-    { "sku": "NVG60Z-TOW2FC6",   "price": 5210, "attributes": { "length": "60", "color": "CUSTOM" } }
+    {
+      "sku": "NVG45Z-NFPA20",
+      "attributes": {
+        "length": "45",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG45Z-NFPA21",
+      "attributes": {
+        "length": "45",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG53D-MUNI1RHC",
+      "attributes": {
+        "length": "53",
+        "color": "AW"
+      }
+    },
+    {
+      "sku": "NVG53Z-MUNI1RHC6",
+      "attributes": {
+        "length": "53",
+        "color": "AW"
+      }
+    },
+    {
+      "sku": "NVG53Z-NFPA20",
+      "attributes": {
+        "length": "53",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG53Z-NFPA21",
+      "attributes": {
+        "length": "53",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG60D-NFPA20",
+      "attributes": {
+        "length": "60",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG60D-NFPA21",
+      "attributes": {
+        "length": "60",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG60D-NFPA22",
+      "attributes": {
+        "length": "60",
+        "color": "RW"
+      }
+    },
+    {
+      "sku": "NVG60D-TOW2FC",
+      "attributes": {
+        "length": "60",
+        "color": "CUSTOM"
+      }
+    },
+    {
+      "sku": "NVG60Z-TOW2FC6",
+      "attributes": {
+        "length": "60",
+        "color": "CUSTOM"
+      }
+    }
   ],
-
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
@@ -33,9 +97,24 @@
           "skuSegmentKey": "length",
           "_verification": "confirmed",
           "options": [
-            { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact sedans and smaller SUVs" },
-            { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and pickups" },
-            { "id": "60in", "label": "60\"", "skuSegment": "60", "description": "Fire apparatus and large trucks" }
+            {
+              "id": "45in",
+              "label": "45\"",
+              "skuSegment": "45",
+              "description": "Compact sedans and smaller SUVs"
+            },
+            {
+              "id": "53in",
+              "label": "53\"",
+              "skuSegment": "53",
+              "description": "Full-size SUVs and pickups"
+            },
+            {
+              "id": "60in",
+              "label": "60\"",
+              "skuSegment": "60",
+              "description": "Fire apparatus and large trucks"
+            }
           ]
         },
         {
@@ -45,14 +124,28 @@
           "skuSegmentKey": "color",
           "_verification": "needs_verification",
           "options": [
-            { "id": "rw",     "label": "Red / White",              "skuSegment": "RW",     "description": "45\", 53\", 60\" available" },
-            { "id": "aw",     "label": "Amber / White",            "skuSegment": "AW",     "description": "53\" only" },
-            { "id": "custom", "label": "Tow / Utility (Custom)",   "skuSegment": "CUSTOM", "description": "60\" only" }
+            {
+              "id": "rw",
+              "label": "Red / White",
+              "skuSegment": "RW",
+              "description": "45\", 53\", 60\" available"
+            },
+            {
+              "id": "aw",
+              "label": "Amber / White",
+              "skuSegment": "AW",
+              "description": "53\" only"
+            },
+            {
+              "id": "custom",
+              "label": "Tow / Utility (Custom)",
+              "skuSegment": "CUSTOM",
+              "description": "60\" only"
+            }
           ]
         }
       ]
     },
-
     "technicalOptions": {
       "label": "Technical Details",
       "description": "Product capabilities shown after SKU selection. These do not change the base SKU.",
@@ -62,8 +155,15 @@
           "label": "SignalMaster™",
           "skuImpact": false,
           "options": [
-            { "id": "sm-yes", "label": "Included",     "description": "Directional warning arrows" },
-            { "id": "sm-no",  "label": "Not Required" }
+            {
+              "id": "sm-yes",
+              "label": "Included",
+              "description": "Directional warning arrows"
+            },
+            {
+              "id": "sm-no",
+              "label": "Not Required"
+            }
           ]
         },
         {
@@ -71,8 +171,14 @@
           "label": "Alley Lights",
           "skuImpact": false,
           "options": [
-            { "id": "alley-yes", "label": "Included" },
-            { "id": "alley-no",  "label": "Not Required" }
+            {
+              "id": "alley-yes",
+              "label": "Included"
+            },
+            {
+              "id": "alley-no",
+              "label": "Not Required"
+            }
           ]
         },
         {
@@ -80,8 +186,15 @@
           "label": "Takedowns",
           "skuImpact": false,
           "options": [
-            { "id": "td-yes", "label": "Included",     "description": "Forward-facing white takedown lights" },
-            { "id": "td-no",  "label": "Not Required" }
+            {
+              "id": "td-yes",
+              "label": "Included",
+              "description": "Forward-facing white takedown lights"
+            },
+            {
+              "id": "td-no",
+              "label": "Not Required"
+            }
           ]
         },
         {
@@ -89,7 +202,11 @@
           "label": "Flash Patterns",
           "skuImpact": false,
           "options": [
-            { "id": "flash-30", "label": "30 User-Selectable Patterns", "description": "Standard on all models" }
+            {
+              "id": "flash-30",
+              "label": "30 User-Selectable Patterns",
+              "description": "Standard on all models"
+            }
           ]
         },
         {
@@ -97,13 +214,19 @@
           "label": "Operating Mode",
           "skuImpact": false,
           "options": [
-            { "id": "full-power", "label": "Full Power" },
-            { "id": "low-power",  "label": "Low Power Mode", "description": "Reduced draw option" }
+            {
+              "id": "full-power",
+              "label": "Full Power"
+            },
+            {
+              "id": "low-power",
+              "label": "Low Power Mode",
+              "description": "Reduced draw option"
+            }
           ]
         }
       ]
     },
-
     "accessories": {
       "label": "Accessories & Add-ons",
       "description": "Required hardware and optional accessories. Do not invent SKUs or prices.",
@@ -146,16 +269,39 @@
       ]
     }
   },
-
   "vehicleRules": [
-    { "vehicleId": "FIRE_ENGINE_TYPE1",    "displayName": "Type 1 Fire Engine",         "recommendedLength": "60" },
-    { "vehicleId": "FIRE_ENGINE_TYPE3",    "displayName": "Type 3 Fire Engine",         "recommendedLength": "53" },
-    { "vehicleId": "LADDER_TRUCK",         "displayName": "Aerial Ladder Truck",        "recommendedLength": "60" },
-    { "vehicleId": "RESCUE_SQUAD",         "displayName": "Heavy Rescue Squad",         "recommendedLength": "53" },
-    { "vehicleId": "AMBULANCE_TYPE1",      "displayName": "Type I Ambulance",           "recommendedLength": "45" },
-    { "vehicleId": "TOW_HEAVY_WRECKER",    "displayName": "Heavy Wrecker / Rotator",   "recommendedLength": "60" }
+    {
+      "vehicleId": "FIRE_ENGINE_TYPE1",
+      "displayName": "Type 1 Fire Engine",
+      "recommendedLength": "60"
+    },
+    {
+      "vehicleId": "FIRE_ENGINE_TYPE3",
+      "displayName": "Type 3 Fire Engine",
+      "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "LADDER_TRUCK",
+      "displayName": "Aerial Ladder Truck",
+      "recommendedLength": "60"
+    },
+    {
+      "vehicleId": "RESCUE_SQUAD",
+      "displayName": "Heavy Rescue Squad",
+      "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "AMBULANCE_TYPE1",
+      "displayName": "Type I Ambulance",
+      "recommendedLength": "45"
+    },
+    {
+      "vehicleId": "TOW_HEAVY_WRECKER",
+      "displayName": "Heavy Wrecker / Rotator",
+      "recommendedLength": "60"
+    }
   ],
-
   "compatibilityRules": [],
-  "dependencyRules": []
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
 }

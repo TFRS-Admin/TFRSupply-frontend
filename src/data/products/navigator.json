@@ -3,17 +3,30 @@
   "slug": "navigator",
   "vendor": "federal-signal",
   "category": "light-bars",
-  "verticals": ["fire"],
+  "verticals": [
+    "fire"
+  ],
   "product_family": "Navigator Series",
   "title": "Navigator® Serial Light Bar",
   "subtitle": "High-profile full-size LED light bar for fire apparatus and emergency vehicles.",
   "description": "The Navigator® Serial Light Bar delivers powerful, reliable warning performance in a full-size aluminum extrusion chassis. Available in 45\", 53\", and 60\" lengths with a wide range of color and feature configurations.",
   "tabs_component": "NavigatorTabs",
   "breadcrumbs": [
-    { "label": "Home",       "to": "/" },
-    { "label": "Fire/EMS",   "to": "/fire" },
-    { "label": "Light Bars", "to": "/fire/light-bars" },
-    { "label": "Navigator® Light Bar" }
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Fire/EMS",
+      "to": "/fire"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/fire/light-bars"
+    },
+    {
+      "label": "Navigator® Light Bar"
+    }
   ],
   "media": {
     "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
@@ -53,27 +66,63 @@
       "Five-year warranty"
     ],
     "benefits": [],
-    "applications": ["Fire Apparatus", "EMS Response", "Municipal Emergency", "Tow / Heavy Wrecker", "Incident Command"]
+    "applications": [
+      "Fire Apparatus",
+      "EMS Response",
+      "Municipal Emergency",
+      "Tow / Heavy Wrecker",
+      "Incident Command"
+    ]
   },
   "specifications": {
     "voltage": "12 Vdc",
-    "lengths": ["45\"", "53\"", "60\""],
-    "colors": ["Amber", "Blue", "Green", "Red", "White"],
+    "lengths": [
+      "45\"",
+      "53\"",
+      "60\""
+    ],
+    "colors": [
+      "Amber",
+      "Blue",
+      "Green",
+      "Red",
+      "White"
+    ],
     "flash_patterns": 30,
     "warranty": "5-year limited",
-    "certifications": ["SAE J595", "SAE J845", "NFPA 1901"]
+    "certifications": [
+      "SAE J595",
+      "SAE J845",
+      "NFPA 1901"
+    ]
   },
   "documentation": {
     "manuals": [
-      { "label": "Installation Manual", "url": "#", "type": "pdf" },
-      { "label": "Programming Guide",   "url": "#", "type": "pdf" }
+      {
+        "label": "Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
     ],
     "brochures": [
-      { "label": "Navigator Series Brochure", "url": "#", "type": "pdf" }
+      {
+        "label": "Navigator Series Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
     ],
     "cad_files": [],
     "certifications": [
-      { "label": "SAE J595 Certification", "url": "#", "type": "pdf" }
+      {
+        "label": "SAE J595 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
     ]
   },
   "commerce": {
@@ -82,26 +131,126 @@
     "availability": "In Stock",
     "price_display": "contact",
     "accessories": [
-      { "sku": "NAV-CABLE-10", "label": "10 ft. Main Harness Cable",        "price": 28.00 },
-      { "sku": "NAV-CABLE-14", "label": "14 ft. Main Harness Cable",        "price": 32.00 },
-      { "sku": "NAV-BRKT-STD", "label": "Standard Permanent Mount Bracket", "price": 45.00 },
-      { "sku": "NAV-BRKT-MAG", "label": "Magnetic Mount Kit",               "price": 75.00 },
-      { "sku": "NAV-CTRL-SM4", "label": "SignalMaster® 4-Position Switch",  "price": 110.00 }
+      {
+        "sku": "NAV-CABLE-10",
+        "label": "10 ft. Main Harness Cable",
+        "price": 28.0
+      },
+      {
+        "sku": "NAV-CABLE-14",
+        "label": "14 ft. Main Harness Cable",
+        "price": 32.0
+      },
+      {
+        "sku": "NAV-BRKT-STD",
+        "label": "Standard Permanent Mount Bracket",
+        "price": 45.0
+      },
+      {
+        "sku": "NAV-BRKT-MAG",
+        "label": "Magnetic Mount Kit",
+        "price": 75.0
+      },
+      {
+        "sku": "NAV-CTRL-SM4",
+        "label": "SignalMaster® 4-Position Switch",
+        "price": 110.0
+      }
     ],
-    "related_products": ["valor", "allegiant-max"],
+    "related_products": [
+      "valor",
+      "allegiant-max"
+    ],
     "_skuNote": "SKUs from Shopify export (Sprint 16). Navigator = one Shopify product, 11 variants (Sprint 18).",
     "sku_table": [
-      { "sku": "NVG45Z-NFPA20", "length": "45\"", "color": "Red-White",     "features": "NFPA 2020 compliant",              "voltage": "12V", "_price": 4639.00 },
-      { "sku": "NVG45Z-NFPA21", "length": "45\"", "color": "Red-White",     "features": "NFPA 2021 compliant",              "voltage": "12V", "_price": 4249.00 },
-      { "sku": "NVG53D-MUNI1RHC",  "length": "53\"", "color": "Amber-White","features": "Municipal, 1 rotator, hi-count",   "voltage": "12V", "_price": 4552.00 },
-      { "sku": "NVG53Z-MUNI1RHC6", "length": "53\"", "color": "Amber-White","features": "Municipal, 1 rotator, hi-count, 6-zone", "voltage": "12V", "_price": 5012.00 },
-      { "sku": "NVG53Z-NFPA20",  "length": "53\"", "color": "Red-White",    "features": "NFPA 2020 compliant",              "voltage": "12V", "_price": 5142.00 },
-      { "sku": "NVG53Z-NFPA21",  "length": "53\"", "color": "Red-White",    "features": "NFPA 2021 compliant",              "voltage": "12V", "_price": 4752.00 },
-      { "sku": "NVG60D-NFPA20",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2020 compliant",              "voltage": "12V", "_price": 3450.00 },
-      { "sku": "NVG60D-NFPA21",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2021 compliant",              "voltage": "12V", "_price": 3850.00 },
-      { "sku": "NVG60D-NFPA22",  "length": "60\"", "color": "Red-White",    "features": "NFPA 2022 compliant",              "voltage": "12V", "_price": 4290.00 },
-      { "sku": "NVG60D-TOW2FC",  "length": "60\"", "color": "See Description","features": "Tow/utility 2-FC configuration", "voltage": "12V", "_price": 4750.00 },
-      { "sku": "NVG60Z-TOW2FC6", "length": "60\"", "color": "See Description","features": "Tow/utility 2-FC6 configuration","voltage": "12V", "_price": 5210.00 }
+      {
+        "sku": "NVG45Z-NFPA20",
+        "length": "45\"",
+        "color": "Red-White",
+        "features": "NFPA 2020 compliant",
+        "voltage": "12V",
+        "_price": 4639.0
+      },
+      {
+        "sku": "NVG45Z-NFPA21",
+        "length": "45\"",
+        "color": "Red-White",
+        "features": "NFPA 2021 compliant",
+        "voltage": "12V",
+        "_price": 4249.0
+      },
+      {
+        "sku": "NVG53D-MUNI1RHC",
+        "length": "53\"",
+        "color": "Amber-White",
+        "features": "Municipal, 1 rotator, hi-count",
+        "voltage": "12V",
+        "_price": 4552.0
+      },
+      {
+        "sku": "NVG53Z-MUNI1RHC6",
+        "length": "53\"",
+        "color": "Amber-White",
+        "features": "Municipal, 1 rotator, hi-count, 6-zone",
+        "voltage": "12V",
+        "_price": 5012.0
+      },
+      {
+        "sku": "NVG53Z-NFPA20",
+        "length": "53\"",
+        "color": "Red-White",
+        "features": "NFPA 2020 compliant",
+        "voltage": "12V",
+        "_price": 5142.0
+      },
+      {
+        "sku": "NVG53Z-NFPA21",
+        "length": "53\"",
+        "color": "Red-White",
+        "features": "NFPA 2021 compliant",
+        "voltage": "12V",
+        "_price": 4752.0
+      },
+      {
+        "sku": "NVG60D-NFPA20",
+        "length": "60\"",
+        "color": "Red-White",
+        "features": "NFPA 2020 compliant",
+        "voltage": "12V",
+        "_price": 3450.0
+      },
+      {
+        "sku": "NVG60D-NFPA21",
+        "length": "60\"",
+        "color": "Red-White",
+        "features": "NFPA 2021 compliant",
+        "voltage": "12V",
+        "_price": 3850.0
+      },
+      {
+        "sku": "NVG60D-NFPA22",
+        "length": "60\"",
+        "color": "Red-White",
+        "features": "NFPA 2022 compliant",
+        "voltage": "12V",
+        "_price": 4290.0
+      },
+      {
+        "sku": "NVG60D-TOW2FC",
+        "length": "60\"",
+        "color": "See Description",
+        "features": "Tow/utility 2-FC configuration",
+        "voltage": "12V",
+        "_price": 4750.0
+      },
+      {
+        "sku": "NVG60Z-TOW2FC6",
+        "length": "60\"",
+        "color": "See Description",
+        "features": "Tow/utility 2-FC6 configuration",
+        "voltage": "12V",
+        "_price": 5210.0
+      }
     ]
   },
   "shopify": {
@@ -114,17 +263,94 @@
     "cart_eligible": false,
     "storefront_available": false,
     "variant_mappings": [
-      { "sku": "NVG45Z-NFPA20",  "shopify_variant_id": null, "price": 4639.00, "option_length": "45\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG45Z-NFPA21",  "shopify_variant_id": null, "price": 4249.00, "option_length": "45\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG53D-MUNI1RHC","shopify_variant_id": null, "price": 4552.00, "option_length": "53\"", "option_color": "Amber-White",    "_missing": "shopify_variant_id" },
-      { "sku": "NVG53Z-MUNI1RHC6","shopify_variant_id": null,"price": 5012.00, "option_length": "53\"", "option_color": "Amber-White",    "_missing": "shopify_variant_id" },
-      { "sku": "NVG53Z-NFPA20",  "shopify_variant_id": null, "price": 5142.00, "option_length": "53\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG53Z-NFPA21",  "shopify_variant_id": null, "price": 4752.00, "option_length": "53\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG60D-NFPA20",  "shopify_variant_id": null, "price": 3450.00, "option_length": "60\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG60D-NFPA21",  "shopify_variant_id": null, "price": 3850.00, "option_length": "60\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG60D-NFPA22",  "shopify_variant_id": null, "price": 4290.00, "option_length": "60\"", "option_color": "Red-White",      "_missing": "shopify_variant_id" },
-      { "sku": "NVG60D-TOW2FC",  "shopify_variant_id": null, "price": 4750.00, "option_length": "60\"", "option_color": "See Description","_missing": "shopify_variant_id" },
-      { "sku": "NVG60Z-TOW2FC6", "shopify_variant_id": null, "price": 5210.00, "option_length": "60\"", "option_color": "See Description","_missing": "shopify_variant_id" }
+      {
+        "sku": "NVG45Z-NFPA20",
+        "shopify_variant_id": null,
+        "price": 4639.0,
+        "option_length": "45\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG45Z-NFPA21",
+        "shopify_variant_id": null,
+        "price": 4249.0,
+        "option_length": "45\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG53D-MUNI1RHC",
+        "shopify_variant_id": null,
+        "price": 4552.0,
+        "option_length": "53\"",
+        "option_color": "Amber-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG53Z-MUNI1RHC6",
+        "shopify_variant_id": null,
+        "price": 5012.0,
+        "option_length": "53\"",
+        "option_color": "Amber-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG53Z-NFPA20",
+        "shopify_variant_id": null,
+        "price": 5142.0,
+        "option_length": "53\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG53Z-NFPA21",
+        "shopify_variant_id": null,
+        "price": 4752.0,
+        "option_length": "53\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG60D-NFPA20",
+        "shopify_variant_id": null,
+        "price": 3450.0,
+        "option_length": "60\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG60D-NFPA21",
+        "shopify_variant_id": null,
+        "price": 3850.0,
+        "option_length": "60\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG60D-NFPA22",
+        "shopify_variant_id": null,
+        "price": 4290.0,
+        "option_length": "60\"",
+        "option_color": "Red-White",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG60D-TOW2FC",
+        "shopify_variant_id": null,
+        "price": 4750.0,
+        "option_length": "60\"",
+        "option_color": "See Description",
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "NVG60Z-TOW2FC6",
+        "shopify_variant_id": null,
+        "price": 5210.0,
+        "option_length": "60\"",
+        "option_color": "See Description",
+        "_missing": "shopify_variant_id"
+      }
     ]
   },
   "configuratorId": "navigator-configurator",
@@ -133,5 +359,6 @@
     "request_info_url": "#",
     "configurator_url": "https://config.fedsig.com/lightbar/navigator-serial/web/",
     "manual_url": "#"
-  }
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
 }

@@ -6,21 +6,96 @@
   "productFamily": "Navigator Serial",
   "label": "Navigator® Serial Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
-
   "skuOptions": [
-    { "sku": "NVG45Z-NFPA20",    "price": 4639, "attributes": { "length": "45", "color": "RW",     "spec": "NFPA20" } },
-    { "sku": "NVG45Z-NFPA21",    "price": 4249, "attributes": { "length": "45", "color": "RW",     "spec": "NFPA21" } },
-    { "sku": "NVG53D-MUNI1RHC",  "price": 4552, "attributes": { "length": "53", "color": "AW",     "spec": "MUNI"   } },
-    { "sku": "NVG53Z-MUNI1RHC6", "price": 5012, "attributes": { "length": "53", "color": "AW",     "spec": "MUNI6"  } },
-    { "sku": "NVG53Z-NFPA20",    "price": 5142, "attributes": { "length": "53", "color": "RW",     "spec": "NFPA20" } },
-    { "sku": "NVG53Z-NFPA21",    "price": 4752, "attributes": { "length": "53", "color": "RW",     "spec": "NFPA21" } },
-    { "sku": "NVG60D-NFPA20",    "price": 3450, "attributes": { "length": "60", "color": "RW",     "spec": "NFPA20" } },
-    { "sku": "NVG60D-NFPA21",    "price": 3850, "attributes": { "length": "60", "color": "RW",     "spec": "NFPA21" } },
-    { "sku": "NVG60D-NFPA22",    "price": 4290, "attributes": { "length": "60", "color": "RW",     "spec": "NFPA22" } },
-    { "sku": "NVG60D-TOW2FC",    "price": 4750, "attributes": { "length": "60", "color": "TOW",    "spec": "TOW"    } },
-    { "sku": "NVG60Z-TOW2FC6",   "price": 5210, "attributes": { "length": "60", "color": "TOW",    "spec": "TOW6"   } }
+    {
+      "sku": "NVG45Z-NFPA20",
+      "attributes": {
+        "length": "45",
+        "color": "RW",
+        "spec": "NFPA20"
+      }
+    },
+    {
+      "sku": "NVG45Z-NFPA21",
+      "attributes": {
+        "length": "45",
+        "color": "RW",
+        "spec": "NFPA21"
+      }
+    },
+    {
+      "sku": "NVG53D-MUNI1RHC",
+      "attributes": {
+        "length": "53",
+        "color": "AW",
+        "spec": "MUNI"
+      }
+    },
+    {
+      "sku": "NVG53Z-MUNI1RHC6",
+      "attributes": {
+        "length": "53",
+        "color": "AW",
+        "spec": "MUNI6"
+      }
+    },
+    {
+      "sku": "NVG53Z-NFPA20",
+      "attributes": {
+        "length": "53",
+        "color": "RW",
+        "spec": "NFPA20"
+      }
+    },
+    {
+      "sku": "NVG53Z-NFPA21",
+      "attributes": {
+        "length": "53",
+        "color": "RW",
+        "spec": "NFPA21"
+      }
+    },
+    {
+      "sku": "NVG60D-NFPA20",
+      "attributes": {
+        "length": "60",
+        "color": "RW",
+        "spec": "NFPA20"
+      }
+    },
+    {
+      "sku": "NVG60D-NFPA21",
+      "attributes": {
+        "length": "60",
+        "color": "RW",
+        "spec": "NFPA21"
+      }
+    },
+    {
+      "sku": "NVG60D-NFPA22",
+      "attributes": {
+        "length": "60",
+        "color": "RW",
+        "spec": "NFPA22"
+      }
+    },
+    {
+      "sku": "NVG60D-TOW2FC",
+      "attributes": {
+        "length": "60",
+        "color": "TOW",
+        "spec": "TOW"
+      }
+    },
+    {
+      "sku": "NVG60Z-TOW2FC6",
+      "attributes": {
+        "length": "60",
+        "color": "TOW",
+        "spec": "TOW6"
+      }
+    }
   ],
-
   "sections": {
     "skuSelector": {
       "label": "SKU Selector",
@@ -33,9 +108,24 @@
           "skuSegmentKey": "length",
           "_verification": "confirmed",
           "options": [
-            { "id": "45in", "label": "45\"", "skuSegment": "45", "description": "Compact sedans and smaller SUVs" },
-            { "id": "53in", "label": "53\"", "skuSegment": "53", "description": "Full-size SUVs and pickups" },
-            { "id": "60in", "label": "60\"", "skuSegment": "60", "description": "Fire apparatus and large trucks" }
+            {
+              "id": "45in",
+              "label": "45\"",
+              "skuSegment": "45",
+              "description": "Compact sedans and smaller SUVs"
+            },
+            {
+              "id": "53in",
+              "label": "53\"",
+              "skuSegment": "53",
+              "description": "Full-size SUVs and pickups"
+            },
+            {
+              "id": "60in",
+              "label": "60\"",
+              "skuSegment": "60",
+              "description": "Fire apparatus and large trucks"
+            }
           ]
         },
         {
@@ -45,9 +135,23 @@
           "skuSegmentKey": "color",
           "_verification": "needs_verification",
           "options": [
-            { "id": "rw",  "label": "Red / White",               "skuSegment": "RW"  },
-            { "id": "aw",  "label": "Amber / White",             "skuSegment": "AW",  "description": "53\" only" },
-            { "id": "tow", "label": "Tow / Utility (See Desc.)", "skuSegment": "TOW", "description": "60\" only" }
+            {
+              "id": "rw",
+              "label": "Red / White",
+              "skuSegment": "RW"
+            },
+            {
+              "id": "aw",
+              "label": "Amber / White",
+              "skuSegment": "AW",
+              "description": "53\" only"
+            },
+            {
+              "id": "tow",
+              "label": "Tow / Utility (See Desc.)",
+              "skuSegment": "TOW",
+              "description": "60\" only"
+            }
           ]
         },
         {
@@ -57,18 +161,50 @@
           "skuSegmentKey": "spec",
           "_verification": "needs_verification",
           "options": [
-            { "id": "nfpa20", "label": "NFPA 2020", "skuSegment": "NFPA20" },
-            { "id": "nfpa21", "label": "NFPA 2021", "skuSegment": "NFPA21" },
-            { "id": "nfpa22", "label": "NFPA 2022", "skuSegment": "NFPA22", "description": "60\" only" },
-            { "id": "muni",   "label": "Municipal (HC)",  "skuSegment": "MUNI",  "description": "53\" Amber only" },
-            { "id": "muni6",  "label": "Municipal (HC6)", "skuSegment": "MUNI6", "description": "53\" Amber only" },
-            { "id": "tow",    "label": "Tow / Utility 2FC",  "skuSegment": "TOW",  "description": "60\" only" },
-            { "id": "tow6",   "label": "Tow / Utility 2FC6", "skuSegment": "TOW6", "description": "60\" only" }
+            {
+              "id": "nfpa20",
+              "label": "NFPA 2020",
+              "skuSegment": "NFPA20"
+            },
+            {
+              "id": "nfpa21",
+              "label": "NFPA 2021",
+              "skuSegment": "NFPA21"
+            },
+            {
+              "id": "nfpa22",
+              "label": "NFPA 2022",
+              "skuSegment": "NFPA22",
+              "description": "60\" only"
+            },
+            {
+              "id": "muni",
+              "label": "Municipal (HC)",
+              "skuSegment": "MUNI",
+              "description": "53\" Amber only"
+            },
+            {
+              "id": "muni6",
+              "label": "Municipal (HC6)",
+              "skuSegment": "MUNI6",
+              "description": "53\" Amber only"
+            },
+            {
+              "id": "tow",
+              "label": "Tow / Utility 2FC",
+              "skuSegment": "TOW",
+              "description": "60\" only"
+            },
+            {
+              "id": "tow6",
+              "label": "Tow / Utility 2FC6",
+              "skuSegment": "TOW6",
+              "description": "60\" only"
+            }
           ]
         }
       ]
     },
-
     "technicalOptions": {
       "label": "Technical Options",
       "description": "Product capabilities. These do not affect base SKU resolution.",
@@ -78,7 +214,11 @@
           "label": "Flash Patterns",
           "skuImpact": false,
           "options": [
-            { "id": "flash-30", "label": "30 User-Selectable Patterns", "description": "Standard on all models" }
+            {
+              "id": "flash-30",
+              "label": "30 User-Selectable Patterns",
+              "description": "Standard on all models"
+            }
           ]
         },
         {
@@ -86,8 +226,16 @@
           "label": "Operating Mode",
           "skuImpact": false,
           "options": [
-            { "id": "full-power", "label": "Full Power", "description": "Standard operation" },
-            { "id": "low-power",  "label": "Low Power Mode", "description": "Reduced draw option" }
+            {
+              "id": "full-power",
+              "label": "Full Power",
+              "description": "Standard operation"
+            },
+            {
+              "id": "low-power",
+              "label": "Low Power Mode",
+              "description": "Reduced draw option"
+            }
           ]
         },
         {
@@ -95,13 +243,19 @@
           "label": "SignalMaster™",
           "skuImpact": false,
           "options": [
-            { "id": "sm-yes", "label": "Included", "description": "Directional warning feature" },
-            { "id": "sm-no",  "label": "Not Required" }
+            {
+              "id": "sm-yes",
+              "label": "Included",
+              "description": "Directional warning feature"
+            },
+            {
+              "id": "sm-no",
+              "label": "Not Required"
+            }
           ]
         }
       ]
     },
-
     "accessories": {
       "label": "Accessories & Add-ons",
       "description": "Required dependencies and optional accessories. Do not invent SKUs or prices.",
@@ -137,14 +291,29 @@
       ]
     }
   },
-
   "vehicleRules": [
-    { "vehicleId": "CHARGER_PURSUIT",  "displayName": "Dodge Charger Pursuit",          "recommendedLength": "45" },
-    { "vehicleId": "PIU",              "displayName": "Ford Police Interceptor Utility", "recommendedLength": "53" },
-    { "vehicleId": "TAHOE_PPV",        "displayName": "Chevrolet Tahoe PPV",             "recommendedLength": "53" },
-    { "vehicleId": "DURANGO_PURSUIT",  "displayName": "Dodge Durango Pursuit",           "recommendedLength": "53" }
+    {
+      "vehicleId": "CHARGER_PURSUIT",
+      "displayName": "Dodge Charger Pursuit",
+      "recommendedLength": "45"
+    },
+    {
+      "vehicleId": "PIU",
+      "displayName": "Ford Police Interceptor Utility",
+      "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "TAHOE_PPV",
+      "displayName": "Chevrolet Tahoe PPV",
+      "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "DURANGO_PURSUIT",
+      "displayName": "Dodge Durango Pursuit",
+      "recommendedLength": "53"
+    }
   ],
-
   "compatibilityRules": [],
-  "dependencyRules": []
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
 }
