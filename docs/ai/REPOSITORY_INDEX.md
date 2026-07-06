@@ -32,6 +32,7 @@ This is the entry point for AI coding agents and human contributors joining the 
 | `PRODUCT_DATA_PLATFORM.md` | Typed product data loaders and validation platform |
 | `CONFIGURATOR` (see `docs/migrations/CONFIGURATOR_MIGRATION.md`) | Configurator runtime migration |
 | `COMMERCE_FOUNDATION.md` | Shopify-facing commerce service and adapter boundaries |
+| `CONFIGURATION_COMMERCE_ARCHITECTURE.md` | Long-term Configuration Commerce architecture — shared-package vs storefront-specific module classification, target `@tfrs/*` package topology, boundary fixes, and the launch-gated phased migration plan |
 | `PRICING_DOMAIN.md` | Pricing service, adapter, engine-contract, and pricing import pipeline foundations |
 | `QUOTE_BUILDER_FOUNDATION.md` | Quote lifecycle service and contract foundations |
 | `QUOTE_PDF_GENERATION.md` | Quote PDF render orchestration and validation |
