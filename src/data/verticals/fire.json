@@ -42,12 +42,12 @@
     "subtitle": "Explore lighting, sirens, and accessories built for fire apparatus and EMS vehicles.",
     "cta": { "label": "Contact a Sales Rep", "href": "#" },
     "items": [
-      { "label": "Light Bars",        "icon": "Layers",     "categoryId": "light-bars", "desc": "Full-size and low-profile LED light bars built for fire and EMS apparatus." },
-      { "label": "Sirens & Speakers", "icon": "Volume2",    "categoryId": null,         "desc": "High-decibel sirens including the iconic Q-Siren® for maximum warning distance." },
-      { "label": "Perimeter Lights",  "icon": "Lightbulb",  "categoryId": null,         "desc": "Scene lighting and perimeter warning for all angles of the apparatus." },
-      { "label": "Interior Lighting", "icon": "Zap",        "categoryId": null,         "desc": "Compartment and cab lighting engineered for harsh conditions." },
-      { "label": "SignalMasters",     "icon": "ArrowRight", "categoryId": null,         "desc": "Direct traffic away from emergency scenes with rear-facing directional arrows." },
-      { "label": "Accessories",       "icon": "Shield",     "categoryId": null,         "desc": "Mounting hardware, controllers, and installation accessories." }
+      { "label": "Light Bars",        "icon": "Layers",     "categoryId": "light-bars",       "href": "/fire/light-bars",       "desc": "Full-size and low-profile LED light bars built for fire and EMS apparatus." },
+      { "label": "Sirens & Speakers", "icon": "Volume2",    "categoryId": "sirens-speakers",  "href": "/fire/sirens-speakers",  "desc": "High-decibel sirens including the iconic Q-Siren® for maximum warning distance." },
+      { "label": "Perimeter Lights",  "icon": "Lightbulb",  "categoryId": "perimeter-lights", "href": "/fire/perimeter-lights", "desc": "Scene lighting and perimeter warning for all angles of the apparatus." },
+      { "label": "Interior Lighting", "icon": "Zap",        "categoryId": "interior-lighting", "href": "/fire/interior-lighting", "desc": "Compartment and cab lighting engineered for harsh conditions." },
+      { "label": "SignalMasters",     "icon": "ArrowRight", "categoryId": "signal-masters",   "href": "/fire/signal-masters",   "desc": "Direct traffic away from emergency scenes with rear-facing directional arrows." },
+      { "label": "Accessories",       "icon": "Shield",     "categoryId": "accessories",      "href": "/fire/accessories",      "desc": "Mounting hardware, controllers, and installation accessories." }
     ]
   },
   "resources_section": {
