@@ -1,19 +1,32 @@
 {
-  "_source": "TFR Supply Integrity Police Launch SKUs — validated 2026-06-29",
-  "_note": "5 Police Integrity SKUs. Length and mount confirmed from SKU structure. No 44\" 1-Color variant exists — dead-end prevention will disable that combination automatically. INTG44J-F2H and INTG51J-F2H are Fire/EMS SKUs excluded from this Police configurator. Prices from Shopify export; shopifyVariantId pending Admin collection.",
+  "_source": "TFR Supply Integrity Police & Fire/NFPA Launch SKUs — validated 2026-06-29, refreshed against shopify-variant-index.json 2026-07-06.",
+  "_note": "8 Integrity SKUs, all available:true in the current Shopify export. Length, Application (Police \"P\" vs Fire/NFPA \"F\" prefix), Mount (Low Profile \"L\" vs Hook \"H\" suffix), and Color are all directly confirmed from the SKU code structure; colorConfig (single/dual/tri) is a direct restatement of that same confirmed color code for Police SKUs. Fire/NFPA SKUs (F2H) are a fixed 2-color configuration with no separate color/mount sub-selection, so they intentionally omit the color attribute — the color step passes them through regardless of selection rather than eliminating them. This corrects the prior build note, which excluded INTG44J-P1BL as nonexistent; it is present and available in the current catalog and has been added back. Control Architecture has no corresponding attribute in the real Integrity catalog and is presented as an informational step only — it does not filter the SKU list. The catalog also contains INTG44J/51J-AMBR2/AMBR3 (Work Truck, currently unavailable) — out of scope for this Police/Fire configurator. Do NOT invent prices.",
   "id": "integrity-configurator",
   "productId": "integrity",
-  "productFamily": "Integrity Police Light Bar",
-  "label": "Integrity® Police Light Bar Configurator",
+  "productFamily": "Integrity Police & Fire/NFPA Light Bar",
+  "label": "Integrity® Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
+    {
+      "sku": "INTG44J-P1BL",
+      "description": "Integrity 44\" Police — 1-Color Blue/White — Low Profile",
+      "attributes": {
+        "length": "44",
+        "application": "police",
+        "mount": "low",
+        "color": "BW1",
+        "colorConfig": "single"
+      }
+    },
     {
       "sku": "INTG44J-P2BL",
       "description": "Integrity 44\" Police — 2-Color Blue/White — Low Profile",
       "attributes": {
         "length": "44",
+        "application": "police",
+        "mount": "low",
         "color": "BW2",
-        "mount": "low"
+        "colorConfig": "dual"
       }
     },
     {
@@ -21,8 +34,19 @@
       "description": "Integrity 44\" Police — Full 3-Color Red/Blue/White — Low Profile",
       "attributes": {
         "length": "44",
+        "application": "police",
+        "mount": "low",
         "color": "RBW3",
-        "mount": "low"
+        "colorConfig": "tri"
+      }
+    },
+    {
+      "sku": "INTG44J-F2H",
+      "description": "Integrity 44\" Fire/NFPA — 2-Color — Standard Bracket (Hook Mount)",
+      "attributes": {
+        "length": "44",
+        "application": "fire",
+        "mount": "hook"
       }
     },
     {
@@ -30,8 +54,10 @@
       "description": "Integrity 51\" Police — 1-Color Blue/White — Low Profile",
       "attributes": {
         "length": "51",
+        "application": "police",
+        "mount": "low",
         "color": "BW1",
-        "mount": "low"
+        "colorConfig": "single"
       }
     },
     {
@@ -39,8 +65,10 @@
       "description": "Integrity 51\" Police — 2-Color Blue/White — Low Profile",
       "attributes": {
         "length": "51",
+        "application": "police",
+        "mount": "low",
         "color": "BW2",
-        "mount": "low"
+        "colorConfig": "dual"
       }
     },
     {
@@ -48,15 +76,26 @@
       "description": "Integrity 51\" Police — Full 3-Color Red/Blue/White — Low Profile",
       "attributes": {
         "length": "51",
+        "application": "police",
+        "mount": "low",
         "color": "RBW3",
-        "mount": "low"
+        "colorConfig": "tri"
+      }
+    },
+    {
+      "sku": "INTG51J-F2H",
+      "description": "Integrity 51\" Fire/NFPA — 2-Color — Standard Bracket (Hook Mount)",
+      "attributes": {
+        "length": "51",
+        "application": "fire",
+        "mount": "hook"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the validated SKU list are enabled. Note: 1-Color Blue/White is available in 51\" only.",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the validated SKU list are enabled.",
       "steps": [
         {
           "id": "length",
@@ -69,55 +108,100 @@
               "id": "44in",
               "label": "44\"",
               "skuSegment": "44",
-              "description": "Compact and mid-size police vehicles — Charger, Blazer EV PPV. 2-Color and Full 3-Color only."
+              "description": "Compact and mid-size vehicles — Charger, Blazer EV PPV"
             },
             {
               "id": "51in",
               "label": "51\"",
               "skuSegment": "51",
-              "description": "Full-size SUVs and police interceptors — Explorer PIU, Tahoe PPV, Expedition SSV. All color configurations."
+              "description": "Full-size SUVs and interceptors — Explorer PIU, Tahoe PPV, Expedition SSV"
             }
           ]
         },
         {
-          "id": "color",
-          "label": "Warning Color",
+          "id": "application",
+          "label": "Application",
           "required": true,
-          "skuSegmentKey": "color",
+          "skuSegmentKey": "application",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "bw1",
-              "label": "1-Color Blue / White",
-              "skuSegment": "BW1",
-              "description": "51\" only — Low Profile mount"
+              "id": "police",
+              "label": "Police (P1 series)",
+              "skuSegment": "police",
+              "description": "Blue/White color configurations — Low Profile mount"
             },
             {
-              "id": "bw2",
-              "label": "2-Color Blue / White",
-              "skuSegment": "BW2",
-              "description": "Available in both 44\" and 51\" — Low Profile mount"
-            },
-            {
-              "id": "rbw3",
-              "label": "Full 3-Color Red / Blue / White",
-              "skuSegment": "RBW3",
-              "description": "Available in both 44\" and 51\" — Low Profile mount"
+              "id": "fire",
+              "label": "Fire/NFPA (NFPA1 series)",
+              "skuSegment": "fire",
+              "description": "Fixed 2-color configuration — Standard Bracket (Hook) mount"
             }
           ]
         },
         {
           "id": "mount",
-          "label": "Mount Style",
+          "label": "Mounting Style",
           "required": true,
           "skuSegmentKey": "mount",
           "_verification": "confirmed",
           "options": [
             {
+              "id": "hook",
+              "label": "Standard Bracket",
+              "skuSegment": "hook",
+              "description": "Fire/NFPA application only"
+            },
+            {
               "id": "low",
-              "label": "Low Profile",
+              "label": "Low-Profile",
               "skuSegment": "low",
-              "description": "Flush low-profile mount — all Police configurations"
+              "description": "Police application only"
+            }
+          ]
+        },
+        {
+          "id": "control",
+          "label": "Control Architecture",
+          "required": false,
+          "_verification": "needs_verification",
+          "_note": "No SKU-level attribute distinguishes Discrete vs Serial control architecture in the current Integrity catalog. Informational only — does not filter the SKU list.",
+          "options": [
+            {
+              "id": "discrete",
+              "label": "Discrete"
+            },
+            {
+              "id": "serial",
+              "label": "Serial (FS Convergence Network)"
+            }
+          ]
+        },
+        {
+          "id": "colorConfiguration",
+          "label": "Color Configuration",
+          "required": false,
+          "skuSegmentKey": "colorConfig",
+          "_verification": "confirmed",
+          "_note": "Not one of the named spec filter steps, but retained (as with Valor) because Police-application 44\"/51\" each resolve to 3 distinct real SKUs (single/dual/tri color) — without this step the configurator cannot narrow to one SKU. Does not apply to Fire/NFPA, which is a single fixed configuration.",
+          "options": [
+            {
+              "id": "single",
+              "label": "Single-color",
+              "skuSegment": "single",
+              "description": "1-Color Blue/White (BW1) — Police only"
+            },
+            {
+              "id": "dual",
+              "label": "Dual-color",
+              "skuSegment": "dual",
+              "description": "2-Color Blue/White (BW2) — Police only"
+            },
+            {
+              "id": "tri",
+              "label": "Tri-color",
+              "skuSegment": "tri",
+              "description": "Full 3-Color Red/Blue/White (RBW3) — Police only"
             }
           ]
         }
@@ -144,12 +228,52 @@
           "_note": "Needs Review — harness SKU varies by vehicle; confirm with install spec"
         },
         {
+          "id": "acc-brkt-hook",
+          "label": "Standard Bracket Hardware",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Required for Fire/NFPA (Hook) configs — SKU TBD from price book"
+        },
+        {
           "id": "acc-brkt-low",
           "label": "Low Profile Mount Hardware",
           "sku": null,
           "price": null,
           "type": "optional",
-          "_note": "Required for Low Profile configs — SKU TBD from price book"
+          "_note": "Required for Police (Low Profile) configs — SKU TBD from price book"
+        },
+        {
+          "id": "acc-ctrl-pathfinder",
+          "label": "Pathfinder® Siren/Light Controller",
+          "sku": "PF400H",
+          "price": null,
+          "type": "optional",
+          "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json.",
+          "dependencyRules": [
+            {
+              "sourceOptionId": "serial",
+              "targetOptionId": "acc-ctrl-pathfinder",
+              "condition": "requires",
+              "message": "Pathfinder controller is only shown when Serial (FS Convergence Network) control architecture is selected."
+            }
+          ]
+        },
+        {
+          "id": "acc-ctrl-smartsiren",
+          "label": "SmartSiren Platinum Controller",
+          "sku": "SSP2000B",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json as SSP2000B.",
+          "dependencyRules": [
+            {
+              "sourceOptionId": "serial",
+              "targetOptionId": "acc-ctrl-smartsiren",
+              "condition": "requires",
+              "message": "SmartSiren controller is only shown when Serial (FS Convergence Network) control architecture is selected."
+            }
+          ]
         },
         {
           "id": "acc-micropulse",
@@ -222,13 +346,49 @@
   ],
   "compatibilityRules": [
     {
-      "id": "excl-44-bw1",
+      "id": "excl-fire-low",
       "type": "excludes",
-      "stepA": "length",
-      "optionA": "44in",
-      "stepB": "color",
-      "optionB": "bw1",
-      "message": "1-Color Blue/White is available in 51\" only. Select 51\" or choose 2-Color / Full 3-Color for 44\"."
+      "stepA": "application",
+      "optionA": "fire",
+      "stepB": "mount",
+      "optionB": "low",
+      "message": "Fire/NFPA application is only available with Standard Bracket (Hook) mount."
+    },
+    {
+      "id": "excl-police-hook",
+      "type": "excludes",
+      "stepA": "application",
+      "optionA": "police",
+      "stepB": "mount",
+      "optionB": "hook",
+      "message": "Police application is only available with Low-Profile mount."
+    },
+    {
+      "id": "excl-fire-color-single",
+      "type": "excludes",
+      "stepA": "application",
+      "optionA": "fire",
+      "stepB": "colorConfiguration",
+      "optionB": "single",
+      "message": "Fire/NFPA is a fixed 2-color configuration and does not offer Color Configuration selection."
+    },
+    {
+      "id": "excl-fire-color-dual",
+      "type": "excludes",
+      "stepA": "application",
+      "optionA": "fire",
+      "stepB": "colorConfiguration",
+      "optionB": "dual",
+      "message": "Fire/NFPA is a fixed 2-color configuration and does not offer Color Configuration selection."
+    },
+    {
+      "id": "excl-fire-color-tri",
+      "type": "excludes",
+      "stepA": "application",
+      "optionA": "fire",
+      "stepB": "colorConfiguration",
+      "optionB": "tri",
+      "message": "Fire/NFPA is a fixed 2-color configuration and does not offer Color Configuration selection."
     }
   ],
   "dependencyRules": [],
