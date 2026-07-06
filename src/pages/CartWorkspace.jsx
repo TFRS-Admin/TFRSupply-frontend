@@ -4,8 +4,10 @@
  * Bridges product browsing, configurators, package building, and quote
  * requests through the existing Commerce Foundation. Consumes
  * useCartWorkspace(), which is backed by cartWorkspaceService's deterministic
- * in-memory adapter. Checkout is a placeholder only — no live Shopify API is
- * called and no order is created.
+ * in-memory adapter. "Proceed to Checkout" creates a real Shopify cart via
+ * useShopifyStorefrontCartCreate() (Storefront API cartCreate) and redirects
+ * to the real checkoutUrl Shopify returns; see
+ * shopifyStorefrontCartCreateService for credential/failure handling.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -21,20 +23,22 @@ import { useCartAdapterStatus } from '@/hooks/cartAdapter';
 import { useCartWorkspace } from '@/hooks/cartWorkspace';
 import { useCheckoutPreparation } from '@/hooks/checkoutPreparation';
 import { useStorefrontAvailability } from '@/hooks/shopifyStorefront';
-import { useShopifyStorefrontCartPreview } from '@/hooks/shopifyStorefrontCart';
+import { resolveShopifyCheckoutOutcome } from '@/services/shopifyStorefrontCart';
+import { useShopifyStorefrontCartCreate, useShopifyStorefrontCartPreview } from '@/hooks/shopifyStorefrontCart';
 import { useShopifyCheckoutPreview } from '@/hooks/shopifyCheckoutPreview';
 import { useShopifyStorefrontCapabilities } from '@/hooks/shopifyStorefrontConfig';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 export default function CartWorkspace() {
-  const { data, loading, error, refresh, updateQuantity, removeLine, clearCart, prepareCheckout } = useCartWorkspace();
+  const { data, loading, error, refresh, updateQuantity, removeLine, clearCart } = useCartWorkspace();
   const { data: readiness, loading: readinessLoading, refresh: refreshReadiness } = useCheckoutPreparation();
   const { availability: storefrontAvailability } = useStorefrontAvailability();
   const { result: storefrontCartPreview } = useShopifyStorefrontCartPreview();
   const { result: checkoutUrlPreview } = useShopifyCheckoutPreview();
   const { summary: storefrontCapabilitySummary } = useShopifyStorefrontCapabilities();
   const { status: cartAdapterStatus } = useCartAdapterStatus();
+  const { createCart, loading: creatingCart } = useShopifyStorefrontCartCreate();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
@@ -43,12 +47,18 @@ export default function CartWorkspace() {
   }, [refresh, refreshReadiness]);
 
   async function handleCheckout() {
-    const result = await prepareCheckout();
-    setNotice(
-      result.status === 'ready'
-        ? 'Checkout is a placeholder — every line is commerce-ready, but no order is submitted and no Shopify API is called.'
-        : 'Checkout is a placeholder — one or more lines are not yet ready for Shopify checkout.',
-    );
+    setNotice(null);
+    try {
+      const result = await createCart();
+      const outcome = resolveShopifyCheckoutOutcome(result);
+      if (outcome.type === 'redirect') {
+        window.location.href = outcome.checkoutUrl;
+        return;
+      }
+      setNotice(outcome.message);
+    } catch (checkoutError) {
+      setNotice(`Checkout failed unexpectedly: ${checkoutError.message || checkoutError}`);
+    }
   }
 
   function handleRequestQuote() {
@@ -126,7 +136,7 @@ export default function CartWorkspace() {
             </div>
 
             <div style={{ minWidth: 0 }}>
-              <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading} />
+              <CartSummary summary={data.summary} onCheckout={handleCheckout} onRequestQuote={handleRequestQuote} disabled={loading || creatingCart} checkoutLabel={creatingCart ? 'Creating your Shopify cart…' : 'Proceed to Checkout'} />
               <CheckoutReadinessPanel result={readiness} loading={readinessLoading} storefrontAvailability={storefrontAvailability} storefrontCartPreview={storefrontCartPreview} checkoutUrlPreview={checkoutUrlPreview} storefrontCapabilitySummary={storefrontCapabilitySummary} cartAdapterStatus={cartAdapterStatus} />
             </div>
           </div>

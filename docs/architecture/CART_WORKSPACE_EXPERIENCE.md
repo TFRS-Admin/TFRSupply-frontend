@@ -37,11 +37,11 @@ MiniCart (site header) ──────┘                                    
 
 ## Customer Actions
 
-`/cart` supports: update quantity, remove item, clear cart, continue shopping (link back to `/search`), configure item (placeholder notice — routes to the existing per-product configurator in a future issue), request quote (placeholder notice — hands off to the Quote Builder foundation in a future issue), and proceed to checkout (placeholder only; calls `prepareCheckout()` to show whether every line is commerce-ready, but submits nothing and calls no Shopify API).
+`/cart` supports: update quantity, remove item, clear cart, continue shopping (link back to `/search`), configure item (placeholder notice — routes to the existing per-product configurator in a future issue), request quote (placeholder notice — hands off to the Quote Builder foundation in a future issue), and proceed to checkout — this now calls `shopifyStorefrontCartCreateService.createCart()` (Shopify Storefront Cart Adapter Foundation, see [SHOPIFY_STOREFRONT_CART_ADAPTER.md](./SHOPIFY_STOREFRONT_CART_ADAPTER.md)) and redirects to the real Shopify `checkoutUrl` on success, or shows a specific notice on a configuration/network/Shopify error. `prepareCheckout()` (this foundation) is unchanged and no longer drives the checkout button; it remains available for readiness display only.
 
 ## Non-goals
 
-This issue does not implement Shopify checkout, payments, tax calculation, shipping calculation, customer accounts, authentication, live inventory, or order creation. `prepareCheckout()` surfaces Commerce Foundation readiness only — it does not create a Shopify cart, checkout session, or order.
+This issue does not implement Shopify payments, tax calculation, shipping calculation, customer accounts, authentication, live inventory, or order creation. `prepareCheckout()` surfaces Commerce Foundation readiness only — it does not create a Shopify cart, checkout session, or order; real Shopify cart creation is owned by the Shopify Storefront Cart Adapter Foundation, not this one.
 
 ## Future Migration Plan
 

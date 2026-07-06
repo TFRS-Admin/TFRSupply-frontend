@@ -12,7 +12,7 @@ const ROW_STYLE = { display: 'flex', justifyContent: 'space-between', padding: '
  * Performs no calculations of its own — subtotal/shipping/tax/grand total are
  * all read directly from the already-computed CartSummary.
  */
-export default function CartSummary({ summary, onRequestQuote, onCheckout, disabled }) {
+export default function CartSummary({ summary, onRequestQuote, onCheckout, disabled, checkoutLabel = 'Proceed to Checkout' }) {
   if (!summary) return null;
 
   return (
@@ -50,7 +50,7 @@ export default function CartSummary({ summary, onRequestQuote, onCheckout, disab
           opacity: disabled ? 0.6 : 1, marginBottom: 10,
         }}
       >
-        Proceed to Checkout
+        {checkoutLabel}
       </button>
       <button
         onClick={onRequestQuote}
@@ -64,7 +64,7 @@ export default function CartSummary({ summary, onRequestQuote, onCheckout, disab
         Request Quote
       </button>
       <p style={{ fontSize: 11, color: '#aaa', textAlign: 'center', marginTop: 10 }}>
-        Checkout is a placeholder — no order is submitted and no Shopify API is called.
+        You'll be redirected to Shopify to complete your order.
       </p>
     </div>
   );

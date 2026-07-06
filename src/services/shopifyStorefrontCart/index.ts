@@ -7,3 +7,4 @@ export {
   type ShopifyStorefrontCartCreateService,
   type ShopifyStorefrontCartCredentials,
 } from './shopifyStorefrontCartCreateService';
+export { resolveShopifyCheckoutOutcome, type ShopifyCheckoutOutcome } from './shopifyStorefrontCheckoutOutcome';
