@@ -13,6 +13,7 @@ before(async () => {
     service: await server.ssrLoadModule('/src/services/checkoutPreparation/checkoutPreparationService.ts'),
     cartWorkspaceService: await server.ssrLoadModule('/src/services/cartWorkspace/cartWorkspaceService.ts'),
     commerceService: await server.ssrLoadModule('/src/services/commerce/commerceService.ts'),
+    variantResolver: await server.ssrLoadModule('/src/services/shopifyVariantResolver/shopifyVariantResolverService.ts'),
     adapters: await server.ssrLoadModule('/src/adapters/checkoutPreparation/index.ts'),
     hooks: await server.ssrLoadModule('/src/hooks/checkoutPreparation/index.ts'),
     schemas: await server.ssrLoadModule('/src/schemas/checkoutPreparation.schema.ts'),
@@ -55,6 +56,27 @@ function unavailableCommerceService(createCommerceService) {
     async getVariant() { return { status: 'pending', data: null }; },
     async getVariantMapping() { return { status: 'pending', data: null, message: 'Commerce adapter is not connected.' }; },
   });
+}
+
+/**
+ * Builds a `Pick<CommerceService, 'prepareCartLine'>` backed by a real
+ * Shopify Variant Resolver instance (the same seam
+ * ConfiguratorCommerceActions' canAddToCart gate reads) whose Commerce
+ * Foundation adapter is fully under test control — proves the checkout
+ * pipeline agrees with the configurator's resolver contract instead of a
+ * hand-rolled fake shape.
+ */
+function resolverBackedCommerce(mappingBySku) {
+  const { createShopifyVariantResolverService, resolveCartLineDraft } = modules.variantResolver;
+  const resolver = createShopifyVariantResolverService({
+    async getShopifyProduct() { return { status: 'ready', data: null }; },
+    async getShopifyVariant() { return { status: 'ready', data: null }; },
+    async getVariantMapping(sku) {
+      const mapping = mappingBySku[sku];
+      return mapping ? { status: 'ready', data: mapping } : { status: 'pending', data: null };
+    },
+  });
+  return { prepareCartLine: (sku, quantity) => resolveCartLineDraft(sku, quantity, resolver) };
 }
 
 function fakeCartWorkspaceService(lines) {
@@ -155,6 +177,39 @@ describe('checkoutPreparationService orchestration', () => {
 
     const lines = [baseLine()];
     const service = createCheckoutPreparationService(mockCheckoutPreparationAdapter, fakeCartWorkspaceService(lines), unavailableCommerceService(createCommerceService));
+
+    const result = await service.prepareCheckout();
+
+    assert.equal(result.status, 'blocked');
+    assert.equal(result.payloadPreview, null);
+    assert.ok(result.blockers.some((blocker) => blocker.code === 'checkout.commerce-unavailable' && blocker.category === 'commerce'));
+    assert.equal(result.lineValidations[0].commerceAvailable, false);
+  });
+
+  it('reports ready status and a payload preview once the Shopify Variant Resolver reports a mapped Shopify Variant GID for the line SKU', async () => {
+    const { createCheckoutPreparationService } = modules.service;
+    const { mockCheckoutPreparationAdapter } = modules.adapters;
+
+    const lines = [baseLine()];
+    const commerce = resolverBackedCommerce({
+      'SKU-1': { sku: 'SKU-1', shopifyVariantId: 'gid://shopify/ProductVariant/1', price: { amount: 1000, currencyCode: 'USD' } },
+    });
+    const service = createCheckoutPreparationService(mockCheckoutPreparationAdapter, fakeCartWorkspaceService(lines), commerce);
+
+    const result = await service.prepareCheckout();
+
+    assert.equal(result.status, 'ready');
+    assert.equal(result.lineValidations[0].commerceAvailable, true);
+    assert.equal(result.payloadPreview.lines[0].variantMapping.shopifyVariantGid, 'gid://shopify/ProductVariant/1');
+  });
+
+  it('keeps checkout honestly blocked via the Shopify Variant Resolver when the line SKU has no mapped Shopify Variant GID', async () => {
+    const { createCheckoutPreparationService } = modules.service;
+    const { mockCheckoutPreparationAdapter } = modules.adapters;
+
+    const lines = [baseLine()];
+    const commerce = resolverBackedCommerce({}); // SKU-1 has no Shopify Variant GID mapping
+    const service = createCheckoutPreparationService(mockCheckoutPreparationAdapter, fakeCartWorkspaceService(lines), commerce);
 
     const result = await service.prepareCheckout();
 

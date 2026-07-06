@@ -17,10 +17,11 @@
  * this one SKU right now?"
  */
 
+import { money } from '@/domain/pricing';
 import { commerceService } from '@/services/commerce';
 import type { CommerceService } from '@/services/commerce';
 import { lookupSku } from '@/services/commerceLookupService';
-import type { ShopifyVariantResolution } from '@/types';
+import type { CartLineDraft, CommerceLookupResult, ShopifyVariantResolution, VariantMapping } from '@/types';
 
 export interface ShopifyVariantResolverService {
   /** Synchronous resolution from the existing Shopify-export catalog data. */
@@ -96,3 +97,65 @@ export function createShopifyVariantResolverService(
 }
 
 export const shopifyVariantResolverService: ShopifyVariantResolverService = createShopifyVariantResolverService();
+
+function toVariantMapping(resolution: ShopifyVariantResolution): VariantMapping {
+  return {
+    sku: resolution.sku,
+    shopifyProductId: resolution.shopifyProductId,
+    // resolution.shopifyVariantId is already a full `gid://shopify/ProductVariant/...`
+    // string once collected (see docs/architecture/SHOPIFY_VARIANT_GID_OVERLAY.md) —
+    // populate both fields so either naming convention downstream resolves it.
+    shopifyVariantId: resolution.shopifyVariantId,
+    shopifyVariantGid: resolution.shopifyVariantId,
+    channel: 'shopify',
+    price: resolution.price != null ? money(resolution.price, resolution.currency) : undefined,
+  };
+}
+
+/**
+ * Turns a single SKU into the same CartLineDraft contract
+ * `commerceService.prepareCartLine` produces, but sourced from the Shopify
+ * Variant Resolver (`resolve()` — live Commerce Foundation mapping when
+ * connected, otherwise the Shopify-export catalog fallback) instead of the
+ * permanently-unavailable default Commerce Foundation adapter. This is the
+ * single place that answers "is this SKU checkout-ready?" for both the
+ * configurator's Add to Cart gate (via `canAddToCart`) and the cart/checkout
+ * preparation pipeline — so a SKU can never be ready in one and blocked in
+ * the other for different reasons.
+ *
+ * `resolver` defaults to the real singleton (so production callers always
+ * read the same resolver the configurator does) but is injectable so tests
+ * can prove the ready/blocked branches with a controlled resolution instead
+ * of depending on real Shopify Variant GIDs existing in committed catalog data.
+ */
+export async function resolveCartLineDraft(
+  sku: string,
+  quantity: number,
+  resolver: Pick<ShopifyVariantResolverService, 'resolve'> = shopifyVariantResolverService,
+): Promise<CommerceLookupResult<CartLineDraft>> {
+  const resolution = await resolver.resolve(sku);
+
+  if (!resolution.canAddToCart) {
+    return {
+      status: 'pending',
+      data: null,
+      message: resolution.reviewFlag ?? `Shopify variant is not yet resolved for SKU "${sku}".`,
+    };
+  }
+
+  return {
+    status: 'ready',
+    data: { sku, quantity, variantMapping: toVariantMapping(resolution) },
+  };
+}
+
+/**
+ * Drop-in replacement for `commerceService` wherever a caller only ever
+ * needs `prepareCartLine` — see `resolveCartLineDraft` above. Exported as an
+ * object (rather than a bare function) so it satisfies
+ * `Pick<CommerceService, 'prepareCartLine'>` structurally, matching the
+ * shape cart/checkout preparation call sites already depend on.
+ */
+export const shopifyVariantResolverCommerceService: Pick<CommerceService, 'prepareCartLine'> = {
+  prepareCartLine: resolveCartLineDraft,
+};

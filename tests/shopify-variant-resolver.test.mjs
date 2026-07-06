@@ -114,6 +114,52 @@ describe('createShopifyVariantResolverService (Commerce Foundation composition)'
   });
 });
 
+describe('resolveCartLineDraft (checkout preparation ↔ Shopify Variant Resolver bridge)', () => {
+  it('is checkout-ready — resolves to a ready CartLineDraft carrying the Shopify Variant GID — once the resolver reports a mapped variant', async () => {
+    const { resolveCartLineDraft, createShopifyVariantResolverService } = modules.resolverService;
+
+    const resolver = createShopifyVariantResolverService({
+      async getShopifyProduct() { return { status: 'ready', data: null }; },
+      async getShopifyVariant() { return { status: 'ready', data: null }; },
+      async getVariantMapping(sku) {
+        return { status: 'ready', data: { sku, shopifyVariantId: 'gid://shopify/ProductVariant/999', price: { amount: 249, currencyCode: 'USD' } } };
+      },
+    });
+
+    const result = await resolveCartLineDraft('MAPPED-SKU', 3, resolver);
+
+    assert.equal(result.status, 'ready');
+    assert.equal(result.data.sku, 'MAPPED-SKU');
+    assert.equal(result.data.quantity, 3);
+    assert.equal(result.data.variantMapping.shopifyVariantId, 'gid://shopify/ProductVariant/999');
+    assert.equal(result.data.variantMapping.shopifyVariantGid, 'gid://shopify/ProductVariant/999');
+    assert.equal(result.data.variantMapping.price.amount, 249);
+  });
+
+  it('remains honestly blocked (pending, null data) for a real catalog SKU that has a price but no Shopify Variant GID yet', async () => {
+    const { resolveCartLineDraft } = modules.resolverService;
+
+    // Default singleton resolver — the Commerce Foundation adapter is
+    // unavailable, so this falls back to the catalog, which has no
+    // committed GID for this SKU yet (see resolveFromCatalog test above).
+    const result = await resolveCartLineDraft(KNOWN_SKU, 1);
+
+    assert.equal(result.status, 'pending');
+    assert.equal(result.data, null);
+    assert.match(result.message, /Shopify variant ID pending/);
+  });
+
+  it('remains honestly blocked (pending, null data) for a SKU that does not exist in the catalog at all', async () => {
+    const { resolveCartLineDraft } = modules.resolverService;
+
+    const result = await resolveCartLineDraft(UNKNOWN_SKU, 1);
+
+    assert.equal(result.status, 'pending');
+    assert.equal(result.data, null);
+    assert.match(result.message, /not found/);
+  });
+});
+
 describe('useShopifyVariantResolver (React hook)', () => {
   function ResolverProbe({ sku }) {
     const { useShopifyVariantResolver } = modules.resolverHook;
