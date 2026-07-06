@@ -1,0 +1,171 @@
+{
+  "_source": "TFR Supply Vision SLR Beacon — new configurator built from ground-truth docs/knowledge/configurator_data.json (product_families.vision_slr_beacon.sku_map), 2026-07-06.",
+  "_note": "All 8 VSLR1 beacon SKUs from the ground-truth sku_map. This is a separate product family from the Vision SLR lightbar (VSLR46/53/60, see vision-slr-configurator.json) per the master knowledge doc's discrepancy report — VSLR1 prefix, Fire vertical only. LED color and dome (Matching vs Clear) are read directly from the sku_map's confirmed fields. Structured after valor-configurator.json. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
+  "id": "vision-slr-beacon-configurator",
+  "productId": "vision-slr-beacon",
+  "productFamily": "Vision SLR Beacon",
+  "label": "Vision SLR® Beacon Configurator",
+  "priceDisplay": "Contact for pricing",
+  "skuOptions": [
+    {
+      "sku": "VSLR1-R1",
+      "description": "Vision SLR Beacon — Red LED — Matching (Red) Dome",
+      "attributes": {
+        "ledColor": "red",
+        "dome": "matching"
+      }
+    },
+    {
+      "sku": "VSLR1-R2",
+      "description": "Vision SLR Beacon — Red LED — Clear Dome",
+      "attributes": {
+        "ledColor": "red",
+        "dome": "clear"
+      }
+    },
+    {
+      "sku": "VSLR1-A1",
+      "description": "Vision SLR Beacon — Amber LED — Matching (Amber) Dome",
+      "attributes": {
+        "ledColor": "amber",
+        "dome": "matching"
+      }
+    },
+    {
+      "sku": "VSLR1-A2",
+      "description": "Vision SLR Beacon — Amber LED — Clear Dome",
+      "attributes": {
+        "ledColor": "amber",
+        "dome": "clear"
+      }
+    },
+    {
+      "sku": "VSLR1-G1",
+      "description": "Vision SLR Beacon — Green LED — Matching (Green) Dome",
+      "attributes": {
+        "ledColor": "green",
+        "dome": "matching"
+      }
+    },
+    {
+      "sku": "VSLR1-G2",
+      "description": "Vision SLR Beacon — Green LED — Clear Dome",
+      "attributes": {
+        "ledColor": "green",
+        "dome": "clear"
+      }
+    },
+    {
+      "sku": "VSLR1-B1",
+      "description": "Vision SLR Beacon — Blue LED — Matching (Blue) Dome",
+      "attributes": {
+        "ledColor": "blue",
+        "dome": "matching"
+      }
+    },
+    {
+      "sku": "VSLR1-B2",
+      "description": "Vision SLR Beacon — Blue LED — Clear Dome",
+      "attributes": {
+        "ledColor": "blue",
+        "dome": "clear"
+      }
+    }
+  ],
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the ground-truth SKU list are enabled.",
+      "steps": [
+        {
+          "id": "ledColor",
+          "label": "LED Color",
+          "required": true,
+          "skuSegmentKey": "ledColor",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "red",
+              "label": "Red",
+              "skuSegment": "red",
+              "description": "VSLR1-R1 / VSLR1-R2"
+            },
+            {
+              "id": "amber",
+              "label": "Amber",
+              "skuSegment": "amber",
+              "description": "VSLR1-A1 / VSLR1-A2"
+            },
+            {
+              "id": "green",
+              "label": "Green",
+              "skuSegment": "green",
+              "description": "VSLR1-G1 / VSLR1-G2"
+            },
+            {
+              "id": "blue",
+              "label": "Blue",
+              "skuSegment": "blue",
+              "description": "VSLR1-B1 / VSLR1-B2"
+            }
+          ]
+        },
+        {
+          "id": "dome",
+          "label": "Dome",
+          "required": true,
+          "skuSegmentKey": "dome",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "matching",
+              "label": "Matching",
+              "skuSegment": "matching",
+              "description": "Dome color matches the selected LED color"
+            },
+            {
+              "id": "clear",
+              "label": "Clear",
+              "skuSegment": "clear",
+              "description": "Clear dome — available for every LED color"
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — exact Vision SLR Beacon controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU varies by vehicle; confirm with install spec"
+        },
+        {
+          "id": "acc-opticom",
+          "label": "Opticom GPS (traffic preemption)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Optional add-on — SKU TBD"
+        }
+      ]
+    }
+  },
+  "vehicleRules": [],
+  "compatibilityRules": [],
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
+}

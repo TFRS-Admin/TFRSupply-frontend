@@ -1,116 +1,227 @@
 {
-  "_source": "TFR Supply Vision SLR Police Launch SKUs — validated 2026-06-29",
-  "_note": "4 Police Vision SLR 46\" SKUs from handle vision-slr-light-bar-46. Fire/EMS excluded: VSLR46S-NFPA2/3/4 (Red-White). Work Truck excluded: VSLR46-AMWH. No multi-length Police SKUs found in Shopify export — all Police configs are 46\". Prices from Shopify index; shopifyVariantId pending Admin collection. VSLR46S-2664009 flagged _verification=needs_verification due to 'See Description' color label in export.",
+  "_source": "TFR Supply Vision SLR Light Bar — rebuilt from ground-truth docs/knowledge/configurator_data.json (product_families.vision_slr_lightbar.sku_map), 2026-07-06.",
+  "_note": "All 12 Vision SLR lightbar SKUs from the ground-truth sku_map (VSLR46/53/60 and the Permanent 6/8-Pod SKUs). VSLR1 beacon SKUs are a separate product — see vision-slr-beacon-configurator.json — and are intentionally excluded here. Length, colorConfig, and pods are read directly from the sku_map's confirmed fields. VSLR6S-NFPA1 and VSLR8S-NFPA1 have no discrete bar length (Permanent pod mount) so they carry no length attribute and remain visible under any length selection — pod count alone isolates them. Two Police 46\" SKUs share identical length/color/pod combinations (VSLR46-2664023 vs VSLR46-2664017, and VSLR46S-2664014 vs VSLR46S-2664009) — these differ by sync/flash pattern, which is not a declared filter dimension in the ground truth, so both resolve together in the SKU results table for the user to pick between. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
   "id": "vision-slr-configurator",
   "productId": "vision-slr",
-  "productFamily": "Vision SLR Police Light Bar",
-  "label": "Vision SLR® Police Light Bar Configurator",
+  "productFamily": "Vision SLR Light Bar",
+  "label": "Vision SLR® Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
     {
-      "sku": "VSLR46S-2664014",
-      "description": "Vision SLR 46\" Police — Red-Blue — Sync",
+      "sku": "VSLR46-2664023",
+      "description": "Vision SLR 46\" Police — Red/White/Blue — 3/5 Pods — Hook",
       "attributes": {
         "length": "46",
-        "color": "RB",
-        "sync": "sync"
+        "colorConfig": "red-white-blue",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "VSLR46-2664017",
-      "description": "Vision SLR 46\" Police — Red-Blue-White — Standard",
+      "description": "Vision SLR 46\" Police — Red/White/Blue — 3/5 Pods — Hook (Alternate Flash)",
       "attributes": {
         "length": "46",
-        "color": "RBW",
-        "sync": "std"
+        "colorConfig": "red-white-blue",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "police"
       }
     },
     {
-      "sku": "VSLR46-2664023",
-      "description": "Vision SLR 46\" Police — Red-Blue-White — Standard (Alternate Flash Config)",
+      "sku": "VSLR46S-2664014",
+      "description": "Vision SLR 46\" Police — Red/Blue — 3/5 Pods — Hook",
       "attributes": {
         "length": "46",
-        "color": "RBW",
-        "sync": "std"
+        "colorConfig": "red-blue",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "VSLR46S-2664009",
-      "description": "Vision SLR 46\" Police — See Description — Sync",
-      "_verification": "needs_verification",
+      "description": "Vision SLR 46\" Police — Red/Blue — 3/5 Pods — Hook (Alternate Flash)",
       "attributes": {
         "length": "46",
-        "color": "SPEC",
-        "sync": "sync"
+        "colorConfig": "red-blue",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "police"
+      }
+    },
+    {
+      "sku": "VSLR46S-NFPA1",
+      "description": "Vision SLR 46\" Fire — Red/White — 3/5 Pods — Hook",
+      "attributes": {
+        "length": "46",
+        "colorConfig": "red-white",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR46S-NFPA2",
+      "description": "Vision SLR 46\" Fire — Red/White — 3/5 Pods — Hook",
+      "attributes": {
+        "length": "46",
+        "colorConfig": "red-white",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR53S-NFPA1",
+      "description": "Vision SLR 53\" Fire — Red/White — 3/5 Pods — Hook",
+      "attributes": {
+        "length": "53",
+        "colorConfig": "red-white",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR53S-NFPA2",
+      "description": "Vision SLR 53\" Fire — Red/White — 3/5 Pods — Hook",
+      "attributes": {
+        "length": "53",
+        "colorConfig": "red-white",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR60S-NFPA1",
+      "description": "Vision SLR 60\" Fire — Red/White — 3/5 Pods — Hook",
+      "attributes": {
+        "length": "60",
+        "colorConfig": "red-white",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR60S-NFPA2",
+      "description": "Vision SLR 60\" Fire — Red/White — 3/5 Pods — Hook",
+      "attributes": {
+        "length": "60",
+        "colorConfig": "red-white",
+        "pods": "3-5-pods",
+        "mount": "hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR6S-NFPA1",
+      "description": "Vision SLR Fire — Red/White — 6 Pods — Permanent Mount",
+      "attributes": {
+        "colorConfig": "red-white",
+        "pods": "6-pods",
+        "mount": "permanent",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "VSLR8S-NFPA1",
+      "description": "Vision SLR Fire — Red/White — 8 Pods — Permanent Mount",
+      "attributes": {
+        "colorConfig": "red-white",
+        "pods": "8-pods",
+        "mount": "permanent",
+        "vertical": "fire"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "All Vision SLR Police configurations are 46\". Filter by warning color and sync type. Note: Red-Blue is Sync only — dead-end prevention disables Standard when Red-Blue is selected.",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the ground-truth SKU list are enabled.",
       "steps": [
         {
           "id": "length",
           "label": "Bar Length",
-          "required": true,
+          "required": false,
           "skuSegmentKey": "length",
           "_verification": "confirmed",
+          "description": "Not applicable to the Permanent 6/8-Pod mount — leave unselected to include those.",
           "options": [
             {
               "id": "46in",
               "label": "46\"",
               "skuSegment": "46",
-              "description": "All Vision SLR Police configurations — compact, full-featured LED light bar"
+              "description": "Police (Red/White/Blue, Red/Blue) and Fire (Red/White)"
+            },
+            {
+              "id": "53in",
+              "label": "53\"",
+              "skuSegment": "53",
+              "description": "Fire only — Red/White"
+            },
+            {
+              "id": "60in",
+              "label": "60\"",
+              "skuSegment": "60",
+              "description": "Fire only — Red/White"
             }
           ]
         },
         {
-          "id": "color",
-          "label": "Warning Color",
+          "id": "colorConfig",
+          "label": "Color Configuration",
           "required": true,
-          "skuSegmentKey": "color",
+          "skuSegmentKey": "colorConfig",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "rb",
+              "id": "red-white-blue",
+              "label": "Red / White / Blue",
+              "skuSegment": "red-white-blue",
+              "description": "Police — 46\" only"
+            },
+            {
+              "id": "red-blue",
               "label": "Red / Blue",
-              "skuSegment": "RB",
-              "description": "Sync only — VSLR46S-2664014"
+              "skuSegment": "red-blue",
+              "description": "Police — 46\" only"
             },
             {
-              "id": "rbw",
-              "label": "Red / Blue / White",
-              "skuSegment": "RBW",
-              "description": "Two flash configurations available — $6,576 or $6,726"
-            },
-            {
-              "id": "spec",
-              "label": "Specialty (See Desc.)",
-              "skuSegment": "SPEC",
-              "description": "VSLR46S-2664009 — confirm exact color configuration with TFR before ordering",
-              "_verification": "needs_verification"
+              "id": "red-white",
+              "label": "Red / White",
+              "skuSegment": "red-white",
+              "description": "Fire — 46\"/53\"/60\" and the Permanent 6/8-Pod mounts"
             }
           ]
         },
         {
-          "id": "sync",
-          "label": "Sync / Flash Type",
+          "id": "pods",
+          "label": "Pod Count",
           "required": true,
-          "skuSegmentKey": "sync",
+          "skuSegmentKey": "pods",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "sync",
-              "label": "Sync",
-              "skuSegment": "sync",
-              "description": "Synchronized flash — VSLR46S prefix. Required for Red-Blue and Specialty."
+              "id": "3-5-pods",
+              "label": "3/5 Pods",
+              "skuSegment": "3-5-pods",
+              "description": "Hook mount — 46\"/53\"/60\""
             },
             {
-              "id": "std",
-              "label": "Standard",
-              "skuSegment": "std",
-              "description": "Standard flash — VSLR46 prefix. Available for Red-Blue-White only."
+              "id": "6-pods",
+              "label": "6 Pods",
+              "skuSegment": "6-pods",
+              "description": "Permanent mount — VSLR6S-NFPA1"
+            },
+            {
+              "id": "8-pods",
+              "label": "8 Pods",
+              "skuSegment": "8-pods",
+              "description": "Permanent mount — VSLR8S-NFPA1"
             }
           ]
         }
@@ -207,22 +318,40 @@
   ],
   "compatibilityRules": [
     {
-      "id": "excl-rb-std",
+      "id": "excl-53-rwb",
       "type": "excludes",
-      "stepA": "color",
-      "optionA": "rb",
-      "stepB": "sync",
-      "optionB": "std",
-      "message": "Red-Blue is available in Sync only. Select Standard flash for Red-Blue-White configurations."
+      "stepA": "length",
+      "optionA": "53in",
+      "stepB": "colorConfig",
+      "optionB": "red-white-blue",
+      "message": "Red/White/Blue is available in 46\" only."
     },
     {
-      "id": "excl-spec-std",
+      "id": "excl-60-rwb",
       "type": "excludes",
-      "stepA": "color",
-      "optionA": "spec",
-      "stepB": "sync",
-      "optionB": "std",
-      "message": "Specialty (See Desc.) is Sync only. Contact TFR to confirm the exact configuration."
+      "stepA": "length",
+      "optionA": "60in",
+      "stepB": "colorConfig",
+      "optionB": "red-white-blue",
+      "message": "Red/White/Blue is available in 46\" only."
+    },
+    {
+      "id": "excl-53-rb",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "53in",
+      "stepB": "colorConfig",
+      "optionB": "red-blue",
+      "message": "Red/Blue is available in 46\" only."
+    },
+    {
+      "id": "excl-60-rb",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "60in",
+      "stepB": "colorConfig",
+      "optionB": "red-blue",
+      "message": "Red/Blue is available in 46\" only."
     }
   ],
   "dependencyRules": [],
