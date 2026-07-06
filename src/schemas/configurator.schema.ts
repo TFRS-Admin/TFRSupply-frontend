@@ -48,6 +48,7 @@ export const configuratorAccessoryItemSchema = baseEntityObjectSchema.extend({
   price: z.number().optional(),
   type: z.string().optional(),
   _note: z.string().optional(),
+  dependencyRules: z.array(dependencyRuleSchema).optional(),
 }) as z.ZodType<ConfiguratorAccessoryItem>;
 
 export const configuratorSectionSchema = baseEntityObjectSchema.extend({

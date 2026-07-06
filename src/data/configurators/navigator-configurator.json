@@ -1,94 +1,387 @@
 {
-  "_source": "Navigator® Serial Light Bar — Fire/EMS vertical. All 11 SKUs are NFPA, Municipal, or Tow/Utility. Zero police SKUs. Reclassified 2026-06-30.",
-  "_note": "Length = confirmed. Color = needs_verification (inferred from Shopify export). All 11 SKUs are Fire/EMS, Municipal, or Tow/Utility — not police-applicable.",
+  "_source": "Federal Signal Navigator® Light Bar — full real-catalog rebuild from shopify-variant-index.json (2026-07-06). Filter + Add-ons model: skuOptions never invents SKUs, only reflects existing Shopify variants.",
+  "_note": "Length and Control Architecture (Discrete \"D\" vs Serial \"Z\", read directly from each SKU code) are directly evidenced by the SKU string and treated as confirmed filters. Color Package (single- vs dual-color) is inferred from the numeric count embedded in MUNI/AMBR/mini-line suffix codes where present; SKUs using NFPA-only suffix codes (NFPA20-24) do not expose that count and are left unset so the soft filter never falsely eliminates them. Illumination Technology and Dome/Bulkhead Styling cannot be reliably decoded from the SKU suffix codes alone (e.g. NFPA20, TOW2FC, AMBR3RFC) and are presented as informational steps pending confirmation against the Federal Signal spec sheet — they do not narrow the SKU list.",
   "id": "navigator-configurator",
   "productId": "navigator",
-  "productFamily": "Navigator® Serial Light Bar",
-  "label": "Navigator® Serial Light Bar Configurator",
+  "productFamily": "Navigator® Light Bar",
+  "label": "Navigator® Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
+    {
+      "sku": "NVG10-3AF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG10-4ABF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG10-4AF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG10-4AGF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG10-4AWF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG10-AAF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG10-ABF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG10-AGF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG10-AWF",
+      "attributes": {
+        "length": "10",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG10D-NFPA20",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG10D-NFPA21-D",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG10D-NFPA21-P",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG10D-NFPA22-D",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG10D-NFPA22-P",
+      "attributes": {
+        "length": "10",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG18D-AMBR1FC",
+      "attributes": {
+        "length": "18",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG18D-AMBR1RFC",
+      "attributes": {
+        "length": "18",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG18D-MUNI1RFC",
+      "attributes": {
+        "length": "18",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG18D-NFPA20-D",
+      "attributes": {
+        "length": "18",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG18D-NFPA20-P",
+      "attributes": {
+        "length": "18",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG25D-AMBR1FC",
+      "attributes": {
+        "length": "25",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG25D-AMBR1RFB",
+      "attributes": {
+        "length": "25",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG25D-AMBR1RFC",
+      "attributes": {
+        "length": "25",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG25D-MUNI2RFC",
+      "attributes": {
+        "length": "25",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG25D-NFPA20-D",
+      "attributes": {
+        "length": "25",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG25D-NFPA20-P",
+      "attributes": {
+        "length": "25",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG25D-NFPA21",
+      "attributes": {
+        "length": "25",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG45Z-MUNI1HC6",
+      "attributes": {
+        "length": "45",
+        "control": "serial",
+        "colorPackage": "single"
+      }
+    },
     {
       "sku": "NVG45Z-NFPA20",
       "attributes": {
         "length": "45",
-        "color": "RW"
+        "control": "serial"
       }
     },
     {
       "sku": "NVG45Z-NFPA21",
       "attributes": {
         "length": "45",
-        "color": "RW"
+        "control": "serial"
+      }
+    },
+    {
+      "sku": "NVG53D-MUNI1HC",
+      "attributes": {
+        "length": "53",
+        "control": "discrete",
+        "colorPackage": "single"
       }
     },
     {
       "sku": "NVG53D-MUNI1RHC",
       "attributes": {
         "length": "53",
-        "color": "AW"
+        "control": "discrete",
+        "colorPackage": "single"
       }
     },
     {
       "sku": "NVG53Z-MUNI1RHC6",
       "attributes": {
         "length": "53",
-        "color": "AW"
+        "control": "serial",
+        "colorPackage": "single"
       }
     },
     {
       "sku": "NVG53Z-NFPA20",
       "attributes": {
         "length": "53",
-        "color": "RW"
+        "control": "serial"
       }
     },
     {
       "sku": "NVG53Z-NFPA21",
       "attributes": {
         "length": "53",
-        "color": "RW"
+        "control": "serial"
       }
     },
     {
       "sku": "NVG60D-NFPA20",
       "attributes": {
         "length": "60",
-        "color": "RW"
+        "control": "discrete"
       }
     },
     {
       "sku": "NVG60D-NFPA21",
       "attributes": {
         "length": "60",
-        "color": "RW"
+        "control": "discrete"
       }
     },
     {
       "sku": "NVG60D-NFPA22",
       "attributes": {
         "length": "60",
-        "color": "RW"
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG60D-TOW1FC",
+      "attributes": {
+        "length": "60",
+        "control": "discrete"
       }
     },
     {
       "sku": "NVG60D-TOW2FC",
       "attributes": {
         "length": "60",
-        "color": "CUSTOM"
+        "control": "discrete"
       }
     },
     {
       "sku": "NVG60Z-TOW2FC6",
       "attributes": {
         "length": "60",
-        "color": "CUSTOM"
+        "control": "serial"
+      }
+    },
+    {
+      "sku": "NVG73D-AMBR1FC",
+      "attributes": {
+        "length": "73",
+        "control": "discrete",
+        "colorPackage": "single"
+      }
+    },
+    {
+      "sku": "NVG73D-NFPA20",
+      "attributes": {
+        "length": "73",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG73D-NFPA21",
+      "attributes": {
+        "length": "73",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG73D-NFPA22",
+      "attributes": {
+        "length": "73",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG73D-NFPA23",
+      "attributes": {
+        "length": "73",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG73D-NFPA24",
+      "attributes": {
+        "length": "73",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG73D-TOW5FC",
+      "attributes": {
+        "length": "73",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG87D-AMBR3RFC",
+      "attributes": {
+        "length": "87",
+        "control": "discrete",
+        "colorPackage": "dual"
+      }
+    },
+    {
+      "sku": "NVG87D-NFPA20",
+      "attributes": {
+        "length": "87",
+        "control": "discrete"
+      }
+    },
+    {
+      "sku": "NVG87D-NFPA22",
+      "attributes": {
+        "length": "87",
+        "control": "discrete"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "Each selection narrows the Available SKUs table. Only valid combinations are enabled.",
+      "description": "Each selection narrows the available Navigator variants down to a single existing SKU. Only combinations that exist in the Shopify catalog are enabled.",
       "steps": [
         {
           "id": "length",
@@ -97,6 +390,24 @@
           "skuSegmentKey": "length",
           "_verification": "confirmed",
           "options": [
+            {
+              "id": "10in",
+              "label": "10\"",
+              "skuSegment": "10",
+              "description": "Compact mini light bar — utility and tow vehicles"
+            },
+            {
+              "id": "18in",
+              "label": "18\"",
+              "skuSegment": "18",
+              "description": "Compact series — smaller sedans and utility trucks"
+            },
+            {
+              "id": "25in",
+              "label": "25\"",
+              "skuSegment": "25",
+              "description": "Compact series — mid-size vehicles"
+            },
             {
               "id": "45in",
               "label": "45\"",
@@ -114,157 +425,185 @@
               "label": "60\"",
               "skuSegment": "60",
               "description": "Fire apparatus and large trucks"
+            },
+            {
+              "id": "73in",
+              "label": "73\"",
+              "skuSegment": "73",
+              "description": "Heavy fire apparatus and aerial trucks"
+            },
+            {
+              "id": "87in",
+              "label": "87\"",
+              "skuSegment": "87",
+              "description": "Widest aerial/heavy rescue apparatus"
             }
           ]
         },
         {
-          "id": "color",
-          "label": "Warning Color",
+          "id": "control",
+          "label": "Control Architecture",
           "required": true,
-          "skuSegmentKey": "color",
+          "skuSegmentKey": "control",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "discrete",
+              "label": "Discrete Wired",
+              "skuSegment": "discrete",
+              "description": "Available on all lengths"
+            },
+            {
+              "id": "serial",
+              "label": "Serial (FS Convergence Network)",
+              "skuSegment": "serial",
+              "description": "Available on 45\", 53\", 60\" only"
+            }
+          ]
+        },
+        {
+          "id": "illumination",
+          "label": "Illumination Technology",
+          "required": false,
           "_verification": "needs_verification",
+          "_note": "No SKU-level attribute distinguishes All LED vs Mixed LED & Rotators in the current Shopify export. Informational only — does not filter the SKU list. Confirm per-SKU mapping against the Federal Signal spec sheet before enabling as a hard filter.",
           "options": [
             {
-              "id": "rw",
-              "label": "Red / White",
-              "skuSegment": "RW",
-              "description": "45\", 53\", 60\" available"
+              "id": "all-led",
+              "label": "All LED"
             },
             {
-              "id": "aw",
-              "label": "Amber / White",
-              "skuSegment": "AW",
-              "description": "53\" only"
-            },
-            {
-              "id": "custom",
-              "label": "Tow / Utility (Custom)",
-              "skuSegment": "CUSTOM",
-              "description": "60\" only"
-            }
-          ]
-        }
-      ]
-    },
-    "technicalOptions": {
-      "label": "Technical Details",
-      "description": "Product capabilities shown after SKU selection. These do not change the base SKU.",
-      "steps": [
-        {
-          "id": "tech-sm",
-          "label": "SignalMaster™",
-          "skuImpact": false,
-          "options": [
-            {
-              "id": "sm-yes",
-              "label": "Included",
-              "description": "Directional warning arrows"
-            },
-            {
-              "id": "sm-no",
-              "label": "Not Required"
+              "id": "mixed-led-rotators",
+              "label": "Mixed LED & Rotators"
             }
           ]
         },
         {
-          "id": "tech-alley",
-          "label": "Alley Lights",
-          "skuImpact": false,
+          "id": "colorPackage",
+          "label": "Color Package",
+          "required": false,
+          "skuSegmentKey": "colorPackage",
+          "_verification": "needs_verification",
+          "_note": "Single/Dual is inferred from the numeric count in MUNI/AMBR/mini-line suffix codes (e.g. MUNI1 = single, MUNI2 = dual, AMBR1 = single, AMBR3 = dual/multi). NFPA-suffix SKUs do not expose this count, so they are left unfiltered by this step rather than guessed.",
           "options": [
             {
-              "id": "alley-yes",
-              "label": "Included"
+              "id": "single",
+              "label": "Single-color",
+              "skuSegment": "single"
             },
             {
-              "id": "alley-no",
-              "label": "Not Required"
+              "id": "dual",
+              "label": "Dual-color",
+              "skuSegment": "dual"
             }
           ]
         },
         {
-          "id": "tech-takedown",
-          "label": "Takedowns",
-          "skuImpact": false,
+          "id": "domeBulkhead",
+          "label": "Dome and Bulkhead Styling",
+          "required": false,
+          "_verification": "needs_verification",
+          "_note": "No SKU-level attribute distinguishes dome/bulkhead styling in the current Shopify export. Informational only — does not filter the SKU list.",
           "options": [
             {
-              "id": "td-yes",
-              "label": "Included",
-              "description": "Forward-facing white takedown lights"
+              "id": "clear-domes",
+              "label": "Clear Domes"
             },
             {
-              "id": "td-no",
-              "label": "Not Required"
-            }
-          ]
-        },
-        {
-          "id": "tech-flash",
-          "label": "Flash Patterns",
-          "skuImpact": false,
-          "options": [
-            {
-              "id": "flash-30",
-              "label": "30 User-Selectable Patterns",
-              "description": "Standard on all models"
-            }
-          ]
-        },
-        {
-          "id": "tech-power",
-          "label": "Operating Mode",
-          "skuImpact": false,
-          "options": [
-            {
-              "id": "full-power",
-              "label": "Full Power"
+              "id": "clear-bulkheads",
+              "label": "Clear Bulkheads"
             },
             {
-              "id": "low-power",
-              "label": "Low Power Mode",
-              "description": "Reduced draw option"
+              "id": "black-bulkheads",
+              "label": "Black Bulkheads"
             }
           ]
         }
       ]
     },
     "accessories": {
-      "label": "Accessories & Add-ons",
-      "description": "Required hardware and optional accessories. Do not invent SKUs or prices.",
+      "label": "Compatible Add-Ons",
+      "description": "Curated add-on SKUs surfaced based on the base Navigator SKU and control architecture selected. Items marked Needs Review do not yet have a confirmed SKU in the Shopify catalog — do not invent SKUs or prices.",
       "items": [
         {
-          "id": "acc-cable-10",
-          "label": "10 ft. Main Harness",
-          "sku": "NAV-CABLE-10",
-          "price": 28,
-          "type": "optional"
+          "id": "acc-mount-flat",
+          "label": "Flat Mount",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Needs Review — standard flat mount hardware SKU not confirmed in shopify-variant-index.json."
         },
         {
-          "id": "acc-cable-14",
-          "label": "14 ft. Main Harness",
-          "sku": "NAV-CABLE-14",
-          "price": 32,
-          "type": "optional"
+          "id": "acc-mount-feet-kit",
+          "label": "Adjustable Mounting Feet Kit",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Needs Review — SKU 25500770 (per spec) was not found in shopify-variant-index.json as of this build. Left null rather than set to an unresolved SKU so pricing does not silently fail."
         },
         {
-          "id": "acc-brkt-perm",
-          "label": "Permanent Mount Bracket",
-          "sku": "NAV-BRKT-STD",
-          "price": 45,
-          "type": "optional"
+          "id": "acc-ctrl-pathfinder",
+          "label": "Pathfinder® Siren/Light Controller",
+          "sku": "PF400H",
+          "price": null,
+          "type": "optional",
+          "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json (multiple PF400 variants available).",
+          "dependencyRules": [
+            {
+              "sourceOptionId": "serial",
+              "targetOptionId": "acc-ctrl-pathfinder",
+              "condition": "requires",
+              "message": "Pathfinder controller is only shown when Serial (FS Convergence Network) control architecture is selected."
+            }
+          ]
         },
         {
-          "id": "acc-brkt-mag",
-          "label": "Magnetic Mount Kit",
-          "sku": "NAV-BRKT-MAG",
-          "price": 75,
-          "type": "optional"
+          "id": "acc-ctrl-smartsiren",
+          "label": "SmartSiren Platinum Controller",
+          "sku": "SSP2000B",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json as SSP2000B.",
+          "dependencyRules": [
+            {
+              "sourceOptionId": "serial",
+              "targetOptionId": "acc-ctrl-smartsiren",
+              "condition": "requires",
+              "message": "SmartSiren controller is only shown when Serial (FS Convergence Network) control architecture is selected."
+            }
+          ]
         },
         {
-          "id": "acc-ctrl-sm4",
-          "label": "SignalMaster® 4-Position Switch",
-          "sku": "NAV-CTRL-SM4",
-          "price": 110,
-          "type": "optional"
+          "id": "acc-traffic-light-6x4",
+          "label": "6x4 LED Traffic-Clearing Light",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Needs Review — no matching SKU found in shopify-variant-index.json."
+        },
+        {
+          "id": "acc-opticom-emitter",
+          "label": "GTT Opticom Emitter (Model 795H)",
+          "sku": null,
+          "price": null,
+          "type": "optional",
+          "_note": "Needs Review — the base 795H emitter unit was not found in shopify-variant-index.json. Only its extension-bracket accessories (795H-EXTB-D / 795H-EXTB-P) are confirmed present; see acc-opticom-bracket-driver / acc-opticom-bracket-passenger."
+        },
+        {
+          "id": "acc-opticom-bracket-driver",
+          "label": "Opticom Extension Bracket — Driver Side",
+          "sku": "795H-EXTB-D",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json."
+        },
+        {
+          "id": "acc-opticom-bracket-passenger",
+          "label": "Opticom Extension Bracket — Passenger Side",
+          "sku": "795H-EXTB-P",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json."
         }
       ]
     }
@@ -283,7 +622,7 @@
     {
       "vehicleId": "LADDER_TRUCK",
       "displayName": "Aerial Ladder Truck",
-      "recommendedLength": "60"
+      "recommendedLength": "73"
     },
     {
       "vehicleId": "RESCUE_SQUAD",
@@ -299,6 +638,16 @@
       "vehicleId": "TOW_HEAVY_WRECKER",
       "displayName": "Heavy Wrecker / Rotator",
       "recommendedLength": "60"
+    },
+    {
+      "vehicleId": "UTILITY_PICKUP",
+      "displayName": "Utility / Tow Pickup",
+      "recommendedLength": "18"
+    },
+    {
+      "vehicleId": "UTILITY_COMPACT",
+      "displayName": "Compact Utility Vehicle",
+      "recommendedLength": "10"
     }
   ],
   "compatibilityRules": [],
