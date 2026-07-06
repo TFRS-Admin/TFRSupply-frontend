@@ -53,6 +53,16 @@
       "length": "60\"",
       "badges": ["Full-Size", "Fire/EMS", "NFPA"],
       "specs": ["45\", 53\", 60\" lengths", "12 Vdc", "5-year warranty"]
+    },
+    {
+      "id": "vision-slr",
+      "label": "Vision SLR® Mini Light Bar",
+      "tagline": "Compact LED mini light bar with 1-8 head configurations for police vehicles.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+      "vehicle_type": "Police",
+      "profile": "Mini",
+      "badges": ["Police", "Mini", "1-8 Heads"],
+      "specs": ["1-8 head configurations", "Red, Amber, Green, Blue options", "12 Vdc", "SAE J595 Class 1"]
     }
   ]
 }

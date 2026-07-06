@@ -1,0 +1,201 @@
+{
+  "id": "vision-slr",
+  "slug": "vision-slr",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Vision SLR",
+  "title": "Vision SLR® Mini Light Bar",
+  "subtitle": "Compact LED mini light bar with 1-8 head configurations and multiple color options. 12 Vdc, SAE J595 Class 1 certified.",
+  "description": "The Federal Signal Vision SLR® Mini Light Bar delivers flexible, high-output LED warning performance in a compact footprint. Configurable from 1 to 8 heads with a range of single- and dual-color options, it's built for police vehicles that need low-profile, purpose-built warning lighting.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Vision SLR® Mini Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+        "alt": "Vision SLR® Mini Light Bar — Three-pod configuration"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "1 to 8 head configurations for flexible warning output",
+      "Available in Red, Amber, Green, and Blue color options",
+      "Single- and dual-color head configurations",
+      "12 Vdc operation",
+      "SAE J595 Class 1 certified",
+      "Compact, low-profile mini light bar design"
+    ],
+    "benefits": [
+      "Purpose-built for police vehicles needing compact, low-profile warning lighting",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Unmarked and low-profile police units",
+      "Auxiliary and supplemental warning lighting for patrol vehicles"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "head_configurations": "1 to 8 heads",
+    "color_options": [
+      "Red",
+      "Amber",
+      "Green",
+      "Blue"
+    ],
+    "certifications": [
+      "SAE J595 Class 1"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Vision SLR® Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Vision SLR® Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Vision SLR® Mini Light Bar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "SAE J595 Class 1 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "VSLR1",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 8 variants. VSLR1 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "vision-slr-mini-light-bar",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "VSLR1-R1",
+        "shopify_variant_id": null,
+        "option_color": "Red",
+        "option_config": "1-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-R2",
+        "shopify_variant_id": null,
+        "option_color": "Red",
+        "option_config": "2-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-A1",
+        "shopify_variant_id": null,
+        "option_color": "Amber",
+        "option_config": "1-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-A2",
+        "shopify_variant_id": null,
+        "option_color": "Amber",
+        "option_config": "2-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-G1",
+        "shopify_variant_id": null,
+        "option_color": "Green",
+        "option_config": "1-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-G2",
+        "shopify_variant_id": null,
+        "option_color": "Green",
+        "option_config": "2-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-B1",
+        "shopify_variant_id": null,
+        "option_color": "Blue",
+        "option_config": "1-Color",
+        "_missing": "price"
+      },
+      {
+        "sku": "VSLR1-B2",
+        "shopify_variant_id": null,
+        "option_color": "Blue",
+        "option_config": "2-Color",
+        "_missing": "price"
+      }
+    ]
+  },
+  "configuratorId": "vision-slr-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first.",
+  "_configurator_note": "configuratorId references src/data/configurators/vision-slr-configurator.json, which as of 2026-07-06 is built for a different Shopify product (the 46\" Vision SLR Police Light Bar, VSLR46 SKUs) rather than this Mini/Compact Beacon product (VSLR1 SKUs, handle vision-slr-mini-light-bar). The Build & Configure tab will show the wrong SKU options until this is reconciled — flagged for follow-up, not fixed here per task scope."
+}

@@ -29,6 +29,9 @@ export interface ConfiguratorOption extends BaseEntity {
   compatibilityRules?: CompatibilityRule[];
   skuSegment?: string;
   _verification?: string;
+  /** Accessory IDs (from a sibling accessories section) automatically included when this option is selected. */
+  auto_bundle?: string[];
+  warning?: string;
 }
 
 export interface ConfiguratorStep extends BaseEntity {
@@ -36,6 +39,8 @@ export interface ConfiguratorStep extends BaseEntity {
   skuSegmentKey?: string;
   _verification?: string;
   options: ConfiguratorOption[];
+  /** Keyed by a restricting option's label (from this or a prior step); value is the option labels this step allows when that key is selected. */
+  dependencies?: Record<string, string[]>;
 }
 
 export interface ConfiguratorAccessoryItem extends BaseEntity {
@@ -65,6 +70,30 @@ export interface ConfiguratorVehicleRule {
   recommendedLength?: string;
 }
 
+export interface DependencyMatrixCondition {
+  step: string;
+  option: string[];
+}
+
+export interface DependencyMatrixEffect {
+  step?: string;
+  limitOptionsTo?: string[];
+  disables?: string[];
+  disableOptionsUnless?: {
+    option: string;
+    exceptionStep: string;
+    exceptionOption: string;
+  };
+  warn?: boolean;
+}
+
+export interface DependencyMatrixRule {
+  id: string;
+  if: DependencyMatrixCondition;
+  then: DependencyMatrixEffect;
+  message?: string;
+}
+
 export interface Configurator extends BaseEntity {
   productId: string;
   verticalIds: string[];
@@ -76,4 +105,9 @@ export interface Configurator extends BaseEntity {
   priceDisplay?: string;
   dependencyRules?: DependencyRule[];
   compatibilityRules?: CompatibilityRule[];
+  /** Dependency-driven configurator extensions (TFRSupplyConfiguratorSettings spec). */
+  family?: string;
+  collection?: string;
+  pricing_model?: string;
+  dependencyMatrix?: DependencyMatrixRule[];
 }

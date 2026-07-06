@@ -1,0 +1,412 @@
+{
+  "_source": "TFRSupplyConfiguratorSettings.docx — SpectraLux ILS dependency-driven configurator spec",
+  "_note": "Dependency-driven configurator: selecting one option restricts others (`dependencies` on a step), auto-bundles accessories (`auto_bundle` on an option), or changes the SKU. pricing_model=dynamic_build because the final price/SKU is computed from the full combination of selections rather than looked up from one fixed catalog SKU (unlike sku-selector configurators such as valor-configurator.json). Vehicle SKU segments (FPIU, TAH, CHGR, DUR, FD, SIL, CMRY, EXPD, UNIV) confirmed against real SIFM*/SIFZ* SKUs in shopify-variant-index.json. Ford Police Interceptor Sedan, Ram 1500, Chevrolet Equinox, and Chevrolet Traverse have no confirmed SKU segment in the current Shopify export — flagged _verification: needs_verification. Fitment-kit accessory SKUs and prices are not in the price book yet — do NOT invent them; sku/price are null with a _note pending confirmation.",
+  "id": "spectralux-ils-configurator",
+  "productId": "spectralux-ils",
+  "family": "Federal Signal SpectraLux ILS",
+  "collection": "Interior & Task Lighting",
+  "productFamily": "SpectraLux® ILS Interior Light Bar",
+  "label": "SpectraLux® ILS Configurator",
+  "priceDisplay": "Contact for pricing",
+  "pricing_model": "dynamic_build",
+  "sections": {
+    "skuSelector": {
+      "label": "Build Your SpectraLux ILS",
+      "description": "Each step narrows or unlocks later steps based on the dependency matrix below. Vehicle Fitment auto-bundles the matching shroud/mounting kit; Mounting Location determines which Module Coverage options are available; Control Architecture gates Control Hardware; LED Color Technology limits Primary Warning Colors and whether Takedown & Scene Lighting is available.",
+      "steps": [
+        {
+          "id": "vehicle-fitment",
+          "label": "Vehicle Fitment",
+          "required": true,
+          "skuSegmentKey": "vehicle",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "fpiu",
+              "label": "Ford Police Interceptor Utility",
+              "skuSegment": "FPIU",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-fpiu"]
+            },
+            {
+              "id": "fpis",
+              "label": "Ford Police Interceptor Sedan",
+              "skuSegment": null,
+              "_verification": "needs_verification",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit. Vehicle SKU segment not confirmed in the current Shopify export.",
+              "auto_bundle": ["acc-fitkit-fpis"]
+            },
+            {
+              "id": "tahoe",
+              "label": "Chevrolet Tahoe",
+              "skuSegment": "TAH",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit, including sun-visor pivot mounts.",
+              "auto_bundle": ["acc-fitkit-tahoe"]
+            },
+            {
+              "id": "charger",
+              "label": "Dodge Charger",
+              "skuSegment": "CHGR",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-charger"]
+            },
+            {
+              "id": "durango",
+              "label": "Dodge Durango",
+              "skuSegment": "DUR",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-durango"]
+            },
+            {
+              "id": "f150",
+              "label": "Ford F-150",
+              "skuSegment": "FD",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-f150"]
+            },
+            {
+              "id": "silverado",
+              "label": "Chevrolet Silverado",
+              "skuSegment": "SIL",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-silverado"]
+            },
+            {
+              "id": "ram1500",
+              "label": "Ram 1500",
+              "skuSegment": null,
+              "_verification": "needs_verification",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit. Vehicle SKU segment not confirmed in the current Shopify export.",
+              "auto_bundle": ["acc-fitkit-ram1500"]
+            },
+            {
+              "id": "expedition",
+              "label": "Ford Expedition",
+              "skuSegment": "EXPD",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-expedition"]
+            },
+            {
+              "id": "equinox",
+              "label": "Chevrolet Equinox",
+              "skuSegment": null,
+              "_verification": "needs_verification",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit. Vehicle SKU segment not confirmed in the current Shopify export.",
+              "auto_bundle": ["acc-fitkit-equinox"]
+            },
+            {
+              "id": "traverse",
+              "label": "Chevrolet Traverse",
+              "skuSegment": null,
+              "_verification": "needs_verification",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit. Vehicle SKU segment not confirmed in the current Shopify export.",
+              "auto_bundle": ["acc-fitkit-traverse"]
+            },
+            {
+              "id": "camry",
+              "label": "Toyota Camry",
+              "skuSegment": "CMRY",
+              "description": "Auto-bundles the vehicle-specific shroud, side shields, and mounting bracket kit.",
+              "auto_bundle": ["acc-fitkit-camry"]
+            },
+            {
+              "id": "universal",
+              "label": "Universal Fit",
+              "skuSegment": "UNIV",
+              "description": "Auto-bundles a universal shroud/mounting kit.",
+              "auto_bundle": ["acc-fitkit-universal"],
+              "warning": "Brackets and shrouds will require manual bending, cutting, and trimming to fit the windshield."
+            }
+          ]
+        },
+        {
+          "id": "mounting-location",
+          "label": "Mounting Location & Optical Style",
+          "required": true,
+          "skuSegmentKey": "mount",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "front-center",
+              "label": "Front Headliner Center-Focused (SIFM)",
+              "skuSegment": "SIFM",
+              "description": "Best for straight-on warning."
+            },
+            {
+              "id": "front-offaxis",
+              "label": "Front Headliner Off-Axis (SIFZ)",
+              "skuSegment": "SIFZ",
+              "description": "Optimal for pushing light into intersections."
+            },
+            {
+              "id": "rear-deck",
+              "label": "Rear Deck (SIFMR)",
+              "skuSegment": "SIFMR",
+              "description": "Used for SignalMaster directional warning."
+            },
+            {
+              "id": "rear-hatch",
+              "label": "Rear Hatch (SIFMH)",
+              "skuSegment": "SIFMH",
+              "description": "Used for SignalMaster directional warning."
+            }
+          ]
+        },
+        {
+          "id": "module-coverage",
+          "label": "Module Size / Coverage Area",
+          "required": true,
+          "skuSegmentKey": "coverage",
+          "_verification": "confirmed",
+          "dependencies": {
+            "Front Headliner Center-Focused (SIFM)": ["Split 8-Head (Driver & Passenger)", "Driver-Side Only (4-Head)", "Passenger-Side Only (4-Head)"],
+            "Front Headliner Off-Axis (SIFZ)": ["Split 8-Head (Driver & Passenger)", "Driver-Side Only (4-Head)", "Passenger-Side Only (4-Head)"],
+            "Rear Deck (SIFMR)": ["Rear 8-Head", "Rear 6-Head"],
+            "Rear Hatch (SIFMH)": ["Rear 8-Head", "Rear 6-Head"]
+          },
+          "options": [
+            {
+              "id": "split-8",
+              "label": "Split 8-Head (Driver & Passenger)",
+              "skuSegment": "S",
+              "description": "Front headliner only."
+            },
+            {
+              "id": "driver-4",
+              "label": "Driver-Side Only (4-Head)",
+              "skuSegment": "D",
+              "description": "Front headliner only."
+            },
+            {
+              "id": "passenger-4",
+              "label": "Passenger-Side Only (4-Head)",
+              "skuSegment": "P",
+              "description": "Front headliner only."
+            },
+            {
+              "id": "rear-8",
+              "label": "Rear 8-Head",
+              "skuSegment": "8",
+              "description": "Rear Deck or Rear Hatch only."
+            },
+            {
+              "id": "rear-6",
+              "label": "Rear 6-Head",
+              "skuSegment": "6",
+              "description": "Rear Deck or Rear Hatch only."
+            }
+          ]
+        },
+        {
+          "id": "control-architecture",
+          "label": "Control Architecture",
+          "required": true,
+          "skuSegmentKey": "control",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "convergence-serial",
+              "label": "FS Convergence Network (Serial, CAT5)",
+              "skuSegment": "J",
+              "description": "Requires an FS Convergence controller (e.g. Pathfinder, SmartSiren) or a Serial Interface Module."
+            },
+            {
+              "id": "discrete-wire",
+              "label": "Discrete Wire (8-Conductor Cable)",
+              "skuSegment": null,
+              "_verification": "needs_verification",
+              "description": "Disables FS Convergence Network features (V2V sync via Pathfinder, software-driven OBDII automation). Changes the internal PCB and external harnessing from CAT5 to discrete cable."
+            }
+          ]
+        },
+        {
+          "id": "control-hardware",
+          "label": "Control Hardware",
+          "required": false,
+          "_verification": "needs_verification",
+          "dependencies": {
+            "FS Convergence Network (Serial, CAT5)": ["Using Existing Pathfinder / SmartSiren Controller", "Add Serial Interface Module", "Add 6-Button Serial Controller"]
+          },
+          "options": [
+            {
+              "id": "existing-pathfinder",
+              "label": "Using Existing Pathfinder / SmartSiren Controller",
+              "skuSegment": null,
+              "description": "No additional controller hardware required."
+            },
+            {
+              "id": "serial-interface-module",
+              "label": "Add Serial Interface Module",
+              "skuSegment": null,
+              "description": "Required when no FS Convergence controller is already present in the vehicle."
+            },
+            {
+              "id": "six-button-controller",
+              "label": "Add 6-Button Serial Controller",
+              "skuSegment": null,
+              "description": "Dedicated 6-button controller for the SpectraLux ILS."
+            }
+          ]
+        },
+        {
+          "id": "led-technology",
+          "label": "LED Color Technology",
+          "required": true,
+          "skuSegmentKey": "ledTech",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "single-color",
+              "label": "Single-Color",
+              "skuSegment": null,
+              "description": "One warning color per module."
+            },
+            {
+              "id": "dual-color",
+              "label": "Dual-Color",
+              "skuSegment": null,
+              "description": "Two colors per module (e.g. Red/Blue warning switching to White takedowns)."
+            },
+            {
+              "id": "tri-color",
+              "label": "Tri-Color (SpectraLux®)",
+              "skuSegment": null,
+              "description": "Three colors per module (e.g. Red/Blue warning, White takedowns, Amber directional arrows)."
+            }
+          ]
+        },
+        {
+          "id": "primary-colors",
+          "label": "Primary Warning Colors",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "_note": "Single-Color allows exactly one primary color. Dual-Color and Tri-Color (SpectraLux) allow Custom Split (a custom multi-color PCB layout) in addition to any single color.",
+          "dependencies": {
+            "Single-Color": ["Amber", "Blue", "Red", "White"],
+            "Dual-Color": ["Amber", "Blue", "Red", "White", "Custom Split"],
+            "Tri-Color (SpectraLux®)": ["Amber", "Blue", "Red", "White", "Custom Split"]
+          },
+          "options": [
+            {
+              "id": "amber",
+              "label": "Amber",
+              "skuSegment": "A"
+            },
+            {
+              "id": "blue",
+              "label": "Blue",
+              "skuSegment": "B"
+            },
+            {
+              "id": "red",
+              "label": "Red",
+              "skuSegment": "R"
+            },
+            {
+              "id": "white",
+              "label": "White",
+              "skuSegment": "W"
+            },
+            {
+              "id": "custom-split",
+              "label": "Custom Split",
+              "skuSegment": null,
+              "_verification": "needs_verification",
+              "description": "Custom PCB layout — requires Dual-Color or Tri-Color LED technology."
+            }
+          ]
+        },
+        {
+          "id": "takedown-scene",
+          "label": "Takedown & Scene Lighting",
+          "required": false,
+          "skuSegmentKey": "takedown",
+          "_verification": "confirmed",
+          "_note": "If LED Color Technology = Single-Color, White Takedowns is disabled UNLESS Primary Warning Colors = White (see dependencyMatrix rule rule-single-color-disables-white-takedowns).",
+          "dependencies": {
+            "Dual-Color": ["White Takedowns", "Full Scene/Flood"],
+            "Tri-Color (SpectraLux®)": ["White Takedowns", "Full Scene/Flood"],
+            "White": ["White Takedowns", "Full Scene/Flood"]
+          },
+          "options": [
+            {
+              "id": "none",
+              "label": "None",
+              "skuSegment": null
+            },
+            {
+              "id": "white-takedowns",
+              "label": "White Takedowns",
+              "skuSegment": null,
+              "description": "Requires Dual-Color or Tri-Color LED selection with white diodes, unless the primary color is already White."
+            },
+            {
+              "id": "full-scene-flood",
+              "label": "Full Scene/Flood",
+              "skuSegment": null,
+              "description": "Requires Dual-Color or Tri-Color LED selection with white diodes, unless the primary color is already White."
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Vehicle Fitment Kits",
+      "description": "Auto-bundled by the Vehicle Fitment step above — the vehicle-specific shroud, side shields, and mounting bracket kit for the selected vehicle. All SKUs and prices are pending confirmation from the Police Price Book.",
+      "items": [
+        { "id": "acc-fitkit-fpiu", "label": "Ford Police Interceptor Utility Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-fpis", "label": "Ford Police Interceptor Sedan Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-tahoe", "label": "Chevrolet Tahoe Fitment Kit (Shroud, Side Shields, Sun-Visor Pivot Mounts & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-charger", "label": "Dodge Charger Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-durango", "label": "Dodge Durango Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-f150", "label": "Ford F-150 Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-silverado", "label": "Chevrolet Silverado Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-ram1500", "label": "Ram 1500 Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — vehicle SKU segment and fitment-kit SKU not confirmed in current Shopify export or price book" },
+        { "id": "acc-fitkit-expedition", "label": "Ford Expedition Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-equinox", "label": "Chevrolet Equinox Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — vehicle SKU segment and fitment-kit SKU not confirmed in current Shopify export or price book" },
+        { "id": "acc-fitkit-traverse", "label": "Chevrolet Traverse Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — vehicle SKU segment and fitment-kit SKU not confirmed in current Shopify export or price book" },
+        { "id": "acc-fitkit-camry", "label": "Toyota Camry Fitment Kit (Shroud, Side Shields & Mounting Brackets)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — exact fitment-kit SKU not confirmed in price book" },
+        { "id": "acc-fitkit-universal", "label": "Universal Fitment Kit (Shroud & Mounting Brackets — Field-Trimmed)", "sku": null, "price": null, "type": "required", "_note": "Needs Review — universal kit requires manual bending, cutting, and trimming to fit the windshield; SKU not confirmed in price book" }
+      ]
+    }
+  },
+  "dependencyMatrix": [
+    {
+      "id": "rule-rear-module-limit",
+      "if": { "step": "Mounting Location & Optical Style", "option": ["Rear Deck (SIFMR)", "Rear Hatch (SIFMH)"] },
+      "then": { "step": "Module Size / Coverage Area", "limitOptionsTo": ["Rear 8-Head", "Rear 6-Head"] },
+      "message": "Rear Deck and Rear Hatch mounting are used for SignalMaster directional warning and limit Module Size to 8-head or 6-head configurations."
+    },
+    {
+      "id": "rule-front-module-options",
+      "if": { "step": "Mounting Location & Optical Style", "option": ["Front Headliner Center-Focused (SIFM)", "Front Headliner Off-Axis (SIFZ)"] },
+      "then": { "step": "Module Size / Coverage Area", "limitOptionsTo": ["Split 8-Head (Driver & Passenger)", "Driver-Side Only (4-Head)", "Passenger-Side Only (4-Head)"] },
+      "message": "Front Headliner mounting allows Split 8-head, Driver-only 4-head, or Passenger-only 4-head module configurations."
+    },
+    {
+      "id": "rule-discrete-disables-convergence",
+      "if": { "step": "Control Architecture", "option": ["Discrete Wire (8-Conductor Cable)"] },
+      "then": { "disables": ["FS Convergence Network features (V2V sync via Pathfinder, software-driven OBDII automation)"] },
+      "message": "Discrete Wire control disables FS Convergence Network features such as V2V sync via Pathfinder and software-driven OBDII automation."
+    },
+    {
+      "id": "rule-single-color-disables-white-takedowns",
+      "if": { "step": "LED Color Technology", "option": ["Single-Color"] },
+      "then": {
+        "step": "Takedown & Scene Lighting",
+        "disableOptionsUnless": { "option": "White Takedowns", "exceptionStep": "Primary Warning Colors", "exceptionOption": "White" }
+      },
+      "message": "Single-Color LED technology disables White Takedowns unless the primary color selected in Primary Warning Colors is White."
+    },
+    {
+      "id": "rule-universal-fit-warning",
+      "if": { "step": "Vehicle Fitment", "option": ["Universal Fit"] },
+      "then": { "warn": true },
+      "message": "Brackets and shrouds will require manual bending, cutting, and trimming to fit the windshield."
+    }
+  ],
+  "dependencyRules": [],
+  "compatibilityRules": [],
+  "_price_source": "This configurator uses pricing_model=dynamic_build: price is computed from the combined selections (vehicle fitment kit + light bar assembly + control hardware + LED/color options), not looked up from a single fixed Shopify SKU. No prices are set here — do not invent them."
+}
