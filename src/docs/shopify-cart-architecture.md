@@ -3,6 +3,15 @@
 
 ---
 
+> **⚠ Superseded.** This document describes an early prototype cart architecture
+> (`AddToCartPanel.jsx`, `ConfiguratorLayout.jsx`) that was never wired up and has
+> since been removed as dead code. The live Add to Cart implementation is the
+> Shopify Variant Resolver (`useShopifyVariantResolver`) feeding
+> `ConfiguratorCommerceActions.tsx`, which calls the Cart Workspace Foundation
+> (`useCartWorkspace`). Kept for historical reference only.
+
+---
+
 ## 1. Guiding Principle: Shopify Is Source of Truth
 
 All pricing, inventory, checkout logic, tax, and order management live in Shopify.

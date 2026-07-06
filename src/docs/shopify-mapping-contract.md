@@ -3,6 +3,15 @@
 
 ---
 
+> **⚠ Superseded.** The `AddToCartPanel` checkout flow described in Section 7
+> was an early prototype that was never wired up and has since been removed as
+> dead code. The live Add to Cart implementation lives in
+> `ConfiguratorCommerceActions.tsx` (Cart Workspace Foundation), gated by the
+> Shopify Variant Resolver (`useShopifyVariantResolver`). Kept for historical
+> reference only.
+
+---
+
 ## Core Model: One Product / Many Variants
 
 **Navigator Serial Light Bar = one Shopify product with 11 variants.**
