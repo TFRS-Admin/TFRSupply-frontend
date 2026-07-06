@@ -153,7 +153,8 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
     return null;
   }
 
-  const canAddToCart = configState.checkoutReady === true;
+  const hasShopifyVariantId = Boolean(configState.shopifyVariantId);
+  const canAddToCart = configState.checkoutReady === true && hasShopifyVariantId;
 
   async function handleAddToCart() {
     if (!canAddToCart) return;
@@ -190,7 +191,9 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
   const continueShoppingHref = verticalId && categoryId ? `/${verticalId}/${categoryId}` : '/';
   const addToCartTitle = canAddToCart
     ? 'This configuration is ready to add to your cart.'
-    : 'Shopify variant ID pending — Add to Cart disabled until GIDs are collected from Shopify Admin';
+    : hasShopifyVariantId
+      ? 'This Shopify variant is not yet checkout-ready — request a quote instead.'
+      : 'No Shopify variant ID yet for this SKU — request a quote instead.';
 
   return (
     <div style={{ ...FS, border: '1px solid #e8e8e8', background: '#fff' }} data-testid="configurator-commerce-actions">
@@ -224,11 +227,12 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
           <ActionButton
-            onClick={handleAddToCart}
-            icon={ShoppingCart}
-            label="Add to Cart"
+            href={hasShopifyVariantId ? undefined : quoteHref}
+            onClick={hasShopifyVariantId ? handleAddToCart : handleRequestQuote}
+            icon={hasShopifyVariantId ? ShoppingCart : Send}
+            label={hasShopifyVariantId ? 'Add to Cart' : 'Add to Quote'}
             variant="primary"
-            disabled={!canAddToCart || addingToCart}
+            disabled={hasShopifyVariantId ? (!canAddToCart || addingToCart) : false}
             title={addToCartTitle}
           />
           <ActionButton href={quoteHref} onClick={handleRequestQuote} icon={Send} label="Request Quote" />
@@ -246,9 +250,14 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
           </Link>
         </div>
 
-        {!canAddToCart && (
+        {!hasShopifyVariantId && (
           <p style={{ fontSize: 11, color: '#92400e', margin: '4px 0' }} data-testid="cart-disabled-reason">
-            🔒 Add to Cart is disabled — a Shopify variant hasn't been resolved for this configuration yet.
+            🔒 No Shopify variant ID yet for this SKU — use <strong>Add to Quote</strong> above to request pricing.
+          </p>
+        )}
+        {hasShopifyVariantId && !canAddToCart && (
+          <p style={{ fontSize: 11, color: '#92400e', margin: '4px 0' }} data-testid="cart-disabled-reason">
+            🔒 Add to Cart is disabled — this Shopify variant isn't checkout-ready yet (pricing pending).
           </p>
         )}
         {quoteMessage && <p style={{ fontSize: 12, color: '#666', margin: '4px 0' }} data-testid="quote-action-message">{quoteMessage}</p>}
