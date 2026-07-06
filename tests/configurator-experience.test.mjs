@@ -56,10 +56,11 @@ const CONFIG_STATE = {
   basePrice: 4639,
   accessorySkus: ['NAV-CABLE-10'],
   commerceLines: [
-    { sku: 'NVG45Z-NFPA20', shopifyVariantId: null, shopifyProductId: null, price: 4639, status: 'matched' },
+    { sku: 'NVG45Z-NFPA20', shopifyVariantId: 'gid://shopify/ProductVariant/5551234567890', shopifyProductId: null, price: 4639, status: 'matched' },
     { sku: 'NAV-CABLE-10', shopifyVariantId: null, shopifyProductId: null, price: 28, status: 'unmatched' },
   ],
   reviewFlags: ['Required component SKU unknown — needs review: Mounting Bracket'],
+  shopifyVariantId: 'gid://shopify/ProductVariant/5551234567890',
   checkoutReady: true,
 };
 
@@ -267,9 +268,22 @@ describe('ConfiguratorCommerceActions (commerce action composition)', () => {
     const html = renderWithProviders(React.createElement(ConfiguratorCommerceActions, { configState: notReady, verticalId: 'fire', categoryId: 'light-bars' }));
 
     assert.match(html, /data-testid="cart-disabled-reason"/);
-    const addToCartButton = html.match(/<button[^>]*title="Shopify variant ID pending[^>]*>/);
+    const addToCartButton = html.match(/<button[^>]*title="This Shopify variant is not yet checkout-ready[^>]*>/);
     assert.ok(addToCartButton, 'expected to find the Add to Cart button by its disabled title');
     assert.match(addToCartButton[0], /disabled/);
+  });
+
+  it('falls back to Add to Quote instead of a permanently-disabled Add to Cart when the Shopify variant GID is missing', () => {
+    const { default: ConfiguratorCommerceActions } = modules.commerceActions;
+    const noGid = { ...CONFIG_STATE, shopifyVariantId: null, checkoutReady: false };
+    const html = renderWithProviders(React.createElement(ConfiguratorCommerceActions, { configState: noGid, verticalId: 'fire', categoryId: 'light-bars' }));
+
+    assert.match(html, /data-testid="cart-disabled-reason"/);
+    assert.match(html, /No Shopify variant ID yet for this SKU/);
+    const primaryAction = html.match(/<a[^>]*title="No Shopify variant ID yet for this SKU[^>]*>/);
+    assert.ok(primaryAction, 'expected the primary action to render as a functional Add to Quote link, not a disabled button');
+    assert.doesNotMatch(primaryAction[0], /disabled/);
+    assert.match(primaryAction[0], /href="mailto:/);
   });
 
   it('enables Add to Cart with no disabled-reason notice when the resolver reports canAddToCart: true', () => {
@@ -359,7 +373,7 @@ describe('ConfiguratorExperience composition', () => {
     const html = renderWithProviders(React.createElement(Harness));
 
     assert.match(html, /Vehicle Selection/);
-    assert.match(html, /Product Configurator/);
+    assert.match(html, /TFRSupply Configurator/);
     assert.match(html, /Available SKUs/);
     // Before a SKU row is selected, the summary/pricing/commerce grid is gated off.
     assert.doesNotMatch(html, /Commerce Actions/);

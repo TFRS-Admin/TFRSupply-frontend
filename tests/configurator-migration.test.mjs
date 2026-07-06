@@ -35,9 +35,9 @@ describe('configuratorService loading', () => {
 
     assert.equal(configurator?.id, 'navigator-configurator');
     assert.equal(configurator?.productId, 'navigator');
-    assert.equal(configurator?.productFamily, 'Navigator® Serial Light Bar');
+    assert.equal(configurator?.productFamily, 'Navigator® Light Bar');
     assert.equal(configurator?.sectionMap?.skuSelector?.label, 'SKU Filters');
-    assert.equal(configurator?.skuOptions?.length, 11);
+    assert.equal(configurator?.skuOptions?.length, 10);
   });
 
   it('returns null for a missing configurator', () => {
@@ -53,9 +53,11 @@ describe('typed configurator preservation', () => {
     const configurator = configuratorService.getConfigurator('navigator-configurator');
     const firstSku = configurator?.skuOptions?.[0];
 
-    assert.equal(firstSku?.sku, 'NVG45Z-NFPA20');
-    assert.equal(firstSku?.price, 4639);
-    assert.deepEqual(firstSku?.attributes, { length: '45', color: 'RW' });
+    assert.equal(firstSku?.sku, 'NVG10D-NFPA21-D');
+    // Prices are never hardcoded in configurator JSON — resolved at runtime
+    // from shopify-variant-index.json via commerceLookupService.
+    assert.equal(firstSku?.price, undefined);
+    assert.deepEqual(firstSku?.attributes, { length: '10', network: 'discrete', mount: 'flat' });
   });
 
   it('preserves section steps and option rendering metadata', () => {
@@ -66,9 +68,8 @@ describe('typed configurator preservation', () => {
 
     assert.equal(skuSelector?.steps?.[0]?.id, 'length');
     assert.equal(skuSelector?.steps?.[0]?.skuSegmentKey, 'length');
-    assert.equal(skuSelector?.steps?.[0]?.options?.[0]?.label, '45"');
-    assert.equal(skuSelector?.steps?.[1]?._verification, 'needs_verification');
-    assert.equal(accessories?.items?.[0]?.sku, 'NAV-CABLE-10');
+    assert.equal(skuSelector?.steps?.[0]?.options?.[0]?.label, '10"');
+    assert.equal(accessories?.items?.[0]?.id, 'acc-mount-flat');
   });
 });
 
@@ -86,10 +87,8 @@ describe('ConfiguratorModule rendering', () => {
       }),
     );
 
-    assert.match(html, /Product Configurator/);
+    assert.match(html, /TFRSupply Configurator/);
     assert.match(html, /Bar Length/);
-    assert.match(html, /45&quot;/);
-    assert.match(html, /Red \/ White/);
     assert.match(html, /Available SKUs/);
     assert.match(html, /Select a SKU row/);
   });

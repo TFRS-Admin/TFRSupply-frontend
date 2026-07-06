@@ -33,6 +33,7 @@ import { lookupSkus } from '@/services/commerceLookupService';
 import type { CommerceLookupEntry } from '@/services/commerceLookupService';
 import { useShopifyVariantResolver } from '@/hooks/shopifyVariantResolver';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+import knowledgePackageData from '../../../docs/knowledge/configurator_data.json';
 import {
   CheckCircle, RotateCcw, ClipboardList,
   Truck, AlertTriangle, Send
@@ -52,6 +53,47 @@ import type {
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 type FilterSelections = Record<string, string>;
+
+// ─── Vehicle Fitment Kit (HKB) Auto-Bundle ─────────────────────────────────
+// The Hook Mount Reference Guide (ground truth: docs/knowledge/configurator_data.json
+// → vehicle_fitment_kits.kits) maps a vehicle + bar length to the matching HKB hook
+// kit SKU. Vehicle selection is global (VehicleContext), not a per-configurator SKU
+// step, so this match is computed here rather than via a step option's `auto_bundle`.
+
+interface HkbFitmentKit {
+  sku: string;
+  vehicle: string;
+  roof_width: string;
+  compatible_lengths: string[];
+}
+
+const HKB_FITMENT_KITS: HkbFitmentKit[] =
+  (knowledgePackageData as { vehicle_fitment_kits?: { kits?: HkbFitmentKit[] } })
+    .vehicle_fitment_kits?.kits ?? [];
+
+/**
+ * Matches the selected vehicle + the currently resolved bar length against the
+ * HKB kit list. Uses the vehicle's make and the first word of its model (e.g.
+ * "Explorer" from "Explorer PIU", "Tahoe" from "Tahoe PPV / SSV") as a loose
+ * keyword match against each kit's free-text `vehicle` field, narrowed by
+ * `compatible_lengths` so the right kit is chosen when a vehicle has more than
+ * one (e.g. Ford F-150 has separate kits for 44"-48" vs 51"-53" bars).
+ */
+function findMatchingHkbKit(
+  kits: HkbFitmentKit[],
+  vehicle: ConfiguratorVehicleSelection | null,
+  lengthAttr: string | null | undefined,
+): HkbFitmentKit | null {
+  if (!vehicle?.make || !vehicle?.model || !lengthAttr) return null;
+  const make = String(vehicle.make).toLowerCase();
+  const modelKeyword = String(vehicle.model).trim().split(/\s+/)[0]?.toLowerCase();
+  if (!modelKeyword) return null;
+  const lengthSegment = `${lengthAttr}"`;
+  return kits.find(kit => {
+    const v = kit.vehicle.toLowerCase();
+    return v.includes(make) && v.includes(modelKeyword) && kit.compatible_lengths.includes(lengthSegment);
+  }) ?? null;
+}
 
 // ─── SKU Filtering Engine ──────────────────────────────────────────────────
 
@@ -177,17 +219,19 @@ function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegm
   return (
     <div style={{ marginBottom: 28 }}>
       <SectionHeader number="01" label={section.label} description={section.description} />
-      {steps.map(step => (
-        <FilterStep
-          key={step.id}
-          step={step}
-          skuOptions={skuOptions}
-          selections={selections}
-          steps={steps}
-          onSelect={onSelect}
-          recommendedSegments={recommendedSegments}
-        />
-      ))}
+      <div className="flex flex-col gap-1">
+        {steps.map(step => (
+          <FilterStep
+            key={step.id}
+            step={step}
+            skuOptions={skuOptions}
+            selections={selections}
+            steps={steps}
+            onSelect={onSelect}
+            recommendedSegments={recommendedSegments}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -218,7 +262,7 @@ function FilterStep({ step, skuOptions, selections, steps, onSelect, recommended
           </span>
         )}
       </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+      <div className="flex flex-wrap gap-1.5 sm:gap-2">
         {step.options.map(opt => {
           const isSelected = currentVal === opt.id;
           const isRecommended = recommendedSegments.includes(opt.skuSegment);
@@ -311,7 +355,7 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, comme
         </span>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
+      <div className="overflow-x-auto">
         <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse', ...FS }}>
           <thead>
             <tr style={{ background: '#1a2744', color: '#fff' }}>
@@ -396,16 +440,28 @@ interface AccessoriesSectionProps {
   section: ConfiguratorSection;
   selectedAccessories: string[];
   onToggle: (itemId: string) => void;
+  /** IDs of accessory items auto-bundled by a currently-selected step option (e.g. vehicle fitment) or by vehicle match — shown as a distinct group, always included, never manually toggled. */
+  autoIncludedIds?: Set<string>;
 }
 
-function AccessoriesSection({ section, selectedAccessories, onToggle }: AccessoriesSectionProps) {
+function AccessoriesSection({ section, selectedAccessories, onToggle, autoIncludedIds }: AccessoriesSectionProps) {
   const items = section.items ?? [];
-  const required = items.filter(i => i.type === 'required');
-  const optional = items.filter(i => i.type !== 'required');
+  const autoIds = autoIncludedIds ?? new Set<string>();
+  const autoIncluded = items.filter(i => autoIds.has(i.id));
+  const required = items.filter(i => i.type === 'required' && !autoIds.has(i.id));
+  const optional = items.filter(i => i.type !== 'required' && !autoIds.has(i.id));
 
   return (
     <div style={{ marginBottom: 28 }}>
       <SectionHeader number="03" label="Build Your Package" description="Add required installation components and optional upgrades. Every item below is an existing Federal Signal SKU." />
+      {autoIncluded.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#15803d', marginBottom: 6 }}>
+            Auto-Included For Your Selection
+          </p>
+          {autoIncluded.map(item => <AccessoryRow key={item.id} item={item} checked forceChecked autoBundled />)}
+        </div>
+      )}
       {required.length > 0 && (
         <div style={{ marginBottom: 16 }}>
           <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#991b1b', marginBottom: 6 }}>
@@ -438,17 +494,18 @@ interface AccessoryRowProps {
   checked: boolean;
   onToggle?: () => void;
   forceChecked?: boolean;
+  autoBundled?: boolean;
 }
 
-function AccessoryRow({ item, checked, onToggle, forceChecked }: AccessoryRowProps) {
+function AccessoryRow({ item, checked, onToggle, forceChecked, autoBundled }: AccessoryRowProps) {
   return (
     <div
       onClick={() => !forceChecked && onToggle?.()}
       style={{
         display: 'flex', alignItems: 'center', gap: 10,
         padding: '8px 12px', marginBottom: 4,
-        background: checked ? '#f0fdf4' : '#fafafa',
-        border: `1px solid ${checked ? '#bbf7d0' : '#e5e7eb'}`,
+        background: autoBundled ? '#f0fdf4' : checked ? '#f0fdf4' : '#fafafa',
+        border: `1px solid ${autoBundled ? '#86efac' : checked ? '#bbf7d0' : '#e5e7eb'}`,
         cursor: forceChecked ? 'default' : 'pointer',
       }}
     >
@@ -460,6 +517,11 @@ function AccessoryRow({ item, checked, onToggle, forceChecked }: AccessoryRowPro
       <div style={{ flex: 1 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: '#1a1a1a' }}>{item.label}</span>
         {item.sku && <span style={{ marginLeft: 8, fontFamily: 'monospace', fontSize: 11, color: '#6b7280' }}>{item.sku}</span>}
+        {autoBundled && (
+          <span style={{ marginLeft: 6, fontSize: 9, fontWeight: 700, color: '#15803d', background: '#dcfce7', padding: '1px 5px', border: '1px solid #bbf7d0' }}>
+            AUTO-MATCHED
+          </span>
+        )}
         {item._note && <span style={{ marginLeft: 6, fontSize: 10, color: '#9ca3af', fontStyle: 'italic' }}>⚠ {item._note}</span>}
       </div>
       <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', flexShrink: 0 }}>
@@ -733,6 +795,72 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   // Shopify variant (variant ID, live price, availability, cart-eligibility).
   const { resolution: resolvedVariant } = useShopifyVariantResolver(resolvedSkuObj?.sku ?? null);
 
+  // Vehicle Fitment Kit (HKB) auto-bundle — matches the globally-selected
+  // vehicle (VehicleContext) and the resolved bar length against the
+  // ground-truth Hook Mount Reference Guide.
+  const matchedHkbKit = useMemo(
+    () => findMatchingHkbKit(HKB_FITMENT_KITS, selectedVehicle, resolvedSkuObj?.attributes?.length ?? null),
+    [selectedVehicle, resolvedSkuObj]
+  );
+  const hkbCommerce = useMemo(
+    () => (matchedHkbKit ? lookupSkus([matchedHkbKit.sku])[matchedHkbKit.sku] : null),
+    [matchedHkbKit]
+  );
+  const hkbAccessoryItem = useMemo<ConfiguratorAccessoryItem | null>(() => {
+    if (!matchedHkbKit) return null;
+    return {
+      id: 'auto-hkb-fitment',
+      label: `Vehicle Hook Mount Kit — ${matchedHkbKit.vehicle}`,
+      sku: matchedHkbKit.sku,
+      price: hkbCommerce?.price ?? null,
+      type: 'required',
+    };
+  }, [matchedHkbKit, hkbCommerce]);
+
+  // Generic auto_bundle support: any SKU-filter step option can declare
+  // `auto_bundle: [accessoryItemId, ...]` (schema-defined, e.g. the vehicle
+  // fitment step in spectralux-ils-configurator.json). When that option is
+  // currently selected, the referenced accessories are auto-included instead
+  // of left as manually-toggled optional items.
+  const activeAutoBundleIds = useMemo(() => {
+    const ids = new Set<string>();
+    skuSteps.forEach(step => {
+      const selectedOptId = filterSelections[step.id];
+      if (!selectedOptId) return;
+      const opt = step.options.find(o => o.id === selectedOptId);
+      opt?.auto_bundle?.forEach(id => ids.add(id));
+    });
+    return ids;
+  }, [skuSteps, filterSelections]);
+
+  // Every accessory item id referenced by ANY option's auto_bundle, selected
+  // or not — used to hide auto-bundle-eligible items belonging to an
+  // unselected option (e.g. another vehicle's fitment kit) rather than
+  // showing all of them unconditionally.
+  const autoBundleUniverseIds = useMemo(() => {
+    const ids = new Set<string>();
+    skuSteps.forEach(step => step.options.forEach(opt => opt.auto_bundle?.forEach(id => ids.add(id))));
+    return ids;
+  }, [skuSteps]);
+
+  const effectiveAccessoryItems = useMemo<ConfiguratorAccessoryItem[]>(() => {
+    const base = (sections?.accessories?.items ?? []).filter(
+      item => !autoBundleUniverseIds.has(item.id) || activeAutoBundleIds.has(item.id)
+    );
+    return hkbAccessoryItem ? [...base, hkbAccessoryItem] : base;
+  }, [sections, autoBundleUniverseIds, activeAutoBundleIds, hkbAccessoryItem]);
+
+  const effectiveAccessoriesSection = useMemo<ConfiguratorSection | undefined>(() => {
+    if (!sections?.accessories) return undefined;
+    return { ...sections.accessories, items: effectiveAccessoryItems };
+  }, [sections, effectiveAccessoryItems]);
+
+  const forcedAutoAccessoryIds = useMemo(() => {
+    const ids = new Set(activeAutoBundleIds);
+    if (hkbAccessoryItem) ids.add(hkbAccessoryItem.id);
+    return ids;
+  }, [activeAutoBundleIds, hkbAccessoryItem]);
+
   const handleFilterSelect = useCallback((stepId: string, optionId: string) => {
     setFilterSelections(prev => {
       const next = prev[stepId] === optionId
@@ -758,7 +886,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   // Build quote payload when a SKU row is selected
   const quotePayload = useMemo<ConfiguratorQuotePayload | null>(() => {
     if (!resolvedSkuObj) return null;
-    const accItems = sections?.accessories?.items ?? [];
+    const accItems = effectiveAccessoryItems;
     const selectedOptAccs = accItems.filter(i => i.type !== 'required' && accessories.includes(i.id));
     const reviewFlags = [
       ...(selectedVehicle ? [] : ['No vehicle selected — vehicle-specific fitment not confirmed']),
@@ -803,7 +931,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       reviewFlags,
       checkoutReady: resolvedVariant?.canAddToCart ?? false,
     };
-  }, [resolvedSkuObj, resolvedVariant, filterSelections, skuSteps, accessories, sections, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
+  }, [resolvedSkuObj, resolvedVariant, filterSelections, skuSteps, accessories, effectiveAccessoryItems, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
 
   // Surface the existing quote payload to composing parents (Configurator Experience)
   // without changing any configurator behavior — additive and optional.
@@ -822,7 +950,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       }}>
         <div>
           <p style={{ margin: 0, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            Product Configurator
+            TFRSupply Configurator
           </p>
           <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>{productFamily}</p>
         </div>
@@ -863,23 +991,17 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         />
 
         {/* Section 3 — Build Your Package (shown after SKU selected) */}
-        {showPackage && sections?.accessories && (
+        {showPackage && effectiveAccessoriesSection && (
           <AccessoriesSection
-            section={sections.accessories}
+            section={effectiveAccessoriesSection}
             selectedAccessories={accessories}
             onToggle={handleToggleAccessory}
+            autoIncludedIds={forcedAutoAccessoryIds}
           />
         )}
 
         {/* Quote */}
-        <QuotePanel quotePayload={quotePayload} accSection={sections?.accessories} />
-      </div>
-
-      {/* Prototype watermark */}
-      <div style={{ borderTop: '1px solid #f0f0f0', padding: '8px 20px', background: '#fafafa' }}>
-        <p style={{ margin: 0, fontSize: 10, color: '#bbb', letterSpacing: '0.04em' }}>
-          ⚠ PROTOTYPE — No Shopify connection. Data sourced from TFRSupply Configurator Master v5.
-        </p>
+        <QuotePanel quotePayload={quotePayload} accSection={effectiveAccessoriesSection} />
       </div>
 
       {/* Vehicle selector modal — same existing component */}
