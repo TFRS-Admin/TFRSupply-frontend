@@ -4,7 +4,15 @@ import type { ShopifyStorefrontClientConfig } from './shopifyStorefront';
 
 export type ShopifyStorefrontCartAdapterMode = 'mock' | 'unavailable' | 'live';
 export type ShopifyStorefrontCartStatus = 'not-started' | 'dry-run' | 'succeeded' | 'failed' | 'adapter-unavailable';
-export type ShopifyStorefrontCartErrorCode = 'validation-error' | 'unmapped-line' | 'adapter-unavailable' | 'live-calls-disabled' | 'unknown';
+export type ShopifyStorefrontCartErrorCode =
+  | 'validation-error'
+  | 'unmapped-line'
+  | 'adapter-unavailable'
+  | 'live-calls-disabled'
+  | 'configuration-error'
+  | 'network-error'
+  | 'shopify-error'
+  | 'unknown';
 
 /**
  * A single Cart Workspace line (src/types/cartWorkspace.ts CartLineItem)
