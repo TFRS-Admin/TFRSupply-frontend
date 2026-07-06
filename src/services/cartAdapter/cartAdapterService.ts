@@ -6,9 +6,10 @@ import {
 } from '@/adapters/shopifyStorefrontCart';
 import { cartAdapterStatusSnapshotSchema } from '@/schemas/cartAdapter.schema';
 import { cartWorkspaceService, type CartWorkspaceService } from '@/services/cartWorkspace';
-import { commerceService, type CommerceService } from '@/services/commerce';
+import type { CommerceService } from '@/services/commerce';
 import { shopifyStorefrontConfigService } from '@/services/shopifyStorefrontConfig';
 import { createShopifyStorefrontCartService, type ShopifyStorefrontCartService } from '@/services/shopifyStorefrontCart';
+import { shopifyVariantResolverCommerceService } from '@/services/shopifyVariantResolver';
 import type {
   CartAdapterDiagnostic,
   CartAdapterMode,
@@ -130,7 +131,7 @@ export interface CartAdapterService {
  */
 export function createCartAdapterService(
   cartWorkspace: CartWorkspaceService = cartWorkspaceService,
-  commerce: CommerceService = commerceService,
+  commerce: Pick<CommerceService, 'prepareCartLine'> = shopifyVariantResolverCommerceService,
 ): CartAdapterService {
   let mode: CartAdapterMode = resolveInitialMode();
   let activeAdapter: ShopifyStorefrontCartAdapter = adapterForMode(mode);

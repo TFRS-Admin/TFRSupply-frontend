@@ -1,7 +1,8 @@
 import { mockCartWorkspaceAdapter, type CartWorkspaceAdapter } from '@/adapters/cartWorkspace';
 import { addMoney } from '@/domain/pricing';
 import { cartCheckoutPreparationResultSchema, cartLineInputSchema, cartStateSchema, cartValidationResultSchema } from '@/schemas/cartWorkspace.schema';
-import { commerceService, type CommerceService } from '@/services/commerce';
+import type { CommerceService } from '@/services/commerce';
+import { shopifyVariantResolverCommerceService } from '@/services/shopifyVariantResolver';
 import type {
   CartCheckoutLinePayload,
   CartCheckoutPreparationResult,
@@ -75,7 +76,7 @@ export function validateCartLines(lines: CartLineItem[]): CartValidationResult {
 
 export function createCartWorkspaceService(
   adapter: CartWorkspaceAdapter = mockCartWorkspaceAdapter,
-  commerce: CommerceService = commerceService,
+  commerce: Pick<CommerceService, 'prepareCartLine'> = shopifyVariantResolverCommerceService,
 ): CartWorkspaceService {
   const listeners = new Set<() => void>();
 
@@ -127,11 +128,13 @@ export function createCartWorkspaceService(
     },
 
     /**
-     * Composes the existing Commerce Foundation (commerceService.prepareCartLine)
-     * per line to prepare a future Shopify checkout payload. No Shopify API is
-     * called and no checkout is performed — commerceService's default adapter
-     * is unavailable, so every line resolves to a pending/not-ready CartLineDraft
-     * until a real commerce adapter is connected in a dedicated issue.
+     * Prepares a future Shopify checkout payload per line via the Shopify
+     * Variant Resolver (shopifyVariantResolverCommerceService, defaulting to
+     * resolveCartLineDraft) — the same resolver contract the configurator's
+     * Add to Cart gate already reads (canAddToCart). No Shopify API is called
+     * and no checkout is performed; a line is only "ready" once a real
+     * Shopify Variant GID exists for its SKU in the Variant Index or a live
+     * Commerce Foundation mapping is connected.
      */
     async prepareCheckout(): Promise<CartCheckoutPreparationResult> {
       const lines = await adapter.getLines();

@@ -2,7 +2,8 @@ import { liveShopifyStorefrontCartAdapter, mockShopifyStorefrontCartAdapter, una
 import { addMoney } from '@/domain/pricing';
 import { shopifyStorefrontCartRequestSchema, shopifyStorefrontCartResultSchema } from '@/schemas/shopifyStorefrontCart.schema';
 import { cartWorkspaceService, type CartWorkspaceService } from '@/services/cartWorkspace';
-import { commerceService, type CommerceService } from '@/services/commerce';
+import type { CommerceService } from '@/services/commerce';
+import { shopifyVariantResolverCommerceService } from '@/services/shopifyVariantResolver';
 import type {
   CartLineItem,
   ShopifyStorefrontCartAdapterMode,
@@ -35,13 +36,13 @@ function inferAdapterMode(adapter: ShopifyStorefrontCartAdapter): ShopifyStorefr
 }
 
 /**
- * Maps a single Cart Workspace line to a ShopifyStorefrontCartLine by
- * reusing the existing Commerce Foundation (commerceService.prepareCartLine),
+ * Maps a single Cart Workspace line to a ShopifyStorefrontCartLine via the
+ * Shopify Variant Resolver's prepareCartLine (shopifyVariantResolverCommerceService),
  * the same call cartWorkspaceService.prepareCheckout() and
  * checkoutPreparationService already make. No commerce lookup logic is
  * reimplemented here.
  */
-async function mapCartLine(line: CartLineItem, commerce: CommerceService): Promise<ShopifyStorefrontCartLine> {
+async function mapCartLine(line: CartLineItem, commerce: Pick<CommerceService, 'prepareCartLine'>): Promise<ShopifyStorefrontCartLine> {
   const result = await commerce.prepareCartLine(line.sku, line.quantity);
   const variantMapping = result.status === 'ready' ? result.data?.variantMapping : null;
   const merchandiseId = variantMapping?.shopifyVariantGid ?? variantMapping?.shopifyVariantId ?? null;
@@ -74,7 +75,7 @@ function buildCartMutationPreview(cartLines: ShopifyStorefrontCartLine[]): Shopi
 export function createShopifyStorefrontCartService(
   adapter: ShopifyStorefrontCartAdapter = unavailableShopifyStorefrontCartAdapter,
   cartWorkspace: CartWorkspaceService = cartWorkspaceService,
-  commerce: CommerceService = commerceService,
+  commerce: Pick<CommerceService, 'prepareCartLine'> = shopifyVariantResolverCommerceService,
 ): ShopifyStorefrontCartService {
   const adapterMode = inferAdapterMode(adapter);
 

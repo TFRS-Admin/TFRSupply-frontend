@@ -15,8 +15,29 @@ before(async () => {
     hooks: await server.ssrLoadModule('/src/hooks/cartWorkspace/index.ts'),
     schemas: await server.ssrLoadModule('/src/schemas/cartWorkspace.schema.ts'),
     commerceService: await server.ssrLoadModule('/src/services/commerce/commerceService.ts'),
+    variantResolver: await server.ssrLoadModule('/src/services/shopifyVariantResolver/shopifyVariantResolverService.ts'),
   };
 });
+
+/**
+ * Builds a `Pick<CommerceService, 'prepareCartLine'>` backed by a Shopify
+ * Variant Resolver instance whose Commerce Foundation adapter is fully under
+ * test control — the same seam ConfiguratorCommerceActions' canAddToCart
+ * gate reads, so these tests prove the cart/checkout pipeline agrees with
+ * the configurator instead of asserting against a hand-rolled fake shape.
+ */
+function resolverBackedCommerce(mappingBySku) {
+  const { createShopifyVariantResolverService, resolveCartLineDraft } = modules.variantResolver;
+  const resolver = createShopifyVariantResolverService({
+    async getShopifyProduct() { return { status: 'ready', data: null }; },
+    async getShopifyVariant() { return { status: 'ready', data: null }; },
+    async getVariantMapping(sku) {
+      const mapping = mappingBySku[sku];
+      return mapping ? { status: 'ready', data: mapping } : { status: 'pending', data: null };
+    },
+  });
+  return { prepareCartLine: (sku, quantity) => resolveCartLineDraft(sku, quantity, resolver) };
+}
 
 after(async () => {
   await server?.close();
@@ -153,7 +174,7 @@ describe('cartWorkspaceService orchestration', () => {
     assert.ok(result.lines.every((line) => line.cartLineDraft?.variantMapping.shopifyVariantId));
   });
 
-  it('reports an incomplete checkout status when the commerce adapter is unavailable', async () => {
+  it('reports an incomplete checkout status by default — no Shopify Variant GID is committed yet for any fixture SKU', async () => {
     const { createCartWorkspaceService } = modules.service;
     const { createMockCartWorkspaceAdapter } = modules.adapters;
 
@@ -162,6 +183,40 @@ describe('cartWorkspaceService orchestration', () => {
 
     assert.equal(result.status, 'incomplete');
     assert.ok(result.lines.every((line) => line.ready === false));
+  });
+
+  it('reports a ready checkout status via the Shopify Variant Resolver once a line SKU has a mapped Shopify Variant GID', async () => {
+    const { createCartWorkspaceService } = modules.service;
+    const { createMockCartWorkspaceAdapter } = modules.adapters;
+    const { cartWorkspaceFixtureLines } = modules.adapters;
+
+    const commerce = resolverBackedCommerce(
+      Object.fromEntries(cartWorkspaceFixtureLines.map((line) => [
+        line.sku,
+        { sku: line.sku, shopifyVariantId: `gid://shopify/ProductVariant/${line.sku}`, price: { amount: 100, currencyCode: 'USD' } },
+      ])),
+    );
+
+    const service = createCartWorkspaceService(createMockCartWorkspaceAdapter(), commerce);
+    const result = await service.prepareCheckout();
+
+    assert.equal(result.status, 'ready');
+    assert.ok(result.lines.every((line) => line.ready));
+    assert.ok(result.lines.every((line) => line.cartLineDraft?.variantMapping.shopifyVariantGid?.startsWith('gid://shopify/ProductVariant/')));
+  });
+
+  it('keeps checkout honestly blocked via the Shopify Variant Resolver when a line SKU has no mapped Shopify Variant GID', async () => {
+    const { createCartWorkspaceService } = modules.service;
+    const { createMockCartWorkspaceAdapter } = modules.adapters;
+
+    const commerce = resolverBackedCommerce({}); // no SKU has a mapping
+
+    const service = createCartWorkspaceService(createMockCartWorkspaceAdapter(), commerce);
+    const result = await service.prepareCheckout();
+
+    assert.equal(result.status, 'incomplete');
+    assert.ok(result.lines.every((line) => line.ready === false));
+    assert.ok(result.lines.every((line) => line.cartLineDraft === null));
   });
 
   it('reports an unavailable checkout status for an empty cart', async () => {

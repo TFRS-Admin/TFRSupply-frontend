@@ -1,7 +1,8 @@
 import { mockCheckoutPreparationAdapter, type CheckoutPreparationAdapter } from '@/adapters/checkoutPreparation';
 import { checkoutPreparationRequestSchema, checkoutPreparationResultSchema } from '@/schemas/checkoutPreparation.schema';
 import { cartWorkspaceService, type CartWorkspaceService } from '@/services/cartWorkspace';
-import { commerceService, type CommerceService } from '@/services/commerce';
+import type { CommerceService } from '@/services/commerce';
+import { shopifyVariantResolverCommerceService } from '@/services/shopifyVariantResolver';
 import type {
   CartLineDraft,
   CartLineItem,
@@ -29,11 +30,13 @@ interface LineValidationOutcome {
  * cart-level severity comes from cartWorkspaceService.validateCart(),
  * configuration/package completeness comes from the CartLineItem contract
  * already populated by the Cart Workspace / Configurator / Package Builder
- * experiences, and commerce availability comes from the existing
- * commerceService.prepareCartLine() (Commerce Foundation). No pricing,
+ * experiences, and commerce availability comes from the Shopify Variant
+ * Resolver's prepareCartLine (shopifyVariantResolverCommerceService) — the
+ * same canAddToCart contract the configurator's Add to Cart gate reads, so a
+ * SKU is never "ready" in one place and blocked in the other. No pricing,
  * inventory, or Shopify logic is reimplemented here.
  */
-async function validateLine(line: CartLineItem, cartIssues: { code: string; severity: string; message: string }[], commerce: CommerceService): Promise<LineValidationOutcome> {
+async function validateLine(line: CartLineItem, cartIssues: { code: string; severity: string; message: string }[], commerce: Pick<CommerceService, 'prepareCartLine'>): Promise<LineValidationOutcome> {
   const blockers: CheckoutBlocker[] = [];
   const warnings: CheckoutWarning[] = [];
 
@@ -91,7 +94,7 @@ async function validateLine(line: CartLineItem, cartIssues: { code: string; seve
 export function createCheckoutPreparationService(
   adapter: CheckoutPreparationAdapter = mockCheckoutPreparationAdapter,
   cartWorkspace: CartWorkspaceService = cartWorkspaceService,
-  commerce: CommerceService = commerceService,
+  commerce: Pick<CommerceService, 'prepareCartLine'> = shopifyVariantResolverCommerceService,
 ): CheckoutPreparationService {
   return {
     async prepareCheckout(request): Promise<CheckoutPreparationResult> {
