@@ -53,14 +53,14 @@
     "subtitle": "Explore exterior and interior warning lights, sirens, speakers, directional lighting, and more.",
     "cta": { "label": "Get Help From a Sales Rep", "href": "#" },
     "items": [
-      { "label": "Light Bars",           "icon": "Layers",        "categoryId": "light-bars",  "desc": "Get safe and reliable LED light bars equipped with exclusive technologies." },
-      { "label": "Sirens & Speakers",    "icon": "Volume2",       "categoryId": null,          "desc": "Grab the attention of drivers and clear the path for a safe arrival to the scene." },
-      { "label": "Perimeter Lights",     "icon": "Lightbulb",     "categoryId": null,          "desc": "Install additional warnings around the perimeter of your police car." },
-      { "label": "SignalMasters",        "icon": "ArrowRight",    "categoryId": null,          "desc": "Direct rear-approaching vehicles away from the scene for added safety." },
-      { "label": "Push Bumpers",         "icon": "Shield",        "categoryId": null,          "desc": "Maximize safety with tools designed for durability and protection." },
-      { "label": "Stinger Spike System", "icon": "AlertTriangle", "categoryId": null,          "desc": "Control the situation with systems that support quick and reliable de-escalation." },
-      { "label": "Compartment Lights",   "icon": "Lightbulb",     "categoryId": null,          "desc": "Take action with innovative compartment lighting." },
-      { "label": "Police Accessories",   "icon": "Zap",           "categoryId": null,          "desc": "Provide additional security with a variety of accessories and signaling devices." }
+      { "label": "Light Bars",           "icon": "Layers",        "categoryId": "light-bars",       "href": "/police/light-bars",       "desc": "Get safe and reliable LED light bars equipped with exclusive technologies." },
+      { "label": "Sirens & Speakers",    "icon": "Volume2",       "categoryId": "sirens-speakers",  "href": "/police/sirens-speakers",  "desc": "Grab the attention of drivers and clear the path for a safe arrival to the scene." },
+      { "label": "Perimeter Lights",     "icon": "Lightbulb",     "categoryId": "perimeter-lights", "href": "/police/perimeter-lights", "desc": "Install additional warnings around the perimeter of your police car." },
+      { "label": "SignalMasters",        "icon": "ArrowRight",    "categoryId": "signal-masters",   "href": "/police/signal-masters",   "desc": "Direct rear-approaching vehicles away from the scene for added safety." },
+      { "label": "Push Bumpers",         "icon": "Shield",        "categoryId": "push-bumpers",     "href": "/police/push-bumpers",     "desc": "Maximize safety with tools designed for durability and protection." },
+      { "label": "Stinger Spike System", "icon": "AlertTriangle", "categoryId": "stinger-spike",    "href": "/police/stinger-spike",    "desc": "Control the situation with systems that support quick and reliable de-escalation." },
+      { "label": "Compartment Lights",   "icon": "Lightbulb",     "categoryId": "compartment-lights", "href": "/police/compartment-lights", "desc": "Take action with innovative compartment lighting." },
+      { "label": "Police Accessories",   "icon": "Zap",           "categoryId": "police-accessories", "href": "/police/police-accessories", "desc": "Provide additional security with a variety of accessories and signaling devices." }
     ]
   },
   "configurators_section": {
