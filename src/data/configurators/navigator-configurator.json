@@ -1,6 +1,6 @@
 {
-  "_source": "Federal Signal Navigator® Light Bar — full real-catalog rebuild from shopify-variant-index.json (2026-07-06). Filter + Add-ons model: skuOptions never invents SKUs, only reflects existing Shopify variants.",
-  "_note": "Length and Control Architecture (Discrete \"D\" vs Serial \"Z\", read directly from each SKU code) are directly evidenced by the SKU string and treated as confirmed filters. Color Package (single- vs dual-color) is inferred from the numeric count embedded in MUNI/AMBR/mini-line suffix codes where present; SKUs using NFPA-only suffix codes (NFPA20-24) do not expose that count and are left unset so the soft filter never falsely eliminates them. Illumination Technology and Dome/Bulkhead Styling cannot be reliably decoded from the SKU suffix codes alone (e.g. NFPA20, TOW2FC, AMBR3RFC) and are presented as informational steps pending confirmation against the Federal Signal spec sheet — they do not narrow the SKU list.",
+  "_source": "TFR Supply Navigator® Light Bar — rebuilt from ground-truth docs/knowledge/configurator_data.json (product_families.navigator.sku_map), 2026-07-06.",
+  "_note": "All 10 Navigator SKUs from the ground-truth sku_map, spanning the full 10\"-87\" length range — Fire vertical only. Network (Discrete vs Convergence) and Mount (Flat/Riser/Hook) are read directly from the sku_map's confirmed fields, replacing the prior 'control architecture' (Discrete/Serial) and informational-only illumination/dome steps, which covered a broader (non-ground-truth) 50-SKU catalog. NVG10D-NFPA21-D and -P (Driver/Passenger side) share identical length/network/mount and both resolve together in the SKU results table. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
   "id": "navigator-configurator",
   "productId": "navigator",
   "productFamily": "Navigator® Light Bar",
@@ -8,380 +8,100 @@
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
     {
-      "sku": "NVG10-3AF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG10-4ABF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "dual"
-      }
-    },
-    {
-      "sku": "NVG10-4AF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG10-4AGF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "dual"
-      }
-    },
-    {
-      "sku": "NVG10-4AWF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "dual"
-      }
-    },
-    {
-      "sku": "NVG10-AAF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG10-ABF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "dual"
-      }
-    },
-    {
-      "sku": "NVG10-AGF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "dual"
-      }
-    },
-    {
-      "sku": "NVG10-AWF",
-      "attributes": {
-        "length": "10",
-        "control": "discrete",
-        "colorPackage": "dual"
-      }
-    },
-    {
-      "sku": "NVG10D-NFPA20",
-      "attributes": {
-        "length": "10",
-        "control": "discrete"
-      }
-    },
-    {
       "sku": "NVG10D-NFPA21-D",
+      "description": "Navigator 10\" Fire — Discrete — Flat Mount (Driver Side)",
       "attributes": {
         "length": "10",
-        "control": "discrete"
+        "network": "discrete",
+        "mount": "flat"
       }
     },
     {
       "sku": "NVG10D-NFPA21-P",
+      "description": "Navigator 10\" Fire — Discrete — Flat Mount (Passenger Side)",
       "attributes": {
         "length": "10",
-        "control": "discrete"
+        "network": "discrete",
+        "mount": "flat"
       }
     },
     {
-      "sku": "NVG10D-NFPA22-D",
+      "sku": "NVG10D-NFPA20",
+      "description": "Navigator 10\" Fire — Discrete — Flat Mount",
       "attributes": {
         "length": "10",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG10D-NFPA22-P",
-      "attributes": {
-        "length": "10",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG18D-AMBR1FC",
-      "attributes": {
-        "length": "18",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG18D-AMBR1RFC",
-      "attributes": {
-        "length": "18",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG18D-MUNI1RFC",
-      "attributes": {
-        "length": "18",
-        "control": "discrete",
-        "colorPackage": "single"
+        "network": "discrete",
+        "mount": "flat"
       }
     },
     {
       "sku": "NVG18D-NFPA20-D",
+      "description": "Navigator 18\" Fire — Discrete — Riser Mount",
       "attributes": {
         "length": "18",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG18D-NFPA20-P",
-      "attributes": {
-        "length": "18",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG25D-AMBR1FC",
-      "attributes": {
-        "length": "25",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG25D-AMBR1RFB",
-      "attributes": {
-        "length": "25",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG25D-AMBR1RFC",
-      "attributes": {
-        "length": "25",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG25D-MUNI2RFC",
-      "attributes": {
-        "length": "25",
-        "control": "discrete",
-        "colorPackage": "dual"
+        "network": "discrete",
+        "mount": "riser"
       }
     },
     {
       "sku": "NVG25D-NFPA20-D",
+      "description": "Navigator 25\" Fire — Discrete — Riser Mount",
       "attributes": {
         "length": "25",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG25D-NFPA20-P",
-      "attributes": {
-        "length": "25",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG25D-NFPA21",
-      "attributes": {
-        "length": "25",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG45Z-MUNI1HC6",
-      "attributes": {
-        "length": "45",
-        "control": "serial",
-        "colorPackage": "single"
+        "network": "discrete",
+        "mount": "riser"
       }
     },
     {
       "sku": "NVG45Z-NFPA20",
+      "description": "Navigator 45\" Fire — Convergence — Hook Mount",
       "attributes": {
         "length": "45",
-        "control": "serial"
-      }
-    },
-    {
-      "sku": "NVG45Z-NFPA21",
-      "attributes": {
-        "length": "45",
-        "control": "serial"
-      }
-    },
-    {
-      "sku": "NVG53D-MUNI1HC",
-      "attributes": {
-        "length": "53",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG53D-MUNI1RHC",
-      "attributes": {
-        "length": "53",
-        "control": "discrete",
-        "colorPackage": "single"
-      }
-    },
-    {
-      "sku": "NVG53Z-MUNI1RHC6",
-      "attributes": {
-        "length": "53",
-        "control": "serial",
-        "colorPackage": "single"
+        "network": "convergence",
+        "mount": "hook"
       }
     },
     {
       "sku": "NVG53Z-NFPA20",
+      "description": "Navigator 53\" Fire — Convergence — Hook Mount",
       "attributes": {
         "length": "53",
-        "control": "serial"
-      }
-    },
-    {
-      "sku": "NVG53Z-NFPA21",
-      "attributes": {
-        "length": "53",
-        "control": "serial"
+        "network": "convergence",
+        "mount": "hook"
       }
     },
     {
       "sku": "NVG60D-NFPA20",
+      "description": "Navigator 60\" Fire — Discrete — Riser Mount",
       "attributes": {
         "length": "60",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG60D-NFPA21",
-      "attributes": {
-        "length": "60",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG60D-NFPA22",
-      "attributes": {
-        "length": "60",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG60D-TOW1FC",
-      "attributes": {
-        "length": "60",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG60D-TOW2FC",
-      "attributes": {
-        "length": "60",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG60Z-TOW2FC6",
-      "attributes": {
-        "length": "60",
-        "control": "serial"
-      }
-    },
-    {
-      "sku": "NVG73D-AMBR1FC",
-      "attributes": {
-        "length": "73",
-        "control": "discrete",
-        "colorPackage": "single"
+        "network": "discrete",
+        "mount": "riser"
       }
     },
     {
       "sku": "NVG73D-NFPA20",
+      "description": "Navigator 73\" Fire — Discrete — Riser Mount",
       "attributes": {
         "length": "73",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG73D-NFPA21",
-      "attributes": {
-        "length": "73",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG73D-NFPA22",
-      "attributes": {
-        "length": "73",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG73D-NFPA23",
-      "attributes": {
-        "length": "73",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG73D-NFPA24",
-      "attributes": {
-        "length": "73",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG73D-TOW5FC",
-      "attributes": {
-        "length": "73",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG87D-AMBR3RFC",
-      "attributes": {
-        "length": "87",
-        "control": "discrete",
-        "colorPackage": "dual"
+        "network": "discrete",
+        "mount": "riser"
       }
     },
     {
       "sku": "NVG87D-NFPA20",
+      "description": "Navigator 87\" Fire — Discrete — Riser Mount",
       "attributes": {
         "length": "87",
-        "control": "discrete"
-      }
-    },
-    {
-      "sku": "NVG87D-NFPA22",
-      "attributes": {
-        "length": "87",
-        "control": "discrete"
+        "network": "discrete",
+        "mount": "riser"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "Each selection narrows the available Navigator variants down to a single existing SKU. Only combinations that exist in the Shopify catalog are enabled.",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the ground-truth SKU list are enabled.",
       "steps": [
         {
           "id": "length",
@@ -400,25 +120,25 @@
               "id": "18in",
               "label": "18\"",
               "skuSegment": "18",
-              "description": "Compact series — smaller sedans and utility trucks"
+              "description": "Compact series — smaller apparatus"
             },
             {
               "id": "25in",
               "label": "25\"",
               "skuSegment": "25",
-              "description": "Compact series — mid-size vehicles"
+              "description": "Compact series — mid-size apparatus"
             },
             {
               "id": "45in",
               "label": "45\"",
               "skuSegment": "45",
-              "description": "Compact sedans and smaller SUVs"
+              "description": "Convergence Network — Type I ambulances"
             },
             {
               "id": "53in",
               "label": "53\"",
               "skuSegment": "53",
-              "description": "Full-size SUVs and pickups"
+              "description": "Convergence Network — full-size apparatus"
             },
             {
               "id": "60in",
@@ -441,81 +161,50 @@
           ]
         },
         {
-          "id": "control",
-          "label": "Control Architecture",
+          "id": "network",
+          "label": "Network",
           "required": true,
-          "skuSegmentKey": "control",
+          "skuSegmentKey": "network",
           "_verification": "confirmed",
           "options": [
             {
               "id": "discrete",
-              "label": "Discrete Wired",
+              "label": "Discrete",
               "skuSegment": "discrete",
-              "description": "Available on all lengths"
+              "description": "10\"-25\" and 60\"-87\""
             },
             {
-              "id": "serial",
-              "label": "Serial (FS Convergence Network)",
-              "skuSegment": "serial",
-              "description": "Available on 45\", 53\", 60\" only"
+              "id": "convergence",
+              "label": "Convergence Network",
+              "skuSegment": "convergence",
+              "description": "45\" and 53\" only"
             }
           ]
         },
         {
-          "id": "illumination",
-          "label": "Illumination Technology",
-          "required": false,
-          "_verification": "needs_verification",
-          "_note": "No SKU-level attribute distinguishes All LED vs Mixed LED & Rotators in the current Shopify export. Informational only — does not filter the SKU list. Confirm per-SKU mapping against the Federal Signal spec sheet before enabling as a hard filter.",
+          "id": "mount",
+          "label": "Mount Style",
+          "required": true,
+          "skuSegmentKey": "mount",
+          "_verification": "confirmed",
           "options": [
             {
-              "id": "all-led",
-              "label": "All LED"
+              "id": "flat",
+              "label": "Flat",
+              "skuSegment": "flat",
+              "description": "10\" only"
             },
             {
-              "id": "mixed-led-rotators",
-              "label": "Mixed LED & Rotators"
-            }
-          ]
-        },
-        {
-          "id": "colorPackage",
-          "label": "Color Package",
-          "required": false,
-          "skuSegmentKey": "colorPackage",
-          "_verification": "needs_verification",
-          "_note": "Single/Dual is inferred from the numeric count in MUNI/AMBR/mini-line suffix codes (e.g. MUNI1 = single, MUNI2 = dual, AMBR1 = single, AMBR3 = dual/multi). NFPA-suffix SKUs do not expose this count, so they are left unfiltered by this step rather than guessed.",
-          "options": [
-            {
-              "id": "single",
-              "label": "Single-color",
-              "skuSegment": "single"
+              "id": "riser",
+              "label": "Riser",
+              "skuSegment": "riser",
+              "description": "18\", 25\", 60\", 73\", 87\""
             },
             {
-              "id": "dual",
-              "label": "Dual-color",
-              "skuSegment": "dual"
-            }
-          ]
-        },
-        {
-          "id": "domeBulkhead",
-          "label": "Dome and Bulkhead Styling",
-          "required": false,
-          "_verification": "needs_verification",
-          "_note": "No SKU-level attribute distinguishes dome/bulkhead styling in the current Shopify export. Informational only — does not filter the SKU list.",
-          "options": [
-            {
-              "id": "clear-domes",
-              "label": "Clear Domes"
-            },
-            {
-              "id": "clear-bulkheads",
-              "label": "Clear Bulkheads"
-            },
-            {
-              "id": "black-bulkheads",
-              "label": "Black Bulkheads"
+              "id": "hook",
+              "label": "Hook",
+              "skuSegment": "hook",
+              "description": "45\" and 53\" Convergence Network only"
             }
           ]
         }
@@ -523,11 +212,11 @@
     },
     "accessories": {
       "label": "Compatible Add-Ons",
-      "description": "Curated add-on SKUs surfaced based on the base Navigator SKU and control architecture selected. Items marked Needs Review do not yet have a confirmed SKU in the Shopify catalog — do not invent SKUs or prices.",
+      "description": "Curated add-on SKUs surfaced based on the base Navigator SKU and network selected. Items marked Needs Review do not yet have a confirmed SKU in the Shopify catalog — do not invent SKUs or prices.",
       "items": [
         {
           "id": "acc-mount-flat",
-          "label": "Flat Mount",
+          "label": "Flat Mount Hardware",
           "sku": null,
           "price": null,
           "type": "optional",
@@ -539,7 +228,7 @@
           "sku": null,
           "price": null,
           "type": "optional",
-          "_note": "Needs Review — SKU 25500770 (per spec) was not found in shopify-variant-index.json as of this build. Left null rather than set to an unresolved SKU so pricing does not silently fail."
+          "_note": "Needs Review — SKU not confirmed in shopify-variant-index.json."
         },
         {
           "id": "acc-ctrl-pathfinder",
@@ -550,10 +239,10 @@
           "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json (multiple PF400 variants available).",
           "dependencyRules": [
             {
-              "sourceOptionId": "serial",
+              "sourceOptionId": "convergence",
               "targetOptionId": "acc-ctrl-pathfinder",
               "condition": "requires",
-              "message": "Pathfinder controller is only shown when Serial (FS Convergence Network) control architecture is selected."
+              "message": "Pathfinder controller is only shown when Convergence Network is selected."
             }
           ]
         },
@@ -566,20 +255,12 @@
           "_note": "Confirmed present in shopify-variant-index.json as SSP2000B.",
           "dependencyRules": [
             {
-              "sourceOptionId": "serial",
+              "sourceOptionId": "convergence",
               "targetOptionId": "acc-ctrl-smartsiren",
               "condition": "requires",
-              "message": "SmartSiren controller is only shown when Serial (FS Convergence Network) control architecture is selected."
+              "message": "SmartSiren controller is only shown when Convergence Network is selected."
             }
           ]
-        },
-        {
-          "id": "acc-traffic-light-6x4",
-          "label": "6x4 LED Traffic-Clearing Light",
-          "sku": null,
-          "price": null,
-          "type": "optional",
-          "_note": "Needs Review — no matching SKU found in shopify-variant-index.json."
         },
         {
           "id": "acc-opticom-emitter",
@@ -587,7 +268,7 @@
           "sku": null,
           "price": null,
           "type": "optional",
-          "_note": "Needs Review — the base 795H emitter unit was not found in shopify-variant-index.json. Only its extension-bracket accessories (795H-EXTB-D / 795H-EXTB-P) are confirmed present; see acc-opticom-bracket-driver / acc-opticom-bracket-passenger."
+          "_note": "Needs Review — the base 795H emitter unit was not found in shopify-variant-index.json. Only its extension-bracket accessories are confirmed present; see acc-opticom-bracket-driver / acc-opticom-bracket-passenger."
         },
         {
           "id": "acc-opticom-bracket-driver",
@@ -650,7 +331,35 @@
       "recommendedLength": "10"
     }
   ],
-  "compatibilityRules": [],
+  "compatibilityRules": [
+    {
+      "id": "excl-flat-not-10",
+      "type": "excludes",
+      "stepA": "mount",
+      "optionA": "flat",
+      "stepB": "length",
+      "optionB": "18in",
+      "message": "Flat mount is available on 10\" only."
+    },
+    {
+      "id": "excl-hook-discrete",
+      "type": "excludes",
+      "stepA": "mount",
+      "optionA": "hook",
+      "stepB": "network",
+      "optionB": "discrete",
+      "message": "Hook mount is only available with Convergence Network (45\"/53\")."
+    },
+    {
+      "id": "excl-riser-convergence",
+      "type": "excludes",
+      "stepA": "mount",
+      "optionA": "riser",
+      "stepB": "network",
+      "optionB": "convergence",
+      "message": "Riser mount is only available with Discrete network."
+    }
+  ],
   "dependencyRules": [],
   "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
 }
