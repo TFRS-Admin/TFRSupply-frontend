@@ -35,7 +35,7 @@ import { useShopifyVariantResolver } from '@/hooks/shopifyVariantResolver';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import {
   CheckCircle, RotateCcw, ClipboardList,
-  Truck, AlertTriangle, ShoppingCart, Send
+  Truck, AlertTriangle, Send
 } from 'lucide-react';
 import type {
   Configurator,
@@ -517,12 +517,12 @@ function QuoteLine({ label, sku, price, flagged, availability }: QuoteLineProps)
   );
 }
 
-interface QuotePanelProps {
+export interface QuotePanelProps {
   quotePayload: ConfiguratorQuotePayload | null;
   accSection?: ConfiguratorSection;
 }
 
-function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
+export function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
   if (!quotePayload) {
     return (
       <div style={{ padding: '14px 16px', background: '#f8fafc', border: '1px solid #e5e7eb', marginTop: 8 }}>
@@ -628,26 +628,27 @@ function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
           <Send size={13} /> Add to Quote
         </button>
 
-        {/* Add to Cart — enabled once the Shopify Variant Resolver reports a
-            cart-eligible variant (a resolved shopifyVariantId + price) for
-            the selected SKU. Cart mutation itself lives in
-            ConfiguratorCommerceActions (Cart Workspace Foundation); this
-            button only reflects resolver state within the Package Quote. */}
-        <button
-          disabled={!quotePayload.checkoutReady}
-          title={quotePayload.checkoutReady ? 'This configuration is ready to add to your cart.' : 'Shopify variant ID pending — checkout disabled until GIDs are collected from Shopify Admin'}
+        {/* Package Quote has no Add to Cart affordance of its own — the one
+            functional Add to Cart action lives in ConfiguratorCommerceActions
+            (Cart Workspace Foundation), so there is a single clear cart path
+            for customers. This status pill mirrors the Shopify Variant
+            Resolver's readiness state in non-cart language, pointing the
+            customer at that panel instead of duplicating its action. */}
+        <div
+          role="status"
+          title={quotePayload.checkoutReady ? 'This configuration is resolved — continue to Cart Actions below to add it to your cart.' : 'Shopify variant ID pending — resolve the variant before continuing to Cart Actions'}
           style={{
             flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
             padding: '10px 16px',
-            background: quotePayload.checkoutReady ? '#1a2744' : '#e5e7eb',
-            color: quotePayload.checkoutReady ? '#fff' : '#9ca3af',
-            border: quotePayload.checkoutReady ? 'none' : '1px solid #d1d5db',
+            background: quotePayload.checkoutReady ? '#dcfce7' : '#e5e7eb',
+            color: quotePayload.checkoutReady ? '#15803d' : '#9ca3af',
+            border: `1px solid ${quotePayload.checkoutReady ? '#bbf7d0' : '#d1d5db'}`,
             fontFamily: 'inherit', fontSize: 13, fontWeight: 700,
-            letterSpacing: '0.04em', cursor: quotePayload.checkoutReady ? 'pointer' : 'not-allowed',
+            letterSpacing: '0.04em',
           }}
         >
-          <ShoppingCart size={13} /> Add to Cart
-        </button>
+          <ClipboardList size={13} /> {quotePayload.checkoutReady ? 'Continue to Cart Actions' : 'Review Selected SKU'}
+        </div>
       </div>
 
       {/* Checkout disabled notice for price_only SKUs */}
