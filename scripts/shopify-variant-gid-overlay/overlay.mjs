@@ -23,17 +23,21 @@
  *     [--page-size <n>] \
  *     [--dry-run]
  *
- * Reads credentials only from the environment — SHOPIFY_STORE_DOMAIN and
- * SHOPIFY_ADMIN_ACCESS_TOKEN. See docs/architecture/SHOPIFY_VARIANT_GID_OVERLAY.md
- * for the full workflow, including how the resulting overlay file feeds
- * into `npm run shopify:ingest -- --gid-overlay <path>`.
+ * Reads Admin API credentials only from the environment — either OAuth
+ * client credentials (SHOPIFY_SHOP, SHOPIFY_CLIENT_ID, SHOPIFY_CLIENT_SECRET
+ * — required for Shopify Dev Dashboard apps) or, for backwards
+ * compatibility, a static Admin API access token (SHOPIFY_STORE_DOMAIN,
+ * SHOPIFY_ADMIN_ACCESS_TOKEN). See
+ * docs/architecture/SHOPIFY_VARIANT_GID_OVERLAY.md for the full workflow,
+ * including how the resulting overlay file feeds into
+ * `npm run shopify:ingest -- --gid-overlay <path>`.
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { readShopifyAdminCredentials } from './lib/env.mjs';
+import { resolveShopifyAdminAccessToken } from './lib/shopifyAuth.mjs';
 import { createShopifyAdminClient, ShopifyAdminApiError } from './lib/shopifyAdminClient.mjs';
 import { validateShopifyVariants } from './lib/validateVariants.mjs';
 import { matchVariantsToIndex } from './lib/matchVariants.mjs';
@@ -79,7 +83,8 @@ function describeApiError(error, storeDomain) {
     if (error.status != null) lines.push(`  HTTP status: ${error.status}`);
     if (error.graphqlErrors) lines.push(`  GraphQL errors: ${JSON.stringify(error.graphqlErrors)}`);
     lines.push('');
-    lines.push('Check SHOPIFY_STORE_DOMAIN, SHOPIFY_ADMIN_ACCESS_TOKEN, and that the token has the read_products scope.');
+    lines.push('Check your Admin API credentials (SHOPIFY_SHOP/SHOPIFY_CLIENT_ID/SHOPIFY_CLIENT_SECRET, or the');
+    lines.push('legacy SHOPIFY_STORE_DOMAIN/SHOPIFY_ADMIN_ACCESS_TOKEN) and that the read_products scope is granted.');
     return lines.join('\n');
   }
   return `Unexpected error while querying the Shopify Admin API: ${error.message}`;
@@ -91,16 +96,16 @@ function describeApiError(error, storeDomain) {
  * (including skipping all writes for --dry-run).
  */
 export async function runOverlay(options, { env = process.env, fetchImpl, sleepImpl } = {}) {
-  const credentials = readShopifyAdminCredentials(env);
-  if (!credentials.ok) {
-    return { ok: false, reason: 'missing-credentials', message: credentials.message };
+  const auth = await resolveShopifyAdminAccessToken(env, { fetchImpl });
+  if (!auth.ok) {
+    return { ok: false, reason: auth.reason, message: auth.message };
   }
 
   const variantIndex = readVariantIndex(options.indexPath);
 
   const client = createShopifyAdminClient({
-    storeDomain: credentials.storeDomain,
-    accessToken: credentials.accessToken,
+    storeDomain: auth.storeDomain,
+    accessToken: auth.accessToken,
     apiVersion: options.apiVersion,
     pageSize: options.pageSize,
     fetchImpl,
@@ -111,7 +116,7 @@ export async function runOverlay(options, { env = process.env, fetchImpl, sleepI
   try {
     fetchResult = await client.fetchAllProductVariants();
   } catch (error) {
-    return { ok: false, reason: 'shopify-api-error', message: describeApiError(error, credentials.storeDomain) };
+    return { ok: false, reason: 'shopify-api-error', message: describeApiError(error, auth.storeDomain) };
   }
 
   const validation = validateShopifyVariants(fetchResult.variants, { existingVariantsBySku: variantIndex.variants });
@@ -120,7 +125,7 @@ export async function runOverlay(options, { env = process.env, fetchImpl, sleepI
 
   const report = buildReport({
     generatedAt: options.generatedDate,
-    storeDomain: credentials.storeDomain,
+    storeDomain: auth.storeDomain,
     pageCount: fetchResult.pageCount,
     totalFetched: fetchResult.variants.length,
     withoutSku: validation.withoutSku,

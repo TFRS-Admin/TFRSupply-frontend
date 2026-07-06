@@ -251,11 +251,18 @@ npm run shopify:gid-overlay
 npm run shopify:ingest -- --gid-overlay reports/shopify-variant-gid-overlay/latest-overlay.json
 ```
 
-It reads credentials only from `SHOPIFY_STORE_DOMAIN` /
-`SHOPIFY_ADMIN_ACCESS_TOKEN` environment variables — never a CLI flag,
-never hardcoded — and fails gracefully with an explanatory message when
-either is missing. It is the only script in this repository that makes a
-live Shopify API call; every other Shopify integration boundary documented
+It reads Admin API credentials only from environment variables — never a
+CLI flag, never hardcoded — supporting either OAuth client credentials
+(`SHOPIFY_SHOP` / `SHOPIFY_CLIENT_ID` / `SHOPIFY_CLIENT_SECRET`, required
+for Shopify Dev Dashboard apps) or, for backwards compatibility, a legacy
+static Admin API token (`SHOPIFY_STORE_DOMAIN` /
+`SHOPIFY_ADMIN_ACCESS_TOKEN`) — and fails gracefully with an explanatory
+message when the required variable(s) for either mode are missing. See
+`SHOPIFY_VARIANT_GID_OVERLAY.md` for the full auth setup, and its
+"Admin vs. Storefront auth" section for how this differs from the
+Storefront API credentials used elsewhere in this repo. It is the only
+script in this repository that makes a live Shopify API call; every other
+Shopify integration boundary documented
 here (`SHOPIFY_CATALOG_SYNCHRONIZATION.md`,
 `SHOPIFY_INVENTORY_SYNCHRONIZATION.md`, etc.) remains adapter-gated with no
 live calls, and this pipeline's own CSV/media parsing and index-building

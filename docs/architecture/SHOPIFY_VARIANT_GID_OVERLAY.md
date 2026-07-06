@@ -41,12 +41,56 @@ every safety guarantee the manual process implied:
   rather than silently written.
 - Missing credentials fail with an explanatory message, not a crash.
 
+## Admin API auth: OAuth client credentials vs. legacy static token
+
+This pipeline talks to the **Shopify Admin API** — not the Storefront API
+(see [Admin vs. Storefront auth](#admin-vs-storefront-auth) below). Two auth
+modes are supported, resolved in this order:
+
+1. **OAuth client credentials (preferred)** — required for apps created in
+   the [Shopify Dev Dashboard](https://shopify.dev), which do **not** expose
+   a static Admin API access token at all. Set:
+   - `SHOPIFY_SHOP` — the store domain, e.g. `tfrsupply.myshopify.com`
+   - `SHOPIFY_CLIENT_ID` — the app's Client ID
+   - `SHOPIFY_CLIENT_SECRET` — the app's Client Secret
+
+   The script exchanges these for a short-lived Admin API access token via
+   Shopify's OAuth `client_credentials` grant
+   (`POST https://<shop>/admin/oauth/access_token`) before making any
+   `productVariants` query. The exchanged token is held in memory only —
+   it is never written to disk or logged.
+
+2. **Static Admin API access token (legacy, still supported)** — for
+   custom/private Shopify apps that issue a long-lived token directly. Set:
+   - `SHOPIFY_STORE_DOMAIN` — the store domain (also accepted as an alias
+     of `SHOPIFY_SHOP` for mode 1)
+   - `SHOPIFY_ADMIN_ACCESS_TOKEN` — an Admin API access token with the
+     `read_products` scope
+
+If any of `SHOPIFY_CLIENT_ID` / `SHOPIFY_CLIENT_SECRET` is set, mode 1 is
+used and takes precedence over a configured `SHOPIFY_ADMIN_ACCESS_TOKEN`.
+Otherwise, if a store domain or access token is set, mode 2 is used. Never
+commit any of these values to source, and never pass them as CLI flags.
+
+### Admin vs. Storefront auth
+
+This is **Admin API** auth (server-side, full read/write access to store
+data — scoped here to read-only `productVariants`). It is unrelated to
+**Storefront API** auth, used by the customer-facing storefront adapters
+(`VITE_SHOPIFY_STORE_DOMAIN`, `VITE_SHOPIFY_STOREFRONT_API_VERSION`, and a
+Storefront access token — see
+`docs/architecture/SHOPIFY_STOREFRONT_LIVE_CONFIG_READINESS.md`). Never use
+an Admin API credential (of either mode above) as a Storefront token, or
+vice versa — they are issued differently, scoped differently, and one must
+never be exposed to the frontend bundle.
+
 ## Pipeline
 
 ```
-SHOPIFY_STORE_DOMAIN         ─┐
-SHOPIFY_ADMIN_ACCESS_TOKEN   ─┼─▶ scripts/shopify-variant-gid-overlay/overlay.mjs ─┬─▶ reports/shopify-variant-gid-overlay/latest-overlay.json
-src/data/shopify/            ─┘                                                    └─▶ reports/shopify-variant-gid-overlay/latest.{json,md}
+SHOPIFY_SHOP / SHOPIFY_STORE_DOMAIN        ─┐
+SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET  ─┤
+  (or, legacy: SHOPIFY_ADMIN_ACCESS_TOKEN) ─┼─▶ scripts/shopify-variant-gid-overlay/overlay.mjs ─┬─▶ reports/shopify-variant-gid-overlay/latest-overlay.json
+src/data/shopify/                          ─┘                                                    └─▶ reports/shopify-variant-gid-overlay/latest.{json,md}
   shopify-variant-index.json
 ```
 
@@ -54,13 +98,21 @@ src/data/shopify/            ─┘                                             
 reports/shopify-variant-gid-overlay/latest-overlay.json  ─▶  npm run shopify:ingest -- --gid-overlay <path>  ─▶  src/data/shopify/shopify-variant-index.json
 ```
 
-- `scripts/shopify-variant-gid-overlay/lib/env.mjs` — reads
-  `SHOPIFY_STORE_DOMAIN` / `SHOPIFY_ADMIN_ACCESS_TOKEN` from `process.env`
-  only (never a CLI flag, never hardcoded) and returns a graceful,
-  explanatory failure when either is missing.
+- `scripts/shopify-variant-gid-overlay/lib/env.mjs` — reads Admin API
+  credentials from `process.env` only (never a CLI flag, never hardcoded)
+  for either auth mode described above, and returns a graceful, explanatory
+  failure listing exactly which variable(s) are missing.
+- `scripts/shopify-variant-gid-overlay/lib/shopifyOAuthClient.mjs` — a
+  minimal, dependency-free client for the OAuth `client_credentials` grant;
+  exchanges `SHOPIFY_CLIENT_ID`/`SHOPIFY_CLIENT_SECRET` for a short-lived
+  Admin API access token.
+- `scripts/shopify-variant-gid-overlay/lib/shopifyAuth.mjs` — orchestrates
+  the two auth modes: reads credentials via `env.mjs`, performs the OAuth
+  token exchange when needed, and returns a single access-token shape
+  regardless of which mode was configured.
 - `scripts/shopify-variant-gid-overlay/lib/shopifyAdminClient.mjs` — the
-  only module in this repository that makes a live Shopify API call. A
-  minimal, dependency-free GraphQL client that pages through every
+  only module in this repository that makes a live Shopify Admin API call.
+  A minimal, dependency-free GraphQL client that pages through every
   `ProductVariant` (`id`, `sku`, `product { id handle title }`) via
   `pageInfo.hasNextPage` / `endCursor`, with bounded retry/backoff on
   Shopify's `THROTTLED` GraphQL error.
@@ -79,10 +131,15 @@ reports/shopify-variant-gid-overlay/latest-overlay.json  ─▶  npm run shopify
 
 ## Running it
 
-1. Set `SHOPIFY_STORE_DOMAIN` (e.g. `tfrsupply.myshopify.com`) and
-   `SHOPIFY_ADMIN_ACCESS_TOKEN` (an Admin API access token with the
-   `read_products` scope, from a custom/private Shopify app) in your shell
-   environment. Never commit these values; never pass them as CLI flags.
+1. Set your Admin API credentials in your shell environment (never commit
+   these values; never pass them as CLI flags):
+   - **Shopify Dev Dashboard app (preferred):** `SHOPIFY_SHOP` (e.g.
+     `tfrsupply.myshopify.com`), `SHOPIFY_CLIENT_ID`, and
+     `SHOPIFY_CLIENT_SECRET`.
+   - **Custom/private app with a static token (legacy):**
+     `SHOPIFY_STORE_DOMAIN` (e.g. `tfrsupply.myshopify.com`) and
+     `SHOPIFY_ADMIN_ACCESS_TOKEN` (an Admin API access token with the
+     `read_products` scope).
 2. Run:
    ```
    npm run shopify:gid-overlay
@@ -164,10 +221,15 @@ anything — these are informational, not errors):
 
 ## Missing credentials
 
-If `SHOPIFY_STORE_DOMAIN` or `SHOPIFY_ADMIN_ACCESS_TOKEN` is unset or blank,
-the script prints exactly which variable(s) are missing and how to set
-them, then exits with a non-zero status — it never throws an unhandled
-exception or partially runs against invalid credentials.
+If the required variable(s) for whichever auth mode you're using are unset
+or blank — or if nothing is configured at all — the script prints exactly
+which variable(s) are missing and how to set them (covering both the OAuth
+client-credentials and legacy static-token modes), then exits with a
+non-zero status. It never throws an unhandled exception or partially runs
+against invalid credentials. A failed OAuth token exchange (e.g. a revoked
+Client Secret, or the app not installed on the store) fails the same way,
+with a message pointing at `SHOPIFY_SHOP`/`SHOPIFY_CLIENT_ID`/
+`SHOPIFY_CLIENT_SECRET`.
 
 ## Relationship to Shopify Catalog CSV Ingestion
 
