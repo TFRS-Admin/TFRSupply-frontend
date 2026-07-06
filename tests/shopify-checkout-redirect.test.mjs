@@ -50,6 +50,68 @@ describe('resolveShopifyCheckoutOutcome', () => {
     assert.equal(outcome.checkoutUrl, 'https://acme-trucks.myshopify.com/cart/c/real-cart-1');
   });
 
+  it('reports a clear no-valid-lines message and does not redirect when every line is unmapped', () => {
+    const { resolveShopifyCheckoutOutcome } = modules.outcome;
+    const result = baseCartResult({
+      status: 'failed',
+      cartLines: [{ cartLineId: 'cart-line-1', sku: 'SKU-1', quantity: 1, merchandiseId: null, merchandiseAvailable: false }],
+      errors: [{ code: 'unmapped-line', message: 'None of the items in this cart have a matching Shopify product variant yet; no cartCreate call was made.', retryable: false }],
+    });
+
+    const outcome = resolveShopifyCheckoutOutcome(result);
+    assert.equal(outcome.type, 'no-valid-lines');
+    assert.match(outcome.message, /checkout-ready/);
+  });
+
+  it('redirects with a warning notice when the cart is mixed (some lines mapped, some not)', () => {
+    const { resolveShopifyCheckoutOutcome } = modules.outcome;
+    const result = baseCartResult({
+      status: 'succeeded',
+      errors: [],
+      cartLines: [
+        { cartLineId: 'cart-line-1', sku: 'SKU-MAPPED', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/mapped', merchandiseAvailable: true },
+        { cartLineId: 'cart-line-2', sku: 'SKU-UNMAPPED', quantity: 1, merchandiseId: null, merchandiseAvailable: false },
+      ],
+      checkoutPreview: {
+        checkoutUrlPreview: 'https://acme-trucks.myshopify.com/cart/c/mixed-1',
+        cartId: 'gid://shopify/Cart/mixed-1',
+        currencyCode: 'USD',
+        estimatedTotal: { amount: 100, currencyCode: 'USD' },
+        lineCount: 1,
+        ready: true,
+      },
+    });
+
+    const outcome = resolveShopifyCheckoutOutcome(result);
+    assert.equal(outcome.type, 'redirect');
+    assert.equal(outcome.checkoutUrl, 'https://acme-trucks.myshopify.com/cart/c/mixed-1');
+    assert.match(outcome.warning, /1 item/);
+  });
+
+  it('redirects without a warning when every line in the cart is mapped', () => {
+    const { resolveShopifyCheckoutOutcome } = modules.outcome;
+    const result = baseCartResult({
+      status: 'succeeded',
+      errors: [],
+      cartLines: [
+        { cartLineId: 'cart-line-1', sku: 'SKU-A', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/a', merchandiseAvailable: true },
+        { cartLineId: 'cart-line-2', sku: 'SKU-B', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/b', merchandiseAvailable: true },
+      ],
+      checkoutPreview: {
+        checkoutUrlPreview: 'https://acme-trucks.myshopify.com/cart/c/all-valid-1',
+        cartId: 'gid://shopify/Cart/all-valid-1',
+        currencyCode: 'USD',
+        estimatedTotal: { amount: 200, currencyCode: 'USD' },
+        lineCount: 2,
+        ready: true,
+      },
+    });
+
+    const outcome = resolveShopifyCheckoutOutcome(result);
+    assert.equal(outcome.type, 'redirect');
+    assert.equal(outcome.warning, undefined);
+  });
+
   it('reports a clear configuration-error message when Storefront env vars are missing', () => {
     const { resolveShopifyCheckoutOutcome } = modules.outcome;
     const result = baseCartResult({

@@ -52,6 +52,7 @@ export default function CartWorkspace() {
       const result = await createCart();
       const outcome = resolveShopifyCheckoutOutcome(result);
       if (outcome.type === 'redirect') {
+        if (outcome.warning) setNotice(outcome.warning);
         window.location.href = outcome.checkoutUrl;
         return;
       }
