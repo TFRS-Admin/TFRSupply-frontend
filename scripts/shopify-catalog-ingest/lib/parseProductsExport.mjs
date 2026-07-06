@@ -92,6 +92,12 @@ export function parseProductsExport(csvText) {
         product.tags = value.split(',').map((t) => t.trim()).filter(Boolean);
       } else if (modelKey === 'published') {
         product.published = value === 'true' ? true : value === 'false' ? false : null;
+      } else if (modelKey === 'status') {
+        // Shopify's own export uses lowercase ("active"/"draft"); Matrixify
+        // capitalizes it ("Active"/"Draft"). Normalize once here so every
+        // downstream `status === 'active'` check (availability, the report's
+        // active/draft split) works regardless of export source.
+        product.status = value.toLowerCase();
       } else {
         product[modelKey] = value;
       }
