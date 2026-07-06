@@ -1,4 +1,4 @@
-import { liveShopifyStorefrontCartAdapter, mockShopifyStorefrontCartAdapter, unavailableShopifyStorefrontCartAdapter, type ShopifyStorefrontCartAdapter } from '@/adapters/shopifyStorefrontCart';
+import { mockShopifyStorefrontCartAdapter, unavailableShopifyStorefrontCartAdapter, type ShopifyStorefrontCartAdapter } from '@/adapters/shopifyStorefrontCart';
 import { addMoney } from '@/domain/pricing';
 import { shopifyStorefrontCartRequestSchema, shopifyStorefrontCartResultSchema } from '@/schemas/shopifyStorefrontCart.schema';
 import { cartWorkspaceService, type CartWorkspaceService } from '@/services/cartWorkspace';
@@ -29,10 +29,19 @@ function nextRequestId(): string {
   return `storefront-cart-request-${requestSequence}`;
 }
 
+/**
+ * The only three ShopifyStorefrontCartAdapter implementations in this
+ * codebase are the mock singleton, the unavailable singleton, and
+ * live adapters built by createLiveShopifyStorefrontCartAdapter() (either
+ * the default liveShopifyStorefrontCartAdapter singleton or a per-call
+ * instance built with its own config/fetchImpl, e.g. by
+ * shopifyStorefrontCartCreateService). Anything that isn't one of the two
+ * known singletons is therefore a live adapter instance.
+ */
 function inferAdapterMode(adapter: ShopifyStorefrontCartAdapter): ShopifyStorefrontCartAdapterMode {
   if (adapter === mockShopifyStorefrontCartAdapter) return 'mock';
-  if (adapter === liveShopifyStorefrontCartAdapter) return 'live';
-  return 'unavailable';
+  if (adapter === unavailableShopifyStorefrontCartAdapter) return 'unavailable';
+  return 'live';
 }
 
 /**

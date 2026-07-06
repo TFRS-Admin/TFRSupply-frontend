@@ -76,11 +76,17 @@ function buildDiagnostics(
 ): CartAdapterDiagnostic[] {
   const diagnostics: CartAdapterDiagnostic[] = [
     { code: 'adapter-mode', level: 'info', message: `Cart adapter mode: ${mode}.` },
-    {
-      code: 'live-calls-disabled',
-      level: 'info',
-      message: 'Live Shopify Storefront cart mutations are disabled in every adapter mode; this foundation only ever dry-runs or reports adapter-unavailable.',
-    },
+    mode === 'live'
+      ? {
+          code: 'live-calls-disabled',
+          level: 'warning',
+          message: 'Live adapter active: previewMutation() now performs a real Shopify Storefront cartCreate call against the configured store and will create a real cart.',
+        }
+      : {
+          code: 'live-calls-disabled',
+          level: 'info',
+          message: 'Live Shopify Storefront cart mutations are disabled in this adapter mode; this foundation only ever dry-runs or reports adapter-unavailable.',
+        },
   ];
 
   if (fallbackReason) {

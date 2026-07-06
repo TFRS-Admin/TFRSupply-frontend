@@ -17,7 +17,16 @@ const nonEmptyString = z.string().min(1);
 
 export const shopifyStorefrontCartAdapterModeSchema = z.enum(['mock', 'unavailable', 'live']) satisfies z.ZodType<ShopifyStorefrontCartAdapterMode>;
 export const shopifyStorefrontCartStatusSchema = z.enum(['not-started', 'dry-run', 'succeeded', 'failed', 'adapter-unavailable']) satisfies z.ZodType<ShopifyStorefrontCartStatus>;
-export const shopifyStorefrontCartErrorCodeSchema = z.enum(['validation-error', 'unmapped-line', 'adapter-unavailable', 'live-calls-disabled', 'unknown']) satisfies z.ZodType<ShopifyStorefrontCartErrorCode>;
+export const shopifyStorefrontCartErrorCodeSchema = z.enum([
+  'validation-error',
+  'unmapped-line',
+  'adapter-unavailable',
+  'live-calls-disabled',
+  'configuration-error',
+  'network-error',
+  'shopify-error',
+  'unknown',
+]) satisfies z.ZodType<ShopifyStorefrontCartErrorCode>;
 
 const shopifyStorefrontCartConfigSchema = z.object({
   storeDomain: z.string().optional(),

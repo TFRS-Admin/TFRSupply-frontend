@@ -33,6 +33,23 @@ function readyCommerceService(createCommerceService) {
   });
 }
 
+function fakeFetch(responses) {
+  let call = 0;
+  const calls = [];
+  const impl = async (url, init) => {
+    calls.push({ url, init });
+    const response = responses[call++];
+    if (response instanceof Error) throw response;
+    return response;
+  };
+  impl.calls = calls;
+  return impl;
+}
+
+function jsonResponse(body, { ok = true, status = 200 } = {}) {
+  return { ok, status, json: async () => body };
+}
+
 function unavailableCommerceService(createCommerceService) {
   return createCommerceService({
     async getProduct() { return { status: 'pending', data: null }; },
@@ -199,26 +216,73 @@ describe('Shopify Storefront Cart Adapter adapters', () => {
     assert.equal(result.errors[0].code, 'adapter-unavailable');
   });
 
-  it('liveShopifyStorefrontCartAdapter builds the real fetch request boundary without performing a network call', async () => {
+  it('liveShopifyStorefrontCartAdapter reports a graceful configuration-error and never calls fetch when store domain/token are missing', async () => {
     const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
-    const liveAdapter = createLiveShopifyStorefrontCartAdapter();
+    const fetchImpl = fakeFetch([]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter(undefined, fetchImpl);
     const cartLines = [{ cartLineId: 'cart-line-1', sku: 'SKU-1', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/1', merchandiseAvailable: true }];
     const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
 
-    const result = await liveAdapter.execute({
-      requestId: 'req-3',
-      cartLines,
-      mutationPreview,
-      currencyCode: 'USD',
-      estimatedTotal: { amount: 100, currencyCode: 'USD' },
-      config: { storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' },
-    });
+    const result = await liveAdapter.execute({ requestId: 'req-3', cartLines, mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 100, currencyCode: 'USD' } });
 
     assert.equal(result.status, 'failed');
-    assert.equal(result.errors[0].code, 'live-calls-disabled');
+    assert.equal(result.errors[0].code, 'configuration-error');
     assert.equal(result.errors[0].retryable, false);
-    assert.equal(result.metadata.attributes.configured, true);
-    assert.match(result.metadata.attributes.requestUrl, /^https:\/\/example\.myshopify\.com\/api\/2024-10\/graphql\.json$/);
+    assert.equal(result.metadata.attributes.configured, false);
+    assert.equal(fetchImpl.calls.length, 0);
+  });
+
+  it('liveShopifyStorefrontCartAdapter performs a real cartCreate fetch and returns the real cart id and checkoutUrl on success', async () => {
+    const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
+    const fetchImpl = fakeFetch([jsonResponse({
+      data: { cartCreate: { cart: { id: 'gid://shopify/Cart/abc123', checkoutUrl: 'https://example.myshopify.com/cart/c/abc123' }, userErrors: [] } },
+    })]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter({ storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' }, fetchImpl);
+    const cartLines = [{ cartLineId: 'cart-line-1', sku: 'SKU-1', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/1', merchandiseAvailable: true }];
+    const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
+
+    const result = await liveAdapter.execute({ requestId: 'req-4', cartLines, mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 100, currencyCode: 'USD' } });
+
+    assert.equal(result.status, 'succeeded');
+    assert.equal(result.errors.length, 0);
+    assert.equal(result.checkoutPreview.cartId, 'gid://shopify/Cart/abc123');
+    assert.equal(result.checkoutPreview.checkoutUrlPreview, 'https://example.myshopify.com/cart/c/abc123');
+    assert.equal(result.mutationPreview.operationName, 'CartCreate');
+    assert.match(result.mutationPreview.query, /cartCreate/);
+    assert.equal(fetchImpl.calls.length, 1);
+    assert.match(fetchImpl.calls[0].url, /^https:\/\/example\.myshopify\.com\/api\/2024-10\/graphql\.json$/);
+    assert.equal(fetchImpl.calls[0].init.headers['X-Shopify-Storefront-Access-Token'], 'token-abc');
+  });
+
+  it('liveShopifyStorefrontCartAdapter reports a graceful failure on a Shopify userErrors response', async () => {
+    const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
+    const fetchImpl = fakeFetch([jsonResponse({
+      data: { cartCreate: { cart: null, userErrors: [{ field: ['input', 'lines'], message: 'Merchandise is out of stock.' }] } },
+    })]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter({ storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' }, fetchImpl);
+    const cartLines = [{ cartLineId: 'cart-line-1', sku: 'SKU-1', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/1', merchandiseAvailable: true }];
+    const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
+
+    const result = await liveAdapter.execute({ requestId: 'req-5', cartLines, mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 100, currencyCode: 'USD' } });
+
+    assert.equal(result.status, 'failed');
+    assert.equal(result.errors[0].code, 'shopify-error');
+    assert.match(result.errors[0].message, /out of stock/);
+    assert.equal(result.checkoutPreview, null);
+  });
+
+  it('liveShopifyStorefrontCartAdapter reports a graceful failure on a network error', async () => {
+    const { createLiveShopifyStorefrontCartAdapter } = modules.adapters;
+    const fetchImpl = fakeFetch([new TypeError('network down')]);
+    const liveAdapter = createLiveShopifyStorefrontCartAdapter({ storeDomain: 'example.myshopify.com', apiVersion: '2024-10', storefrontAccessToken: 'token-abc' }, fetchImpl);
+    const cartLines = [{ cartLineId: 'cart-line-1', sku: 'SKU-1', quantity: 1, merchandiseId: 'gid://shopify/ProductVariant/1', merchandiseAvailable: true }];
+    const mutationPreview = { operationName: 'CartLinesAddPreview', query: 'mutation CartLinesAddPreview { cartLinesAdd { cart { id } } }', variables: { lines: [] } };
+
+    const result = await liveAdapter.execute({ requestId: 'req-6', cartLines, mutationPreview, currencyCode: 'USD', estimatedTotal: { amount: 100, currencyCode: 'USD' } });
+
+    assert.equal(result.status, 'failed');
+    assert.equal(result.errors[0].code, 'network-error');
+    assert.equal(result.errors[0].retryable, true);
   });
 });
 

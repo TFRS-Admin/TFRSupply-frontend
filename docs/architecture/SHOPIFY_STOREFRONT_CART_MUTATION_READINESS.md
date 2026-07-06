@@ -6,7 +6,7 @@ This foundation prepares the Cart Workspace for live Shopify Storefront cart mut
 
 It reuses the Shopify Storefront API Foundation, Shopify Storefront Cart Adapter, Checkout Preparation, Checkout URL Preview, Cart Workspace, Storefront Runtime Dashboard, and Commerce Foundation instead of duplicating any of their request-shape, mapping, or readiness logic.
 
-This foundation does not implement checkout redirect, payments, or orders, and it does not perform a real Shopify Storefront API call in any adapter mode — `liveShopifyStorefrontCartAdapter` remains the existing request-building stub (see `SHOPIFY_STOREFRONT_CART_ADAPTER.md`'s "Future live implementation plan").
+This foundation does not implement checkout redirect, payments, or orders. `cartAdapterService`'s `'live'` mode still only reaches `createLiveShopifyStorefrontCartAdapter()` through the manual `/dev/storefront` credential form (`configureLiveAdapter()`) — it is never auto-selected from build-time env config. That live adapter itself now performs a real Shopify Storefront `cartCreate` call when configured (see `SHOPIFY_STOREFRONT_CART_ADAPTER.md`'s "Real Shopify cart creation"); this foundation's own mode-selection, mapping-validation, and diagnostics logic is otherwise unchanged.
 
 ## Ownership
 
