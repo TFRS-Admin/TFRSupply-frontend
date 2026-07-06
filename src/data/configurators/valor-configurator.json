@@ -1,97 +1,113 @@
 {
-  "_source": "TFR Supply Valor Police Launch SKUs — validated 2026-06-29. Filter + Add-ons model rebuild (2026-07-06): filter steps only reflect the 8 already-validated Police SKUs in shopify-variant-index.json — no new SKUs invented.",
-  "_note": "8 Police Valor SKUs. Length and mount confirmed from SKU structure. Color confirmed from suffix; colorConfig (single/dual/tri) is a direct 1:1 restatement of that same confirmed color code, not a new inference. Control Architecture and Primary Warning Colors have no corresponding attribute anywhere in the real Valor catalog (every Police SKU here is a Blue/White or Amber/Blue/White combination) and are presented as informational steps only — they do not filter the SKU list. The catalog also contains VALR44J-F2H/VALR51J-F2H (Fire/NFPA), VALR44J-P1C/no-51-equivalent (unconfirmed mount code \"C\"), and VALR44J/51J-AMBR2/AMBR3 (Work Truck, currently unavailable) — all out of scope for this Police-only configurator per the existing product framing. MSRP: prices resolve at runtime from shopify-variant-index.json — do NOT invent prices.",
+  "_source": "TFR Supply Valor Light Bar — rebuilt from ground-truth docs/knowledge/configurator_data.json (product_families.valor.sku_map), 2026-07-06.",
+  "_note": "All 10 Valor SKUs from the ground-truth sku_map (both Police and Fire verticals). Length, colorConfig, and mount are read directly from the sku_map's confirmed fields — none invented. Vertical step filters Police vs Fire: VALR44J-F2H and VALR51J-F2H are Fire/Police shared (Red/White, Hook), and VALR44J-PF3AL / VALR51J-PF3AL are also shared across both verticals (Red/Blue/White, Low Hook) so they carry no vertical attribute and remain visible regardless of vertical selection; the P1/P2 SKUs are Police-only. Spec previously called for 46\"/53\"/60\" lengths — real inventory is 44\" and 51\" only. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
   "id": "valor-configurator",
   "productId": "valor",
-  "productFamily": "Valor Police Light Bar",
-  "label": "Valor® Police Light Bar Configurator",
+  "productFamily": "Valor Light Bar",
+  "label": "Valor® Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
     {
-      "sku": "VALR44J-P1BH",
-      "description": "Valor 44\" Police — 1-Color Blue/White — Hook Mount",
+      "sku": "VALR44J-F2H",
+      "description": "Valor 44\" — Red/White — Hook Mount (Police & Fire)",
       "attributes": {
         "length": "44",
-        "color": "BW1",
+        "colorConfig": "red-white",
+        "mount": "hook"
+      }
+    },
+    {
+      "sku": "VALR44J-P1BH",
+      "description": "Valor 44\" Police — Red/Blue/White — Hook Mount",
+      "attributes": {
+        "length": "44",
+        "colorConfig": "red-blue-white",
         "mount": "hook",
-        "colorConfig": "single"
+        "vertical": "police"
       }
     },
     {
       "sku": "VALR44J-P1BL",
-      "description": "Valor 44\" Police — 1-Color Blue/White — Low Profile",
+      "description": "Valor 44\" Police — Red/Blue/White — Low Hook",
       "attributes": {
         "length": "44",
-        "color": "BW1",
-        "mount": "low",
-        "colorConfig": "single"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "VALR44J-P2BL",
-      "description": "Valor 44\" Police — 2-Color Blue/White — Low Profile",
+      "description": "Valor 44\" Police — Blue/White — Low Hook",
       "attributes": {
         "length": "44",
-        "color": "BW2",
-        "mount": "low",
-        "colorConfig": "dual"
+        "colorConfig": "blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "VALR44J-PF3AL",
-      "description": "Valor 44\" Police — Full 3-Color Amber/Blue/White — Low Profile",
+      "description": "Valor 44\" — Red/Blue/White — Low Hook (Police & Fire)",
       "attributes": {
         "length": "44",
-        "color": "F3A",
-        "mount": "low",
-        "colorConfig": "tri"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook"
+      }
+    },
+    {
+      "sku": "VALR51J-F2H",
+      "description": "Valor 51\" — Red/White — Hook Mount (Police & Fire)",
+      "attributes": {
+        "length": "51",
+        "colorConfig": "red-white",
+        "mount": "hook"
       }
     },
     {
       "sku": "VALR51J-P1BH",
-      "description": "Valor 51\" Police — 1-Color Blue/White — Hook Mount",
+      "description": "Valor 51\" Police — Red/Blue/White — Hook Mount",
       "attributes": {
         "length": "51",
-        "color": "BW1",
+        "colorConfig": "red-blue-white",
         "mount": "hook",
-        "colorConfig": "single"
+        "vertical": "police"
       }
     },
     {
       "sku": "VALR51J-P1BL",
-      "description": "Valor 51\" Police — 1-Color Blue/White — Low Profile",
+      "description": "Valor 51\" Police — Red/Blue/White — Low Hook",
       "attributes": {
         "length": "51",
-        "color": "BW1",
-        "mount": "low",
-        "colorConfig": "single"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "VALR51J-P2BL",
-      "description": "Valor 51\" Police — 2-Color Blue/White — Low Profile",
+      "description": "Valor 51\" Police — Blue/White — Low Hook",
       "attributes": {
         "length": "51",
-        "color": "BW2",
-        "mount": "low",
-        "colorConfig": "dual"
+        "colorConfig": "blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "VALR51J-PF3AL",
-      "description": "Valor 51\" Police — Full 3-Color Amber/Blue/White — Low Profile",
+      "description": "Valor 51\" — Red/Blue/White — Low Hook (Police & Fire)",
       "attributes": {
         "length": "51",
-        "color": "F3A",
-        "mount": "low",
-        "colorConfig": "tri"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the validated SKU list are enabled.",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the ground-truth SKU list are enabled.",
       "steps": [
         {
           "id": "length",
@@ -104,86 +120,62 @@
               "id": "44in",
               "label": "44\"",
               "skuSegment": "44",
-              "description": "Compact and mid-size police vehicles — Charger, Blazer EV PPV"
+              "description": "Compact and mid-size vehicles"
             },
             {
               "id": "51in",
               "label": "51\"",
               "skuSegment": "51",
-              "description": "Full-size SUVs and police interceptors — Explorer PIU, Tahoe PPV, Expedition SSV"
+              "description": "Full-size SUVs and interceptors"
             }
           ]
         },
         {
-          "id": "control",
-          "label": "Control Architecture",
+          "id": "vertical",
+          "label": "Vertical",
           "required": false,
-          "_verification": "needs_verification",
-          "_note": "No SKU-level attribute distinguishes Discrete vs Serial control architecture in the current Valor Police catalog. Informational only — does not filter the SKU list.",
+          "skuSegmentKey": "vertical",
+          "_verification": "confirmed",
+          "description": "Police-only SKUs are filtered out when Fire is selected. Shared SKUs (Red/White Hook and Red/Blue/White Low Hook) remain available under either vertical.",
           "options": [
             {
-              "id": "discrete",
-              "label": "Discrete"
+              "id": "police",
+              "label": "Police",
+              "skuSegment": "police",
+              "description": "Police-specific configurations plus all shared Police/Fire SKUs"
             },
             {
-              "id": "serial",
-              "label": "Serial (FS Convergence Network)"
+              "id": "fire",
+              "label": "Fire",
+              "skuSegment": "fire",
+              "description": "Shared Police/Fire SKUs only — VALR44J/51J-F2H and -PF3AL"
             }
           ]
         },
         {
-          "id": "colorConfiguration",
+          "id": "colorConfig",
           "label": "Color Configuration",
           "required": true,
           "skuSegmentKey": "colorConfig",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "single",
-              "label": "Single-color",
-              "skuSegment": "single",
-              "description": "1-Color Blue/White (BW1)"
+              "id": "red-white",
+              "label": "Red / White",
+              "skuSegment": "red-white",
+              "description": "Hook mount only — VALR-F2H"
             },
             {
-              "id": "dual",
-              "label": "Dual-color",
-              "skuSegment": "dual",
-              "description": "2-Color Blue/White (BW2) — Low Profile mount only"
+              "id": "red-blue-white",
+              "label": "Red / Blue / White",
+              "skuSegment": "red-blue-white",
+              "description": "Available in Hook (Police) and Low Hook (Police & Fire)"
             },
             {
-              "id": "tri",
-              "label": "Tri-color (SpectraLux)",
-              "skuSegment": "tri",
-              "description": "Full 3-Color Amber/Blue/White (F3A) — Low Profile mount only"
-            }
-          ]
-        },
-        {
-          "id": "primaryWarningColors",
-          "label": "Primary Warning Colors",
-          "required": false,
-          "_verification": "needs_verification",
-          "_note": "The real Police catalog is Blue/White (single/dual) and Amber/Blue/White (tri) only — Red/Blue, All Blue, All Red, Amber/White and Custom combinations from the spec are not present as distinct SKUs today. Informational only — does not filter the SKU list.",
-          "options": [
-            {
-              "id": "red-blue",
-              "label": "Red/Blue"
-            },
-            {
-              "id": "all-blue",
-              "label": "All Blue"
-            },
-            {
-              "id": "all-red",
-              "label": "All Red"
-            },
-            {
-              "id": "amber-white",
-              "label": "Amber/White"
-            },
-            {
-              "id": "custom",
-              "label": "Custom"
+              "id": "blue-white",
+              "label": "Blue / White",
+              "skuSegment": "blue-white",
+              "description": "Low Hook only — Police"
             }
           ]
         },
@@ -196,15 +188,15 @@
           "options": [
             {
               "id": "hook",
-              "label": "Hook Mount",
+              "label": "Hook",
               "skuSegment": "hook",
-              "description": "Permanent roof-hook — 1-Color Blue/White only"
+              "description": "Standard roof hook mount"
             },
             {
-              "id": "low",
-              "label": "Low Profile",
-              "skuSegment": "low",
-              "description": "Flush low-profile mount — all color configurations"
+              "id": "low-hook",
+              "label": "Low Hook",
+              "skuSegment": "low-hook",
+              "description": "Low-profile hook mount"
             }
           ]
         }
@@ -231,36 +223,12 @@
           "_note": "Needs Review — harness SKU varies by mount style; confirm with install spec"
         },
         {
-          "id": "acc-mount-flush",
-          "label": "Flush Mount",
-          "sku": null,
-          "price": null,
-          "type": "optional",
-          "_note": "Needs Review — required for Low Profile configs; SKU TBD from price book"
-        },
-        {
-          "id": "acc-mount-feet-kit",
-          "label": "Low-Profile Feet Kit",
-          "sku": null,
-          "price": null,
-          "type": "optional",
-          "_note": "Needs Review — SKU TBD from price book"
-        },
-        {
           "id": "acc-ctrl-pathfinder",
           "label": "Pathfinder® Siren/Light Controller",
           "sku": "PF400H",
           "price": null,
           "type": "optional",
-          "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json.",
-          "dependencyRules": [
-            {
-              "sourceOptionId": "serial",
-              "targetOptionId": "acc-ctrl-pathfinder",
-              "condition": "requires",
-              "message": "Pathfinder controller is only shown when Serial (FS Convergence Network) control architecture is selected."
-            }
-          ]
+          "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json."
         },
         {
           "id": "acc-ctrl-smartsiren",
@@ -268,15 +236,7 @@
           "sku": "SSP2000B",
           "price": null,
           "type": "optional",
-          "_note": "Confirmed present in shopify-variant-index.json as SSP2000B.",
-          "dependencyRules": [
-            {
-              "sourceOptionId": "serial",
-              "targetOptionId": "acc-ctrl-smartsiren",
-              "condition": "requires",
-              "message": "SmartSiren controller is only shown when Serial (FS Convergence Network) control architecture is selected."
-            }
-          ]
+          "_note": "Confirmed present in shopify-variant-index.json as SSP2000B."
         },
         {
           "id": "acc-micropulse",
@@ -349,40 +309,22 @@
   ],
   "compatibilityRules": [
     {
-      "id": "excl-hook-bw2",
+      "id": "excl-hook-blue-white",
       "type": "excludes",
       "stepA": "mount",
       "optionA": "hook",
-      "stepB": "color",
-      "optionB": "bw2",
-      "message": "Hook Mount is only available with 1-Color Blue/White. Select Low Profile for 2-Color configurations."
+      "stepB": "colorConfig",
+      "optionB": "blue-white",
+      "message": "Hook mount is not available with Blue/White. Select Low Hook, or choose Red/White or Red/Blue/White for Hook mount."
     },
     {
-      "id": "excl-hook-f3a",
+      "id": "excl-fire-police-only-p1bh",
       "type": "excludes",
-      "stepA": "mount",
-      "optionA": "hook",
-      "stepB": "color",
-      "optionB": "f3a",
-      "message": "Hook Mount is only available with 1-Color Blue/White. Select Low Profile for Full 3-Color configurations."
-    },
-    {
-      "id": "excl-hook-dual",
-      "type": "excludes",
-      "stepA": "mount",
-      "optionA": "hook",
-      "stepB": "colorConfiguration",
-      "optionB": "dual",
-      "message": "Hook Mount is only available with Single-color configurations. Select Low Profile for Dual-color."
-    },
-    {
-      "id": "excl-hook-tri",
-      "type": "excludes",
-      "stepA": "mount",
-      "optionA": "hook",
-      "stepB": "colorConfiguration",
-      "optionB": "tri",
-      "message": "Hook Mount is only available with Single-color configurations. Select Low Profile for Tri-color (SpectraLux)."
+      "stepA": "vertical",
+      "optionA": "fire",
+      "stepB": "colorConfig",
+      "optionB": "blue-white",
+      "message": "Blue/White is a Police-only configuration."
     }
   ],
   "dependencyRules": [],
