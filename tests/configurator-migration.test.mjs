@@ -93,4 +93,89 @@ describe('ConfiguratorModule rendering', () => {
     assert.match(html, /Available SKUs/);
     assert.match(html, /Select a SKU row/);
   });
+
+  it('never renders an Add to Cart affordance itself — the module has no cart action before or after a SKU is selected', () => {
+    const { configuratorService } = modules.configuratorService;
+    const { default: ConfiguratorModule } = modules.configuratorModule;
+    const configurator = configuratorService.getConfigurator('navigator-configurator');
+
+    const html = renderWithVehicleProvider(
+      React.createElement(ConfiguratorModule, {
+        configuratorData: configurator,
+        verticalId: 'fire',
+        categoryId: 'light-bars',
+      }),
+    );
+
+    assert.doesNotMatch(html, /Add to Cart/);
+  });
+});
+
+// A shape-accurate stand-in for the quotePayload ConfiguratorModule's
+// internal useMemo produces once a SKU row is resolved — the same object
+// QuotePanel already renders in place today.
+const READY_QUOTE_PAYLOAD = {
+  productFamily: 'Navigator® Serial Light Bar',
+  selectedVehicle: { year: 2024, make: 'Ford', model: 'F-550' },
+  selectedBaseSku: 'NVG45Z-NFPA20',
+  basePrice: 4639,
+  availability: 'available',
+  accessorySkus: [],
+  reviewFlags: [],
+  checkoutReady: true,
+};
+
+const NOT_READY_QUOTE_PAYLOAD = {
+  ...READY_QUOTE_PAYLOAD,
+  availability: 'unknown',
+  reviewFlags: ['Shopify variant ID pending — quote only, checkout disabled'],
+  checkoutReady: false,
+};
+
+describe('Package Quote panel (QuotePanel) — single Add to Cart path', () => {
+  it('renders no Add to Cart button — only the non-cart status pill and the unrelated Add to Quote action', () => {
+    const { QuotePanel } = modules.configuratorModule;
+    const html = renderToString(React.createElement(QuotePanel, { quotePayload: READY_QUOTE_PAYLOAD }));
+
+    assert.doesNotMatch(html, /Add to Cart/);
+    assert.match(html, /Add to Quote/);
+    assert.match(html, /<button[^>]*>[\s\S]*?Add to Quote/);
+  });
+
+  it('shows "Continue to Cart Actions" in non-cart language once the resolver reports checkoutReady', () => {
+    const { QuotePanel } = modules.configuratorModule;
+    const html = renderToString(React.createElement(QuotePanel, { quotePayload: READY_QUOTE_PAYLOAD }));
+
+    assert.match(html, /Continue to Cart Actions/);
+    assert.match(html, /role="status"/);
+  });
+
+  it('shows "Review Selected SKU" instead of a cart affordance when the resolver has not resolved a variant', () => {
+    const { QuotePanel } = modules.configuratorModule;
+    const html = renderToString(React.createElement(QuotePanel, { quotePayload: NOT_READY_QUOTE_PAYLOAD }));
+
+    assert.match(html, /Review Selected SKU/);
+    assert.doesNotMatch(html, /Continue to Cart Actions/);
+  });
+
+  it('preserves SKU, price, and availability display regardless of resolver readiness', () => {
+    const { QuotePanel } = modules.configuratorModule;
+    const readyHtml = renderToString(React.createElement(QuotePanel, { quotePayload: READY_QUOTE_PAYLOAD }));
+    const notReadyHtml = renderToString(React.createElement(QuotePanel, { quotePayload: NOT_READY_QUOTE_PAYLOAD }));
+
+    for (const html of [readyHtml, notReadyHtml]) {
+      assert.match(html, /NVG45Z-NFPA20/);
+      assert.match(html, /\$4,639/);
+    }
+    assert.match(readyHtml, /In Stock/);
+    assert.match(notReadyHtml, /Availability Pending/);
+  });
+
+  it('renders the prompt to select a SKU when no quote payload is present', () => {
+    const { QuotePanel } = modules.configuratorModule;
+    const html = renderToString(React.createElement(QuotePanel, { quotePayload: null }));
+
+    assert.match(html, /Select a SKU row in the table above/);
+    assert.doesNotMatch(html, /Add to Cart/);
+  });
 });
