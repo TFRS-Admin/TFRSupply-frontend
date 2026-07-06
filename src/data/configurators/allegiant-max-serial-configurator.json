@@ -1,100 +1,137 @@
 {
-  "_source": "TFR Supply Allegiant Max Serial Police Launch SKUs — validated 2026-06-29",
-  "_note": "9 Police Allegiant Max Serial SKUs across 45\" (4 SKUs) and 53\" (5 SKUs). Excluded: 4 Work Truck (ALGT21D/J-AMBR*), 16 Fire/EMS (NFPA/FIRE prefix, F-suffix color codes), 12 Tow/Utility (TOW prefix). P4LC SKUs flagged needs_verification due to 'See Description' color label in export. Mount LB (ALGT53JX-P3LB) exists on 53\" only — dead-end prevention auto-blocks 45\"+LB. Prices from Shopify index; shopifyVariantId pending Admin collection.",
+  "_source": "TFR Supply Allegiant Max Light Bar — rebuilt from ground-truth docs/knowledge/configurator_data.json (product_families.allegiant_max.sku_map), 2026-07-06.",
+  "_note": "All 12 Allegiant Max SKUs from the ground-truth sku_map, spanning Police and Fire verticals. Length, colorConfig, mount, and vertical are read directly from the sku_map's confirmed fields, replacing the prior Police-only LC/LB mount scheme. Ground truth confirms only 45\"/53\"/61\"/70\" have Police or Fire SKUs today — 80\" and 94\" appear in the option_dimensions list but have no corresponding Police/Fire SKU in the sku_map (only Work Truck TOW/AMBRBFC variants exist at those lengths), so they are intentionally excluded from the Length step per the 'filter existing SKUs, never invent' rule. Allegiant Max 21\" (ALGT21*) is Work Truck only and is excluded entirely, per the master knowledge doc. ALGT45JX-P1LC/P3LC/P4LC share identical length/color/mount/vertical values in the ground truth (no declared attribute distinguishes them) and resolve together in the SKU results table. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
   "id": "allegiant-max-serial-configurator",
   "productId": "allegiant-max-serial",
-  "productFamily": "Allegiant Max Serial Police Light Bar",
-  "label": "Allegiant® Max Serial Police Light Bar Configurator",
+  "productFamily": "Allegiant Max Light Bar",
+  "label": "Allegiant® Max Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
     {
       "sku": "ALGT45JX-P1LC",
-      "description": "Allegiant 45\" Police — 1-Color Blue/White — Low Profile Corner",
+      "description": "Allegiant Max 45\" Police — Red/Blue/White — Low Hook",
       "attributes": {
         "length": "45",
-        "color": "BW1",
-        "mount": "LC"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "ALGT45JX-P2LC",
-      "description": "Allegiant 45\" Police — 2-Color Blue/White — Low Profile Corner",
+      "description": "Allegiant Max 45\" Police — Blue/White — Low Hook",
       "attributes": {
         "length": "45",
-        "color": "BW2",
-        "mount": "LC"
+        "colorConfig": "blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "ALGT45JX-P3LC",
-      "description": "Allegiant 45\" Police — Full 3-Color Red/Blue/White — Low Profile Corner",
+      "description": "Allegiant Max 45\" Police — Red/Blue/White — Low Hook",
       "attributes": {
         "length": "45",
-        "color": "RBW3",
-        "mount": "LC"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
       "sku": "ALGT45JX-P4LC",
-      "description": "Allegiant 45\" Police — Specialty Configuration — Low Profile Corner",
-      "_verification": "needs_verification",
+      "description": "Allegiant Max 45\" Police — Red/Blue/White — Low Hook",
       "attributes": {
         "length": "45",
-        "color": "SPEC",
-        "mount": "LC"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
+      }
+    },
+    {
+      "sku": "ALGT45JX-F1LR",
+      "description": "Allegiant Max 45\" Fire — Amber/Red/White — Low Hook",
+      "attributes": {
+        "length": "45",
+        "colorConfig": "amber-red-white",
+        "mount": "low-hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "ALGT45JX-F2LC",
+      "description": "Allegiant Max 45\" Fire — Green/Red/White — Low Hook",
+      "attributes": {
+        "length": "45",
+        "colorConfig": "green-red-white",
+        "mount": "low-hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "ALGT45JX-F3LC",
+      "description": "Allegiant Max 45\" Fire — Amber/Blue/White — Low Hook",
+      "attributes": {
+        "length": "45",
+        "colorConfig": "amber-blue-white",
+        "mount": "low-hook",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "ALGT45JX-F4LC",
+      "description": "Allegiant Max 45\" Fire — Amber/Blue/Red/White — Low Hook",
+      "attributes": {
+        "length": "45",
+        "colorConfig": "amber-blue-red-white",
+        "mount": "low-hook",
+        "vertical": "fire"
       }
     },
     {
       "sku": "ALGT53JX-P1LC",
-      "description": "Allegiant 53\" Police — 1-Color Blue/White — Low Profile Corner",
+      "description": "Allegiant Max 53\" Police — Red/Blue/White — Low Hook",
       "attributes": {
         "length": "53",
-        "color": "BW1",
-        "mount": "LC"
+        "colorConfig": "red-blue-white",
+        "mount": "low-hook",
+        "vertical": "police"
       }
     },
     {
-      "sku": "ALGT53JX-P2LC",
-      "description": "Allegiant 53\" Police — 2-Color Blue/White — Low Profile Corner",
+      "sku": "ALGT53JX-F1LR",
+      "description": "Allegiant Max 53\" Fire — Amber/Red/White — Low Hook",
       "attributes": {
         "length": "53",
-        "color": "BW2",
-        "mount": "LC"
+        "colorConfig": "amber-red-white",
+        "mount": "low-hook",
+        "vertical": "fire"
       }
     },
     {
-      "sku": "ALGT53JX-P3LC",
-      "description": "Allegiant 53\" Police — Full 3-Color Red/Blue/White — Low Profile Corner",
+      "sku": "ALGT61XC-NFPA2",
+      "description": "Allegiant Max 61\" Fire — Red/White — Permanent Mount",
       "attributes": {
-        "length": "53",
-        "color": "RBW3",
-        "mount": "LC"
+        "length": "61",
+        "colorConfig": "red-white",
+        "mount": "permanent",
+        "vertical": "fire"
       }
     },
     {
-      "sku": "ALGT53JX-P3LB",
-      "description": "Allegiant 53\" Police — Full 3-Color Red/Blue/White — Low Profile Blue-Focus",
+      "sku": "ALGT70XC-NFPA2",
+      "description": "Allegiant Max 70\" Fire — Red/White — Flat Mount",
       "attributes": {
-        "length": "53",
-        "color": "RBW3",
-        "mount": "LB"
-      }
-    },
-    {
-      "sku": "ALGT53JX-P4LC",
-      "description": "Allegiant 53\" Police — Specialty Configuration — Low Profile Corner",
-      "_verification": "needs_verification",
-      "attributes": {
-        "length": "53",
-        "color": "SPEC",
-        "mount": "LC"
+        "length": "70",
+        "colorConfig": "red-white",
+        "mount": "flat",
+        "vertical": "fire"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "Filter by bar length, warning color, and mount style. Dead-end combinations are automatically disabled — LB mount is 53\" only, and no invalid length/color/mount combos will be selectable.",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the ground-truth SKU list are enabled.",
       "steps": [
         {
           "id": "length",
@@ -107,47 +144,97 @@
               "id": "45in",
               "label": "45\"",
               "skuSegment": "45",
-              "description": "Compact and mid-size police vehicles — Charger, Blazer EV PPV. All color configurations, LC mount only."
+              "description": "Police & Fire — Low Hook mount"
             },
             {
               "id": "53in",
               "label": "53\"",
               "skuSegment": "53",
-              "description": "Full-size SUVs and interceptors — Explorer PIU, Tahoe PPV, Expedition SSV. All color and mount configurations."
+              "description": "Police & Fire — Low Hook mount"
+            },
+            {
+              "id": "61in",
+              "label": "61\"",
+              "skuSegment": "61",
+              "description": "Fire only — Permanent mount"
+            },
+            {
+              "id": "70in",
+              "label": "70\"",
+              "skuSegment": "70",
+              "description": "Fire only — Flat mount"
             }
           ]
         },
         {
-          "id": "color",
-          "label": "Warning Color",
+          "id": "vertical",
+          "label": "Vertical",
           "required": true,
-          "skuSegmentKey": "color",
+          "skuSegmentKey": "vertical",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "bw1",
-              "label": "1-Color Blue / White",
-              "skuSegment": "BW1",
-              "description": "Available in both 45\" and 53\" — LC mount"
+              "id": "police",
+              "label": "Police",
+              "skuSegment": "police",
+              "description": "45\"/53\" Low Hook only"
             },
             {
-              "id": "bw2",
-              "label": "2-Color Blue / White",
-              "skuSegment": "BW2",
-              "description": "Available in both 45\" and 53\" — LC mount"
+              "id": "fire",
+              "label": "Fire",
+              "skuSegment": "fire",
+              "description": "45\"/53\" Low Hook, 61\" Permanent, 70\" Flat"
+            }
+          ]
+        },
+        {
+          "id": "colorConfig",
+          "label": "Color Configuration",
+          "required": true,
+          "skuSegmentKey": "colorConfig",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "red-blue-white",
+              "label": "Red / Blue / White",
+              "skuSegment": "red-blue-white",
+              "description": "Police — 45\"/53\""
             },
             {
-              "id": "rbw3",
-              "label": "Full 3-Color Red / Blue / White",
-              "skuSegment": "RBW3",
-              "description": "Available in both 45\" and 53\" — LC and LB mount (53\" only for LB)"
+              "id": "blue-white",
+              "label": "Blue / White",
+              "skuSegment": "blue-white",
+              "description": "Police — 45\" only"
             },
             {
-              "id": "spec",
-              "label": "Specialty (See Desc.)",
-              "skuSegment": "SPEC",
-              "description": "P4LC — confirm exact configuration with TFR before ordering",
-              "_verification": "needs_verification"
+              "id": "amber-red-white",
+              "label": "Amber / Red / White",
+              "skuSegment": "amber-red-white",
+              "description": "Fire — 45\"/53\""
+            },
+            {
+              "id": "green-red-white",
+              "label": "Green / Red / White",
+              "skuSegment": "green-red-white",
+              "description": "Fire — 45\" only"
+            },
+            {
+              "id": "amber-blue-white",
+              "label": "Amber / Blue / White",
+              "skuSegment": "amber-blue-white",
+              "description": "Fire — 45\" only"
+            },
+            {
+              "id": "amber-blue-red-white",
+              "label": "Amber / Blue / Red / White",
+              "skuSegment": "amber-blue-red-white",
+              "description": "Fire — 45\" only"
+            },
+            {
+              "id": "red-white",
+              "label": "Red / White",
+              "skuSegment": "red-white",
+              "description": "Fire — 61\"/70\" only"
             }
           ]
         },
@@ -159,16 +246,22 @@
           "_verification": "confirmed",
           "options": [
             {
-              "id": "lc",
-              "label": "Low Profile Corner (LC)",
-              "skuSegment": "LC",
-              "description": "Standard low profile with corner-fill inserts — available on all lengths and colors"
+              "id": "low-hook",
+              "label": "Low Hook",
+              "skuSegment": "low-hook",
+              "description": "45\"/53\" — Police & Fire"
             },
             {
-              "id": "lb",
-              "label": "Low Profile Blue-Focus (LB)",
-              "skuSegment": "LB",
-              "description": "53\" + Full 3-Color Red/Blue/White only (ALGT53JX-P3LB)"
+              "id": "permanent",
+              "label": "Permanent",
+              "skuSegment": "permanent",
+              "description": "61\" Fire only"
+            },
+            {
+              "id": "flat",
+              "label": "Flat",
+              "skuSegment": "flat",
+              "description": "70\" Fire only"
             }
           ]
         }
@@ -184,7 +277,7 @@
           "sku": null,
           "price": null,
           "type": "required",
-          "_note": "Needs Review — exact Allegiant Max Serial controller SKU not confirmed in price book"
+          "_note": "Needs Review — exact Allegiant Max controller SKU not confirmed in price book"
         },
         {
           "id": "acc-harness",
@@ -261,44 +354,72 @@
       "vehicleId": "RAM_1500_SSV",
       "displayName": "Ram 1500 SSV",
       "recommendedLength": "53"
+    },
+    {
+      "vehicleId": "FIRE_ENGINE_TYPE1",
+      "displayName": "Type 1 Fire Engine",
+      "recommendedLength": "61"
+    },
+    {
+      "vehicleId": "FIRE_ENGINE_TYPE3",
+      "displayName": "Type 3 Fire Engine",
+      "recommendedLength": "70"
     }
   ],
   "compatibilityRules": [
     {
-      "id": "excl-45-lb",
+      "id": "excl-61-police",
       "type": "excludes",
       "stepA": "length",
-      "optionA": "45in",
-      "stepB": "mount",
-      "optionB": "lb",
-      "message": "LB mount is available on 53\" only (ALGT53JX-P3LB). Select LC mount for 45\" configurations, or switch to 53\"."
+      "optionA": "61in",
+      "stepB": "vertical",
+      "optionB": "police",
+      "message": "61\" is available in Fire only."
     },
     {
-      "id": "excl-bw1-lb",
+      "id": "excl-70-police",
       "type": "excludes",
-      "stepA": "color",
-      "optionA": "bw1",
-      "stepB": "mount",
-      "optionB": "lb",
-      "message": "LB mount is only available with Full 3-Color Red/Blue/White (P3LB). Select LC mount for 1-Color Blue/White."
+      "stepA": "length",
+      "optionA": "70in",
+      "stepB": "vertical",
+      "optionB": "police",
+      "message": "70\" is available in Fire only."
     },
     {
-      "id": "excl-bw2-lb",
+      "id": "excl-police-mount-permanent",
       "type": "excludes",
-      "stepA": "color",
-      "optionA": "bw2",
+      "stepA": "vertical",
+      "optionA": "police",
       "stepB": "mount",
-      "optionB": "lb",
-      "message": "LB mount is only available with Full 3-Color Red/Blue/White (P3LB). Select LC mount for 2-Color Blue/White."
+      "optionB": "permanent",
+      "message": "Permanent mount is available on the Fire 61\" configuration only."
     },
     {
-      "id": "excl-spec-lb",
+      "id": "excl-police-mount-flat",
       "type": "excludes",
-      "stepA": "color",
-      "optionA": "spec",
+      "stepA": "vertical",
+      "optionA": "police",
       "stepB": "mount",
-      "optionB": "lb",
-      "message": "Specialty (P4LC) is LC mount only. Select LC mount or contact TFR for custom configurations."
+      "optionB": "flat",
+      "message": "Flat mount is available on the Fire 70\" configuration only."
+    },
+    {
+      "id": "excl-fire-blue-white",
+      "type": "excludes",
+      "stepA": "vertical",
+      "optionA": "fire",
+      "stepB": "colorConfig",
+      "optionB": "blue-white",
+      "message": "Blue/White is a Police-only configuration."
+    },
+    {
+      "id": "excl-police-color-amber-red-white",
+      "type": "excludes",
+      "stepA": "vertical",
+      "optionA": "police",
+      "stepB": "colorConfig",
+      "optionB": "amber-red-white",
+      "message": "Amber/Red/White is a Fire-only configuration."
     }
   ],
   "dependencyRules": [],

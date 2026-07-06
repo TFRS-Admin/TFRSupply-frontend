@@ -1,141 +1,147 @@
 {
-  "_source": "TFR Supply Reliant S2 Police Launch SKUs — validated 2026-06-30",
-  "_note": "8 Police Reliant S2 SKUs, all 48\" (RLNT48J prefix). Two zone split styles (01/02) × four fill color combos (BB/CC/RB/RR). All $2,204 per Shopify CSV export (handle: reliant-light-bar-48). shopifyVariantId pending Admin GID collection. Excluded: RLNT48-AMBL/AMGN (work-truck Amber), RLNT48J-AMBR* (Amber/Amber-White, work-truck handle), RLNT48J-ABW*/AGW* (Amber-Blue/Amber-Green, work-truck), RLNT48J-ARWH4 (Red-White — Fire/EMS adjacent, held pending police scope confirmation), See Description variants (ABWF/ABWN4/AGWCC/AGWF4-STT/AGWN4 — Amber/Green fill, non-police).",
+  "_source": "TFR Supply Reliant S2 Light Bar — rebuilt from ground-truth docs/knowledge/configurator_data.json (product_families.reliant_s2.sku_map), 2026-07-06.",
+  "_note": "All 8 Reliant S2 SKUs from the ground-truth sku_map (48\" only, RLNT48J prefix). Zone Style (01/02) is read directly from the SKU's own numeric segment. Dome Color values (Blue, Clear, Red/Blue, Red) are the sku_map's confirmed 'dome' field. Per the ground truth, RLNT48J-0xRR (Red) is Fire-only, RLNT48J-0xBB (Blue) and -0xRB (Red/Blue) are Police-only, and RLNT48J-0xCC (Clear) is shared across both verticals so it carries no vertical attribute and remains visible under either selection. This corrects the prior build, which framed the product as Police-only and grouped Clear with Police. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
   "id": "reliant-s2-configurator",
   "productId": "reliant-s2",
-  "productFamily": "Reliant® S2 Police Light Bar",
-  "label": "Reliant® S2 Police Light Bar Configurator",
+  "productFamily": "Reliant® S2 Light Bar",
+  "label": "Reliant® S2 Light Bar Configurator",
   "priceDisplay": "Contact for pricing",
   "skuOptions": [
     {
       "sku": "RLNT48J-01BB",
-      "description": "Reliant S2 48\" Police — Zone Style 1 — Blue/Blue Fill",
+      "description": "Reliant S2 48\" Police — Zone Style 1 — Blue Dome",
       "attributes": {
         "length": "48",
-        "zone": "Z1",
-        "fill": "BB"
+        "zone": "zone1",
+        "dome": "blue",
+        "vertical": "police"
       }
     },
     {
       "sku": "RLNT48J-01CC",
-      "description": "Reliant S2 48\" Police — Zone Style 1 — Clear-White/White Fill",
+      "description": "Reliant S2 48\" — Zone Style 1 — Clear Dome (Police & Fire)",
       "attributes": {
         "length": "48",
-        "zone": "Z1",
-        "fill": "CC"
+        "zone": "zone1",
+        "dome": "clear"
       }
     },
     {
       "sku": "RLNT48J-01RB",
-      "description": "Reliant S2 48\" Police — Zone Style 1 — Red/Blue Fill",
+      "description": "Reliant S2 48\" Police — Zone Style 1 — Red/Blue Dome",
       "attributes": {
         "length": "48",
-        "zone": "Z1",
-        "fill": "RB"
+        "zone": "zone1",
+        "dome": "red-blue",
+        "vertical": "police"
       }
     },
     {
       "sku": "RLNT48J-01RR",
-      "description": "Reliant S2 48\" Police — Zone Style 1 — Red/Red Fill",
+      "description": "Reliant S2 48\" Fire — Zone Style 1 — Red Dome",
       "attributes": {
         "length": "48",
-        "zone": "Z1",
-        "fill": "RR"
+        "zone": "zone1",
+        "dome": "red",
+        "vertical": "fire"
       }
     },
     {
       "sku": "RLNT48J-02BB",
-      "description": "Reliant S2 48\" Police — Zone Style 2 — Blue/Blue Fill",
+      "description": "Reliant S2 48\" Police — Zone Style 2 — Blue Dome",
       "attributes": {
         "length": "48",
-        "zone": "Z2",
-        "fill": "BB"
+        "zone": "zone2",
+        "dome": "blue",
+        "vertical": "police"
       }
     },
     {
       "sku": "RLNT48J-02CC",
-      "description": "Reliant S2 48\" Police — Zone Style 2 — Clear-White/White Fill",
+      "description": "Reliant S2 48\" — Zone Style 2 — Clear Dome (Police & Fire)",
       "attributes": {
         "length": "48",
-        "zone": "Z2",
-        "fill": "CC"
+        "zone": "zone2",
+        "dome": "clear"
       }
     },
     {
       "sku": "RLNT48J-02RB",
-      "description": "Reliant S2 48\" Police — Zone Style 2 — Red/Blue Fill",
+      "description": "Reliant S2 48\" Police — Zone Style 2 — Red/Blue Dome",
       "attributes": {
         "length": "48",
-        "zone": "Z2",
-        "fill": "RB"
+        "zone": "zone2",
+        "dome": "red-blue",
+        "vertical": "police"
       }
     },
     {
       "sku": "RLNT48J-02RR",
-      "description": "Reliant S2 48\" Police — Zone Style 2 — Red/Red Fill",
+      "description": "Reliant S2 48\" Fire — Zone Style 2 — Red Dome",
       "attributes": {
         "length": "48",
-        "zone": "Z2",
-        "fill": "RR"
+        "zone": "zone2",
+        "dome": "red",
+        "vertical": "fire"
       }
     }
   ],
   "sections": {
     "skuSelector": {
       "label": "SKU Filters",
-      "description": "All Police Reliant S2 SKUs are 48\". Filter by zone programming style and fill color combination. Dead-end combinations are automatically disabled.",
+      "description": "All Reliant S2 SKUs are 48\". Filter by zone style and dome color. Dead-end combinations are automatically disabled.",
       "steps": [
         {
           "id": "zone",
-          "label": "Zone Programming Style",
+          "label": "Zone Style",
           "required": true,
           "skuSegmentKey": "zone",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "z1",
-              "label": "Style 1 (01)",
-              "skuSegment": "Z1",
-              "description": "Zone programming style 1 — standard front/rear zone split"
+              "id": "zone1",
+              "label": "Zone 1",
+              "skuSegment": "zone1",
+              "description": "Zone programming style 1 — SKU segment 01"
             },
             {
-              "id": "z2",
-              "label": "Style 2 (02)",
-              "skuSegment": "Z2",
-              "description": "Zone programming style 2 — alternate zone split configuration"
+              "id": "zone2",
+              "label": "Zone 2",
+              "skuSegment": "zone2",
+              "description": "Zone programming style 2 — SKU segment 02"
             }
           ]
         },
         {
-          "id": "fill",
-          "label": "Warning Color Fill",
+          "id": "domeColor",
+          "label": "Dome Color",
           "required": true,
-          "skuSegmentKey": "fill",
+          "skuSegmentKey": "dome",
           "_verification": "confirmed",
           "options": [
             {
-              "id": "rb",
+              "id": "blue",
+              "label": "Blue",
+              "skuSegment": "blue",
+              "description": "Police only"
+            },
+            {
+              "id": "clear",
+              "label": "Clear",
+              "skuSegment": "clear",
+              "description": "Police & Fire"
+            },
+            {
+              "id": "red-blue",
               "label": "Red / Blue",
-              "skuSegment": "RB",
-              "description": "Red front / Blue rear — most common police configuration"
+              "skuSegment": "red-blue",
+              "description": "Police only"
             },
             {
-              "id": "rr",
-              "label": "Red / Red",
-              "skuSegment": "RR",
-              "description": "Red front and rear — Red-heavy police configuration"
-            },
-            {
-              "id": "bb",
-              "label": "Blue / Blue",
-              "skuSegment": "BB",
-              "description": "Blue front and rear — Blue-dominant police configuration"
-            },
-            {
-              "id": "cc",
-              "label": "Clear-White / White",
-              "skuSegment": "CC",
-              "description": "Clear/White fill — high-visibility white-dominant configuration"
+              "id": "red",
+              "label": "Red",
+              "skuSegment": "red",
+              "description": "Fire only"
             }
           ]
         }
