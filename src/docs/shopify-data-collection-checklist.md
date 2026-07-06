@@ -96,6 +96,13 @@ Accessory SKUs are prototype placeholders. Match to real Shopify products.
 
 Set in Base44 dashboard → Settings → Secrets. Never in source files.
 
+**These are Storefront API credentials, not Admin API credentials.** They
+authenticate customer-facing storefront reads only and are unrelated to the
+Admin API auth used by `scripts/shopify-variant-gid-overlay/` (OAuth client
+credentials or a legacy static Admin API token — see
+`docs/architecture/SHOPIFY_VARIANT_GID_OVERLAY.md`). Never use one in place
+of the other.
+
 | Secret | Value |
 |--------|-------|
 | `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | from Admin → Apps → develop apps → Storefront API |

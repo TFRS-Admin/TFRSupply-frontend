@@ -4,8 +4,17 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'no
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { readShopifyAdminCredentials, SHOPIFY_STORE_DOMAIN_VAR, SHOPIFY_ADMIN_ACCESS_TOKEN_VAR } from '../scripts/shopify-variant-gid-overlay/lib/env.mjs';
+import {
+  readShopifyAdminCredentials,
+  SHOPIFY_SHOP_VAR,
+  SHOPIFY_CLIENT_ID_VAR,
+  SHOPIFY_CLIENT_SECRET_VAR,
+  SHOPIFY_STORE_DOMAIN_VAR,
+  SHOPIFY_ADMIN_ACCESS_TOKEN_VAR,
+} from '../scripts/shopify-variant-gid-overlay/lib/env.mjs';
 import { createShopifyAdminClient, ShopifyAdminApiError, buildAdminGraphqlUrl } from '../scripts/shopify-variant-gid-overlay/lib/shopifyAdminClient.mjs';
+import { buildOAuthTokenUrl } from '../scripts/shopify-variant-gid-overlay/lib/shopifyOAuthClient.mjs';
+import { resolveShopifyAdminAccessToken } from '../scripts/shopify-variant-gid-overlay/lib/shopifyAuth.mjs';
 import { validateShopifyVariants, isValidVariantGid, isValidProductGid } from '../scripts/shopify-variant-gid-overlay/lib/validateVariants.mjs';
 import { matchVariantsToIndex } from '../scripts/shopify-variant-gid-overlay/lib/matchVariants.mjs';
 import { buildOverlayDocument } from '../scripts/shopify-variant-gid-overlay/lib/writeOverlay.mjs';
@@ -30,31 +39,144 @@ function jsonResponse(body, { ok = true, status = 200 } = {}) {
 }
 
 describe('lib/env.mjs — readShopifyAdminCredentials', () => {
-  it('fails gracefully listing both variables when neither is set', () => {
+  it('fails gracefully recommending OAuth client credentials when nothing is set', () => {
     const result = readShopifyAdminCredentials({});
     assert.equal(result.ok, false);
-    assert.deepEqual(result.missing, [SHOPIFY_STORE_DOMAIN_VAR, SHOPIFY_ADMIN_ACCESS_TOKEN_VAR]);
+    assert.deepEqual(result.missing, [SHOPIFY_SHOP_VAR, SHOPIFY_CLIENT_ID_VAR, SHOPIFY_CLIENT_SECRET_VAR]);
+    assert.match(result.message, /SHOPIFY_SHOP/);
+    assert.match(result.message, /SHOPIFY_CLIENT_ID/);
+    assert.match(result.message, /SHOPIFY_CLIENT_SECRET/);
     assert.match(result.message, /SHOPIFY_STORE_DOMAIN/);
     assert.match(result.message, /SHOPIFY_ADMIN_ACCESS_TOKEN/);
   });
 
-  it('reports only the missing variable when one is set', () => {
-    const result = readShopifyAdminCredentials({ SHOPIFY_STORE_DOMAIN: 'shop.myshopify.com' });
-    assert.equal(result.ok, false);
-    assert.deepEqual(result.missing, [SHOPIFY_ADMIN_ACCESS_TOKEN_VAR]);
+  describe('OAuth client credentials mode', () => {
+    it('reports only the missing variable(s) once a client-credentials var is set', () => {
+      const result = readShopifyAdminCredentials({ SHOPIFY_CLIENT_ID: 'id-123' });
+      assert.equal(result.ok, false);
+      assert.deepEqual(result.missing, [SHOPIFY_SHOP_VAR, SHOPIFY_CLIENT_SECRET_VAR]);
+    });
+
+    it('returns trimmed client-credentials fields when all three are present', () => {
+      const result = readShopifyAdminCredentials({
+        SHOPIFY_SHOP: ' shop.myshopify.com ',
+        SHOPIFY_CLIENT_ID: ' client-id ',
+        SHOPIFY_CLIENT_SECRET: ' client-secret ',
+      });
+      assert.equal(result.ok, true);
+      assert.equal(result.authMode, 'client-credentials');
+      assert.equal(result.storeDomain, 'shop.myshopify.com');
+      assert.equal(result.clientId, 'client-id');
+      assert.equal(result.clientSecret, 'client-secret');
+    });
+
+    it('accepts SHOPIFY_STORE_DOMAIN as an alias for SHOPIFY_SHOP', () => {
+      const result = readShopifyAdminCredentials({
+        SHOPIFY_STORE_DOMAIN: 'shop.myshopify.com',
+        SHOPIFY_CLIENT_ID: 'client-id',
+        SHOPIFY_CLIENT_SECRET: 'client-secret',
+      });
+      assert.equal(result.ok, true);
+      assert.equal(result.storeDomain, 'shop.myshopify.com');
+    });
+
+    it('takes precedence over a static token when both are configured', () => {
+      const result = readShopifyAdminCredentials({
+        SHOPIFY_SHOP: 'shop.myshopify.com',
+        SHOPIFY_CLIENT_ID: 'client-id',
+        SHOPIFY_CLIENT_SECRET: 'client-secret',
+        SHOPIFY_ADMIN_ACCESS_TOKEN: 'legacy-token',
+      });
+      assert.equal(result.ok, true);
+      assert.equal(result.authMode, 'client-credentials');
+    });
   });
 
-  it('treats a blank string as missing', () => {
-    const result = readShopifyAdminCredentials({ SHOPIFY_STORE_DOMAIN: '   ', SHOPIFY_ADMIN_ACCESS_TOKEN: 'token' });
+  describe('static Admin API token mode (legacy, backwards compatible)', () => {
+    it('reports only the missing variable when one is set', () => {
+      const result = readShopifyAdminCredentials({ SHOPIFY_STORE_DOMAIN: 'shop.myshopify.com' });
+      assert.equal(result.ok, false);
+      assert.deepEqual(result.missing, [SHOPIFY_ADMIN_ACCESS_TOKEN_VAR]);
+    });
+
+    it('treats a blank string as missing', () => {
+      const result = readShopifyAdminCredentials({ SHOPIFY_STORE_DOMAIN: '   ', SHOPIFY_ADMIN_ACCESS_TOKEN: 'token' });
+      assert.equal(result.ok, false);
+      assert.deepEqual(result.missing, [SHOPIFY_STORE_DOMAIN_VAR]);
+    });
+
+    it('returns trimmed credentials when both are present', () => {
+      const result = readShopifyAdminCredentials({ SHOPIFY_STORE_DOMAIN: ' shop.myshopify.com ', SHOPIFY_ADMIN_ACCESS_TOKEN: ' token-abc ' });
+      assert.equal(result.ok, true);
+      assert.equal(result.authMode, 'static-token');
+      assert.equal(result.storeDomain, 'shop.myshopify.com');
+      assert.equal(result.accessToken, 'token-abc');
+    });
+  });
+});
+
+describe('lib/shopifyOAuthClient.mjs', () => {
+  it('builds the OAuth token URL from the store domain', () => {
+    assert.equal(buildOAuthTokenUrl({ storeDomain: 'shop.myshopify.com' }), 'https://shop.myshopify.com/admin/oauth/access_token');
+  });
+});
+
+describe('lib/shopifyAuth.mjs — resolveShopifyAdminAccessToken', () => {
+  it('fails gracefully with a missing-credentials reason when nothing is configured', async () => {
+    const result = await resolveShopifyAdminAccessToken({});
     assert.equal(result.ok, false);
-    assert.deepEqual(result.missing, [SHOPIFY_STORE_DOMAIN_VAR]);
+    assert.equal(result.reason, 'missing-credentials');
   });
 
-  it('returns trimmed credentials when both are present', () => {
-    const result = readShopifyAdminCredentials({ SHOPIFY_STORE_DOMAIN: ' shop.myshopify.com ', SHOPIFY_ADMIN_ACCESS_TOKEN: ' token-abc ' });
+  it('returns the static token as-is without making any network call', async () => {
+    const result = await resolveShopifyAdminAccessToken(
+      { SHOPIFY_STORE_DOMAIN: 'shop.myshopify.com', SHOPIFY_ADMIN_ACCESS_TOKEN: 'token-abc' },
+      { fetchImpl: async () => { throw new Error('must not be called'); } },
+    );
     assert.equal(result.ok, true);
-    assert.equal(result.storeDomain, 'shop.myshopify.com');
+    assert.equal(result.authMode, 'static-token');
     assert.equal(result.accessToken, 'token-abc');
+  });
+
+  it('exchanges client credentials for an access token via the OAuth token endpoint', async () => {
+    const calls = [];
+    const fetchImpl = async (url, req) => {
+      calls.push({ url, body: JSON.parse(req.body) });
+      return jsonResponse({ access_token: 'exchanged-token', scope: 'read_products' });
+    };
+
+    const result = await resolveShopifyAdminAccessToken(
+      { SHOPIFY_SHOP: 'shop.myshopify.com', SHOPIFY_CLIENT_ID: 'client-id', SHOPIFY_CLIENT_SECRET: 'client-secret' },
+      { fetchImpl },
+    );
+
+    assert.equal(result.ok, true);
+    assert.equal(result.authMode, 'client-credentials');
+    assert.equal(result.accessToken, 'exchanged-token');
+    assert.equal(calls[0].url, 'https://shop.myshopify.com/admin/oauth/access_token');
+    assert.deepEqual(calls[0].body, { client_id: 'client-id', client_secret: 'client-secret', grant_type: 'client_credentials' });
+  });
+
+  it('surfaces an oauth-error reason without throwing when the token exchange fails', async () => {
+    const fetchImpl = async () => jsonResponse({}, { ok: false, status: 401 });
+    const result = await resolveShopifyAdminAccessToken(
+      { SHOPIFY_SHOP: 'shop.myshopify.com', SHOPIFY_CLIENT_ID: 'client-id', SHOPIFY_CLIENT_SECRET: 'client-secret' },
+      { fetchImpl },
+    );
+    assert.equal(result.ok, false);
+    assert.equal(result.reason, 'oauth-error');
+    assert.match(result.message, /HTTP status: 401/);
+  });
+
+  it('propagates a ShopifyOAuthError-shaped failure distinctly from other errors', async () => {
+    const fetchImpl = async () => { throw new Error('network down'); };
+    const result = await resolveShopifyAdminAccessToken(
+      { SHOPIFY_SHOP: 'shop.myshopify.com', SHOPIFY_CLIENT_ID: 'client-id', SHOPIFY_CLIENT_SECRET: 'client-secret' },
+      { fetchImpl },
+    );
+    assert.equal(result.ok, false);
+    assert.equal(result.reason, 'oauth-error');
+    assert.ok(result.message.includes('network down'));
   });
 });
 
@@ -353,6 +475,42 @@ describe('overlay.mjs — runOverlay', () => {
     assert.equal(result.ok, false);
     assert.equal(result.reason, 'shopify-api-error');
     assert.match(result.message, /HTTP status: 500/);
+  });
+
+  it('resolves an OAuth client-credentials access token before querying the Admin API', async () => {
+    const dir = makeTmpDir();
+    const indexPath = join(dir, 'index.json');
+    writeFileSync(indexPath, JSON.stringify({ variants: { 'SKU-OK': {} } }));
+    const options = resolveOptions(['--index', indexPath], { cwd: REPO_ROOT });
+
+    const calls = [];
+    const fetchImpl = async (url, req) => {
+      calls.push(url);
+      if (url.endsWith('/admin/oauth/access_token')) {
+        return jsonResponse({ access_token: 'exchanged-token' });
+      }
+      assert.equal(req.headers['X-Shopify-Access-Token'], 'exchanged-token');
+      return jsonResponse({
+        data: {
+          productVariants: {
+            pageInfo: { hasNextPage: false, endCursor: null },
+            edges: [{ node: { id: 'gid://shopify/ProductVariant/1', sku: 'SKU-OK', product: { id: 'gid://shopify/Product/1', handle: 'h', title: 'T' } } }],
+          },
+        },
+      });
+    };
+
+    const result = await runOverlay(options, {
+      env: { SHOPIFY_SHOP: 'shop.myshopify.com', SHOPIFY_CLIENT_ID: 'client-id', SHOPIFY_CLIENT_SECRET: 'client-secret' },
+      fetchImpl,
+      sleepImpl: noopSleep,
+    });
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(calls, ['https://shop.myshopify.com/admin/oauth/access_token', 'https://shop.myshopify.com/admin/api/2024-10/graphql.json']);
+    assert.deepEqual(result.overlayDocument, {
+      'SKU-OK': { shopifyVariantId: 'gid://shopify/ProductVariant/1', shopifyProductId: 'gid://shopify/Product/1' },
+    });
   });
 
   it('fetches, validates, matches, and builds a correct overlay + report end to end', async () => {
