@@ -16,9 +16,12 @@
  *     [--gid-overlay <path-to-sku-to-gid.json>] \
  *     [--app-root <repo-root-for-sku-cross-reference>]
  *
+ * When the products export carries a populated `Variant ID` column (the
+ * current Matrixify export format), that column is read directly as the
+ * Shopify Product Variant identifier — no further collection step needed.
  * See docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md for the full
- * workflow, including how to collect real Shopify Variant GIDs and merge
- * them in via --gid-overlay without needing to re-run this from scratch.
+ * workflow, including the `--gid-overlay` fallback for exports that don't
+ * carry that column.
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -68,7 +71,7 @@ export function runIngest(options) {
     mediaIndex = parseMediaExport(readFileSync(options.mediaPath), format);
   }
 
-  const { entries, duplicates } = buildCatalogEntries({ products, variants, mediaIndex });
+  const { entries, duplicates, invalidVariantIdRows } = buildCatalogEntries({ products, variants, mediaIndex });
 
   const { indexDocument, gidStats } = projectRuntimeIndex(entries, {
     sourceLabel: `Shopify products export — ${options.productsPath.split('/').pop()}`,
@@ -96,6 +99,7 @@ export function runIngest(options) {
     mediaIndex,
     appSkuReferences,
     gidStats,
+    invalidVariantIdRows,
   });
 
   return { indexDocument, report };
@@ -121,8 +125,14 @@ function printSummary(report) {
   console.log(`  Rows without usable data:   ${s.rowsWithoutUsableVariantData}`);
   console.log(`  App SKUs unmatched:         ${s.appReferencedSkusUnmatched} / ${s.appReferencedSkuCount}`);
   console.log(`  Variants with a real GID:   ${s.variantsWithShopifyVariantGid} / ${s.uniqueVariantsInIndex}`);
+  console.log(`    from export Variant ID:   ${report.gid.fromExport}`);
+  console.log(`    from --gid-overlay:       ${report.gid.appliedFromOverlay}`);
+  console.log(`    preserved from index:     ${report.gid.preservedFromExisting}`);
   if (report.gid.rejectedOverlayEntries.length > 0) {
     console.warn(`  WARNING: ${report.gid.rejectedOverlayEntries.length} --gid-overlay entries were rejected (invalid GID format) — see report for details.`);
+  }
+  if (report.gid.invalidExportVariantIds.length > 0) {
+    console.warn(`  WARNING: ${report.gid.invalidExportVariantIds.length} export "Variant ID" values were malformed and ignored — see report for details.`);
   }
 }
 

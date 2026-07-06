@@ -54,7 +54,9 @@ data/shopify-exports/media_export.xlsx    ─┘                                
     `Type`, `Tags`, `Status`, etc. on a handle's first row), and splits rows
     into variants (has a `Variant SKU`), extra image rows (no SKU, no
     option value), or unusable variant rows (declares an option value but
-    no SKU — see the report).
+    no SKU — see the report). Also captures the `Variant ID` column when
+    the export carries one (see
+    [Consuming the export's `Variant ID` column](#consuming-the-exports-variant-id-column)).
   - `parseMediaExport.mjs` — reads the Files export into lookup maps keyed
     by normalized CDN URL and by filename.
   - `buildVariantIndex.mjs` — availability/image resolution, SKU
@@ -154,25 +156,56 @@ real conflict.
 
 ## Never fabricating Shopify Variant GIDs
 
-Shopify's products CSV export does not include Variant GIDs
-(`gid://shopify/ProductVariant/...`) — full stop. This pipeline never
-invents one. Every freshly-ingested variant gets `shopifyVariantId: null`
-and `shopifyProductId: null` unless a real GID is supplied through one of
-the two paths below, both of which validate the GID shape
+This pipeline never invents a Shopify Variant GID
+(`gid://shopify/ProductVariant/...`). Every freshly-ingested variant gets
+`shopifyVariantId: null` and `shopifyProductId: null` unless a real ID is
+supplied through one of the three paths below, in this order of precedence:
+
+1. **The export's own `Variant ID` column** — see
+   [Consuming the export's `Variant ID` column](#consuming-the-exports-variant-id-column)
+   below. Highest precedence: it's the freshest data straight from Shopify.
+2. **`--gid-overlay`** — for exports that don't (yet) carry a `Variant ID`
+   column, or to correct a bad entry.
+3. **Preserved automatically across re-ingestion** — whatever was already on
+   record in the previous index file, so re-running the pipeline against a
+   newer export never wipes a GID nothing in this run can replace it with.
+
+Every path validates the GID shape
 (`^gid://shopify/ProductVariant/\d+$` / `^gid://shopify/Product/\d+$`) and
-silently drop (and report) anything that doesn't match — this is a
-guardrail against a typo turning into a fake "matched" SKU.
+silently drops (and reports) anything that doesn't match — this is a
+guardrail against a typo or malformed cell turning into a fake "matched" SKU.
+
+### Consuming the export's `Variant ID` column
+
+The current Matrixify products export populates a `Variant ID` column with
+the numeric Shopify Product Variant id on every row (either a bare number
+like `44556677889900`, or an already-formed
+`gid://shopify/ProductVariant/44556677889900` — both are accepted).
+`parseProductsExport.mjs` reads that column into `variant.variantIdRaw`;
+`buildVariantIndex.mjs`'s `normalizeVariantIdToGid()` turns it into a full
+GID, and `projectRuntimeIndex()` uses it directly as `shopifyVariantId` —
+**no `--gid-overlay` run or Shopify Admin GraphQL call is required** when
+this column is populated. A row whose `Variant ID` value doesn't parse as
+numeric or as a valid GID is left `null` and reported under "Malformed
+export Variant ID values," never guessed at.
+
+**Exports without a `Variant ID` column** (older-style Shopify Admin CSV
+exports, or a Matrixify template that omits it) behave exactly as before:
+`shopifyVariantId` falls back to `--gid-overlay` or the previous index file,
+per the precedence above. This is fully backward compatible — no flags or
+export format is required to keep using the pipeline as-is.
 
 ### Preserved automatically across re-ingestion
 
 If `--out-index` already exists (the normal case — you're refreshing an
 existing index), any SKU that already carries a valid GID in that file
-keeps it. Re-running the pipeline against a newer CSV export does not wipe
-GIDs someone already collected.
+keeps it, as long as neither the export's `Variant ID` column nor
+`--gid-overlay` supplies a new one for that SKU.
 
 ### `--gid-overlay`
 
-For applying a batch of freshly-collected GIDs, pass a JSON file shaped:
+For exports without a `Variant ID` column, or to apply a batch of
+freshly-collected GIDs, pass a JSON file shaped:
 
 ```json
 {
@@ -188,12 +221,15 @@ node scripts/shopify-catalog-ingest/ingest.mjs --gid-overlay path/to/collected-g
 ```
 
 Overlay entries win over whatever was already in the previous index (so you
-can also use it to correct a bad entry). The run report shows how many
-overlay entries were applied vs. rejected.
+can also use it to correct a bad entry), but lose to a `Variant ID` the
+export itself supplies for that SKU. The run report shows how many entries
+came from the export column, were applied from the overlay, or were
+preserved/rejected.
 
-## Collecting real Shopify Variant GIDs
+## Collecting real Shopify Variant GIDs (exports without a `Variant ID` column)
 
-Two ways to get GIDs, in increasing order of scale:
+If your export doesn't carry a populated `Variant ID` column, two ways to
+get GIDs, in increasing order of scale:
 
 **Manual, per product (small batches):** In Shopify Admin, open
 Products → the product → the specific variant. The variant's numeric ID is
@@ -231,7 +267,9 @@ code is unchanged by it.
 `.json` alongside it) covers every category `ingest.mjs` is asked to
 report on:
 
-- Summary counts (products, variants, active vs. draft, GID coverage).
+- Summary counts (products, variants, active vs. draft, GID coverage — split
+  by export `Variant ID` column, `--gid-overlay`, and preserved-from-index).
+- Malformed export `Variant ID` values that couldn't be parsed and were left `null`.
 - Duplicate SKUs (which handles, which prices).
 - Variants missing a price.
 - Variants missing an image, and image references that don't resolve
