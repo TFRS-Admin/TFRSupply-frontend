@@ -219,17 +219,19 @@ function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegm
   return (
     <div style={{ marginBottom: 28 }}>
       <SectionHeader number="01" label={section.label} description={section.description} />
-      {steps.map(step => (
-        <FilterStep
-          key={step.id}
-          step={step}
-          skuOptions={skuOptions}
-          selections={selections}
-          steps={steps}
-          onSelect={onSelect}
-          recommendedSegments={recommendedSegments}
-        />
-      ))}
+      <div className="flex flex-col gap-1">
+        {steps.map(step => (
+          <FilterStep
+            key={step.id}
+            step={step}
+            skuOptions={skuOptions}
+            selections={selections}
+            steps={steps}
+            onSelect={onSelect}
+            recommendedSegments={recommendedSegments}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -260,7 +262,7 @@ function FilterStep({ step, skuOptions, selections, steps, onSelect, recommended
           </span>
         )}
       </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+      <div className="flex flex-wrap gap-1.5 sm:gap-2">
         {step.options.map(opt => {
           const isSelected = currentVal === opt.id;
           const isRecommended = recommendedSegments.includes(opt.skuSegment);
@@ -353,7 +355,7 @@ function SkuTable({ skuOptions, remainingSkus, selectedSkuId, onSelectSku, comme
         </span>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
+      <div className="overflow-x-auto">
         <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse', ...FS }}>
           <thead>
             <tr style={{ background: '#1a2744', color: '#fff' }}>
