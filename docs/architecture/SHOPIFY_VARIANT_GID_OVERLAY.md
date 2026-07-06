@@ -10,6 +10,12 @@ validated overlay file in the exact shape
 `scripts/shopify-catalog-ingest/ingest.mjs`'s `--gid-overlay` flag already
 consumes (see `SHOPIFY_CATALOG_CSV_INGESTION.md`).
 
+**Not required when the products export already carries a populated
+`Variant ID` column** (the current Matrixify export format) — the CSV
+ingestion pipeline reads that column directly and needs no overlay or live
+API call to resolve those SKUs. This overlay remains useful for exports
+without that column, and for correcting an individual SKU's GID.
+
 This closes the last data gap between "the storefront can resolve SKUs to
 catalog data" and "a Package Quote's Add to Cart control can actually add a
 real Shopify variant to the cart" (see `CONFIGURATOR_EXPERIENCE.md` — the
@@ -169,10 +175,11 @@ This pipeline produces input for, but never modifies, the CSV ingestion
 pipeline (`SHOPIFY_CATALOG_CSV_INGESTION.md`). It:
 
 - does not read or write `products_export.csv` / `media_export.xlsx`,
-- does not change `buildVariantIndex.mjs`, `ingest.mjs`, or any of their
-  tests,
 - writes a `--gid-overlay` file the existing `ingest.mjs --gid-overlay`
-  flag already reads unchanged.
+  flag reads, at a lower precedence than the export's own `Variant ID`
+  column when one is present (see
+  "Consuming the export's `Variant ID` column" in
+  `SHOPIFY_CATALOG_CSV_INGESTION.md`).
 
 `commerceLookupService` and `shopifyVariantResolverService`'s contracts
 (`CONFIGURATOR_EXPERIENCE.md`) are also unchanged — they keep reading

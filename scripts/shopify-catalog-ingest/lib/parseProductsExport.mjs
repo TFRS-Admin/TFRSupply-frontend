@@ -121,6 +121,7 @@ export function parseProductsExport(csvText) {
         inventoryPolicy: row['Variant Inventory Policy'] || null,
         fulfillmentService: row['Variant Fulfillment Service'] || null,
         variantImage: row['Variant Image']?.trim() || null,
+        variantIdRaw: row['Variant ID']?.trim() || null,
         optionSummary: [row['Option1 Value'], row['Option2 Value'], row['Option3 Value']].filter(Boolean).join(' / '),
       });
     } else if (hasAnyOptionValue(row)) {

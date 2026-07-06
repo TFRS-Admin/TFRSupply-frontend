@@ -6,11 +6,13 @@
  * runtime shape `commerceLookupService` / `shopifyVariantResolverService`
  * already read (see src/data/shopify/shopify-variant-index.json).
  *
- * Shopify Variant GIDs are never fabricated here (the CSV export does not
- * contain them). Regenerating the index from a fresh CSV must not destroy
- * any real GIDs a human already collected from Shopify Admin — see
- * `projectRuntimeIndex`, which merges forward from the previous index file
- * and/or an explicit `--gid-overlay` file.
+ * Shopify Variant GIDs are only ever real Shopify identifiers, never
+ * fabricated here. The Matrixify products export can carry a populated
+ * `Variant ID` column (the numeric Shopify Product Variant id) directly on
+ * every row — when present, that's the authoritative source and needs no
+ * further collection step. Older-style exports without that column fall
+ * back to whatever was already merged in via a previous index file or an
+ * explicit `--gid-overlay` — see `projectRuntimeIndex`.
  */
 
 import { existsSync, readFileSync } from 'node:fs';
@@ -54,11 +56,12 @@ export function resolveVariantImage(variant, product) {
 }
 
 /**
- * @returns {{ entries: object[], duplicates: object[] }}
+ * @returns {{ entries: object[], duplicates: object[], invalidVariantIdRows: object[] }}
  */
 export function buildCatalogEntries({ products, variants, mediaIndex }) {
   const bySku = new Map();
   const duplicates = new Map();
+  const invalidVariantIdRows = [];
 
   for (const variant of variants) {
     if (bySku.has(variant.sku)) {
@@ -71,10 +74,16 @@ export function buildCatalogEntries({ products, variants, mediaIndex }) {
     const { image, imageSource } = resolveVariantImage(variant, product);
     const mediaMatch = findMediaMatch(mediaIndex, image);
 
+    const shopifyVariantIdFromExport = normalizeVariantIdToGid(variant.variantIdRaw);
+    if (variant.variantIdRaw && !shopifyVariantIdFromExport) {
+      invalidVariantIdRows.push({ sku: variant.sku, handle: variant.handle, rowNumber: variant.rowNumber, raw: variant.variantIdRaw });
+    }
+
     const entry = {
       sku: variant.sku,
       shopifyVariantId: null,
       shopifyProductId: null,
+      shopifyVariantIdFromExport,
       price: variant.price,
       compareAtPrice: variant.compareAtPrice,
       available: computeAvailability({
@@ -106,11 +115,31 @@ export function buildCatalogEntries({ products, variants, mediaIndex }) {
     occurrences,
   }));
 
-  return { entries, duplicates: duplicateList };
+  return { entries, duplicates: duplicateList, invalidVariantIdRows };
 }
 
 function isValidGid(kind, value) {
   return typeof value === 'string' && GID_PATTERN[kind].test(value);
+}
+
+/**
+ * Normalizes a `Variant ID` CSV cell into a full Shopify Variant GID. The
+ * export column carries either a bare numeric Shopify id (Matrixify's
+ * convention) or an already-formed `gid://shopify/ProductVariant/<id>`
+ * string — either is accepted. Anything else (blank, non-numeric, a GID for
+ * the wrong resource) is rejected rather than guessed at, consistent with
+ * this pipeline never fabricating a GID.
+ *
+ * @param {string | null | undefined} raw
+ * @returns {string | null}
+ */
+export function normalizeVariantIdToGid(raw) {
+  if (raw === undefined || raw === null) return null;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return null;
+  if (isValidGid('shopifyVariantId', trimmed)) return trimmed;
+  if (/^\d+$/.test(trimmed)) return `gid://shopify/ProductVariant/${trimmed}`;
+  return null;
 }
 
 /**
@@ -166,6 +195,15 @@ function readGidOverlay(overlayPath) {
  * consumed by commerceLookupService, merging forward any real GIDs already
  * on record.
  *
+ * Shopify Variant GID precedence, highest first:
+ *   1. The export's own `Variant ID` column (`entry.shopifyVariantIdFromExport`)
+ *      — when the products export carries it directly, it's the freshest,
+ *      most authoritative source and needs no separate collection step.
+ *   2. `--gid-overlay` — for exports that don't (yet) carry the column, or to
+ *      correct a bad entry.
+ *   3. Whatever was already on record in the previous index file, so
+ *      re-ingesting never wipes a GID nothing in this run can replace it with.
+ *
  * @param {object[]} entries
  * @param {{ sourceLabel: string, generatedDate: string, existingIndexPath?: string, gidOverlayPath?: string }} options
  */
@@ -173,6 +211,7 @@ export function projectRuntimeIndex(entries, options) {
   const existingGids = extractExistingGids(options.existingIndexPath);
   const { gids: overlayGids, rejected: rejectedOverlayEntries } = readGidOverlay(options.gidOverlayPath);
 
+  let fromExport = 0;
   let preservedFromExisting = 0;
   let appliedFromOverlay = 0;
 
@@ -180,14 +219,28 @@ export function projectRuntimeIndex(entries, options) {
   for (const entry of entries) {
     const overlay = overlayGids.get(entry.sku);
     const existing = existingGids.get(entry.sku);
-    const gids = overlay ?? existing ?? null;
-    if (gids && overlay) appliedFromOverlay++;
-    else if (gids && existing) preservedFromExisting++;
+
+    let shopifyVariantId = null;
+    let shopifyProductId = null;
+
+    if (entry.shopifyVariantIdFromExport) {
+      shopifyVariantId = entry.shopifyVariantIdFromExport;
+      shopifyProductId = overlay?.shopifyProductId ?? existing?.shopifyProductId ?? null;
+      fromExport++;
+    } else if (overlay) {
+      shopifyVariantId = overlay.shopifyVariantId;
+      shopifyProductId = overlay.shopifyProductId;
+      appliedFromOverlay++;
+    } else if (existing) {
+      shopifyVariantId = existing.shopifyVariantId;
+      shopifyProductId = existing.shopifyProductId;
+      preservedFromExisting++;
+    }
 
     variantsMap[entry.sku] = {
       sku: entry.sku,
-      shopifyVariantId: gids?.shopifyVariantId ?? null,
-      shopifyProductId: gids?.shopifyProductId ?? null,
+      shopifyVariantId,
+      shopifyProductId,
       price: entry.price,
       available: entry.available,
       inventoryQty: entry.inventoryQty,
@@ -200,7 +253,7 @@ export function projectRuntimeIndex(entries, options) {
 
   const indexDocument = {
     _source: options.sourceLabel,
-    _note: 'Auto-generated by scripts/shopify-catalog-ingest/ingest.mjs. shopifyVariantId/shopifyProductId are null unless collected from Shopify Admin/API and preserved across re-ingestion or supplied via --gid-overlay — see docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md. Do not hand-edit; regenerate from a fresh export instead.',
+    _note: 'Auto-generated by scripts/shopify-catalog-ingest/ingest.mjs. shopifyVariantId is read directly from the export\'s Variant ID column when present; otherwise it is null unless collected from Shopify Admin/API and preserved across re-ingestion or supplied via --gid-overlay — see docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md. Do not hand-edit; regenerate from a fresh export instead.',
     _generated: options.generatedDate,
     _totalVariants: entries.length,
     variants: variantsMap,
@@ -208,6 +261,6 @@ export function projectRuntimeIndex(entries, options) {
 
   return {
     indexDocument,
-    gidStats: { preservedFromExisting, appliedFromOverlay, rejectedOverlayEntries },
+    gidStats: { fromExport, preservedFromExisting, appliedFromOverlay, rejectedOverlayEntries },
   };
 }

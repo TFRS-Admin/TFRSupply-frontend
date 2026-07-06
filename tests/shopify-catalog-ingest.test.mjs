@@ -13,6 +13,7 @@ import {
   resolveVariantImage,
   buildCatalogEntries,
   projectRuntimeIndex,
+  normalizeVariantIdToGid,
 } from '../scripts/shopify-catalog-ingest/lib/buildVariantIndex.mjs';
 import { scanAppSkuReferences } from '../scripts/shopify-catalog-ingest/lib/scanAppSkuReferences.mjs';
 import { buildReport, toMarkdown } from '../scripts/shopify-catalog-ingest/lib/report.mjs';
@@ -163,6 +164,23 @@ describe('lib/parseProductsExport.mjs', () => {
     const b1 = variants.find((v) => v.sku === 'SKU-B1');
     assert.equal(b1.price, null);
   });
+
+  it('captures a populated Variant ID column directly from the export', () => {
+    const csvWithVariantId = toCsv([...PRODUCT_HEADERS, 'Variant ID'], [
+      {
+        Handle: 'test-product-d', Title: 'Test Product D', Status: 'active', Published: 'true',
+        'Variant SKU': 'SKU-D1', 'Variant Price': '50.00', 'Variant ID': '44556677889900',
+      },
+    ]);
+    const { variants } = parseProductsExport(csvWithVariantId);
+    const d1 = variants.find((v) => v.sku === 'SKU-D1');
+    assert.equal(d1.variantIdRaw, '44556677889900');
+  });
+
+  it('leaves variantIdRaw null when the export has no Variant ID column at all (backward compatibility)', () => {
+    const { variants } = parseProductsExport(csvText);
+    assert.ok(variants.every((v) => v.variantIdRaw === null));
+  });
 });
 
 describe('lib/parseMediaExport.mjs', () => {
@@ -235,6 +253,25 @@ describe('buildVariantIndex.mjs — resolveVariantImage', () => {
   it('returns null when the product has no images at all', () => {
     const result = resolveVariantImage({ variantImage: null }, { images: [] });
     assert.deepEqual(result, { image: null, imageSource: 'none' });
+  });
+});
+
+describe('buildVariantIndex.mjs — normalizeVariantIdToGid', () => {
+  it('turns a bare numeric export Variant ID into a full Shopify Variant GID', () => {
+    assert.equal(normalizeVariantIdToGid('44556677889900'), 'gid://shopify/ProductVariant/44556677889900');
+  });
+
+  it('passes an already-formed GID through unchanged', () => {
+    assert.equal(normalizeVariantIdToGid('gid://shopify/ProductVariant/123'), 'gid://shopify/ProductVariant/123');
+  });
+
+  it('returns null for blank, missing, or non-numeric values rather than guessing', () => {
+    assert.equal(normalizeVariantIdToGid(null), null);
+    assert.equal(normalizeVariantIdToGid(undefined), null);
+    assert.equal(normalizeVariantIdToGid(''), null);
+    assert.equal(normalizeVariantIdToGid('   '), null);
+    assert.equal(normalizeVariantIdToGid('not-an-id'), null);
+    assert.equal(normalizeVariantIdToGid('gid://shopify/Product/123'), null);
   });
 });
 
@@ -322,6 +359,89 @@ describe('buildVariantIndex.mjs — buildCatalogEntries + projectRuntimeIndex', 
   });
 });
 
+describe('buildVariantIndex.mjs — export Variant ID column (Matrixify "Variant ID")', () => {
+  const products = new Map([
+    ['handle-a', { handle: 'handle-a', title: 'Product A', vendor: 'Acme', productType: 'Widget', tags: [], status: 'active', images: [] }],
+  ]);
+  const mediaIndex = { byUrl: new Map(), byFilename: new Map() };
+
+  it('resolves a SKU to a non-null Shopify Variant ID straight from the export, with no --gid-overlay involved, and canAddToCart becomes true', () => {
+    const variants = [
+      { sku: 'SKU-MAPPED', handle: 'handle-a', price: 199, compareAtPrice: null, inventoryTracker: '', inventoryPolicy: 'continue', inventoryQty: 0, variantImage: null, variantIdRaw: '9988776655', rowNumber: 2 },
+    ];
+    const { entries } = buildCatalogEntries({ products, variants, mediaIndex });
+    const { indexDocument, gidStats } = projectRuntimeIndex(entries, { sourceLabel: 'test', generatedDate: '2026-01-01' });
+
+    const mapped = indexDocument.variants['SKU-MAPPED'];
+    assert.equal(mapped.shopifyVariantId, 'gid://shopify/ProductVariant/9988776655');
+    assert.equal(gidStats.fromExport, 1);
+    assert.equal(gidStats.appliedFromOverlay, 0);
+    assert.equal(gidStats.preservedFromExisting, 0);
+
+    // Same rule shopifyVariantResolverService.resolveFromCatalog uses for canAddToCart.
+    const canAddToCart = Boolean(mapped.shopifyVariantId) && mapped.price != null;
+    assert.equal(canAddToCart, true);
+  });
+
+  it('preserves backward compatibility: a SKU with no export Variant ID stays null with no overlay/existing index', () => {
+    const variants = [
+      { sku: 'SKU-UNMAPPED', handle: 'handle-a', price: 199, compareAtPrice: null, inventoryTracker: '', inventoryPolicy: 'continue', inventoryQty: 0, variantImage: null, variantIdRaw: null, rowNumber: 2 },
+    ];
+    const { entries } = buildCatalogEntries({ products, variants, mediaIndex });
+    const { indexDocument, gidStats } = projectRuntimeIndex(entries, { sourceLabel: 'test', generatedDate: '2026-01-01' });
+
+    assert.equal(indexDocument.variants['SKU-UNMAPPED'].shopifyVariantId, null);
+    assert.equal(gidStats.fromExport, 0);
+  });
+
+  it('the export Variant ID wins over a --gid-overlay entry and a preserved existing GID for the same SKU', () => {
+    const dir = makeTmpDir();
+    const existingIndexPath = join(dir, 'existing-index.json');
+    writeFileSync(existingIndexPath, JSON.stringify({
+      variants: { 'SKU-BOTH': { shopifyVariantId: 'gid://shopify/ProductVariant/111', shopifyProductId: 'gid://shopify/Product/222' } },
+    }));
+    const overlayPath = join(dir, 'overlay.json');
+    writeFileSync(overlayPath, JSON.stringify({
+      'SKU-BOTH': { shopifyVariantId: 'gid://shopify/ProductVariant/333' },
+    }));
+
+    const variants = [
+      { sku: 'SKU-BOTH', handle: 'handle-a', price: 50, compareAtPrice: null, inventoryTracker: '', inventoryPolicy: 'continue', inventoryQty: 0, variantImage: null, variantIdRaw: '999000111', rowNumber: 2 },
+    ];
+    const { entries } = buildCatalogEntries({ products, variants, mediaIndex });
+    const { indexDocument, gidStats } = projectRuntimeIndex(entries, { sourceLabel: 'test', generatedDate: '2026-01-01', existingIndexPath, gidOverlayPath: overlayPath });
+
+    assert.equal(indexDocument.variants['SKU-BOTH'].shopifyVariantId, 'gid://shopify/ProductVariant/999000111');
+    // shopifyProductId isn't in the export column, so it still falls back to overlay, then existing.
+    assert.equal(indexDocument.variants['SKU-BOTH'].shopifyProductId, 'gid://shopify/Product/222');
+    assert.equal(gidStats.fromExport, 1);
+    assert.equal(gidStats.appliedFromOverlay, 0);
+    assert.equal(gidStats.preservedFromExisting, 0);
+  });
+
+  it('ignores a malformed export Variant ID value, reports it, and falls back to the overlay', () => {
+    const dir = makeTmpDir();
+    const overlayPath = join(dir, 'overlay.json');
+    writeFileSync(overlayPath, JSON.stringify({
+      'SKU-BADID': { shopifyVariantId: 'gid://shopify/ProductVariant/42' },
+    }));
+
+    const variants = [
+      { sku: 'SKU-BADID', handle: 'handle-a', price: 50, compareAtPrice: null, inventoryTracker: '', inventoryPolicy: 'continue', inventoryQty: 0, variantImage: null, variantIdRaw: 'not-a-real-id', rowNumber: 2 },
+    ];
+    const { entries, invalidVariantIdRows } = buildCatalogEntries({ products, variants, mediaIndex });
+
+    assert.equal(invalidVariantIdRows.length, 1);
+    assert.equal(invalidVariantIdRows[0].sku, 'SKU-BADID');
+    assert.equal(invalidVariantIdRows[0].raw, 'not-a-real-id');
+
+    const { indexDocument, gidStats } = projectRuntimeIndex(entries, { sourceLabel: 'test', generatedDate: '2026-01-01', gidOverlayPath: overlayPath });
+    assert.equal(indexDocument.variants['SKU-BADID'].shopifyVariantId, 'gid://shopify/ProductVariant/42');
+    assert.equal(gidStats.fromExport, 0);
+    assert.equal(gidStats.appliedFromOverlay, 1);
+  });
+});
+
 describe('lib/scanAppSkuReferences.mjs', () => {
   it('recursively collects string values under any "sku" key across nested JSON', () => {
     const dir = makeTmpDir();
@@ -363,7 +483,8 @@ describe('lib/report.mjs', () => {
     imageOnlyRowCount: 1,
     mediaIndex: { count: 10 },
     appSkuReferences: { skus: new Set(['SKU-1', 'SKU-9']) },
-    gidStats: { preservedFromExisting: 0, appliedFromOverlay: 0, rejectedOverlayEntries: [] },
+    gidStats: { fromExport: 1, preservedFromExisting: 0, appliedFromOverlay: 0, rejectedOverlayEntries: [] },
+    invalidVariantIdRows: [{ sku: 'SKU-2', handle: 'handle-b', rowNumber: 5, raw: 'not-a-real-id' }],
   });
 
   it('summarizes counts correctly', () => {
@@ -373,6 +494,13 @@ describe('lib/report.mjs', () => {
     assert.equal(report.summary.variantsMissingPrice, 1);
     assert.equal(report.summary.variantsMissingImage, 1);
     assert.equal(report.summary.rowsWithoutUsableVariantData, 1);
+    assert.equal(report.summary.variantsWithShopifyVariantGid, 1);
+    assert.equal(report.summary.variantsPendingShopifyVariantGid, 1);
+  });
+
+  it('surfaces export Variant ID stats and malformed rows in the gid section', () => {
+    assert.equal(report.gid.fromExport, 1);
+    assert.deepEqual(report.gid.invalidExportVariantIds, [{ sku: 'SKU-2', handle: 'handle-b', rowNumber: 5, raw: 'not-a-real-id' }]);
   });
 
   it('flags app-referenced SKUs absent from the export', () => {

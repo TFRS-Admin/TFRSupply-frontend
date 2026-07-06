@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-05T22:53:07.160Z",
+    "generatedAt": "2026-07-06T13:20:13.072Z",
     "productsSource": "data/shopify-exports/products_export.csv",
     "mediaSource": "data/shopify-exports/media_export.xlsx"
   },
@@ -2231,9 +2231,11 @@
     ]
   },
   "gid": {
-    "note": "The Shopify products CSV export does not contain Variant GIDs. See docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md for the Shopify Admin/API step required to collect them.",
+    "note": "Shopify Variant IDs are read directly from the export's Variant ID column when present. Exports without that column fall back to --gid-overlay or whatever was already on record — see docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md.",
+    "fromExport": 0,
     "preservedFromExisting": 0,
     "appliedFromOverlay": 0,
-    "rejectedOverlayEntries": []
+    "rejectedOverlayEntries": [],
+    "invalidExportVariantIds": []
   }
 }

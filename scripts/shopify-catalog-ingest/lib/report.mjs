@@ -21,6 +21,7 @@ export function buildReport({
   mediaIndex,
   appSkuReferences,
   gidStats,
+  invalidVariantIdRows = [],
 }) {
   const productList = [...products.values()];
   const activeProducts = productList.filter((p) => p.status === 'active');
@@ -60,8 +61,8 @@ export function buildReport({
       rowsWithoutUsableVariantData: unusableVariantRows.length,
       appReferencedSkuCount: appSkus.size,
       appReferencedSkusUnmatched: unmatchedAppSkus.length,
-      variantsWithShopifyVariantGid: gidStats.preservedFromExisting + gidStats.appliedFromOverlay,
-      variantsPendingShopifyVariantGid: entries.length - (gidStats.preservedFromExisting + gidStats.appliedFromOverlay),
+      variantsWithShopifyVariantGid: (gidStats.fromExport ?? 0) + gidStats.preservedFromExisting + gidStats.appliedFromOverlay,
+      variantsPendingShopifyVariantGid: entries.length - ((gidStats.fromExport ?? 0) + gidStats.preservedFromExisting + gidStats.appliedFromOverlay),
     },
     duplicateSkus: duplicates,
     missingPrices: missingPrices.map((e) => ({ sku: e.sku, productHandle: e.productHandle, rowNumber: e.rowNumber })),
@@ -79,10 +80,12 @@ export function buildReport({
       unmatchedSkus: unmatchedAppSkus,
     },
     gid: {
-      note: 'The Shopify products CSV export does not contain Variant GIDs. See docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md for the Shopify Admin/API step required to collect them.',
+      note: 'Shopify Variant IDs are read directly from the export\'s Variant ID column when present. Exports without that column fall back to --gid-overlay or whatever was already on record — see docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md.',
+      fromExport: gidStats.fromExport ?? 0,
       preservedFromExisting: gidStats.preservedFromExisting,
       appliedFromOverlay: gidStats.appliedFromOverlay,
       rejectedOverlayEntries: gidStats.rejectedOverlayEntries,
+      invalidExportVariantIds: invalidVariantIdRows,
     },
   };
 }
@@ -201,14 +204,25 @@ export function toMarkdown(report) {
   lines.push(table(
     ['Metric', 'Value'],
     [
-      ['Preserved from previous index', report.gid.preservedFromExisting],
+      ['From export Variant ID column', report.gid.fromExport],
       ['Applied from --gid-overlay', report.gid.appliedFromOverlay],
+      ['Preserved from previous index', report.gid.preservedFromExisting],
       ['Rejected overlay entries (invalid GID format)', report.gid.rejectedOverlayEntries.length],
+      ['Malformed export Variant ID values (ignored)', report.gid.invalidExportVariantIds.length],
     ],
   ));
   if (report.gid.rejectedOverlayEntries.length > 0) {
     lines.push('');
     lines.push(table(['SKU', 'Reason'], report.gid.rejectedOverlayEntries.map((r) => [r.sku, r.reason])));
+  }
+  if (report.gid.invalidExportVariantIds.length > 0) {
+    lines.push('');
+    lines.push('Malformed `Variant ID` values from the export (not numeric, not a valid GID) — ignored rather than guessed at:');
+    lines.push('');
+    lines.push(table(
+      ['SKU', 'Product handle', 'CSV row', 'Raw value'],
+      report.gid.invalidExportVariantIds.map((r) => [r.sku, r.handle, r.rowNumber, r.raw]),
+    ));
   }
 
   return lines.join('\n') + '\n';

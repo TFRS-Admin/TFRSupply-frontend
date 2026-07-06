@@ -1,6 +1,6 @@
 # Shopify Catalog Ingestion Report
 
-**Generated:** 2026-07-05T22:53:07.160Z  
+**Generated:** 2026-07-06T13:20:13.072Z  
 **Products source:** data/shopify-exports/products_export.csv  
 **Media source:** data/shopify-exports/media_export.xlsx
 
@@ -429,10 +429,12 @@ SKUs referenced by configurator/product JSON in `src/data/` that do not exist an
 
 ## Shopify Variant GIDs
 
-The Shopify products CSV export does not contain Variant GIDs. See docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md for the Shopify Admin/API step required to collect them.
+Shopify Variant IDs are read directly from the export's Variant ID column when present. Exports without that column fall back to --gid-overlay or whatever was already on record — see docs/architecture/SHOPIFY_CATALOG_CSV_INGESTION.md.
 
 | Metric | Value |
 | --- | --- |
-| Preserved from previous index | 0 |
+| From export Variant ID column | 0 |
 | Applied from --gid-overlay | 0 |
+| Preserved from previous index | 0 |
 | Rejected overlay entries (invalid GID format) | 0 |
+| Malformed export Variant ID values (ignored) | 0 |
