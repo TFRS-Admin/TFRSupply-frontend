@@ -20,14 +20,15 @@ after(async () => {
   await server?.close();
 });
 
-// A real SKU from the Shopify export index (src/data/shopify/shopify-variant-index.json):
-// has a catalog price but no collected Shopify variant GID yet — the common
-// pre-GID-collection state this whole layer is built to represent honestly.
+// A real SKU from the Shopify export index (src/data/shopify/shopify-variant-index.json).
+// The committed export is now a Matrixify export with a populated Variant ID
+// column on every row, so this SKU carries a real, activated Shopify Variant
+// GID — the resolver reports it matched and cart-enabled.
 const KNOWN_SKU = '8200SM8-A-42';
 const UNKNOWN_SKU = 'DOES-NOT-EXIST-000';
 
 describe('shopifyVariantResolverService.resolveFromCatalog (Shopify-export fallback)', () => {
-  it('resolves a known SKU with a catalog price but no variant GID as price_only, cart-disabled', () => {
+  it('resolves a known SKU with a catalog price and an activated variant GID as matched, cart-enabled', () => {
     const { resolveFromCatalog } = modules.resolverService;
     const { lookupSku } = modules.commerceLookup;
     const catalogEntry = lookupSku(KNOWN_SKU);
@@ -35,12 +36,13 @@ describe('shopifyVariantResolverService.resolveFromCatalog (Shopify-export fallb
     const resolution = resolveFromCatalog(KNOWN_SKU);
 
     assert.equal(resolution.sku, KNOWN_SKU);
-    assert.equal(resolution.shopifyVariantId, null);
+    assert.match(resolution.shopifyVariantId, /^gid:\/\/shopify\/ProductVariant\/\d+$/);
+    assert.equal(resolution.shopifyVariantId, catalogEntry.shopifyVariantId);
     assert.equal(resolution.price, catalogEntry.price);
-    assert.equal(resolution.status, 'price_only');
-    assert.equal(resolution.canAddToCart, false);
+    assert.equal(resolution.status, 'matched');
+    assert.equal(resolution.canAddToCart, true);
     assert.equal(resolution.source, 'shopify-export');
-    assert.match(resolution.reviewFlag, /Shopify variant ID pending/);
+    assert.equal(resolution.reviewFlag, null);
   });
 
   it('resolves an unknown SKU as unmatched, cart-disabled, with an honest review flag', () => {
@@ -136,13 +138,25 @@ describe('resolveCartLineDraft (checkout preparation ↔ Shopify Variant Resolve
     assert.equal(result.data.variantMapping.price.amount, 249);
   });
 
-  it('remains honestly blocked (pending, null data) for a real catalog SKU that has a price but no Shopify Variant GID yet', async () => {
+  it('remains honestly blocked (pending, null data) when the resolver reports a price but no Shopify Variant GID yet', async () => {
     const { resolveCartLineDraft } = modules.resolverService;
 
-    // Default singleton resolver — the Commerce Foundation adapter is
-    // unavailable, so this falls back to the catalog, which has no
-    // committed GID for this SKU yet (see resolveFromCatalog test above).
-    const result = await resolveCartLineDraft(KNOWN_SKU, 1);
+    // Every SKU in the committed catalog now carries an activated Variant
+    // GID (see resolveFromCatalog test above), so the pre-GID-collection
+    // "price_only" state is exercised here via a controlled resolver stub
+    // rather than a real catalog SKU — this is exactly the seam
+    // `resolveCartLineDraft`'s injectable `resolver` param exists for.
+    const pendingResolver = {
+      async resolve(sku) {
+        return {
+          sku, shopifyVariantId: null, shopifyProductId: null, price: 129, currency: 'USD',
+          availability: 'unknown', status: 'price_only', canAddToCart: false,
+          reviewFlag: 'Shopify variant ID pending — quote only, checkout disabled', source: 'shopify-export',
+        };
+      },
+    };
+
+    const result = await resolveCartLineDraft('PENDING-GID-SKU', 1, pendingResolver);
 
     assert.equal(result.status, 'pending');
     assert.equal(result.data, null);
@@ -187,8 +201,8 @@ describe('useShopifyVariantResolver (React hook)', () => {
     const html = renderToString(React.createElement(ResolverProbe, { sku: KNOWN_SKU }));
 
     assert.match(html, new RegExp(`data-sku="${KNOWN_SKU}"`));
-    assert.match(html, /data-variant-id=""/);
-    assert.match(html, /data-can-add-to-cart="false"/);
+    assert.match(html, new RegExp(`data-variant-id="${expected.shopifyVariantId}"`));
+    assert.match(html, new RegExp(`data-can-add-to-cart="${String(expected.canAddToCart)}"`));
     assert.match(html, new RegExp(`data-status="${expected.status}"`));
   });
 });

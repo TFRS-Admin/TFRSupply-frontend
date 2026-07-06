@@ -542,13 +542,19 @@ describe('ingest.mjs — end-to-end against the committed fixtures', () => {
     const duplicateSkuCount = report.duplicateSkus.reduce((sum, d) => sum + d.occurrences.length - 1, 0);
     assert.equal(indexDocument._totalVariants + duplicateSkuCount, report.summary.totalVariantRows);
 
-    // Never fabricates GIDs from a bare CSV run.
-    assert.ok(Object.values(indexDocument.variants).every((v) => v.shopifyVariantId === null));
+    // The committed fixture is a Matrixify export with a populated Variant ID
+    // column on every row — every variant should resolve to a real,
+    // well-formed GID read directly from the export, never fabricated.
+    const gidPattern = /^gid:\/\/shopify\/ProductVariant\/\d+$/;
+    assert.ok(Object.values(indexDocument.variants).every((v) => gidPattern.test(v.shopifyVariantId)));
+    assert.equal(report.gid.fromExport, indexDocument._totalVariants);
+    assert.equal(report.gid.appliedFromOverlay, 0);
+    assert.equal(report.gid.preservedFromExisting, 0);
 
     const known = indexDocument.variants['8200SM8-A-42'];
     assert.ok(known);
     assert.equal(known.price, 1057);
-    assert.equal(known.shopifyVariantId, null);
+    assert.equal(known.shopifyVariantId, 'gid://shopify/ProductVariant/53207698702447');
   });
 
   it('defaults to the repo\'s canonical export paths when no flags are given', () => {
