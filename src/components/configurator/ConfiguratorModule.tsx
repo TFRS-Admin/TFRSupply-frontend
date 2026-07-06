@@ -822,7 +822,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       }}>
         <div>
           <p style={{ margin: 0, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            Product Configurator
+            TFRSupply Configurator
           </p>
           <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>{productFamily}</p>
         </div>
@@ -873,13 +873,6 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
 
         {/* Quote */}
         <QuotePanel quotePayload={quotePayload} accSection={sections?.accessories} />
-      </div>
-
-      {/* Prototype watermark */}
-      <div style={{ borderTop: '1px solid #f0f0f0', padding: '8px 20px', background: '#fafafa' }}>
-        <p style={{ margin: 0, fontSize: 10, color: '#bbb', letterSpacing: '0.04em' }}>
-          ⚠ PROTOTYPE — No Shopify connection. Data sourced from TFRSupply Configurator Master v5.
-        </p>
       </div>
 
       {/* Vehicle selector modal — same existing component */}
