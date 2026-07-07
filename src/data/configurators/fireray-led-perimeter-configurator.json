@@ -1,0 +1,853 @@
+{
+  "_source": "Derived from src/data/shopify/shopify-variant-index.json (productHandle=fireray-warning-lights, 73 confirmed variants), 2026-07-07.",
+  "_note": "FireRay LED Perimeter uses a sku-selector configurator (not dynamic_build) — every skuOptions entry below is a real, confirmed SKU from shopify-variant-index.json. Zone denotes the FireRay housing size/series (4, 6, 7, 9). Mount Style denotes the fixture family: A1/B1/R1 are legacy fixed single-color fixtures, C1 is the selectable single-color fixture, C2 is the selectable dual-color fixture. Zone 4 core SKUs use a legacy \"C\" segment instead of \"C1\" and mix single-color (FR4C-A, FR4C-B) and dual-color (FR4C-AW) offerings under that one code — flagged needs_verification since it does not follow the clean C1/C2 split used by Zones 6/7/9. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
+  "id": "fireray-led-perimeter-configurator",
+  "productId": "fireray-led-perimeter",
+  "productFamily": "FireRay LED Perimeter",
+  "label": "FireRay® LED Perimeter Configurator",
+  "priceDisplay": "Contact for pricing",
+  "skuOptions": [
+    {
+      "sku": "FR4C2-AG",
+      "description": "FireRay LED Zone 4 — Style C2 (Selectable Dual-Color) — Amber/Green",
+      "attributes": {
+        "zone": "4",
+        "style": "C2",
+        "color": "amber-green"
+      }
+    },
+    {
+      "sku": "FR4C2-AW",
+      "description": "FireRay LED Zone 4 — Style C2 (Selectable Dual-Color) — Amber/White",
+      "attributes": {
+        "zone": "4",
+        "style": "C2",
+        "color": "amber-white"
+      }
+    },
+    {
+      "sku": "FR4C2-BA",
+      "description": "FireRay LED Zone 4 — Style C2 (Selectable Dual-Color) — Blue/Amber",
+      "attributes": {
+        "zone": "4",
+        "style": "C2",
+        "color": "blue-amber"
+      }
+    },
+    {
+      "sku": "FR4C2-BW",
+      "description": "FireRay LED Zone 4 — Style C2 (Selectable Dual-Color) — Blue/White",
+      "attributes": {
+        "zone": "4",
+        "style": "C2",
+        "color": "blue-white"
+      }
+    },
+    {
+      "sku": "FR4C2-RB",
+      "description": "FireRay LED Zone 4 — Style C2 (Selectable Dual-Color) — Red/Blue",
+      "attributes": {
+        "zone": "4",
+        "style": "C2",
+        "color": "red-blue"
+      }
+    },
+    {
+      "sku": "FR4C2-RW",
+      "description": "FireRay LED Zone 4 — Style C2 (Selectable Dual-Color) — Red/White",
+      "attributes": {
+        "zone": "4",
+        "style": "C2",
+        "color": "red-white"
+      }
+    },
+    {
+      "sku": "FR4C-A",
+      "description": "FireRay LED Zone 4 — Style C1 (Selectable Single-Color) — Amber",
+      "attributes": {
+        "zone": "4",
+        "style": "C1",
+        "color": "amber",
+        "_verification": "needs_verification"
+      }
+    },
+    {
+      "sku": "FR4C-AW",
+      "description": "FireRay LED Zone 4 — Style C1 (Selectable Single-Color) — Amber/White",
+      "attributes": {
+        "zone": "4",
+        "style": "C1",
+        "color": "amber-white",
+        "_verification": "needs_verification"
+      }
+    },
+    {
+      "sku": "FR4C-B",
+      "description": "FireRay LED Zone 4 — Style C1 (Selectable Single-Color) — Blue",
+      "attributes": {
+        "zone": "4",
+        "style": "C1",
+        "color": "blue",
+        "_verification": "needs_verification"
+      }
+    },
+    {
+      "sku": "FR6A1-A",
+      "description": "FireRay LED Zone 6 — Style A1 (Fixed Single-Color) — Amber",
+      "attributes": {
+        "zone": "6",
+        "style": "A1",
+        "color": "amber"
+      }
+    },
+    {
+      "sku": "FR6B1-B",
+      "description": "FireRay LED Zone 6 — Style B1 (Fixed Single-Color) — Blue",
+      "attributes": {
+        "zone": "6",
+        "style": "B1",
+        "color": "blue"
+      }
+    },
+    {
+      "sku": "FR6C1-A",
+      "description": "FireRay LED Zone 6 — Style C1 (Selectable Single-Color) — Amber",
+      "attributes": {
+        "zone": "6",
+        "style": "C1",
+        "color": "amber"
+      }
+    },
+    {
+      "sku": "FR6C1-B",
+      "description": "FireRay LED Zone 6 — Style C1 (Selectable Single-Color) — Blue",
+      "attributes": {
+        "zone": "6",
+        "style": "C1",
+        "color": "blue"
+      }
+    },
+    {
+      "sku": "FR6C1-R",
+      "description": "FireRay LED Zone 6 — Style C1 (Selectable Single-Color) — Red",
+      "attributes": {
+        "zone": "6",
+        "style": "C1",
+        "color": "red"
+      }
+    },
+    {
+      "sku": "FR6C1-W",
+      "description": "FireRay LED Zone 6 — Style C1 (Selectable Single-Color) — White",
+      "attributes": {
+        "zone": "6",
+        "style": "C1",
+        "color": "white"
+      }
+    },
+    {
+      "sku": "FR6C2-AG",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Amber/Green",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "amber-green"
+      }
+    },
+    {
+      "sku": "FR6C2-AW",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Amber/White",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "amber-white"
+      }
+    },
+    {
+      "sku": "FR6C2-BA",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Blue/Amber",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "blue-amber"
+      }
+    },
+    {
+      "sku": "FR6C2-BW",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Blue/White",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "blue-white"
+      }
+    },
+    {
+      "sku": "FR6C2-RA",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Red/Amber",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "red-amber"
+      }
+    },
+    {
+      "sku": "FR6C2-RB",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Red/Blue",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "red-blue"
+      }
+    },
+    {
+      "sku": "FR6C2-RW",
+      "description": "FireRay LED Zone 6 — Style C2 (Selectable Dual-Color) — Red/White",
+      "attributes": {
+        "zone": "6",
+        "style": "C2",
+        "color": "red-white"
+      }
+    },
+    {
+      "sku": "FR6R1-R",
+      "description": "FireRay LED Zone 6 — Style R1 (Fixed Single-Color) — Red",
+      "attributes": {
+        "zone": "6",
+        "style": "R1",
+        "color": "red"
+      }
+    },
+    {
+      "sku": "FR7A1-A",
+      "description": "FireRay LED Zone 7 — Style A1 (Fixed Single-Color) — Amber",
+      "attributes": {
+        "zone": "7",
+        "style": "A1",
+        "color": "amber"
+      }
+    },
+    {
+      "sku": "FR7C1-A",
+      "description": "FireRay LED Zone 7 — Style C1 (Selectable Single-Color) — Amber",
+      "attributes": {
+        "zone": "7",
+        "style": "C1",
+        "color": "amber"
+      }
+    },
+    {
+      "sku": "FR7C1-B",
+      "description": "FireRay LED Zone 7 — Style C1 (Selectable Single-Color) — Blue",
+      "attributes": {
+        "zone": "7",
+        "style": "C1",
+        "color": "blue"
+      }
+    },
+    {
+      "sku": "FR7C1-R",
+      "description": "FireRay LED Zone 7 — Style C1 (Selectable Single-Color) — Red",
+      "attributes": {
+        "zone": "7",
+        "style": "C1",
+        "color": "red"
+      }
+    },
+    {
+      "sku": "FR7C1-W",
+      "description": "FireRay LED Zone 7 — Style C1 (Selectable Single-Color) — White",
+      "attributes": {
+        "zone": "7",
+        "style": "C1",
+        "color": "white"
+      }
+    },
+    {
+      "sku": "FR7C2-AW",
+      "description": "FireRay LED Zone 7 — Style C2 (Selectable Dual-Color) — Amber/White",
+      "attributes": {
+        "zone": "7",
+        "style": "C2",
+        "color": "amber-white"
+      }
+    },
+    {
+      "sku": "FR7C2-BA",
+      "description": "FireRay LED Zone 7 — Style C2 (Selectable Dual-Color) — Blue/Amber",
+      "attributes": {
+        "zone": "7",
+        "style": "C2",
+        "color": "blue-amber"
+      }
+    },
+    {
+      "sku": "FR7C2-BW",
+      "description": "FireRay LED Zone 7 — Style C2 (Selectable Dual-Color) — Blue/White",
+      "attributes": {
+        "zone": "7",
+        "style": "C2",
+        "color": "blue-white"
+      }
+    },
+    {
+      "sku": "FR7C2-RB",
+      "description": "FireRay LED Zone 7 — Style C2 (Selectable Dual-Color) — Red/Blue",
+      "attributes": {
+        "zone": "7",
+        "style": "C2",
+        "color": "red-blue"
+      }
+    },
+    {
+      "sku": "FR7C2-RW",
+      "description": "FireRay LED Zone 7 — Style C2 (Selectable Dual-Color) — Red/White",
+      "attributes": {
+        "zone": "7",
+        "style": "C2",
+        "color": "red-white"
+      }
+    },
+    {
+      "sku": "FR7R1-R",
+      "description": "FireRay LED Zone 7 — Style R1 (Fixed Single-Color) — Red",
+      "attributes": {
+        "zone": "7",
+        "style": "R1",
+        "color": "red"
+      }
+    },
+    {
+      "sku": "FR9A1-A",
+      "description": "FireRay LED Zone 9 — Style A1 (Fixed Single-Color) — Amber",
+      "attributes": {
+        "zone": "9",
+        "style": "A1",
+        "color": "amber"
+      }
+    },
+    {
+      "sku": "FR9B1-B",
+      "description": "FireRay LED Zone 9 — Style B1 (Fixed Single-Color) — Blue",
+      "attributes": {
+        "zone": "9",
+        "style": "B1",
+        "color": "blue"
+      }
+    },
+    {
+      "sku": "FR9C1-A",
+      "description": "FireRay LED Zone 9 — Style C1 (Selectable Single-Color) — Amber",
+      "attributes": {
+        "zone": "9",
+        "style": "C1",
+        "color": "amber"
+      }
+    },
+    {
+      "sku": "FR9C1-B",
+      "description": "FireRay LED Zone 9 — Style C1 (Selectable Single-Color) — Blue",
+      "attributes": {
+        "zone": "9",
+        "style": "C1",
+        "color": "blue"
+      }
+    },
+    {
+      "sku": "FR9C1-R",
+      "description": "FireRay LED Zone 9 — Style C1 (Selectable Single-Color) — Red",
+      "attributes": {
+        "zone": "9",
+        "style": "C1",
+        "color": "red"
+      }
+    },
+    {
+      "sku": "FR9C1-W",
+      "description": "FireRay LED Zone 9 — Style C1 (Selectable Single-Color) — White",
+      "attributes": {
+        "zone": "9",
+        "style": "C1",
+        "color": "white"
+      }
+    },
+    {
+      "sku": "FR9C2-AW",
+      "description": "FireRay LED Zone 9 — Style C2 (Selectable Dual-Color) — Amber/White",
+      "attributes": {
+        "zone": "9",
+        "style": "C2",
+        "color": "amber-white"
+      }
+    },
+    {
+      "sku": "FR9C2-BW",
+      "description": "FireRay LED Zone 9 — Style C2 (Selectable Dual-Color) — Blue/White",
+      "attributes": {
+        "zone": "9",
+        "style": "C2",
+        "color": "blue-white"
+      }
+    },
+    {
+      "sku": "FR9C2-RB",
+      "description": "FireRay LED Zone 9 — Style C2 (Selectable Dual-Color) — Red/Blue",
+      "attributes": {
+        "zone": "9",
+        "style": "C2",
+        "color": "red-blue"
+      }
+    },
+    {
+      "sku": "FR9C2-RW",
+      "description": "FireRay LED Zone 9 — Style C2 (Selectable Dual-Color) — Red/White",
+      "attributes": {
+        "zone": "9",
+        "style": "C2",
+        "color": "red-white"
+      }
+    },
+    {
+      "sku": "FR9R1-R",
+      "description": "FireRay LED Zone 9 — Style R1 (Fixed Single-Color) — Red",
+      "attributes": {
+        "zone": "9",
+        "style": "R1",
+        "color": "red"
+      }
+    }
+  ],
+  "sections": {
+    "skuSelector": {
+      "label": "Build Your FireRay LED Perimeter Light",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the confirmed Shopify catalog are enabled.",
+      "steps": [
+        {
+          "id": "zone",
+          "label": "Zone",
+          "required": true,
+          "skuSegmentKey": "zone",
+          "_verification": "confirmed",
+          "description": "FireRay housing size/series. Zone numbering follows the FireRay product line (Zone 4, 6, 7, 9).",
+          "options": [
+            {
+              "id": "zone-4",
+              "label": "Zone 4",
+              "skuSegment": "4",
+              "description": "Compact 4-position housing"
+            },
+            {
+              "id": "zone-6",
+              "label": "Zone 6",
+              "skuSegment": "6",
+              "description": "6-position housing"
+            },
+            {
+              "id": "zone-7",
+              "label": "Zone 7",
+              "skuSegment": "7",
+              "description": "7-position housing"
+            },
+            {
+              "id": "zone-9",
+              "label": "Zone 9",
+              "skuSegment": "9",
+              "description": "9-position housing — highest output"
+            }
+          ]
+        },
+        {
+          "id": "mount-style",
+          "label": "Mount Style",
+          "required": true,
+          "skuSegmentKey": "style",
+          "_verification": "confirmed",
+          "description": "Fixture family. Availability depends on the selected Zone — see dependencies.",
+          "dependencies": {
+            "Zone 4": [
+              "Style C2 (Selectable Dual-Color)",
+              "Style C1 (Selectable Single-Color)"
+            ],
+            "Zone 6": [
+              "Style A1 (Fixed Single-Color)",
+              "Style B1 (Fixed Single-Color)",
+              "Style C1 (Selectable Single-Color)",
+              "Style C2 (Selectable Dual-Color)",
+              "Style R1 (Fixed Single-Color)"
+            ],
+            "Zone 7": [
+              "Style A1 (Fixed Single-Color)",
+              "Style C1 (Selectable Single-Color)",
+              "Style C2 (Selectable Dual-Color)",
+              "Style R1 (Fixed Single-Color)"
+            ],
+            "Zone 9": [
+              "Style A1 (Fixed Single-Color)",
+              "Style B1 (Fixed Single-Color)",
+              "Style C1 (Selectable Single-Color)",
+              "Style C2 (Selectable Dual-Color)",
+              "Style R1 (Fixed Single-Color)"
+            ]
+          },
+          "options": [
+            {
+              "id": "style-a1",
+              "label": "Style A1 (Fixed Single-Color)",
+              "skuSegment": "A1",
+              "description": "Legacy fixed single-color fixture."
+            },
+            {
+              "id": "style-b1",
+              "label": "Style B1 (Fixed Single-Color)",
+              "skuSegment": "B1",
+              "description": "Legacy fixed single-color fixture."
+            },
+            {
+              "id": "style-r1",
+              "label": "Style R1 (Fixed Single-Color)",
+              "skuSegment": "R1",
+              "description": "Legacy fixed single-color fixture."
+            },
+            {
+              "id": "style-c1",
+              "label": "Style C1 (Selectable Single-Color)",
+              "skuSegment": "C1",
+              "description": "Current single-color fixture — color chosen in the next step."
+            },
+            {
+              "id": "style-c2",
+              "label": "Style C2 (Selectable Dual-Color)",
+              "skuSegment": "C2",
+              "description": "Current dual-color fixture — color pair chosen in the next step."
+            }
+          ]
+        },
+        {
+          "id": "color-config",
+          "label": "Color Config",
+          "required": true,
+          "skuSegmentKey": "color",
+          "_verification": "confirmed",
+          "description": "Available colors depend on the selected Mount Style — see dependencies.",
+          "dependencies": {
+            "Style C2 (Selectable Dual-Color)": [
+              "Amber/Green",
+              "Amber/White",
+              "Blue/Amber",
+              "Blue/White",
+              "Red/Blue",
+              "Red/White",
+              "Red/Amber"
+            ],
+            "Style C1 (Selectable Single-Color)": [
+              "Amber",
+              "Amber/White",
+              "Blue",
+              "Red",
+              "White"
+            ],
+            "Style A1 (Fixed Single-Color)": [
+              "Amber"
+            ],
+            "Style B1 (Fixed Single-Color)": [
+              "Blue"
+            ],
+            "Style R1 (Fixed Single-Color)": [
+              "Red"
+            ]
+          },
+          "options": [
+            {
+              "id": "amber",
+              "label": "Amber",
+              "skuSegment": "amber"
+            },
+            {
+              "id": "amber-green",
+              "label": "Amber/Green",
+              "skuSegment": "amber-green"
+            },
+            {
+              "id": "amber-white",
+              "label": "Amber/White",
+              "skuSegment": "amber-white"
+            },
+            {
+              "id": "blue",
+              "label": "Blue",
+              "skuSegment": "blue"
+            },
+            {
+              "id": "blue-amber",
+              "label": "Blue/Amber",
+              "skuSegment": "blue-amber"
+            },
+            {
+              "id": "blue-white",
+              "label": "Blue/White",
+              "skuSegment": "blue-white"
+            },
+            {
+              "id": "red",
+              "label": "Red",
+              "skuSegment": "red"
+            },
+            {
+              "id": "red-amber",
+              "label": "Red/Amber",
+              "skuSegment": "red-amber"
+            },
+            {
+              "id": "red-blue",
+              "label": "Red/Blue",
+              "skuSegment": "red-blue"
+            },
+            {
+              "id": "red-white",
+              "label": "Red/White",
+              "skuSegment": "red-white"
+            },
+            {
+              "id": "white",
+              "label": "White",
+              "skuSegment": "white"
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Mounting Hardware & Add-Ons",
+      "description": "Optional and required mounting hardware, covers, and add-on modules confirmed in the current Shopify export for each Zone.",
+      "items": [
+        {
+          "id": "acc-fr4-a4hmc",
+          "label": "Zone 4 Amber 4-Head Heated Mounting Cover",
+          "sku": "FR4-A4HMC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr4mb",
+          "label": "Zone 4 Mounting Bracket",
+          "sku": "FR4MB",
+          "price": null,
+          "type": "required",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr4mc",
+          "label": "Zone 4 Mounting Cover",
+          "sku": "FR4MC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr62-tbfnt",
+          "label": "Zone 6 Through-Body Flush Mount (Front)",
+          "sku": "FR62-TBFNT",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-a4hmc",
+          "label": "Zone 6 Amber 4-Head Heated Mounting Cover",
+          "sku": "FR6-A4HMC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-arrow",
+          "label": "Zone 6 Directional Arrow Module",
+          "sku": "FR6-ARROW",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-backup",
+          "label": "Zone 6 Backup Light Module",
+          "sku": "FR6-BACKUP",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-btt",
+          "label": "Zone 6 Brake/Tail/Turn Module",
+          "sku": "FR6-BTT",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-grl",
+          "label": "Zone 6 Grille-Mount Light",
+          "sku": "FR6-GRL",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6ledscene",
+          "label": "Zone 6 LED Scene/Flood Light",
+          "sku": "FR6LEDSCENE",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6mb",
+          "label": "Zone 6 Mounting Bracket",
+          "sku": "FR6MB",
+          "price": null,
+          "type": "required",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6mb4v",
+          "label": "Zone 6 Mounting Bracket (4-Vehicle Fitment)",
+          "sku": "FR6MB4V",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6mc",
+          "label": "Zone 6 Mounting Cover",
+          "sku": "FR6MC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6mc3v",
+          "label": "Zone 6 Mounting Cover (3-Vehicle Fitment)",
+          "sku": "FR6MC3V",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6mc4v",
+          "label": "Zone 6 Mounting Cover (4-Vehicle Fitment)",
+          "sku": "FR6MC4V",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6mhl",
+          "label": "Zone 6 Mounting Bracket — Heated Lens",
+          "sku": "FR6MHL",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-spacrkt",
+          "label": "Zone 6 Spacer Bracket",
+          "sku": "FR6-SPACRKT",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr6-tbsd",
+          "label": "Zone 6 Through-Body Side-Door Mount",
+          "sku": "FR6-TBSD",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr7-a4hmc",
+          "label": "Zone 7 Amber 4-Head Heated Mounting Cover",
+          "sku": "FR7-A4HMC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr7ledscene",
+          "label": "Zone 7 LED Scene/Flood Light",
+          "sku": "FR7LEDSCENE",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr7mb",
+          "label": "Zone 7 Mounting Bracket",
+          "sku": "FR7MB",
+          "price": null,
+          "type": "required",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr7mc",
+          "label": "Zone 7 Mounting Cover",
+          "sku": "FR7MC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr9-a4hmc",
+          "label": "Zone 9 Amber 4-Head Heated Mounting Cover",
+          "sku": "FR9-A4HMC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr9ledscene",
+          "label": "Zone 9 LED Scene/Flood Light",
+          "sku": "FR9LEDSCENE",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr9mb",
+          "label": "Zone 9 Mounting Bracket",
+          "sku": "FR9MB",
+          "price": null,
+          "type": "required",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr9mbscene",
+          "label": "Zone 9 Mounting Bracket — Scene Light Combo",
+          "sku": "FR9MBSCENE",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr9mc",
+          "label": "Zone 9 Mounting Cover",
+          "sku": "FR9MC",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        },
+        {
+          "id": "acc-fr9mcscene",
+          "label": "Zone 9 Mounting Cover — Scene Light Combo",
+          "sku": "FR9MCSCENE",
+          "price": null,
+          "type": "optional",
+          "_note": "Confirmed present in shopify-variant-index.json; price resolved at runtime via commerceLookupService."
+        }
+      ]
+    }
+  },
+  "compatibilityRules": [],
+  "dependencyRules": [],
+  "dependencyMatrix": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions or accessories — they are ignored by the UI."
+}
