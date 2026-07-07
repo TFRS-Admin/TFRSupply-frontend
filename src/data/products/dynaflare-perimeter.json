@@ -1,0 +1,143 @@
+{
+  "id": "dynaflare-perimeter",
+  "slug": "dynaflare-perimeter",
+  "vendor": "federal-signal",
+  "category": "perimeter-lights",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "DynaFlare",
+  "title": "DynaFlare® Perimeter Light",
+  "subtitle": "6-LED perimeter warning light in multiple color configurations, including a smoked-lens option, for running board and rocker-panel mounting.",
+  "description": "The Federal Signal DynaFlare® Perimeter Light is a 6-LED warning light engineered for running board and rocker-panel perimeter mounting on police vehicles, with low-profile, optically clear (or smoked) potted construction.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Perimeter Lights",
+      "to": "/police/perimeter-lights"
+    },
+    {
+      "label": "DynaFlare® Perimeter Light"
+    }
+  ],
+  "media": {
+    "hero": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "gallery": [
+      {
+        "src": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=900&q=85",
+        "alt": "DynaFlare® Perimeter Light — Front view"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "6-LED perimeter warning light",
+      "Multiple color configurations, including smoked-lens option",
+      "12 Vdc",
+      "Low-profile, optically clear potted construction",
+      "IP68 and IP69K rated"
+    ],
+    "benefits": [
+      "Running board / rocker-panel mounting keeps perimeter warning close to the ground plane",
+      "Smoked-lens variant available for a discreet daytime appearance"
+    ],
+    "applications": [
+      "Municipal police patrol — running board perimeter warning",
+      "Sheriff patrol — full-size SUV rocker-panel mounting"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "leds": 6,
+    "mount": "Running board / rocker panel",
+    "color_configs": [
+      "Amber/Green/White",
+      "Blue/Amber/White",
+      "Red/Amber/White",
+      "Red/Blue/Amber",
+      "Red/Blue/White",
+      "Red/Blue/White (Smoked Lens)",
+      "Red/Green/White"
+    ],
+    "certifications": [
+      "IP68",
+      "IP69K"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "DynaFlare® Perimeter Light Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "DynaFlare® Perimeter Light Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "IP68 / IP69K Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "DR6",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 7 confirmed variants (productHandle=running-board-lights, DR6 prefix). DR6BKT-* mounting brackets are a related running-board-brackets accessory product and are out of scope for this SKU selector.",
+    "product_id": null,
+    "handle": "dynaflare-perimeter",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "DR6-AGW", "shopify_variant_id": null, "option_color": "Amber/Green/White", "_missing": "shopify_variant_id, price" },
+      { "sku": "DR6-BAW", "shopify_variant_id": null, "option_color": "Blue/Amber/White", "_missing": "shopify_variant_id, price" },
+      { "sku": "DR6-RAW", "shopify_variant_id": null, "option_color": "Red/Amber/White", "_missing": "shopify_variant_id, price" },
+      { "sku": "DR6-RBA", "shopify_variant_id": null, "option_color": "Red/Blue/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "DR6-RBW", "shopify_variant_id": null, "option_color": "Red/Blue/White", "_missing": "shopify_variant_id, price" },
+      { "sku": "DR6-RBW-SMK", "shopify_variant_id": null, "option_color": "Red/Blue/White (Smoked Lens)", "_missing": "shopify_variant_id, price" },
+      { "sku": "DR6-RGW", "shopify_variant_id": null, "option_color": "Red/Green/White", "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first. 7 confirmed variants exist in the current Shopify export (productHandle=running-board-lights, DR6 prefix); a prior spec referenced 15 SKUs that are not yet present in the export. No configurator JSON is created for this product in this sprint (out of scope — see Sprint C acceptance criteria)."
+}

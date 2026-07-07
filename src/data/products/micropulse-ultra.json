@@ -1,0 +1,201 @@
+{
+  "id": "micropulse-ultra",
+  "slug": "micropulse-ultra",
+  "vendor": "federal-signal",
+  "category": "perimeter-lights",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "MicroPulse Ultra",
+  "title": "MicroPulse® Ultra D-Pillar Perimeter Light",
+  "subtitle": "Vehicle-specific D-pillar perimeter lighting with 2 LEDs per head. Available in Red/Blue/Amber and Red/Blue/White color configurations across confirmed vehicle platforms.",
+  "description": "The Federal Signal MicroPulse® Ultra D-Pillar light delivers focused perimeter warning built into a vehicle-specific shroud kit. Confirmed platforms include Dodge Durango, Ford Police Interceptor Utility, and Chevrolet Tahoe.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Perimeter Lights",
+      "to": "/police/perimeter-lights"
+    },
+    {
+      "label": "MicroPulse® Ultra D-Pillar Perimeter Light"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "MicroPulse® Ultra D-Pillar Perimeter Light — Front view"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Vehicle-specific D-pillar perimeter lighting",
+      "2 LEDs per head",
+      "12 Vdc",
+      "SAE J595 Class 1",
+      "Red/Blue/Amber and Red/Blue/White color configurations",
+      "5-year limited warranty"
+    ],
+    "benefits": [
+      "Purpose-built shroud kits for a factory-integrated fit",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — Ford Police Interceptor Utility",
+      "Sheriff patrol — Chevrolet Tahoe PPV/SSV",
+      "State highway patrol — Dodge Durango Pursuit"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "leds_per_head": 2,
+    "color_configs": [
+      "Red/Blue/Amber",
+      "Red/Blue/White"
+    ],
+    "vehicle_platforms": [
+      "Dodge Durango",
+      "Ford Police Interceptor Utility",
+      "Chevrolet Tahoe"
+    ],
+    "warranty": "5-year limited",
+    "certifications": [
+      "SAE J595 Class 1"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "MicroPulse® Ultra Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "MicroPulse® Ultra D-Pillar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "SAE J595 Class 1 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "ELSD",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 8 confirmed variants (productHandle=elsd-d-pillar-shrouds). ELSD SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "micropulse-ultra",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "ELSD-DUR21RBA",
+        "shopify_variant_id": null,
+        "option_vehicle": "Dodge Durango",
+        "option_color": "Red/Blue/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ELSD-DUR21RBW",
+        "shopify_variant_id": null,
+        "option_vehicle": "Dodge Durango",
+        "option_color": "Red/Blue/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ELSD-FPIU20RBA",
+        "shopify_variant_id": null,
+        "option_vehicle": "Ford Police Interceptor Utility",
+        "option_color": "Red/Blue/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ELSD-FPIU20RBW",
+        "shopify_variant_id": null,
+        "option_vehicle": "Ford Police Interceptor Utility",
+        "option_color": "Red/Blue/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ELSD-FRD21RBA",
+        "shopify_variant_id": null,
+        "option_vehicle": "Ford (FRD)",
+        "option_color": "Red/Blue/Amber",
+        "_missing": "shopify_variant_id, price",
+        "_verification": "needs_verification — specific Ford model not confirmed"
+      },
+      {
+        "sku": "ELSD-FRD21RBW",
+        "shopify_variant_id": null,
+        "option_vehicle": "Ford (FRD)",
+        "option_color": "Red/Blue/White",
+        "_missing": "shopify_variant_id, price",
+        "_verification": "needs_verification — specific Ford model not confirmed"
+      },
+      {
+        "sku": "ELSD-TAH21RBA",
+        "shopify_variant_id": null,
+        "option_vehicle": "Chevrolet Tahoe",
+        "option_color": "Red/Blue/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ELSD-TAH21RBW",
+        "shopify_variant_id": null,
+        "option_vehicle": "Chevrolet Tahoe",
+        "option_color": "Red/Blue/White",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "micropulse-ultra-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first. 8 confirmed variants exist in the current Shopify export (productHandle=elsd-d-pillar-shrouds); a prior spec referenced 29 SKUs across a wider vehicle list that is not yet present in the export."
+}
