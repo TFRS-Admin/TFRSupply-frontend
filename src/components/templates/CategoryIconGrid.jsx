@@ -10,8 +10,6 @@ const ICON_MAP = {
   Zap, Settings, Phone, FileDown, BarChart2, Tag
 };
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
 export default function CategoryIconGrid({ items = [], columns = 4 }) {
   return (
     <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${columns},1fr)`, gap: '1.5rem' }}>
@@ -22,8 +20,8 @@ export default function CategoryIconGrid({ items = [], columns = 4 }) {
             <div className="vlt-category-card-icon">
               <Icon size={24} color="#c8102e" />
             </div>
-            <p style={{ ...FS, fontSize: 15, fontWeight: 700, color: '#1a1a1a', marginBottom: cat.desc ? 6 : 0 }}>{cat.label}</p>
-            {cat.desc && <p style={{ ...FS, fontSize: 13, color: '#666', lineHeight: 1.55, flex: 1 }}>{cat.desc}</p>}
+            <p className={`font-heading text-base font-bold uppercase tracking-tight text-[#0f0f0f] ${cat.desc ? 'mb-1.5' : ''}`}>{cat.label}</p>
+            {cat.desc && <p className="font-body flex-1 text-sm leading-relaxed text-gray-500">{cat.desc}</p>}
             <span className="vlt-category-card-arrow">
               <ArrowRight size={16} color="#c8102e" />
             </span>

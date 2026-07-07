@@ -66,13 +66,6 @@ html, body {
     gap: 6px !important;
   }
 
-  .site-header-wtb-btn {
-    padding: 10px 12px !important;
-  }
-  .site-header-wtb-label {
-    display: none !important;
-  }
-
   .site-header-hamburger {
     padding: 10px !important;
   }

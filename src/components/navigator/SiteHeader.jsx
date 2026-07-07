@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, MapPin, Menu, X, ChevronDown, Truck } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Truck } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
@@ -149,8 +149,6 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 whiteSpace: 'nowrap',
                 fontFamily: "'Roboto','Inter',sans-serif",
                 transition: 'all 0.15s',
-                maxWidth: 260,
-                overflow: 'hidden',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.background = selectedVehicle ? '#0f1829' : '#ebebeb';
@@ -162,7 +160,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
               }}
             >
               <Truck size={14} style={{ flexShrink: 0, color: selectedVehicle ? '#94a3b8' : '#888' }} />
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ whiteSpace: 'nowrap' }}>
                 {selectedVehicle
                   ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
                   : 'Select Your Vehicle'}
@@ -182,26 +180,6 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
             {/* Mini cart */}
             <MiniCart />
-
-            {/* Where to Buy — red filled with pin icon */}
-            <button
-              className="site-header-wtb-btn tfr-focus-ring"
-              aria-label="Where to Buy"
-              style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                background: '#c8102e', color: '#fff',
-                border: 'none', borderRadius: 3, cursor: 'pointer',
-                fontWeight: 700, fontSize: 14, letterSpacing: '0.01em',
-                padding: '10px 20px', whiteSpace: 'nowrap',
-                fontFamily: "'Roboto','Inter',sans-serif",
-                transition: 'background-color 0.15s ease',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
-              onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
-            >
-              <span className="site-header-wtb-label">Where to Buy</span>
-              <MapPin size={15} />
-            </button>
 
             {/* Mobile hamburger */}
             <button
