@@ -11,6 +11,11 @@
   "title": "HighLighter® Elite Mini Light Bar",
   "subtitle": "Compact LED mini light bar with multiple mounting options",
   "description": "Compact, low-profile mini light bar. Available in single and split color. Multiple mount options including N/A and Accessory Plug.",
+  "summary_bullets": [
+    "Compact mini light bar for police and work truck applications",
+    "Single and split color configurations available",
+    "Multiple mount options including visor and deck mount"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

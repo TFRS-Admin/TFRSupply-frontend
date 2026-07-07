@@ -11,6 +11,11 @@
   "title": "HighLighter® Micro Mini Light Bar",
   "subtitle": "Ultra-compact LED mini light bar",
   "description": "Ultra-compact version of the HighLighter series. Single and split color options.",
+  "summary_bullets": [
+    "Ultra-compact LED mini light bar",
+    "Single and split color options",
+    "Low-profile design for police and fleet applications"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

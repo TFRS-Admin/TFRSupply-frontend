@@ -10,6 +10,11 @@
   "title": "Navigator® Serial Light Bar",
   "subtitle": "High-profile full-size LED light bar for fire apparatus and emergency vehicles.",
   "description": "The Navigator® Serial Light Bar delivers powerful, reliable warning performance in a full-size aluminum extrusion chassis. Available in 45\", 53\", and 60\" lengths with a wide range of color and feature configurations.",
+  "summary_bullets": [
+    "Available in 45\", 53\", 60\", 73\", and 87\" lengths",
+    "SpectraLux® multicolor LED technology",
+    "Solaris® LED reflector technology"
+  ],
   "tabs_component": "NavigatorTabs",
   "breadcrumbs": [
     {

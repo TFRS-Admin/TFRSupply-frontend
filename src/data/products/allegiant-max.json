@@ -11,6 +11,11 @@
   "title": "Allegiant® Max Light Bar",
   "subtitle": "Low-profile LED light bar for Police and Fire applications, spanning 45\"-70\" lengths with Low Hook, Permanent, and Flat mount options.",
   "description": "The Federal Signal Allegiant® Max light bar delivers low-profile LED warning performance for both police patrol and fire apparatus. 45\" and 53\" configurations use Low Hook mount for Police and Fire; 61\" (Permanent) and 70\" (Flat) are Fire-only.",
+  "summary_bullets": [
+    "Low-profile lightbar reduces drag and profile exposure",
+    "ROC (Reliable Onboard Circuitry™) eliminates common failure points for longer service life",
+    "Available in 45\", 53\", 61\", 70\", and 80\" lengths"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

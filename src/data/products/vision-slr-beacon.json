@@ -10,6 +10,11 @@
   "title": "Vision SLR® Beacon",
   "subtitle": "Compact low-profile beacon, single-color or split-color LED, surface or magnetic mount.",
   "description": "The Federal Signal Vision SLR® Beacon delivers high-output LED warning performance in a compact, low-profile beacon housing. Available in single-color and split-color (Matching or Clear dome) configurations across Red, Amber, Green, and Blue, it mounts via permanent surface or magnetic base for police vehicles that need a discreet, purpose-built warning beacon.",
+  "summary_bullets": [
+    "360-degree LED beacon with Vision® SLR technology",
+    "Available in single and multi-color configurations",
+    "Permanent and magnetic mount options"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

@@ -10,6 +10,11 @@
   "title": "Latitude® LED Light Bar",
   "subtitle": "Full-featured LED light bar for police vehicles",
   "description": "Full-size police light bar with multiple length and color options.",
+  "summary_bullets": [
+    "Full-featured LED light bar for police vehicles",
+    "Multiple length options available",
+    "SpectraLux® multicolor LED technology"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
