@@ -211,16 +211,21 @@ interface SkuFiltersProps {
   selections: FilterSelections;
   onSelect: (stepId: string, optionId: string) => void;
   recommendedSegments: string[];
+  /** When known from the URL, the vertical is implicit — the step still drives
+   *  SKU filtering (via `steps`, passed through unfiltered) but is hidden from
+   *  the rendered list since showing a Police/Fire toggle would be redundant. */
+  verticalId?: string;
 }
 
-function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments }: SkuFiltersProps) {
+function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments, verticalId }: SkuFiltersProps) {
   const steps = section.steps ?? [];
+  const visibleSteps = verticalId ? steps.filter(step => step.skuSegmentKey !== 'vertical') : steps;
 
   return (
     <div style={{ marginBottom: 28 }}>
       <SectionHeader number="01" label={section.label} description={section.description} />
       <div className="flex flex-col gap-1">
-        {steps.map(step => (
+        {visibleSteps.map(step => (
           <FilterStep
             key={step.id}
             step={step}
@@ -749,24 +754,33 @@ export interface ConfiguratorModuleProps {
 
 export default function ConfiguratorModule({ configuratorData, verticalId, categoryId, onConfigurationChange }: ConfiguratorModuleProps) {
   const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
-  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
-  const [filterSelections, setFilterSelections] = useState<FilterSelections>({});
-  const [accessories, setAccessories]           = useState<string[]>([]);
-  const [selectedSkuId, setSelectedSkuId]       = useState<string | null>(null);
 
   const {
     sectionMap, skuOptions = [], vehicleRules = [],
     productFamily, id: configuratorId
   } = configuratorData;
   const sections = (sectionMap ?? configuratorData.sections ?? {}) as Record<string, ConfiguratorSection>;
+  const skuSteps = sections?.skuSelector?.steps ?? [];
+
+  // The URL already scopes the page to a vertical (/police/, /fire/, ...), so
+  // showing a Police/Fire toggle step would be redundant. Resolve the vertical
+  // step's id (if this configurator has one) so it can be auto-selected below
+  // and hidden from the rendered step list — the SKU filter still needs it
+  // seeded into `filterSelections` for correct results.
+  const verticalStepId = skuSteps.find(step => step.skuSegmentKey === 'vertical')?.id ?? null;
+
+  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const [filterSelections, setFilterSelections] = useState<FilterSelections>(
+    () => (verticalId && verticalStepId ? { [verticalStepId]: verticalId } : {})
+  );
+  const [accessories, setAccessories]           = useState<string[]>([]);
+  const [selectedSkuId, setSelectedSkuId]       = useState<string | null>(null);
 
   // Commerce lookup — runs once per configurator load, keyed by SKU
   const commerceData = useMemo(
     () => lookupSkus(skuOptions.map(s => s.sku)),
     [skuOptions]
   );
-
-  const skuSteps = sections?.skuSelector?.steps ?? [];
 
   // Recommended length/mount segments from vehicle rules
   const recommendedSegments = useMemo(() => {
@@ -878,10 +892,10 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   }, []);
 
   const handleReset = useCallback(() => {
-    setFilterSelections({});
+    setFilterSelections(verticalId && verticalStepId ? { [verticalStepId]: verticalId } : {});
     setAccessories([]);
     setSelectedSkuId(null);
-  }, []);
+  }, [verticalId, verticalStepId]);
 
   // Build quote payload when a SKU row is selected
   const quotePayload = useMemo<ConfiguratorQuotePayload | null>(() => {
@@ -978,6 +992,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
             selections={filterSelections}
             onSelect={handleFilterSelect}
             recommendedSegments={recommendedSegments}
+            verticalId={verticalId}
           />
         )}
 
