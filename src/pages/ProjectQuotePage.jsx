@@ -20,7 +20,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Boxes } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
@@ -108,7 +107,6 @@ export function ProjectQuotePageView({
         )}
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

@@ -5,13 +5,11 @@ import { catalogService } from '@/services/catalog';
 import { filterCategoryProducts } from '@/domain/catalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import NotFound from '@/components/templates/NotFound';
 import ProductCard from '@/components/product/ProductCard';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductFilterPanel from '@/components/product/ProductFilterPanel';
 import ProductSearchBar from '@/components/product/ProductSearchBar';
-import StorefrontCollectionPanel from '@/components/product/StorefrontCollectionPanel';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -73,7 +71,6 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
           {/* Product Grid */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {description && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: '1.5rem' }}>{description}</p>}
-            <StorefrontCollectionPanel categoryId={data.id} />
             <div style={{ maxWidth: 360, marginBottom: '1.25rem' }}>
               <ProductSearchBar value={keyword} onSearch={setKeyword} placeholder="Search this category…" />
             </div>
@@ -103,7 +100,6 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
         </div>
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

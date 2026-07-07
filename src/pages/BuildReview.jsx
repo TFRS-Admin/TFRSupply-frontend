@@ -4,7 +4,6 @@ import { AlertTriangle, CheckCircle, ArrowLeft, Package, Car, Wrench, Zap, Cpu, 
 import { FAMILIES } from '@/data/sampleData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 
 export default function BuildReview() {
@@ -184,7 +183,6 @@ export default function BuildReview() {
         </div>
       </div>
 
-      <DebugToggle />
       <DebugPanel />
     </div>
   );

@@ -20,7 +20,6 @@
 import React, { useEffect } from 'react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import { useFleetProject } from '@/context/FleetProjectContext';
 import { useFleetBuilds } from '@/context/FleetBuildsContext';
@@ -184,7 +183,6 @@ export function GuidedUpfitBuilderPageView({
         </div>
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

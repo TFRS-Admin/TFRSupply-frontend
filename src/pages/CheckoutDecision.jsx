@@ -4,7 +4,6 @@ import { ArrowLeft, FileText, ShoppingCart, CheckCircle, AlertTriangle, Send, X 
 import { FAMILIES } from '@/data/sampleData';
 import { useConfigurator } from '@/context/ConfiguratorContext';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 
 export default function CheckoutDecision() {
@@ -94,7 +93,6 @@ export default function CheckoutDecision() {
             </div>
           </div>
         </div>
-        <DebugToggle />
         <DebugPanel />
       </div>
     );
@@ -241,7 +239,6 @@ export default function CheckoutDecision() {
         </div>
       </div>
 
-      <DebugToggle />
       <DebugPanel />
     </div>
   );

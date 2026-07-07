@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import CartLineRow from '@/components/cart/CartLineRow';
 import CartSummary from '@/components/cart/CartSummary';
 import CheckoutReadinessPanel from '@/components/cart/CheckoutReadinessPanel';
@@ -144,7 +143,6 @@ export default function CartWorkspace() {
         )}
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

@@ -129,10 +129,9 @@ describe('CategoryTemplate filter and search reuse', () => {
     assert.match(html, /placeholder="Search this category…"/);
   });
 
-  it('still composes StorefrontCollectionPanel (rendered client-side; verified here at the source level since its data hook never resolves during synchronous SSR)', () => {
+  it('does not compose StorefrontCollectionPanel (internal sync metadata, not customer-facing)', () => {
     const source = readFileSync(new URL('../src/pages/CategoryTemplate.jsx', import.meta.url), 'utf8');
-    assert.match(source, /import StorefrontCollectionPanel from '@\/components\/product\/StorefrontCollectionPanel'/);
-    assert.match(source, /<StorefrontCollectionPanel categoryId={data\.id} \/>/);
+    assert.doesNotMatch(source, /StorefrontCollectionPanel/);
   });
 
   it('renders every product in the category before any filter/search is applied', () => {

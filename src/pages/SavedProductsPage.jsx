@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductCard from '@/components/product/ProductCard';
 import { useSavedProducts } from '@/context/SavedProductsContext';
@@ -60,7 +59,6 @@ export function SavedProductsPageView({ products, onClear }) {
         </div>
       )}
 
-      <PrototypeFooter />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { X, GitCompare, Settings, FileText, Eye } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import { useCompare, MAX_COMPARE_PRODUCTS } from '@/context/CompareContext';
 import { catalogService } from '@/services/catalog';
@@ -200,7 +199,6 @@ export function ComparePageView({ rows, onRemove, onClear }) {
         </div>
       )}
 
-      <PrototypeFooter />
     </div>
   );
 }
