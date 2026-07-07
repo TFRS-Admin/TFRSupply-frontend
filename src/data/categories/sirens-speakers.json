@@ -46,7 +46,7 @@
       "id": "pa300-siren",
       "label": "PA300 Series Siren",
       "tagline": "Industry-standard 100/200-watt electronic siren with wail, yelp, and priority tones.",
-      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pa300-police-menu-png.webp?v=1781535539",
+      "image": "https://www.fedsig.com/wp-content/smush-webp/2025/06/PA300-100-100W-siren-police-menu-200x200.png.webp",
       "vehicle_type": "Police",
       "badges": ["Police", "Industry Standard"],
       "specs": ["100/200-watt selectable", "Wail/Yelp/Priority tones"]
@@ -55,7 +55,7 @@
       "id": "ms4000-mini-siren",
       "label": "MS4000 Mini Siren",
       "tagline": "Compact 100-watt undercover siren with an intersection-clearing feature.",
-      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/ms4000-MS4000-menu-png.webp?v=1781535539",
+      "image": "https://www.fedsig.com/wp-content/smush-webp/2025/06/ms4000.MS4000-menu-200x200.png.webp",
       "vehicle_type": "Police",
       "badges": ["Police", "Undercover", "Compact"],
       "specs": ["100-watt output", "Intersection clearing"]
