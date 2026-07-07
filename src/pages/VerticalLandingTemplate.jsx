@@ -42,7 +42,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Featured Article */}
       {featured_article && (
-        <div className="max-w-7xl mx-auto px-6 py-14">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-20">
           <div style={{ display: 'flex', gap: '3rem', alignItems: 'center', flexWrap: 'wrap' }}>
             <div style={{ flex: '0 0 40%', minWidth: 280 }}>
               <SectionLabel text={featured_article.eyebrow} />
@@ -67,7 +67,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Featured Products */}
       {featured && (
-        <div className="bg-gray-50 py-14">
+        <div className="bg-gray-50 border-t border-b border-gray-100 py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <SectionLabel text={featured.eyebrow} />
             <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{featured.title}</h2>
@@ -79,8 +79,8 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Category Grid */}
       {cats && (
-        <div className="max-w-7xl mx-auto px-6 py-14">
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{cats.title}</h2>
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-20">
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{cats.title}</h2>
           {cats.subtitle && <p style={{ fontSize: 14, color: '#777', marginBottom: '2rem' }}>{cats.subtitle}</p>}
           <CategoryIconGrid items={cats.items} columns={cats.items.length > 6 ? 4 : 3} />
           {cats.cta && (
@@ -93,7 +93,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Configurators */}
       {configs && (
-        <div className="bg-gray-50 py-14">
+        <div className="bg-gray-50 border-t border-b border-gray-100 py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <SectionLabel text={configs.eyebrow} />
             <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>{configs.title}</h2>
@@ -121,7 +121,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Contracts / Where to Buy */}
       {contracts && (
-        <div className="max-w-7xl mx-auto px-6 py-14">
+        <div className="max-w-7xl mx-auto px-6 py-14 md:py-20">
           <SectionLabel text={contracts.eyebrow} />
           <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>{contracts.title}</h2>
           <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
@@ -138,7 +138,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Resources */}
       {resources && (
-        <div className="bg-gray-50 py-14">
+        <div className="bg-gray-50 border-t border-gray-100 py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <div className="landing-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
               <div>

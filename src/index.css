@@ -92,3 +92,58 @@
     @apply bg-background text-foreground font-body;
   }
 }
+
+/* ── Vertical landing template: hero CTA + category grid ─────────────── */
+.vlt-hero-cta {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.vlt-hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.35);
+}
+
+.vlt-category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.vlt-category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.16);
+  border-color: #c8102e;
+}
+.vlt-category-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+  border-radius: 9999px;
+  background: rgba(200, 16, 46, 0.08);
+  transition: background 0.2s ease;
+}
+.vlt-category-card:hover .vlt-category-card-icon {
+  background: rgba(200, 16, 46, 0.14);
+}
+.vlt-category-card-arrow {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.vlt-category-card:hover .vlt-category-card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
