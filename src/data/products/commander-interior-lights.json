@@ -10,6 +10,11 @@
   "title": "Commander® Interior Lighting System",
   "subtitle": "Interior LED lighting system for fire apparatus — scene lighting, compartment lighting, and cab illumination across the Commander, Commander Plus, LC, M, and SB series.",
   "description": "The Commander® Interior Lighting System covers scene lighting, strip/compartment lighting, and mounting accessories engineered for fire apparatus interiors and compartments. Spans the Commander Scene Light, Plus/Plus-S, LC, M, and SB series along with the Strip/Compartment Light line, in 12/24 Vdc configurations.",
+  "summary_bullets": [
+    "Interior LED lighting system engineered for fire apparatus interior mounting across scene, strip, and compartment lighting needs.",
+    "Spans the Commander, Commander Plus/Plus-S, LC, M, and SB series in 12/24 Vdc configurations.",
+    "Mounting brackets and accessory hardware available for cab and compartment installation."
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
