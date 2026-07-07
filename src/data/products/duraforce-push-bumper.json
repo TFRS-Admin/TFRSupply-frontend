@@ -1,0 +1,128 @@
+{
+  "id": "duraforce-push-bumper",
+  "slug": "duraforce-push-bumper",
+  "vendor": "federal-signal",
+  "category": "push-bumpers",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "DuraForce",
+  "title": "DuraForce™ Push Bumper",
+  "subtitle": "Vehicle-specific push bumper for police fleet vehicles",
+  "description": "The Federal Signal DuraForce™ Push Bumper is a heavy-duty, vehicle-specific push bumper engineered to protect patrol vehicles during PIT maneuvers and roadside operations, with a durable steel construction and powder coat finish.",
+  "summary_bullets": [
+    "Vehicle-specific fit for Dodge Durango, Ford F-150, and Ford Police Interceptor Utility",
+    "Heavy-duty steel construction with powder coat finish",
+    "Available with optional hook kit for push bumper bracket mounting"
+  ],
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Push Bumpers",
+      "to": "/police/push-bumpers"
+    },
+    {
+      "label": "DuraForce™ Push Bumper"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/duraforce-push-bumper.hero_.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/duraforce-push-bumper.hero_.jpg",
+        "alt": "DuraForce™ Push Bumper — Front view"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Vehicle-specific fit for Dodge Durango, Ford F-150, and Ford Police Interceptor Utility",
+      "Heavy-duty steel construction with powder coat finish",
+      "Available with optional hook kit for push bumper bracket mounting",
+      "Engineered to protect front-end components during PIT maneuvers"
+    ],
+    "benefits": [
+      "Purpose-built fitment reduces install time versus universal bumpers",
+      "Durable finish resists corrosion in year-round patrol use"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "State highway patrol — full-size interceptors"
+    ]
+  },
+  "specifications": {
+    "construction": "Heavy-duty steel",
+    "finish": "Powder coat",
+    "fitment": [
+      "Dodge Durango",
+      "Ford F-150",
+      "Ford Police Interceptor Utility"
+    ],
+    "options": [
+      "Optional hook kit for push bumper bracket mounting"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "DuraForce™ Push Bumper Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "DuraForce™ Push Bumper Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "DFPB",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "No confirmed variants for handle=duraforce-push-bumper in the current Shopify export. Quote-only until SKUs are published.",
+    "product_id": null,
+    "handle": "duraforce-push-bumper",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": []
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. No variants were found for handle=duraforce-push-bumper in the current export; cart_eligible stays false until SKUs are published in Shopify Admin."
+}
