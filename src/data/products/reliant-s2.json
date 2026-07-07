@@ -1,0 +1,229 @@
+{
+  "id": "reliant-s2",
+  "slug": "reliant-s2",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police",
+    "fire"
+  ],
+  "product_family": "Reliant S2",
+  "title": "Reliant® S2 Light Bar",
+  "subtitle": "48\" light bar for Police and Fire applications. Two zone programming styles with Blue, Clear, Red/Blue, or Red dome color options in Low Hook mount.",
+  "description": "The Federal Signal Reliant® S2 light bar delivers compact, full-featured LED warning in a single 48\" length. Red dome is a Fire-only configuration, Blue and Red/Blue domes are Police-only, and Clear dome is shared across both verticals.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Reliant® S2 Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "Reliant® S2 Light Bar — Front view"
+      },
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_redblue-576x576_jpg.webp?v=1780421369",
+        "alt": "Reliant® S2 — Red/Blue dome configuration"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "48\" length",
+      "Two zone programming styles (Zone 1 / Zone 2)",
+      "Blue, Clear, Red/Blue, and Red dome color options",
+      "Low Hook mounting",
+      "Alley lights, takedowns, and scene lighting",
+      "Cruise / Pursuit steady-burn mode",
+      "Low-power mode",
+      "12 Vdc",
+      "SAE J595 certified",
+      "5-year limited warranty"
+    ],
+    "benefits": [
+      "Compact single-length platform for both police and fire fleets",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "State highway patrol — full-size interceptors",
+      "Fire/EMS apparatus — Red dome warning"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "48\""
+    ],
+    "zone_styles": [
+      "Zone 1",
+      "Zone 2"
+    ],
+    "dome_colors": [
+      "Blue",
+      "Clear",
+      "Red/Blue",
+      "Red"
+    ],
+    "mount_options": [
+      "Low Hook"
+    ],
+    "flash_patterns": "30 user-selectable",
+    "warranty": "5-year limited",
+    "certifications": [
+      "SAE J595"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Reliant® S2 Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Reliant® S2 Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Reliant® S2 Light Bar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "SAE J595 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "RLNT",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 8 variants. RLNT SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "reliant-s2-light-bar",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "RLNT48J-01BB",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 1",
+        "option_dome": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-01CC",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 1",
+        "option_dome": "Clear",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-01RB",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 1",
+        "option_dome": "Red/Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-01RR",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 1",
+        "option_dome": "Red",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-02BB",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 2",
+        "option_dome": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-02CC",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 2",
+        "option_dome": "Clear",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-02RB",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 2",
+        "option_dome": "Red/Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "RLNT48J-02RR",
+        "shopify_variant_id": null,
+        "option_length": "48\"",
+        "option_zone": "Zone 2",
+        "option_dome": "Red",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "reliant-s2-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

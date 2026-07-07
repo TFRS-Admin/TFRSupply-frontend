@@ -1,0 +1,265 @@
+{
+  "id": "allegiant-max",
+  "slug": "allegiant-max",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police",
+    "fire"
+  ],
+  "product_family": "Allegiant Max",
+  "title": "Allegiant® Max Light Bar",
+  "subtitle": "Low-profile LED light bar for Police and Fire applications, spanning 45\"-70\" lengths with Low Hook, Permanent, and Flat mount options.",
+  "description": "The Federal Signal Allegiant® Max light bar delivers low-profile LED warning performance for both police patrol and fire apparatus. 45\" and 53\" configurations use Low Hook mount for Police and Fire; 61\" (Permanent) and 70\" (Flat) are Fire-only.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Allegiant® Max Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "Allegiant® Max Light Bar — Front view"
+      },
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_redblue-576x576_jpg.webp?v=1780421369",
+        "alt": "Allegiant® Max — Red/Blue/White configuration"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Available in 45\", 53\", 61\", and 70\" lengths",
+      "Police (Red/Blue/White, Blue/White) and Fire (Amber/Red/White, Green/Red/White, Amber/Blue/White, Amber/Blue/Red/White, Red/White) configurations",
+      "Low Hook (45\"/53\"), Permanent (61\"), and Flat (70\") mounting options",
+      "SignalMaster™ rear-facing directional warning",
+      "Alley lights, takedowns, and scene lighting",
+      "Cruise / Pursuit steady-burn mode",
+      "Low-power mode",
+      "12 Vdc",
+      "SAE J595 certified",
+      "5-year limited warranty"
+    ],
+    "benefits": [
+      "Purpose-built for both police patrol and fire apparatus",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "State highway patrol — full-size interceptors",
+      "Fire apparatus — Type 1 and Type 3 fire engines"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "45\"",
+      "53\"",
+      "61\"",
+      "70\""
+    ],
+    "color_configs": [
+      "Red/Blue/White",
+      "Blue/White",
+      "Amber/Red/White",
+      "Green/Red/White",
+      "Amber/Blue/White",
+      "Amber/Blue/Red/White",
+      "Red/White"
+    ],
+    "mount_options": [
+      "Low Hook",
+      "Permanent",
+      "Flat"
+    ],
+    "flash_patterns": "30 user-selectable",
+    "warranty": "5-year limited",
+    "certifications": [
+      "SAE J595"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Allegiant® Max Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Allegiant® Max Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Allegiant® Max Light Bar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "SAE J595 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "ALGT",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 12 variants. ALGT SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "allegiant-max-light-bar",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "ALGT45JX-P1LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-P2LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-P3LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-P4LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-F1LR",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Amber/Red/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-F2LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Green/Red/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-F3LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Amber/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT45JX-F4LC",
+        "shopify_variant_id": null,
+        "option_length": "45\"",
+        "option_color": "Amber/Blue/Red/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT53JX-P1LC",
+        "shopify_variant_id": null,
+        "option_length": "53\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT53JX-F1LR",
+        "shopify_variant_id": null,
+        "option_length": "53\"",
+        "option_color": "Amber/Red/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT61XC-NFPA2",
+        "shopify_variant_id": null,
+        "option_length": "61\"",
+        "option_color": "Red/White",
+        "option_mount": "Permanent",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "ALGT70XC-NFPA2",
+        "shopify_variant_id": null,
+        "option_length": "70\"",
+        "option_color": "Red/White",
+        "option_mount": "Flat",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "allegiant-max-serial-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
