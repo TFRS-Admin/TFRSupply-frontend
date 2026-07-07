@@ -1,0 +1,226 @@
+{
+  "id": "integrity",
+  "slug": "integrity",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police",
+    "fire"
+  ],
+  "product_family": "Integrity",
+  "title": "Integrity® Light Bar",
+  "subtitle": "Full-featured light bar in 44\" and 51\" lengths for Police and Fire/NFPA applications. Available in Red/White, Red/Blue/White, and Blue/White configurations with Hook or Low Hook mount options.",
+  "description": "The Federal Signal Integrity® light bar delivers high-output LED warning performance for both police and fire/EMS vehicles. Fire/NFPA configurations use a fixed Red/White Hook-mount build; Police configurations offer Blue/White and Red/Blue/White in Low Hook.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Integrity® Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "Integrity® Light Bar — Front view"
+      },
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_redblue-576x576_jpg.webp?v=1780421369",
+        "alt": "Integrity® — Red/Blue/White configuration"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Available in 44\" and 51\" lengths",
+      "Police (Blue/White, Red/Blue/White) and Fire/NFPA (Red/White) configurations",
+      "Hook Mount (Fire/NFPA) or Low Hook (Police) mounting options",
+      "SignalMaster™ rear-facing directional warning",
+      "Alley lights, takedowns, and scene lighting",
+      "Cruise / Pursuit steady-burn mode",
+      "Low-power mode",
+      "12 Vdc",
+      "SAE J595 Class 1 certified",
+      "5-year limited warranty"
+    ],
+    "benefits": [
+      "Purpose-built for both police patrol and fire/EMS apparatus",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "State highway patrol — full-size interceptors",
+      "Fire/EMS apparatus — NFPA-compliant warning"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "44\"",
+      "51\""
+    ],
+    "color_configs": [
+      "Red/White",
+      "Red/Blue/White",
+      "Blue/White"
+    ],
+    "mount_options": [
+      "Hook",
+      "Low Hook"
+    ],
+    "flash_patterns": "30 user-selectable",
+    "warranty": "5-year limited",
+    "certifications": [
+      "SAE J595 Class 1"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Integrity® Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Integrity® Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Integrity® Light Bar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "SAE J595 Class 1 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "INTG",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 8 variants. INTG SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "integrity-light-bar",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "INTG44J-F2H",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "Red/White",
+        "option_mount": "Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG44J-P1BL",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG44J-P2BL",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG44J-PF3L",
+        "shopify_variant_id": null,
+        "option_length": "44\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG51J-F2H",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "Red/White",
+        "option_mount": "Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG51J-P1BL",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG51J-P2BL",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "INTG51J-PF3L",
+        "shopify_variant_id": null,
+        "option_length": "51\"",
+        "option_color": "Red/Blue/White",
+        "option_mount": "Low Hook",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "integrity-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
