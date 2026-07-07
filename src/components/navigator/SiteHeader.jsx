@@ -22,6 +22,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const [mobileOpen, setMobileOpen] = useState(false);
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
   const { selectedVehicle } = useVehicle();
   const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
 
@@ -56,9 +57,12 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             {UTILITY_LINKS.map(link => (
               <button
                 key={link}
-                style={{ fontSize: 12, color: '#aaaaaa', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                className="tfr-focus-ring-inverse"
+                style={{ fontSize: 12, color: '#aaaaaa', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.15s ease' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#ffffff'}
                 onMouseLeave={e => e.currentTarget.style.color = '#aaaaaa'}
+                onFocus={e => e.currentTarget.style.color = '#ffffff'}
+                onBlur={e => e.currentTarget.style.color = '#aaaaaa'}
               >
                 {link}
               </button>
@@ -68,13 +72,17 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
       </div>
 
       {/* ── Row 2: White main header ────────────────────────────────────────── */}
-      <div style={{ background: '#ffffff', borderBottom: '1px solid #e8e8e8' }}>
+      <div style={{ background: '#ffffff', borderBottom: '1px solid #e8e8e8', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
         <div className="site-header-row2-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 24 }}>
 
           {/* Logo — Fed Sig style: red mark + wordmark */}
           <button
             onClick={() => navigate('/')}
-            style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+            aria-label="TFR Supply — Home"
+            className="tfr-focus-ring"
+            style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', padding: 4, margin: -4, borderRadius: 4, transition: 'opacity 0.15s ease' }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
           >
             {/* Red F-mark badge */}
             <div style={{ width: 44, height: 44, background: '#c8102e', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -88,11 +96,22 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </button>
 
           {/* Search bar — center, flex-grow */}
-          <form onSubmit={submitSearch} style={{ flex: 1, maxWidth: 560, alignItems: 'stretch', border: '1.5px solid #d0d0d0', borderRadius: 2, overflow: 'hidden' }} className="hidden md:flex">
+          <form
+            onSubmit={submitSearch}
+            style={{
+              flex: 1, maxWidth: 560, alignItems: 'stretch',
+              border: `1.5px solid ${searchFocused ? '#c8102e' : '#d0d0d0'}`,
+              borderRadius: 2, overflow: 'hidden',
+              transition: 'border-color 0.15s ease',
+            }}
+            className="hidden md:flex"
+          >
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
               placeholder="Search for products"
               aria-label="Search products"
               style={{ flex: 1, padding: '10px 16px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: "'Roboto','Inter',sans-serif" }}
@@ -117,6 +136,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             {/* Vehicle selector button */}
             <button
               onClick={() => setVehicleModalOpen(true)}
+              className="hidden md:flex tfr-focus-ring"
               style={{
                 alignItems: 'center', gap: 8,
                 background: selectedVehicle ? '#1a2744' : '#f5f5f5',
@@ -140,7 +160,6 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 e.currentTarget.style.background = selectedVehicle ? '#1a2744' : '#f5f5f5';
                 e.currentTarget.style.borderColor = selectedVehicle ? '#1a2744' : '#d0d0d0';
               }}
-              className="hidden md:flex"
             >
               <Truck size={14} style={{ flexShrink: 0, color: selectedVehicle ? '#94a3b8' : '#888' }} />
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -166,7 +185,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
             {/* Where to Buy — red filled with pin icon */}
             <button
-              className="site-header-wtb-btn"
+              className="site-header-wtb-btn tfr-focus-ring"
               aria-label="Where to Buy"
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
@@ -175,6 +194,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 fontWeight: 700, fontSize: 14, letterSpacing: '0.01em',
                 padding: '10px 20px', whiteSpace: 'nowrap',
                 fontFamily: "'Roboto','Inter',sans-serif",
+                transition: 'background-color 0.15s ease',
               }}
               onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
               onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
@@ -187,8 +207,17 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             <button
               onClick={() => setMobileOpen(o => !o)}
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', alignItems: 'center', color: '#333' }}
-              className="md:hidden site-header-hamburger flex"
+              aria-expanded={mobileOpen}
+              aria-haspopup="dialog"
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                alignItems: 'center', justifyContent: 'center', color: '#333',
+                minWidth: 44, minHeight: 44, borderRadius: 4,
+                transition: 'background-color 0.15s ease',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#f5f5f5'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              className="md:hidden site-header-hamburger flex tfr-focus-ring"
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -207,6 +236,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
               return (
                 <button
                   key={cat.label}
+                  className={isEnabled ? 'tfr-focus-ring' : undefined}
                   onClick={isEnabled ? () => navigate(`/${verticalId}/${catId}`) : undefined}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 4,
@@ -222,10 +252,12 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                     whiteSpace: 'nowrap',
                     letterSpacing: '0.01em',
                     fontFamily: "'Roboto','Inter',sans-serif",
-                    transition: 'color 0.15s',
+                    transition: 'color 0.15s, background-color 0.15s',
                   }}
-                  onMouseEnter={e => { if (!isActive && isEnabled) e.currentTarget.style.color = '#c8102e'; }}
-                  onMouseLeave={e => { if (!isActive && isEnabled) e.currentTarget.style.color = '#3d3d3d'; }}
+                  onMouseEnter={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#c8102e'; e.currentTarget.style.background = '#fafafa'; } }}
+                  onMouseLeave={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#3d3d3d'; e.currentTarget.style.background = 'transparent'; } }}
+                  onFocus={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#c8102e'; e.currentTarget.style.background = '#fafafa'; } }}
+                  onBlur={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#3d3d3d'; e.currentTarget.style.background = 'transparent'; } }}
                 >
                   {cat.label}
                   {isEnabled && <ChevronDown size={12} style={{ opacity: 0.5, marginTop: 1 }} />}
