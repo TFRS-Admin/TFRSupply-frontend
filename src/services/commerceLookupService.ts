@@ -12,6 +12,12 @@
  *   "matched"    — has shopifyVariantId + price
  *   "price_only" — has price from export, no GID yet (most common state pre-GID collection)
  *   "unmatched"  — not found in either source
+ *
+ * shopify-variant-index.json has been produced in two different shapes over time:
+ *   - the canonical ingestion pipeline's `{ variants: { <sku>: { shopifyVariantId, productHandle, ... } } }`
+ *   - a flat Matrixify-export shape with no wrapper: `{ <sku>: { variantId, handle, title, ... } }`
+ * normalizeExportIndex() below reads whichever shape is actually on disk so a re-export in
+ * either format keeps resolving real SKUs instead of silently falling through to "unmatched".
  */
 
 import shopifyIndexJson from '../data/shopify/shopify-variant-index.json';
@@ -48,6 +54,15 @@ interface ShopifyExportIndex {
   variants: Record<string, ShopifyExportVariantEntry>;
 }
 
+// The flat Matrixify-export shape: `{ <sku>: { variantId, handle, title, ... } }`, no `variants` wrapper.
+interface RawFlatVariantEntry {
+  sku?: string;
+  variantId?: string | null;
+  price?: number | null;
+  handle?: string | null;
+  title?: string | null;
+}
+
 interface ProductVariantMapping {
   sku?: string;
   shopify_variant_id?: string | null;
@@ -73,7 +88,39 @@ interface FallbackIndexEntry {
   image: string | null;
 }
 
-const shopifyIndex = shopifyIndexJson as unknown as ShopifyExportIndex;
+/**
+ * Normalizes whichever shape shopify-variant-index.json is currently in into
+ * the canonical `Record<sku, ShopifyExportVariantEntry>` this service reads.
+ */
+function normalizeExportIndex(raw: unknown): Record<string, ShopifyExportVariantEntry> {
+  const root = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+  const wrapped = root.variants && typeof root.variants === 'object'
+    ? (root.variants as Record<string, unknown>)
+    : null;
+
+  const source = wrapped ?? root;
+  const normalized: Record<string, ShopifyExportVariantEntry> = {};
+
+  for (const [sku, value] of Object.entries(source)) {
+    if (sku.startsWith('_') || !value || typeof value !== 'object') continue;
+    const entry = value as ShopifyExportVariantEntry & RawFlatVariantEntry;
+
+    normalized[sku] = {
+      sku: entry.sku ?? sku,
+      shopifyVariantId: entry.shopifyVariantId ?? entry.variantId ?? null,
+      shopifyProductId: entry.shopifyProductId ?? null,
+      price: entry.price ?? null,
+      available: entry.available ?? null,
+      productHandle: entry.productHandle ?? entry.handle ?? null,
+      productTitle: entry.productTitle ?? entry.title ?? null,
+      image: entry.image ?? null,
+    };
+  }
+
+  return normalized;
+}
+
+const shopifyIndex: ShopifyExportIndex = { variants: normalizeExportIndex(shopifyIndexJson) };
 
 // Fallback: product JSON variant_mappings
 const productModules = import.meta.glob('../data/products/*.json', { eager: true }) as Record<string, { default: ProductJsonModule }>;
