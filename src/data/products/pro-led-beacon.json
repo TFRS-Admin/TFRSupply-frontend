@@ -1,0 +1,135 @@
+{
+  "id": "pro-led-beacon",
+  "slug": "pro-led-beacon",
+  "vendor": "federal-signal",
+  "category": "beacons",
+  "verticals": [
+    "work-truck"
+  ],
+  "product_family": "Pro LED",
+  "title": "Pro LED® Beacon",
+  "subtitle": "Professional-grade LED beacon, SAE Class 1, 360-degree visibility.",
+  "description": "The Federal Signal Pro LED® Beacon is a professional-grade LED beacon engineered for maximum 360-degree warning visibility on utility, municipal, and service fleets. SAE Class 1 rated for high-output performance in the most demanding work-truck applications.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Work Truck",
+      "to": "/work-truck"
+    },
+    {
+      "label": "Beacons",
+      "to": "/work-truck/beacons"
+    },
+    {
+      "label": "Pro LED® Beacon"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+        "alt": "Pro LED® Beacon"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Professional-grade LED beacon",
+      "SAE Class 1 certified",
+      "360-degree visibility",
+      "12/24 Vdc operation",
+      "Heavy-duty mount options"
+    ],
+    "benefits": [
+      "SAE Class 1 rating supports the most demanding warning applications",
+      "360-degree output maximizes visibility from every angle"
+    ],
+    "applications": [
+      "Municipal and utility service trucks",
+      "Heavy-duty work-truck and fleet applications",
+      "Construction and work-zone support vehicles"
+    ]
+  },
+  "specifications": {
+    "voltage": "12/24 Vdc",
+    "visibility": "360-degree",
+    "certifications": [
+      "SAE Class 1"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Pro LED® Beacon Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Pro LED® Beacon Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "PROLED",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "_skuNote": "No Shopify handle or SKU matching 'pro-led-beacon' or 'PROLED' is present in src/data/shopify/shopify-variant-index.json. The table below uses prototype placeholder SKUs pending confirmation in a future Shopify export.",
+    "sku_table": [
+      {
+        "sku": "PROLED-PERM",
+        "mount": "Permanent",
+        "voltage": "12/24 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "PROLED-MAG",
+        "mount": "Magnetic",
+        "voltage": "12/24 Vdc",
+        "_prototype": true
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "No confirmed Shopify handle for 'pro-led-beacon' found in the Shopify export.",
+    "product_id": null,
+    "handle": "pro-led-beacon",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": []
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": true,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
