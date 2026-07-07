@@ -10,6 +10,11 @@
   "title": "Vision SLR® Mini Light Bar",
   "subtitle": "Compact LED mini light bar with 1-8 head configurations and multiple color options. 12 Vdc, SAE J595 Class 1 certified.",
   "description": "The Federal Signal Vision SLR® Mini Light Bar delivers flexible, high-output LED warning performance in a compact footprint. Configurable from 1 to 8 heads with a range of single- and dual-color options, it's built for police vehicles that need low-profile, purpose-built warning lighting.",
+  "summary_bullets": [
+    "Non-linear design provides 360-degree light output and off-axis lighting at the critical intersection points",
+    "Available in 44-inch, 53-inch, and 60-inch lengths",
+    "SpectraLux® multicolor LED technology"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
@@ -51,16 +56,19 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/10/Visionslr-light-bar.hero_.jpg",
     "gallery": [
       {
-        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/10/Visionslr-light-bar.hero_.jpg",
         "alt": "Vision SLR® Mini Light Bar — Three-pod configuration"
       }
     ]
   },
   "marketing": {
     "features": [
+      "Non-linear design provides 360-degree light output and off-axis lighting at the critical intersection points",
+      "Available in 44\", 53\", and 60\" lengths",
+      "SpectraLux® multicolor LED technology",
       "1 to 8 head configurations for flexible warning output",
       "Available in Red, Amber, Green, and Blue color options",
       "Single- and dual-color head configurations",

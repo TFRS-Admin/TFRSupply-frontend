@@ -11,6 +11,11 @@
   "title": "Integrity® Light Bar",
   "subtitle": "Full-featured light bar in 44\" and 51\" lengths for Police and Fire/NFPA applications. Available in Red/White, Red/Blue/White, and Blue/White configurations with Hook or Low Hook mount options.",
   "description": "The Federal Signal Integrity® light bar delivers high-output LED warning performance for both police and fire/EMS vehicles. Fire/NFPA configurations use a fixed Red/White Hook-mount build; Police configurations offer Blue/White and Red/Blue/White in Low Hook.",
+  "summary_bullets": [
+    "Low-profile, linear light bar",
+    "Available in 44-inch and 51-inch lengths",
+    "SpectraLux® multicolor LED technology available in combinations of Amber, Blue, Green, Red and White"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
@@ -52,10 +57,10 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/integrity-light-bar.hero_.jpg",
     "gallery": [
       {
-        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/integrity-light-bar.hero_.jpg",
         "alt": "Integrity® Light Bar — Front view"
       },
       {
@@ -66,7 +71,9 @@
   },
   "marketing": {
     "features": [
+      "Low-profile, linear light bar",
       "Available in 44\" and 51\" lengths",
+      "SpectraLux® multicolor LED technology available in combinations of Amber, Blue, Green, Red and White",
       "Police (Blue/White, Red/Blue/White) and Fire/NFPA (Red/White) configurations",
       "Hook Mount (Fire/NFPA) or Low Hook (Police) mounting options",
       "SignalMaster™ rear-facing directional warning",
