@@ -1,0 +1,71 @@
+{
+  "id": "interior-lighting",
+  "label": "Interior Lighting",
+  "verticals": [
+    "fire"
+  ],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Interior Lighting",
+    "subtitle": "Compartment and cab lighting engineered for harsh conditions.",
+    "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/commander-scene-light_hero_-900x600_jpg.webp?v=1780421257",
+    "imageAlt": "Fire apparatus interior lighting"
+  },
+  "description": "Interior LED lighting for fire apparatus — gooseneck map/console lights and full scene, strip, and compartment lighting systems.",
+  "filters": [
+    {
+      "id": "light_type",
+      "label": "Light Type",
+      "options": [
+        "Gooseneck Light",
+        "Scene Light",
+        "Strip / Compartment Light",
+        "Accessory"
+      ]
+    },
+    {
+      "id": "voltage",
+      "label": "Voltage",
+      "options": [
+        "12 Vdc",
+        "12/24 Vdc"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "littlite-led",
+      "label": "Littlite® LED Gooseneck Light",
+      "tagline": "Gooseneck LED map and console light in 12\" and 18\" lengths.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/littlite-gooseneck-lamp_hero_-900x600_jpg.webp?v=1780421257",
+      "href": "/fire/interior-lighting/littlite-led",
+      "badges": [
+        "Fire/EMS",
+        "12\"",
+        "18\""
+      ],
+      "specs": [
+        "12\", 18\" lengths",
+        "12 Vdc",
+        "Multiple color temps"
+      ]
+    },
+    {
+      "id": "commander-interior-lights",
+      "label": "Commander® Interior Lighting System",
+      "tagline": "Interior LED lighting system for fire apparatus scene and compartment lighting.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/commander-scene-light_hero_-900x600_jpg.webp?v=1780421257",
+      "href": "/fire/interior-lighting/commander-interior-lights",
+      "badges": [
+        "Fire/EMS",
+        "Scene Light",
+        "Compartment Light"
+      ],
+      "specs": [
+        "Scene, strip & compartment lighting",
+        "12/24 Vdc",
+        "5 product series"
+      ]
+    }
+  ]
+}
