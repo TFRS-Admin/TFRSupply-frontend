@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronRight, Phone, ShieldCheck, Award, Settings2, Headphones } from 'lucide-react';
+import { ChevronRight, Phone, ShieldCheck, Award, Settings2, Headphones } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import ProductCard from '@/components/product/ProductCard';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import SavedProductsSection from '@/components/product/SavedProductsSection';
+import HomeHero from '@/components/templates/HomeHero';
+import VerticalRoutingGrid from '@/components/templates/VerticalRoutingGrid';
 import { toProductCardViewModel } from '@/pages/ProductSearchPage';
 import { useCatalogLists } from '@/hooks/useCatalog';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
@@ -13,6 +15,15 @@ import { NAV_VERTICALS } from '@/config/navigationVerticals';
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 const HERO_IMAGES = NAV_VERTICALS.filter((v) => v.path).map((v) => v.image);
+
+const HERO_COPY = {
+  eyebrow: 'TFR Supply — Pro Shop',
+  title: 'Emergency Lighting & Warning Equipment Built for the Job',
+  subtitle:
+    'Shop light bars, sirens, and warning systems for Police, Fire/EMS, and Work Truck fleets — then configure the exact build your vehicle needs.',
+  primaryCta: { label: 'Shop All Products', to: '/search' },
+  secondaryCta: { label: 'Configure Your Equipment', to: '/fire/light-bars/navigator' },
+};
 
 const TRUST_POINTS = [
   {
@@ -51,86 +62,17 @@ export function StoreLandingView({ products = [], categories = [] }) {
       <PrototypeBanner />
       <SiteHeader activeVertical={null} />
 
-      {/* Hero */}
-      <div className="relative overflow-hidden" style={{ background: '#0d1b2e' }}>
-        <div className="absolute inset-0 grid grid-cols-3 opacity-20">
-          {HERO_IMAGES.map((img) => (
-            <img key={img} src={img} alt="" className="w-full h-full object-cover" />
-          ))}
-        </div>
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #0d1b2e 40%, rgba(13,27,46,0.75) 100%)' }} />
-        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28">
-          <p className="text-xs font-bold tracking-widest uppercase text-red-400 mb-3">TFR Supply — Pro Shop</p>
-          <h1 className="text-3xl md:text-5xl font-black text-white leading-tight max-w-2xl mb-5">
-            Emergency Lighting &amp; Warning Equipment Built for the Job
-          </h1>
-          <p className="text-gray-300 text-base md:text-lg max-w-xl leading-relaxed mb-8">
-            Shop light bars, sirens, and warning systems for Police, Fire/EMS, and Work Truck fleets — then configure the exact build your vehicle needs.
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              to="/search"
-              className="inline-flex items-center gap-2 bg-[#c8102e] hover:bg-[#a50d25] text-white font-bold px-6 py-3 text-sm transition-colors"
-            >
-              Shop All Products <ArrowRight size={16} />
-            </Link>
-            <Link
-              to="/fire/light-bars/navigator"
-              className="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 text-white font-bold px-6 py-3 text-sm transition-colors"
-            >
-              Configure Your Equipment
-            </Link>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
-      </div>
+      <HomeHero {...HERO_COPY} images={HERO_IMAGES} />
 
       <SavedProductsSection />
       <RecentlyViewedProducts />
 
-      {/* Vertical navigation cards */}
+      {/* Vertical routing */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <p className="text-xs font-bold tracking-widest uppercase text-gray-500 mb-2">Shop by Vertical</p>
         <div className="w-10 mb-4" style={{ height: 3, background: '#c8102e' }} />
         <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-8">Find Warning Equipment for Your Fleet</h2>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-          {NAV_VERTICALS.map((vertical) => {
-            const comingSoon = !vertical.path;
-            const card = (
-              <div
-                className={`group h-full border overflow-hidden transition-all duration-200 ${
-                  comingSoon ? 'border-gray-100 opacity-60' : 'border-gray-200 hover:border-[#c8102e] hover:shadow-lg'
-                }`}
-              >
-                <div className="relative h-32 overflow-hidden bg-gray-100">
-                  <img
-                    src={vertical.image}
-                    alt={vertical.imageAlt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {comingSoon && (
-                    <div className="absolute inset-0 bg-white/50 flex items-center justify-center">
-                      <span className="text-[10px] font-bold text-gray-600 bg-white px-2 py-1">Coming Soon</span>
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <p className="font-black text-sm text-gray-900 mb-1">{vertical.label}</p>
-                  <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{vertical.tagline}</p>
-                </div>
-              </div>
-            );
-
-            return comingSoon ? (
-              <div key={vertical.id}>{card}</div>
-            ) : (
-              <Link key={vertical.id} to={vertical.path} className="block">
-                {card}
-              </Link>
-            );
-          })}
-        </div>
+        <VerticalRoutingGrid verticals={NAV_VERTICALS} />
       </div>
 
       {/* Featured categories */}
