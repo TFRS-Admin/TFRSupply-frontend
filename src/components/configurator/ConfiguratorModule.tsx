@@ -281,23 +281,20 @@ function FilterStep({ step, skuOptions, selections, steps, onSelect, recommended
               <button
                 disabled={disabled}
                 onClick={() => !disabled && onSelect(step.id, opt.id)}
-                title={disabled ? 'No matching SKUs for this combination' : opt.description || undefined}
+                title={disabled ? 'Not available with current selections' : opt.description || undefined}
+                className={disabled ? 'opacity-40 cursor-not-allowed' : undefined}
                 style={{
                   ...FS, fontSize: 12, padding: '6px 14px',
-                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  cursor: disabled ? undefined : 'pointer',
                   border: `2px solid ${isSelected ? '#c8102e' : disabled ? '#e5e5e5' : isRecommended ? '#16a34a' : '#d0d0d0'}`,
                   background: isSelected ? '#c8102e' : disabled ? '#f5f5f5' : isRecommended ? '#f0fdf4' : '#fff',
                   color: isSelected ? '#fff' : disabled ? '#bbb' : '#333',
                   fontWeight: isSelected ? 700 : 400,
-                  opacity: disabled ? 0.55 : 1,
                   transition: 'all 0.12s',
                 }}
               >
                 {opt.label}
               </button>
-              {disabled && !isSelected && (
-                <span style={{ fontSize: 9, color: '#dc2626', fontWeight: 700 }}>NO MATCH</span>
-              )}
               {isRecommended && !isSelected && !disabled && (
                 <span style={{ fontSize: 9, color: '#15803d', fontWeight: 700, background: '#dcfce7', padding: '1px 5px', border: '1px solid #bbf7d0' }}>
                   ✓ FITS
