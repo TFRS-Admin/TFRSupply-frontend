@@ -177,6 +177,7 @@ export function ProductDetailTemplateView({
       <ProductHero
         title={title}
         subtitle={data.subtitle}
+        description={data.description}
         bullets={data.summary_bullets ?? marketing?.features ?? []}
         images={heroImages}
         actions={data.actions ?? heroActions}

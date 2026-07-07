@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, MessageSquare, Settings, BookOpen, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, MessageSquare, Settings, BookOpen, Check } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -65,42 +65,61 @@ function ImageGallery({ images = [] }) {
 }
 
 // ── Product Hero ──────────────────────────────────────────────────────────────
-export default function ProductHero({ title, subtitle, bullets = [], images = [], actions = {}, tabs = [], actionLabels = {}, infoPanel = null }) {
+export default function ProductHero({ title, subtitle, description, bullets = [], images = [], actions = {}, tabs = [], actionLabels = {}, infoPanel = null }) {
   const { whereToBuyUrl = '#', requestInfoUrl = '#', configuratorUrl = '#', manualUrl = '#' } = actions;
   const { configurator = 'Configure\nLightbar', manual = 'Manual' } = actionLabels;
+  const hasIntro = Boolean(subtitle || (description && description !== subtitle));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-8 pb-10">
-      <h1 style={{ ...FS, fontSize: 'clamp(1.6rem,5vw,2.25rem)', fontWeight: 800, color: '#1a1a1a', lineHeight: 1.15, letterSpacing: '-0.01em', marginBottom: '1.5rem' }}>
+    <div className="max-w-7xl mx-auto px-4 pt-6 pb-8">
+      <h1 style={{ ...FS, fontSize: 'clamp(1.6rem,5vw,2.25rem)', fontWeight: 800, color: '#1a1a1a', lineHeight: 1.15, letterSpacing: '-0.01em', marginBottom: '1.1rem' }}>
         {title}
       </h1>
 
-      <div className="product-hero-row" style={{ display: 'flex', gap: '2.5rem', alignItems: 'flex-start' }}>
+      <div className="product-hero-row" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
         {/* Left — 60% */}
         <div className="product-hero-media" style={{ flex: '0 0 60%', maxWidth: '60%' }}>
           <ImageGallery images={images} />
         </div>
 
         {/* Right — 40% */}
-        <div className="product-hero-info" style={{ flex: '0 0 40%', maxWidth: '40%' }}>
-          {subtitle && <p style={{ ...FS, fontSize: 15, color: '#4b4b4b', lineHeight: 1.65, marginBottom: '1.25rem' }}>{subtitle}</p>}
+        <div className="product-hero-info flex flex-col gap-5" style={{ flex: '0 0 40%', maxWidth: '40%' }}>
+          {/* Intro copy — subtitle leads, description (if distinct) adds supporting detail */}
+          {hasIntro && (
+            <div className="flex flex-col gap-2">
+              {subtitle && (
+                <p style={FS} className="text-[15px] leading-relaxed text-gray-700">{subtitle}</p>
+              )}
+              {description && description !== subtitle && (
+                <p style={FS} className="text-[13px] leading-relaxed text-gray-500">{description}</p>
+              )}
+            </div>
+          )}
 
           {infoPanel}
 
-          {/* Bullets */}
+          {/* Bullets — premium feature list */}
           {bullets.length > 0 && (
-            <ul style={{ ...FS, listStyle: 'none', padding: 0, marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              {bullets.map((b, i) => (
-                <li key={i} style={{ fontSize: '14px', color: '#333', lineHeight: 1.6, display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                  <CheckCircle2 size={16} style={{ color: '#c8102e', flexShrink: 0, marginTop: 2 }} />
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
+            <div>
+              <div className="mb-2.5 flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                <h2 style={FS} className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Key Features</h2>
+              </div>
+              <ul className="flex flex-col gap-2">
+                {bullets.map((b, i) => (
+                  <li key={i} style={FS} className="flex items-start gap-2.5 rounded-md border border-gray-100 bg-gray-50 px-3 py-2 text-[13.5px] leading-snug text-gray-700">
+                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#c8102e]/10">
+                      <Check size={12} strokeWidth={3} className="text-[#c8102e]" />
+                    </span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           {/* Primary text-icon links */}
-          <div className="product-hero-quick-links" style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+          <div className="product-hero-quick-links flex flex-wrap gap-3">
             {[
               { href: whereToBuyUrl, icon: <MapPin size={14} />, label: 'Where to Buy' },
               { href: requestInfoUrl, icon: <MessageSquare size={14} />, label: 'Request Information' },
@@ -118,7 +137,7 @@ export default function ProductHero({ title, subtitle, bullets = [], images = []
           </div>
 
           {/* Icon-above-label secondary links */}
-          <div style={{ display: 'flex', gap: '1.5rem', paddingTop: '1.25rem', borderTop: '1px solid #e5e5e5', marginBottom: '1.5rem' }}>
+          <div className="flex gap-6 border-t border-gray-200 pt-4">
             {[
               { href: configuratorUrl, icon: <Settings size={24} />, label: configurator },
               { href: manualUrl, icon: <BookOpen size={24} />, label: manual },
@@ -136,7 +155,7 @@ export default function ProductHero({ title, subtitle, bullets = [], images = []
 
           {/* Quick-jump anchor nav */}
           {tabs.length > 0 && (
-            <div style={{ display: 'flex', borderTop: '1px solid #e5e5e5', paddingTop: '1rem', flexWrap: 'wrap', alignItems: 'center', rowGap: '0.5rem' }}>
+            <div className="flex flex-wrap items-center border-t border-gray-200 pt-3" style={{ rowGap: '0.5rem' }}>
               {tabs.map((tab, i) => (
                 <React.Fragment key={tab.href}>
                   <a href={tab.href}
