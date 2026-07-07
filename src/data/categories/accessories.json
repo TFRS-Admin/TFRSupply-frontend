@@ -11,5 +11,18 @@
   },
   "description": "Mounting hardware, controllers, and installation accessories for fire apparatus and work truck upfits.",
   "filters": [],
-  "products": []
+  "products": [
+    {
+      "id": "work-truck-accessories",
+      "label": "Work Truck Accessories",
+      "tagline": "Mounting brackets, wiring, and replacement parts",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/09/micropulse-brackets.hero_.jpg",
+      "badges": ["Work Truck"],
+      "specs": [
+        "Mounting brackets for MicroPulse, Allegiant, and Spire products",
+        "Replacement domes, lenses, and hardware",
+        "Vehicle-specific hook kits and wiring harnesses"
+      ]
+    }
+  ]
 }

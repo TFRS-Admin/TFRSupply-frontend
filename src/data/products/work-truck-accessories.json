@@ -1,0 +1,146 @@
+{
+  "id": "work-truck-accessories",
+  "slug": "work-truck-accessories",
+  "vendor": "federal-signal",
+  "category": "accessories",
+  "verticals": [
+    "work-truck"
+  ],
+  "product_family": "Accessories",
+  "title": "Work Truck Accessories",
+  "subtitle": "Mounting brackets, wiring, and replacement parts",
+  "description": "Mounting brackets, replacement domes and lenses, hook kits, and wiring harnesses to install, maintain, and upfit Federal Signal warning equipment on work trucks and utility fleets.",
+  "summary_bullets": [
+    "Mounting brackets for MicroPulse, Allegiant, and Spire products",
+    "Replacement domes, lenses, and hardware",
+    "Vehicle-specific hook kits and wiring harnesses"
+  ],
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Work Truck",
+      "to": "/work-truck"
+    },
+    {
+      "label": "Accessories",
+      "to": "/work-truck/accessories"
+    },
+    {
+      "label": "Work Truck Accessories"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/micropulse-brackets.hero_.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/micropulse-brackets.hero_.jpg",
+        "alt": "Work Truck Accessories — mounting brackets and hardware"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Mounting brackets for MicroPulse, Allegiant, and Spire products",
+      "Replacement domes, lenses, and hardware",
+      "Vehicle-specific hook kits and wiring harnesses"
+    ],
+    "benefits": [
+      "Keep existing warning equipment in service with genuine replacement parts",
+      "Vehicle-specific hardware simplifies upfit and field installation"
+    ],
+    "applications": [
+      "Work truck and utility fleet upfits",
+      "Field service and replacement-part installs"
+    ]
+  },
+  "specifications": {
+    "compatible_product_lines": [
+      "MicroPulse",
+      "Allegiant",
+      "Spire"
+    ],
+    "item_types": [
+      "Mounting bracket",
+      "Hook kit",
+      "Wiring harness",
+      "Replacement dome/lens"
+    ]
+  },
+  "documentation": {
+    "manuals": [],
+    "brochures": [],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "WTA",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "sku_table": [
+      { "sku": "FSJOINPR-1", "item": "Allegiant Max mounting hardware" },
+      { "sku": "200B-SHORT", "item": "Spire hook kit — short" },
+      { "sku": "200B-TALL", "item": "Spire hook kit — tall" },
+      { "sku": "200DC-SHORT", "item": "Spire wiring harness — short" }
+    ]
+  },
+  "shopify": {
+    "_model": "Aggregated accessory SKUs sourced from multiple Shopify products (allegiant-max-accessories, spire-accessories). Each variant_mappings entry carries its own shopify_handle since these SKUs are not a single Shopify product.",
+    "product_id": null,
+    "handle": "work-truck-accessories",
+    "cart_eligible": true,
+    "storefront_available": true,
+    "variant_mappings": [
+      {
+        "sku": "FSJOINPR-1",
+        "shopify_variant_id": null,
+        "shopify_handle": "allegiant-max-accessories",
+        "option_label": "Allegiant Max mounting hardware"
+      },
+      {
+        "sku": "200B-SHORT",
+        "shopify_variant_id": null,
+        "shopify_handle": "spire-accessories",
+        "option_label": "Spire hook kit — short"
+      },
+      {
+        "sku": "200B-TALL",
+        "shopify_variant_id": null,
+        "shopify_handle": "spire-accessories",
+        "option_label": "Spire hook kit — tall"
+      },
+      {
+        "sku": "200DC-SHORT",
+        "shopify_variant_id": null,
+        "shopify_handle": "spire-accessories",
+        "option_label": "Spire wiring harness — short"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
