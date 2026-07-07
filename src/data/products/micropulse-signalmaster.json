@@ -12,6 +12,11 @@
   "title": "MicroPulse® SignalMaster Compact Directional Warning",
   "subtitle": "Compact rear-facing directional warning that integrates with the MicroPulse system, in 4-head and 8-head Amber-only configurations.",
   "description": "The Federal Signal MicroPulse® SignalMaster delivers compact, rear-facing directional warning that integrates directly with an existing MicroPulse LED system. Available in 4-head and 8-head Amber-only configurations.",
+  "summary_bullets": [
+    "MicroPulse® LED technology for maximum visibility",
+    "Compact design for rear deck or trunk lid mounting",
+    "Available in Amber, Blue, Red, and White"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
