@@ -1,0 +1,254 @@
+{
+  "id": "vision-slr-beacon",
+  "slug": "vision-slr-beacon",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Vision SLR",
+  "title": "Vision SLR® Beacon",
+  "subtitle": "Compact low-profile beacon, single-color or split-color LED, surface or magnetic mount.",
+  "description": "The Federal Signal Vision SLR® Beacon delivers high-output LED warning performance in a compact, low-profile beacon housing. Available in single-color and split-color (Matching or Clear dome) configurations across Red, Amber, Green, and Blue, it mounts via permanent surface or magnetic base for police vehicles that need a discreet, purpose-built warning beacon.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Vision SLR® Beacon"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/three-pod-visionslr-light-bar-menu-768x768.png?v=1781535533",
+        "alt": "Vision SLR® Beacon"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Single-color and split-color LED configurations",
+      "Available in Red, Amber, Green, and Blue",
+      "Matching-color or Clear dome options",
+      "Surface or magnetic mount",
+      "12 Vdc operation",
+      "Compact, low-profile beacon housing"
+    ],
+    "benefits": [
+      "Purpose-built for police vehicles needing a compact, discreet beacon",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — supplemental beacon warning",
+      "Unmarked and low-profile police units",
+      "Auxiliary and rear-deck warning lighting for patrol vehicles"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "color_options": [
+      "Red",
+      "Amber",
+      "Green",
+      "Blue"
+    ],
+    "dome_options": [
+      "Matching",
+      "Clear"
+    ],
+    "mount_options": [
+      "Surface Mount",
+      "Magnetic Mount"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Vision SLR® Beacon Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Vision SLR® Beacon Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "VSLR1",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "_skuNote": "The 8 base SKUs below (VSLR1-R1/R2/A1/A2/G1/G2/B1/B2) are confirmed in src/data/shopify/shopify-variant-index.json (productHandle: vision-slr-mini-light-bar, productTitle: 'Vision SLR® Compact Beacon Series') and match vision-slr-beacon-configurator.json's skuOptions exactly. The export also contains additional confirmed split-dome combo SKUs (e.g. VSLR1-A1A02, VSLR1-R1B12) not yet modeled in the configurator — flagged for future configurator expansion, not added here per task scope.",
+    "sku_table": [
+      {
+        "sku": "VSLR1-R1",
+        "color": "Red",
+        "dome": "Matching (Red)",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-R2",
+        "color": "Red",
+        "dome": "Clear",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-A1",
+        "color": "Amber",
+        "dome": "Matching (Amber)",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-A2",
+        "color": "Amber",
+        "dome": "Clear",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-G1",
+        "color": "Green",
+        "dome": "Matching (Green)",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-G2",
+        "color": "Green",
+        "dome": "Clear",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-B1",
+        "color": "Blue",
+        "dome": "Matching (Blue)",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      },
+      {
+        "sku": "VSLR1-B2",
+        "color": "Blue",
+        "dome": "Clear",
+        "voltage": "12 Vdc",
+        "_price": 934.0
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "ONE Shopify product, 'Vision SLR® Compact Beacon Series' (handle: vision-slr-mini-light-bar), sharing 8 of its 19 confirmed VSLR1 variants with this product. The remaining 11 multi-dome combo variants are not yet modeled here (see _skuNote).",
+    "product_id": null,
+    "handle": "vision-slr-mini-light-bar",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "VSLR1-R1",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686578287",
+        "price": 934.0,
+        "option_color": "Red",
+        "option_dome": "Matching"
+      },
+      {
+        "sku": "VSLR1-R2",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686611055",
+        "price": 934.0,
+        "option_color": "Red",
+        "option_dome": "Clear"
+      },
+      {
+        "sku": "VSLR1-A1",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686512751",
+        "price": 934.0,
+        "option_color": "Amber",
+        "option_dome": "Matching"
+      },
+      {
+        "sku": "VSLR1-A2",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686545519",
+        "price": 934.0,
+        "option_color": "Amber",
+        "option_dome": "Clear"
+      },
+      {
+        "sku": "VSLR1-G1",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686971503",
+        "price": 934.0,
+        "option_color": "Green",
+        "option_dome": "Matching"
+      },
+      {
+        "sku": "VSLR1-G2",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207687004271",
+        "price": 934.0,
+        "option_color": "Green",
+        "option_dome": "Clear"
+      },
+      {
+        "sku": "VSLR1-B1",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686905967",
+        "price": 934.0,
+        "option_color": "Blue",
+        "option_dome": "Matching"
+      },
+      {
+        "sku": "VSLR1-B2",
+        "shopify_variant_id": "gid://shopify/ProductVariant/53207686938735",
+        "price": 934.0,
+        "option_color": "Blue",
+        "option_dome": "Clear"
+      }
+    ]
+  },
+  "configuratorId": "vision-slr-beacon-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first.",
+  "_vertical_note": "docs/knowledge/configurator_data.json (product_families.vision_slr_beacon) marks every VSLR1 SKU as Fire vertical only, not Police. This product page is filed under Police per explicit task instruction; flagged here for reconciliation, not resolved as part of this change.",
+  "_relation_note": "vision-slr.json (the 'Vision SLR® Mini Light Bar') already references this same Shopify handle/VSLR1 SKU set but points at vision-slr-configurator.json, which vision-slr.json's own _configurator_note flags as built for a different product (46\" VSLR46 bar). This product page (vision-slr-beacon) is the corrected home for the VSLR1 beacon SKUs and configurator; the vision-slr.json discrepancy is out of scope for this change."
+}
