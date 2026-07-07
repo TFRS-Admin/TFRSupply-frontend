@@ -27,7 +27,7 @@ import { Clock, Phone } from 'lucide-react';
 import ConfiguratorExperience from '@/components/configurator/ConfiguratorExperience';
 import type { Category, CategoryProductCard, Product } from '@/types';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+const FS = { fontFamily: "'Inter',sans-serif" };
 
 // NavigatorTabs and SectionHeading are shared, still-JS components outside
 // this conversion's scope. Both destructure their props with no defaults, so
@@ -57,14 +57,14 @@ function ProductComingSoon({ product, verticalId, categoryId }: ProductComingSoo
         { label: product.label }
       ]} />
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="product-coming-soon-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'flex-start' }}>
+        <div className="product-coming-soon-grid grid grid-cols-2 gap-12 items-start">
           {product.image && (
             <div className="border border-gray-200 flex items-center justify-center bg-white overflow-hidden" style={{ height: 380 }}>
               <img src={product.image} alt={product.label} className="max-h-full max-w-full object-contain" />
             </div>
           )}
           <div>
-            <h1 style={{ fontSize: 'clamp(1.3rem,2.5vw,1.8rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>{product.label}</h1>
+            <h1 className="font-heading uppercase font-bold text-[#0f0f0f] mb-3" style={{ fontSize: 'clamp(1.3rem,2.5vw,1.8rem)' }}>{product.label}</h1>
             {product.tagline && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.65, marginBottom: '1rem' }}>{product.tagline}</p>}
             {product.badges?.length > 0 && (
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: '1.5rem' }}>
@@ -106,8 +106,8 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId
   if (!configuratorData) return null;
 
   return (
-    <div className="border-t border-gray-100 bg-gray-50" id="build-configure">
-      <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+    <div className="border-t border-gray-200 bg-gray-50" id="build-configure">
+      <div className="max-w-7xl mx-auto px-6 py-10 sm:py-12">
         <SectionHeading description="Select a base model and options below to build a fitment-checked, priced configuration for this product.">
           Build &amp; Configure
         </SectionHeading>
@@ -213,18 +213,20 @@ export function ProductDetailTemplateView({
         <>
           {data.specifications && Object.keys(data.specifications).length > 0 && (
             <div className="border-t border-gray-200 bg-white">
-              <div className="max-w-7xl mx-auto px-6 py-8 sm:py-10">
+              <div className="max-w-7xl mx-auto px-6 py-10 sm:py-12">
                 <SectionHeading>Specifications</SectionHeading>
-                <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
-                  <tbody>
-                    {Object.entries(data.specifications).map(([k, v], i) => (
-                      <tr key={k} style={{ background: i % 2 === 0 ? '#f7f8fa' : '#fff' }}>
-                        <td style={{ padding: '10px 12px', fontWeight: 600, color: '#1a1a1a', width: '35%', textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</td>
-                        <td style={{ padding: '10px 12px', color: '#444' }}>{Array.isArray(v) ? v.join(', ') : String(v)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="overflow-hidden rounded-md border border-gray-200">
+                  <table className="w-full text-[13px]" style={{ borderCollapse: 'collapse' }}>
+                    <tbody>
+                      {Object.entries(data.specifications).map(([k, v], i) => (
+                        <tr key={k} className={`border-b border-gray-200 last:border-b-0 ${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
+                          <td className="w-[35%] px-4 py-2.5 font-semibold capitalize text-[#0f0f0f]">{k.replace(/_/g, ' ')}</td>
+                          <td className="px-4 py-2.5 text-gray-600">{Array.isArray(v) ? v.join(', ') : String(v)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}
