@@ -38,31 +38,41 @@ function renderProductSearchHookProbe() {
 describe('catalogService.searchProducts', () => {
   it('returns every product with a ready status when no query or filter is given', () => {
     const { catalogService } = modules.catalog;
+    const allProducts = catalogService.listProducts();
 
     const result = catalogService.searchProducts();
 
     assert.equal(result.status, 'ready');
-    assert.equal(result.total, 5);
-    assert.equal(result.products.length, 5);
+    assert.equal(result.total, allProducts.length);
+    assert.equal(result.products.length, allProducts.length);
+    assert.ok(result.products.length >= 5, `expected at least 5 products, got ${result.products.length}`);
   });
 
   it('filters products by verticalId without dropping the total catalog count', () => {
     const { catalogService } = modules.catalog;
+    const allProducts = catalogService.listProducts();
+    const expectedCount = allProducts.filter((product) => product.verticalIds.includes('police')).length;
 
     const result = catalogService.searchProducts({ filter: { verticalId: 'police' } });
 
     assert.equal(result.status, 'ready');
-    assert.equal(result.total, 5);
-    assert.equal(result.products.length, 4);
+    assert.equal(result.total, allProducts.length);
+    assert.equal(result.products.length, expectedCount);
+    assert.ok(result.products.length > 0, 'expected at least one police product');
     assert.ok(result.products.every((product) => product.verticalIds.includes('police')));
   });
 
   it('combines verticalId and categoryId filters', () => {
     const { catalogService } = modules.catalog;
+    const allProducts = catalogService.listProducts();
+    const expectedCount = allProducts.filter(
+      (product) => product.verticalIds.includes('fire') && product.categoryIds.includes('light-bars'),
+    ).length;
 
     const result = catalogService.searchProducts({ filter: { verticalId: 'fire', categoryId: 'light-bars' } });
 
-    assert.equal(result.products.length, 3);
+    assert.equal(result.products.length, expectedCount);
+    assert.ok(result.products.length > 0, 'expected at least one matching product');
     assert.ok(result.products.every((product) => product.verticalIds.includes('fire') && product.categoryIds.includes('light-bars')));
   });
 
@@ -78,12 +88,13 @@ describe('catalogService.searchProducts', () => {
 
   it('reports an empty status without losing the catalog total when nothing matches', () => {
     const { catalogService } = modules.catalog;
+    const allProducts = catalogService.listProducts();
 
     const result = catalogService.searchProducts({ query: 'no-such-product-xyz' });
 
     assert.equal(result.status, 'empty');
     assert.equal(result.products.length, 0);
-    assert.equal(result.total, 5);
+    assert.equal(result.total, allProducts.length);
   });
 
   it('is case-insensitive and ignores surrounding whitespace', () => {
