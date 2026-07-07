@@ -93,6 +93,21 @@
   }
 }
 
+/* ── Global nav focus states ──────────────────────────────────────────
+   Keyboard-focus rings for the header/mega-menu. Red for controls on the
+   white header rows, amber for controls on the dark utility/mega-menu bar
+   (red would disappear against that background). */
+.tfr-focus-ring:focus-visible {
+  outline: 2px solid #c8102e;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.tfr-focus-ring-inverse:focus-visible {
+  outline: 2px solid #d97706;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 /* ── Vertical landing template: hero CTA + category grid ─────────────── */
 .vlt-hero-cta {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
