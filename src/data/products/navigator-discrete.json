@@ -11,6 +11,11 @@
   "title": "Navigator® Discrete Light Bar",
   "subtitle": "Discrete LED light bar with 4-inch riser for fire apparatus. Available in 25\", 45\", and 53\" lengths.",
   "description": "The Navigator® Discrete Light Bar provides high-visibility warning in a low-profile chassis with clear dome. Available in discrete and serial wiring configurations. NFPA 2020 and 2021 compliant.",
+  "summary_bullets": [
+    "Low-profile discrete light bar for unmarked vehicles",
+    "SpectraLux® multicolor LED technology",
+    "Designed for undercover and detective applications"
+  ],
   "breadcrumbs": [
     {
       "label": "Home",
