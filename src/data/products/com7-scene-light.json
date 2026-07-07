@@ -1,0 +1,161 @@
+{
+  "id": "com7-scene-light",
+  "slug": "com7-scene-light",
+  "vendor": "federal-signal",
+  "category": "work-lights",
+  "verticals": [
+    "work-truck"
+  ],
+  "product_family": "Com7",
+  "title": "Com7 Scene Light",
+  "subtitle": "Compact 7-LED scene and flood light for work trucks, utility vehicles, and service fleets. Available in Black, Chrome, or White housing.",
+  "description": "The Federal Signal Com7 Scene Light delivers high-output flood illumination for night operations on utility, municipal, and service vehicles. Its compact 7-LED housing mounts to cab exteriors, mirror arms, and equipment racks, providing wide-angle scene lighting for work-zone tasks after dark.",
+  "summary_bullets": [
+    "Compact 7-LED scene and flood light",
+    "Wide-angle beam for work-zone illumination",
+    "Available in Black, Chrome, or White housing"
+  ],
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Work Truck",
+      "to": "/work-truck"
+    },
+    {
+      "label": "Work Lights",
+      "to": "/work-truck/work-lights"
+    },
+    {
+      "label": "Com7 Scene Light"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/10/IP-Rating-Home-Page-Image.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/10/IP-Rating-Home-Page-Image.jpg",
+        "alt": "Com7 Scene Light"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact 7-LED scene and flood light",
+      "Wide-angle beam pattern for work-zone illumination",
+      "Sealed, IP-rated housing for harsh environments",
+      "Surface-mount installation on cab exteriors, mirror arms, and equipment racks",
+      "Available in Black, Chrome, or White housing",
+      "12/24 Vdc operation"
+    ],
+    "benefits": [
+      "Compact housing suits utility and service vehicles with limited mounting space",
+      "Housing color options allow the fixture to match cab trim"
+    ],
+    "applications": [
+      "Utility and municipal service trucks",
+      "Snow plows and maintenance vehicles",
+      "Construction and work-zone support vehicles"
+    ]
+  },
+  "specifications": {
+    "voltage": "12/24 Vdc",
+    "led_count": "7",
+    "housing_options": [
+      "Black",
+      "Chrome",
+      "White"
+    ],
+    "mount_option": "Surface Mount",
+    "sealing": "IP-rated, sealed housing"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Com7 Scene Light Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Com Series Scene Light Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "COM7",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "_skuNote": "SKUs and prices sourced from src/data/shopify/shopify-variant-index.json (handle: com7-scene-light). The Shopify export's option1 field mirrors the SKU rather than a real option label, so the Black/Chrome/White housing-color mapping to the -B/-C/-W suffixes is inferred from the SKU pattern pending confirmation in Shopify Admin.",
+    "sku_table": [
+      {
+        "sku": "COM7-B",
+        "housing_color": "Black"
+      },
+      {
+        "sku": "COM7-C",
+        "housing_color": "Chrome"
+      },
+      {
+        "sku": "COM7-W",
+        "housing_color": "White"
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 3 variants (housing color). COM7 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "com7-scene-light",
+    "cart_eligible": true,
+    "storefront_available": true,
+    "variant_mappings": [
+      {
+        "sku": "COM7-B",
+        "shopify_variant_id": "53719471456367",
+        "option_housing_color": "Black"
+      },
+      {
+        "sku": "COM7-C",
+        "shopify_variant_id": "53719471489135",
+        "option_housing_color": "Chrome"
+      },
+      {
+        "sku": "COM7-W",
+        "shopify_variant_id": "53719471521903",
+        "option_housing_color": "White"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": false,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
