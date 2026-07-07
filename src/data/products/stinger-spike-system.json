@@ -1,0 +1,163 @@
+{
+  "id": "stinger-spike-system",
+  "slug": "stinger-spike-system",
+  "vendor": "federal-signal",
+  "category": "stinger-spike",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Stinger",
+  "title": "Stinger® Spike System",
+  "subtitle": "Deployable tire deflation system for law enforcement",
+  "description": "The Federal Signal Stinger® Spike System is a deployable tire deflation system engineered to support quick and reliable de-escalation of vehicle pursuits, available in multiple deployment lengths and a heavy-duty XL variant for larger vehicle applications.",
+  "summary_bullets": [
+    "Available in 10', 15.5', and 25' deployment lengths",
+    "Stinger XL variant available for heavy vehicle applications",
+    "Replacement spikes, rope & spool, and trainer systems available"
+  ],
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Stinger Spike System",
+      "to": "/police/stinger-spike"
+    },
+    {
+      "label": "Stinger® Spike System"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/stinger-spike-system.hero_.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/stinger-spike-system.hero_.jpg",
+        "alt": "Stinger® Spike System — Deployed on roadway"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Available in 10', 15.5', and 25' deployment lengths",
+      "Stinger XL variant available for heavy vehicle applications",
+      "Replacement spikes, rope & spool, and trainer systems available",
+      "Compact, quick-deployment carrying case"
+    ],
+    "benefits": [
+      "Multiple deployment lengths cover single-lane to multi-lane roadways",
+      "XL variant extends effective deflation to heavier fleet and commercial vehicles"
+    ],
+    "applications": [
+      "Municipal police pursuit intervention",
+      "Sheriff and state highway patrol roadway control points",
+      "Checkpoint and perimeter control operations"
+    ]
+  },
+  "specifications": {
+    "deployment_lengths": [
+      "10'",
+      "15.5'",
+      "25'"
+    ],
+    "variants": [
+      "Stinger",
+      "Stinger XL"
+    ],
+    "accessories": [
+      "Replacement spikes",
+      "Rope & spool",
+      "Trainer systems"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Stinger® Spike System Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Stinger® Spike System Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "STGR",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product (handle=stinger-spike-system) with 6 confirmed variants across the standard and XL Stinger lines.",
+    "product_id": null,
+    "handle": "stinger-spike-system",
+    "cart_eligible": true,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "90200",
+        "shopify_variant_id": null,
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "90210",
+        "shopify_variant_id": null,
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "90225",
+        "shopify_variant_id": null,
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "93200",
+        "shopify_variant_id": null,
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "93210",
+        "shopify_variant_id": null,
+        "_missing": "shopify_variant_id"
+      },
+      {
+        "sku": "93225",
+        "shopify_variant_id": null,
+        "_missing": "shopify_variant_id"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. All 6 SKUs (90200, 90210, 90225, 93200, 93210, 93225) are confirmed in the current Shopify export with pricing; the variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first. Shopify variant GIDs are not yet collected for the product JSON fallback."
+}
