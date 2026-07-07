@@ -1,0 +1,155 @@
+{
+  "id": "spire-100",
+  "slug": "spire-100",
+  "vendor": "federal-signal",
+  "category": "beacons",
+  "verticals": [
+    "work-truck"
+  ],
+  "product_family": "Spire",
+  "title": "Spire® 100 LED Beacon",
+  "subtitle": "Compact LED beacon, 12/24V, amber or clear lens, permanent or magnetic mount.",
+  "description": "The Federal Signal Spire® 100 LED Beacon delivers compact, brilliant 360° warning visibility for utility, municipal, and service fleets. Operating on 12/24 Vdc, it's available with amber or clear lens options and permanent or magnetic mounting for fast, flexible installation on work trucks and heavy equipment.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Work Truck",
+      "to": "/work-truck"
+    },
+    {
+      "label": "Beacons",
+      "to": "/work-truck/beacons"
+    },
+    {
+      "label": "Spire® 100 LED Beacon"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+        "alt": "Spire® 100 LED Beacon"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact 360° LED beacon",
+      "12/24 Vdc operation",
+      "Amber or clear lens options",
+      "Permanent or magnetic mount",
+      "Low-profile, durable housing"
+    ],
+    "benefits": [
+      "Compact footprint suits utility and service vehicles with limited roof space",
+      "Magnetic mount option allows fast beacon relocation between vehicles"
+    ],
+    "applications": [
+      "Utility and municipal service trucks",
+      "Snow plows and maintenance vehicles",
+      "Construction and work-zone support vehicles"
+    ]
+  },
+  "specifications": {
+    "voltage": "12/24 Vdc",
+    "lens_options": [
+      "Amber",
+      "Clear"
+    ],
+    "mount_options": [
+      "Permanent",
+      "Magnetic"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Spire® 100 Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Spire® Beacon Series Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "SPIRE100",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "_skuNote": "No Shopify handle or SKU exactly matching 'spire-100' is present in src/data/shopify/shopify-variant-index.json. The export does contain related, confirmed Spire 100 variants under two separate handles — spire-100-standard-short-led-beacon (27 variants, SKUs like 100SC-A/100SD-A/100SM-A/100SP-A/100SS-A) and spire-100-standard-tall-led-beacon (31 variants, SKUs like 100TC-A/100TD-A/100TM-A/100TP-A/100TS-A) — with mount codes (C/D/DDC/DU/M/P/S) not yet confirmed in any glossary. Per task scope, these are not merged into this product's SKU table; the table below uses prototype placeholder SKUs pending mount-code confirmation and reconciliation with the two confirmed Shopify handles.",
+    "sku_table": [
+      {
+        "sku": "SPIRE100-A-PERM",
+        "lens": "Amber",
+        "mount": "Permanent",
+        "voltage": "12/24 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "SPIRE100-A-MAG",
+        "lens": "Amber",
+        "mount": "Magnetic",
+        "voltage": "12/24 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "SPIRE100-C-PERM",
+        "lens": "Clear",
+        "mount": "Permanent",
+        "voltage": "12/24 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "SPIRE100-C-MAG",
+        "lens": "Clear",
+        "mount": "Magnetic",
+        "voltage": "12/24 Vdc",
+        "_prototype": true
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "No confirmed single Shopify handle for 'spire-100'. See commerce._skuNote for the two related confirmed handles (spire-100-standard-short-led-beacon, spire-100-standard-tall-led-beacon) found in the Shopify export.",
+    "product_id": null,
+    "handle": "spire-100",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": []
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": true,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
