@@ -10,6 +10,11 @@
   "title": "Valor® Police Light Bar",
   "subtitle": "Full-featured police light bar in 44\" and 51\" lengths. Available in 1-Color, 2-Color, and Full 3-Color configurations with Hook Mount or Low Profile options.",
   "description": "The Federal Signal Valor® light bar delivers high-output LED warning performance engineered for police vehicles. Multiple color and mount configurations available for patrol sedans, SUVs, and interceptors.",
+  "summary_bullets": [
+    "Protect your fleet with Valor®: a light bar offering 360-degree illumination and enhanced off-axis lighting for police teams.",
+    "Low-profile, non-linear design provides 360-degree light output and off-axis lighting at the critical intersection points",
+    "Available in 44-inch and 51-inch lengths"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
@@ -51,10 +56,10 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/valor-light-bar.heroA_.jpg",
     "gallery": [
       {
-        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/valor-light-bar.heroA_.jpg",
         "alt": "Valor® Police Light Bar — Front view"
       },
       {
@@ -65,6 +70,8 @@
   },
   "marketing": {
     "features": [
+      "Protect your fleet with Valor®: a light bar offering 360-degree illumination and enhanced off-axis lighting for police teams.",
+      "Low-profile, non-linear design provides 360-degree light output and off-axis lighting at the critical intersection points",
       "Available in 44\" and 51\" lengths",
       "1-Color, 2-Color, and Full 3-Color Blue/White/Amber configurations",
       "Hook Mount or Low Profile mounting options",
