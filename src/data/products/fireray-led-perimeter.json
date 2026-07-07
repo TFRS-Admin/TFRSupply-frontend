@@ -1,0 +1,509 @@
+{
+  "id": "fireray-led-perimeter",
+  "slug": "fireray-led-perimeter",
+  "vendor": "federal-signal",
+  "category": "perimeter-lights",
+  "verticals": [
+    "police",
+    "fire"
+  ],
+  "product_family": "FireRay LED",
+  "title": "FireRay® LED Perimeter Light",
+  "subtitle": "High-output perimeter warning across Zone 4, 6, 7, and 9 housings, with fixed and selectable single- and dual-color fixture styles and a full line of mounting hardware.",
+  "description": "The Federal Signal FireRay® LED delivers high-output perimeter warning from every angle. Confirmed Zone 4, 6, 7, and 9 housings support fixed single-color (A1/B1/R1), selectable single-color (C1), and selectable dual-color (C2) fixture styles, with dedicated mounting brackets, covers, and add-on modules (scene lights, arrow, backup, grille) for fire apparatus and police vehicles.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Perimeter Lights",
+      "to": "/police/perimeter-lights"
+    },
+    {
+      "label": "FireRay® LED Perimeter Light"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/fireray-led.hero_-900x600.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/fireray-led.hero_-900x600.jpg",
+        "alt": "FireRay® LED Perimeter Light — Front view"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "High-output perimeter warning",
+      "Zone 4, 6, 7, and 9 housing sizes",
+      "Fixed single-color (A1/B1/R1), selectable single-color (C1), and selectable dual-color (C2) fixture styles",
+      "Multiple mounting options — surface bracket, cover, through-body flush mount",
+      "12 Vdc",
+      "Optional arrow, backup, grille, and LED scene/flood light add-ons"
+    ],
+    "benefits": [
+      "Confirmed catalog spans 4 housing sizes and 5 fixture styles for flexible perimeter coverage",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Fire apparatus — perimeter and scene warning",
+      "Municipal police patrol — supplemental perimeter warning",
+      "EMS vehicles — perimeter and backup warning"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "zones": [
+      "Zone 4",
+      "Zone 6",
+      "Zone 7",
+      "Zone 9"
+    ],
+    "mount_styles": [
+      "Style A1 (Fixed Single-Color)",
+      "Style B1 (Fixed Single-Color)",
+      "Style R1 (Fixed Single-Color)",
+      "Style C1 (Selectable Single-Color)",
+      "Style C2 (Selectable Dual-Color)"
+    ],
+    "color_configs": [
+      "Amber",
+      "Blue",
+      "Red",
+      "White",
+      "Amber/Green",
+      "Amber/White",
+      "Blue/Amber",
+      "Red/Amber",
+      "Red/Blue",
+      "Red/White"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "FireRay® LED Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "FireRay® LED Perimeter Light Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "FR",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 73 confirmed variants (productHandle=fireray-warning-lights): 45 core light-head SKUs (FR4/FR6/FR7/FR9 zones) plus 28 mounting/accessory SKUs. FR SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "fireray-led-perimeter",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "FR4C2-AG",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Amber/Green",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C2-AW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Amber/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C2-BA",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C2-BW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C2-RB",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C2-RW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C-AW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Amber/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR4C-B",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 4",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6A1-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style A1 (Fixed Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6B1-B",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style B1 (Fixed Single-Color)",
+        "option_color": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C1-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C1-B",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C1-R",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Red",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C1-W",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-AG",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Amber/Green",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-AW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Amber/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-BA",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-BW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-RA",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-RB",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6C2-RW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR6R1-R",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 6",
+        "option_style": "Style R1 (Fixed Single-Color)",
+        "option_color": "Red",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7A1-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style A1 (Fixed Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C1-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C1-B",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C1-R",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Red",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C1-W",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C2-AW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Amber/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C2-BA",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C2-BW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C2-RB",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7C2-RW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR7R1-R",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 7",
+        "option_style": "Style R1 (Fixed Single-Color)",
+        "option_color": "Red",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9A1-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style A1 (Fixed Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9B1-B",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style B1 (Fixed Single-Color)",
+        "option_color": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C1-A",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C1-B",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C1-R",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "Red",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C1-W",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C1 (Selectable Single-Color)",
+        "option_color": "White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C2-AW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Amber/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C2-BW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Blue/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C2-RB",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/Blue",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9C2-RW",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style C2 (Selectable Dual-Color)",
+        "option_color": "Red/White",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FR9R1-R",
+        "shopify_variant_id": null,
+        "option_zone": "Zone 9",
+        "option_style": "Style R1 (Fixed Single-Color)",
+        "option_color": "Red",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "fireray-led-perimeter-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first. 45 confirmed core light-head variants exist in the current Shopify export (productHandle=fireray-warning-lights); a prior spec referenced 87 SKUs. The remaining 28 confirmed variants are mounting hardware and add-on modules represented in the accessories section of fireray-led-perimeter-configurator.json rather than in this variant_mappings list."
+}

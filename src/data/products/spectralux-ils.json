@@ -1,0 +1,155 @@
+{
+  "id": "spectralux-ils",
+  "slug": "spectralux-ils",
+  "vendor": "federal-signal",
+  "category": "perimeter-lights",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "SpectraLux ILS",
+  "title": "SpectraLux® ILS Interior Light Bar",
+  "subtitle": "Vehicle-specific, plug-and-play integrated lighting system with front headliner and rear deck/hatch mounting, dependency-driven build options, and dual/tri-color LED technology.",
+  "description": "The Federal Signal SpectraLux® ILS is a vehicle-specific integrated lighting system with plug-and-play installation. Vehicle Fitment auto-bundles the matching shroud and mounting kit; Mounting Location, Module Coverage, Control Architecture, and LED Color Technology are built through the dependency-driven SpectraLux ILS Configurator.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Perimeter Lights",
+      "to": "/police/perimeter-lights"
+    },
+    {
+      "label": "SpectraLux® ILS Interior Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "SpectraLux® ILS Interior Light Bar — Front headliner view"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Integrated lighting system",
+      "Vehicle-specific fitment",
+      "Plug-and-play installation",
+      "Front headliner (center-focused or off-axis) and rear deck/hatch mounting locations",
+      "Single-, dual-, and tri-color LED technology",
+      "FS Convergence Network (serial) or discrete-wire control architecture"
+    ],
+    "benefits": [
+      "Vehicle Fitment step auto-bundles the correct shroud, side shields, and mounting bracket kit",
+      "Dependency-driven configurator only allows valid mounting, coverage, and color combinations"
+    ],
+    "applications": [
+      "Municipal police patrol — Ford Police Interceptor Utility, Chevrolet Tahoe, Dodge Charger/Durango",
+      "Unmarked and undercover units — Toyota Camry, Ford Escape, Ford Mustang"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "mounting_locations": [
+      "Front Headliner Center-Focused",
+      "Front Headliner Off-Axis",
+      "Rear Deck",
+      "Rear Hatch"
+    ],
+    "led_technology": [
+      "Single-Color",
+      "Dual-Color",
+      "Tri-Color (SpectraLux®)"
+    ],
+    "control_architecture": [
+      "FS Convergence Network (Serial, CAT5)",
+      "Discrete Wire (8-Conductor Cable)"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "SpectraLux® ILS Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "SpectraLux® ILS Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "SIFM",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "pricing_model=dynamic_build (see spectralux-ils-configurator.json). 73 confirmed SIFM*/SIFZ* variants exist in shopify-variant-index.json across vehicle fitment, mounting location, and module coverage combinations. The final SKU and price are computed from the full combination of configurator selections rather than looked up from one fixed catalog SKU, so the complete variant set is not enumerated here — see the configurator's dependency-driven sections instead.",
+    "product_id": null,
+    "handle": "spectralux-ils",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "SIFMJP-ESC20-P3",
+        "shopify_variant_id": null,
+        "option_vehicle": "Ford Escape",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "SIFMJP-CMRY22-P3",
+        "shopify_variant_id": null,
+        "option_vehicle": "Toyota Camry",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "SIFMJD-MUST24-P3",
+        "shopify_variant_id": null,
+        "option_vehicle": "Ford Mustang",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "spectralux-ils-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here are a small representative sample (structural fallback only) — commerceLookupService and the dynamic_build configurator read the index first. 73 confirmed variants exist in the current Shopify export; a prior spec referenced 49 SKUs. The configurator JSON for this product (spectralux-ils-configurator.json) already existed prior to this sprint and was not modified."
+}

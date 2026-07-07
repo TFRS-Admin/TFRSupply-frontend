@@ -1,0 +1,144 @@
+{
+  "id": "xstream-warning-lights",
+  "slug": "xstream-warning-lights",
+  "vendor": "federal-signal",
+  "category": "perimeter-lights",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Xstream",
+  "title": "Xstream® Warning Lights",
+  "subtitle": "Compact surface-mount perimeter warning light available in 1-head and 2-head configurations with multiple tri-color combinations.",
+  "description": "The Federal Signal Xstream® Warning Light is a compact, surface-mount perimeter light for police vehicles, offering 1-head and 2-head (X-series) configurations across confirmed tri-color combinations.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Perimeter Lights",
+      "to": "/police/perimeter-lights"
+    },
+    {
+      "label": "Xstream® Warning Lights"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "Xstream® Warning Light — Front view"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact surface-mount warning light",
+      "1-head (XSM1) and 2-head (XSM1X) configurations",
+      "Clear-lens variant available (XSM1C)",
+      "12 Vdc",
+      "Multiple tri-color combinations"
+    ],
+    "benefits": [
+      "Low-profile surface mount fits tight perimeter locations",
+      "Shared color options across 1-head and 2-head series"
+    ],
+    "applications": [
+      "Municipal police patrol — grille, deck, and mirror mounting",
+      "Sheriff patrol — supplemental perimeter warning"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "head_count": [
+      "1-Head",
+      "2-Head"
+    ],
+    "color_configs": [
+      "Blue/Red/Amber",
+      "Blue/Red/White",
+      "Blue/White/Amber",
+      "Red/White/Amber",
+      "White/Amber/Green"
+    ],
+    "series_variants": [
+      "XSM1 (1-Head, Standard Lens)",
+      "XSM1C (1-Head, Clear Lens)",
+      "XSM1X (2-Head)"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Xstream® Warning Light Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Xstream® Warning Lights Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "XSM1",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 13 confirmed variants (productHandle=xstream-warning-lights). XSM1 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "xstream-warning-lights",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "XSM1-BRA-US", "shopify_variant_id": null, "option_series": "XSM1 (1-Head, Standard Lens)", "option_color": "Blue/Red/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1-BRW-US", "shopify_variant_id": null, "option_series": "XSM1 (1-Head, Standard Lens)", "option_color": "Blue/Red/White", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1-BWA-US", "shopify_variant_id": null, "option_series": "XSM1 (1-Head, Standard Lens)", "option_color": "Blue/White/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1-RWA-US", "shopify_variant_id": null, "option_series": "XSM1 (1-Head, Standard Lens)", "option_color": "Red/White/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1-WAG-US", "shopify_variant_id": null, "option_series": "XSM1 (1-Head, Standard Lens)", "option_color": "White/Amber/Green", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1C-BWA-US", "shopify_variant_id": null, "option_series": "XSM1C (1-Head, Clear Lens)", "option_color": "Blue/White/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1C-RWA-US", "shopify_variant_id": null, "option_series": "XSM1C (1-Head, Clear Lens)", "option_color": "Red/White/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1C-WAG-US", "shopify_variant_id": null, "option_series": "XSM1C (1-Head, Clear Lens)", "option_color": "White/Amber/Green", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1X-BRA-US", "shopify_variant_id": null, "option_series": "XSM1X (2-Head)", "option_color": "Blue/Red/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1X-BRW-US", "shopify_variant_id": null, "option_series": "XSM1X (2-Head)", "option_color": "Blue/Red/White", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1X-BWA-US", "shopify_variant_id": null, "option_series": "XSM1X (2-Head)", "option_color": "Blue/White/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1X-RWA-US", "shopify_variant_id": null, "option_series": "XSM1X (2-Head)", "option_color": "Red/White/Amber", "_missing": "shopify_variant_id, price" },
+      { "sku": "XSM1X-WAG-US", "shopify_variant_id": null, "option_series": "XSM1X (2-Head)", "option_color": "White/Amber/Green", "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first. 13 confirmed variants exist in the current Shopify export (productHandle=xstream-warning-lights); a prior spec referenced 18 SKUs that are not yet present in the export. No configurator JSON is created for this product in this sprint (out of scope — see Sprint C acceptance criteria)."
+}

@@ -1,0 +1,138 @@
+{
+  "_source": "Derived from src/data/shopify/shopify-variant-index.json (productHandle=elsd-d-pillar-shrouds, 8 confirmed variants), 2026-07-07.",
+  "_note": "MicroPulse Ultra D-Pillar configurator: 4 confirmed vehicle platforms (Durango, Ford Police Interceptor Utility, FRD, Tahoe) each in 2 confirmed color configs (Red/Blue/Amber, Red/Blue/White) = 8 confirmed SKUs. Spec previously called for 29 SKUs across a wider vehicle list — only these 8 are confirmed in the current Shopify export. The FRD vehicle platform segment could not be matched to a specific vehicle model name and is flagged needs_verification. Do NOT invent additional vehicle platforms or prices; resolved at runtime from shopify-variant-index.json.",
+  "id": "micropulse-ultra-configurator",
+  "productId": "micropulse-ultra",
+  "productFamily": "MicroPulse Ultra",
+  "label": "MicroPulse® Ultra D-Pillar Configurator",
+  "priceDisplay": "Contact for pricing",
+  "skuOptions": [
+    {
+      "sku": "ELSD-DUR21RBA",
+      "description": "MicroPulse Ultra D-Pillar — Dodge Durango — Red/Blue/Amber",
+      "attributes": { "vehicle": "durango", "colorConfig": "red-blue-amber" }
+    },
+    {
+      "sku": "ELSD-DUR21RBW",
+      "description": "MicroPulse Ultra D-Pillar — Dodge Durango — Red/Blue/White",
+      "attributes": { "vehicle": "durango", "colorConfig": "red-blue-white" }
+    },
+    {
+      "sku": "ELSD-FPIU20RBA",
+      "description": "MicroPulse Ultra D-Pillar — Ford Police Interceptor Utility — Red/Blue/Amber",
+      "attributes": { "vehicle": "fpiu", "colorConfig": "red-blue-amber" }
+    },
+    {
+      "sku": "ELSD-FPIU20RBW",
+      "description": "MicroPulse Ultra D-Pillar — Ford Police Interceptor Utility — Red/Blue/White",
+      "attributes": { "vehicle": "fpiu", "colorConfig": "red-blue-white" }
+    },
+    {
+      "sku": "ELSD-FRD21RBA",
+      "description": "MicroPulse Ultra D-Pillar — Ford (FRD) — Red/Blue/Amber",
+      "attributes": { "vehicle": "frd", "colorConfig": "red-blue-amber", "_verification": "needs_verification" }
+    },
+    {
+      "sku": "ELSD-FRD21RBW",
+      "description": "MicroPulse Ultra D-Pillar — Ford (FRD) — Red/Blue/White",
+      "attributes": { "vehicle": "frd", "colorConfig": "red-blue-white", "_verification": "needs_verification" }
+    },
+    {
+      "sku": "ELSD-TAH21RBA",
+      "description": "MicroPulse Ultra D-Pillar — Chevrolet Tahoe — Red/Blue/Amber",
+      "attributes": { "vehicle": "tahoe", "colorConfig": "red-blue-amber" }
+    },
+    {
+      "sku": "ELSD-TAH21RBW",
+      "description": "MicroPulse Ultra D-Pillar — Chevrolet Tahoe — Red/Blue/White",
+      "attributes": { "vehicle": "tahoe", "colorConfig": "red-blue-white" }
+    }
+  ],
+  "sections": {
+    "skuSelector": {
+      "label": "Build Your MicroPulse Ultra D-Pillar Light",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the confirmed Shopify catalog are enabled.",
+      "steps": [
+        {
+          "id": "vehicle-platform",
+          "label": "Vehicle Platform",
+          "required": true,
+          "skuSegmentKey": "vehicle",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "durango",
+              "label": "Dodge Durango",
+              "skuSegment": "durango",
+              "description": "D-pillar shroud kit for Dodge Durango Pursuit."
+            },
+            {
+              "id": "fpiu",
+              "label": "Ford Police Interceptor Utility",
+              "skuSegment": "fpiu",
+              "description": "D-pillar shroud kit for Ford Explorer PIU."
+            },
+            {
+              "id": "frd",
+              "label": "Ford (FRD)",
+              "skuSegment": "frd",
+              "_verification": "needs_verification",
+              "description": "D-pillar shroud kit — specific Ford model not confirmed in current Shopify export."
+            },
+            {
+              "id": "tahoe",
+              "label": "Chevrolet Tahoe",
+              "skuSegment": "tahoe",
+              "description": "D-pillar shroud kit for Chevrolet Tahoe PPV/SSV."
+            }
+          ]
+        },
+        {
+          "id": "color-config",
+          "label": "Color Config",
+          "required": true,
+          "skuSegmentKey": "colorConfig",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "red-blue-amber",
+              "label": "Red/Blue/Amber",
+              "skuSegment": "red-blue-amber"
+            },
+            {
+              "id": "red-blue-white",
+              "label": "Red/Blue/White",
+              "skuSegment": "red-blue-white"
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Installation Accessories",
+      "description": "Optional and required installation components. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU varies by vehicle platform; confirm with install spec"
+        },
+        {
+          "id": "acc-ctrl-pathfinder",
+          "label": "Pathfinder® Siren/Light Controller",
+          "sku": "PF400H",
+          "price": null,
+          "type": "optional",
+          "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json."
+        }
+      ]
+    }
+  },
+  "compatibilityRules": [],
+  "dependencyRules": [],
+  "dependencyMatrix": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions or accessories — they are ignored by the UI."
+}

@@ -1,0 +1,73 @@
+{
+  "id": "perimeter-lights",
+  "label": "Perimeter Lights",
+  "verticals": ["police", "fire"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Perimeter Warning Lights",
+    "subtitle": "Install additional warning around the perimeter of your vehicle — vehicle-specific D-pillar and running-board lights, compact surface-mount warning lights, and high-output zone lighting for police and fire apparatus.",
+    "image": "https://www.fedsig.com/wp-content/uploads/2024/09/fireray-led.hero_-900x600.jpg",
+    "imageAlt": "FireRay LED Perimeter Light"
+  },
+  "description": "Federal Signal perimeter lights extend warning coverage around the full profile of the vehicle. Choose vehicle-specific D-pillar and running-board fixtures, compact surface-mount lights, or high-output zone lighting for fire apparatus.",
+  "filters": [
+    { "id": "vehicle_type", "label": "Vehicle Type", "options": ["Police", "Fire/EMS"] },
+    { "id": "mount",         "label": "Mount",        "options": ["D-Pillar", "Running Board", "Surface Mount", "Zone Housing", "Interior Headliner/Deck"] },
+    { "id": "color_config",  "label": "Color Config",  "options": ["Red/Blue/Amber", "Red/Blue/White", "Multi-Color"] }
+  ],
+  "_catalog_notes": {
+    "sku_counts": "MicroPulse Ultra (8), Xstream Warning Lights (13), DynaFlare Perimeter (7), FireRay LED Perimeter (45 core + 28 accessory), and SpectraLux ILS (73) variant counts reflect confirmed SKUs in shopify-variant-index.json as of 2026-07-06/07. Prior sprint specs referenced higher counts for several of these families — see each product's _commerce_note for the discrepancy."
+  },
+  "products": [
+    {
+      "id": "micropulse-ultra",
+      "label": "MicroPulse® Ultra D-Pillar Perimeter Light",
+      "tagline": "Vehicle-specific D-pillar perimeter lighting, 2 LEDs per head.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+      "vehicle_type": "Police",
+      "mount": "D-Pillar",
+      "badges": ["Police", "Vehicle-Specific", "SAE J595 Class 1"],
+      "specs": ["2 LEDs per head", "12 Vdc", "Red/Blue/Amber or Red/Blue/White"]
+    },
+    {
+      "id": "xstream-warning-lights",
+      "label": "Xstream® Warning Lights",
+      "tagline": "Compact surface-mount warning light in 1-head and 2-head configurations.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+      "vehicle_type": "Police",
+      "mount": "Surface Mount",
+      "badges": ["Police", "Compact", "1-8 Head"],
+      "specs": ["1 or 2 LED heads", "12 Vdc", "Multiple tri-color combinations"]
+    },
+    {
+      "id": "dynaflare-perimeter",
+      "label": "DynaFlare® Perimeter Light",
+      "tagline": "6-LED perimeter warning light for running board and rocker-panel mounting.",
+      "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=600&q=80",
+      "vehicle_type": "Police",
+      "mount": "Running Board",
+      "badges": ["Police", "IP68", "IP69K"],
+      "specs": ["6 LEDs", "12 Vdc", "Optically clear or smoked lens"]
+    },
+    {
+      "id": "fireray-led-perimeter",
+      "label": "FireRay® LED Perimeter Light",
+      "tagline": "High-output perimeter warning from every angle.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/09/fireray-led.hero_-900x600.jpg",
+      "vehicle_type": "Fire/EMS",
+      "mount": "Zone Housing",
+      "badges": ["Fire/EMS", "Police", "Zone 4/6/7/9"],
+      "specs": ["Zone 4, 6, 7, 9 housings", "12 Vdc", "Fixed or selectable single/dual color"]
+    },
+    {
+      "id": "spectralux-ils",
+      "label": "SpectraLux® ILS Interior Light Bar",
+      "tagline": "Vehicle-specific, plug-and-play integrated lighting system.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+      "vehicle_type": "Police",
+      "mount": "Interior Headliner/Deck",
+      "badges": ["Police", "Plug-and-Play", "Dynamic Build"],
+      "specs": ["Front headliner or rear deck/hatch mount", "Single/Dual/Tri-Color LED", "Vehicle-specific fitment"]
+    }
+  ]
+}
