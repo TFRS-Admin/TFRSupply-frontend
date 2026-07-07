@@ -1,0 +1,137 @@
+{
+  "id": "pathfinder-pf200",
+  "slug": "pathfinder-pf200",
+  "vendor": "federal-signal",
+  "category": "sirens-speakers",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Pathfinder",
+  "title": "Pathfinder® PF200 Siren and Light Controller",
+  "subtitle": "Compact siren and light controller with an intuitive push-button interface for police patrol vehicles.",
+  "description": "The Federal Signal Pathfinder® PF200 is a compact siren and light controller built around an intuitive push-button interface. It delivers reliable siren and lighting control in a smaller footprint for agencies that need a simplified, easy-to-learn control head.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Sirens & Speakers",
+      "to": "/police/sirens-speakers"
+    },
+    {
+      "label": "Pathfinder® PF200 Siren and Light Controller"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-PF200-police-menu-png.webp?v=1781535539",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-PF200-police-menu-png.webp?v=1781535539",
+        "alt": "Pathfinder® PF200 Siren and Light Controller"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact siren and light controller",
+      "Intuitive push-button interface",
+      "Built-in siren amplifier with 100/200-watt selectable output",
+      "PA microphone input for public address announcements",
+      "Multiple mounting configurations",
+      "Simplified control layout for fast officer training"
+    ],
+    "benefits": [
+      "Smaller footprint than full-size controllers for compact patrol vehicle interiors",
+      "Push-button layout reduces training time for new officers"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol vehicles",
+      "Campus and transit police — mid-size platforms"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "siren_output": "100/200-watt selectable",
+    "control_interface": "Push-button",
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Pathfinder® PF200 Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Pathfinder® PF200 Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Pathfinder® PF200 Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "PF200",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. PF200 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "pathfinder-pf200-siren-controller",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "PF200", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200-RM", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200AMP", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200H", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200R", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S13", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S17B", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S17BRK", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S21", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S4", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S6", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF200S9", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

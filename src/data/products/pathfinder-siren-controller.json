@@ -1,0 +1,148 @@
+{
+  "id": "pathfinder-siren-controller",
+  "slug": "pathfinder-siren-controller",
+  "vendor": "federal-signal",
+  "category": "sirens-speakers",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Pathfinder",
+  "title": "Pathfinder® PF400 Siren/Light Controller",
+  "subtitle": "Fully programmable siren and light controller with OBDII vehicle integration and dual-tone siren capability for police patrol vehicles.",
+  "description": "The Federal Signal Pathfinder® PF400 is a programmable siren and light controller built for modern police patrol vehicles. OBDII vehicle network integration and dual-tone siren capability free officers to focus on the task at hand instead of managing controls.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Sirens & Speakers",
+      "to": "/police/sirens-speakers"
+    },
+    {
+      "label": "Pathfinder® PF400 Siren/Light Controller"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-pf400-police-menu-png.webp?v=1781535539",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-pf400-police-menu-png.webp?v=1781535539",
+        "alt": "Pathfinder® PF400 Siren/Light Controller"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Fully programmable siren and light controller",
+      "OBDII vehicle network integration",
+      "Dual-tone siren capability",
+      "Multiple control head configurations — rocker, slide, and touchpad options",
+      "Built-in siren amplifier with 100/200-watt selectable output",
+      "PA microphone input for public address announcements",
+      "Compact in-cab footprint"
+    ],
+    "benefits": [
+      "Reduces officer distraction with a single, intuitive control panel",
+      "OBDII integration enables vehicle-data-triggered lighting and siren behavior"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "State highway patrol — full-size interceptors"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "siren_output": "100/200-watt selectable",
+    "tone_control": "Dual-tone",
+    "integration": "OBDII vehicle network",
+    "mount_options": [
+      "Rocker Panel",
+      "Slide Panel",
+      "Touchpad"
+    ],
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Pathfinder® PF400 Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "Pathfinder® PF400 Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Pathfinder® PF400 Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "PF400",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. PF400 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "pathfinder-pf400-siren-controller",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "PF400H", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400Q", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400Q-CFD", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QAMP", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QFM", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QH", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QR", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QS13", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QS17B", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QS17BRK", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400QS21", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400R", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400S17B", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400S17BRK", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400S21", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PF400S6", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

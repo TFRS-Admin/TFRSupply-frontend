@@ -1,0 +1,122 @@
+{
+  "id": "pa300-siren",
+  "slug": "pa300-siren",
+  "vendor": "federal-signal",
+  "category": "sirens-speakers",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "PA300",
+  "title": "PA300 Series Siren",
+  "subtitle": "Industry-standard 100/200-watt electronic siren with wail, yelp, and priority tones.",
+  "description": "The Federal Signal PA300 is an industry-standard electronic siren delivering dependable 100/200-watt output with wail, yelp, and priority tone selections. A proven, no-frills siren for agencies that need consistent, dependable performance.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Sirens & Speakers",
+      "to": "/police/sirens-speakers"
+    },
+    {
+      "label": "PA300 Series Siren"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pa300-police-menu-png.webp?v=1781535539",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pa300-police-menu-png.webp?v=1781535539",
+        "alt": "PA300 Series Siren"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Industry-standard 100/200-watt electronic siren",
+      "Wail, yelp, and priority tone selections",
+      "PA microphone input for public address announcements",
+      "Compact, durable siren head",
+      "Simple, reliable control layout"
+    ],
+    "benefits": [
+      "Proven, widely deployed siren platform with a long service history",
+      "Straightforward tone controls minimize officer training time"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol vehicles",
+      "State highway patrol interceptors"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "siren_output": "100/200-watt selectable",
+    "tone_control": "Wail / Yelp / Priority",
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "PA300 Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "PA300 Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "PA300",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. PA300 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "pa300-series-siren",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "690009", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "690010", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PA300-100", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

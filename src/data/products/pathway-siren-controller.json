@@ -1,0 +1,125 @@
+{
+  "id": "pathway-siren-controller",
+  "slug": "pathway-siren-controller",
+  "vendor": "federal-signal",
+  "category": "sirens-speakers",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Pathway",
+  "title": "Pathway™ Siren and Light Controller",
+  "subtitle": "100/200-watt siren and light controller with PA microphone and a simple rotary switch interface.",
+  "description": "The Federal Signal Pathway™ delivers reliable 100/200-watt siren output with a simple rotary switch interface and PA microphone input. It's a straightforward, entry-level siren and light controller for agencies that need dependable performance without added complexity.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Sirens & Speakers",
+      "to": "/police/sirens-speakers"
+    },
+    {
+      "label": "Pathway™ Siren and Light Controller"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathway-police-menu-png.webp?v=1781535539",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathway-police-menu-png.webp?v=1781535539",
+        "alt": "Pathway™ Siren and Light Controller"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "100/200-watt siren output",
+      "PA microphone input for public address announcements",
+      "Simple rotary switch interface",
+      "Compact, entry-level control head",
+      "Reliable single-tone siren operation"
+    ],
+    "benefits": [
+      "Straightforward rotary control minimizes officer training time",
+      "Cost-effective option for agencies standardizing on a simple control head"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol vehicles",
+      "Campus and transit police — mid-size platforms"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "siren_output": "100/200-watt selectable",
+    "control_interface": "Rotary switch",
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Pathway™ Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Pathway™ Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "PW100",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. PW100 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "pathway-siren-light-controller",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "PW100", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PW100H", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PW100R", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PW100S13", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PW100S4", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "PW100S6", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
