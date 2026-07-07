@@ -1,41 +1,60 @@
 import React from 'react';
+import { Check } from 'lucide-react';
 
 /**
  * Reusable filter sidebar for product discovery. Each group is
  * single-select (matching the existing CategoryTemplate filter UX) with an
  * "All" option and a reset-all action.
  */
+function FilterOption({ label, checked, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="font-body flex w-full items-center gap-2.5 py-1 text-left text-[13px] text-gray-600 transition-colors hover:text-[#0f0f0f]"
+    >
+      <span
+        className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm border transition-colors ${
+          checked ? 'border-[#c8102e] bg-[#c8102e]' : 'border-gray-300 bg-white'
+        }`}
+      >
+        {checked && <Check size={11} strokeWidth={3} className="text-white" />}
+      </span>
+      <span className={checked ? 'font-semibold text-[#0f0f0f]' : ''}>{label}</span>
+    </button>
+  );
+}
+
 export default function ProductFilterPanel({ groups = [], active = {}, onChange, onReset }) {
   const hasActive = Object.values(active).some(Boolean);
 
   return (
-    <div className="pd-filter-panel" style={{ width: 220, flexShrink: 0 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: 0 }}>Filter By</p>
+    <div className="pd-filter-panel flex-shrink-0 rounded-md border border-gray-200 bg-white p-4" style={{ width: 240 }}>
+      <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
+        <p className="font-heading text-xs font-bold uppercase tracking-[0.1em] text-[#0f0f0f]">Filter By</p>
         {hasActive && (
-          <button onClick={onReset} style={{ fontSize: 11, color: '#c8102e', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, padding: 0 }}>
+          <button
+            onClick={onReset}
+            className="font-heading text-[11px] font-bold uppercase tracking-wide text-[#c8102e] hover:text-[#a50d25]"
+          >
             Reset All
           </button>
         )}
       </div>
       {groups.map((group) => (
-        <div key={group.id} style={{ marginBottom: '1.25rem' }}>
-          <p style={{ fontSize: 12, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{group.label}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <button
-              onClick={() => onChange(group.id, null)}
-              style={{ textAlign: 'left', fontSize: 13, color: !active[group.id] ? '#c8102e' : '#555', fontWeight: !active[group.id] ? 700 : 400, background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0' }}>
-              All
-            </button>
+        <div key={group.id} className="mb-5 last:mb-0">
+          <p className="font-heading mb-2 text-xs font-bold uppercase tracking-wide text-[#0f0f0f]">{group.label}</p>
+          <div className="flex flex-col">
+            <FilterOption label="All" checked={!active[group.id]} onClick={() => onChange(group.id, null)} />
             {group.options.map((option) => {
               const value = typeof option === 'string' ? option : option.value;
               const label = typeof option === 'string' ? option : option.label;
               return (
-                <button key={value}
+                <FilterOption
+                  key={value}
+                  label={label}
+                  checked={active[group.id] === value}
                   onClick={() => onChange(group.id, value)}
-                  style={{ textAlign: 'left', fontSize: 13, color: active[group.id] === value ? '#c8102e' : '#555', fontWeight: active[group.id] === value ? 700 : 400, background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0' }}>
-                  {label}
-                </button>
+                />
               );
             })}
           </div>
