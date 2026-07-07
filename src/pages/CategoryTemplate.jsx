@@ -46,11 +46,13 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
       ]} />
 
       {/* Hero */}
-      <div className="relative overflow-hidden" style={{ background: '#1a2744', minHeight: 220 }}>
+      <div className="relative overflow-hidden" style={{ background: '#1a2744', minHeight: 240 }}>
         {hero?.image && <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 w-full h-full object-cover opacity-25" />}
-        <div className="relative max-w-7xl mx-auto px-6 py-12">
-          <h1 style={{ fontSize: 'clamp(1.6rem,3vw,2.2rem)', fontWeight: 700, color: '#fff', marginBottom: '0.5rem' }}>{hero?.title || data.label}</h1>
-          {hero?.subtitle && <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', maxWidth: 540, lineHeight: 1.65 }}>{hero.subtitle}</p>}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(26,39,68,0.55) 0%, rgba(26,39,68,0.85) 100%)' }} />
+        <div className="relative max-w-7xl mx-auto px-6 py-14">
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#d4a017', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>{verticalLabel}</p>
+          <h1 style={{ fontSize: 'clamp(1.7rem,3.2vw,2.4rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: '0.65rem', maxWidth: 680 }}>{hero?.title || data.label}</h1>
+          {hero?.subtitle && <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', maxWidth: 560, lineHeight: 1.65 }}>{hero.subtitle}</p>}
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
       </div>
@@ -74,7 +76,9 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
             <div style={{ maxWidth: 360, marginBottom: '1.25rem' }}>
               <ProductSearchBar value={keyword} onSearch={setKeyword} placeholder="Search this category…" />
             </div>
-            <p style={{ fontSize: 12, color: '#999', marginBottom: '1.25rem' }}>{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#888', letterSpacing: '0.03em', marginBottom: '1.25rem', paddingBottom: '0.75rem', borderBottom: '1px solid #eee' }}>
+              {filtered.length} PRODUCT{filtered.length !== 1 ? 'S' : ''}
+            </p>
             <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
                 <ProductCard

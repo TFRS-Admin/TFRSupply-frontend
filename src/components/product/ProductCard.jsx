@@ -19,19 +19,19 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
  */
 export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [], product = null }) {
   const content = (
-    <div className="border border-gray-200 overflow-hidden h-full flex flex-col bg-white"
-      style={{ position: 'relative', transition: 'border-color 0.15s' }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#c8102e'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}>
+    <div className="pd-card border border-gray-200 overflow-hidden h-full flex flex-col bg-white"
+      style={{ position: 'relative', transition: 'border-color 0.15s, box-shadow 0.15s, transform 0.15s' }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#c8102e'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}>
       {href && <SaveForLaterButton productId={id} variant="icon" />}
       {href && <CompareToggleButton productId={id} variant="icon" />}
       {href && product && <AddToAllCompatibleBuildsButton product={product} variant="icon" />}
       {image && <img src={image} alt={imageAlt || label} className="w-full object-cover" style={{ height: 180 }} />}
       <div className="p-4 flex flex-col flex-1" style={FS}>
-        <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 4 }}>{label}</p>
-        {tagline && <p style={{ fontSize: 12, color: '#c8102e', fontStyle: 'italic', marginBottom: 6 }}>{tagline}</p>}
+        <p style={{ fontSize: 16, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.3, marginBottom: 3, letterSpacing: '-0.01em' }}>{label}</p>
+        {tagline && <p style={{ fontSize: 12.5, fontWeight: 500, color: '#8a6d00', marginBottom: 8 }}>{tagline}</p>}
         {specs.length > 0 && (
-          <ul style={{ fontSize: 12, color: '#777', paddingLeft: '1rem', flex: 1 }}>
+          <ul style={{ fontSize: 12, color: '#666', paddingLeft: '1rem', flex: 1, lineHeight: 1.6 }}>
             {specs.map((spec) => <li key={spec}>{spec}</li>)}
           </ul>
         )}
@@ -42,9 +42,23 @@ export default function ProductCard({ id, href, label, image, imageAlt, tagline,
             ))}
           </div>
         )}
-        <p style={{ fontSize: 12, fontWeight: 700, color: '#c8102e', marginTop: '0.75rem', letterSpacing: '0.04em' }}>
-          {href ? 'VIEW DETAILS' : 'DETAILS COMING SOON'}
-        </p>
+        <div style={{ marginTop: '0.85rem', paddingTop: '0.75rem', borderTop: '1px solid #f0f0f0' }}>
+          {href ? (
+            <span className="pd-card-cta" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 11.5, fontWeight: 700, color: '#c8102e',
+              border: '1.5px solid #c8102e', borderRadius: 3,
+              padding: '6px 12px', letterSpacing: '0.05em',
+              transition: 'background-color 0.15s, color 0.15s',
+            }}>
+              VIEW DETAILS <span aria-hidden="true">&rarr;</span>
+            </span>
+          ) : (
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: '#999', letterSpacing: '0.04em' }}>
+              DETAILS COMING SOON
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
