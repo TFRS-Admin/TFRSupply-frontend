@@ -1,0 +1,15 @@
+{
+  "id": "police-accessories",
+  "label": "Police Accessories",
+  "verticals": ["police"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Police Accessories",
+    "subtitle": "Additional security with a variety of accessories and signaling devices.",
+    "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "imageAlt": "Police vehicle accessories"
+  },
+  "description": "Provide additional security with a variety of accessories and signaling devices for police vehicles.",
+  "filters": [],
+  "products": []
+}

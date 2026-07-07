@@ -1,0 +1,28 @@
+{
+  "id": "compartment-lights",
+  "label": "Compartment Lights",
+  "verticals": ["police"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Police Compartment Lights",
+    "subtitle": "Vehicle-specific compartment lighting engineered for plug-and-play fitment.",
+    "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "imageAlt": "Police vehicle compartment lighting"
+  },
+  "description": "Take action with innovative compartment lighting for police vehicles — vehicle-specific strip lighting, fitment kits, and mounting hardware built for plug-and-play installation.",
+  "filters": [
+    { "id": "light_type", "label": "Light Type", "options": ["Strip / Compartment Light", "Vehicle-Specific Fitment Kit", "Mounting Hardware / Accessory", "Controller / Accessory"] },
+    { "id": "voltage",    "label": "Voltage",    "options": ["12 Vdc"] }
+  ],
+  "products": [
+    {
+      "id": "dfc-series-compartment-lights",
+      "label": "DFC Series Compartment Lights",
+      "tagline": "Vehicle-specific compartment lighting for police vehicles — plug-and-play fitment.",
+      "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=900&q=85",
+      "href": "/police/compartment-lights/dfc-series-compartment-lights",
+      "badges": ["Police", "Plug-and-Play", "12 Vdc"],
+      "specs": ["Vehicle-specific compartment lighting", "Plug-and-play fitment", "12 Vdc"]
+    }
+  ]
+}
