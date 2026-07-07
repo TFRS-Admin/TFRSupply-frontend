@@ -46,7 +46,7 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-pf400-police-menu-png.webp?v=1781535539",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/10/pathfinder-pf400.hero_.jpg",
     "gallery": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-pf400-police-menu-png.webp?v=1781535539",
@@ -56,13 +56,9 @@
   },
   "marketing": {
     "features": [
-      "Fully programmable siren and light controller",
-      "OBDII vehicle network integration",
-      "Dual-tone siren capability",
-      "Multiple control head configurations — rocker, slide, and touchpad options",
-      "Built-in siren amplifier with 100/200-watt selectable output",
-      "PA microphone input for public address announcements",
-      "Compact in-cab footprint"
+      "100/200 Watt siren and light controller",
+      "Includes PF400 4-button controller or PF400Q 4-button controller with rotary knob",
+      "Dual-tone capability"
     ],
     "benefits": [
       "Reduces officer distraction with a single, intuitive control panel",
@@ -74,6 +70,11 @@
       "State highway patrol — full-size interceptors"
     ]
   },
+  "summary_bullets": [
+    "100/200 Watt siren and light controller",
+    "Includes PF400 4-button controller or PF400Q 4-button controller with rotary knob",
+    "Dual-tone capability"
+  ],
   "specifications": {
     "voltage": "12 Vdc",
     "siren_output": "100/200-watt selectable",
