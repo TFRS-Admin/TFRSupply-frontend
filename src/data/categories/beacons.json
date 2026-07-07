@@ -11,5 +11,36 @@
   },
   "description": "Rotary, strobe, and LED beacons for maximum visibility in hazardous work zones.",
   "filters": [],
-  "products": []
+  "products": [
+    {
+      "id": "spire-100",
+      "label": "Spire® 100 LED Beacon",
+      "tagline": "Compact LED beacon, 12/24V, amber or clear lens, permanent or magnetic mount.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+      "vehicle_type": "Work Truck",
+      "profile": "Compact",
+      "badges": ["Work Truck", "Compact", "Amber/Clear"],
+      "specs": ["12/24 Vdc", "Amber or Clear lens", "Permanent or Magnetic mount"]
+    },
+    {
+      "id": "spire-200",
+      "label": "Spire® 200 LED Beacon",
+      "tagline": "Full-size LED beacon, 12/24V, multiple flash patterns, heavy-duty mount options.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+      "vehicle_type": "Work Truck",
+      "profile": "Full-Size",
+      "badges": ["Work Truck", "Full-Size", "Heavy-Duty"],
+      "specs": ["12/24 Vdc", "Multiple flash patterns", "Permanent, Pipe, or Magnetic mount"]
+    },
+    {
+      "id": "pro-led-beacon",
+      "label": "Pro LED® Beacon",
+      "tagline": "Professional-grade LED beacon, SAE Class 1, 360-degree visibility.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Federal-Signal-Spire-Beacon.jpg",
+      "vehicle_type": "Work Truck",
+      "profile": "Full-Size",
+      "badges": ["Work Truck", "SAE Class 1", "360°"],
+      "specs": ["12/24 Vdc", "SAE Class 1 certified", "360-degree visibility"]
+    }
+  ]
 }
