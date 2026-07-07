@@ -1,0 +1,15 @@
+{
+  "id": "stinger-spike",
+  "label": "Stinger Spike System",
+  "verticals": ["police"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Stinger Spike System",
+    "subtitle": "Tire deflation systems that support quick and reliable de-escalation of pursuits.",
+    "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "imageAlt": "Stinger spike system deployed on roadway"
+  },
+  "description": "Control the situation with spike systems that support quick and reliable de-escalation.",
+  "filters": [],
+  "products": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "push-bumpers",
+  "label": "Push Bumpers",
+  "verticals": ["police"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Push Bumpers",
+    "subtitle": "Durable push bumpers engineered to protect your patrol vehicle during PIT maneuvers and roadside operations.",
+    "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "imageAlt": "Police vehicle push bumper"
+  },
+  "description": "Maximize safety with push bumpers designed for durability and protection during high-risk maneuvers.",
+  "filters": [],
+  "products": []
+}

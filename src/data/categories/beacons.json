@@ -1,0 +1,15 @@
+{
+  "id": "beacons",
+  "label": "Beacons",
+  "verticals": ["work-truck"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Beacons",
+    "subtitle": "Rotary, strobe, and LED beacons for maximum visibility in hazardous work zones.",
+    "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=85",
+    "imageAlt": "Work truck beacon light"
+  },
+  "description": "Rotary, strobe, and LED beacons for maximum visibility in hazardous work zones.",
+  "filters": [],
+  "products": []
+}
