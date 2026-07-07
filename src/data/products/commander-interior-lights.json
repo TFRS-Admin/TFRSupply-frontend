@@ -1,0 +1,888 @@
+{
+  "id": "commander-interior-lights",
+  "slug": "commander-interior-lights",
+  "vendor": "federal-signal",
+  "category": "interior-lighting",
+  "verticals": [
+    "fire"
+  ],
+  "product_family": "Commander Interior Lights",
+  "title": "Commander® Interior Lighting System",
+  "subtitle": "Interior LED lighting system for fire apparatus — scene lighting, compartment lighting, and cab illumination across the Commander, Commander Plus, LC, M, and SB series.",
+  "description": "The Commander® Interior Lighting System covers scene lighting, strip/compartment lighting, and mounting accessories engineered for fire apparatus interiors and compartments. Spans the Commander Scene Light, Plus/Plus-S, LC, M, and SB series along with the Strip/Compartment Light line, in 12/24 Vdc configurations.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Fire/EMS",
+      "to": "/fire"
+    },
+    {
+      "label": "Interior Lighting",
+      "to": "/fire/interior-lighting"
+    },
+    {
+      "label": "Commander® Interior Lighting System"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/commander-scene-light_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/commander-scene-light_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "Commander Interior Lighting System"
+      }
+    ],
+    "videos": []
+  },
+  "marketing": {
+    "features": [
+      "Interior LED lighting system for fire apparatus",
+      "Scene lighting, strip lighting, and compartment lighting variants",
+      "Commander, Commander Plus/Plus-S, LC, M, and SB series",
+      "12/24 Vdc configurations",
+      "Mounting brackets and accessory hardware available"
+    ],
+    "benefits": [
+      "Single product family covers scene, strip, and compartment lighting needs",
+      "Modular accessory and mounting-kit support"
+    ],
+    "applications": [
+      "Fire apparatus compartment lighting",
+      "Interior scene lighting",
+      "Cab and storage area illumination"
+    ]
+  },
+  "specifications": {
+    "voltage": "12/24 Vdc",
+    "series": [
+      "Commander Scene Light",
+      "Commander Plus / Plus-S Scene Light",
+      "Commander LC Scene Light",
+      "Commander M Scene Light",
+      "Commander SB Scene Light",
+      "Commander Strip / Compartment Light"
+    ],
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Commander Interior Lighting Installation Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Commander Interior Lighting Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "COM",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "related_products": [
+      "littlite-led"
+    ],
+    "_skuNote": "SKUs sourced from src/data/shopify/shopify-variant-index.json (productTitle contains 'Commander').",
+    "sku_table": [
+      {
+        "sku": "COM120",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-260",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-510",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-570",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-ON",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-ON-530",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-ON-530SW",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM120-ON-600-603",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-260",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-530",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-530SW",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-570",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-800-03",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-800-05",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-800-08",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-800-10",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM15K-830",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM20K",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM20K-510",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM20K-530SW",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM20K-530SW-BOB",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM20K-540TW",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COM20K-ON-530SW",
+        "family": "Commander Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-18",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-27",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-36",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-45",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-54",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-63",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMFLEX-9",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMINT5-W",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMLC11K-530-H",
+        "family": "Commander LC Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMLC11K-570-ON",
+        "family": "Commander LC Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMLC20K",
+        "family": "Commander LC Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMLC20K-530SW-H",
+        "family": "Commander LC Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMMS-120",
+        "family": "Commander M Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMMS-120-ON-530",
+        "family": "Commander M Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMMS-120-ON-530-TW-F",
+        "family": "Commander M Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMMS-DC-570",
+        "family": "Commander M Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMMS-DC-ON-530",
+        "family": "Commander M Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSB-FLD-YM",
+        "family": "Commander SB Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSB-FLD-YM-BLA",
+        "family": "Commander SB Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSB-TRP-YM",
+        "family": "Commander SB Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSB-TRP-YM-BLA",
+        "family": "Commander SB Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSTL-BKT",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSTL-DUALBKT45",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSTL-TANK",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSTLF-A",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMSTLS18C-W",
+        "family": "Commander Strip / Compartment Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMX-120-ON-530",
+        "family": "Commander Plus / Plus-S Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMX-120-ON-600-603-P3",
+        "family": "Commander Plus / Plus-S Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMX-DC-260",
+        "family": "Commander Plus / Plus-S Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMX-DC-530",
+        "family": "Commander Plus / Plus-S Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMX-DC-530SW",
+        "family": "Commander Plus / Plus-S Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "COMX-S-DC-570",
+        "family": "Commander Plus / Plus-S Scene Light",
+        "type": "Scene / Compartment Light",
+        "voltage": "12/24 Vdc"
+      },
+      {
+        "sku": "FC504K",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "KR-4-SB-R",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "LT-S102-A",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "LT100",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "LT101",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "LTP570-NW0",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "LTP580-NW0-A",
+        "family": "Commander Accessories & Mount Kits",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "Multiple Shopify products across Commander scene-light, strip/compartment-light, and accessory handles, bundled here as one Commander Interior Lighting catalog entry. COM SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "commander-scene-light",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "COM120",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-260",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-510",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-570",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-ON",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-ON-530",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-ON-530SW",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM120-ON-600-603",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-260",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-530",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-530SW",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-570",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-800-03",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-800-05",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-800-08",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-800-10",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM15K-830",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM20K",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM20K-510",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM20K-530SW",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM20K-530SW-BOB",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM20K-540TW",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COM20K-ON-530SW",
+        "shopify_variant_id": null,
+        "option_family": "Commander Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-18",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-27",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-36",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-45",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-54",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-63",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMFLEX-9",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMINT5-W",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMLC11K-530-H",
+        "shopify_variant_id": null,
+        "option_family": "Commander LC Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMLC11K-570-ON",
+        "shopify_variant_id": null,
+        "option_family": "Commander LC Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMLC20K",
+        "shopify_variant_id": null,
+        "option_family": "Commander LC Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMLC20K-530SW-H",
+        "shopify_variant_id": null,
+        "option_family": "Commander LC Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMMS-120",
+        "shopify_variant_id": null,
+        "option_family": "Commander M Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMMS-120-ON-530",
+        "shopify_variant_id": null,
+        "option_family": "Commander M Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMMS-120-ON-530-TW-F",
+        "shopify_variant_id": null,
+        "option_family": "Commander M Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMMS-DC-570",
+        "shopify_variant_id": null,
+        "option_family": "Commander M Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMMS-DC-ON-530",
+        "shopify_variant_id": null,
+        "option_family": "Commander M Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSB-FLD-YM",
+        "shopify_variant_id": null,
+        "option_family": "Commander SB Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSB-FLD-YM-BLA",
+        "shopify_variant_id": null,
+        "option_family": "Commander SB Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSB-TRP-YM",
+        "shopify_variant_id": null,
+        "option_family": "Commander SB Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSB-TRP-YM-BLA",
+        "shopify_variant_id": null,
+        "option_family": "Commander SB Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTL-BKT",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTL-DUALBKT45",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTL-TANK",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTLF-A",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTLS18C-W",
+        "shopify_variant_id": null,
+        "option_family": "Commander Strip / Compartment Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMX-120-ON-530",
+        "shopify_variant_id": null,
+        "option_family": "Commander Plus / Plus-S Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMX-120-ON-600-603-P3",
+        "shopify_variant_id": null,
+        "option_family": "Commander Plus / Plus-S Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMX-DC-260",
+        "shopify_variant_id": null,
+        "option_family": "Commander Plus / Plus-S Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMX-DC-530",
+        "shopify_variant_id": null,
+        "option_family": "Commander Plus / Plus-S Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMX-DC-530SW",
+        "shopify_variant_id": null,
+        "option_family": "Commander Plus / Plus-S Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMX-S-DC-570",
+        "shopify_variant_id": null,
+        "option_family": "Commander Plus / Plus-S Scene Light",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "FC504K",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "KR-4-SB-R",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LT-S102-A",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LT100",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LT101",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LTP570-NW0",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LTP580-NW0-A",
+        "shopify_variant_id": null,
+        "option_family": "Commander Accessories & Mount Kits",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
