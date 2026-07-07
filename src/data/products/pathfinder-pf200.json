@@ -10,6 +10,11 @@
   "title": "Pathfinder® PF200 Siren and Light Controller",
   "subtitle": "Compact siren and light controller with an intuitive push-button interface for police patrol vehicles.",
   "description": "The Federal Signal Pathfinder® PF200 is a compact siren and light controller built around an intuitive push-button interface. It delivers reliable siren and lighting control in a smaller footprint for agencies that need a simplified, easy-to-learn control head.",
+  "summary_bullets": [
+    "Compact siren and light controller",
+    "Intuitive push-button interface",
+    "Designed for space-constrained console mounting"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

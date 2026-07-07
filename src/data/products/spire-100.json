@@ -10,6 +10,11 @@
   "title": "Spire® 100 LED Beacon",
   "subtitle": "Compact LED beacon, 12/24V, amber or clear lens, permanent or magnetic mount.",
   "description": "The Federal Signal Spire® 100 LED Beacon delivers compact, brilliant 360° warning visibility for utility, municipal, and service fleets. Operating on 12/24 Vdc, it's available with amber or clear lens options and permanent or magnetic mounting for fast, flexible installation on work trucks and heavy equipment.",
+  "summary_bullets": [
+    "Compact LED beacon with NightSpire® technology",
+    "Available in tall and short dome profiles",
+    "Multiple mounting options available"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

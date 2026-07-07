@@ -11,6 +11,11 @@
   "title": "SignalMaster™ Rear-Facing Directional Warning",
   "subtitle": "Rear-facing directional warning system in 4-head, 8-head, and 2x4-head configurations. Available in 1-Color, 2-Color, and 3-Color options.",
   "description": "The Federal Signal SignalMaster™ delivers dedicated rear-facing directional warning to move traffic away from the scene and reduce struck-by risk. Available in 4-head, 8-head, and 2x4-head LED configurations with 1-Color, 2-Color, and 3-Color options for police and fire applications.",
+  "summary_bullets": [
+    "Directional warning lights for traffic clearing",
+    "Available in 8, 12, and 15-light configurations",
+    "Amber, Blue, Red, and White LED options"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

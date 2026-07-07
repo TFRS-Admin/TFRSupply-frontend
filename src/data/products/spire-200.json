@@ -10,6 +10,11 @@
   "title": "Spire® 200 LED Beacon",
   "subtitle": "Full-size LED beacon, 12/24V, multiple flash patterns, heavy-duty mount options.",
   "description": "The Federal Signal Spire® 200 LED Beacon is a full-size LED beacon delivering high-output 360° warning visibility for utility, municipal, and heavy-duty service fleets. Operating on 12/24 Vdc with multiple selectable flash patterns, it supports heavy-duty permanent, pipe, and magnetic mount options for demanding work-truck applications.",
+  "summary_bullets": [
+    "High-output LED beacon with NightSpire® technology",
+    "Available in tall and short dome profiles",
+    "Multiple mounting options available"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

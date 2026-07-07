@@ -10,6 +10,11 @@
   "title": "Pathway™ Siren and Light Controller",
   "subtitle": "100/200-watt siren and light controller with PA microphone and a simple rotary switch interface.",
   "description": "The Federal Signal Pathway™ delivers reliable 100/200-watt siren output with a simple rotary switch interface and PA microphone input. It's a straightforward, entry-level siren and light controller for agencies that need dependable performance without added complexity.",
+  "summary_bullets": [
+    "100/200-watt siren with integrated PA microphone",
+    "Simple rotary switch operation",
+    "Reliable, straightforward warning control"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

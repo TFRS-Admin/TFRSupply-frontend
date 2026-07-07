@@ -10,6 +10,11 @@
   "title": "Pro LED® Beacon",
   "subtitle": "Professional-grade LED beacon, SAE Class 1, 360-degree visibility.",
   "description": "The Federal Signal Pro LED® Beacon is a professional-grade LED beacon engineered for maximum 360-degree warning visibility on utility, municipal, and service fleets. SAE Class 1 rated for high-output performance in the most demanding work-truck applications.",
+  "summary_bullets": [
+    "Professional-grade LED beacon",
+    "SAE Class 1 certified for 360-degree visibility",
+    "Permanent and magnetic mount options"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

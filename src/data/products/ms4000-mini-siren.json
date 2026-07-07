@@ -10,6 +10,11 @@
   "title": "MS4000 Mini Siren",
   "subtitle": "Compact 100-watt undercover siren with an intersection-clearing feature.",
   "description": "The Federal Signal MS4000 is a compact 100-watt mini siren designed for undercover and unmarked police vehicles. Its small footprint and intersection-clearing feature make it well suited for discreet installations that still require dependable warning performance.",
+  "summary_bullets": [
+    "Compact 100-watt undercover siren",
+    "Intersection clearing feature",
+    "Ideal for unmarked and detective vehicles"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
