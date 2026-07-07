@@ -1,0 +1,15 @@
+{
+  "id": "accessories",
+  "label": "Accessories",
+  "verticals": ["fire", "work-truck"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Accessories",
+    "subtitle": "Controllers, mounting hardware, and wiring accessories for complete system builds.",
+    "image": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=1600&q=85",
+    "imageAlt": "Vehicle lighting and siren accessories"
+  },
+  "description": "Mounting hardware, controllers, and installation accessories for fire apparatus and work truck upfits.",
+  "filters": [],
+  "products": []
+}

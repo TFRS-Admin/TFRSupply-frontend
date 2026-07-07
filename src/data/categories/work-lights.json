@@ -1,0 +1,15 @@
+{
+  "id": "work-lights",
+  "label": "Work Lights",
+  "verticals": ["work-truck"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Work Lights",
+    "subtitle": "High-output scene and flood lighting for night operations.",
+    "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=85",
+    "imageAlt": "Work truck scene lighting"
+  },
+  "description": "High-output scene and scene flood lighting for night operations.",
+  "filters": [],
+  "products": []
+}
