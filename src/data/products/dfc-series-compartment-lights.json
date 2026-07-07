@@ -1,0 +1,583 @@
+{
+  "id": "dfc-series-compartment-lights",
+  "slug": "dfc-series-compartment-lights",
+  "vendor": "federal-signal",
+  "category": "compartment-lights",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "DFC Series",
+  "title": "DFC Series Compartment Lights",
+  "subtitle": "Vehicle-specific compartment lighting for police vehicles — plug-and-play fitment, 12 Vdc.",
+  "description": "The DFC Series covers vehicle-specific compartment and strip lighting for police vehicles, engineered for plug-and-play fitment with no additional wiring modifications. Spans standard and clear-lens strip lights, vehicle-specific fitment kits, mounting hardware, and lighting controllers in 12 Vdc configurations.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Compartment Lights",
+      "to": "/police/compartment-lights"
+    },
+    {
+      "label": "DFC Series Compartment Lights"
+    }
+  ],
+  "media": {
+    "hero": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=900&q=85",
+    "gallery": [
+      {
+        "src": "https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=900&q=85",
+        "alt": "DFC Series Compartment Lights"
+      }
+    ],
+    "videos": []
+  },
+  "marketing": {
+    "features": [
+      "Vehicle-specific compartment lighting",
+      "Plug-and-play fitment",
+      "12 Vdc",
+      "Standard and clear-lens strip light options",
+      "Mounting brackets and lighting controllers available"
+    ],
+    "benefits": [
+      "No additional wiring modifications required for supported vehicles",
+      "Single product family covers strip lighting, fitment kits, and accessories"
+    ],
+    "applications": [
+      "Police vehicle trunk and console compartment lighting",
+      "Push bumper and equipment compartment illumination",
+      "Vehicle-specific interior accent lighting"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "series": [
+      "DFC Series Compartment Strip Light (Standard)",
+      "DFC Series Compartment Strip Light (Clear Lens)",
+      "DFC Series Vehicle-Specific Fitment Kits",
+      "DFC Series Mounting & Accessory Hardware",
+      "DFC Series Lighting Controllers"
+    ],
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "DFC Series Installation Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "DFC Series Compartment Lights Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "DFC",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "related_products": [
+      "commander-interior-lights"
+    ],
+    "_skuNote": "COMSTL-TANK, COMSTLS18C-W, and COMSTL-BKT are confirmed SKUs sourced from src/data/shopify/shopify-variant-index.json (productHandle: commander-strip-compartment-light). Remaining DFC-prefixed SKUs are prototype placeholders pending confirmation in the Shopify export.",
+    "sku_table": [
+      {
+        "sku": "DFCSTL-9",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-18",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-27",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-36",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-45",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-54",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-63",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-72",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-81",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTL-90",
+        "family": "DFC Series Compartment Strip Light (Standard)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-9",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-18",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-27",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-36",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-45",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-54",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-63",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFCSTLC-72",
+        "family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-TAHOE-PPV",
+        "family": "DFC Series Vehicle-Specific Fitment Kits",
+        "type": "Vehicle-Specific Fitment Kit",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-EXPLORER-PIU",
+        "family": "DFC Series Vehicle-Specific Fitment Kits",
+        "type": "Vehicle-Specific Fitment Kit",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-CHARGER-PPV",
+        "family": "DFC Series Vehicle-Specific Fitment Kits",
+        "type": "Vehicle-Specific Fitment Kit",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-F150-PIU",
+        "family": "DFC Series Vehicle-Specific Fitment Kits",
+        "type": "Vehicle-Specific Fitment Kit",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-DURANGO-PPV",
+        "family": "DFC Series Vehicle-Specific Fitment Kits",
+        "type": "Vehicle-Specific Fitment Kit",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-EXPEDITION-PIU",
+        "family": "DFC Series Vehicle-Specific Fitment Kits",
+        "type": "Vehicle-Specific Fitment Kit",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "COMSTL-BKT",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "COMSTL-TANK",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A"
+      },
+      {
+        "sku": "COMSTLS18C-W",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Strip / Compartment Light",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "DFC-BKT-DUAL",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-BKT-SINGLE",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "N/A",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-HARNESS-EXT12",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-HARNESS-EXT24",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-SWITCH-MOM",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-SWITCH-LATCH",
+        "family": "DFC Series Mounting & Accessory Hardware",
+        "type": "Mounting Hardware / Accessory",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-CTRL-2CH",
+        "family": "DFC Series Lighting Controllers",
+        "type": "Controller / Accessory",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      },
+      {
+        "sku": "DFC-CTRL-4CH",
+        "family": "DFC Series Lighting Controllers",
+        "type": "Controller / Accessory",
+        "voltage": "12 Vdc",
+        "_prototype": true
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "DFC Series is a police-vertical compartment-lighting product family. COMSTL-BKT, COMSTL-TANK, and COMSTLS18C-W map to the confirmed 'commander-strip-compartment-light' Shopify handle; other DFC SKUs are not yet present in the Shopify export.",
+    "product_id": null,
+    "handle": "dfc-series-compartment-lights",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "DFCSTL-9",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-18",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-27",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-36",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-45",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-54",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-63",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-72",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-81",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTL-90",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Standard)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-9",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-18",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-27",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-36",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-45",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-54",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-63",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFCSTLC-72",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Compartment Strip Light (Clear Lens)",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-TAHOE-PPV",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Vehicle-Specific Fitment Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-EXPLORER-PIU",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Vehicle-Specific Fitment Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-CHARGER-PPV",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Vehicle-Specific Fitment Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-F150-PIU",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Vehicle-Specific Fitment Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-DURANGO-PPV",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Vehicle-Specific Fitment Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-EXPEDITION-PIU",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Vehicle-Specific Fitment Kits",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTL-BKT",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTL-TANK",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "COMSTLS18C-W",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-BKT-DUAL",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-BKT-SINGLE",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-HARNESS-EXT12",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-HARNESS-EXT24",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-SWITCH-MOM",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-SWITCH-LATCH",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Mounting & Accessory Hardware",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-CTRL-2CH",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Lighting Controllers",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "DFC-CTRL-4CH",
+        "shopify_variant_id": null,
+        "option_family": "DFC Series Lighting Controllers",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
