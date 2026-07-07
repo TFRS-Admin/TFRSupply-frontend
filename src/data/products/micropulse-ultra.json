@@ -51,7 +51,7 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/smush-webp/2024/09/micropulse-ultra.hero_-768x768.jpg.webp",
     "gallery": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
@@ -61,12 +61,9 @@
   },
   "marketing": {
     "features": [
-      "Vehicle-specific D-pillar perimeter lighting",
-      "2 LEDs per head",
-      "12 Vdc",
-      "SAE J595 Class 1",
-      "Red/Blue/Amber and Red/Blue/White color configurations",
-      "5-year limited warranty"
+      "Superior warning with high-powered LEDs",
+      "Low-profile design offers wider range of mounting locations",
+      "Available in single, dual, and tri-color models"
     ],
     "benefits": [
       "Purpose-built shroud kits for a factory-integrated fit",
@@ -78,6 +75,11 @@
       "State highway patrol — Dodge Durango Pursuit"
     ]
   },
+  "summary_bullets": [
+    "Superior warning with high-powered LEDs",
+    "Low-profile design offers wider range of mounting locations",
+    "Available in single, dual, and tri-color models"
+  ],
   "specifications": {
     "voltage": "12 Vdc",
     "leds_per_head": 2,

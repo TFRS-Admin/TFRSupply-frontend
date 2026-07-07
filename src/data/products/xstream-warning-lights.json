@@ -46,7 +46,7 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/xstream-interior-warning-light.hero_.jpg",
     "gallery": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
@@ -56,11 +56,9 @@
   },
   "marketing": {
     "features": [
-      "Compact surface-mount warning light",
-      "1-head (XSM1) and 2-head (XSM1X) configurations",
-      "Clear-lens variant available (XSM1C)",
-      "12 Vdc",
-      "Multiple tri-color combinations"
+      "SpectraLux® multicolor LED technology",
+      "Solaris® LED reflector technology",
+      "Includes (2 ) suction cups, (2) L-brackets, and a visor bracket"
     ],
     "benefits": [
       "Low-profile surface mount fits tight perimeter locations",
@@ -71,6 +69,11 @@
       "Sheriff patrol — supplemental perimeter warning"
     ]
   },
+  "summary_bullets": [
+    "SpectraLux® multicolor LED technology",
+    "Solaris® LED reflector technology",
+    "Includes (2 ) suction cups, (2) L-brackets, and a visor bracket"
+  ],
   "specifications": {
     "voltage": "12 Vdc",
     "head_count": [

@@ -51,7 +51,7 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/smush-webp/2024/09/spectraLux-ils.hero2_-768x768.jpg.webp",
     "gallery": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
@@ -61,12 +61,9 @@
   },
   "marketing": {
     "features": [
-      "Integrated lighting system",
-      "Vehicle-specific fitment",
-      "Plug-and-play installation",
-      "Front headliner (center-focused or off-axis) and rear deck/hatch mounting locations",
-      "Single-, dual-, and tri-color LED technology",
-      "FS Convergence Network (serial) or discrete-wire control architecture"
+      "Low-profile interior warning light",
+      "SpectraLux® multicolor LED technology",
+      "Solaris® LED reflector technology"
     ],
     "benefits": [
       "Vehicle Fitment step auto-bundles the correct shroud, side shields, and mounting bracket kit",
@@ -77,6 +74,11 @@
       "Unmarked and undercover units — Toyota Camry, Ford Escape, Ford Mustang"
     ]
   },
+  "summary_bullets": [
+    "Low-profile interior warning light",
+    "SpectraLux® multicolor LED technology",
+    "Solaris® LED reflector technology"
+  ],
   "specifications": {
     "voltage": "12 Vdc",
     "mounting_locations": [
