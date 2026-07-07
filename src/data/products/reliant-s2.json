@@ -11,6 +11,11 @@
   "title": "Reliant® S2 Light Bar",
   "subtitle": "48\" light bar for Police and Fire applications. Two zone programming styles with Blue, Clear, Red/Blue, or Red dome color options in Low Hook mount.",
   "description": "The Federal Signal Reliant® S2 light bar delivers compact, full-featured LED warning in a single 48\" length. Red dome is a Fire-only configuration, Blue and Red/Blue domes are Police-only, and Clear dome is shared across both verticals.",
+  "summary_bullets": [
+    "Ultra low-profile, linear light bar",
+    "Available in 48-inch length",
+    "ROC (Reliable Onboard Circuitry™ ) technology"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
@@ -52,10 +57,10 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/reliant-light-bar.hero_-1.jpg",
     "gallery": [
       {
-        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/reliant-light-bar.hero_-1.jpg",
         "alt": "Reliant® S2 Light Bar — Front view"
       },
       {
@@ -66,6 +71,9 @@
   },
   "marketing": {
     "features": [
+      "Ultra low-profile, linear light bar",
+      "Available in 48-inch length",
+      "ROC (Reliable Onboard Circuitry™ ) technology",
       "48\" length",
       "Two zone programming styles (Zone 1 / Zone 2)",
       "Blue, Clear, Red/Blue, and Red dome color options",

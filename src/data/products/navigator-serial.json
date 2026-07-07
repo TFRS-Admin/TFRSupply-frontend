@@ -11,6 +11,11 @@
   "title": "Navigator® Serial Light Bar",
   "subtitle": "Full-size LED light bar for fire apparatus and police vehicles. Available in 45\", 53\", and 60\" lengths with Red/White and Amber/White configurations.",
   "description": "The Navigator® Serial Light Bar delivers powerful, reliable warning performance in a full-size aluminum extrusion chassis. NFPA 2020/2021/2022 compliant configurations available.",
+  "summary_bullets": [
+    "Available in 45-inch, 53-inch, 60-inch, 73-inch and 87-inch lengths",
+    "SpectraLux® multicolor LED technology",
+    "Solaris® LED reflector technology"
+  ],
   "breadcrumbs": [
     {
       "label": "Home",
@@ -29,10 +34,10 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_.jpg",
     "gallery": [
       {
-        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/navigator-serial-light-bar_hero_-900x600_jpg.webp?v=1780421257",
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_.jpg",
         "alt": "Navigator® Serial Light Bar — Front view"
       },
       {
@@ -43,8 +48,10 @@
   },
   "marketing": {
     "features": [
+      "Available in 45\", 53\", 60\", 73\", and 87\" lengths",
+      "SpectraLux® multicolor LED technology",
+      "Solaris® LED reflector technology",
       "High-profile serial light bar",
-      "Available in 45\", 53\", and 60\" lengths",
       "Red/White and Amber/White color options",
       "NFPA 2020, 2021, and 2022 compliant configurations",
       "Tow/Utility configurations available (60\" only)",
