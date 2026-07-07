@@ -1,7 +1,6 @@
 import React from 'react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NavigatorTabs from '@/components/navigator/NavigatorTabs';
@@ -31,7 +30,6 @@ export default function NavigatorPage() {
           <NavigatorTabs productData={productData} />
         </div>
       </div>
-      <PrototypeFooter />
       <DebugToggle />
       <DebugPanel />
     </div>

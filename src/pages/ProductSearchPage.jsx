@@ -14,7 +14,6 @@ import { generateRecommendations, resolveRecommendationProducts, resolveRelatedP
 import { catalogService } from '@/services/catalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductCard from '@/components/product/ProductCard';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
 import ProductSearchBar from '@/components/product/ProductSearchBar';
@@ -213,7 +212,6 @@ export default function ProductSearchPage() {
 
       <RecentlyViewedProducts />
 
-      <PrototypeFooter />
     </div>
   );
 }

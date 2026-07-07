@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Phone, ShieldCheck, Award, Settings2, Headphones } from 'lucide-react';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import ProductCard from '@/components/product/ProductCard';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import SavedProductsSection from '@/components/product/SavedProductsSection';
@@ -232,7 +231,6 @@ export function StoreLandingView({ products = [], categories = [] }) {
         </div>
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

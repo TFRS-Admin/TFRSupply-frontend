@@ -5,7 +5,6 @@ import { catalogService } from '@/services/catalog';
 import { filterCategoryProducts } from '@/domain/catalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import NotFound from '@/components/templates/NotFound';
 import ProductCard from '@/components/product/ProductCard';
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
@@ -103,7 +102,6 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
         </div>
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

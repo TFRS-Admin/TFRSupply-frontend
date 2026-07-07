@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import {
@@ -212,7 +211,6 @@ export default function PoliceLanding() {
         </div>
       </div>
 
-      <PrototypeFooter />
       <DebugToggle />
       <DebugPanel />
     </div>

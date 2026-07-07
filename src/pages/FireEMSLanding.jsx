@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import { Layers, Volume2, Lightbulb, Zap, ArrowRight, Shield, ChevronRight, Phone, FileDown } from 'lucide-react';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
@@ -158,7 +157,6 @@ export default function FireEMSLanding() {
         </div>
       </div>
 
-      <PrototypeFooter />
     </div>
   );
 }

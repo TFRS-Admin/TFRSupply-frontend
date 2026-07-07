@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import type { ComponentType, ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
@@ -92,7 +91,6 @@ function ProductComingSoon({ product, verticalId, categoryId }: ProductComingSoo
           </div>
         </div>
       </div>
-      <PrototypeFooter />
     </div>
   );
 }
@@ -256,7 +254,6 @@ export function ProductDetailTemplateView({
       />
       <RecentlyViewedProducts excludeProductId={data.id} />
 
-      <PrototypeFooter />
       <DebugToggle />
       <DebugPanel />
     </div>

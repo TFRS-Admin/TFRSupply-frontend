@@ -6,7 +6,6 @@ import { useConfigurator } from '@/context/ConfiguratorContext';
 import PrototypeBanner from '@/components/PrototypeBanner';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
-import PrototypeFooter from '@/components/PrototypeFooter';
 
 const typeIcons = { bracket: Wrench, harness: Cpu, controller: Cpu, shroud: Layers, mount_kit: Shield };
 
@@ -145,7 +144,6 @@ export default function FamilyPage() {
         </div>
       </div>
 
-      <PrototypeFooter />
       <DebugToggle />
       <DebugPanel />
     </div>
