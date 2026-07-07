@@ -181,7 +181,7 @@ describe('RecommendedProducts (deterministic catalog recommendations)', () => {
     }));
 
     assert.match(html, /Recommended Products/);
-    assert.match(html, /Navigator/);
+    assert.match(html, /Allegiant/);
   });
 
   it('renders nothing when no recommendations can be found', () => {
