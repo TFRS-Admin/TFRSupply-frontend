@@ -11,5 +11,19 @@
   },
   "description": "Maximize safety with push bumpers designed for durability and protection during high-risk maneuvers.",
   "filters": [],
-  "products": []
+  "products": [
+    {
+      "id": "duraforce-push-bumper",
+      "label": "DuraForce™ Push Bumper",
+      "href": "/police/push-bumpers/duraforce-push-bumper",
+      "tagline": "Vehicle-specific push bumper for police fleet vehicles",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/09/duraforce-push-bumper.hero_.jpg",
+      "badges": ["Police", "Vehicle-Specific", "Steel Construction"],
+      "specs": [
+        "Fits Dodge Durango, Ford F-150, Ford Police Interceptor Utility",
+        "Heavy-duty steel with powder coat finish",
+        "Optional hook kit for bracket mounting"
+      ]
+    }
+  ]
 }
