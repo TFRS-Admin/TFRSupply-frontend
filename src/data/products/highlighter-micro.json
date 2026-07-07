@@ -1,0 +1,233 @@
+{
+  "id": "highlighter-micro",
+  "slug": "highlighter-micro",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police",
+    "work-truck"
+  ],
+  "product_family": "HighLighter",
+  "title": "HighLighter® Micro Mini Light Bar",
+  "subtitle": "Ultra-compact LED mini light bar",
+  "description": "Ultra-compact version of the HighLighter series. Single and split color options.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "HighLighter® Micro Mini Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+        "alt": "HighLighter® Micro Mini Light Bar"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Ultra-compact mini light bar footprint",
+      "Single-color and split-color LED head configurations",
+      "Bracket, magnetic, and hardware-kit mounting accessories available"
+    ],
+    "benefits": [
+      "Smallest footprint in the HighLighter series for tight mounting locations",
+      "Split-color heads allow dual-color warning patterns from a single compact fixture"
+    ],
+    "applications": [
+      "Police patrol vehicles",
+      "Work truck and utility fleets"
+    ]
+  },
+  "specifications": {
+    "color_configs": [
+      "Single-Color",
+      "Split-Color"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "HighLighter® Micro Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "HighLighter® Series Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "HL10",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 17 variants (12 head configurations + 5 mounting accessories). HL10 SKUs = Shopify variant SKUs.",
+    "_variant_note": "Mount-code letters embedded in the head SKUs (P/M/U/S) are carried from the Shopify export pending full option-attribute confirmation in Shopify Admin. The Single-Color vs Split-Color distinction (base vs '-C' SKU suffix) and color suffix (-A / -AW) are confirmed from the SKU pattern.",
+    "product_id": "15320602476655",
+    "handle": "highlighter-micro",
+    "cart_eligible": true,
+    "storefront_available": true,
+    "variant_mappings": [
+      {
+        "sku": "HL10P-A",
+        "shopify_variant_id": "53719523786863",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL10PC-A",
+        "shopify_variant_id": "53719523819631",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL10PC-AW",
+        "shopify_variant_id": "53719523852399",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL10M-A",
+        "shopify_variant_id": "53719523885167",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL10MC-A",
+        "shopify_variant_id": "53719523917935",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL10MC-AW",
+        "shopify_variant_id": "53719523950703",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL10U-A",
+        "shopify_variant_id": "53719523983471",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL10UC-A",
+        "shopify_variant_id": "53719524016239",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL10UC-AW",
+        "shopify_variant_id": "53719524049007",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL10S-A",
+        "shopify_variant_id": "53719524081775",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "HL10SC-A",
+        "shopify_variant_id": "53719524114543",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "HL10SC-AW",
+        "shopify_variant_id": "53719524147311",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "BKT-SL",
+        "shopify_variant_id": "53719524180079",
+        "item_type": "accessory",
+        "option_label": "Bracket Mount"
+      },
+      {
+        "sku": "HL10-BKT",
+        "shopify_variant_id": "53719524212847",
+        "item_type": "accessory",
+        "option_label": "Bracket Mount"
+      },
+      {
+        "sku": "HL10-HDKIT",
+        "shopify_variant_id": "53719524245615",
+        "item_type": "accessory",
+        "option_label": "Hardware Kit"
+      },
+      {
+        "sku": "HL10-MAGMNT",
+        "shopify_variant_id": "53719524278383",
+        "item_type": "accessory",
+        "option_label": "Magnetic Mount"
+      },
+      {
+        "sku": "HL10-SCTMNT",
+        "shopify_variant_id": "53719524311151",
+        "item_type": "accessory",
+        "option_label": "Surface/Scoop Mount"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": false,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
