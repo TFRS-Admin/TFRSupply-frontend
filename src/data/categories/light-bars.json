@@ -63,6 +63,51 @@
       "profile": "Mini",
       "badges": ["Police", "Mini", "1-8 Heads"],
       "specs": ["1-8 head configurations", "Red, Amber, Green, Blue options", "12 Vdc", "SAE J595 Class 1"]
+    },
+    {
+      "id": "integrity",
+      "label": "Integrity® Light Bar",
+      "tagline": "Full-size LED light bar for police and emergency vehicles.",
+      "vehicle_type": "Police",
+      "profile": "Full-Size",
+      "badges": ["Police", "Full-Size"],
+      "specs": ["44\", 51\", 60\" lengths", "Hook or Low Profile mount", "12 Vdc"]
+    },
+    {
+      "id": "reliant-s2",
+      "label": "Reliant® S2 Light Bar",
+      "tagline": "Slim-profile LED light bar for police vehicles.",
+      "vehicle_type": "Police",
+      "profile": "Low-Profile",
+      "badges": ["Police", "Low-Profile"],
+      "specs": ["48\" length", "12 Vdc", "SAE J595 Class 1"]
+    },
+    {
+      "id": "navigator-discrete",
+      "label": "Navigator® Discrete Light Bar",
+      "tagline": "Discrete LED light bar for fire apparatus.",
+      "vehicle_type": "Fire/EMS",
+      "profile": "Full-Size",
+      "badges": ["Fire/EMS", "Discrete", "NFPA"],
+      "specs": ["45\", 53\", 60\" lengths", "12 Vdc"]
+    },
+    {
+      "id": "navigator-linear-mini",
+      "label": "Navigator® Linear Mini Light Bar",
+      "tagline": "Compact linear LED light bar for fire apparatus.",
+      "vehicle_type": "Fire/EMS",
+      "profile": "Mini",
+      "badges": ["Fire/EMS", "Mini"],
+      "specs": ["18\", 25\" lengths", "12 Vdc"]
+    },
+    {
+      "id": "vision-slr-beacon",
+      "label": "Vision SLR® Beacon",
+      "tagline": "Compact low-profile beacon for police vehicles.",
+      "vehicle_type": "Police",
+      "profile": "Mini",
+      "badges": ["Police", "Mini", "Beacon"],
+      "specs": ["Single or split color", "Surface or magnetic mount"]
     }
   ]
 }
