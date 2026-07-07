@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import VerticalHero from '@/components/templates/VerticalHero';
 import SectionLabel from '@/components/templates/SectionLabel';
@@ -171,7 +170,6 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
         </div>
       )}
 
-      <DebugToggle />
       <DebugPanel />
     </div>
   );

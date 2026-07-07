@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import type { ComponentType, ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
-import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import NotFound from '@/components/templates/NotFound';
 import NavigatorTabsUntyped from '@/components/navigator/NavigatorTabs';
@@ -254,7 +253,6 @@ export function ProductDetailTemplateView({
       />
       <RecentlyViewedProducts excludeProductId={data.id} />
 
-      <DebugToggle />
       <DebugPanel />
     </div>
   );

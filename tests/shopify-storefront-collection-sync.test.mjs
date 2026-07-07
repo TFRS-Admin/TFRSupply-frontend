@@ -220,9 +220,9 @@ describe('Shopify Storefront Collection Sync Category page integration', () => {
     assert.equal(markup, '');
   });
 
-  it('CategoryTemplate composes StorefrontCollectionPanel', async () => {
+  it('CategoryTemplate does not compose StorefrontCollectionPanel (internal sync metadata, not customer-facing)', async () => {
     const fs = await import('node:fs/promises');
     const categoryTemplateSource = await fs.readFile(new URL('../src/pages/CategoryTemplate.jsx', import.meta.url), 'utf-8');
-    assert.match(categoryTemplateSource, /StorefrontCollectionPanel/);
+    assert.doesNotMatch(categoryTemplateSource, /StorefrontCollectionPanel/);
   });
 });

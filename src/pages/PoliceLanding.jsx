@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
 import PrototypeBanner from '@/components/PrototypeBanner';
-import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
 import {
   Zap, Volume2, Lightbulb, ArrowRight, Shield, AlertTriangle,
@@ -211,7 +210,6 @@ export default function PoliceLanding() {
         </div>
       </div>
 
-      <DebugToggle />
       <DebugPanel />
     </div>
   );
