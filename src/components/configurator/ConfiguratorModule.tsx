@@ -211,16 +211,21 @@ interface SkuFiltersProps {
   selections: FilterSelections;
   onSelect: (stepId: string, optionId: string) => void;
   recommendedSegments: string[];
+  /** When known from the URL, the vertical is implicit — the step still drives
+   *  SKU filtering (via `steps`, passed through unfiltered) but is hidden from
+   *  the rendered list since showing a Police/Fire toggle would be redundant. */
+  verticalId?: string;
 }
 
-function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments }: SkuFiltersProps) {
+function SkuFilters({ section, skuOptions, selections, onSelect, recommendedSegments, verticalId }: SkuFiltersProps) {
   const steps = section.steps ?? [];
+  const visibleSteps = verticalId ? steps.filter(step => step.skuSegmentKey !== 'vertical') : steps;
 
   return (
     <div style={{ marginBottom: 28 }}>
       <SectionHeader number="01" label={section.label} description={section.description} />
       <div className="flex flex-col gap-1">
-        {steps.map(step => (
+        {visibleSteps.map(step => (
           <FilterStep
             key={step.id}
             step={step}
@@ -276,23 +281,20 @@ function FilterStep({ step, skuOptions, selections, steps, onSelect, recommended
               <button
                 disabled={disabled}
                 onClick={() => !disabled && onSelect(step.id, opt.id)}
-                title={disabled ? 'No matching SKUs for this combination' : opt.description || undefined}
+                title={disabled ? 'Not available with current selections' : opt.description || undefined}
+                className={disabled ? 'opacity-40 cursor-not-allowed' : undefined}
                 style={{
                   ...FS, fontSize: 12, padding: '6px 14px',
-                  cursor: disabled ? 'not-allowed' : 'pointer',
+                  cursor: disabled ? undefined : 'pointer',
                   border: `2px solid ${isSelected ? '#c8102e' : disabled ? '#e5e5e5' : isRecommended ? '#16a34a' : '#d0d0d0'}`,
                   background: isSelected ? '#c8102e' : disabled ? '#f5f5f5' : isRecommended ? '#f0fdf4' : '#fff',
                   color: isSelected ? '#fff' : disabled ? '#bbb' : '#333',
                   fontWeight: isSelected ? 700 : 400,
-                  opacity: disabled ? 0.55 : 1,
                   transition: 'all 0.12s',
                 }}
               >
                 {opt.label}
               </button>
-              {disabled && !isSelected && (
-                <span style={{ fontSize: 9, color: '#dc2626', fontWeight: 700 }}>NO MATCH</span>
-              )}
               {isRecommended && !isSelected && !disabled && (
                 <span style={{ fontSize: 9, color: '#15803d', fontWeight: 700, background: '#dcfce7', padding: '1px 5px', border: '1px solid #bbf7d0' }}>
                   ✓ FITS
@@ -749,24 +751,33 @@ export interface ConfiguratorModuleProps {
 
 export default function ConfiguratorModule({ configuratorData, verticalId, categoryId, onConfigurationChange }: ConfiguratorModuleProps) {
   const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
-  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
-  const [filterSelections, setFilterSelections] = useState<FilterSelections>({});
-  const [accessories, setAccessories]           = useState<string[]>([]);
-  const [selectedSkuId, setSelectedSkuId]       = useState<string | null>(null);
 
   const {
     sectionMap, skuOptions = [], vehicleRules = [],
     productFamily, id: configuratorId
   } = configuratorData;
   const sections = (sectionMap ?? configuratorData.sections ?? {}) as Record<string, ConfiguratorSection>;
+  const skuSteps = sections?.skuSelector?.steps ?? [];
+
+  // The URL already scopes the page to a vertical (/police/, /fire/, ...), so
+  // showing a Police/Fire toggle step would be redundant. Resolve the vertical
+  // step's id (if this configurator has one) so it can be auto-selected below
+  // and hidden from the rendered step list — the SKU filter still needs it
+  // seeded into `filterSelections` for correct results.
+  const verticalStepId = skuSteps.find(step => step.skuSegmentKey === 'vertical')?.id ?? null;
+
+  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const [filterSelections, setFilterSelections] = useState<FilterSelections>(
+    () => (verticalId && verticalStepId ? { [verticalStepId]: verticalId } : {})
+  );
+  const [accessories, setAccessories]           = useState<string[]>([]);
+  const [selectedSkuId, setSelectedSkuId]       = useState<string | null>(null);
 
   // Commerce lookup — runs once per configurator load, keyed by SKU
   const commerceData = useMemo(
     () => lookupSkus(skuOptions.map(s => s.sku)),
     [skuOptions]
   );
-
-  const skuSteps = sections?.skuSelector?.steps ?? [];
 
   // Recommended length/mount segments from vehicle rules
   const recommendedSegments = useMemo(() => {
@@ -878,10 +889,10 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
   }, []);
 
   const handleReset = useCallback(() => {
-    setFilterSelections({});
+    setFilterSelections(verticalId && verticalStepId ? { [verticalStepId]: verticalId } : {});
     setAccessories([]);
     setSelectedSkuId(null);
-  }, []);
+  }, [verticalId, verticalStepId]);
 
   // Build quote payload when a SKU row is selected
   const quotePayload = useMemo<ConfiguratorQuotePayload | null>(() => {
@@ -978,6 +989,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
             selections={filterSelections}
             onSelect={handleFilterSelect}
             recommendedSegments={recommendedSegments}
+            verticalId={verticalId}
           />
         )}
 

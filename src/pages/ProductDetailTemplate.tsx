@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import type { ComponentType, ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SiteHeader from '@/components/navigator/SiteHeader';
-import PrototypeBanner from '@/components/PrototypeBanner';
 import PrototypeFooter from '@/components/PrototypeFooter';
 import DebugToggle from '@/components/DebugToggle';
 import DebugPanel from '@/components/DebugPanel';
@@ -52,7 +51,6 @@ interface ProductComingSoonProps {
 function ProductComingSoon({ product, verticalId, categoryId }: ProductComingSoonProps) {
   return (
     <div className="min-h-screen bg-white" style={FS}>
-      <PrototypeBanner />
       <SiteHeader activeVertical={verticalId} activeCategory={categoryId} />
       <ProductBreadcrumb crumbs={[
         { label: 'Home', to: '/' },
@@ -176,7 +174,6 @@ export function ProductDetailTemplateView({
 
   return (
     <div className="min-h-screen bg-white text-gray-900" style={FS}>
-      <PrototypeBanner />
       <SiteHeader activeVertical={verticalId || data.verticals?.[0]} activeCategory={data.category} />
       <ProductBreadcrumb crumbs={breadcrumbs || [{ label: 'Home', to: '/' }, { label: title }]} />
 
