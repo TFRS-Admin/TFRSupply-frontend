@@ -1,0 +1,279 @@
+{
+  "id": "littlite-led",
+  "slug": "littlite-led",
+  "vendor": "federal-signal",
+  "category": "interior-lighting",
+  "verticals": [
+    "fire"
+  ],
+  "product_family": "Littlite LED",
+  "title": "Littlite® LED Gooseneck Light",
+  "subtitle": "Gooseneck LED map and console light for cab and compartment illumination. Available in 12\" and 18\" lengths with multiple switch and color-temperature options.",
+  "description": "The Littlite® LED gooseneck light delivers focused, low-glare illumination for map reading, console work, and compartment tasks. Flexible gooseneck arm allows precise aiming, with end-stud, twist-switch, and rocker-switch mounting variants across 12\" and 18\" lengths.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Fire/EMS",
+      "to": "/fire"
+    },
+    {
+      "label": "Interior Lighting",
+      "to": "/fire/interior-lighting"
+    },
+    {
+      "label": "Littlite® LED Gooseneck Light"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/littlite-gooseneck-lamp_hero_-900x600_jpg.webp?v=1780421257",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/littlite-gooseneck-lamp_hero_-900x600_jpg.webp?v=1780421257",
+        "alt": "Littlite LED Gooseneck Light"
+      }
+    ],
+    "videos": []
+  },
+  "marketing": {
+    "features": [
+      "Gooseneck LED map and console light",
+      "Available in 12\" and 18\" lengths",
+      "End-stud, twist-switch, and rocker-switch mounting variants",
+      "Standard white, blue, and ultraviolet color-temperature options",
+      "Low-glare, focused beam for map and instrument reading",
+      "12 Vdc operation"
+    ],
+    "benefits": [
+      "Flexible gooseneck arm allows precise light aiming",
+      "Compact form factor for cab, console, and compartment mounting"
+    ],
+    "applications": [
+      "Fire apparatus cab map lighting",
+      "Compartment and console task lighting",
+      "EMS interior work lighting"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "12\"",
+      "18\""
+    ],
+    "switch_types": [
+      "End Stud Switch",
+      "Twist Switch",
+      "Rocker Switch"
+    ],
+    "color_temps": [
+      "White (Standard)",
+      "Blue",
+      "Ultraviolet"
+    ],
+    "warranty": "1-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Littlite LED Installation Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Littlite LED Gooseneck Light Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "LF",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "related_products": [
+      "commander-interior-lights"
+    ],
+    "_skuNote": "SKUs sourced from src/data/shopify/shopify-variant-index.json (productTitle contains 'Littlite').",
+    "sku_table": [
+      {
+        "sku": "LF12ES-LED",
+        "length": "12\"",
+        "switch_type": "End Stud Switch",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF12ESB-LED",
+        "length": "12\"",
+        "switch_type": "End Stud Switch with Bezel",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF12TS-LED",
+        "length": "12\"",
+        "switch_type": "Twist Switch",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF12TSB-LED",
+        "length": "12\"",
+        "switch_type": "Twist Switch with Bezel",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF18ER-LED-UV",
+        "length": "18\"",
+        "switch_type": "End Rocker Switch",
+        "color_temp": "Ultraviolet",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF18ES-LED",
+        "length": "18\"",
+        "switch_type": "End Stud Switch",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF18TS-LED",
+        "length": "18\"",
+        "switch_type": "Twist Switch",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF18TSB-LED",
+        "length": "18\"",
+        "switch_type": "Twist Switch with Bezel",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF18TSB-LED-BLUE",
+        "length": "18\"",
+        "switch_type": "Twist Switch with Bezel",
+        "color_temp": "Blue",
+        "voltage": "12 Vdc"
+      },
+      {
+        "sku": "LF6MOTO",
+        "length": "6\"",
+        "switch_type": "Standard",
+        "color_temp": "White (Standard)",
+        "voltage": "12 Vdc"
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. LF SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "littlite-gooseneck-lamps",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "LF12ES-LED",
+        "shopify_variant_id": null,
+        "option_length": "12\"",
+        "option_switch_type": "End Stud Switch",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF12ESB-LED",
+        "shopify_variant_id": null,
+        "option_length": "12\"",
+        "option_switch_type": "End Stud Switch with Bezel",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF12TS-LED",
+        "shopify_variant_id": null,
+        "option_length": "12\"",
+        "option_switch_type": "Twist Switch",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF12TSB-LED",
+        "shopify_variant_id": null,
+        "option_length": "12\"",
+        "option_switch_type": "Twist Switch with Bezel",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF18ER-LED-UV",
+        "shopify_variant_id": null,
+        "option_length": "18\"",
+        "option_switch_type": "End Rocker Switch",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF18ES-LED",
+        "shopify_variant_id": null,
+        "option_length": "18\"",
+        "option_switch_type": "End Stud Switch",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF18TS-LED",
+        "shopify_variant_id": null,
+        "option_length": "18\"",
+        "option_switch_type": "Twist Switch",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF18TSB-LED",
+        "shopify_variant_id": null,
+        "option_length": "18\"",
+        "option_switch_type": "Twist Switch with Bezel",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF18TSB-LED-BLUE",
+        "shopify_variant_id": null,
+        "option_length": "18\"",
+        "option_switch_type": "Twist Switch with Bezel",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "LF6MOTO",
+        "shopify_variant_id": null,
+        "option_length": "6\"",
+        "option_switch_type": "Standard",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
