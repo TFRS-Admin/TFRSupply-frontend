@@ -1,0 +1,278 @@
+{
+  "id": "highlighter-elite",
+  "slug": "highlighter-elite",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police",
+    "work-truck"
+  ],
+  "product_family": "HighLighter",
+  "title": "HighLighter® Elite Mini Light Bar",
+  "subtitle": "Compact LED mini light bar with multiple mounting options",
+  "description": "Compact, low-profile mini light bar. Available in single and split color. Multiple mount options including N/A and Accessory Plug.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "HighLighter® Elite Mini Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+        "alt": "HighLighter® Elite Mini Light Bar"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact, low-profile mini light bar",
+      "Single-color and split-color LED head configurations",
+      "Multiple mount options, including N/A (bare head) and Accessory Plug harness",
+      "Bracket, magnetic, and surface mount hardware available as accessories"
+    ],
+    "benefits": [
+      "Low-profile footprint suits vehicles with limited mounting space",
+      "Split-color heads allow dual-color warning patterns from a single compact fixture"
+    ],
+    "applications": [
+      "Police patrol vehicles",
+      "Work truck and utility fleets"
+    ]
+  },
+  "specifications": {
+    "color_configs": [
+      "Single-Color",
+      "Split-Color"
+    ],
+    "mount_options": [
+      "N/A",
+      "Accessory Plug"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "HighLighter® Elite Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "HighLighter® Series Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "HL15",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 23 variants (16 head configurations + 7 mounting/wiring accessories). HL15 SKUs = Shopify variant SKUs.",
+    "_variant_note": "Mount-code letters embedded in the head SKUs (P/M/U/S) and the exact naming of accessory SKUs (454217, 210883SSG) are carried from the Shopify export pending full option-attribute confirmation in Shopify Admin. The Single-Color vs Split-Color distinction (base vs '-C' SKU suffix) and color suffix (-A / -AW / -SAW) are confirmed from the SKU pattern.",
+    "product_id": "15320596381807",
+    "handle": "highlighter-elite",
+    "cart_eligible": true,
+    "storefront_available": true,
+    "variant_mappings": [
+      {
+        "sku": "HL15P-A",
+        "shopify_variant_id": "53719516545135",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL15PC-A",
+        "shopify_variant_id": "53719516577903",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL15PC-SAW",
+        "shopify_variant_id": "53719516610671",
+        "option_type": "Split-Color",
+        "option_color": "Split Amber/White",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL15PC-AW",
+        "shopify_variant_id": "53719516643439",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "P"
+      },
+      {
+        "sku": "HL15M-A",
+        "shopify_variant_id": "53719516676207",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL15U-A",
+        "shopify_variant_id": "53719516708975",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL15MC-A",
+        "shopify_variant_id": "53719516741743",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL15UC-A",
+        "shopify_variant_id": "53719516774511",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL15MC-SAW",
+        "shopify_variant_id": "53719516807279",
+        "option_type": "Split-Color",
+        "option_color": "Split Amber/White",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL15UC-SAW",
+        "shopify_variant_id": "53719516840047",
+        "option_type": "Split-Color",
+        "option_color": "Split Amber/White",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL15MC-AW",
+        "shopify_variant_id": "53719516872815",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "M"
+      },
+      {
+        "sku": "HL15UC-AW",
+        "shopify_variant_id": "53719516905583",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "U"
+      },
+      {
+        "sku": "HL15S-A",
+        "shopify_variant_id": "53719516938351",
+        "option_type": "Single-Color",
+        "option_color": "Amber",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "HL15SC-A",
+        "shopify_variant_id": "53719516971119",
+        "option_type": "Split-Color",
+        "option_color": "Amber",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "HL15SC-SAW",
+        "shopify_variant_id": "53719517003887",
+        "option_type": "Split-Color",
+        "option_color": "Split Amber/White",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "HL15SC-AW",
+        "shopify_variant_id": "53719517036655",
+        "option_type": "Split-Color",
+        "option_color": "Amber/White",
+        "option_mount_code": "S"
+      },
+      {
+        "sku": "454217",
+        "shopify_variant_id": "53719517069423",
+        "item_type": "accessory",
+        "option_label": "Accessory Plug"
+      },
+      {
+        "sku": "210883SSG",
+        "shopify_variant_id": "53719517102191",
+        "item_type": "accessory",
+        "option_label": "Mounting Hardware"
+      },
+      {
+        "sku": "HL15-BKT",
+        "shopify_variant_id": "53719517134959",
+        "item_type": "accessory",
+        "option_label": "Bracket Mount"
+      },
+      {
+        "sku": "HL15-HDKIT",
+        "shopify_variant_id": "53719517167727",
+        "item_type": "accessory",
+        "option_label": "Hardware Kit"
+      },
+      {
+        "sku": "HL15-MAGMT",
+        "shopify_variant_id": "53719517200495",
+        "item_type": "accessory",
+        "option_label": "Magnetic Mount"
+      },
+      {
+        "sku": "HL15-SCTMT",
+        "shopify_variant_id": "53719517233263",
+        "item_type": "accessory",
+        "option_label": "Surface/Scoop Mount"
+      },
+      {
+        "sku": "HL15-NSBKT",
+        "shopify_variant_id": "53719517266031",
+        "item_type": "accessory",
+        "option_label": "No-Stud Bracket"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": false,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

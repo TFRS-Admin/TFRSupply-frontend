@@ -1,0 +1,218 @@
+{
+  "id": "latitude-light-bar",
+  "slug": "latitude-light-bar",
+  "vendor": "federal-signal",
+  "category": "light-bars",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "Latitude",
+  "title": "Latitude® LED Light Bar",
+  "subtitle": "Full-featured LED light bar for police vehicles",
+  "description": "Full-size police light bar with multiple length and color options.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Light Bars",
+      "to": "/police/light-bars"
+    },
+    {
+      "label": "Latitude® LED Light Bar"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/09/navigator-serial-light-bar.hero_-900x600.jpg",
+        "alt": "Latitude® LED Light Bar"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Full-size police light bar",
+      "Available in 4-head, 6-head, and 8-head configurations",
+      "Amber, Red, Blue, Red/Blue, 2-Red/2-Blue, and Amber/White color configurations"
+    ],
+    "benefits": [
+      "Purpose-built for full-size police patrol platforms",
+      "Multiple head-count and color configurations to match department standards"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "State highway patrol — full-size interceptors"
+    ]
+  },
+  "specifications": {
+    "head_counts": [
+      "4-head",
+      "6-head",
+      "8-head"
+    ],
+    "color_configs": [
+      "Amber",
+      "Red",
+      "Blue",
+      "Red/Blue",
+      "2-Red/2-Blue",
+      "Amber/White"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Latitude® LED Light Bar Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Latitude® LED Light Bar Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "SL",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 15 variants (4-head, 6-head, and 8-head configurations across Amber, Red, Blue, Red/Blue, 2-Red/2-Blue, and Amber/White color options). SL#F SKUs = Shopify variant SKUs.",
+    "_variant_note": "Head-count (option_length) and color decode follows the confirmed SL#S-A SKU convention already used for the related Latitude SignalMaster product (src/data/products/latitude-signalmaster.json), where the numeric SL prefix denotes head count. The 'F' suffix here (vs. 'S' for SignalMaster) distinguishes this Full light bar SKU family.",
+    "product_id": "15320609947759",
+    "handle": "latitude-light-bar",
+    "cart_eligible": true,
+    "storefront_available": true,
+    "variant_mappings": [
+      {
+        "sku": "SL4F-A",
+        "shopify_variant_id": "53719532634223",
+        "option_length": "4-head",
+        "option_color": "Amber"
+      },
+      {
+        "sku": "SL4F-2R2B",
+        "shopify_variant_id": "53719532666991",
+        "option_length": "4-head",
+        "option_color": "2-Red/2-Blue"
+      },
+      {
+        "sku": "SL4F-RB",
+        "shopify_variant_id": "53719532699759",
+        "option_length": "4-head",
+        "option_color": "Red/Blue"
+      },
+      {
+        "sku": "SL4F-R",
+        "shopify_variant_id": "53719532732527",
+        "option_length": "4-head",
+        "option_color": "Red"
+      },
+      {
+        "sku": "SL4F-B",
+        "shopify_variant_id": "53719532765295",
+        "option_length": "4-head",
+        "option_color": "Blue"
+      },
+      {
+        "sku": "SL6F-A",
+        "shopify_variant_id": "53719532798063",
+        "option_length": "6-head",
+        "option_color": "Amber"
+      },
+      {
+        "sku": "SL6F-RB",
+        "shopify_variant_id": "53719532830831",
+        "option_length": "6-head",
+        "option_color": "Red/Blue"
+      },
+      {
+        "sku": "SL6F-R",
+        "shopify_variant_id": "53719532863599",
+        "option_length": "6-head",
+        "option_color": "Red"
+      },
+      {
+        "sku": "SL6F-B",
+        "shopify_variant_id": "53719532896367",
+        "option_length": "6-head",
+        "option_color": "Blue"
+      },
+      {
+        "sku": "SL8F-A",
+        "shopify_variant_id": "53719532929135",
+        "option_length": "8-head",
+        "option_color": "Amber"
+      },
+      {
+        "sku": "SL8F-RB",
+        "shopify_variant_id": "53719532961903",
+        "option_length": "8-head",
+        "option_color": "Red/Blue"
+      },
+      {
+        "sku": "SL8F-R",
+        "shopify_variant_id": "53719532994671",
+        "option_length": "8-head",
+        "option_color": "Red"
+      },
+      {
+        "sku": "SL8F-B",
+        "shopify_variant_id": "53719533027439",
+        "option_length": "8-head",
+        "option_color": "Blue"
+      },
+      {
+        "sku": "SL6F-AW",
+        "shopify_variant_id": "53719533060207",
+        "option_length": "6-head",
+        "option_color": "Amber/White"
+      },
+      {
+        "sku": "SL8F-AW",
+        "shopify_variant_id": "53719533092975",
+        "option_length": "8-head",
+        "option_color": "Amber/White"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": false,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
