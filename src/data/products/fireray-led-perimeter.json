@@ -11,6 +11,11 @@
   "title": "FireRay® LED Perimeter Light",
   "subtitle": "High-output perimeter warning across Zone 4, 6, 7, and 9 housings, with fixed and selectable single- and dual-color fixture styles and a full line of mounting hardware.",
   "description": "The Federal Signal FireRay® LED delivers high-output perimeter warning from every angle. Confirmed Zone 4, 6, 7, and 9 housings support fixed single-color (A1/B1/R1), selectable single-color (C1), and selectable dual-color (C2) fixture styles, with dedicated mounting brackets, covers, and add-on modules (scene lights, arrow, backup, grille) for fire apparatus and police vehicles.",
+  "summary_bullets": [
+    "FireRay® LED perimeter light for fire apparatus",
+    "High-visibility warning for all angles",
+    "Available in Red, White, and Amber"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {

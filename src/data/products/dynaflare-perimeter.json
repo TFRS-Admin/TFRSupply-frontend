@@ -10,6 +10,11 @@
   "title": "DynaFlare® Perimeter Light",
   "subtitle": "6-LED perimeter warning light in multiple color configurations, including a smoked-lens option, for running board and rocker-panel mounting.",
   "description": "The Federal Signal DynaFlare® Perimeter Light is a 6-LED warning light engineered for running board and rocker-panel perimeter mounting on police vehicles, with low-profile, optically clear (or smoked) potted construction.",
+  "summary_bullets": [
+    "High-output LED perimeter warning light",
+    "Available in single and dual-color configurations",
+    "Designed for door, mirror, and bumper mounting"
+  ],
   "tabs_component": "ProductTabs",
   "tabs": [
     {
