@@ -1,0 +1,192 @@
+{
+  "id": "signalmaster",
+  "slug": "signalmaster",
+  "vendor": "federal-signal",
+  "category": "signal-masters",
+  "verticals": [
+    "police",
+    "fire"
+  ],
+  "product_family": "SignalMaster",
+  "title": "SignalMaster™ Rear-Facing Directional Warning",
+  "subtitle": "Rear-facing directional warning system in 4-head, 8-head, and 2x4-head configurations. Available in 1-Color, 2-Color, and 3-Color options.",
+  "description": "The Federal Signal SignalMaster™ delivers dedicated rear-facing directional warning to move traffic away from the scene and reduce struck-by risk. Available in 4-head, 8-head, and 2x4-head LED configurations with 1-Color, 2-Color, and 3-Color options for police and fire applications.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "SignalMasters",
+      "to": "/police/signal-masters"
+    },
+    {
+      "label": "SignalMaster™ Rear-Facing Directional Warning"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+        "alt": "SignalMaster™ Rear-Facing Directional Warning"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Rear-facing directional warning to move traffic away from the scene",
+      "4-head, 8-head, and 2x4-head LED configurations",
+      "180° rear coverage",
+      "1-Color, 2-Color, and 3-Color options",
+      "SAE J595 Class 1 certified",
+      "Integrates with existing light bar controller"
+    ],
+    "benefits": [
+      "Reduces struck-by risk during roadside stops and scene work",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Sheriff patrol — full-size SUV and Tahoe PPV",
+      "Fire/EMS apparatus — rear traffic direction at scene"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "4-head",
+      "8-head",
+      "2x4-head"
+    ],
+    "color_configs": [
+      "1-Color",
+      "2-Color",
+      "3-Color"
+    ],
+    "coverage": "180° rear-facing",
+    "certifications": [
+      "SAE J595 Class 1"
+    ]
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "SignalMaster™ Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      },
+      {
+        "label": "SignalMaster™ Programming Guide",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "SignalMaster™ Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": [
+      {
+        "label": "SAE J595 Class 1 Certification",
+        "url": "#",
+        "type": "pdf"
+      }
+    ]
+  },
+  "commerce": {
+    "sku_root": "CNSM",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. CNSM SKUs = Shopify variant SKUs.",
+    "_note": "Task spec referenced 33 total SignalMaster SKUs; only the 6 below are confirmed present in shopify-variant-index.json as of 2026-07-07. The remaining SKUs are not yet in the Shopify export and must be confirmed before being added — none are invented here.",
+    "product_id": null,
+    "handle": "signalmaster",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "CNSMJ4F-P3C",
+        "shopify_variant_id": null,
+        "option_length": "4-head",
+        "option_color": "3-Color",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "CNSMJ8R-P1C",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "1-Color",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "CNSMJ8R-P2C",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "2-Color",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "CNSMJ8R-P3C",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "3-Color",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "CNSMJ8R-F1C",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "1-Color",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "CNSMJ2X4R-P3C",
+        "shopify_variant_id": null,
+        "option_length": "2x4-head",
+        "option_color": "3-Color",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "signalmaster-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

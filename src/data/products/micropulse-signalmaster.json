@@ -1,0 +1,150 @@
+{
+  "id": "micropulse-signalmaster",
+  "slug": "micropulse-signalmaster",
+  "vendor": "federal-signal",
+  "category": "signal-masters",
+  "verticals": [
+    "police",
+    "fire",
+    "work-truck"
+  ],
+  "product_family": "MicroPulse SignalMaster",
+  "title": "MicroPulse® SignalMaster Compact Directional Warning",
+  "subtitle": "Compact rear-facing directional warning that integrates with the MicroPulse system, in 4-head and 8-head Amber-only configurations.",
+  "description": "The Federal Signal MicroPulse® SignalMaster delivers compact, rear-facing directional warning that integrates directly with an existing MicroPulse LED system. Available in 4-head and 8-head Amber-only configurations.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "SignalMasters",
+      "to": "/police/signal-masters"
+    },
+    {
+      "label": "MicroPulse® SignalMaster"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/MPS123U-RAW.jpg?v=1781074482",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/MPS123U-RAW.jpg?v=1781074482",
+        "alt": "MicroPulse® SignalMaster Compact Directional Warning"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact rear-facing directional warning",
+      "4-head and 8-head LED configurations",
+      "Amber-only directional output",
+      "Integrates with existing MicroPulse LED system",
+      "Low-profile, surface-mount design"
+    ],
+    "benefits": [
+      "Adds directional warning to vehicles already running MicroPulse LEDs without a separate control system",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — unmarked and low-profile units",
+      "Fire/EMS apparatus — supplemental rear traffic direction",
+      "Work-truck and utility fleets — compact traffic control"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "4-head",
+      "8-head"
+    ],
+    "color_configs": [
+      "Amber"
+    ],
+    "profile": "Compact, surface-mount"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "MicroPulse® SignalMaster Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "MicroPulse® SignalMaster Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "MPSM",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "Planned line extension of the MicroPulse family — not yet a Shopify product.",
+    "_note": "No MicroPulse SignalMaster SKUs are present in shopify-variant-index.json as of 2026-07-07 and none were specified in the task beyond 'Length, Color'. The MPSM4-A / MPSM8-A SKUs below are placeholders that follow the existing MicroPulse (MPS-prefixed) naming convention so the configurator has a working structure; they are NOT confirmed Shopify SKUs and must be verified or replaced before this product is published.",
+    "product_id": null,
+    "handle": "micropulse-signalmaster",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "MPSM4-A",
+        "shopify_variant_id": null,
+        "option_length": "4-head",
+        "option_color": "Amber",
+        "_verification": "unconfirmed",
+        "_missing": "shopify_variant_id, price, SKU confirmation"
+      },
+      {
+        "sku": "MPSM8-A",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "Amber",
+        "_verification": "unconfirmed",
+        "_missing": "shopify_variant_id, price, SKU confirmation"
+      }
+    ]
+  },
+  "configuratorId": "micropulse-signalmaster-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first.",
+  "_prototype": true
+}
