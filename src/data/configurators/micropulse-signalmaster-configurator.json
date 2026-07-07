@@ -1,0 +1,97 @@
+{
+  "_source": "TFR Supply MicroPulse SignalMaster Configurator — 2026-07-07.",
+  "_note": "No MicroPulse SignalMaster SKUs are confirmed in shopify-variant-index.json. MPSM4-A and MPSM8-A are placeholder SKUs following the existing MicroPulse (MPS-prefixed) naming convention, needed so this configurator has a working Length/Color structure; they are NOT confirmed Shopify SKUs. Do NOT invent prices; resolved at runtime from shopify-variant-index.json once real SKUs are confirmed and published.",
+  "id": "micropulse-signalmaster-configurator",
+  "productId": "micropulse-signalmaster",
+  "productFamily": "MicroPulse SignalMaster",
+  "label": "MicroPulse® SignalMaster Configurator",
+  "priceDisplay": "Contact for pricing",
+  "skuOptions": [
+    {
+      "sku": "MPSM4-A",
+      "description": "MicroPulse SignalMaster 4-Head — Amber (placeholder SKU — Needs Review)",
+      "attributes": {
+        "length": "4-head",
+        "colorConfig": "amber"
+      }
+    },
+    {
+      "sku": "MPSM8-A",
+      "description": "MicroPulse SignalMaster 8-Head — Amber (placeholder SKU — Needs Review)",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "amber"
+      }
+    }
+  ],
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "Each selection narrows the Available SKUs table. SKUs shown are placeholders pending Shopify Admin confirmation.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "unconfirmed",
+          "options": [
+            {
+              "id": "4-head",
+              "label": "4-Head",
+              "skuSegment": "4-head",
+              "description": "Compact 4-LED-head configuration"
+            },
+            {
+              "id": "8-head",
+              "label": "8-Head",
+              "skuSegment": "8-head",
+              "description": "Full 8-LED-head configuration"
+            }
+          ]
+        },
+        {
+          "id": "colorConfig",
+          "label": "Color",
+          "required": true,
+          "skuSegmentKey": "colorConfig",
+          "_verification": "unconfirmed",
+          "options": [
+            {
+              "id": "amber",
+              "label": "Amber",
+              "skuSegment": "amber",
+              "description": "MicroPulse SignalMaster is Amber-only"
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components. All SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — MicroPulse SignalMaster controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU not confirmed; confirm with install spec"
+        }
+      ]
+    }
+  },
+  "vehicleRules": [],
+  "compatibilityRules": [],
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
+}

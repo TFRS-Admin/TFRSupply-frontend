@@ -1,0 +1,277 @@
+{
+  "_source": "TFR Supply SignalMaster Configurator — built from confirmed SKUs in src/data/shopify/shopify-variant-index.json (CNSMJ* family), 2026-07-07.",
+  "_note": "Task spec referenced 33 total SignalMaster SKUs; only these 6 are confirmed present in the Shopify export. P1C/P2C/P3C variants are Police (color-count encoded in the suffix); F1C is the shared Fire 1-Color variant. Only CNSMJ8R-F1C is confirmed for Fire, so Fire is restricted to the 8-head/1-Color combination via compatibilityRules below. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
+  "id": "signalmaster-configurator",
+  "productId": "signalmaster",
+  "productFamily": "SignalMaster",
+  "label": "SignalMaster™ Configurator",
+  "priceDisplay": "Contact for pricing",
+  "skuOptions": [
+    {
+      "sku": "CNSMJ4F-P3C",
+      "description": "SignalMaster 4-Head Police — 3-Color",
+      "attributes": {
+        "length": "4-head",
+        "colorConfig": "3-color",
+        "vertical": "police"
+      }
+    },
+    {
+      "sku": "CNSMJ8R-P1C",
+      "description": "SignalMaster 8-Head Police — 1-Color",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "1-color",
+        "vertical": "police"
+      }
+    },
+    {
+      "sku": "CNSMJ8R-P2C",
+      "description": "SignalMaster 8-Head Police — 2-Color",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "2-color",
+        "vertical": "police"
+      }
+    },
+    {
+      "sku": "CNSMJ8R-P3C",
+      "description": "SignalMaster 8-Head Police — 3-Color",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "3-color",
+        "vertical": "police"
+      }
+    },
+    {
+      "sku": "CNSMJ8R-F1C",
+      "description": "SignalMaster 8-Head Fire — 1-Color",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "1-color",
+        "vertical": "fire"
+      }
+    },
+    {
+      "sku": "CNSMJ2X4R-P3C",
+      "description": "SignalMaster 2x4-Head Police — 3-Color",
+      "attributes": {
+        "length": "2x4-head",
+        "colorConfig": "3-color",
+        "vertical": "police"
+      }
+    }
+  ],
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the confirmed SKU list are enabled.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "4-head",
+              "label": "4-Head",
+              "skuSegment": "4-head",
+              "description": "Compact 4-LED-head configuration"
+            },
+            {
+              "id": "8-head",
+              "label": "8-Head",
+              "skuSegment": "8-head",
+              "description": "Full 8-LED-head configuration"
+            },
+            {
+              "id": "2x4-head",
+              "label": "2x4-Head",
+              "skuSegment": "2x4-head",
+              "description": "Dual 2x4-LED-head configuration"
+            }
+          ]
+        },
+        {
+          "id": "vertical",
+          "label": "Vertical",
+          "required": false,
+          "skuSegmentKey": "vertical",
+          "_verification": "confirmed",
+          "description": "Fire is currently confirmed only in the 8-Head / 1-Color combination.",
+          "options": [
+            {
+              "id": "police",
+              "label": "Police",
+              "skuSegment": "police",
+              "description": "Police configurations — 4-Head, 8-Head, and 2x4-Head"
+            },
+            {
+              "id": "fire",
+              "label": "Fire",
+              "skuSegment": "fire",
+              "description": "Fire configuration — 8-Head / 1-Color only"
+            }
+          ]
+        },
+        {
+          "id": "colorConfig",
+          "label": "Color Configuration",
+          "required": true,
+          "skuSegmentKey": "colorConfig",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "1-color",
+              "label": "1-Color",
+              "skuSegment": "1-color",
+              "description": "Available on 8-Head — Police and Fire"
+            },
+            {
+              "id": "2-color",
+              "label": "2-Color",
+              "skuSegment": "2-color",
+              "description": "Available on 8-Head — Police only"
+            },
+            {
+              "id": "3-color",
+              "label": "3-Color",
+              "skuSegment": "3-color",
+              "description": "Available on 4-Head, 8-Head, and 2x4-Head — Police only"
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — exact SignalMaster controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — harness SKU varies by length; confirm with install spec"
+        },
+        {
+          "id": "acc-ctrl-pathfinder",
+          "label": "Pathfinder® Siren/Light Controller",
+          "sku": "PF400H",
+          "price": null,
+          "type": "optional",
+          "_note": "Federal Signal Pathfinder PF400/PF400Q family — confirmed present in shopify-variant-index.json."
+        }
+      ]
+    }
+  },
+  "vehicleRules": [
+    {
+      "vehicleId": "FORD_PIU",
+      "displayName": "Ford Explorer PIU",
+      "recommendedLength": "8-head"
+    },
+    {
+      "vehicleId": "CHEVY_TAHOE_PPV",
+      "displayName": "Chevrolet Tahoe PPV / SSV",
+      "recommendedLength": "8-head"
+    },
+    {
+      "vehicleId": "DODGE_CHARGER",
+      "displayName": "Dodge Charger Pursuit",
+      "recommendedLength": "4-head"
+    },
+    {
+      "vehicleId": "DODGE_DURANGO",
+      "displayName": "Dodge Durango Pursuit",
+      "recommendedLength": "8-head"
+    }
+  ],
+  "compatibilityRules": [
+    {
+      "id": "excl-fire-4head",
+      "type": "excludes",
+      "stepA": "vertical",
+      "optionA": "fire",
+      "stepB": "length",
+      "optionB": "4-head",
+      "message": "Fire is currently only confirmed in the 8-Head configuration."
+    },
+    {
+      "id": "excl-fire-2x4head",
+      "type": "excludes",
+      "stepA": "vertical",
+      "optionA": "fire",
+      "stepB": "length",
+      "optionB": "2x4-head",
+      "message": "Fire is currently only confirmed in the 8-Head configuration."
+    },
+    {
+      "id": "excl-fire-2color",
+      "type": "excludes",
+      "stepA": "vertical",
+      "optionA": "fire",
+      "stepB": "colorConfig",
+      "optionB": "2-color",
+      "message": "Fire is currently only confirmed in the 1-Color configuration."
+    },
+    {
+      "id": "excl-fire-3color",
+      "type": "excludes",
+      "stepA": "vertical",
+      "optionA": "fire",
+      "stepB": "colorConfig",
+      "optionB": "3-color",
+      "message": "Fire is currently only confirmed in the 1-Color configuration."
+    },
+    {
+      "id": "excl-4head-1color",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "4-head",
+      "stepB": "colorConfig",
+      "optionB": "1-color",
+      "message": "4-Head is only confirmed with 3-Color."
+    },
+    {
+      "id": "excl-4head-2color",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "4-head",
+      "stepB": "colorConfig",
+      "optionB": "2-color",
+      "message": "4-Head is only confirmed with 3-Color."
+    },
+    {
+      "id": "excl-2x4head-1color",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "2x4-head",
+      "stepB": "colorConfig",
+      "optionB": "1-color",
+      "message": "2x4-Head is only confirmed with 3-Color."
+    },
+    {
+      "id": "excl-2x4head-2color",
+      "type": "excludes",
+      "stepA": "length",
+      "optionA": "2x4-head",
+      "stepB": "colorConfig",
+      "optionB": "2-color",
+      "message": "2x4-Head is only confirmed with 3-Color."
+    }
+  ],
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
+}
