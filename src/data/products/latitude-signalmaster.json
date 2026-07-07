@@ -1,0 +1,177 @@
+{
+  "id": "latitude-signalmaster",
+  "slug": "latitude-signalmaster",
+  "vendor": "federal-signal",
+  "category": "signal-masters",
+  "verticals": [
+    "police",
+    "fire",
+    "work-truck"
+  ],
+  "product_family": "Latitude SignalMaster",
+  "title": "Latitude® SignalMaster Rear-Facing Directional Warning",
+  "subtitle": "Ultra-slim rear-facing directional warning integrated into your light bar in 6-head and 8-head lengths, Amber only.",
+  "description": "The Federal Signal Latitude® SignalMaster delivers an ultra-slim, rear-facing directional warning arrow integrated directly into the rear of your light bar. Available in 6-head and 8-head Amber-only configurations for police, fire, and work-truck applications.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    },
+    {
+      "id": "configure",
+      "label": "Build & Configure",
+      "content_type": "configurator"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "SignalMasters",
+      "to": "/police/signal-masters"
+    },
+    {
+      "label": "Latitude® SignalMaster"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+        "alt": "Latitude® SignalMaster Rear-Facing Directional Warning"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Ultra-slim profile integrated into the rear of the light bar",
+      "6-head and 8-head LED configurations",
+      "Amber-only rear-facing directional warning",
+      "Low-profile design for a clean rear appearance",
+      "Integrates with existing light bar controller"
+    ],
+    "benefits": [
+      "Adds directional warning without increasing the light bar's rear footprint",
+      "Dead-end-prevention filter logic — only valid SKU combos enabled"
+    ],
+    "applications": [
+      "Municipal police patrol — sedan and SUV platforms",
+      "Fire/EMS apparatus — rear traffic direction at scene",
+      "Work-truck and utility fleets — traffic control around work zones"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "lengths": [
+      "6-head",
+      "8-head"
+    ],
+    "color_configs": [
+      "Amber"
+    ],
+    "profile": "Ultra-slim, integrated into light bar rear"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Latitude® SignalMaster Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Latitude® SignalMaster Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "SL",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "accessories": [
+      {
+        "sku": "Z8573327A",
+        "label": "Latitude SignalMaster — Controller/Harness (Needs Review)"
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. SL#S-A SKUs = Shopify variant SKUs.",
+    "_note": "SL8S-A48 and SL8S-A-50 (and combined SL8S-A48-50) all share the 8-head/Amber configuration; the 48/50 suffixes are mount- and harness-variant packaging not yet confirmed against install docs, so they are mapped to the same Length/Color combination pending confirmation. Z8573327A does not follow the SL#S-A SKU convention and is not confirmed to be a head-count variant, so it is listed under commerce.accessories rather than the Length/Color grid — Needs Review before assigning an attribute mapping.",
+    "product_id": null,
+    "handle": "latitude-signalmaster",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      {
+        "sku": "SL6S-A",
+        "shopify_variant_id": null,
+        "option_length": "6-head",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "SL8S-A",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "Amber",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "SL8S-A48",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "Amber",
+        "_note": "48\" bar integration mount variant — Needs Review",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "SL8S-A-50",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "Amber",
+        "_note": "Alternate harness/voltage variant — Needs Review",
+        "_missing": "shopify_variant_id, price"
+      },
+      {
+        "sku": "SL8S-A48-50",
+        "shopify_variant_id": null,
+        "option_length": "8-head",
+        "option_color": "Amber",
+        "_note": "48\" bar integration mount + alternate harness variant — Needs Review",
+        "_missing": "shopify_variant_id, price"
+      }
+    ]
+  },
+  "configuratorId": "latitude-signalmaster-configurator",
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}

@@ -1,0 +1,137 @@
+{
+  "_source": "TFR Supply Latitude SignalMaster Configurator — built from confirmed SKUs in src/data/shopify/shopify-variant-index.json (SL#S-A family), 2026-07-07.",
+  "_note": "Latitude SignalMaster is Amber-only, so the Color step has a single option. SL8S-A48, SL8S-A-50, and SL8S-A48-50 all share the 8-Head/Amber combination — their 48/50 suffixes are unconfirmed mount/harness packaging variants (see product JSON _note). Z8573327A does not follow the SL#S-A convention and is tracked under the product's commerce.accessories, not in this Length/Color grid. Do NOT invent prices; resolved at runtime from shopify-variant-index.json.",
+  "id": "latitude-signalmaster-configurator",
+  "productId": "latitude-signalmaster",
+  "productFamily": "Latitude SignalMaster",
+  "label": "Latitude® SignalMaster Configurator",
+  "priceDisplay": "Contact for pricing",
+  "skuOptions": [
+    {
+      "sku": "SL6S-A",
+      "description": "Latitude SignalMaster 6-Head — Amber",
+      "attributes": {
+        "length": "6-head",
+        "colorConfig": "amber"
+      }
+    },
+    {
+      "sku": "SL8S-A",
+      "description": "Latitude SignalMaster 8-Head — Amber",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "amber"
+      }
+    },
+    {
+      "sku": "SL8S-A48",
+      "description": "Latitude SignalMaster 8-Head — Amber (48\" bar integration variant — Needs Review)",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "amber"
+      }
+    },
+    {
+      "sku": "SL8S-A-50",
+      "description": "Latitude SignalMaster 8-Head — Amber (alternate harness/voltage variant — Needs Review)",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "amber"
+      }
+    },
+    {
+      "sku": "SL8S-A48-50",
+      "description": "Latitude SignalMaster 8-Head — Amber (48\" bar integration + alternate harness variant — Needs Review)",
+      "attributes": {
+        "length": "8-head",
+        "colorConfig": "amber"
+      }
+    }
+  ],
+  "sections": {
+    "skuSelector": {
+      "label": "SKU Filters",
+      "description": "Each selection narrows the Available SKUs table. Only combinations that exist in the confirmed SKU list are enabled.",
+      "steps": [
+        {
+          "id": "length",
+          "label": "Length",
+          "required": true,
+          "skuSegmentKey": "length",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "6-head",
+              "label": "6-Head",
+              "skuSegment": "6-head",
+              "description": "Compact 6-LED-head configuration"
+            },
+            {
+              "id": "8-head",
+              "label": "8-Head",
+              "skuSegment": "8-head",
+              "description": "Full 8-LED-head configuration"
+            }
+          ]
+        },
+        {
+          "id": "colorConfig",
+          "label": "Color",
+          "required": true,
+          "skuSegmentKey": "colorConfig",
+          "_verification": "confirmed",
+          "options": [
+            {
+              "id": "amber",
+              "label": "Amber",
+              "skuSegment": "amber",
+              "description": "Latitude SignalMaster is Amber-only"
+            }
+          ]
+        }
+      ]
+    },
+    "accessories": {
+      "label": "Build Your Package",
+      "description": "Required installation components and optional upgrades. All items are existing Federal Signal SKUs or TFR-stocked accessories. SKUs marked Needs Review require confirmation before ordering.",
+      "items": [
+        {
+          "id": "acc-ctrl-main",
+          "label": "Main Controller / Head Unit",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — exact Latitude SignalMaster controller SKU not confirmed in price book"
+        },
+        {
+          "id": "acc-harness",
+          "label": "Main Wiring Harness",
+          "sku": null,
+          "price": null,
+          "type": "required",
+          "_note": "Needs Review — see Z8573327A (product-level accessory) as a possible match; confirm with install spec"
+        }
+      ]
+    }
+  },
+  "vehicleRules": [
+    {
+      "vehicleId": "FORD_PIU",
+      "displayName": "Ford Explorer PIU",
+      "recommendedLength": "8-head"
+    },
+    {
+      "vehicleId": "CHEVY_TAHOE_PPV",
+      "displayName": "Chevrolet Tahoe PPV / SSV",
+      "recommendedLength": "8-head"
+    },
+    {
+      "vehicleId": "DODGE_CHARGER",
+      "displayName": "Dodge Charger Pursuit",
+      "recommendedLength": "6-head"
+    }
+  ],
+  "compatibilityRules": [],
+  "dependencyRules": [],
+  "_price_source": "Prices are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. Do not set prices in skuOptions — they are ignored by the UI."
+}

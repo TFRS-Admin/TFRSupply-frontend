@@ -1,0 +1,50 @@
+{
+  "id": "signal-masters",
+  "label": "SignalMasters",
+  "verticals": ["police", "fire", "work-truck"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "SignalMasters — Rear-Facing Directional Warning",
+    "subtitle": "Direct rear-approaching traffic away from the scene with dedicated directional warning, available in full, ultra-slim, and compact configurations.",
+    "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+    "imageAlt": "SignalMaster rear-facing directional warning"
+  },
+  "description": "Federal Signal SignalMasters deliver dedicated rear-facing directional warning to reduce struck-by risk during roadside stops and scene work. Choose from the full-featured SignalMaster, the ultra-slim Latitude SignalMaster integrated into your light bar, or the compact MicroPulse SignalMaster.",
+  "filters": [
+    { "id": "length",       "label": "Length",       "options": ["4-Head", "6-Head", "8-Head", "2x4-Head"] },
+    { "id": "color",        "label": "Color",        "options": ["1-Color", "2-Color", "3-Color", "Amber"] }
+  ],
+  "products": [
+    {
+      "id": "signalmaster",
+      "label": "SignalMaster™ Rear-Facing Directional Warning",
+      "tagline": "Full-featured rear-facing directional warning in 4-head, 8-head, and 2x4-head configurations.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+      "vehicle_type": "Police",
+      "length": "8-Head",
+      "badges": ["Police", "Fire", "4-Head", "8-Head", "2x4-Head"],
+      "specs": ["4-head, 8-head, 2x4-head", "1/2/3-Color options", "SAE J595 Class 1"]
+    },
+    {
+      "id": "latitude-signalmaster",
+      "label": "Latitude® SignalMaster",
+      "tagline": "Ultra-slim rear-facing directional warning integrated into your light bar.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/signalmaster-controllers-menu-768x768.png?v=1781535532",
+      "vehicle_type": "Police",
+      "length": "8-Head",
+      "badges": ["Police", "Fire", "Work Truck", "Amber", "Ultra-Slim"],
+      "specs": ["6-head, 8-head", "Amber only", "Integrated light bar mount"]
+    },
+    {
+      "id": "micropulse-signalmaster",
+      "label": "MicroPulse® SignalMaster",
+      "tagline": "Compact directional warning that integrates with the MicroPulse system.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/MPS123U-RAW.jpg?v=1781074482",
+      "vehicle_type": "Police",
+      "length": "4-Head",
+      "badges": ["Police", "Fire", "Work Truck", "Amber", "Compact"],
+      "specs": ["4-head, 8-head", "Amber only", "MicroPulse integration"],
+      "_prototype": true
+    }
+  ]
+}

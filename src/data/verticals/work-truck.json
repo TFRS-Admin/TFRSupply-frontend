@@ -46,7 +46,7 @@
       { "label": "Beacons",        "icon": "Zap",        "categoryId": null, "desc": "Rotary, strobe, and LED beacons for maximum visibility in hazardous work zones." },
       { "label": "Work Lights",    "icon": "Lightbulb",  "categoryId": null, "desc": "High-output scene and scene flood lighting for night operations." },
       { "label": "Sirens & Horns", "icon": "Volume2",    "categoryId": null, "desc": "Warning sirens and air horns for heavy-duty and municipal vehicles." },
-      { "label": "SignalMasters",  "icon": "ArrowRight", "categoryId": null, "desc": "Arrow boards and directional warning devices to manage traffic around work zones." },
+      { "label": "SignalMasters",  "icon": "ArrowRight", "categoryId": "signal-masters", "href": "/work-truck/signal-masters", "desc": "Arrow boards and directional warning devices to manage traffic around work zones." },
       { "label": "Accessories",    "icon": "Settings",   "categoryId": null, "desc": "Controllers, mounting hardware, and wiring accessories for complete system builds." }
     ]
   },
