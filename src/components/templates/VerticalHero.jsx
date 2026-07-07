@@ -6,23 +6,35 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 export default function VerticalHero({ hero }) {
   if (!hero) return null;
   return (
-    <div className="relative overflow-hidden" style={{ background: '#111', minHeight: 380 }}>
+    <div className="relative overflow-hidden" style={{ background: '#111', minHeight: 440 }}>
       {hero.image && (
-        <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 w-full h-full object-cover opacity-40" />
+        <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.55 }} />
       )}
-      <div className="relative max-w-7xl mx-auto px-6 py-20 flex flex-col justify-center" style={{ minHeight: 380 }}>
-        <h1 style={{ ...FS, fontSize: 'clamp(2rem,4vw,2.8rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, maxWidth: 580, marginBottom: '1rem' }}>
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(90deg, rgba(8,8,8,0.94) 0%, rgba(8,8,8,0.78) 36%, rgba(8,8,8,0.4) 68%, rgba(8,8,8,0.15) 100%)' }}
+      />
+      <div className="relative max-w-7xl mx-auto px-6 py-24 flex flex-col justify-center" style={{ minHeight: 440 }}>
+        {hero.eyebrow && (
+          <div className="flex items-center gap-2" style={{ marginBottom: '1rem' }}>
+            <span style={{ width: 32, height: 3, background: '#c8102e', display: 'inline-block' }} />
+            <span style={{ ...FS, fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#f5b942' }}>
+              {hero.eyebrow}
+            </span>
+          </div>
+        )}
+        <h1 style={{ ...FS, fontSize: 'clamp(2.2rem,4.6vw,3.2rem)', fontWeight: 800, color: '#fff', lineHeight: 1.1, maxWidth: 620, marginBottom: '1.1rem', textShadow: '0 2px 14px rgba(0,0,0,0.5)' }}>
           {hero.title}
         </h1>
         {hero.subtitle && (
-          <p style={{ ...FS, fontSize: 16, color: 'rgba(255,255,255,0.82)', maxWidth: 520, lineHeight: 1.65, marginBottom: '1.5rem' }}>
+          <p style={{ ...FS, fontSize: 17, color: 'rgba(255,255,255,0.9)', maxWidth: 540, lineHeight: 1.65, marginBottom: '1.85rem', textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}>
             {hero.subtitle}
           </p>
         )}
         {hero.cta && (
-          <a href={hero.cta.href || '#'}
-            style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#c8102e', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 5, background: '#fff', padding: '8px 16px' }}>
-            {hero.cta.label} <ChevronRight size={14} />
+          <a href={hero.cta.href || '#'} className="vlt-hero-cta"
+            style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#c8102e', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, background: '#fff', padding: '13px 24px', width: 'fit-content' }}>
+            {hero.cta.label} <ChevronRight size={15} />
           </a>
         )}
       </div>
