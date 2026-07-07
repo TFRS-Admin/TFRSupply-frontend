@@ -1,0 +1,121 @@
+{
+  "id": "ms4000-mini-siren",
+  "slug": "ms4000-mini-siren",
+  "vendor": "federal-signal",
+  "category": "sirens-speakers",
+  "verticals": [
+    "police"
+  ],
+  "product_family": "MS4000",
+  "title": "MS4000 Mini Siren",
+  "subtitle": "Compact 100-watt undercover siren with an intersection-clearing feature.",
+  "description": "The Federal Signal MS4000 is a compact 100-watt mini siren designed for undercover and unmarked police vehicles. Its small footprint and intersection-clearing feature make it well suited for discreet installations that still require dependable warning performance.",
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Police",
+      "to": "/police"
+    },
+    {
+      "label": "Sirens & Speakers",
+      "to": "/police/sirens-speakers"
+    },
+    {
+      "label": "MS4000 Mini Siren"
+    }
+  ],
+  "media": {
+    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/ms4000-MS4000-menu-png.webp?v=1781535539",
+    "gallery": [
+      {
+        "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/ms4000-MS4000-menu-png.webp?v=1781535539",
+        "alt": "MS4000 Mini Siren"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "Compact 100-watt undercover siren",
+      "Intersection-clearing feature",
+      "Small footprint for discreet, unmarked-vehicle installations",
+      "Simple control layout",
+      "Durable, purpose-built siren head"
+    ],
+    "benefits": [
+      "Compact size supports installations where space is limited",
+      "Intersection-clearing tone improves visibility at high-risk intersections"
+    ],
+    "applications": [
+      "Undercover and unmarked police vehicles",
+      "Municipal police patrol — compact sedan platforms",
+      "Campus and transit police"
+    ]
+  },
+  "specifications": {
+    "voltage": "12 Vdc",
+    "siren_output": "100-watt",
+    "special_features": "Intersection clearing",
+    "warranty": "3-year limited"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "MS4000 Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "MS4000 Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "MS4000",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact"
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with multiple variants. MS4000 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "ms4000-series-siren",
+    "cart_eligible": false,
+    "storefront_available": false,
+    "variant_mappings": [
+      { "sku": "MS4000", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" },
+      { "sku": "MS4000U", "shopify_variant_id": null, "_missing": "shopify_variant_id, price" }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
