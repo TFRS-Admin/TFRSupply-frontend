@@ -11,5 +11,19 @@
   },
   "description": "Control the situation with spike systems that support quick and reliable de-escalation.",
   "filters": [],
-  "products": []
+  "products": [
+    {
+      "id": "stinger-spike-system",
+      "label": "Stinger® Spike System",
+      "href": "/police/stinger-spike/stinger-spike-system",
+      "tagline": "Deployable tire deflation system for law enforcement",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/09/stinger-spike-system.hero_.jpg",
+      "badges": ["Police", "Stinger XL Available", "Multiple Lengths"],
+      "specs": [
+        "10', 15.5', and 25' deployment lengths",
+        "Stinger XL variant for heavy vehicle applications",
+        "Replacement spikes, rope & spool, and trainer systems available"
+      ]
+    }
+  ]
 }
