@@ -1,0 +1,64 @@
+{
+  "id": "sirens-speakers",
+  "label": "Sirens & Speakers",
+  "verticals": ["police", "fire", "work-truck"],
+  "vendor": "federal-signal",
+  "hero": {
+    "title": "Sirens & Speakers",
+    "subtitle": "Grab the attention of drivers and clear the path for a safe arrival to the scene.",
+    "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-pf400-police-menu-png.webp?v=1781535539",
+    "imageAlt": "Pathfinder® PF400 Siren/Light Controller"
+  },
+  "description": "Federal Signal sirens and light controllers deliver high-output warning tones and reliable in-cab control, from full-featured programmable controllers to compact undercover sirens.",
+  "filters": [
+    { "id": "vehicle_type", "label": "Vehicle Type", "options": ["Police", "Fire/EMS", "Work Truck"] },
+    { "id": "output",       "label": "Output",       "options": ["100-Watt", "100/200-Watt"] }
+  ],
+  "products": [
+    {
+      "id": "pathfinder-siren-controller",
+      "label": "Pathfinder® PF400 Siren/Light Controller",
+      "tagline": "Programmable siren/light controller with OBDII integration and dual-tone capability.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-pf400-police-menu-png.webp?v=1781535539",
+      "vehicle_type": "Police",
+      "badges": ["Police", "OBDII", "Dual-Tone"],
+      "specs": ["100/200-watt selectable", "OBDII vehicle integration", "Dual-tone siren"]
+    },
+    {
+      "id": "pathfinder-pf200",
+      "label": "Pathfinder® PF200 Siren and Light Controller",
+      "tagline": "Compact siren/light controller with an intuitive push-button interface.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathfinder-PF200-police-menu-png.webp?v=1781535539",
+      "vehicle_type": "Police",
+      "badges": ["Police", "Compact", "Push-Button"],
+      "specs": ["100/200-watt selectable", "Push-button interface"]
+    },
+    {
+      "id": "pathway-siren-controller",
+      "label": "Pathway™ Siren and Light Controller",
+      "tagline": "100/200-watt siren with PA microphone and a simple rotary switch.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pathway-police-menu-png.webp?v=1781535539",
+      "vehicle_type": "Police",
+      "badges": ["Police", "PA Microphone", "Rotary Switch"],
+      "specs": ["100/200-watt selectable", "PA microphone input"]
+    },
+    {
+      "id": "pa300-siren",
+      "label": "PA300 Series Siren",
+      "tagline": "Industry-standard 100/200-watt electronic siren with wail, yelp, and priority tones.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pa300-police-menu-png.webp?v=1781535539",
+      "vehicle_type": "Police",
+      "badges": ["Police", "Industry Standard"],
+      "specs": ["100/200-watt selectable", "Wail/Yelp/Priority tones"]
+    },
+    {
+      "id": "ms4000-mini-siren",
+      "label": "MS4000 Mini Siren",
+      "tagline": "Compact 100-watt undercover siren with an intersection-clearing feature.",
+      "image": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/ms4000-MS4000-menu-png.webp?v=1781535539",
+      "vehicle_type": "Police",
+      "badges": ["Police", "Undercover", "Compact"],
+      "specs": ["100-watt output", "Intersection clearing"]
+    }
+  ]
+}
