@@ -46,7 +46,7 @@
     }
   ],
   "media": {
-    "hero": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pa300-police-menu-png.webp?v=1781535539",
+    "hero": "https://www.fedsig.com/wp-content/smush-webp/2024/10/pa300.hero_-768x768.jpg.webp",
     "gallery": [
       {
         "src": "https://cdn.shopify.com/s/files/1/0725/9330/9807/files/pa300-police-menu-png.webp?v=1781535539",
@@ -56,11 +56,9 @@
   },
   "marketing": {
     "features": [
-      "Industry-standard 100/200-watt electronic siren",
-      "Wail, yelp, and priority tone selections",
-      "PA microphone input for public address announcements",
-      "Compact, durable siren head",
-      "Simple, reliable control layout"
+      "100 or 200 Watt models available",
+      "Wail, Yelp, and Priority tones",
+      "Public Address with built-in noise-canceling microphone"
     ],
     "benefits": [
       "Proven, widely deployed siren platform with a long service history",
@@ -72,6 +70,11 @@
       "State highway patrol interceptors"
     ]
   },
+  "summary_bullets": [
+    "100 or 200 Watt models available",
+    "Wail, Yelp, and Priority tones",
+    "Public Address with built-in noise-canceling microphone"
+  ],
   "specifications": {
     "voltage": "12 Vdc",
     "siren_output": "100/200-watt selectable",
