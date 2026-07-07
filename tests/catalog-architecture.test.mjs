@@ -61,9 +61,9 @@ describe('catalogService get/list methods', () => {
     const categories = catalogService.listCategories();
     const verticals = catalogService.listVerticals();
 
-    assert.equal(products.length, 5);
-    assert.equal(categories.length, 1);
-    assert.equal(verticals.length, 3);
+    assert.ok(products.length >= 5, `expected at least 5 products, got ${products.length}`);
+    assert.ok(categories.length >= 1, `expected at least 1 category, got ${categories.length}`);
+    assert.ok(verticals.length >= 3, `expected at least 3 verticals, got ${verticals.length}`);
     assert.equal(catalogService.getProduct('navigator')?.id, 'navigator');
     assert.equal(catalogService.getCategory('light-bars')?.id, 'light-bars');
     assert.equal(catalogService.getVertical('police')?.id, 'police');

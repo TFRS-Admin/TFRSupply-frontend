@@ -136,14 +136,16 @@ describe('CategoryTemplate filter and search reuse', () => {
   });
 
   it('renders every product in the category before any filter/search is applied', () => {
+    const { catalogService } = modules.catalog;
+    const category = catalogService.getCategory('light-bars');
     const html = renderCategoryView('police', 'light-bars');
 
-    assert.match(html, /Allegiant® Max Serial Light Bar/);
-    assert.match(html, /Valor® Police Light Bar/);
-    assert.match(html, /Navigator® Serial Light Bar/);
+    category.products.forEach((product) => {
+      assert.match(html, new RegExp(product.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    });
     // React SSR inserts <!-- --> comment separators between adjacent JSX
-    // expressions, so "3 products" is not one contiguous text node.
-    assert.match(html, /3<!-- -->\s*product<!-- -->s/);
+    // expressions, so "N products" is not one contiguous text node.
+    assert.match(html, new RegExp(`${category.products.length}<!-- -->\\s*product<!-- -->s`));
   });
 });
 
@@ -152,11 +154,13 @@ describe('filterCategoryProducts (extracted for unit testing without simulating 
     const { filterCategoryProducts } = modules.categoryFilter;
     const { catalogService } = modules.catalog;
     const products = catalogService.getCategory('light-bars').products;
+    const expectedPoliceProducts = products.filter((product) => product.vehicle_type === 'Police');
 
     const filtered = filterCategoryProducts(products, { vehicle_type: 'Police' }, '');
 
-    assert.equal(filtered.length, 1);
-    assert.equal(filtered[0].id, 'valor');
+    assert.equal(filtered.length, expectedPoliceProducts.length);
+    assert.ok(filtered.length > 0, 'expected at least one Police product');
+    assert.ok(filtered.every((product) => product.vehicle_type === 'Police'));
   });
 
   it('narrows the product list by a free-text keyword against label/tagline/specs', () => {

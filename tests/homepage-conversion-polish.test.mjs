@@ -109,7 +109,14 @@ describe('StoreLandingView', () => {
     assert.equal(categories.length > 0, true);
     categories.forEach((category) => {
       assert.match(html, new RegExp(`href="/${category.verticalId}/${category.id}"`));
-      assert.match(html, new RegExp(category.label));
+      // React SSR escapes HTML entities (e.g. "&" becomes "&amp;") in text
+      // nodes, so the label must be escaped the same way before matching.
+      const escapedLabel = category.label
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      assert.match(html, new RegExp(escapedLabel));
     });
   });
 
