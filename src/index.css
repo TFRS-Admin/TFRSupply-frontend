@@ -161,6 +161,8 @@
 .vlt-category-card:hover .vlt-category-card-arrow {
   opacity: 1;
   transform: translateX(0);
+}
+
 /* ── Category browse: product card CTA + filter sidebar polish ────────
    Scoped to .pd-card / .pd-filter-panel (already emitted by ProductCard
    and ProductFilterPanel) so no other component markup needs to change. */
