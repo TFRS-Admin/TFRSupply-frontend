@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CompareToggleButton from '@/components/product/CompareToggleButton';
 import SaveForLaterButton from '@/components/product/SaveForLaterButton';
 import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCompatibleBuildsButton';
+import { getDisplayPricing, formatCurrency } from '@/lib/pricing';
 
 /**
  * Shared product discovery card. Accepts a display-ready view model rather
@@ -15,7 +16,8 @@ import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCom
  * with no full Product record simply omit it and the overlay stays absent,
  * matching how Compare/Save already tolerate an unresolvable product.
  */
-export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [], product = null }) {
+export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [], product = null, price = null, compareAtPrice = null, category = null }) {
+  const pricing = getDisplayPricing(compareAtPrice, price, category);
   const content = (
     <div className="pd-card group relative flex h-full flex-col overflow-hidden rounded-md border border-gray-200 bg-white transition-all duration-150 hover:-translate-y-1 hover:border-[#c8102e] hover:shadow-md">
       {href && <SaveForLaterButton productId={id} variant="icon" />}
@@ -35,6 +37,14 @@ export default function ProductCard({ id, href, label, image, imageAlt, tagline,
             {badges.map((badge) => (
               <span key={badge} className="font-body bg-[#f0f4ff] px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-[#1a2744]">{badge}</span>
             ))}
+          </div>
+        )}
+        {pricing.displayPrice != null && (
+          <div className="mt-2 flex items-baseline gap-2">
+            {pricing.hasDiscount && pricing.msrp != null && (
+              <span className="font-body text-xs text-gray-400 line-through">{formatCurrency(pricing.msrp)}</span>
+            )}
+            <span className="font-body text-sm font-bold text-amber-600">{formatCurrency(pricing.displayPrice)}</span>
           </div>
         )}
         <div className="mt-3 border-t border-gray-100 pt-3">
