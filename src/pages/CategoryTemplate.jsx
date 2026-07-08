@@ -45,28 +45,34 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
         { label: data.label }
       ]} />
 
-      {/* Hero */}
-      <div className="relative overflow-hidden bg-[#111111]" style={{ minHeight: 320 }}>
-        {hero?.image && (
-          <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 h-full w-full object-cover" style={{ opacity: 0.55 }} />
-        )}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(15,15,15,0.7) 0%, rgba(15,15,15,0.94) 100%)' }}
-        />
-        <div className="relative mx-auto flex max-w-7xl flex-col justify-center px-6 py-16" style={{ minHeight: 320 }}>
-          <div className="mb-4 flex items-center gap-2">
-            <span className="inline-block h-[3px] w-8 bg-[#C8102E]" />
-            <span className="font-heading text-xs font-bold uppercase tracking-wide text-[#F5B942]">{verticalLabel}</span>
+      {/* Federal Signal two-column category hero */}
+      <div style={{ borderRadius: '20px 5px 20px 5px', overflow: 'hidden', display: 'flex', flexDirection: 'row' }}>
+        {/* Left col — breadcrumb + eyebrow */}
+        <div style={{ background: '#213a47', padding: '50px', flexBasis: '30%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-block h-[3px] w-8" style={{ background: '#e21938' }} />
+            <span className="font-heading text-xs font-bold uppercase tracking-wide" style={{ color: 'rgba(255,255,255,0.6)', fontStyle: 'italic' }}>
+              {verticalLabel}
+            </span>
           </div>
-          <h1 className="font-heading mb-3 max-w-3xl text-[clamp(1.9rem,3.6vw,2.8rem)] font-bold uppercase leading-tight tracking-tight text-white">
+          {/* Breadcrumb */}
+          <p className="font-body text-sm" style={{ color: 'rgba(255,255,255,0.5)', fontStyle: 'italic' }}>
+            {verticalLabel} / {hero?.title || data.label}
+          </p>
+        </div>
+        {/* Right col — H1 + subtitle */}
+        <div style={{ background: '#1c2f38', padding: '80px 50px', flexBasis: '70%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <h1 className="font-heading mb-3 max-w-3xl font-bold uppercase leading-tight tracking-tight text-white"
+            style={{ fontSize: 'clamp(1.9rem, 3.6vw, 2.8rem)' }}>
             {hero?.title || data.label}
           </h1>
           {hero?.subtitle && (
-            <p className="font-body max-w-xl leading-relaxed text-white/80">{hero.subtitle}</p>
+            <p className="font-body max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.8)' }}>
+              {hero.subtitle}
+            </p>
           )}
+          <div style={{ background: '#47595f', height: 1, marginTop: '1.125rem', marginBottom: '1.125rem' }} />
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C8102E]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-10 md:px-8">

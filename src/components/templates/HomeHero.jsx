@@ -36,15 +36,17 @@ export default function HomeHero({ eyebrow, title, subtitle, images = [], primar
           {primaryCta && (
             <Link
               to={primaryCta.to}
-              className="font-heading inline-flex items-center gap-2 rounded-md bg-[#C8102E] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-[#A50D25]"
+              style={{ borderRadius: '20px 2px 20px 2px' }}
+              className="font-heading inline-flex items-center gap-2 bg-[#e21938] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-[#ec0025]"
             >
-              {primaryCta.label} <ArrowRight size={16} />
+              {primaryCta.label} › <ArrowRight size={16} />
             </Link>
           )}
           {secondaryCta && (
             <Link
               to={secondaryCta.to}
-              className="font-heading inline-flex items-center gap-2 rounded-md border border-white/30 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-white/10"
+              style={{ borderRadius: '20px 2px 20px 2px' }}
+              className="font-heading inline-flex items-center gap-2 border border-white/30 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-white/10"
             >
               {secondaryCta.label} <ChevronRight size={16} />
             </Link>
