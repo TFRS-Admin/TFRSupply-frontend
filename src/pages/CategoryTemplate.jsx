@@ -46,44 +46,54 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
       ]} />
 
       {/* Hero */}
-      <div className="relative overflow-hidden" style={{ background: '#0f0f0f', minHeight: 240 }}>
-        {hero?.image && <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 w-full h-full object-cover opacity-25" />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(15,15,15,0.65) 0%, rgba(15,15,15,0.92) 100%)' }} />
-        <div className="relative max-w-7xl mx-auto px-6 py-14">
-          <p className="font-heading mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#d97706]">{verticalLabel}</p>
+      <div className="relative overflow-hidden bg-[#111111]" style={{ minHeight: 320 }}>
+        {hero?.image && (
+          <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 h-full w-full object-cover" style={{ opacity: 0.55 }} />
+        )}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(180deg, rgba(15,15,15,0.7) 0%, rgba(15,15,15,0.94) 100%)' }}
+        />
+        <div className="relative mx-auto flex max-w-7xl flex-col justify-center px-6 py-16" style={{ minHeight: 320 }}>
+          <div className="mb-4 flex items-center gap-2">
+            <span className="inline-block h-[3px] w-8 bg-[#C8102E]" />
+            <span className="font-heading text-xs font-bold uppercase tracking-wide text-[#F5B942]">{verticalLabel}</span>
+          </div>
           <h1 className="font-heading mb-3 max-w-3xl text-[clamp(1.9rem,3.6vw,2.8rem)] font-bold uppercase leading-tight tracking-tight text-white">
             {hero?.title || data.label}
           </h1>
           {hero?.subtitle && (
-            <p className="font-body max-w-xl text-[15px] leading-relaxed text-white/80">{hero.subtitle}</p>
+            <p className="font-body max-w-xl leading-relaxed text-white/80">{hero.subtitle}</p>
           )}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C8102E]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="pd-filter-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+      <div className="max-w-7xl mx-auto px-4 py-10 md:px-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4 items-start">
 
           {/* Sidebar Filters */}
           {filters.length > 0 && (
-            <ProductFilterPanel
-              groups={filters}
-              active={activeFilter}
-              onChange={(groupId, value) => setActiveFilter(prev => ({ ...prev, [groupId]: value }))}
-              onReset={() => setActiveFilter({})}
-            />
+            <div className="md:col-span-1">
+              <ProductFilterPanel
+                groups={filters}
+                active={activeFilter}
+                onChange={(groupId, value) => setActiveFilter(prev => ({ ...prev, [groupId]: value }))}
+                onReset={() => setActiveFilter({})}
+              />
+            </div>
           )}
 
           {/* Product Grid */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div className={filters.length > 0 ? 'md:col-span-2 lg:col-span-3' : 'md:col-span-3 lg:col-span-4'}>
             {description && <p className="font-body mb-6 text-sm leading-relaxed text-gray-600">{description}</p>}
-            <div style={{ maxWidth: 360, marginBottom: '1.25rem' }}>
+            <div className="mb-5 max-w-[360px]">
               <ProductSearchBar value={keyword} onSearch={setKeyword} placeholder="Search this category…" />
             </div>
-            <p className="font-heading mb-5 border-b border-gray-200 pb-3 text-xs font-bold uppercase tracking-[0.06em] text-gray-500">
+            <p className="font-heading mb-5 border-b border-gray-200 pb-3 text-xs font-bold uppercase tracking-wide text-gray-500">
               {filtered.length} PRODUCT{filtered.length !== 1 ? 'S' : ''} FOUND
             </p>
-            <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
+            <div className="pd-product-grid grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map(p => (
                 <ProductCard
                   key={p.id}
