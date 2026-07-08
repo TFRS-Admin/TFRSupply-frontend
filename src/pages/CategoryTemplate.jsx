@@ -46,13 +46,17 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
       ]} />
 
       {/* Hero */}
-      <div className="relative overflow-hidden" style={{ background: '#1a2744', minHeight: 240 }}>
+      <div className="relative overflow-hidden" style={{ background: '#0f0f0f', minHeight: 240 }}>
         {hero?.image && <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 w-full h-full object-cover opacity-25" />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(26,39,68,0.55) 0%, rgba(26,39,68,0.85) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(15,15,15,0.65) 0%, rgba(15,15,15,0.92) 100%)' }} />
         <div className="relative max-w-7xl mx-auto px-6 py-14">
-          <p style={{ fontSize: 12, fontWeight: 700, color: '#d4a017', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>{verticalLabel}</p>
-          <h1 style={{ fontSize: 'clamp(1.7rem,3.2vw,2.4rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15, marginBottom: '0.65rem', maxWidth: 680 }}>{hero?.title || data.label}</h1>
-          {hero?.subtitle && <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.82)', maxWidth: 560, lineHeight: 1.65 }}>{hero.subtitle}</p>}
+          <p className="font-heading mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#d97706]">{verticalLabel}</p>
+          <h1 className="font-heading mb-3 max-w-3xl text-[clamp(1.9rem,3.6vw,2.8rem)] font-bold uppercase leading-tight tracking-tight text-white">
+            {hero?.title || data.label}
+          </h1>
+          {hero?.subtitle && (
+            <p className="font-body max-w-xl text-[15px] leading-relaxed text-white/80">{hero.subtitle}</p>
+          )}
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
       </div>
@@ -72,12 +76,12 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
 
           {/* Product Grid */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            {description && <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: '1.5rem' }}>{description}</p>}
+            {description && <p className="font-body mb-6 text-sm leading-relaxed text-gray-600">{description}</p>}
             <div style={{ maxWidth: 360, marginBottom: '1.25rem' }}>
               <ProductSearchBar value={keyword} onSearch={setKeyword} placeholder="Search this category…" />
             </div>
-            <p style={{ fontSize: 12, fontWeight: 600, color: '#888', letterSpacing: '0.03em', marginBottom: '1.25rem', paddingBottom: '0.75rem', borderBottom: '1px solid #eee' }}>
-              {filtered.length} PRODUCT{filtered.length !== 1 ? 'S' : ''}
+            <p className="font-heading mb-5 border-b border-gray-200 pb-3 text-xs font-bold uppercase tracking-[0.06em] text-gray-500">
+              {filtered.length} PRODUCT{filtered.length !== 1 ? 'S' : ''} FOUND
             </p>
             <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.25rem' }}>
               {filtered.map(p => (
@@ -95,7 +99,7 @@ export function CategoryTemplateView({ verticalId, categoryId, data, loading, er
             </div>
             {filtered.length === 0 && (
               <div className="text-center py-16">
-                <p style={{ fontSize: 14, color: '#999' }}>
+                <p className="font-body text-sm text-gray-400">
                   {hasActiveSearch ? 'No products match your search or filters.' : 'No products are available in this category yet.'}
                 </p>
               </div>
