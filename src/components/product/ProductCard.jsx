@@ -17,14 +17,14 @@ import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCom
  */
 export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [], product = null }) {
   const content = (
-    <div className="pd-card group relative flex h-full flex-col overflow-hidden rounded-md border border-gray-200 bg-white transition-all duration-150 hover:-translate-y-1 hover:border-[#c8102e] hover:shadow-md">
+    <div className="pd-card group relative flex h-full flex-col overflow-hidden rounded-md border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-[#C8102E] hover:shadow-md">
       {href && <SaveForLaterButton productId={id} variant="icon" />}
       {href && <CompareToggleButton productId={id} variant="icon" />}
       {href && product && <AddToAllCompatibleBuildsButton product={product} variant="icon" />}
-      {image && <img src={image} alt={imageAlt || label} className="h-[180px] w-full object-cover" />}
+      {image && <img src={image} alt={imageAlt || label} className="h-[200px] w-full border-b border-gray-100 object-cover" />}
       <div className="flex flex-1 flex-col p-4">
-        <p className="font-heading mb-1 text-base font-bold uppercase leading-tight tracking-tight text-[#0f0f0f]">{label}</p>
-        {tagline && <p className="font-body mb-2 text-xs font-medium text-[#8a6d00]">{tagline}</p>}
+        <p className="font-heading mb-1 text-lg font-bold uppercase leading-tight text-[#0F0F0F]">{label}</p>
+        {tagline && <p className="font-body mb-2 text-sm font-medium text-[#C8102E]">{tagline}</p>}
         {specs.length > 0 && (
           <ul className="font-body flex-1 list-disc pl-4 text-xs leading-relaxed text-gray-600">
             {specs.map((spec) => <li key={spec}>{spec}</li>)}
@@ -37,13 +37,13 @@ export default function ProductCard({ id, href, label, image, imageAlt, tagline,
             ))}
           </div>
         )}
-        <div className="mt-3 border-t border-gray-100 pt-3">
+        <div className="mt-3">
           {href ? (
-            <span className="pd-card-cta font-heading inline-flex items-center gap-1.5 rounded-sm bg-[#c8102e] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition-colors duration-150 group-hover:bg-[#a50d25]">
-              VIEW DETAILS <span aria-hidden="true">&rarr;</span>
+            <span className="pd-card-cta mt-auto block w-full rounded-md bg-[#C8102E] px-4 py-2 text-center font-heading text-sm font-bold uppercase text-white transition-colors group-hover:bg-[#A50D25]">
+              View Details
             </span>
           ) : (
-            <span className="font-body text-xs font-semibold tracking-wide text-gray-400">
+            <span className="font-body block text-center text-xs font-semibold tracking-wide text-gray-400">
               DETAILS COMING SOON
             </span>
           )}
