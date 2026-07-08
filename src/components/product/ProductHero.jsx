@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, MessageSquare, Settings, BookOpen, Check } from 'lucide-react';
 
-const FS = { fontFamily: "'Inter',sans-serif" };
-
 // ── Image Gallery ─────────────────────────────────────────────────────────────
 function ImageGallery({ images = [] }) {
   const [active, setActive] = useState(0);
@@ -12,7 +10,7 @@ function ImageGallery({ images = [] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="product-hero-gallery-main relative bg-white border border-gray-200 overflow-hidden flex items-center justify-center" style={{ minHeight: 400 }}>
+      <div className="product-hero-gallery-main relative bg-white border border-gray-200 rounded-md overflow-hidden flex items-center justify-center" style={{ minHeight: 400 }}>
         <img
           src={images[active].src}
           alt={images[active].alt}
@@ -38,7 +36,7 @@ function ImageGallery({ images = [] }) {
           </>
         )}
         {images.length > 1 && (
-          <div className="absolute bottom-2 right-2" style={{ ...FS, fontSize: 11, fontWeight: 600, color: '#666', background: 'rgba(255,255,255,0.9)', padding: '2px 8px' }}>
+          <div className="absolute bottom-2 right-2 font-body text-[11px] font-semibold text-gray-600 bg-white/90 rounded-md px-2 py-0.5">
             {active + 1} / {images.length}
           </div>
         )}
@@ -50,8 +48,8 @@ function ImageGallery({ images = [] }) {
               key={i}
               onClick={() => setActive(i)}
               aria-label={`Show image ${i + 1}`}
-              className={`flex-shrink-0 w-20 h-16 overflow-hidden bg-white border transition-all flex items-center justify-center ${
-                i === active ? 'opacity-100 border-[#c8102e]' : 'opacity-60 hover:opacity-90 border-gray-200'
+              className={`flex-shrink-0 w-20 h-16 overflow-hidden bg-white border rounded-md transition-all flex items-center justify-center ${
+                i === active ? 'opacity-100 border-[#C8102E]' : 'opacity-60 hover:opacity-90 border-gray-200'
               }`}
             >
               <img src={img.src} alt={img.alt} className="max-w-full max-h-full object-contain"
@@ -67,15 +65,12 @@ function ImageGallery({ images = [] }) {
 // ── Product Hero ──────────────────────────────────────────────────────────────
 export default function ProductHero({ title, subtitle, description, bullets = [], images = [], actions = {}, tabs = [], actionLabels = {}, infoPanel = null }) {
   const { whereToBuyUrl = '#', requestInfoUrl = '#', configuratorUrl = '#', manualUrl = '#' } = actions;
-  const { configurator = 'Configure\nLightbar', manual = 'Manual' } = actionLabels;
+  const { configurator = 'Configure Lightbar', manual = 'Manual' } = actionLabels;
   const hasIntro = Boolean(subtitle || (description && description !== subtitle));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-6 pb-8">
-      <h1
-        className="font-heading font-bold uppercase text-[#0f0f0f] mb-5"
-        style={{ fontSize: 'clamp(1.6rem,5vw,2.25rem)', lineHeight: 1.15, letterSpacing: '-0.01em' }}
-      >
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+      <h1 className="font-heading uppercase font-extrabold tracking-tight text-[#0F0F0F] text-4xl leading-tight mb-4">
         {title}
       </h1>
 
@@ -91,72 +86,56 @@ export default function ProductHero({ title, subtitle, description, bullets = []
           {hasIntro && (
             <div className="flex flex-col gap-2">
               {subtitle && (
-                <p style={FS} className="text-[15px] leading-relaxed text-gray-700">{subtitle}</p>
+                <p className="font-body text-lg text-gray-600 mb-6 leading-relaxed">{subtitle}</p>
               )}
               {description && description !== subtitle && (
-                <p style={FS} className="text-[13px] leading-relaxed text-gray-500">{description}</p>
+                <p className="font-body text-sm text-gray-500 leading-relaxed">{description}</p>
               )}
             </div>
           )}
 
           {infoPanel}
 
-          {/* Bullets — premium feature list */}
+          {/* Bullets — Key Features list */}
           {bullets.length > 0 && (
             <div>
-              <div className="mb-2.5 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                <h2 className="font-heading text-[11px] font-bold uppercase tracking-wider text-gray-500">Key Features</h2>
-              </div>
-              <ul className="flex flex-col gap-2">
-                {bullets.map((b, i) => {
-                  const accent = i % 2 === 0
-                    ? { bg: 'bg-[#c8102e]/10', text: 'text-[#c8102e]' }
-                    : { bg: 'bg-amber-600/10', text: 'text-amber-600' };
-                  return (
-                    <li key={i} style={FS} className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-[13.5px] leading-snug text-gray-700">
-                      <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full ${accent.bg}`}>
-                        <Check size={12} strokeWidth={3} className={accent.text} />
-                      </span>
-                      <span>{b}</span>
-                    </li>
-                  );
-                })}
+              <h2 className="font-heading text-xs font-bold uppercase tracking-wide text-gray-500 mb-2.5">Key Features</h2>
+              <ul className="flex flex-col">
+                {bullets.map((b, i) => (
+                  <li key={i} className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 p-3 mb-2 font-body text-sm text-gray-700 leading-relaxed">
+                    <Check size={16} strokeWidth={3} className="mt-0.5 flex-shrink-0 text-[#C8102E]" />
+                    <span>{b}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
 
-          {/* Primary text-icon links */}
+          {/* Primary CTA */}
+          <a
+            href={configuratorUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#C8102E] text-white font-heading uppercase font-bold rounded-md px-6 py-3 w-full text-center hover:bg-[#A50D25] transition-colors flex items-center justify-center gap-2"
+          >
+            <Settings size={16} /> {configurator}
+          </a>
+
+          {/* Secondary CTAs */}
           <div className="product-hero-quick-links flex flex-wrap gap-3">
             {[
+              { href: manualUrl, icon: <BookOpen size={14} />, label: manual },
               { href: whereToBuyUrl, icon: <MapPin size={14} />, label: 'Where to Buy' },
-              { href: requestInfoUrl, icon: <MessageSquare size={14} />, label: 'Request Information' },
+              { href: requestInfoUrl, icon: <MessageSquare size={14} />, label: 'Request Info' },
             ].map(({ href, icon, label }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                style={{
-                  ...FS, fontWeight: 700, fontSize: '13px', color: '#c8102e', textDecoration: 'none',
-                  display: 'flex', alignItems: 'center', gap: '6px', minHeight: 40,
-                  padding: '8px 14px', border: '1px solid #f0d3d8', background: '#fdf5f6',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#fbe9eb'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#fdf5f6'; }}
-              >{icon} {label}</a>
-            ))}
-          </div>
-
-          {/* Icon-above-label secondary links */}
-          <div className="flex gap-6 border-t border-gray-200 pt-4">
-            {[
-              { href: configuratorUrl, icon: <Settings size={24} />, label: configurator },
-              { href: manualUrl, icon: <BookOpen size={24} />, label: manual },
-            ].map(({ href, icon, label }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="group"
-                style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', textAlign: 'center', minWidth: 56 }}
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white border border-gray-300 text-gray-700 font-heading uppercase font-bold text-xs rounded-md px-4 py-2 hover:border-[#C8102E] hover:text-[#C8102E] transition-colors flex items-center gap-2"
               >
-                <div className="w-14 h-14 flex items-center justify-center bg-gray-100 group-hover:bg-gray-200 transition-colors">
-                  <span className="text-gray-600 group-hover:text-[#c8102e] transition-colors">{icon}</span>
-                </div>
-                <span style={{ ...FS, fontSize: '11px', fontWeight: 700, color: '#3d3d3d', lineHeight: 1.3, whiteSpace: 'pre-line', textAlign: 'center' }}>{label}</span>
+                {icon} {label}
               </a>
             ))}
           </div>
@@ -166,12 +145,10 @@ export default function ProductHero({ title, subtitle, description, bullets = []
             <div className="flex flex-wrap items-center border-t border-gray-200 pt-3" style={{ rowGap: '0.5rem' }}>
               {tabs.map((tab, i) => (
                 <React.Fragment key={tab.href}>
-                  <a href={tab.href}
-                    style={{ ...FS, fontSize: '13px', color: '#c8102e', fontWeight: 600, textDecoration: 'none' }}
-                    onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
-                    onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
-                  >{tab.label}</a>
-                  {i < tabs.length - 1 && <span style={{ color: '#ccc', margin: '0 10px' }}>|</span>}
+                  <a href={tab.href} className="font-body text-sm text-[#C8102E] font-semibold hover:underline">
+                    {tab.label}
+                  </a>
+                  {i < tabs.length - 1 && <span className="text-gray-300 mx-2.5">|</span>}
                 </React.Fragment>
               ))}
             </div>

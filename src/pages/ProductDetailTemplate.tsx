@@ -107,7 +107,7 @@ function ConfiguratorSection({ configuratorId, verticalId, categoryId, packageId
 
   return (
     <div className="border-t border-gray-200 bg-gray-50" id="build-configure">
-      <div className="max-w-7xl mx-auto px-6 py-10 sm:py-12">
+      <div className="max-w-7xl mx-auto px-6 py-16">
         <SectionHeading description="Select a base model and options below to build a fitment-checked, priced configuration for this product.">
           Build &amp; Configure
         </SectionHeading>
@@ -213,7 +213,7 @@ export function ProductDetailTemplateView({
         <>
           {data.specifications && Object.keys(data.specifications).length > 0 && (
             <div className="border-t border-gray-200 bg-white">
-              <div className="max-w-7xl mx-auto px-6 py-10 sm:py-12">
+              <div className="max-w-7xl mx-auto px-6 py-16">
                 <SectionHeading>Specifications</SectionHeading>
                 <div className="overflow-hidden rounded-md border border-gray-200">
                   <table className="w-full text-[13px]" style={{ borderCollapse: 'collapse' }}>
