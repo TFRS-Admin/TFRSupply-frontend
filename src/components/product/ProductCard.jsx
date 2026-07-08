@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CompareToggleButton from '@/components/product/CompareToggleButton';
 import SaveForLaterButton from '@/components/product/SaveForLaterButton';
 import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCompatibleBuildsButton';
+import { formatPrice } from '@/lib/pricing';
 
 /**
  * Shared product discovery card. Accepts a display-ready view model rather
@@ -15,7 +16,7 @@ import AddToAllCompatibleBuildsButton from '@/components/fleetBuilds/AddToAllCom
  * with no full Product record simply omit it and the overlay stays absent,
  * matching how Compare/Save already tolerate an unresolvable product.
  */
-export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [], product = null }) {
+export default function ProductCard({ id, href, label, image, imageAlt, tagline, specs = [], badges = [], product = null, price = null, compareAtPrice = null }) {
   const content = (
     <div
       className="pd-card group relative flex h-full flex-col overflow-hidden bg-white transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_2.5rem_2rem_-1.25rem_rgba(0,0,0,0.3)]"
@@ -38,6 +39,18 @@ export default function ProductCard({ id, href, label, image, imageAlt, tagline,
             {badges.map((badge) => (
               <span key={badge} className="font-body px-1.5 py-0.5 text-[10px] font-bold tracking-wide" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>{badge}</span>
             ))}
+          </div>
+        )}
+        {price != null && (
+          <div className="mt-2 mb-1">
+            {compareAtPrice != null && compareAtPrice > price && (
+              <span className="font-body block text-xs line-through" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                {formatPrice(compareAtPrice)} MSRP
+              </span>
+            )}
+            <span className="font-heading text-xl font-bold" style={{ color: '#F5B942' }}>
+              {formatPrice(price)}
+            </span>
           </div>
         )}
         <div className="mt-3">
