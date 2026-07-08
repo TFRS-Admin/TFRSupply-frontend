@@ -15,6 +15,7 @@ import { NAV_VERTICALS } from '@/config/navigationVerticals';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
+import GlobalSearchOverlay from '@/components/search/GlobalSearchOverlay';
 import type { VerticalCardItem } from '@/types';
 
 const FONT = "'Montserrat', sans-serif";
@@ -99,6 +100,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
     e.preventDefault();
     const query = searchQuery.trim();
     navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
+    setSearchFocused(false);
     setMobileOpen(false);
   }
 
@@ -147,34 +149,38 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           </button>
 
           {/* Search bar — large, centered */}
-          <form
-            onSubmit={submitSearch}
-            style={{
-              flex: 1, maxWidth: 640, margin: '0 auto', display: 'flex', alignItems: 'stretch',
-              border: `1.5px solid ${searchFocused ? RED : '#d0d0d0'}`,
-              borderRadius: 6, overflow: 'hidden',
-              transition: 'border-color 0.15s ease',
-            }}
-          >
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              placeholder="Search for products"
-              aria-label="Search products"
-              style={{ flex: 1, padding: '13px 18px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: FONT }}
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              style={{ background: RED, border: 'none', padding: '0 22px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-              onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
-              onMouseLeave={e => e.currentTarget.style.background = RED}
+          <form onSubmit={submitSearch} style={{ flex: 1, maxWidth: 640, margin: '0 auto', position: 'relative' }}>
+            <div
+              style={{
+                display: 'flex', alignItems: 'stretch',
+                border: `1.5px solid ${searchFocused ? RED : '#d0d0d0'}`,
+                borderRadius: 6, overflow: 'hidden',
+                transition: 'border-color 0.15s ease',
+              }}
             >
-              <Search size={17} color="#fff" />
-            </button>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => window.setTimeout(() => setSearchFocused(false), 150)}
+                placeholder="Search for products"
+                aria-label="Search products"
+                style={{ flex: 1, padding: '13px 18px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: FONT }}
+              />
+              <button
+                type="submit"
+                aria-label="Search"
+                style={{ background: RED, border: 'none', padding: '0 22px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+                onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
+                onMouseLeave={e => e.currentTarget.style.background = RED}
+              >
+                <Search size={17} color="#fff" />
+              </button>
+            </div>
+            {searchFocused && (
+              <GlobalSearchOverlay query={searchQuery} onNavigate={() => setSearchFocused(false)} />
+            )}
           </form>
 
           {/* Utility links — Title Case */}
