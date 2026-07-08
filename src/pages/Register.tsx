@@ -1,16 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, type FormEvent, type ComponentType, type ReactNode, type ButtonHTMLAttributes, type InputHTMLAttributes, type LabelHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/AuthContext";
+import { Button as ButtonUntyped } from "@/components/ui/button";
+import { Input as InputUntyped } from "@/components/ui/input";
+import { Label as LabelUntyped } from "@/components/ui/label";
 import { UserPlus, Mail, Lock, Loader2 } from "lucide-react";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import AuthLayout from "@/components/AuthLayout";
+import {
+  InputOTP as InputOTPUntyped,
+  InputOTPGroup as InputOTPGroupUntyped,
+  InputOTPSlot as InputOTPSlotUntyped,
+} from "@/components/ui/input-otp";
+import AuthLayoutUntyped from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
 
+// The shared ui/* kit and AuthLayout are untyped .jsx — cast to locally
+// declared prop shapes rather than editing the shared components.
+const Button = ButtonUntyped as ComponentType<ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string }>;
+const Input = InputUntyped as ComponentType<InputHTMLAttributes<HTMLInputElement>>;
+const Label = LabelUntyped as ComponentType<LabelHTMLAttributes<HTMLLabelElement>>;
+const InputOTP = InputOTPUntyped as ComponentType<{
+  maxLength?: number;
+  value?: string;
+  onChange?: (value: string) => void;
+  autoFocus?: boolean;
+  autoComplete?: string;
+  children?: ReactNode;
+}>;
+const InputOTPGroup = InputOTPGroupUntyped as ComponentType<{ children?: ReactNode }>;
+const InputOTPSlot = InputOTPSlotUntyped as ComponentType<{ index: number }>;
+const AuthLayout = AuthLayoutUntyped as ComponentType<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  subtitle?: string;
+  footer?: ReactNode;
+  children?: ReactNode;
+}>;
+
 export default function Register() {
+  const { register, verifyOtp, resendOtp, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,7 +47,7 @@ export default function Register() {
   const [showOtp, setShowOtp] = useState(false);
   const [otpCode, setOtpCode] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     if (password !== confirmPassword) {
@@ -28,10 +56,14 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      await base44.auth.register({ email, password });
-      setShowOtp(true);
+      const result = await register(email, password);
+      if (result.requiresVerification) {
+        setShowOtp(true);
+      } else {
+        window.location.href = "/";
+      }
     } catch (err) {
-      setError(err.message || "Registration failed");
+      setError(err instanceof Error ? err.message : "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -41,13 +73,10 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
-      const result = await base44.auth.verifyOtp({ email, otpCode });
-      if (result?.access_token) {
-        base44.auth.setToken(result.access_token);
-      }
+      await verifyOtp(email, otpCode);
       window.location.href = "/";
     } catch (err) {
-      setError(err.message || "Invalid verification code");
+      setError(err instanceof Error ? err.message : "Invalid verification code");
     } finally {
       setLoading(false);
     }
@@ -56,18 +85,18 @@ export default function Register() {
   const handleResend = async () => {
     setError("");
     try {
-      await base44.auth.resendOtp(email);
+      await resendOtp(email);
       toast({
         title: "Code sent",
         description: "Check your email for the new code.",
       });
     } catch (err) {
-      setError(err.message || "Failed to resend code");
+      setError(err instanceof Error ? err.message : "Failed to resend code");
     }
   };
 
   const handleGoogle = () => {
-    base44.auth.loginWithProvider("google", "/");
+    loginWithGoogle();
   };
 
   if (showOtp) {

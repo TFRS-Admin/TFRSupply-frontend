@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, type FormEvent, type ComponentType, type ReactNode, type ButtonHTMLAttributes, type InputHTMLAttributes, type LabelHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/AuthContext";
+import { Button as ButtonUntyped } from "@/components/ui/button";
+import { Input as InputUntyped } from "@/components/ui/input";
+import { Label as LabelUntyped } from "@/components/ui/label";
 import { Mail, ArrowLeft, Loader2 } from "lucide-react";
-import AuthLayout from "@/components/AuthLayout";
+import AuthLayoutUntyped from "@/components/AuthLayout";
+
+// The shared ui/* kit and AuthLayout are untyped .jsx — cast to locally
+// declared prop shapes rather than editing the shared components.
+const Button = ButtonUntyped as ComponentType<ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string }>;
+const Input = InputUntyped as ComponentType<InputHTMLAttributes<HTMLInputElement>>;
+const Label = LabelUntyped as ComponentType<LabelHTMLAttributes<HTMLLabelElement>>;
+const AuthLayout = AuthLayoutUntyped as ComponentType<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  subtitle?: string;
+  footer?: ReactNode;
+  children?: ReactNode;
+}>;
 
 export default function ForgotPassword() {
+  const { requestPasswordReset } = useAuth();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await base44.auth.resetPasswordRequest(email);
+      await requestPasswordReset(email);
     } catch {
       // Always show success regardless
     } finally {

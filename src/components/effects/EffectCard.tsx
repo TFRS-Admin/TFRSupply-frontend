@@ -1,12 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, type ReactNode, type ComponentType, type HTMLAttributes } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card as CardUntyped,
+  CardContent as CardContentUntyped,
+  CardHeader as CardHeaderUntyped,
+  CardTitle as CardTitleUntyped,
+  CardDescription as CardDescriptionUntyped,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Code, Copy, Check, Wand2, Heart, Maximize2, Minimize2, MousePointerClick } from "lucide-react";
+import { Code, Copy, Check, Wand2, Heart, Maximize2, Minimize2 } from "lucide-react";
 import ResponsivePreview from "./ResponsivePreview";
-import { base44 } from "@/api/base44Client";
-import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
+
+// The shared ui/* card kit is untyped .jsx — cast to a locally declared prop
+// shape rather than editing the shared components.
+const Card = CardUntyped as ComponentType<HTMLAttributes<HTMLDivElement>>;
+const CardContent = CardContentUntyped as ComponentType<HTMLAttributes<HTMLDivElement>>;
+const CardHeader = CardHeaderUntyped as ComponentType<HTMLAttributes<HTMLDivElement>>;
+const CardTitle = CardTitleUntyped as ComponentType<HTMLAttributes<HTMLDivElement>>;
+const CardDescription = CardDescriptionUntyped as ComponentType<HTMLAttributes<HTMLDivElement>>;
 
 const glitchStyles = `
   .glitch-hover-btn:hover {
@@ -22,6 +34,30 @@ const glitchStyles = `
   }
 `;
 
+interface StoredSavedEffect {
+  id: number;
+  name: string;
+  description?: string;
+  code: string;
+  prompt: string;
+  savedAt: string;
+  sourcePage: string;
+}
+
+interface EffectCardProps {
+  title: string;
+  description?: string;
+  children?: ReactNode;
+  className?: string;
+  controls?: ReactNode;
+  code?: string;
+  prompt?: string;
+  whenToUse?: string;
+  previewType?: string | null;
+  previewProps?: Record<string, unknown>;
+  interactive?: boolean;
+}
+
 export default function EffectCard({
   title,
   description,
@@ -31,23 +67,14 @@ export default function EffectCard({
   code = "",
   prompt = "",
   whenToUse = "",
-  previewType = null,
-  previewProps = {},
-  interactive = false
-}) {
+}: EffectCardProps) {
   const location = useLocation();
   const currentPage = location.pathname.split('/').pop() || 'Home';
-  const previewRef = useRef(null);
-  const { data: appSettings } = useQuery({
-    queryKey: ['appSettings'],
-    queryFn: async () => {
-      const list = await base44.entities.AppSettings.list();
-      return list[0] || {};
-    },
-    initialData: {}
-  });
+  const previewRef = useRef<HTMLDivElement>(null);
 
-  const isResponsiveEnabled = appSettings?.enabled_features?.includes("responsivePreview");
+  // Base44-backed responsive-preview feature flag removed — defaults off
+  // until a real settings source replaces it.
+  const isResponsiveEnabled = false;
   const [showResponsive, setShowResponsive] = useState(false);
   const [showCode, setShowCode] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
@@ -61,20 +88,12 @@ export default function EffectCard({
 
   const defaultPrompt = prompt || `Create a ${title} effect using React, Tailwind CSS, and Framer Motion. ${description}`;
 
+  // Saved effects are local-only now that the Base44-backed account sync is
+  // removed; this mirrors the anonymous-user path the component already had.
   useEffect(() => {
-    const checkSaved = async () => {
-      try {
-        const user = await base44.auth.me().catch(() => null);
-        if (user) {
-          const dbEffects = await base44.entities.SavedEffect.list();
-          setSaved(dbEffects.some(e => e.name === title));
-        } else {
-          const savedEffects = JSON.parse(localStorage.getItem('savedEffects') || '[]');
-          setSaved(savedEffects.some(e => e.name === title));
-        }
-      } catch (e) {
-        console.error("Error checking saved status", e.message || "Unknown error");
-      }
+    const checkSaved = () => {
+      const savedEffects: StoredSavedEffect[] = JSON.parse(localStorage.getItem('savedEffects') || '[]');
+      setSaved(savedEffects.some(e => e.name === title));
     };
     checkSaved();
     window.addEventListener('favoritesUpdated', checkSaved);
@@ -113,38 +132,19 @@ export default function EffectCard({
     if (isSaving) return;
     setIsSaving(true);
     try {
-      const user = await base44.auth.me().catch(() => null);
-      if (user) {
-        const dbEffects = await base44.entities.SavedEffect.list();
-        const existingEffect = dbEffects.find(e => e.name === title);
-        if (existingEffect) {
-          await base44.entities.SavedEffect.delete(existingEffect.id);
-          setSaved(false);
-        } else {
-          await base44.entities.SavedEffect.create({
-            name: title,
-            description,
-            code: defaultCode,
-            prompt: defaultPrompt,
-            page: currentPage,
-          });
-          setSaved(true);
-        }
+      const savedEffects: StoredSavedEffect[] = JSON.parse(localStorage.getItem('savedEffects') || '[]');
+      const existingIndex = savedEffects.findIndex(e => e.name === title);
+      if (existingIndex >= 0) {
+        savedEffects.splice(existingIndex, 1);
+        setSaved(false);
       } else {
-        const savedEffects = JSON.parse(localStorage.getItem('savedEffects') || '[]');
-        const existingIndex = savedEffects.findIndex(e => e.name === title);
-        if (existingIndex >= 0) {
-          savedEffects.splice(existingIndex, 1);
-          setSaved(false);
-        } else {
-          savedEffects.push({ id: Date.now(), name: title, description, code: defaultCode, prompt: defaultPrompt, savedAt: new Date().toISOString(), sourcePage: currentPage });
-          setSaved(true);
-        }
-        localStorage.setItem('savedEffects', JSON.stringify(savedEffects));
+        savedEffects.push({ id: Date.now(), name: title, description, code: defaultCode, prompt: defaultPrompt, savedAt: new Date().toISOString(), sourcePage: currentPage });
+        setSaved(true);
       }
+      localStorage.setItem('savedEffects', JSON.stringify(savedEffects));
       window.dispatchEvent(new Event('favoritesUpdated'));
     } catch (error) {
-      console.error("Error saving effect:", error.message || "Unknown error");
+      console.error("Error saving effect:", error instanceof Error ? error.message : "Unknown error");
     } finally {
       setIsSaving(false);
     }
