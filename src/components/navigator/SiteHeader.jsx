@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X, ChevronDown, Truck } from 'lucide-react';
+import {
+  Search,
+  Menu,
+  X,
+  ChevronDown,
+  Truck,
+  User,
+  Heart,
+  LayoutDashboard,
+  Plus,
+  Settings,
+  UserCircle,
+  LogOut,
+  ShoppingCart,
+} from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
+import { useSavedProducts } from '@/context/SavedProductsContext';
+import { useMiniCart } from '@/hooks/cartWorkspace';
+import { useAuth } from '@/lib/AuthContext';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
-import MiniCart from '@/components/cart/MiniCart';
-import SavedProductsButton from '@/components/navigator/SavedProductsButton';
-import WorkspaceButton from '@/components/navigator/WorkspaceButton';
-import FleetProjectIndicator from '@/components/fleetProjects/FleetProjectIndicator';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 import { Button } from '@/components/ui/button';
@@ -17,6 +30,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -29,7 +44,18 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { selectedVehicle } = useVehicle();
-  const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
+  const {
+    projects: fleetProjectsList,
+    activeProject: activeFleetProject,
+    setActiveProject: setActiveFleetProject,
+    createProject: createFleetProject,
+  } = useFleetProject();
+  const { productIds: savedProductIds } = useSavedProducts();
+  const { summary: cartSummary } = useMiniCart();
+  const { isAuthenticated, logout } = useAuth();
+
+  const switchableFleetProjects = fleetProjectsList.filter((project) => !project.archived);
+  const cartItemCount = cartSummary?.itemCount ?? 0;
 
   function submitSearch(e) {
     e.preventDefault();
@@ -112,10 +138,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Fleet Project indicator/switcher */}
-          <FleetProjectIndicator />
-
-          {/* Vehicle selector button */}
+          {/* Vehicle selector — kept active and prominent, a tactical tool readout */}
           <Button
             type="button"
             variant="outline"
@@ -125,24 +148,92 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             <Truck size={14} className="shrink-0 text-gray-300" />
             <span className="whitespace-nowrap">
               {selectedVehicle
-                ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
-                : 'Select Your Vehicle'}
+                ? `[ ${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model} ]`
+                : '[ Select Vehicle ]'}
             </span>
-            {selectedVehicle && (
-              <span className="shrink-0 rounded-sm bg-[#c8102e] px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-white">
-                CHANGE
+          </Button>
+
+          {/* User menu — consolidates Workspace, Favorites, Fleet Projects, Account */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Account menu"
+                className="h-10 w-10 text-white hover:bg-white/10 hover:text-white"
+              >
+                <User size={18} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              <DropdownMenuItem onClick={() => navigate('/workspace')}>
+                <LayoutDashboard size={14} className="mr-2" /> My Workspace
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/saved-products')}>
+                <Heart size={14} className="mr-2" />
+                Favorites{savedProductIds.length > 0 ? ` (${savedProductIds.length})` : ''}
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuLabel className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Fleet Projects
+              </DropdownMenuLabel>
+              {isAuthenticated ? (
+                <>
+                  {switchableFleetProjects.map((project) => (
+                    <DropdownMenuItem
+                      key={project.id}
+                      onClick={() => setActiveFleetProject(project.id)}
+                      className={project.id === activeFleetProject?.id ? 'font-semibold text-[#c8102e]' : undefined}
+                    >
+                      {project.name}
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const created = createFleetProject?.();
+                      if (created) navigate('/workspace');
+                    }}
+                  >
+                    <Plus size={13} className="mr-2" /> New Project
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem onClick={() => navigate('/login')}>
+                  Login to access Fleet Projects
+                </DropdownMenuItem>
+              )}
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => navigate('/account/settings')}>
+                <Settings size={14} className="mr-2" /> Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/account')}>
+                <UserCircle size={14} className="mr-2" /> Account
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={logout}>
+                <LogOut size={14} className="mr-2" /> Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Cart — simple icon with a red badge notification */}
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={`View cart, ${cartItemCount} item${cartItemCount === 1 ? '' : 's'}`}
+            onClick={() => navigate('/cart')}
+            className="relative h-10 w-10 text-white hover:bg-white/10 hover:text-white"
+          >
+            <ShoppingCart size={18} />
+            {cartItemCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#c8102e] px-1 text-[10px] font-bold leading-none text-white">
+                {cartItemCount}
               </span>
             )}
           </Button>
-
-          {/* Workspace */}
-          <WorkspaceButton />
-
-          {/* Saved products */}
-          <SavedProductsButton />
-
-          {/* Mini cart */}
-          <MiniCart />
 
           {/* Mobile hamburger */}
           <Button

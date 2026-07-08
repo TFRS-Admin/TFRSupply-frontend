@@ -264,9 +264,9 @@ describe('Composition — App and SiteHeader wire in the Project Workspace', () 
     assert.match(source, /path="\/workspace"/);
   });
 
-  it('SiteHeader source wires WorkspaceButton into the header actions', async () => {
+  it('SiteHeader source wires My Workspace navigation into the consolidated User menu', async () => {
     const { readFileSync } = await import('node:fs');
     const source = readFileSync(new URL('../src/components/navigator/SiteHeader.jsx', import.meta.url), 'utf8');
-    assert.match(source, /<WorkspaceButton \/>/);
+    assert.match(source, /onClick=\{\(\) => navigate\('\/workspace'\)\}/);
   });
 });

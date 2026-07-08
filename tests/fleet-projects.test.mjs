@@ -664,9 +664,10 @@ describe('Composition — Fleet Projects wiring', () => {
     assert.match(source, /<FleetProjectProvider>\s*<FleetBuildsProvider>/);
   });
 
-  it('source: SiteHeader wires FleetProjectIndicator into the header actions', () => {
+  it('source: SiteHeader wires Fleet Project switching into the consolidated User menu', () => {
     const source = readFileSync(new URL('../src/components/navigator/SiteHeader.jsx', import.meta.url), 'utf8');
-    assert.match(source, /<FleetProjectIndicator \/>/);
+    assert.match(source, /useFleetProject\(\)/);
+    assert.match(source, /onClick=\{\(\) => setActiveFleetProject\(project\.id\)\}/);
   });
 
   it('source: WorkspaceDashboard renders FleetProjectsWorkspaceSection', () => {
