@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, MessageSquare, Settings, BookOpen, Check } from 'lucide-react';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+const FS = { fontFamily: "'Inter',sans-serif" };
 
 // ── Image Gallery ─────────────────────────────────────────────────────────────
 function ImageGallery({ images = [] }) {
@@ -72,18 +72,21 @@ export default function ProductHero({ title, subtitle, description, bullets = []
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-6 pb-8">
-      <h1 style={{ ...FS, fontSize: 'clamp(1.6rem,5vw,2.25rem)', fontWeight: 800, color: '#1a1a1a', lineHeight: 1.15, letterSpacing: '-0.01em', marginBottom: '1.1rem' }}>
+      <h1
+        className="font-heading font-bold uppercase text-[#0f0f0f] mb-5"
+        style={{ fontSize: 'clamp(1.6rem,5vw,2.25rem)', lineHeight: 1.15, letterSpacing: '-0.01em' }}
+      >
         {title}
       </h1>
 
-      <div className="product-hero-row" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+      <div className="product-hero-row flex items-start gap-10 lg:gap-12">
         {/* Left — 60% */}
         <div className="product-hero-media" style={{ flex: '0 0 60%', maxWidth: '60%' }}>
           <ImageGallery images={images} />
         </div>
 
         {/* Right — 40% */}
-        <div className="product-hero-info flex flex-col gap-5" style={{ flex: '0 0 40%', maxWidth: '40%' }}>
+        <div className="product-hero-info flex flex-col gap-6" style={{ flex: '0 0 40%', maxWidth: '40%' }}>
           {/* Intro copy — subtitle leads, description (if distinct) adds supporting detail */}
           {hasIntro && (
             <div className="flex flex-col gap-2">
@@ -103,17 +106,22 @@ export default function ProductHero({ title, subtitle, description, bullets = []
             <div>
               <div className="mb-2.5 flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                <h2 style={FS} className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Key Features</h2>
+                <h2 className="font-heading text-[11px] font-bold uppercase tracking-wider text-gray-500">Key Features</h2>
               </div>
               <ul className="flex flex-col gap-2">
-                {bullets.map((b, i) => (
-                  <li key={i} style={FS} className="flex items-start gap-2.5 rounded-md border border-gray-100 bg-gray-50 px-3 py-2 text-[13.5px] leading-snug text-gray-700">
-                    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#c8102e]/10">
-                      <Check size={12} strokeWidth={3} className="text-[#c8102e]" />
-                    </span>
-                    <span>{b}</span>
-                  </li>
-                ))}
+                {bullets.map((b, i) => {
+                  const accent = i % 2 === 0
+                    ? { bg: 'bg-[#c8102e]/10', text: 'text-[#c8102e]' }
+                    : { bg: 'bg-amber-600/10', text: 'text-amber-600' };
+                  return (
+                    <li key={i} style={FS} className="flex items-start gap-2.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-[13.5px] leading-snug text-gray-700">
+                      <span className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full ${accent.bg}`}>
+                        <Check size={12} strokeWidth={3} className={accent.text} />
+                      </span>
+                      <span>{b}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
