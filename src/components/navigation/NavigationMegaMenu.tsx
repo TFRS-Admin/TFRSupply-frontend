@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Home } from 'lucide-react';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
+import * as NavigationMenuPrimitive from '@/components/ui/navigation-menu';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
-import NavigationVerticalCard from './NavigationVerticalCard';
+import NavigationVerticalCardUntyped from './NavigationVerticalCard';
+
+// navigation-menu.jsx and NavigationVerticalCard.jsx are plain JS (not
+// type-checked); cast to a permissive component type so their untyped
+// forwardRef/props signatures don't surface as spurious TS errors here.
+const NavigationMenu = NavigationMenuPrimitive.NavigationMenu as React.ComponentType<any>;
+const NavigationMenuContent = NavigationMenuPrimitive.NavigationMenuContent as React.ComponentType<any>;
+const NavigationMenuItem = NavigationMenuPrimitive.NavigationMenuItem as React.ComponentType<any>;
+const NavigationMenuList = NavigationMenuPrimitive.NavigationMenuList as React.ComponentType<any>;
+const NavigationMenuTrigger = NavigationMenuPrimitive.NavigationMenuTrigger as React.ComponentType<any>;
+const NavigationVerticalCard = NavigationVerticalCardUntyped as React.ComponentType<any>;
 
 export interface NavVertical {
   id: string;

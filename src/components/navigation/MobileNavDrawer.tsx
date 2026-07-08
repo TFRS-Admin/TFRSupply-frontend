@@ -1,10 +1,19 @@
 import React from 'react';
 import { Search, Truck, LayoutDashboard } from 'lucide-react';
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import * as AccordionPrimitive from '@/components/ui/accordion';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
-import NavigationVerticalCard from './NavigationVerticalCard';
+import NavigationVerticalCardUntyped from './NavigationVerticalCard';
 import type { NavVertical } from './NavigationMegaMenu';
+
+// accordion.jsx and NavigationVerticalCard.jsx are plain JS (not
+// type-checked); cast to a permissive component type so their untyped
+// forwardRef/props signatures don't surface as spurious TS errors here.
+const Accordion = AccordionPrimitive.Accordion as React.ComponentType<any>;
+const AccordionContent = AccordionPrimitive.AccordionContent as React.ComponentType<any>;
+const AccordionItem = AccordionPrimitive.AccordionItem as React.ComponentType<any>;
+const AccordionTrigger = AccordionPrimitive.AccordionTrigger as React.ComponentType<any>;
+const NavigationVerticalCard = NavigationVerticalCardUntyped as React.ComponentType<any>;
 
 interface SelectedVehicle {
   year: string | number;

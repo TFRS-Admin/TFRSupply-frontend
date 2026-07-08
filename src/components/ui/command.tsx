@@ -3,7 +3,13 @@ import { Command as CommandPrimitive } from "cmdk"
 import { Search } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import * as DialogPrimitive from "@/components/ui/dialog"
+
+// dialog.jsx is plain JS (not type-checked); cast to a permissive component
+// type so its untyped forwardRef/props signature doesn't surface as a
+// spurious TS error here.
+const Dialog = DialogPrimitive.Dialog as React.ComponentType<any>
+const DialogContent = DialogPrimitive.DialogContent as React.ComponentType<any>
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
