@@ -19,7 +19,7 @@ export default function VerticalRoutingGrid({ verticals = [] }) {
           <Link
             key={vertical.id}
             to={vertical.path}
-            className="group relative flex flex-col overflow-hidden rounded-md border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-[#c8102e] hover:shadow-lg"
+            className="group relative flex flex-col overflow-hidden rounded-md border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-[#C8102E] hover:shadow-md"
           >
             <div className="relative h-56 overflow-hidden bg-gray-100 md:h-64">
               <img
