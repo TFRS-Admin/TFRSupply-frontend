@@ -1,35 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, type FormEvent, type ComponentType, type ReactNode, type ButtonHTMLAttributes, type InputHTMLAttributes, type LabelHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/AuthContext";
+import { Button as ButtonUntyped } from "@/components/ui/button";
+import { Input as InputUntyped } from "@/components/ui/input";
+import { Label as LabelUntyped } from "@/components/ui/label";
 import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
-import AuthLayout from "@/components/AuthLayout";
+import AuthLayoutUntyped from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 
+// The shared ui/* kit and AuthLayout are untyped .jsx — cast to locally
+// declared prop shapes rather than editing the shared components.
+const Button = ButtonUntyped as ComponentType<ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string }>;
+const Input = InputUntyped as ComponentType<InputHTMLAttributes<HTMLInputElement>>;
+const Label = LabelUntyped as ComponentType<LabelHTMLAttributes<HTMLLabelElement>>;
+const AuthLayout = AuthLayoutUntyped as ComponentType<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  subtitle?: string;
+  footer?: ReactNode;
+  children?: ReactNode;
+}>;
+
 export default function Login() {
+  const { login, loginWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      await base44.auth.loginViaEmailPassword(email, password);
+      await login(email, password);
       window.location.href = "/";
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      setError(err instanceof Error ? err.message : "Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogle = () => {
-    base44.auth.loginWithProvider("google", "/");
+    loginWithGoogle();
   };
 
   return (

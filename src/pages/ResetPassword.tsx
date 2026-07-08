@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, type FormEvent, type ComponentType, type ReactNode, type ButtonHTMLAttributes, type InputHTMLAttributes, type LabelHTMLAttributes } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/AuthContext";
+import { Button as ButtonUntyped } from "@/components/ui/button";
+import { Input as InputUntyped } from "@/components/ui/input";
+import { Label as LabelUntyped } from "@/components/ui/label";
 import { Lock, Loader2, AlertTriangle } from "lucide-react";
-import AuthLayout from "@/components/AuthLayout";
+import AuthLayoutUntyped from "@/components/AuthLayout";
+
+// The shared ui/* kit and AuthLayout are untyped .jsx — cast to locally
+// declared prop shapes rather than editing the shared components.
+const Button = ButtonUntyped as ComponentType<ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string }>;
+const Input = InputUntyped as ComponentType<InputHTMLAttributes<HTMLInputElement>>;
+const Label = LabelUntyped as ComponentType<LabelHTMLAttributes<HTMLLabelElement>>;
+const AuthLayout = AuthLayoutUntyped as ComponentType<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  subtitle?: string;
+  footer?: ReactNode;
+  children?: ReactNode;
+}>;
 
 export default function ResetPassword() {
+  const { resetPassword } = useAuth();
   const [searchParams] = useSearchParams();
   const resetToken = searchParams.get("token");
 
@@ -16,7 +30,7 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     if (newPassword !== confirmPassword) {
@@ -25,10 +39,10 @@ export default function ResetPassword() {
     }
     setLoading(true);
     try {
-      await base44.auth.resetPassword({ resetToken, newPassword });
+      await resetPassword(resetToken ?? "", newPassword);
       window.location.href = "/login";
     } catch (err) {
-      setError(err.message || "Failed to reset password");
+      setError(err instanceof Error ? err.message : "Failed to reset password");
     } finally {
       setLoading(false);
     }

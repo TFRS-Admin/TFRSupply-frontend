@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, Outlet } from "react-router-dom";
+import React, { useState, type ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles, Menu, X, Home, Eye, Volume2,
-  Layers, Navigation, MousePointerClick, 
-  MessageCircle, Bot, Heart, Wand2, Users, BookOpen, Settings as SettingsIcon, Video,
+  Layers, Navigation, MousePointerClick,
+  MessageCircle, Bot, Heart, Wand2, BookOpen,
   Search, ChevronDown
 } from "lucide-react";
-import { base44 } from "@/api/base44Client";
-import { useQuery } from "@tanstack/react-query";
 
 const navItems = [
   { label: "Home", page: "Home", icon: Home },
@@ -58,21 +56,18 @@ const moreItems = [
   { label: "Teachable Mode", page: "TeachableMode" },
 ];
 
-export default function Team44Layout({ children }) {
+interface Team44LayoutProps {
+  children?: ReactNode;
+}
+
+export default function Team44Layout({ children }: Team44LayoutProps) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
-  const { data: appSettings } = useQuery({
-    queryKey: ['appSettings'],
-    queryFn: async () => {
-      const list = await base44.entities.AppSettings.list();
-      return list[0] || {};
-    },
-    initialData: {}
-  });
-
-  const logoUrl = appSettings?.logo_url || null;
+  // Base44 AppSettings lookup removed — no custom logo override until a
+  // real settings source replaces it.
+  const logoUrl: string | null = null;
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -107,7 +102,7 @@ export default function Team44Layout({ children }) {
                   {item.label}
                 </Link>
               ))}
-              
+
               {/* More dropdown */}
               <div className="relative">
                 <button
@@ -180,7 +175,7 @@ export default function Team44Layout({ children }) {
                         : "text-slate-400 hover:text-white hover:bg-slate-800"
                     }`}
                   >
-                    {item.label || item.page}
+                    {item.label}
                   </Link>
                 ))}
               </div>
