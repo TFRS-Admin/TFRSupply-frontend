@@ -11,6 +11,14 @@ import WorkspaceButton from '@/components/navigator/WorkspaceButton';
 import FleetProjectIndicator from '@/components/fleetProjects/FleetProjectIndicator';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
@@ -64,37 +72,55 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         </div>
 
         {/* Search — desktop only */}
-        <form onSubmit={submitSearch} className="ml-2 hidden max-w-xs flex-1 items-stretch overflow-hidden rounded-md border border-white/20 bg-white/5 lg:flex">
-          <input
+        <form onSubmit={submitSearch} className="ml-2 hidden max-w-xs flex-1 items-center gap-2 lg:flex">
+          <Input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search products"
             aria-label="Search products"
-            className="flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder:text-gray-500 outline-none"
+            className="h-9 border-white/20 bg-white/5 text-white placeholder:text-gray-500 focus-visible:ring-[#c8102e]"
           />
-          <button type="submit" aria-label="Search" className="shrink-0 px-3 text-gray-300 hover:text-white">
+          <Button
+            type="submit"
+            size="icon"
+            variant="ghost"
+            aria-label="Search"
+            className="h-9 w-9 shrink-0 text-white hover:bg-white/10 hover:text-white"
+          >
             <Search size={16} />
-          </button>
+          </Button>
         </form>
 
         {/* Right-aligned actions */}
         <div className="ml-auto flex items-center gap-2">
-          <div className="hidden items-center gap-5 pr-1 lg:flex">
-            {UTILITY_LINKS.map((link) => (
-              <button key={link} className="whitespace-nowrap text-xs font-normal text-gray-400 transition-colors hover:text-white">
-                {link}
-              </button>
-            ))}
-          </div>
+          {/* Resources — tucked-away utility links */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="hidden items-center gap-1 text-gray-300 hover:bg-white/10 hover:text-white lg:flex"
+              >
+                Resources
+                <ChevronDown size={14} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {UTILITY_LINKS.map((link) => (
+                <DropdownMenuItem key={link}>{link}</DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Fleet Project indicator/switcher */}
           <FleetProjectIndicator />
 
           {/* Vehicle selector button */}
-          <button
+          <Button
+            type="button"
+            variant="outline"
             onClick={() => setVehicleModalOpen(true)}
-            className="hidden items-center gap-2 whitespace-nowrap rounded-md border border-white/20 bg-white/5 px-3 py-2 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:flex"
+            className="hidden items-center gap-2 rounded-md border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white md:flex"
           >
             <Truck size={14} className="shrink-0 text-gray-300" />
             <span className="whitespace-nowrap">
@@ -107,7 +133,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 CHANGE
               </span>
             )}
-          </button>
+          </Button>
 
           {/* Workspace */}
           <WorkspaceButton />
@@ -119,15 +145,17 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           <MiniCart />
 
           {/* Mobile hamburger */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             aria-haspopup="dialog"
-            className="flex min-h-11 min-w-11 items-center justify-center rounded text-white transition-colors hover:bg-white/10 md:hidden"
+            className="h-11 w-11 text-white hover:bg-white/10 hover:text-white md:hidden"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          </Button>
         </div>
       </div>
 
