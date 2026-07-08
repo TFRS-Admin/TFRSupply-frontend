@@ -20,6 +20,7 @@ import ProductSearchBar from '@/components/product/ProductSearchBar';
 import ProductFilterPanel from '@/components/product/ProductFilterPanel';
 import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
 import RecommendationCard, { RecommendationCardGrid } from '@/components/recommendations/RecommendationCard';
+import { calcDisplayPrice } from '@/lib/pricing';
 
 const MAX_RECOMMENDED_FOR_SEARCH = 4;
 
@@ -28,6 +29,9 @@ const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 export function toProductCardViewModel(product) {
   const href = resolveProductDetailPath(product);
   const image = product.media?.hero || product.images?.[0]?.src;
+  const family = product.family ?? product.label ?? '';
+  const msrp = product.variants?.[0]?.compareAtPrice ?? product.commerce?.msrp ?? null;
+  const pricing = msrp ? calcDisplayPrice(msrp, family) : null;
 
   return {
     id: product.id,
@@ -39,6 +43,8 @@ export function toProductCardViewModel(product) {
     specs: product.marketing?.features?.slice(0, 3) ?? [],
     badges: product.verticalIds ?? [],
     product,
+    price: pricing?.price ?? null,
+    compareAtPrice: pricing?.compareAtPrice ?? null,
   };
 }
 
