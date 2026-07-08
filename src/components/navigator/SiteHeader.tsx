@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X, ChevronDown, Truck } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Truck, FolderKanban, Plus } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
@@ -8,10 +8,17 @@ import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
 import SavedProductsButton from '@/components/navigator/SavedProductsButton';
 import WorkspaceButton from '@/components/navigator/WorkspaceButton';
-import FleetProjectIndicator from '@/components/fleetProjects/FleetProjectIndicator';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 import GlobalSearchOverlay from '@/components/search/GlobalSearchOverlay';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
@@ -28,7 +35,13 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { selectedVehicle } = useVehicle();
-  const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
+  const {
+    projects: fleetProjectsList,
+    activeProject: activeFleetProject,
+    setActiveProject: setActiveFleetProject,
+    createProject: createFleetProject,
+  } = useFleetProject();
+  const switchableFleetProjects = fleetProjectsList.filter((project: { archived?: boolean }) => !project.archived);
 
   function submitSearch(query: string) {
     navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
@@ -97,30 +110,63 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
             <Search size={18} />
           </button>
 
-          {/* Fleet Project indicator/switcher */}
-          <FleetProjectIndicator />
+          {/* Consolidated Fleet Project + Vehicle utility dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className="tfr-focus-ring-inverse hidden max-w-[220px] items-center gap-2 whitespace-nowrap rounded-sm border border-white/15 bg-white/5 px-3 py-2 text-[13px] font-medium text-gray-200 transition-colors hover:bg-white/10 md:flex"
+                aria-label="Fleet project and vehicle settings"
+              >
+                <FolderKanban size={14} className="shrink-0 text-gray-400" />
+                <span className="truncate">
+                  {activeFleetProject ? activeFleetProject.name : 'No Fleet Project'}
+                </span>
+                <ChevronDown size={12} className="shrink-0 text-gray-400" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72">
+              <DropdownMenuLabel className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Fleet Project
+              </DropdownMenuLabel>
+              {switchableFleetProjects.map((project: { id: string; name: string }) => (
+                <DropdownMenuItem
+                  key={project.id}
+                  onClick={() => setActiveFleetProject(project.id)}
+                  className={project.id === activeFleetProject?.id ? 'font-semibold text-[#e21938]' : undefined}
+                >
+                  {project.name}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuItem
+                onClick={() => {
+                  const created = createFleetProject?.();
+                  if (created) navigate('/workspace');
+                }}
+              >
+                <Plus size={13} className="mr-1.5" /> New Project
+              </DropdownMenuItem>
 
-          {/* Vehicle selector button */}
-          <button
-            onClick={() => setVehicleModalOpen(true)}
-            className={`tfr-focus-ring-inverse hidden items-center gap-2 whitespace-nowrap rounded-sm border px-4 py-2 text-[13px] transition-colors md:flex ${
-              selectedVehicle
-                ? 'border-[#e21938] bg-[#e21938] font-bold text-white hover:bg-[#c8102e]'
-                : 'border-white/25 bg-white/5 font-medium text-gray-200 hover:bg-white/10'
-            }`}
-          >
-            <Truck size={14} className="shrink-0 text-gray-300" />
-            <span className="whitespace-nowrap">
-              {selectedVehicle
-                ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
-                : 'Select Your Vehicle'}
-            </span>
-            {selectedVehicle && (
-              <span className="shrink-0 rounded-sm bg-white/20 px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-white">
-                CHANGE
-              </span>
-            )}
-          </button>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuLabel className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                Vehicle
+              </DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => setVehicleModalOpen(true)}>
+                <Truck size={14} className="mr-1.5 shrink-0" />
+                <span className="truncate">
+                  {selectedVehicle
+                    ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+                    : 'Select Your Vehicle'}
+                </span>
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => navigate('/workspace')}>
+                Manage Projects &rarr;
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Workspace */}
           <WorkspaceButton />

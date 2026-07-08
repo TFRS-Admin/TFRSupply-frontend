@@ -1,22 +1,29 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Search, X, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
 
-interface QuickResult {
+interface NavVertical {
+  id: string;
   label: string;
-  description: string;
-  path: string;
+  path: string | null;
 }
 
-const QUICK_LINKS: QuickResult[] = NAV_VERTICALS
-  .filter((vertical: { path: string | null }) => !!vertical.path)
-  .map((vertical: { label: string; tagline: string; path: string }) => ({
-    label: vertical.label,
-    description: vertical.tagline,
-    path: vertical.path,
-  }));
+const VERTICAL_LINKS = (NAV_VERTICALS as NavVertical[]).filter((vertical) => !!vertical.path);
+
+const QUICK_LINKS = [
+  { label: 'My Workspace', path: '/workspace' },
+  { label: 'Saved Products', path: '/saved-products' },
+  { label: 'Cart', path: '/cart' },
+];
 
 export interface GlobalSearchOverlayProps {
   open: boolean;
@@ -25,136 +32,109 @@ export interface GlobalSearchOverlayProps {
 }
 
 /**
- * Full-width search overlay triggered from the header's search icon.
- * Adapted from prompt-showcase-by-team44's GlobalSearch: live-filtered
- * quick results, Enter-to-navigate-first-result, and Escape/click-outside
- * to close — restyled onto the Federal Signal navy/red palette.
+ * Command-palette style global search, built on the harvested cmdk-based
+ * Command primitive (ui/command.tsx) inside a Dialog — adapted from
+ * prompt-showcase-by-team44's GlobalSearch pattern, restyled onto the
+ * Federal Signal navy/red palette. Falls back to /search?q= for free-text
+ * queries with no direct match.
  */
 export default function GlobalSearchOverlay({ open, onOpenChange, onSubmit }: GlobalSearchOverlayProps) {
   const [query, setQuery] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const filtered = useMemo<QuickResult[]>(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return QUICK_LINKS.filter(
-      (item) => item.label.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)
-    );
-  }, [query]);
-
-  useEffect(() => {
-    if (open) {
-      setQuery('');
-      const id = window.setTimeout(() => inputRef.current?.focus(), 50);
-      return () => window.clearTimeout(id);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return undefined;
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') onOpenChange(false);
-    }
-    function handleClickOutside(e: MouseEvent) {
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
-        onOpenChange(false);
-      }
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [open, onOpenChange]);
-
-  function goToResult(item: QuickResult) {
-    navigate(item.path);
+  function go(path: string) {
+    navigate(path);
     onOpenChange(false);
+    setQuery('');
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (filtered.length > 0) {
-      goToResult(filtered[0]);
-      return;
-    }
+  function searchAll() {
     onSubmit(query.trim());
+    setQuery('');
   }
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[#001c28]/97 font-montserrat backdrop-blur-sm"
-        >
-          <div ref={panelRef} className="mx-auto max-w-3xl px-6 pt-24">
-            <form onSubmit={handleSubmit} className="flex items-center gap-4 border-b-2 border-white/20 focus-within:border-[#e21938]">
-              <Search size={20} className="shrink-0 text-gray-400" />
-              <input
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for products"
-                aria-label="Search products"
-                className="flex-1 bg-transparent py-3 text-2xl text-white placeholder:text-gray-500 outline-none"
-              />
-              {query && (
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        onOpenChange(next);
+        if (!next) setQuery('');
+      }}
+    >
+      <DialogContent className="max-w-2xl gap-0 overflow-hidden border-white/10 bg-[#001c28] p-0 font-montserrat text-white shadow-2xl [&>button]:text-gray-400 [&>button]:hover:text-white">
+        <Command className="bg-transparent text-white" shouldFilter>
+          <div className="flex items-center border-b border-white/10 px-1" cmdk-input-wrapper="">
+            <CommandInput
+              value={query}
+              onValueChange={setQuery}
+              placeholder="Search for products, or jump to a section..."
+              className="h-14 border-none text-base text-white placeholder:text-gray-500 focus-visible:ring-0"
+            />
+          </div>
+          <CommandList className="max-h-[400px] p-2">
+            <CommandEmpty className="py-8 text-center text-sm text-gray-400">
+              {query.trim() ? (
                 <button
                   type="button"
-                  onClick={() => setQuery('')}
-                  aria-label="Clear search"
-                  className="shrink-0 text-gray-400 hover:text-white"
+                  onClick={searchAll}
+                  className="text-sm text-gray-300 underline-offset-4 hover:text-white hover:underline"
                 >
-                  <X size={18} />
+                  Search all products for &ldquo;{query.trim()}&rdquo;
                 </button>
+              ) : (
+                'No results found.'
               )}
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                aria-label="Close search"
-                className="shrink-0 rounded p-1.5 text-gray-400 hover:bg-white/10 hover:text-white"
-              >
-                <X size={22} />
-              </button>
-            </form>
+            </CommandEmpty>
 
-            <AnimatePresence>
-              {filtered.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  className="mt-2 overflow-hidden rounded-md border border-white/10 bg-[#00222e]"
+            <CommandGroup
+              heading="Shop By Vertical"
+              className="text-gray-400 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-gray-500"
+            >
+              {VERTICAL_LINKS.map((vertical) => (
+                <CommandItem
+                  key={vertical.id}
+                  value={vertical.label}
+                  onSelect={() => go(vertical.path as string)}
+                  className="text-gray-200 aria-selected:bg-[#e21938]/20 aria-selected:text-white"
                 >
-                  {filtered.map((item) => (
-                    <button
-                      key={item.path}
-                      type="button"
-                      onClick={() => goToResult(item)}
-                      className="flex w-full items-center justify-between gap-4 border-b border-white/5 px-4 py-3 text-left last:border-0 hover:bg-white/5"
-                    >
-                      <span>
-                        <span className="block text-sm font-semibold text-white">{item.label}</span>
-                        <span className="block text-xs text-gray-400">{item.description}</span>
-                      </span>
-                      <ArrowRight size={16} className="shrink-0 text-[#e21938]" />
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  {vertical.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
 
-            <p className="mt-4 text-xs text-gray-500">Press Enter to search &bull; ESC to close</p>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            <CommandGroup
+              heading="Quick Links"
+              className="text-gray-400 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-gray-500"
+            >
+              {QUICK_LINKS.map((link) => (
+                <CommandItem
+                  key={link.path}
+                  value={link.label}
+                  onSelect={() => go(link.path)}
+                  className="text-gray-200 aria-selected:bg-[#e21938]/20 aria-selected:text-white"
+                >
+                  {link.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+
+            {query.trim() && (
+              <CommandGroup
+                heading="Search"
+                className="text-gray-400 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-gray-500"
+              >
+                <CommandItem
+                  value={`search-all-${query}`}
+                  onSelect={searchAll}
+                  className="text-gray-200 aria-selected:bg-[#e21938]/20 aria-selected:text-white"
+                >
+                  Search all products for &ldquo;{query.trim()}&rdquo;
+                </CommandItem>
+              </CommandGroup>
+            )}
+          </CommandList>
+        </Command>
+      </DialogContent>
+    </Dialog>
   );
 }
