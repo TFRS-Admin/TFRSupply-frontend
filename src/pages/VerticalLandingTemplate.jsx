@@ -12,8 +12,6 @@ import ProductCardGrid from '@/components/templates/ProductCardGrid';
 import NotFound from '@/components/templates/NotFound';
 import { Phone, FileDown, Settings, Shield } from 'lucide-react';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
 const ICON_MAP = { Phone, FileDown, Settings, Shield };
 
 export function VerticalLandingTemplateView({ verticalId, data, loading, error }) {
@@ -34,7 +32,7 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
   const featuredCols = featured?.items?.length <= 3 ? featured.items.length : 4;
 
   return (
-    <div className="min-h-screen bg-white" style={FS}>
+    <div className="min-h-screen bg-white">
       <PrototypeBanner />
       <SiteHeader activeVertical={verticalId} />
 
@@ -42,36 +40,36 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Featured Article */}
       {featured_article && (
-        <div className="max-w-7xl mx-auto px-6 py-14 md:py-20">
-          <div style={{ display: 'flex', gap: '3rem', alignItems: 'center', flexWrap: 'wrap' }}>
-            <div style={{ flex: '0 0 40%', minWidth: 280 }}>
-              <SectionLabel text={featured_article.eyebrow} />
-              <h2 style={{ fontSize: 'clamp(1.4rem,2.5vw,1.9rem)', fontWeight: 700, color: '#1a1a1a', lineHeight: 1.25, marginBottom: '1rem' }}>
-                {featured_article.title}
-              </h2>
-              <p style={{ fontSize: 15, color: '#555', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-                {featured_article.body}
-              </p>
-              {featured_article.cta && <RedLink href={featured_article.cta.href}>{featured_article.cta.label}</RedLink>}
-            </div>
-            {featured_article.image && (
-              <div style={{ flex: 1, minWidth: 240 }}>
-                <div className="overflow-hidden" style={{ height: 260 }}>
-                  <img src={featured_article.image} alt={featured_article.imageAlt || ''} className="w-full h-full object-cover" />
-                </div>
+        <div className="bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-16">
+            <div className="grid items-center gap-12 md:grid-cols-2">
+              <div>
+                <SectionLabel text={featured_article.eyebrow} />
+                <h2 className="font-heading mb-4 text-3xl font-bold uppercase leading-tight text-[#0F0F0F]">
+                  {featured_article.title}
+                </h2>
+                <p className="font-body mb-5 leading-relaxed text-gray-600">
+                  {featured_article.body}
+                </p>
+                {featured_article.cta && <RedLink href={featured_article.cta.href}>{featured_article.cta.label}</RedLink>}
               </div>
-            )}
+              {featured_article.image && (
+                <div className="overflow-hidden rounded-md" style={{ height: 260 }}>
+                  <img src={featured_article.image} alt={featured_article.imageAlt || ''} className="h-full w-full object-cover" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
 
       {/* Featured Products */}
       {featured && (
-        <div className="bg-gray-50 border-t border-b border-gray-100 py-14 md:py-20">
-          <div className="max-w-7xl mx-auto px-6">
+        <div className="border-t border-b border-gray-100 bg-gray-50">
+          <div className="mx-auto max-w-7xl px-6 py-16">
             <SectionLabel text={featured.eyebrow} />
-            <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{featured.title}</h2>
-            {featured.subtitle && <p style={{ fontSize: 14, color: '#777', marginBottom: '2rem' }}>{featured.subtitle}</p>}
+            <h2 className="font-heading mb-2 text-3xl font-bold uppercase text-[#0F0F0F]">{featured.title}</h2>
+            {featured.subtitle && <p className="font-body mb-8 text-sm leading-relaxed text-gray-500">{featured.subtitle}</p>}
             <ProductCardGrid items={featured.items} columns={featuredCols} />
           </div>
         </div>
@@ -79,37 +77,41 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Category Grid */}
       {cats && (
-        <div className="max-w-7xl mx-auto px-6 py-14 md:py-20">
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{cats.title}</h2>
-          {cats.subtitle && <p style={{ fontSize: 14, color: '#777', marginBottom: '2rem' }}>{cats.subtitle}</p>}
-          <CategoryIconGrid items={cats.items} columns={cats.items.length > 6 ? 4 : 3} />
-          {cats.cta && (
-            <div style={{ marginTop: '2rem' }}>
-              <RedLink href={cats.cta.href}>{cats.cta.label}</RedLink>
-            </div>
-          )}
+        <div className="bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-16">
+            <h2 className="font-heading mb-2 text-3xl font-bold uppercase text-[#0F0F0F]">{cats.title}</h2>
+            {cats.subtitle && <p className="font-body mb-8 text-sm leading-relaxed text-gray-500">{cats.subtitle}</p>}
+            <CategoryIconGrid items={cats.items} columns={cats.items.length > 6 ? 4 : 3} />
+            {cats.cta && (
+              <div className="mt-8">
+                <RedLink href={cats.cta.href}>{cats.cta.label}</RedLink>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       {/* Configurators */}
       {configs && (
-        <div className="bg-gray-50 border-t border-b border-gray-100 py-14 md:py-20">
-          <div className="max-w-7xl mx-auto px-6">
+        <div className="border-t border-b border-gray-100 bg-gray-50">
+          <div className="mx-auto max-w-7xl px-6 py-16">
             <SectionLabel text={configs.eyebrow} />
-            <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>{configs.title}</h2>
-            <div className="landing-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <h2 className="font-heading mb-8 text-3xl font-bold uppercase text-[#0F0F0F]">{configs.title}</h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {configs.items.map(c => {
                 const Icon = ICON_MAP[c.icon] || Settings;
                 return (
-                  <a key={c.label} href={c.href} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener noreferrer' : undefined}
-                    className="bg-white border border-gray-200 p-6 flex gap-4 items-start"
-                    style={{ textDecoration: 'none', transition: 'border-color 0.15s' }}
-                    onMouseEnter={e => e.currentTarget.style.borderColor = '#c8102e'}
-                    onMouseLeave={e => e.currentTarget.style.borderColor = '#e5e7eb'}>
-                    <Icon size={28} color="#c8102e" style={{ flexShrink: 0, marginTop: 2 }} />
+                  <a
+                    key={c.label}
+                    href={c.href}
+                    target={c.external ? '_blank' : undefined}
+                    rel={c.external ? 'noopener noreferrer' : undefined}
+                    className="flex items-start gap-4 rounded-md border border-gray-200 bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-[#C8102E] hover:shadow-md"
+                  >
+                    <Icon size={28} className="mt-0.5 flex-shrink-0 text-[#C8102E]" />
                     <div>
-                      <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.35rem' }}>{c.label}</p>
-                      <p style={{ fontSize: 13, color: '#666', lineHeight: 1.55 }}>{c.desc}</p>
+                      <p className="font-heading mb-1.5 font-bold uppercase text-[#0F0F0F]">{c.label}</p>
+                      <p className="font-body text-sm leading-relaxed text-gray-500">{c.desc}</p>
                     </div>
                   </a>
                 );
@@ -121,45 +123,47 @@ export function VerticalLandingTemplateView({ verticalId, data, loading, error }
 
       {/* Contracts / Where to Buy */}
       {contracts && (
-        <div className="max-w-7xl mx-auto px-6 py-14 md:py-20">
-          <SectionLabel text={contracts.eyebrow} />
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '2rem' }}>{contracts.title}</h2>
-          <div className="pd-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
-            {contracts.items.map(c => (
-              <div key={c.label} className="border border-gray-200 p-5">
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.4rem' }}>{c.label}</p>
-                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>{c.desc}</p>
-              </div>
-            ))}
+        <div className="bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-16">
+            <SectionLabel text={contracts.eyebrow} />
+            <h2 className="font-heading mb-8 text-3xl font-bold uppercase text-[#0F0F0F]">{contracts.title}</h2>
+            <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+              {contracts.items.map(c => (
+                <div key={c.label} className="rounded-md border border-gray-200 p-5">
+                  <p className="font-heading mb-1.5 font-bold uppercase text-[#0F0F0F]">{c.label}</p>
+                  <p className="font-body text-sm leading-relaxed text-gray-500">{c.desc}</p>
+                </div>
+              ))}
+            </div>
+            {contracts.cta && <RedLink href={contracts.cta.href}>{contracts.cta.label}</RedLink>}
           </div>
-          {contracts.cta && <RedLink href={contracts.cta.href}>{contracts.cta.label}</RedLink>}
         </div>
       )}
 
       {/* Resources */}
       {resources && (
-        <div className="bg-gray-50 border-t border-gray-100 py-14 md:py-20">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="landing-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+        <div className="border-t border-gray-100 bg-gray-50">
+          <div className="mx-auto max-w-7xl px-6 py-16">
+            <div className="grid items-center gap-12 md:grid-cols-2">
               <div>
                 <SectionLabel text={resources.eyebrow} />
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '0.75rem' }}>{resources.title}</h2>
-                {resources.body && <p style={{ fontSize: 15, color: '#555', lineHeight: 1.7, marginBottom: '1.25rem' }}>{resources.body}</p>}
+                <h2 className="font-heading mb-3 text-3xl font-bold uppercase text-[#0F0F0F]">{resources.title}</h2>
+                {resources.body && <p className="font-body mb-5 leading-relaxed text-gray-600">{resources.body}</p>}
                 {resources.cta && <RedLink href={resources.cta.href}>{resources.cta.label}</RedLink>}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div className="flex flex-col gap-4">
                 {resources.items.map(r => {
                   const Icon = ICON_MAP[r.icon] || FileDown;
                   return (
-                    <a key={r.label} href="#"
-                      className="bg-white border border-gray-200 p-4 flex gap-3 items-start"
-                      style={{ textDecoration: 'none', transition: 'border-color 0.15s' }}
-                      onMouseEnter={e => e.currentTarget.style.borderColor = '#c8102e'}
-                      onMouseLeave={e => e.currentTarget.style.borderColor = '#e5e7eb'}>
-                      <Icon size={18} color="#c8102e" style={{ flexShrink: 0, marginTop: 2 }} />
+                    <a
+                      key={r.label}
+                      href="#"
+                      className="flex items-start gap-3 rounded-md border border-gray-200 bg-white p-4 transition-all duration-200 hover:-translate-y-1 hover:border-[#C8102E] hover:shadow-md"
+                    >
+                      <Icon size={18} className="mt-0.5 flex-shrink-0 text-[#C8102E]" />
                       <div>
-                        <p style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a', marginBottom: '0.2rem' }}>{r.label}</p>
-                        <p style={{ fontSize: 12, color: '#777', lineHeight: 1.55 }}>{r.desc}</p>
+                        <p className="font-heading mb-1 font-bold uppercase text-sm text-[#0F0F0F]">{r.label}</p>
+                        <p className="font-body text-xs leading-relaxed text-gray-500">{r.desc}</p>
                       </div>
                     </a>
                   );

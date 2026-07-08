@@ -1,44 +1,45 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 
-const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
-
 export default function VerticalHero({ hero }) {
   if (!hero) return null;
   return (
-    <div className="relative overflow-hidden" style={{ background: '#111', minHeight: 440 }}>
+    <div className="relative min-h-[440px] overflow-hidden bg-[#111111]">
       {hero.image && (
-        <img src={hero.image} alt={hero.imageAlt || ''} className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.55 }} />
+        <img
+          src={hero.image}
+          alt={hero.imageAlt || ''}
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
+        />
       )}
-      <div
-        className="absolute inset-0"
-        style={{ background: 'linear-gradient(90deg, rgba(8,8,8,0.94) 0%, rgba(8,8,8,0.78) 36%, rgba(8,8,8,0.4) 68%, rgba(8,8,8,0.15) 100%)' }}
-      />
-      <div className="relative max-w-7xl mx-auto px-6 py-24 flex flex-col justify-center" style={{ minHeight: 440 }}>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-black/10" />
+      <div className="relative mx-auto flex min-h-[440px] max-w-7xl flex-col justify-center px-6 py-24">
         {hero.eyebrow && (
-          <div className="flex items-center gap-2" style={{ marginBottom: '1rem' }}>
-            <span style={{ width: 32, height: 3, background: '#c8102e', display: 'inline-block' }} />
-            <span style={{ ...FS, fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#f5b942' }}>
+          <div className="mb-4 flex items-center gap-2">
+            <span className="inline-block h-[3px] w-8 bg-[#C8102E]" />
+            <span className="font-heading text-xs font-bold uppercase tracking-wide text-[#F5B942]">
               {hero.eyebrow}
             </span>
           </div>
         )}
-        <h1 style={{ ...FS, fontSize: 'clamp(2.2rem,4.6vw,3.2rem)', fontWeight: 800, color: '#fff', lineHeight: 1.1, maxWidth: 620, marginBottom: '1.1rem', textShadow: '0 2px 14px rgba(0,0,0,0.5)' }}>
+        <h1 className="font-heading mb-[1.1rem] max-w-2xl text-[clamp(2.2rem,4.6vw,3.2rem)] font-bold uppercase leading-tight tracking-tight text-white drop-shadow-lg">
           {hero.title}
         </h1>
         {hero.subtitle && (
-          <p style={{ ...FS, fontSize: 17, color: 'rgba(255,255,255,0.9)', maxWidth: 540, lineHeight: 1.65, marginBottom: '1.85rem', textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}>
+          <p className="font-body mb-7 max-w-xl text-[17px] leading-relaxed text-white/90 drop-shadow">
             {hero.subtitle}
           </p>
         )}
         {hero.cta && (
-          <a href={hero.cta.href || '#'} className="vlt-hero-cta"
-            style={{ ...FS, fontSize: 14, fontWeight: 700, color: '#c8102e', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, background: '#fff', padding: '13px 24px', width: 'fit-content' }}>
+          <a
+            href={hero.cta.href || '#'}
+            className="vlt-hero-cta font-heading inline-flex w-fit items-center gap-1.5 rounded-md bg-white px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#C8102E]"
+          >
             {hero.cta.label} <ChevronRight size={15} />
           </a>
         )}
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: '#c8102e' }} />
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C8102E]" />
     </div>
   );
 }
