@@ -16,6 +16,16 @@
   ],
   "products": [
     {
+      "id": "q-siren",
+      "label": "Q-Siren®",
+      "tagline": "The unmistakable sound of safety — trusted by fire and EMS crews for decades.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/Q-Siren.hero_-900x600.jpg",
+      "vehicle_type": "Fire/EMS",
+      "output": "100-Watt",
+      "badges": ["Fire/EMS", "Iconic", "Electro-Mechanical"],
+      "specs": ["Electro-mechanical siren", "Federal Signal Q Series", "Multiple mount configurations"]
+    },
+    {
       "id": "pathfinder-siren-controller",
       "label": "Pathfinder® PF400 Siren/Light Controller",
       "tagline": "Programmable siren/light controller with OBDII integration and dual-tone capability.",
