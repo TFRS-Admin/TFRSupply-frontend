@@ -11,5 +11,26 @@
   },
   "description": "High-output scene and scene flood lighting for night operations.",
   "filters": [],
-  "products": []
+  "products": [
+    {
+      "id": "com7-scene-light",
+      "label": "Com7 Scene Light",
+      "tagline": "Compact 7-LED scene and flood light, available in Black, Chrome, or White housing.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/IP-Rating-Home-Page-Image.jpg",
+      "vehicle_type": "Work Truck",
+      "profile": "Compact",
+      "badges": ["Work Truck", "Compact", "7-LED"],
+      "specs": ["12/24 Vdc", "7-LED wide-angle beam", "Black, Chrome, or White housing"]
+    },
+    {
+      "id": "com9-scene-light",
+      "label": "Com9 Scene Light",
+      "tagline": "High-output 9-LED scene and flood light, available in Black or White housing.",
+      "image": "https://www.fedsig.com/wp-content/uploads/2024/10/IP-Rating-Home-Page-Image.jpg",
+      "vehicle_type": "Work Truck",
+      "profile": "Full-Size",
+      "badges": ["Work Truck", "High-Output", "9-LED"],
+      "specs": ["12/24 Vdc", "9-LED wide-angle beam", "Black or White housing"]
+    }
+  ]
 }

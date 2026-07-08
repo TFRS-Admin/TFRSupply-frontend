@@ -1,0 +1,151 @@
+{
+  "id": "com9-scene-light",
+  "slug": "com9-scene-light",
+  "vendor": "federal-signal",
+  "category": "work-lights",
+  "verticals": [
+    "work-truck"
+  ],
+  "product_family": "Com9",
+  "title": "Com9 Scene Light",
+  "subtitle": "High-output 9-LED scene and flood light for work trucks, utility vehicles, and service fleets. Available in Black or White housing.",
+  "description": "The Federal Signal Com9 Scene Light delivers high-output flood illumination for night operations on utility, municipal, and service vehicles. Its 9-LED housing provides increased output over the Com7 for wider work areas, mounting to cab exteriors, mirror arms, and equipment racks for reliable scene lighting after dark.",
+  "summary_bullets": [
+    "High-output 9-LED scene and flood light",
+    "Wide-angle beam for work-zone illumination",
+    "Available in Black or White housing"
+  ],
+  "tabs_component": "ProductTabs",
+  "tabs": [
+    {
+      "id": "features",
+      "label": "Features",
+      "content_type": "features"
+    },
+    {
+      "id": "specifications",
+      "label": "Specifications",
+      "content_type": "specifications"
+    },
+    {
+      "id": "documentation",
+      "label": "Downloads",
+      "content_type": "documentation"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "label": "Home",
+      "to": "/"
+    },
+    {
+      "label": "Work Truck",
+      "to": "/work-truck"
+    },
+    {
+      "label": "Work Lights",
+      "to": "/work-truck/work-lights"
+    },
+    {
+      "label": "Com9 Scene Light"
+    }
+  ],
+  "media": {
+    "hero": "https://www.fedsig.com/wp-content/uploads/2024/10/IP-Rating-Home-Page-Image.jpg",
+    "gallery": [
+      {
+        "src": "https://www.fedsig.com/wp-content/uploads/2024/10/IP-Rating-Home-Page-Image.jpg",
+        "alt": "Com9 Scene Light"
+      }
+    ]
+  },
+  "marketing": {
+    "features": [
+      "High-output 9-LED scene and flood light",
+      "Wide-angle beam pattern for work-zone illumination",
+      "Sealed, IP-rated housing for harsh environments",
+      "Surface-mount installation on cab exteriors, mirror arms, and equipment racks",
+      "Available in Black or White housing",
+      "12/24 Vdc operation"
+    ],
+    "benefits": [
+      "Higher LED count than the Com7 for wider scene coverage",
+      "Housing color options allow the fixture to match cab trim"
+    ],
+    "applications": [
+      "Utility and municipal service trucks",
+      "Snow plows and maintenance vehicles",
+      "Construction and work-zone support vehicles"
+    ]
+  },
+  "specifications": {
+    "voltage": "12/24 Vdc",
+    "led_count": "9",
+    "housing_options": [
+      "Black",
+      "White"
+    ],
+    "mount_option": "Surface Mount",
+    "sealing": "IP-rated, sealed housing"
+  },
+  "documentation": {
+    "manuals": [
+      {
+        "label": "Com9 Scene Light Installation Manual",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "brochures": [
+      {
+        "label": "Com Series Scene Light Brochure",
+        "url": "#",
+        "type": "pdf"
+      }
+    ],
+    "cad_files": [],
+    "certifications": []
+  },
+  "commerce": {
+    "sku_root": "COM9",
+    "msrp_display": "Contact for pricing",
+    "availability": "Contact for availability",
+    "price_display": "contact",
+    "_skuNote": "SKUs and prices sourced from src/data/shopify/shopify-variant-index.json (handle: com9-scene-light). The Shopify export's option1 field mirrors the SKU rather than a real option label, so the Black/White housing-color mapping to the -B/-W suffixes is inferred from the SKU pattern pending confirmation in Shopify Admin.",
+    "sku_table": [
+      {
+        "sku": "COM9-B",
+        "housing_color": "Black"
+      },
+      {
+        "sku": "COM9-W",
+        "housing_color": "White"
+      }
+    ]
+  },
+  "shopify": {
+    "_model": "ONE Shopify product with 2 variants (housing color). COM9 SKUs = Shopify variant SKUs.",
+    "product_id": null,
+    "handle": "com9-scene-light",
+    "cart_eligible": true,
+    "storefront_available": true,
+    "variant_mappings": [
+      {
+        "sku": "COM9-B",
+        "shopify_variant_id": "53719473094767",
+        "option_housing_color": "Black"
+      },
+      {
+        "sku": "COM9-W",
+        "shopify_variant_id": "53719473127535",
+        "option_housing_color": "White"
+      }
+    ]
+  },
+  "cta": {
+    "where_to_buy_url": "https://www.fedsig.com/where-to-buy",
+    "request_info_url": "#"
+  },
+  "_prototype": false,
+  "_commerce_note": "Prices and variant IDs are resolved automatically from src/data/shopify/shopify-variant-index.json via commerceLookupService. The variant_mappings here serve as a structural fallback only — commerceLookupService reads the index first."
+}
