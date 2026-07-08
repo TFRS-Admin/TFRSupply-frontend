@@ -1,14 +1,14 @@
 /**
  * adapters/base44/quoteRequestAdapter.js
- * Delivery adapter: Base44 entity storage + SendEmail.
+ * Delivery adapter: previously Base44 entity storage + SendEmail.
  *
- * This is the ONLY file that imports base44Client.
- * Idempotency: checks submissionId before creating a new record — safe to retry.
+ * Base44 has been removed as part of the platform migration, so this
+ * adapter has no delivery backend to persist to or send email through.
+ * It fails gracefully (matching the other "coming soon" auth pages) until
+ * a replacement delivery backend (e.g. a Shopify-based flow) is wired up.
  * To swap delivery: create a new adapter, update quoteRequestService.js import.
  */
 
-import { base44 } from '@/api/base44Client';
-import appConfig from '@/config/appConfig';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -108,87 +108,20 @@ TFR Supply Pro Shop
 `.trim();
 }
 
-// ─── Idempotent Record Step ───────────────────────────────────────────────────
-
-async function getOrCreateRecord(payload) {
-  // Check for an existing record with the same submissionId
-  const existing = await base44.entities.QuoteRequest.filter({ submissionId: payload.submissionId });
-  if (existing && existing.length > 0) {
-    return { record: existing[0], wasExisting: true };
-  }
-
-  const record = await base44.entities.QuoteRequest.create({
-    submissionId:    payload.submissionId,
-    productId:       payload.productId,
-    configuratorId:  payload.configuratorId,
-    productTitle:    payload.productTitle,
-    skuPreview:      payload.selectedSku || payload.skuPreview || '',
-    selectedOptions: payload.selectedOptions,
-    accessories:     payload.accessories,
-    dependencyNotes: payload.dependencyNotes,
-    warningNotes:    payload.warningNotes,
-    contactName:     payload.contact.name,
-    agency:          payload.contact.agency,
-    email:           payload.contact.email,
-    phone:           payload.contact.phone || '',
-    vehicleCount:    payload.contact.vehicleCount || '',
-    notes:           payload.contact.notes || '',
-    status:          'new',
-    source:          payload.source,
-    submittedAt:     payload.timestamp,
-  });
-
-  return { record, wasExisting: false };
-}
-
 // ─── Adapter Entry Point ──────────────────────────────────────────────────────
 
 /**
- * Idempotent: persist quote record then send emails.
- * Safe to retry — will reuse the existing record if submissionId already exists.
+ * Base44 (the previous storage + email backend) has been removed. There is
+ * currently no delivery backend to persist to or send email through, so this
+ * always reports failure without attempting a submission.
  *
  * @param {QuotePayload} payload — must include submissionId
  * @returns {Promise<{ success: boolean, referenceId?: string, savedRecord?: boolean, error?: string }>}
  */
 export async function submitViaBase44Email(payload) {
-  // 1. Persist (or retrieve existing) record — idempotent on submissionId
-  const { record, wasExisting } = await getOrCreateRecord(payload);
-  const referenceId = deriveReferenceId(record?.id);
-
-  // 2. Send internal email — always attempt even on retry
-  let emailError = null;
-  try {
-    const body = buildEmailBody(payload, referenceId);
-    const subject = `Quote Request — ${payload.productTitle} (${payload.selectedSku || 'SKU pending'})${referenceId ? ` [${referenceId}]` : ''}`;
-    await base44.integrations.Core.SendEmail({
-      from_name: appConfig.quoteSenderName,
-      to: appConfig.quoteRecipientEmail,
-      subject,
-      body,
-    });
-
-    // 3. Confirmation email to requestor
-    if (appConfig.quoteSendConfirmation && payload.contact?.email) {
-      await base44.integrations.Core.SendEmail({
-        from_name: appConfig.quoteSenderName,
-        to: payload.contact.email,
-        subject: `Your Quote Request — ${payload.productTitle}${referenceId ? ` [${referenceId}]` : ''}`,
-        body: buildConfirmationBody(payload, referenceId),
-      });
-    }
-  } catch (err) {
-    emailError = err.message;
-  }
-
-  // Record was saved — partial success if email failed
-  if (emailError) {
-    return {
-      success: false,
-      savedRecord: true,
-      referenceId,
-      error: `Your request was saved (${referenceId || 'see reference above'}) but the notification email failed. Please contact us directly and mention your reference number.`,
-    };
-  }
-
-  return { success: true, referenceId, savedRecord: true, wasExisting };
+  return {
+    success: false,
+    savedRecord: false,
+    error: 'Quote request submission is temporarily unavailable during our platform migration. Please call 800-621-9959 or email us directly.',
+  };
 }

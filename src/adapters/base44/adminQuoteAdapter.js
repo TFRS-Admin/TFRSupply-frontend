@@ -1,17 +1,17 @@
 /**
  * adapters/base44/adminQuoteAdapter.js
- * Base44 data access for the admin quote queue.
- * Only file that imports base44Client for quote admin operations.
+ * Previously Base44 data access for the admin quote queue.
+ *
+ * Base44 has been removed as part of the platform migration, so there is
+ * no backend to read quote records from until a replacement is wired up.
  */
-
-import { base44 } from '@/api/base44Client';
 
 /** Load all QuoteRequest records, newest first. */
 export async function fetchAllQuotes() {
-  return base44.entities.QuoteRequest.list('-submittedAt', 200);
+  return [];
 }
 
 /** Advance a single quote's status field. */
 export async function updateQuoteStatus(id, status) {
-  return base44.entities.QuoteRequest.update(id, { status });
+  throw new Error('Quote status updates are temporarily unavailable during our platform migration.');
 }
