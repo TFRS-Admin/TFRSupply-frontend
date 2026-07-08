@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import type { CSSProperties, FormEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X, ChevronDown, Truck, Home as HomeIcon } from 'lucide-react';
+import {
+  Search, Menu, X, ChevronDown, Truck, Home as HomeIcon,
+  UserCircle, LayoutDashboard, Heart, FolderKanban, Check, LogIn, LogOut,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
 import { useFleetProject } from '@/context/FleetProjectContext';
+import { useSavedProducts } from '@/context/SavedProductsContext';
+import { useAuth } from '@/lib/AuthContext';
 import { NAV_VERTICALS } from '@/config/navigationVerticals';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
 import MiniCart from '@/components/cart/MiniCart';
-import SavedProductsButton from '@/components/navigator/SavedProductsButton';
-import WorkspaceButton from '@/components/navigator/WorkspaceButton';
-import FleetProjectIndicator from '@/components/fleetProjects/FleetProjectIndicator';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 import type { VerticalCardItem } from '@/types';
 
@@ -24,6 +27,8 @@ const UTILITY_LINKS: { label: string; to: string }[] = [
   { label: 'Support', to: '/support' },
   { label: 'Contact', to: '/contact' },
 ];
+
+const NAV_VERTICAL_IDS = NAV_VERTICALS.map((vertical) => vertical.id);
 
 const verticalLabelStyle: CSSProperties = {
   display: 'flex',
@@ -42,15 +47,53 @@ interface SiteHeaderProps {
   activeCategory?: string;
 }
 
+interface MyFleetMenuItemProps {
+  label: string;
+  onClick: () => void;
+  icon?: LucideIcon;
+  endIcon?: LucideIcon;
+  active?: boolean;
+  tone?: string;
+}
+
+function MyFleetMenuItem({ label, onClick, icon: Icon, endIcon: EndIcon, active, tone }: MyFleetMenuItemProps) {
+  return (
+    <button
+      type="button"
+      role="menuitem"
+      onClick={onClick}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 8, width: '100%', textAlign: 'left',
+        fontSize: 13, fontWeight: active ? 700 : 500,
+        color: tone || (active ? RED : '#1a1a1a'),
+        background: 'none', border: 'none', cursor: 'pointer', padding: '8px 10px', borderRadius: 4,
+      }}
+      onMouseEnter={e => e.currentTarget.style.background = '#f5f5f5'}
+      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+    >
+      {Icon && <Icon size={15} style={{ flexShrink: 0 }} />}
+      <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{label}</span>
+      {EndIcon && <EndIcon size={13} style={{ flexShrink: 0 }} />}
+    </button>
+  );
+}
+
+function MyFleetMenuSeparator() {
+  return <div style={{ borderTop: '1px solid #eee', margin: '6px 0' }} />;
+}
+
 export default function SiteHeader({ activeVertical: activeVerticalProp = 'police', activeCategory }: SiteHeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [vehicleModalOpen, setVehicleModalOpen] = useState<boolean>(false);
+  const [myFleetOpen, setMyFleetOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchFocused, setSearchFocused] = useState<boolean>(false);
   const { selectedVehicle } = useVehicle();
   const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
+  const { productIds: savedProductIds } = useSavedProducts();
+  const { isAuthenticated, logout } = useAuth();
 
   function submitSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -59,14 +102,22 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
     setMobileOpen(false);
   }
 
-  // Derive verticalId from URL: first path segment
+  // urlVerticalId is only set when the URL's first path segment is a known
+  // vertical — used to gate the category row (row 3) so it never appears on
+  // general pages. verticalId additionally falls back to the activeVertical
+  // prop so the dark verticals row (row 2) still highlights correctly for
+  // callers that pass it ahead of the route resolving (e.g. during a
+  // vertical landing page's own loading state).
   const pathSegments = location.pathname.split('/').filter(Boolean);
-  const verticalId: string | null = pathSegments[0] || activeVerticalProp || null;
-  const urlCategoryId: string | null = pathSegments[1] || null;
+  const urlVerticalId: string | null = pathSegments[0] && NAV_VERTICAL_IDS.includes(pathSegments[0]) ? pathSegments[0] : null;
+  const verticalId: string | null = urlVerticalId || activeVerticalProp || null;
+  const urlCategoryId: string | null = urlVerticalId ? (pathSegments[1] || null) : null;
 
   // Load categories through the catalog hook — falls back to empty array if vertical not found
-  const { data: verticalData } = useCatalogVertical(verticalId);
+  const { data: verticalData } = useCatalogVertical(urlVerticalId);
   const categories: VerticalCardItem[] = verticalData?.categories_section?.items || [];
+  const showCategoryRow = Boolean(urlVerticalId) && categories.length > 0;
+  const activeFleetProjects = fleetProjectsList.filter((project: { archived?: boolean }) => !project.archived);
 
   return (
     <header className="sticky top-0 z-40" style={{ fontFamily: FONT }}>
@@ -145,9 +196,6 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
           {/* Right actions */}
           <div className="site-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
 
-            {/* Fleet Project indicator/switcher */}
-            <FleetProjectIndicator />
-
             {/* Vehicle selector — dark navy rounded-md, "Where to Buy" style */}
             <button
               onClick={() => setVehicleModalOpen(true)}
@@ -176,11 +224,83 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
               </span>
             </button>
 
-            {/* Workspace */}
-            <WorkspaceButton />
+            {/* My Fleet — consolidated Workspace / Favorites / Fleet Projects / Settings / Account menu */}
+            <div style={{ position: 'relative' }} className="hidden md:flex">
+              <button
+                type="button"
+                onClick={() => setMyFleetOpen((open) => !open)}
+                aria-label="Open My Fleet menu"
+                aria-expanded={myFleetOpen}
+                className="tfr-focus-ring"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  background: '#f5f5f5', color: '#1a1a1a',
+                  border: '1.5px solid #d0d0d0', borderRadius: 6, cursor: 'pointer',
+                  fontWeight: 700, fontSize: 13, padding: '9px 14px',
+                  whiteSpace: 'nowrap', fontFamily: FONT,
+                }}
+              >
+                <UserCircle size={16} />
+                My Fleet
+                <ChevronDown size={12} />
+              </button>
 
-            {/* Saved products */}
-            <SavedProductsButton />
+              {myFleetOpen && (
+                <>
+                  <div onClick={() => setMyFleetOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 45 }} />
+                  <div
+                    role="menu"
+                    aria-label="My Fleet"
+                    style={{
+                      position: 'absolute', top: 'calc(100% + 6px)', right: 0, minWidth: 250,
+                      background: '#fff', border: '1px solid #e5e7eb', borderRadius: 6,
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.14)', zIndex: 46, padding: 6,
+                      fontFamily: FONT,
+                    }}
+                  >
+                    <MyFleetMenuItem icon={LayoutDashboard} label="My Workspace" onClick={() => { navigate('/workspace'); setMyFleetOpen(false); }} />
+                    <MyFleetMenuItem
+                      icon={Heart}
+                      label={`Favorites${savedProductIds.length > 0 ? ` (${savedProductIds.length})` : ''}`}
+                      onClick={() => { navigate('/saved-products'); setMyFleetOpen(false); }}
+                    />
+
+                    <MyFleetMenuSeparator />
+                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#999', padding: '6px 10px 4px', margin: 0 }}>
+                      Fleet Projects
+                    </p>
+                    {activeFleetProjects.map((project: { id: string; name: string }) => (
+                      <MyFleetMenuItem
+                        key={project.id}
+                        icon={FolderKanban}
+                        label={project.name}
+                        active={project.id === activeFleetProject?.id}
+                        endIcon={project.id === activeFleetProject?.id ? Check : undefined}
+                        onClick={() => { setActiveFleetProject(project.id); setMyFleetOpen(false); }}
+                      />
+                    ))}
+
+                    <MyFleetMenuSeparator />
+                    <MyFleetMenuItem label="Settings" onClick={() => { navigate('/workspace'); setMyFleetOpen(false); }} />
+
+                    <MyFleetMenuSeparator />
+                    {isAuthenticated ? (
+                      <>
+                        <MyFleetMenuItem icon={UserCircle} label="Account" onClick={() => { navigate('/workspace'); setMyFleetOpen(false); }} />
+                        <MyFleetMenuItem icon={LogOut} label="Sign Out" onClick={() => { logout(); setMyFleetOpen(false); }} />
+                      </>
+                    ) : (
+                      <MyFleetMenuItem
+                        icon={LogIn}
+                        label="Login to Access Account"
+                        tone={RED}
+                        onClick={() => { navigate('/login'); setMyFleetOpen(false); }}
+                      />
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Mini cart */}
             <MiniCart />
@@ -247,8 +367,8 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         </div>
       </div>
 
-      {/* ── Row 3: Category nav — driven by active vertical JSON ───────────── */}
-      {categories.length > 0 && (
+      {/* ── Row 3: Category nav — Title Case, only inside a vertical route ──── */}
+      {showCategoryRow && (
         <div style={{ background: '#ffffff', borderBottom: '2px solid #e8e8e8' }} className="hidden md:block">
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch' }}>
             {categories.map(cat => {
@@ -259,7 +379,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
                 <button
                   key={cat.label}
                   className={isEnabled ? 'tfr-focus-ring' : undefined}
-                  onClick={isEnabled ? () => navigate(`/${verticalId}/${catId}`) : undefined}
+                  onClick={isEnabled ? () => navigate(`/${urlVerticalId}/${catId}`) : undefined}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 4,
                     padding: '14px 16px',
@@ -302,7 +422,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         selectedVehicle={selectedVehicle}
         onOpenVehicleModal={() => { setVehicleModalOpen(true); setMobileOpen(false); }}
         onNavigateWorkspace={() => { navigate('/workspace'); setMobileOpen(false); }}
-        fleetProjects={fleetProjectsList.filter((project: { archived?: boolean }) => !project.archived)}
+        fleetProjects={activeFleetProjects}
         activeFleetProject={activeFleetProject}
         onSwitchFleetProject={(projectId: string) => { setActiveFleetProject(projectId); setMobileOpen(false); }}
         activeVerticalId={verticalId}
