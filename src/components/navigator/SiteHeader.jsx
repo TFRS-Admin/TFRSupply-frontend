@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, Menu, X, ChevronDown, Truck } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
 import { useVehicle } from '@/context/VehicleContext';
@@ -14,15 +14,12 @@ import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
 
 const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
-
-
 export default function SiteHeader({ activeVertical: activeVerticalProp = 'police', activeCategory }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
   const { selectedVehicle } = useVehicle();
   const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
 
@@ -43,202 +40,119 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
   const categories = verticalData?.categories_section?.items || [];
 
   return (
-    <header className="sticky top-0 z-40" style={{ fontFamily: "'Roboto','Inter',sans-serif" }}>
+    <header className="sticky top-0 z-40 bg-[#002a3a] font-montserrat">
+      {/* ── Unified header bar — single navy row, no more 3-row split ───── */}
+      <div className="mx-auto flex max-w-[1280px] items-center gap-4 px-6 py-3">
+        {/* Logo */}
+        <button
+          onClick={() => navigate('/')}
+          aria-label="TFR Supply — Home"
+          className="flex shrink-0 items-center gap-3 rounded p-1 transition-opacity hover:opacity-80"
+        >
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-[#c8102e]">
+            <span className="text-2xl font-black leading-none tracking-tighter text-white">T</span>
+          </div>
+          <div className="text-left">
+            <div className="text-[17px] font-black uppercase leading-tight tracking-widest text-white">TFR SUPPLY</div>
+            <div className="mt-0.5 text-[9px] uppercase tracking-[0.18em] text-gray-400">Pro Shop</div>
+          </div>
+        </button>
 
-      {/* ── Row 1: Dark vertical/utility bar ───────────────────────────────── */}
-      <div style={{ background: '#1c1c1c' }}>
-        <div className="site-header-row1-inner hidden md:flex" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', alignItems: 'stretch', justifyContent: 'space-between', minHeight: 40 }}>
-
-          {/* Left: home icon + mega menu triggers */}
+        {/* Main navigation — desktop only */}
+        <div className="hidden h-11 md:flex">
           <NavigationMegaMenu activeVerticalId={verticalId} />
+        </div>
 
-          {/* Right: utility links */}
-          <div style={{ alignItems: 'center', gap: 24 }} className="hidden md:flex">
-            {UTILITY_LINKS.map(link => (
-              <button
-                key={link}
-                className="tfr-focus-ring-inverse"
-                style={{ fontSize: 12, color: '#aaaaaa', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'color 0.15s ease' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#ffffff'}
-                onMouseLeave={e => e.currentTarget.style.color = '#aaaaaa'}
-                onFocus={e => e.currentTarget.style.color = '#ffffff'}
-                onBlur={e => e.currentTarget.style.color = '#aaaaaa'}
-              >
+        {/* Search — desktop only */}
+        <form onSubmit={submitSearch} className="ml-2 hidden max-w-xs flex-1 items-stretch overflow-hidden rounded-md border border-white/20 bg-white/5 lg:flex">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products"
+            aria-label="Search products"
+            className="flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder:text-gray-500 outline-none"
+          />
+          <button type="submit" aria-label="Search" className="shrink-0 px-3 text-gray-300 hover:text-white">
+            <Search size={16} />
+          </button>
+        </form>
+
+        {/* Right-aligned actions */}
+        <div className="ml-auto flex items-center gap-2">
+          <div className="hidden items-center gap-5 pr-1 lg:flex">
+            {UTILITY_LINKS.map((link) => (
+              <button key={link} className="whitespace-nowrap text-xs font-normal text-gray-400 transition-colors hover:text-white">
                 {link}
               </button>
             ))}
           </div>
-        </div>
-      </div>
 
-      {/* ── Row 2: White main header ────────────────────────────────────────── */}
-      <div style={{ background: '#ffffff', borderBottom: '1px solid #e8e8e8', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-        <div className="site-header-row2-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 24 }}>
+          {/* Fleet Project indicator/switcher */}
+          <FleetProjectIndicator />
 
-          {/* Logo — Fed Sig style: red mark + wordmark */}
+          {/* Vehicle selector button */}
           <button
-            onClick={() => navigate('/')}
-            aria-label="TFR Supply — Home"
-            className="tfr-focus-ring"
-            style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', padding: 4, margin: -4, borderRadius: 4, transition: 'opacity 0.15s ease' }}
-            onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+            onClick={() => setVehicleModalOpen(true)}
+            className="hidden items-center gap-2 whitespace-nowrap rounded-md border border-white/20 bg-white/5 px-3 py-2 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:flex"
           >
-            {/* Red F-mark badge */}
-            <div style={{ width: 44, height: 44, background: '#c8102e', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <span style={{ color: '#fff', fontWeight: 900, fontSize: 22, lineHeight: 1, letterSpacing: '-0.05em' }}>T</span>
-            </div>
-            {/* Wordmark */}
-            <div style={{ textAlign: 'left' }}>
-              <div style={{ fontWeight: 900, fontSize: 17, letterSpacing: '0.08em', color: '#1a1a1a', lineHeight: 1.1, textTransform: 'uppercase' }}>TFR SUPPLY</div>
-              <div style={{ fontSize: 9, color: '#888', letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 2 }}>Pro Shop</div>
-            </div>
+            <Truck size={14} className="shrink-0 text-gray-300" />
+            <span className="whitespace-nowrap">
+              {selectedVehicle
+                ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
+                : 'Select Your Vehicle'}
+            </span>
+            {selectedVehicle && (
+              <span className="shrink-0 rounded-sm bg-[#c8102e] px-1.5 py-0.5 text-[9px] font-bold tracking-wide text-white">
+                CHANGE
+              </span>
+            )}
           </button>
 
-          {/* Search bar — center, flex-grow */}
-          <form
-            onSubmit={submitSearch}
-            style={{
-              flex: 1, maxWidth: 560, alignItems: 'stretch',
-              border: `1.5px solid ${searchFocused ? '#c8102e' : '#d0d0d0'}`,
-              borderRadius: 2, overflow: 'hidden',
-              transition: 'border-color 0.15s ease',
-            }}
-            className="hidden md:flex"
+          {/* Workspace */}
+          <WorkspaceButton />
+
+          {/* Saved products */}
+          <SavedProductsButton />
+
+          {/* Mini cart */}
+          <MiniCart />
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            aria-haspopup="dialog"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded text-white transition-colors hover:bg-white/10 md:hidden"
           >
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              placeholder="Search for products"
-              aria-label="Search products"
-              style={{ flex: 1, padding: '10px 16px', fontSize: 14, color: '#333', border: 'none', outline: 'none', fontFamily: "'Roboto','Inter',sans-serif" }}
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              style={{ background: '#c8102e', border: 'none', padding: '0 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-              onMouseEnter={e => e.currentTarget.style.background = '#a50d25'}
-              onMouseLeave={e => e.currentTarget.style.background = '#c8102e'}
-            >
-              <Search size={17} color="#fff" />
-            </button>
-          </form>
-
-          {/* Right actions */}
-          <div className="site-header-actions" style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
-
-            {/* Fleet Project indicator/switcher */}
-            <FleetProjectIndicator />
-
-            {/* Vehicle selector button */}
-            <button
-              onClick={() => setVehicleModalOpen(true)}
-              className="hidden md:flex tfr-focus-ring"
-              style={{
-                alignItems: 'center', gap: 8,
-                background: selectedVehicle ? '#1a2744' : '#f5f5f5',
-                color: selectedVehicle ? '#fff' : '#444',
-                border: `1.5px solid ${selectedVehicle ? '#1a2744' : '#d0d0d0'}`,
-                borderRadius: 3, cursor: 'pointer',
-                fontWeight: selectedVehicle ? 700 : 500,
-                fontSize: 13,
-                padding: '9px 16px',
-                whiteSpace: 'nowrap',
-                fontFamily: "'Roboto','Inter',sans-serif",
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = selectedVehicle ? '#0f1829' : '#ebebeb';
-                e.currentTarget.style.borderColor = selectedVehicle ? '#0f1829' : '#bbb';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = selectedVehicle ? '#1a2744' : '#f5f5f5';
-                e.currentTarget.style.borderColor = selectedVehicle ? '#1a2744' : '#d0d0d0';
-              }}
-            >
-              <Truck size={14} style={{ flexShrink: 0, color: selectedVehicle ? '#94a3b8' : '#888' }} />
-              <span style={{ whiteSpace: 'nowrap' }}>
-                {selectedVehicle
-                  ? `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model}`
-                  : 'Select Your Vehicle'}
-              </span>
-              {selectedVehicle && (
-                <span style={{ fontSize: 9, background: '#c8102e', color: '#fff', padding: '1px 5px', borderRadius: 2, letterSpacing: '0.06em', fontWeight: 700, flexShrink: 0 }}>
-                  CHANGE
-                </span>
-              )}
-            </button>
-
-            {/* Workspace */}
-            <WorkspaceButton />
-
-            {/* Saved products */}
-            <SavedProductsButton />
-
-            {/* Mini cart */}
-            <MiniCart />
-
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setMobileOpen(o => !o)}
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={mobileOpen}
-              aria-haspopup="dialog"
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                alignItems: 'center', justifyContent: 'center', color: '#333',
-                minWidth: 44, minHeight: 44, borderRadius: 4,
-                transition: 'background-color 0.15s ease',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = '#f5f5f5'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-              className="md:hidden site-header-hamburger flex tfr-focus-ring"
-            >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
 
-      {/* ── Row 3: Category nav — driven by active vertical JSON ───────────── */}
+      {/* ── Category row — driven by active vertical JSON ───────────────── */}
       {categories.length > 0 && (
-        <div style={{ background: '#ffffff', borderBottom: '2px solid #e8e8e8' }} className="hidden md:block">
-          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'stretch' }}>
-            {categories.map(cat => {
+        <div className="hidden border-t border-white/10 md:block">
+          <div className="mx-auto flex max-w-[1280px] items-stretch px-6">
+            {categories.map((cat) => {
               const catId = cat.categoryId || null;
               const isActive = urlCategoryId ? urlCategoryId === catId : (activeCategory === cat.label);
               const isEnabled = !!catId;
               return (
                 <button
                   key={cat.label}
-                  className={isEnabled ? 'tfr-focus-ring' : undefined}
+                  className={`flex items-center gap-1 whitespace-nowrap border-b-[3px] px-4 py-3 text-[13px] tracking-wide transition-colors ${
+                    isActive
+                      ? 'border-[#c8102e] font-semibold text-[#c8102e]'
+                      : isEnabled
+                        ? 'border-transparent font-normal text-gray-300 hover:border-[#c8102e]/60 hover:text-white'
+                        : 'cursor-default border-transparent font-normal text-gray-600'
+                  }`}
                   onClick={isEnabled ? () => navigate(`/${verticalId}/${catId}`) : undefined}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 4,
-                    padding: '14px 16px',
-                    fontSize: 13,
-                    fontWeight: isActive ? 700 : 400,
-                    color: isActive ? '#c8102e' : isEnabled ? '#3d3d3d' : '#bbbbbb',
-                    background: 'none',
-                    border: 'none',
-                    borderBottom: isActive ? '3px solid #c8102e' : '3px solid transparent',
-                    marginBottom: -2,
-                    cursor: isEnabled ? 'pointer' : 'default',
-                    whiteSpace: 'nowrap',
-                    letterSpacing: '0.01em',
-                    fontFamily: "'Roboto','Inter',sans-serif",
-                    transition: 'color 0.15s, background-color 0.15s',
-                  }}
-                  onMouseEnter={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#c8102e'; e.currentTarget.style.background = '#fafafa'; } }}
-                  onMouseLeave={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#3d3d3d'; e.currentTarget.style.background = 'transparent'; } }}
-                  onFocus={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#c8102e'; e.currentTarget.style.background = '#fafafa'; } }}
-                  onBlur={e => { if (!isActive && isEnabled) { e.currentTarget.style.color = '#3d3d3d'; e.currentTarget.style.background = 'transparent'; } }}
                 >
                   {cat.label}
-                  {isEnabled && <ChevronDown size={12} style={{ opacity: 0.5, marginTop: 1 }} />}
+                  {isEnabled && <ChevronDown size={12} className="mt-px opacity-50" />}
                 </button>
               );
             })}
@@ -246,7 +160,7 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
         </div>
       )}
 
-      {/* ── Vehicle selector modal ─────────────────────────────────────────── */}
+      {/* ── Vehicle selector modal ─────────────────────────────────────── */}
       {vehicleModalOpen && <VehicleSelectorModal onClose={() => setVehicleModalOpen(false)} />}
 
       {/* ── Mobile off-canvas drawer ──────────────────────────────────────── */}
