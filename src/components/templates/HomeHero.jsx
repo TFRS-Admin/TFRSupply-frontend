@@ -16,18 +16,15 @@ export default function HomeHero({ eyebrow, title, subtitle, images = [], primar
           <img key={img} src={img} alt="" className="h-full w-full object-cover" />
         ))}
       </div>
-      <div
-        className="absolute inset-0"
-        style={{ background: 'linear-gradient(90deg, #0f0f0f 45%, rgba(15,15,15,0.7) 100%)' }}
-      />
+      <div className="absolute inset-0 bg-black/80" />
       <div className="relative mx-auto max-w-7xl px-6 py-20 md:py-28">
         {eyebrow && (
           <div className="mb-4 flex items-center gap-2">
             <span className="inline-block h-[3px] w-8 bg-[#c8102e]" />
-            <p className="font-heading text-xs font-bold uppercase tracking-[0.14em] text-[#d97706]">{eyebrow}</p>
+            <p className="font-heading text-xs font-bold uppercase tracking-wide text-[#F5B942]">{eyebrow}</p>
           </div>
         )}
-        <h1 className="font-heading mb-5 max-w-2xl text-4xl font-bold uppercase leading-[1.05] tracking-tight text-white md:text-6xl">
+        <h1 className="font-heading mb-5 max-w-2xl text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-white md:text-6xl">
           {title}
         </h1>
         {subtitle && (
@@ -39,7 +36,7 @@ export default function HomeHero({ eyebrow, title, subtitle, images = [], primar
           {primaryCta && (
             <Link
               to={primaryCta.to}
-              className="font-heading inline-flex items-center gap-2 rounded-sm bg-[#c8102e] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-[#a50d25]"
+              className="font-heading inline-flex items-center gap-2 rounded-md bg-[#C8102E] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-[#A50D25]"
             >
               {primaryCta.label} <ArrowRight size={16} />
             </Link>
@@ -47,7 +44,7 @@ export default function HomeHero({ eyebrow, title, subtitle, images = [], primar
           {secondaryCta && (
             <Link
               to={secondaryCta.to}
-              className="font-heading inline-flex items-center gap-2 rounded-sm border border-white/30 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-white/10"
+              className="font-heading inline-flex items-center gap-2 rounded-md border border-white/30 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-colors duration-150 hover:bg-white/10"
             >
               {secondaryCta.label} <ChevronRight size={16} />
             </Link>
