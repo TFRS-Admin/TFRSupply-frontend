@@ -33,7 +33,10 @@ export default function VerticalHero({ hero }) {
         {hero.cta && (
           <a
             href={hero.cta.href || '#'}
-            className="vlt-hero-cta font-heading inline-flex w-fit items-center gap-1.5 rounded-md bg-white px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#C8102E]"
+            style={{ background: '#e21938', borderRadius: '20px 2px 20px 2px' }}
+            className="vlt-hero-cta font-heading inline-flex w-fit items-center gap-1.5 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white"
+            onMouseEnter={e => e.currentTarget.style.background = '#ec0025'}
+            onMouseLeave={e => e.currentTarget.style.background = '#e21938'}
           >
             {hero.cta.label} <ChevronRight size={15} />
           </a>
