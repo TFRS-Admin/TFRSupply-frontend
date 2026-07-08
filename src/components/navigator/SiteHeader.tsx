@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import type { FormEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, Menu, X, ChevronDown, Truck } from 'lucide-react';
 import { useCatalogVertical } from '@/hooks/useCatalog';
@@ -11,22 +12,26 @@ import WorkspaceButton from '@/components/navigator/WorkspaceButton';
 import FleetProjectIndicator from '@/components/fleetProjects/FleetProjectIndicator';
 import NavigationMegaMenu from '@/components/navigation/NavigationMegaMenu';
 import MobileNavDrawer from '@/components/navigation/MobileNavDrawer';
+import type { VerticalCardItem } from '@/types';
 
-const UTILITY_LINKS = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
+const UTILITY_LINKS: string[] = ['Resources', 'Articles', 'Product News', 'Trade Shows'];
 
+interface SiteHeaderProps {
+  activeVertical?: string | null;
+  activeCategory?: string;
+}
 
-
-export default function SiteHeader({ activeVertical: activeVerticalProp = 'police', activeCategory }) {
+export default function SiteHeader({ activeVertical: activeVerticalProp = 'police', activeCategory }: SiteHeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [vehicleModalOpen, setVehicleModalOpen] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchFocused, setSearchFocused] = useState<boolean>(false);
   const { selectedVehicle } = useVehicle();
   const { projects: fleetProjectsList, activeProject: activeFleetProject, setActiveProject: setActiveFleetProject } = useFleetProject();
 
-  function submitSearch(e) {
+  function submitSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const query = searchQuery.trim();
     navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
@@ -35,12 +40,12 @@ export default function SiteHeader({ activeVertical: activeVerticalProp = 'polic
 
   // Derive verticalId from URL: first path segment
   const pathSegments = location.pathname.split('/').filter(Boolean);
-  const verticalId = pathSegments[0] || activeVerticalProp;
-  const urlCategoryId = pathSegments[1] || null;
+  const verticalId: string | null = pathSegments[0] || activeVerticalProp || null;
+  const urlCategoryId: string | null = pathSegments[1] || null;
 
   // Load categories through the catalog hook — falls back to empty array if vertical not found
   const { data: verticalData } = useCatalogVertical(verticalId);
-  const categories = verticalData?.categories_section?.items || [];
+  const categories: VerticalCardItem[] = verticalData?.categories_section?.items || [];
 
   return (
     <header className="sticky top-0 z-40" style={{ fontFamily: "'Roboto','Inter',sans-serif" }}>
