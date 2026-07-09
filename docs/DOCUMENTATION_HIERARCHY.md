@@ -18,6 +18,10 @@ AI_AGENT_OPERATING_MODEL.md       (the operating loop: session start → pick is
   ↓
 DECISION_ROUTER.md                (routes the specific request to a tfrs-engineering-playbook command)
   ↓
+docs/engineering/CURRENT_SPRINT.md, BACKLOG.md, ROADMAP.md   (per playbook v3.0.0: what's in flight,
+  the full backlog, and sequencing — read before scanning GitHub Issues directly, see
+  AI_AGENT_OPERATING_MODEL.md#2-how-to-determine-current-work)
+  ↓
   ├─ Task touches this codebase's implementation? → docs/ai/AI_DEVELOPMENT_PLAYBOOK.md →
   │    docs/ai/IMPLEMENTATION_WORKFLOW.md → docs/ai/ARCHITECTURE_PRINCIPLES.md → docs/ai/PROMPT_TEMPLATE.md
   │    (index: docs/ai/REPOSITORY_INDEX.md)
@@ -35,7 +39,7 @@ DECISION_ROUTER.md                (routes the specific request to a tfrs-enginee
 | --- | --- | --- |
 | **Engineering workflow** (which command to run, when; lifecycle phases) | [`tfrs-engineering-playbook`](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (`commands/`, `DECISION_ROUTER.md`), mirrored locally by the four Minimum Baseline files | `docs/ENGINEERING_PLAYBOOK.md`, `docs/ENGINEERING_OPERATING_SYSTEM.md`, and `docs/ai/AI_DEVELOPMENT_PLAYBOOK.md` are **not** workflow authorities — see their headers |
 | **Roadmap ownership** (what to build, in what order) | [`docs/MASTER_EXECUTION_PROGRAM.md`](./MASTER_EXECUTION_PROGRAM.md) | `docs/PRODUCTION_ROADMAP.md` is a pointer only, by its own explicit statement — never add roadmap content there |
-| **Project state** (what's in flight right now) | **GitHub** (Issues and, once created, the GitHub Project board) | Per `AI_AGENT_OPERATING_MODEL.md#2-how-to-determine-current-work`: "Current work is whatever GitHub says it is." `docs/ENGINEERING_PLAYBOOK.md` proposed a local `docs/PROJECT_STATE.md` file — it was never built and is not in effect; do not create it without reopening that decision. GitHub Project setup is currently degraded (see `docs/PLAYBOOK_ADOPTION.md`) — the fallback is structured-text fields in issue bodies, not a local state file. |
+| **Project state** (what's in flight right now) | **`docs/engineering/CURRENT_SPRINT.md`, then each GitHub Issue's own `## Metadata` block, then `docs/engineering/BACKLOG.md`** | Per playbook v3.0.0 (2026-07-09): this repository is repository-centered, not GitHub-Project-centered — see `AI_AGENT_OPERATING_MODEL.md#2-how-to-determine-current-work`. A GitHub Project is optional visualization only (`GITHUB_PROJECT_STANDARD.md`) and is never required; this repository does not run one, by design, with no readiness penalty. `docs/ENGINEERING_PLAYBOOK.md` proposed a local `docs/PROJECT_STATE.md` file — it was never built and is not in effect; `docs/engineering/CURRENT_SPRINT.md`/`BACKLOG.md` are the actual repository-local equivalent that replaced that proposal. |
 | **AI operating rules** (conventions, loop, routing) | The four Minimum Baseline files: [`AGENTS.md`](../AGENTS.md), [`CLAUDE.md`](../CLAUDE.md), [`AI_AGENT_OPERATING_MODEL.md`](../AI_AGENT_OPERATING_MODEL.md), [`DECISION_ROUTER.md`](../DECISION_ROUTER.md) | All four are local mirrors of `tfrs-engineering-playbook`; `AI_AGENT_OPERATING_MODEL.md` and `DECISION_ROUTER.md` are repo-agnostic and must not diverge from upstream locally |
 
 ## Document Classification
@@ -58,6 +62,7 @@ DECISION_ROUTER.md                (routes the specific request to a tfrs-enginee
 | `docs/architecture/<DOMAIN>.md` | Same PR that changes that domain's boundary |
 | `docs/MASTER_EXECUTION_PROGRAM.md` §6 status markers | Ticking a status marker (`✅ merged (#nnn)`) after a merged PR — restructuring milestones/scope still requires founder approval |
 | `docs/PLAYBOOK_ADOPTION.md` | Re-running the Repository Readiness Checklist and recording the new result |
+| `docs/engineering/ROADMAP.md`, `BACKLOG.md`, `CURRENT_SPRINT.md`, `REPO_HEALTH.md` | Per `commands/roadmap.md`, `commands/backlog.md`, and `commands/repo-health.md` respectively — these commands write to these files directly as part of their normal output, per `BACKLOG_STANDARD.md` and `REPO_HEALTH_STANDARD.md` |
 | GitHub Issues / PRs / Project fields | Per `AI_AGENT_OPERATING_MODEL.md#5-how-to-update-github` — this is the actual project-state source of truth and is expected to change continuously |
 | `docs/ai/REPOSITORY_INDEX.md` row additions | Adding a row for a new top-level doc, in the same PR that introduces it (its own stated rule) |
 

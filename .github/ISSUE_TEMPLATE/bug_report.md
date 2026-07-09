@@ -33,3 +33,21 @@ Describe what happened instead.
 - Branch or commit:
 - Browser or runtime:
 - Additional context:
+
+## Metadata
+
+Status: Backlog
+Priority:
+Risk:
+Size:
+Epic:
+Sprint:
+Blocked: No
+QA Required: Yes
+Agent Persona:
+
+## Acceptance Criteria
+
+## Verification
+
+## Dependencies
