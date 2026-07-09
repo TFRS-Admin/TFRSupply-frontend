@@ -29,3 +29,21 @@ Describe the desired approach or user outcome.
 - P1
 - P2
 - P3
+
+## Metadata
+
+Status: Backlog
+Priority:
+Risk:
+Size:
+Epic:
+Sprint:
+Blocked: No
+QA Required: Yes
+Agent Persona:
+
+## Acceptance Criteria
+
+## Verification
+
+## Dependencies

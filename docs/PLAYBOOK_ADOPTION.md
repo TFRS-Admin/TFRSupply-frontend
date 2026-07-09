@@ -91,7 +91,75 @@ A small follow-up cleanup, ahead of merging the adoption sprint above, made the 
 
 No product code, CI, or tests changed in this pass.
 
+## v3.0.0 Upgrade — 2026-07-09
+
+The playbook released **v3.0.0** (breaking, same day as the v2.4.0 adoption sprint above) — see the playbook's [`VERSION.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/VERSION.md#300---2026-07-09). It moved from a GitHub-Project-centered operating model to a repository-centered one: `ARCHITECTURE.md` plus four new `docs/engineering/` files became required, non-degradable readiness items; every issue must carry a `## Metadata` block per the new [`ISSUE_METADATA_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/ISSUE_METADATA_STANDARD.md); and the GitHub Project checklist item was removed entirely (not just marked degradable) — a repository with no Project can now be `Fully Onboarded`.
+
+### What Was Added
+
+- `docs/engineering/ROADMAP.md`, `BACKLOG.md`, `CURRENT_SPRINT.md`, `REPO_HEALTH.md` — seeded from the v3.0.0 templates and populated with real repository content, not placeholders.
+- `AI_AGENT_OPERATING_MODEL.md` and `DECISION_ROUTER.md` re-copied from the v3.0.0 playbook (both were substantially rewritten upstream — repository-centered read order, `## Metadata`-block-based state instead of GitHub Project fields).
+- `AGENTS.md` and `README.md` updated to record the new adopted version (`3.0.0`) and reference the new `docs/engineering/` files.
+- `.github/ISSUE_TEMPLATE/bug_report.md` and `feature_request.md` updated to carry the `## Metadata`/`## Acceptance Criteria`/`## Verification`/`## Dependencies` sections required by [`ISSUE_METADATA_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/ISSUE_METADATA_STANDARD.md).
+- A [`commands/review.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/commands/review.md)-style repository review, converted via [`commands/backlog.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/commands/backlog.md) into a real issue hierarchy: master Epic [#279](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/279), six child Epics ([#280](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/280)–[#285](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/285)), sixteen task issues ([#286](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/286)–[#301](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/301)) — every one carrying a complete `## Metadata` block. See [`docs/engineering/BACKLOG.md`](./engineering/BACKLOG.md) for the full list and [`docs/engineering/REPO_HEALTH.md`](./engineering/REPO_HEALTH.md) for the underlying findings.
+- `docs/DOCUMENTATION_HIERARCHY.md` updated: the "Project state" row now points at `docs/engineering/CURRENT_SPRINT.md` + issue `## Metadata` blocks instead of "GitHub Project," and the read-order diagram now includes `docs/engineering/` between `DECISION_ROUTER.md` and the repository-specific branches.
+
+### Verification Commands (Re-Confirmed, Not Assumed)
+
+| Command | Result |
+| --- | --- |
+| `npm run lint` | **Pass** — zero output, zero errors |
+| `npm run typecheck` | **Pass** — zero output, zero errors |
+| `npm run build` | **Pass** |
+| `node --test tests/*.test.mjs` | **1143/1143 pass** |
+| `npm audit` | 16 vulnerabilities (1 low, 9 moderate, 6 high) — tracked as [#283](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/283) and children, not silently left unaddressed |
+
+### Repository Readiness Checklist — Pass 1 (Before This Upgrade, Against the New v3.0.0 Checklist)
+
+The repository was `Degraded but Usable` under the old v2.4.0 checklist (see above). Re-run against the v3.0.0 checklist, before this upgrade's changes:
+
+| Item | Degradable? | Result (pre-upgrade) |
+| --- | --- | --- |
+| `AGENTS.md` | No | Pass |
+| `CLAUDE.md` | No | Pass |
+| `AI_AGENT_OPERATING_MODEL.md` | No | **Fail** — present, but still the v2.4.0 content (GitHub-Project-centered read order) |
+| `DECISION_ROUTER.md` | No | **Fail** — present, but still the v2.4.0 content |
+| `ARCHITECTURE.md` | No | Pass |
+| Repository engineering docs | No | **Fail** — `docs/engineering/` did not exist |
+| `.github/ISSUE_TEMPLATE/` | No | **Fail** — present, but lacked the `## Metadata` block |
+| `.github/PULL_REQUEST_TEMPLATE.md` | No | Pass |
+| Playbook reference | No | Pass, with a stale version (`2.4.0` recorded, `3.0.0` current) |
+| Skills repo reference | No | Pass |
+| Verification commands | No | Pass |
+| Backlog initialized or explicitly empty | No | **Fail** — 113 real issues existed, but none carried a `## Metadata` block |
+| CI workflow | Yes | Pass |
+| Repository health cadence | Yes | Fail — cadence recorded in this document's prose, not in the (nonexistent) `docs/engineering/REPO_HEALTH.md` |
+
+**Net: 8 of 14 pass, 5 non-degradable items fail** → per the [Adoption States](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/REPOSITORY_BOOTSTRAP_GUIDE.md#adoption-states) model, this is decisive on its own: **`Not Onboarded`** under v3.0.0, despite having been `Degraded but Usable` under v2.4.0 a few hours earlier — the playbook's own breaking-change classification, not a regression in this repository.
+
+### Repository Readiness Checklist — Pass 2 (After This Upgrade)
+
+| Item | Degradable? | Result (post-upgrade) |
+| --- | --- | --- |
+| `AGENTS.md` | No | **Pass** |
+| `CLAUDE.md` | No | **Pass** |
+| `AI_AGENT_OPERATING_MODEL.md` | No | **Pass** — re-copied from playbook v3.0.0 |
+| `DECISION_ROUTER.md` | No | **Pass** — re-copied from playbook v3.0.0 |
+| `ARCHITECTURE.md` | No | **Pass** |
+| Repository engineering docs | No | **Pass** — `docs/engineering/{ROADMAP,BACKLOG,CURRENT_SPRINT,REPO_HEALTH}.md` all present, populated with real content |
+| `.github/ISSUE_TEMPLATE/` | No | **Pass** — both templates now carry the `## Metadata` block |
+| `.github/PULL_REQUEST_TEMPLATE.md` | No | **Pass** |
+| Playbook reference | No | **Pass** — version corrected to `3.0.0` |
+| Skills repo reference | No | **Pass** |
+| Verification commands | No | **Pass** — re-confirmed this session |
+| Backlog initialized or explicitly empty | No | **Pass, with a documented gap** — 22 new issues (#279–#301) all carry complete `## Metadata` blocks; the 113 pre-existing issues do not yet (tracked as [#286](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/286), explicitly recorded in `docs/engineering/BACKLOG.md`, not silently omitted) |
+| CI workflow | Yes | **Pass** |
+| Repository health cadence | Yes | **Pass** — cadence recorded in, and a real first pass run into, `docs/engineering/REPO_HEALTH.md` |
+
+**Net: 14 of 14 pass** — every non-degradable item passes cleanly, and the two degradable items pass without needing their fallback. Per the [Adoption States](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/REPOSITORY_BOOTSTRAP_GUIDE.md#adoption-states) model: **Fully Onboarded** under playbook v3.0.0. The one honest caveat — the 113 pre-existing issues' `## Metadata` migration — is explicitly tracked ([#286](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/286)) rather than either silently ignored or used to hold the whole repository back from `Fully Onboarded`, since the checklist item itself ("Backlog initialized... or the repository explicitly records... never silently absent") is satisfied by the explicit record.
+
 ## Related Documents
 
 - [`AGENTS.md`](../AGENTS.md) · [`ARCHITECTURE.md`](../ARCHITECTURE.md) · [`README.md`](../README.md) · [`docs/DOCUMENTATION_HIERARCHY.md`](./DOCUMENTATION_HIERARCHY.md)
+- [`docs/engineering/ROADMAP.md`](./engineering/ROADMAP.md) · [`docs/engineering/BACKLOG.md`](./engineering/BACKLOG.md) · [`docs/engineering/CURRENT_SPRINT.md`](./engineering/CURRENT_SPRINT.md) · [`docs/engineering/REPO_HEALTH.md`](./engineering/REPO_HEALTH.md)
 - [`tfrs-engineering-playbook` README](https://github.com/TFRS-Admin/tfrs-engineering-playbook#readme)
