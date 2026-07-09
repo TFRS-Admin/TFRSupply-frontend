@@ -36,14 +36,9 @@ Run directly against this repository during the adoption sprint:
 | `npm run lint` (`eslint . --quiet`) | **Pass** — zero output, zero errors |
 | `npm run typecheck` (`tsc --noEmit -p tsconfig.json`) | **Pass** — zero output, zero errors |
 | `npm run build` (`vite build`) | **Pass** — produced a real 2.2 MB `dist/` bundle |
-| `npm run test` (`node --test tests/*.test.mjs`) | **1141/1143 pass.** Two known pre-existing failures, not introduced by this sprint and not fixed here (out of scope — see below) |
+| `npm run test` (`node --test tests/*.test.mjs`) | **1143/1143 pass.** (Two failures present when this sprint's PR #277 was opened were fixed by separate commits on that same PR before merge — see Update below — and are confirmed green as of this documentation-cleanup follow-up.) |
 
-**Known-red items** (pre-existing, tracked here per the playbook's evidence-over-assertion standard rather than silently omitted):
-
-- `tests/homepage-conversion-polish.test.mjs` → `StoreLandingView` → "uses mobile-first responsive grid classes for card sections"
-- `tests/storefront-category-vertical-polish.test.mjs` → `CategoryTemplate filter and search reuse` → "renders every product in the category before any filter/search is applied"
-
-These are unrelated to the playbook-adoption changes in this PR (no application code was touched) and are left for a follow-up issue rather than fixed inline, per the playbook's scope-expansion guardrail.
+**Resolved item** (was known-red when PR #277 was opened, fixed before merge): `tests/homepage-conversion-polish.test.mjs` and `tests/storefront-category-vertical-polish.test.mjs` were updated by commits `2b264f4` and `a803c2a` to match current markup. Neither this documentation-cleanup follow-up nor the original adoption sprint touched test files directly — the fix landed as part of finishing out PR #277 and is recorded here only to keep this page accurate.
 
 ## Repository Readiness Checklist Result
 
@@ -79,7 +74,6 @@ This is **not** Fully Onboarded — that requires every checklist item, degradab
 
 1. **Create the real GitHub Project (v2)** with all ten required fields (`Status`, `Phase`, `Priority`, `Risk`, `Size`, `Sprint`, `Epic`, `QA Required`, `Blocked`, `Agent Persona`) and eight required views, per [`GITHUB_PROJECT_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/GITHUB_PROJECT_STANDARD.md). This requires GitHub UI/Projects-API access this session did not have — a human with repository admin access (or an agent session with Projects v2 tooling) should complete this next. Once created, migrate the 113 open issues' structured-text Priority/Risk/Size/dependency data into the real fields as part of a triage pass (the same triage the playbook's `tfrs-website` example independently recommends for that repository's near-identical stale backlog).
 2. **Run the first `commands/repo-health.md` pass** against the recorded monthly cadence above, rather than leaving it as a commitment only.
-3. **Fix the two known-red tests** (see Verification Commands above) as a follow-up issue — not a blocker to onboarding itself, but real red on `main` that should not persist indefinitely.
 
 None of the above are non-degradable — this repository is safe to operate against under the current playbook today, in the specific degraded mode each item's fallback describes.
 
@@ -87,7 +81,17 @@ None of the above are non-degradable — this repository is safe to operate agai
 
 Given the emphasis on this repository potentially serving as a frontend/design-system source for other TFRS repositories: its component layering (`src/components/ui/` design-system primitives, `src/domain/`, `src/types/` framework-agnostic contracts) and its `docs/architecture/*.md` per-domain boundary documentation are genuinely strong, reusable reference material — stronger than the playbook's own `tfrs-website` worked example. What was missing, and is now fixed by this sprint, was purely process-layer: authoritative agent instructions, GitHub-native scaffolding, and an honest architecture summary. With those in place, this repository is now a reasonable reference for how a TFRS frontend repository should adopt the playbook — with the GitHub Project gap above being the one honest caveat before calling it a complete reference implementation.
 
+## Addendum: Documentation Self-Consistency Pass
+
+A small follow-up cleanup, ahead of merging the adoption sprint above, made the documentation set internally consistent before it became permanent:
+
+- Made `AGENTS.md`'s entry-point status explicit and unmissable, and added an explicit pointer to it from every other AI-instruction document (`CLAUDE.md`, all of `docs/ai/*.md`, `docs/ENGINEERING_PLAYBOOK.md`) so none of them present themselves as an independent starting point — including `docs/ai/REPOSITORY_INDEX.md`'s own "Start Here" section, which previously routed around `AGENTS.md` entirely.
+- Collapsed [`docs/ENGINEERING_OPERATING_SYSTEM.md`](./ENGINEERING_OPERATING_SYSTEM.md) to a short pointer — [`docs/ENGINEERING_PLAYBOOK.md`](./ENGINEERING_PLAYBOOK.md) had already absorbed everything unique from it (per that file's own Section 12) but the collapse itself had never been executed. `docs/ENGINEERING_PLAYBOOK.md` is now this repository's one retained local historical design document, with an explicit naming-disambiguation note distinguishing it from the actual canonical `tfrs-engineering-playbook`.
+- Verified exactly one source of truth exists for engineering workflow, roadmap ownership, project state, and AI operating rules, and recorded it in the new [`docs/DOCUMENTATION_HIERARCHY.md`](./DOCUMENTATION_HIERARCHY.md) — including making explicit that project state's source of truth is GitHub, not a local file (`docs/PROJECT_STATE.md` was proposed in `docs/ENGINEERING_PLAYBOOK.md` but never built).
+
+No product code, CI, or tests changed in this pass.
+
 ## Related Documents
 
-- [`AGENTS.md`](../AGENTS.md) · [`ARCHITECTURE.md`](../ARCHITECTURE.md) · [`README.md`](../README.md)
+- [`AGENTS.md`](../AGENTS.md) · [`ARCHITECTURE.md`](../ARCHITECTURE.md) · [`README.md`](../README.md) · [`docs/DOCUMENTATION_HIERARCHY.md`](./DOCUMENTATION_HIERARCHY.md)
 - [`tfrs-engineering-playbook` README](https://github.com/TFRS-Admin/tfrs-engineering-playbook#readme)

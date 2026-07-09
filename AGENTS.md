@@ -1,6 +1,8 @@
 <!-- Purpose: Define baseline instructions for AI coding agents operating in this repository. -->
 # AGENTS.md — TFRSupply Frontend
 
+> **This file is the single entry point for every AI agent working in this repository — human or automated, Claude Code or otherwise.** Start here, always, before reading any other document. No other document in this repository — including `CLAUDE.md`, any file under `docs/`, or any document that predates this repository's playbook adoption — should be treated as its own starting point; every one of them either points back here or is reference material consulted *after* this file, per the read order below.
+
 This repository has adopted the [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (`tfrs-engineering-playbook`, version **2.4.0**) as its engineering source of truth, and [`TFRS-Admin/agent-skills`](https://github.com/TFRS-Admin/agent-skills) as its shared execution library. This file is the local copy of the playbook's baseline `AGENTS.md`, required per [`commands/setup-from-playbook.md#minimum-baseline`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/commands/setup-from-playbook.md#minimum-baseline) so an agent has it without a live fetch. If anything below ever conflicts with the canonical playbook, the canonical playbook wins unless this file documents an explicit, intentional local override (see "Repository-Specific Overrides" below).
 
 No other document in this repository — including `docs/ENGINEERING_PLAYBOOK.md` and `docs/ENGINEERING_OPERATING_SYSTEM.md` (retained as historical local design references, see their headers) — is authoritative for how work moves through this system. Authority for workflow lives in `tfrs-engineering-playbook` and this baseline set (`AGENTS.md`, `CLAUDE.md`, `AI_AGENT_OPERATING_MODEL.md`, `DECISION_ROUTER.md`).
@@ -77,4 +79,5 @@ Use this list instead of the playbook's generic `feature/ fix/ docs/ chore/` set
 - [`AI_AGENT_OPERATING_MODEL.md`](./AI_AGENT_OPERATING_MODEL.md) — the operating loop
 - [`DECISION_ROUTER.md`](./DECISION_ROUTER.md) — plain-language request routing
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — this repository's actual system architecture
+- [`docs/DOCUMENTATION_HIERARCHY.md`](./docs/DOCUMENTATION_HIERARCHY.md) — the full documentation map: read order, what's static, what Claude may update automatically, what requires founder approval
 - `docs/project-management/` — repository-specific process detail (labels, DoD, acceptance criteria library, agent personas) that remains in force as Tier-3 reference material

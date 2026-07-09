@@ -1,5 +1,7 @@
 # Implementation Workflow
 
+> Consulted from [`AGENTS.md`](../../AGENTS.md) (the entry point) once a specific `Ready` issue is being implemented — not a starting point on its own. The playbook's `commands/execute.md` governs which command to run; this document is the repository-specific mechanical detail underneath that command.
+
 ## Purpose
 
 This document is the complete lifecycle every AI agent follows to take a TFRSupply issue from `main` to a merged, deleted branch. It complements `docs/project-management/04_workflows.md` (organization-wide workflow policy) with the concrete step-by-step loop an agent chat runs for a single implementation issue.
