@@ -5,6 +5,8 @@
 
 Sprint 0 (2026-07-09 onward) — capacity: this window covers only the playbook v3.0.0 adoption-completion Epic below; product roadmap sequencing (Police/Fire/EMS/Work Truck launch epics) is owned by [`docs/MASTER_EXECUTION_PROGRAM.md`](../MASTER_EXECUTION_PROGRAM.md) per [`docs/DOCUMENTATION_HIERARCHY.md`](../DOCUMENTATION_HIERARCHY.md), not duplicated here.
 
+**2026-07-09 re-review update:** an independent from-scratch review escalated [#297](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/297) (admin authentication) to `P0`/`Risk: Critical` and surfaced a new `P0` functional bug ([#303](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/303) — quote submission silently dropped by stubbed adapters). Both outrank every other item in this window and should be the actual next work, ahead of the Epic sequencing below — see [`docs/engineering/BACKLOG.md#top-priority-right-now`](./BACKLOG.md#top-priority-right-now).
+
 ## Sequenced Epics
 
 | Order | Epic | Origin | Size | Priority | Dependencies |
@@ -27,7 +29,7 @@ None this window — the seven Epics above are the complete adoption-completion 
 
 ## Last Updated
 
-2026-07-09, by the TFRS Engineering Playbook v3.0.0 adoption-completion pass.
+2026-07-09, by an independent from-scratch re-review (Engineering Review & Roadmap Initialization pass). Epic sequencing unchanged; see `docs/engineering/BACKLOG.md` for the two `P0` items now ahead of this sequencing.
 
 ## Related Documents
 
