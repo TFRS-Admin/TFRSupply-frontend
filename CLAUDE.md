@@ -1,6 +1,8 @@
 <!-- Purpose: Capture Claude Code-specific expectations for this repository. -->
 # CLAUDE.md — TFRSupply Frontend
 
+> **Not the entry point.** [`AGENTS.md`](./AGENTS.md) at the repository root is the single entry point for every AI agent — read it first. This file is read second (per `AGENTS.md`'s "How Agents Should Use This Playbook" step 1) and adds Claude-Code-specific response, planning, and PR conventions on top of `AGENTS.md`'s tool-agnostic baseline; it does not replace or duplicate it.
+
 This is the local copy of the TFRS Engineering Playbook's baseline `CLAUDE.md`, required per the [Minimum Baseline](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/commands/setup-from-playbook.md#minimum-baseline). It is consistent with, and does not override, the canonical `CLAUDE.md` in [`TFRS-Admin/tfrs-engineering-playbook`](https://github.com/TFRS-Admin/tfrs-engineering-playbook).
 
 ## Project Context

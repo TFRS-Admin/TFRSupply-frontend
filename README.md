@@ -4,13 +4,15 @@
 
 This repository follows the [**TFRS Engineering Playbook**](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (`tfrs-engineering-playbook`) as its canonical engineering operating system, and consults [`TFRS-Admin/agent-skills`](https://github.com/TFRS-Admin/agent-skills) as its shared, live execution library for step-by-step task mechanics.
 
+- **Start here:** [`AGENTS.md`](./AGENTS.md) is the single entry point for every AI agent working in this repository.
 - **Adopted playbook version:** `2.4.0` (see the playbook's [`VERSION.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/VERSION.md) for the changelog).
 - **Local baseline files** (copied per the playbook's [Minimum Baseline](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/commands/setup-from-playbook.md#minimum-baseline)): [`AGENTS.md`](./AGENTS.md), [`CLAUDE.md`](./CLAUDE.md), [`AI_AGENT_OPERATING_MODEL.md`](./AI_AGENT_OPERATING_MODEL.md), [`DECISION_ROUTER.md`](./DECISION_ROUTER.md).
 - **Everything else** (standards, `commands/`, templates) is referenced live from the playbook repository, never vendored — see [`SKILLS_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/SKILLS_STANDARD.md) for the precedence rules between this repository, the playbook, and the skills fork.
 - **Repository-specific architecture:** [`ARCHITECTURE.md`](./ARCHITECTURE.md).
+- **Full documentation map** (read order, static vs. auto-updated vs. founder-approval-required docs, single source of truth per concept): [`docs/DOCUMENTATION_HIERARCHY.md`](./docs/DOCUMENTATION_HIERARCHY.md).
 - **Adoption state:** classified in [`docs/PLAYBOOK_ADOPTION.md`](./docs/PLAYBOOK_ADOPTION.md) against the playbook's [Repository Readiness Checklist](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/REPOSITORY_BOOTSTRAP_GUIDE.md#repository-readiness-checklist).
 
-`docs/ENGINEERING_PLAYBOOK.md` and `docs/ENGINEERING_OPERATING_SYSTEM.md` remain in this repository as historical local design documents; they are no longer authoritative for workflow — see their headers.
+[`docs/ENGINEERING_PLAYBOOK.md`](./docs/ENGINEERING_PLAYBOOK.md) remains as this repository's one retained local historical design document; [`docs/ENGINEERING_OPERATING_SYSTEM.md`](./docs/ENGINEERING_OPERATING_SYSTEM.md) is now a short pointer to it. Neither is authoritative for workflow — see their headers.
 
 **About**
 

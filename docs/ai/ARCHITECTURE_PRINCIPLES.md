@@ -1,5 +1,7 @@
 # Architecture Principles
 
+> Consulted from [`AGENTS.md`](../../AGENTS.md) (the entry point) and [`ARCHITECTURE.md`](../../ARCHITECTURE.md) at the repository root when a change touches a structural boundary — not a starting point on its own.
+
 ## Purpose
 
 This document defines the architectural rules every AI agent must follow when touching TFRSupply platform code. It is the condensed, principle-level companion to the detailed boundary docs under `docs/architecture/` (`SERVICE_LAYER.md`, `VALIDATION.md`, `DOMAIN_MODEL.md`, and the per-domain foundation docs). When a principle here and a detailed doc disagree, the detailed doc for that specific domain wins; open a documentation issue to reconcile them.

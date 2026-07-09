@@ -1,14 +1,16 @@
 # Repository Index
 
-> **Note on authority:** the root [`AGENTS.md`](../../AGENTS.md) is the actual entry point per the adopted [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) — read it first. This index remains a useful map of repository-specific reference material once `AGENTS.md`, `CLAUDE.md`, `AI_AGENT_OPERATING_MODEL.md`, and `DECISION_ROUTER.md` have been read.
+> **Not the entry point.** The root [`AGENTS.md`](../../AGENTS.md) is the single entry point for every AI agent working in this repository, per the adopted [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) — read it first, always. This index is a reference map, consulted *after* `AGENTS.md`, `CLAUDE.md`, `AI_AGENT_OPERATING_MODEL.md`, and `DECISION_ROUTER.md`, not a substitute for any of them. See [`docs/DOCUMENTATION_HIERARCHY.md`](../DOCUMENTATION_HIERARCHY.md) for the full read order and document classification.
 
 ## Purpose
 
 This is a detailed map of repository-specific documentation for AI coding agents and human contributors joining the TFRSupply frontend repository, once the root `AGENTS.md` has been read. Follow the links below to the specific doc a task requires.
 
-## Start Here
+## Reading Order For Repository-Specific Docs (After AGENTS.md)
 
-1. `docs/ai/AI_DEVELOPMENT_PLAYBOOK.md` — governance, workflow, and layer conventions every agent must follow.
+Once `AGENTS.md` → `CLAUDE.md` → `AI_AGENT_OPERATING_MODEL.md` → `DECISION_ROUTER.md` have routed a request to implementation work in this codebase specifically:
+
+1. `docs/ai/AI_DEVELOPMENT_PLAYBOOK.md` — repository philosophy and layer conventions.
 2. `docs/ai/IMPLEMENTATION_WORKFLOW.md` — the branch-to-merge lifecycle for a single issue.
 3. `docs/ai/ARCHITECTURE_PRINCIPLES.md` — condensed architectural rules and anti-patterns.
 4. `docs/ai/PROMPT_TEMPLATE.md` — short prompt templates for foundation, feature, refactor, bug fix, and documentation issues.
@@ -139,7 +141,21 @@ These describe specific application surfaces rather than platform architecture; 
 
 | Doc | Covers |
 | --- | --- |
-| `README.md` | Base44 project setup, local dev, and publishing instructions |
+| `AGENTS.md` | **The single entry point.** Baseline conventions, playbook authority, read order. |
+| `CLAUDE.md` | Claude-Code-specific response, planning, and PR conventions. |
+| `AI_AGENT_OPERATING_MODEL.md` | The operating loop: session start, issue selection, when to stop, how to update GitHub. |
+| `DECISION_ROUTER.md` | Plain-language request → workflow routing table. |
+| `ARCHITECTURE.md` | This repository's actual system architecture (components → hooks → services → adapters → domain). |
+| `README.md` | Base44 project setup, local dev, and publishing instructions. |
+
+## Documentation Governance
+
+| Doc | Covers |
+| --- | --- |
+| `docs/DOCUMENTATION_HIERARCHY.md` | The full documentation map: read order, static vs. auto-updated vs. founder-approval-required docs, single source of truth per concept. |
+| `docs/PLAYBOOK_ADOPTION.md` | TFRS Engineering Playbook adoption record, readiness checklist, and current adoption state. |
+| `docs/ENGINEERING_PLAYBOOK.md` | Superseded for workflow authority; retained as the canonical local historical design record. |
+| `docs/ENGINEERING_OPERATING_SYSTEM.md` | Collapsed to a pointer — see `docs/ENGINEERING_PLAYBOOK.md` instead. |
 
 ## Keeping This Index Current
 

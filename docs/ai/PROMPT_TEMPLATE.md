@@ -1,8 +1,10 @@
 # Prompt Templates
 
+> Consulted from [`AGENTS.md`](../../AGENTS.md) (the entry point) when drafting a short implementation prompt — not a starting point on its own.
+
 ## Purpose
 
-Every template below assumes the reading agent already knows `AI_DEVELOPMENT_PLAYBOOK.md`, `IMPLEMENTATION_WORKFLOW.md`, and `ARCHITECTURE_PRINCIPLES.md` — that is the entire point of the playbook existing. Because the agent no longer needs the workflow, layer rules, QA commands, or Definition of Done spelled out in every prompt, an implementation prompt only needs to state what is unique to that issue: objective, scope, files, non-goals, and acceptance criteria. Fill in the bracketed fields; delete this Purpose section from the actual prompt you send.
+Every template below assumes the reading agent already knows `AGENTS.md`, `AI_DEVELOPMENT_PLAYBOOK.md`, `IMPLEMENTATION_WORKFLOW.md`, and `ARCHITECTURE_PRINCIPLES.md` — that is the entire point of the playbook existing. Because the agent no longer needs the workflow, layer rules, QA commands, or Definition of Done spelled out in every prompt, an implementation prompt only needs to state what is unique to that issue: objective, scope, files, non-goals, and acceptance criteria. Fill in the bracketed fields; delete this Purpose section from the actual prompt you send.
 
 Target length: 20–30 lines per prompt. If a filled-in template is pushing past 40 lines, the issue is probably too large — split it.
 
