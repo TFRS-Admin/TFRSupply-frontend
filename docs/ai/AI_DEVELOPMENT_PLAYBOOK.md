@@ -1,8 +1,10 @@
 # AI Development Playbook
 
+> **Note on authority:** the root [`AGENTS.md`](../../AGENTS.md) is now the actual entry point and workflow authority for this repository, per the adopted [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (see [`docs/PLAYBOOK_ADOPTION.md`](../PLAYBOOK_ADOPTION.md)). This document's philosophy, layer conventions, and naming detail below remain valid Tier-3 repository-specific reference material and do not conflict with the playbook — but where this document describes *workflow* (which command to run, when), the playbook's `commands/` library and [`DECISION_ROUTER.md`](../../DECISION_ROUTER.md) govern instead.
+
 ## Purpose
 
-This playbook is the single source of truth for every AI coding agent working in the TFRSupply frontend repository, including Claude Code, Codex, Cursor, Windsurf, GitHub Copilot, Gemini CLI, and any future agent. Its goal is to keep implementation prompts small (see `PROMPT_TEMPLATE.md`) by giving every agent the same baseline understanding of philosophy, workflow, and architecture before an issue is written. Read this document, `IMPLEMENTATION_WORKFLOW.md`, and `ARCHITECTURE_PRINCIPLES.md` before starting any implementation issue.
+This document captures repository-specific philosophy and layer conventions for AI coding agents working in the TFRSupply frontend repository. Its goal is to keep implementation prompts small (see `PROMPT_TEMPLATE.md`) by giving every agent the same baseline understanding of philosophy, workflow, and architecture before an issue is written. Read this document, `IMPLEMENTATION_WORKFLOW.md`, and `ARCHITECTURE_PRINCIPLES.md` before starting any implementation issue, alongside the root `AGENTS.md`.
 
 ## Repository Philosophy
 

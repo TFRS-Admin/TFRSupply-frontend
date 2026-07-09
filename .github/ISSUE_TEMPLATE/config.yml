@@ -1,0 +1,9 @@
+# Purpose: Disable blank issues and point contributors at repository guidance first.
+blank_issues_enabled: false
+contact_links:
+  - name: Repository operating guidance
+    url: https://github.com/TFRS-Admin/TFRSupply-frontend/blob/main/AGENTS.md
+    about: Read AGENTS.md and DECISION_ROUTER.md before filing an issue that looks execution-shaped.
+  - name: TFRS Engineering Playbook
+    url: https://github.com/TFRS-Admin/tfrs-engineering-playbook
+    about: The canonical engineering standards this repository follows.

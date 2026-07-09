@@ -1,5 +1,7 @@
 # TFRSupply Engineering Operating System
 
+> **Superseded.** This document was already a pointer candidate per [`docs/ENGINEERING_PLAYBOOK.md`](./ENGINEERING_PLAYBOOK.md) Section 12, and per that same document is itself now superseded — see the notice at the top of that file. Governing authority for this repository lives in [`TFRS-Admin/tfrs-engineering-playbook`](https://github.com/TFRS-Admin/tfrs-engineering-playbook) and this repository's baseline files (`AGENTS.md`, `CLAUDE.md`, `AI_AGENT_OPERATING_MODEL.md`, `DECISION_ROUTER.md`). Retained here as a historical local design reference only; see [`docs/PLAYBOOK_ADOPTION.md`](./PLAYBOOK_ADOPTION.md) for the current adoption state.
+
 ## Purpose
 
 This document designs the repo-native operating system that lets any AI agent — Claude Code or otherwise — execute TFRSupply roadmap work from a short prompt like:

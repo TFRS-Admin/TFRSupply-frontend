@@ -1,5 +1,7 @@
 # TFRSupply Engineering Playbook
 
+> **Superseded as the constitution.** As of the TFRS Engineering Playbook adoption sprint (see [`docs/PLAYBOOK_ADOPTION.md`](./PLAYBOOK_ADOPTION.md)), workflow authority for this repository lives in [`TFRS-Admin/tfrs-engineering-playbook`](https://github.com/TFRS-Admin/tfrs-engineering-playbook) plus this repository's baseline files ([`AGENTS.md`](../AGENTS.md), [`CLAUDE.md`](../CLAUDE.md), [`AI_AGENT_OPERATING_MODEL.md`](../AI_AGENT_OPERATING_MODEL.md), [`DECISION_ROUTER.md`](../DECISION_ROUTER.md)) — not this document. This file is retained as a **historical local design reference**: its analysis of what already existed in this repository (source-of-truth hierarchy proposal, `docs/ai/*` and `docs/project-management/*` inventory) is still useful context, but its proposed command vocabulary (`/spec /plan /build /test /review`), `PROJECT_STATE.md`/`IDEA_BACKLOG.md` file scheme, and self-declared "governing document" status below are **not** in effect — the adopted playbook's lifecycle (`commands/review.md` → `roadmap.md` → `plan.md` → `backlog.md` → `execute.md` → `verify.md` → `ship.md`, run live against `tfrs-engineering-playbook`) governs instead. Do not treat anything below this notice as authoritative for how work moves through this system.
+
 **This is the governing document for AI-assisted engineering in this repository.**
 
 It defines the Engineering Operating System: the repository-native process that lets

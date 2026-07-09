@@ -138,13 +138,17 @@ describe('CategoryTemplate filter and search reuse', () => {
     const { catalogService } = modules.catalog;
     const category = catalogService.getCategory('light-bars');
     const html = renderCategoryView('police', 'light-bars');
+    const productWordRegexFragment = category.products.length === 1
+      ? 'product'
+      : 'product(?:<!-- -->|\\s)*s';
 
     category.products.forEach((product) => {
       assert.match(html, new RegExp(product.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     });
-    // React SSR inserts <!-- --> comment separators between adjacent JSX
-    // expressions, so "N products" is not one contiguous text node.
-    assert.match(html, new RegExp(`${category.products.length}<!-- -->\\s*product<!-- -->s`));
+    // Allow either contiguous text or React SSR comment separators between JSX expressions.
+    assert.match(html, new RegExp(`${category.products.length}(?:<!-- -->|\\s)*${productWordRegexFragment}`, 'i'));
+    // The status line ends with "FOUND"; keep this check independent of JSX separator formatting.
+    assert.match(html, /found/i);
   });
 });
 
