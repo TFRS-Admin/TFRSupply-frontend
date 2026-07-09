@@ -1,8 +1,10 @@
 # Repository Index
 
+> **Note on authority:** the root [`AGENTS.md`](../../AGENTS.md) is the actual entry point per the adopted [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) — read it first. This index remains a useful map of repository-specific reference material once `AGENTS.md`, `CLAUDE.md`, `AI_AGENT_OPERATING_MODEL.md`, and `DECISION_ROUTER.md` have been read.
+
 ## Purpose
 
-This is the entry point for AI coding agents and human contributors joining the TFRSupply frontend repository. Start here, then follow the links below to the specific doc a task requires. No repository-wide index existed before this document.
+This is a detailed map of repository-specific documentation for AI coding agents and human contributors joining the TFRSupply frontend repository, once the root `AGENTS.md` has been read. Follow the links below to the specific doc a task requires.
 
 ## Start Here
 
