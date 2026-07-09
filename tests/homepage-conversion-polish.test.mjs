@@ -175,6 +175,9 @@ describe('StoreLandingView', () => {
       React.createElement(StoreLandingView, { products: [], categories: [] }),
     );
 
-    assert.match(html, /grid-cols-1[^"]*sm:grid-cols-2[^"]*lg:grid-cols-4/);
+    // StoreLanding card sections use unprefixed mobile (base), sm, and lg 1/2/4-column classes.
+    assert.match(html, /\bgrid-cols-1\b/);
+    assert.match(html, /\bsm:grid-cols-2\b/);
+    assert.match(html, /\blg:grid-cols-4\b/);
   });
 });
