@@ -10,6 +10,27 @@
 
 ## Report History
 
+### 2026-07-09 — Engineering Backlog Initialization (Issue Metadata Hygiene Only)
+
+Not a new full health pass — no new code/security/performance findings. This is a structural verification pass confirming the backlog produced by the two reports below is internally consistent, per [`REPO_HEALTH_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/REPO_HEALTH_STANDARD.md)'s Issue metadata hygiene dimension.
+
+```text
+Issue metadata hygiene: Improving. Verified via a live GitHub query (not assumed) that
+  exactly 27 issues exist in the #279-#306 range with no duplicate numbers or titles.
+  Added Epic #307 (Commerce Data Integrity) to properly parent #303, which had been sitting
+  directly under the master Epic with Epic: None -- hierarchy is now complete (28 issues: 1
+  master + 7 child Epics + 20 task issues, every task issue under exactly one Epic).
+  Re-organized docs/engineering/BACKLOG.md from an informal Ready/Backlog split into the
+  five explicit buckets (Ready: 13, Blocked: 2, Discovery: 5, Deferred: 0, Technical Debt:
+  4 cross-tagged) with a verified acyclic dependency graph (two edges: #289->#290,
+  #291->#306). Every issue's ## Metadata block re-confirmed to carry all nine required
+  fields (Status, Priority, Risk, Size, Epic, Sprint, Blocked, QA Required, Agent Persona).
+
+Gaps: None -- this pass only covers issue-hierarchy/metadata hygiene, not the other seven
+  REPO_HEALTH_STANDARD.md dimensions, which were fully covered in the report immediately
+  below and remain current (no code changes occurred between that report and this pass).
+```
+
 ### 2026-07-09 — Independent Re-Review (Full, All Ten Dimensions)
 
 Run from scratch per an explicit "do not assume previous reviews are current" directive — every finding below was independently re-verified with fresh evidence (commands re-run, files re-read, grep re-checked), not carried forward from the first pass. Codebase (`src/`) was unchanged since the first pass (only documentation changed via merged PR #302), so most findings below confirm the first pass; three are new or materially sharper.

@@ -5,7 +5,7 @@
 
 Sprint 0 (2026-07-09 onward) — capacity: this window covers only the playbook v3.0.0 adoption-completion Epic below; product roadmap sequencing (Police/Fire/EMS/Work Truck launch epics) is owned by [`docs/MASTER_EXECUTION_PROGRAM.md`](../MASTER_EXECUTION_PROGRAM.md) per [`docs/DOCUMENTATION_HIERARCHY.md`](../DOCUMENTATION_HIERARCHY.md), not duplicated here.
 
-**2026-07-09 re-review update:** an independent from-scratch review escalated [#297](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/297) (admin authentication) to `P0`/`Risk: Critical` and surfaced a new `P0` functional bug ([#303](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/303) — quote submission silently dropped by stubbed adapters). Both outrank every other item in this window and should be the actual next work, ahead of the Epic sequencing below — see [`docs/engineering/BACKLOG.md#top-priority-right-now`](./BACKLOG.md#top-priority-right-now).
+**2026-07-09 re-review update:** an independent from-scratch review escalated [#297](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/297) (admin authentication, child of #283) to `P0`/`Risk: Critical` and surfaced a new `P0` functional bug, now grouped under a new Epic [#307 — Commerce Data Integrity](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/307) (quote submissions silently dropped by stubbed Base44 adapters). Both outrank every other item in this window — they're listed as "Order 0" above (out-of-band, ahead of the numbered sequence) and should be the actual next work — see [`docs/engineering/BACKLOG.md#top-priority-right-now`](./BACKLOG.md#top-priority-right-now).
 
 ## Sequenced Epics
 
@@ -18,6 +18,7 @@ Sprint 0 (2026-07-09 onward) — capacity: this window covers only the playbook 
 | 5 | [#283 Epic: Dependency & Security Hardening](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/283) | `npm audit` + review finding, 2026-07-09 | M | P1 | None |
 | 6 | [#284 Epic: Test Coverage Gaps in Configurator & Pricing Domains](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/284) | Review finding, 2026-07-09 | M | P2 | None |
 | 7 | [#285 Epic: Technical Debt Cleanup](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/285) | Review finding, 2026-07-09 | S | P3 | None |
+| 0 | [#307 Epic: Commerce Data Integrity — Quote Submission Pipeline](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/307) | Independent re-review finding, 2026-07-09 | M | **P0** | None — but takes precedence over Order 1-7 in practice, see below |
 
 ## Pre-Existing Product Roadmap (Not Duplicated Here)
 
@@ -29,7 +30,7 @@ None this window — the seven Epics above are the complete adoption-completion 
 
 ## Last Updated
 
-2026-07-09, by an independent from-scratch re-review (Engineering Review & Roadmap Initialization pass). Epic sequencing unchanged; see `docs/engineering/BACKLOG.md` for the two `P0` items now ahead of this sequencing.
+2026-07-09, by an Engineering Backlog Initialization pass. Added Epic #307 (Commerce Data Integrity) as Order 0, ahead of the original seven-Epic sequencing; see `docs/engineering/BACKLOG.md` for the full Ready/Blocked/Discovery/Deferred/Technical-Debt breakdown.
 
 ## Related Documents
 

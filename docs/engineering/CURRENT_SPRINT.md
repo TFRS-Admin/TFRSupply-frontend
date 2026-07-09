@@ -14,7 +14,9 @@ See [`docs/engineering/BACKLOG.md`](./BACKLOG.md) for `Ready` work awaiting spri
 1. [#297](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/297) — Evaluate server-side enforcement path for admin authentication (`P0`, `Risk: Critical` — admin routes are effectively unauthenticated in production today)
 2. [#303](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/303) — Bug: admin quote queue and quote request submission are non-functional no-ops (`P0` — customer/dealer quote submissions are silently dropped)
 
-Once those are triaged (each needs a discovery/decision pass before it can move to `Ready`, per their own acceptance criteria), the next-highest-priority unblocked issues per [`AI_AGENT_OPERATING_MODEL.md#3-how-to-choose-the-next-issue`](../../AI_AGENT_OPERATING_MODEL.md#3-how-to-choose-the-next-issue) are the natural Sprint 1 fill — see [`docs/engineering/BACKLOG.md#ready`](./BACKLOG.md#ready) for the current 13-item `Ready` list.
+Once those are triaged (each sits in `docs/engineering/BACKLOG.md`'s `Discovery` bucket — a decision/investigation pass, not a `Ready` pickup, per their own acceptance criteria), the next-highest-priority unblocked issues per [`AI_AGENT_OPERATING_MODEL.md#3-how-to-choose-the-next-issue`](../../AI_AGENT_OPERATING_MODEL.md#3-how-to-choose-the-next-issue) are the natural Sprint 1 fill — see [`docs/engineering/BACKLOG.md#ready`](./BACKLOG.md#ready) for the current 13-item `Ready` list, ordered for direct pickup.
+
+**Backlog shape as of the 2026-07-09 Engineering Backlog Initialization pass:** 13 `Ready`, 2 `Blocked` (#290 by #289, #306 by #291), 5 `Discovery` (#297, #303, #289, #296, #286 — includes both `P0` items above), 0 `Deferred`. See `docs/engineering/BACKLOG.md` for the full breakdown and dependency graph.
 
 ## Blocked
 
