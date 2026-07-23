@@ -79,7 +79,7 @@ const HKB_FITMENT_KITS: HkbFitmentKit[] =
  * `compatible_lengths` so the right kit is chosen when a vehicle has more than
  * one (e.g. Ford F-150 has separate kits for 44"-48" vs 51"-53" bars).
  */
-function findMatchingHkbKit(
+export function findMatchingHkbKit(
   kits: HkbFitmentKit[],
   vehicle: ConfiguratorVehicleSelection | null,
   lengthAttr: string | null | undefined,
@@ -97,7 +97,7 @@ function findMatchingHkbKit(
 
 // ─── SKU Filtering Engine ──────────────────────────────────────────────────
 
-function filterSkus(skuOptions: ConfiguratorSkuOption[], selections: FilterSelections, steps: ConfiguratorStep[]): ConfiguratorSkuOption[] {
+export function filterSkus(skuOptions: ConfiguratorSkuOption[], selections: FilterSelections, steps: ConfiguratorStep[]): ConfiguratorSkuOption[] {
   return skuOptions.filter(skuOpt => {
     for (const step of steps) {
       if (!step.skuSegmentKey) continue;
@@ -119,7 +119,7 @@ function filterSkus(skuOptions: ConfiguratorSkuOption[], selections: FilterSelec
   });
 }
 
-function wouldHaveMatches(skuOptions: ConfiguratorSkuOption[], selections: FilterSelections, steps: ConfiguratorStep[], stepId: string, optionId: string): boolean {
+export function wouldHaveMatches(skuOptions: ConfiguratorSkuOption[], selections: FilterSelections, steps: ConfiguratorStep[], stepId: string, optionId: string): boolean {
   const hypothetical = { ...selections, [stepId]: optionId };
   return filterSkus(skuOptions, hypothetical, steps).length > 0;
 }
