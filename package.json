@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "preview": "vite preview",
     "test": "node --test tests/*.test.mjs",
+    "test:coverage": "c8 node --test tests/*.test.mjs",
     "shopify:ingest": "node scripts/shopify-catalog-ingest/ingest.mjs",
     "shopify:convert-matrixify": "node scripts/shopify-catalog-ingest/tools/convert-matrixify-xlsx-to-csv.mjs",
     "shopify:gid-overlay": "node scripts/shopify-variant-gid-overlay/overlay.mjs"
@@ -86,6 +87,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "baseline-browser-mapping": "^2.8.32",
+    "c8": "^12.0.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
