@@ -65,8 +65,8 @@ export default function Team44Layout({ children }: Team44LayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
-  // Base44 AppSettings lookup removed — no custom logo override until a
-  // real settings source replaces it.
+  // No custom logo override source is currently wired — stays null until
+  // a real settings source provides one.
   const logoUrl: string | null = null;
 
   return (
