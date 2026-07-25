@@ -1,7 +1,7 @@
 /**
  * components/configurator/QuoteRequestPanel.jsx
  * Shown below ConfigurationSummary when configuration is complete.
- * Calls quoteRequestService only — never imports base44 directly.
+ * Calls quoteRequestService only — never imports a delivery adapter directly.
  */
 
 import React, { useState, useRef } from 'react';
@@ -38,14 +38,17 @@ function Field({ label, required, error, children }) {
 }
 
 const EMPTY_FORM = { name: '', agency: '', email: '', phone: '', vehicleCount: '', notes: '' };
+const SALES_PHONE = '800-621-9959';
 
 export default function QuoteRequestPanel({ productMeta }) {
   const { session, summary } = useConfiguration();
   const [form, setForm] = useState(EMPTY_FORM);
   const [fieldErrors, setFieldErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | submitting | success | partial | error
+  const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [submitError, setSubmitError] = useState('');
   const [referenceId, setReferenceId] = useState(null);
+  const [deliveryMethod, setDeliveryMethod] = useState(null);
+  const [mailtoUrl, setMailtoUrl] = useState(null);
   // Stable per-session ID — created once, reused on retry so no duplicate records are created
   const submissionIdRef = useRef(generateSubmissionId());
 
@@ -89,40 +92,26 @@ export default function QuoteRequestPanel({ productMeta }) {
     );
   }
 
-  // ── Partial success state (record saved, email failed) ──────────────────────
-  if (status === 'partial') {
-    return (
-      <div style={{ ...FS, border: '1px solid #fde68a', background: '#fffbeb', padding: '28px 24px', textAlign: 'center' }}>
-        <AlertTriangle size={36} style={{ color: '#d97706', margin: '0 auto 12px' }} />
-        <p style={{ fontSize: 15, fontWeight: 700, color: '#92400e', marginBottom: 6 }}>Request Saved — Notification Delayed</p>
-        <p style={{ fontSize: 13, color: '#78350f', margin: '0 0 14px' }}>
-          Your quote request was recorded successfully, but the confirmation email could not be sent.
-          Please contact us directly with your reference number.
-        </p>
-        <div style={{ padding: '10px 16px', background: '#fef3c7', border: '1px solid #fde68a', display: 'inline-block' }}>
-          {referenceId && (
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#92400e', margin: '0 0 2px' }}>
-              Reference #: {referenceId}
-            </p>
-          )}
-          <p style={{ fontSize: 11, color: '#78350f', margin: 0, fontStyle: 'italic' }}>
-            Selected SKU: {summary.selectedSku || summary.skuPreview || '(pending)'}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   // ── Success state ───────────────────────────────────────────────────────────
   if (status === 'success') {
+    const isMailto = deliveryMethod === 'mailto';
     return (
       <div style={{ ...FS, border: '1px solid #bbf7d0', background: '#f0fdf4', padding: '28px 24px', textAlign: 'center' }}>
         <CheckCircle size={36} style={{ color: '#16a34a', margin: '0 auto 12px' }} />
-        <p style={{ fontSize: 15, fontWeight: 700, color: '#15803d', marginBottom: 6 }}>Quote Request Submitted</p>
-        <p style={{ fontSize: 13, color: '#166534', margin: 0 }}>
-          Your configuration for <strong>{productMeta?.productTitle || 'this product'}</strong> has been received.
-          A representative will be in touch shortly.
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#15803d', marginBottom: 6 }}>
+          {isMailto ? 'Almost There — Finish Sending Your Email' : 'Quote Request Submitted'}
         </p>
+        <p style={{ fontSize: 13, color: '#166534', margin: 0 }}>
+          {isMailto
+            ? <>We opened your email client with your configuration for <strong>{productMeta?.productTitle || 'this product'}</strong> pre-filled. Click <strong>Send</strong> in your email client to complete the request.</>
+            : <>Your configuration for <strong>{productMeta?.productTitle || 'this product'}</strong> has been received. A representative will be in touch shortly.</>}
+        </p>
+        {isMailto && (
+          <p style={{ fontSize: 12, color: '#166534', margin: '10px 0 0' }}>
+            Nothing opened? <a href={mailtoUrl} style={{ color: '#15803d', fontWeight: 700 }}>Click here to email us directly</a>, or call{' '}
+            <a href={`tel:${SALES_PHONE}`} style={{ color: '#15803d', fontWeight: 700 }}>{SALES_PHONE}</a>.
+          </p>
+        )}
         <div style={{ marginTop: 14, padding: '10px 16px', background: '#dcfce7', border: '1px solid #bbf7d0', display: 'inline-block' }}>
           {referenceId && (
             <p style={{ fontSize: 13, fontWeight: 700, color: '#15803d', margin: '0 0 2px' }}>
@@ -153,13 +142,11 @@ export default function QuoteRequestPanel({ productMeta }) {
     const result = await submitQuoteRequest(payload).catch(err => ({ success: false, error: err.message }));
 
     if (result.referenceId) setReferenceId(result.referenceId);
+    if (result.deliveryMethod) setDeliveryMethod(result.deliveryMethod);
+    if (result.mailtoUrl) setMailtoUrl(result.mailtoUrl);
 
     if (result.success) {
       setStatus('success');
-    } else if (result.savedRecord) {
-      // Record persisted but email notification failed — partial success
-      setStatus('partial');
-      setSubmitError(result.error || 'Request saved but notification failed.');
     } else {
       setStatus('error');
       setSubmitError(result.error || 'An unexpected error occurred. Please try again.');
@@ -212,7 +199,12 @@ export default function QuoteRequestPanel({ productMeta }) {
         {status === 'error' && (
           <div style={{ display: 'flex', gap: 8, padding: '10px 12px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: 14 }}>
             <AlertTriangle size={14} style={{ color: '#dc2626', flexShrink: 0, marginTop: 1 }} />
-            <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>{submitError}</p>
+            <div>
+              <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>{submitError}</p>
+              <p style={{ fontSize: 12, color: '#991b1b', margin: '4px 0 0' }}>
+                Or call us directly at <a href={`tel:${SALES_PHONE}`} style={{ color: '#991b1b', fontWeight: 700 }}>{SALES_PHONE}</a>.
+              </p>
+            </div>
           </div>
         )}
 
