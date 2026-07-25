@@ -45,6 +45,13 @@ import ResourcesPage from '@/pages/ResourcesPage.jsx';
 import AdminAuthGuard from '@/components/AdminAuthGuard';
 import DevStorefrontDashboard from '@/pages/DevStorefrontDashboard';
 
+// Production builds ship with the admin surface (and internal dev/showcase
+// tooling) stripped out entirely unless explicitly enabled — see
+// docs/MASTER_EXECUTION_PROGRAM.md PR-06. All admin auth remains mock/
+// client-side (issue #297); this flag is a deployment-level compensating
+// control, not a substitute for real server-side enforcement.
+const ADMIN_SURFACE_ENABLED = import.meta.env.VITE_ADMIN_ENABLED === 'true';
+
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
@@ -96,29 +103,61 @@ const AuthenticatedApp = () => {
 
         {/* Static pages */}
         <Route path="/resources" element={<ResourcesPage />} />
-        <Route path="/admin/debug" element={<AdminDebugSummary />} />
-        <Route path="/admin/login" element={<AdminLoginPage />} />
+
+        {/* Admin surface + internal dev/showcase tooling. Every path below is
+            always statically registered — even when disabled — so it keeps
+            outranking the dynamic /:verticalId(/:categoryId) template routes
+            above in React Router's path-specificity ranking; if these paths
+            were simply omitted instead, unregistered "/admin/debug" etc.
+            would fall through to CategoryTemplate's own "not found" state
+            (verticalId="admin", categoryId="debug") rather than the real
+            404 page. Unless VITE_ADMIN_ENABLED is set to "true", every route
+            here renders PageNotFound instead, and — because the flag is
+            statically inlined by Vite at build time — the unreachable admin
+            page components are dead-code-eliminated out of the production
+            bundle entirely, not merely hidden at runtime. Every admin route
+            still requires an authenticated demo session via AdminAuthGuard
+            even when the flag is on. */}
+        <Route path="/admin/debug" element={
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard><AdminDebugSummary /></AdminAuthGuard>
+            : <PageNotFound />
+        } />
+        <Route path="/admin/login" element={ADMIN_SURFACE_ENABLED ? <AdminLoginPage /> : <PageNotFound />} />
         <Route path="/admin" element={
-          <AdminAuthGuard>
-            <AdminSalesDashboard />
-          </AdminAuthGuard>
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard><AdminSalesDashboard /></AdminAuthGuard>
+            : <PageNotFound />
         } />
-        <Route path="/admin/quotes" element={<AdminQuotesPage />} />
-        <Route path="/admin/customers" element={<AdminCustomerWorkspace />} />
+        <Route path="/admin/quotes" element={
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard requiredPermission="admin.quotes.view"><AdminQuotesPage /></AdminAuthGuard>
+            : <PageNotFound />
+        } />
+        <Route path="/admin/customers" element={
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard><AdminCustomerWorkspace /></AdminAuthGuard>
+            : <PageNotFound />
+        } />
         <Route path="/admin/quote-builder" element={
-          <AdminAuthGuard requiredPermission="admin.quote-builder.view">
-            <AdminQuoteBuilderPage />
-          </AdminAuthGuard>
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard requiredPermission="admin.quote-builder.view"><AdminQuoteBuilderPage /></AdminAuthGuard>
+            : <PageNotFound />
         } />
-        <Route path="/admin/pricing-imports" element={<AdminPricingImportDashboard />} />
+        <Route path="/admin/pricing-imports" element={
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard requiredPermission="admin.pricing-imports.view"><AdminPricingImportDashboard /></AdminAuthGuard>
+            : <PageNotFound />
+        } />
         <Route path="/admin/shopify-sync" element={
-          <AdminAuthGuard requiredPermission="admin.shopify-sync.view">
-            <AdminShopifySyncDashboard />
-          </AdminAuthGuard>
+          ADMIN_SURFACE_ENABLED
+            ? <AdminAuthGuard requiredPermission="admin.shopify-sync.view"><AdminShopifySyncDashboard /></AdminAuthGuard>
+            : <PageNotFound />
         } />
-        <Route path="/showcase" element={<ComponentShowcase />} />
-        <Route path="/showcase/:categoryId" element={<ComponentShowcase />} />
-        <Route path="/dev/storefront" element={<DevStorefrontDashboard />} />
+        <Route path="/showcase" element={ADMIN_SURFACE_ENABLED ? <ComponentShowcase /> : <PageNotFound />} />
+        <Route path="/showcase/:categoryId" element={ADMIN_SURFACE_ENABLED ? <ComponentShowcase /> : <PageNotFound />} />
+        <Route path="/dev/storefront" element={ADMIN_SURFACE_ENABLED ? <DevStorefrontDashboard /> : <PageNotFound />} />
+
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <CompareTray />
