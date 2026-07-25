@@ -25,8 +25,9 @@ import { money } from '@/domain/pricing';
 import { toFitmentVehicle } from '@/components/product/FitmentSummary';
 import { useVehicle } from '@/context/VehicleContext';
 import { toast } from '@/components/ui/use-toast';
-import appConfig from '@/config/appConfig';
-import type { CartLineInput, ConfiguratorQuotePayload, ConfiguratorVehicleSelection, QuoteAssemblyInput, Vehicle } from '@/types';
+import QuoteContactModal from '@/components/quoteDelivery/QuoteContactModal';
+import { buildQuoteRequestPayload } from '@/domain/configuratorQuote/buildQuoteRequestPayload';
+import type { CartLineInput, Configurator, ConfiguratorQuotePayload, ConfiguratorVehicleSelection, QuoteAssemblyInput, Vehicle } from '@/types';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
@@ -134,16 +135,18 @@ function ActionButton({ onClick, href, icon: Icon, label, variant = 'secondary',
 
 interface ConfiguratorCommerceActionsProps {
   configState: ConfiguratorQuotePayload | null;
+  configuratorData?: Configurator | null;
   verticalId?: string;
   categoryId?: string;
 }
 
-export default function ConfiguratorCommerceActions({ configState, verticalId, categoryId }: ConfiguratorCommerceActionsProps) {
+export default function ConfiguratorCommerceActions({ configState, configuratorData, verticalId, categoryId }: ConfiguratorCommerceActionsProps) {
   const { addLine } = useCartWorkspace();
   const { selectedVehicle } = useVehicle() as { selectedVehicle: ConfiguratorVehicleSelection | null };
   const [quoteMessage, setQuoteMessage] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   useEffect(() => {
     setQuantity(1);
@@ -187,7 +190,11 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
     setQuoteMessage(result.reviewFlags?.[0]?.message ?? `Quote assembly status: ${result.status}`);
   }
 
-  const quoteHref = `mailto:${appConfig.quoteRecipientEmail}?subject=${encodeURIComponent(`Quote Request: ${configState.productFamily ?? ''} (${configState.selectedBaseSku})`)}`;
+  function handleOpenQuoteModal() {
+    void handleRequestQuote();
+    setQuoteModalOpen(true);
+  }
+
   const continueShoppingHref = verticalId && categoryId ? `/${verticalId}/${categoryId}` : '/';
   const addToCartTitle = canAddToCart
     ? 'This configuration is ready to add to your cart.'
@@ -227,15 +234,14 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
           <ActionButton
-            href={hasShopifyVariantId ? undefined : quoteHref}
-            onClick={hasShopifyVariantId ? handleAddToCart : handleRequestQuote}
+            onClick={hasShopifyVariantId ? handleAddToCart : handleOpenQuoteModal}
             icon={hasShopifyVariantId ? ShoppingCart : Send}
             label={hasShopifyVariantId ? 'Add to Cart' : 'Add to Quote'}
             variant="primary"
             disabled={hasShopifyVariantId ? (!canAddToCart || addingToCart) : false}
             title={addToCartTitle}
           />
-          <ActionButton href={quoteHref} onClick={handleRequestQuote} icon={Send} label="Request Quote" />
+          <ActionButton onClick={handleOpenQuoteModal} icon={Send} label="Request Quote" />
           <ActionButton
             icon={Save}
             label="Save Configuration"
@@ -262,6 +268,19 @@ export default function ConfiguratorCommerceActions({ configState, verticalId, c
         )}
         {quoteMessage && <p style={{ fontSize: 12, color: '#666', margin: '4px 0' }} data-testid="quote-action-message">{quoteMessage}</p>}
       </div>
+
+      {quoteModalOpen && (
+        <QuoteContactModal
+          onClose={() => setQuoteModalOpen(false)}
+          title={`Request a Quote — ${configState.productFamily ?? configState.selectedBaseSku}`}
+          description={`Selected SKU: ${configState.selectedBaseSku} — Qty ${quantity}`}
+          buildPayload={(contact, submissionId) => {
+            const payload = buildQuoteRequestPayload(configState, configuratorData, contact, submissionId, quantity);
+            if (!payload) throw new Error('No configuration selected yet.');
+            return payload;
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -32,6 +32,15 @@ export interface QuoteAccessory {
   priceModifier: number;
 }
 
+export interface QuoteLineSummary {
+  sku: string;
+  label: string;
+  quantity: number;
+  unitPrice?: number;
+  /** Free-form extra context for this line (e.g. accessory SKUs, vehicle) that doesn't fit the other fields. */
+  note?: string;
+}
+
 export interface QuotePayload {
   productId: string;
   configuratorId: string;
@@ -44,6 +53,12 @@ export interface QuotePayload {
   skuPreview?: string | null;
   dependencyNotes: string[];
   warningNotes: string[];
+  /** Vehicle context (year/make/model), when the quote originates from a vehicle-scoped configurator. */
+  vehicleSummary?: string;
+  /** Requested quantity for the single-SKU shape (PDP). Cart quotes carry quantity per line in `lines` instead. */
+  quantity?: number;
+  /** Multi-line quotes (e.g. a whole cart) — when present, rendered instead of/alongside a single SKU. */
+  lines?: QuoteLineSummary[];
   contact: QuoteContact;
   submissionId: string;
   timestamp: string;
@@ -79,6 +94,18 @@ function formatOptionLines(payload: QuotePayload): string[] {
   return lines;
 }
 
+function formatCartLines(payload: QuotePayload): string[] {
+  if (!payload.lines || payload.lines.length === 0) return [];
+  return [
+    'Cart Lines:',
+    ...payload.lines.flatMap((line) => {
+      const price = line.unitPrice != null ? ` — $${line.unitPrice.toFixed(2)} each` : '';
+      const header = `- ${line.label} (SKU ${line.sku}) x${line.quantity}${price}`;
+      return line.note ? [header, `    ${line.note}`] : [header];
+    }),
+  ];
+}
+
 function formatAdvisoryLines(payload: QuotePayload): string[] {
   const lines: string[] = [];
   if (payload.dependencyNotes.length > 0) {
@@ -93,12 +120,17 @@ function formatAdvisoryLines(payload: QuotePayload): string[] {
 export function buildQuoteEmailBody(payload: QuotePayload, referenceId: string): string {
   const { contact } = payload;
   const advisoryLines = formatAdvisoryLines(payload);
+  const cartLines = formatCartLines(payload);
+  const skuLine = payload.selectedSku || payload.skuPreview ? `SKU: ${payload.selectedSku || payload.skuPreview}` : null;
   return [
     `Reference: ${referenceId}`,
     `Product: ${payload.productTitle}`,
-    `SKU: ${payload.selectedSku || payload.skuPreview || '(pending)'}`,
+    skuLine,
+    payload.quantity != null ? `Quantity: ${payload.quantity}` : null,
+    payload.vehicleSummary ? `Vehicle: ${payload.vehicleSummary}` : null,
     '',
     ...formatOptionLines(payload),
+    ...(cartLines.length > 0 ? ['', ...cartLines] : []),
     ...(advisoryLines.length > 0 ? ['', ...advisoryLines] : []),
     '',
     `Contact: ${contact.name} — ${contact.agency}`,

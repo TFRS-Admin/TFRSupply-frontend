@@ -65,7 +65,7 @@ export default function ConfiguratorExperience({ configuratorData, verticalId, c
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <ConfiguratorPricingSummary configState={configState} />
-            <ConfiguratorCommerceActions configState={configState} verticalId={verticalId} categoryId={categoryId} />
+            <ConfiguratorCommerceActions configState={configState} configuratorData={configuratorData} verticalId={verticalId} categoryId={categoryId} />
           </div>
         </div>
       )}

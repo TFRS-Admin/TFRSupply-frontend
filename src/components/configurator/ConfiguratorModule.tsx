@@ -33,6 +33,8 @@ import { lookupSkus } from '@/services/commerceLookupService';
 import type { CommerceLookupEntry } from '@/services/commerceLookupService';
 import { useShopifyVariantResolver } from '@/hooks/shopifyVariantResolver';
 import VehicleSelectorModal from '@/components/navigator/VehicleSelectorModal';
+import QuoteContactModal from '@/components/quoteDelivery/QuoteContactModal';
+import { buildQuoteRequestPayload } from '@/domain/configuratorQuote/buildQuoteRequestPayload';
 import knowledgePackageData from '../../../docs/knowledge/configurator_data.json';
 import {
   CheckCircle, RotateCcw, ClipboardList,
@@ -584,9 +586,12 @@ function QuoteLine({ label, sku, price, flagged, availability }: QuoteLineProps)
 export interface QuotePanelProps {
   quotePayload: ConfiguratorQuotePayload | null;
   accSection?: ConfiguratorSection;
+  configuratorData?: Configurator | null;
 }
 
-export function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
+export function QuotePanel({ quotePayload, accSection, configuratorData }: QuotePanelProps) {
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+
   if (!quotePayload) {
     return (
       <div style={{ padding: '14px 16px', background: '#f8fafc', border: '1px solid #e5e7eb', marginTop: 8 }}>
@@ -686,7 +691,7 @@ export function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
           }}
           onMouseEnter={(e: MouseEvent<HTMLButtonElement>) => e.currentTarget.style.background = '#243560'}
           onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => e.currentTarget.style.background = '#1a2744'}
-          onClick={() => {/* quote submission handled by parent QuoteRequestPanel */}}
+          onClick={() => setQuoteModalOpen(true)}
           title="Add this configuration to your quote request"
         >
           <Send size={13} /> Add to Quote
@@ -735,6 +740,19 @@ export function QuotePanel({ quotePayload, accSection }: QuotePanelProps) {
             </div>
           ))}
         </div>
+      )}
+
+      {quoteModalOpen && (
+        <QuoteContactModal
+          onClose={() => setQuoteModalOpen(false)}
+          title={`Request a Quote — ${quotePayload.productFamily ?? quotePayload.selectedBaseSku}`}
+          description={`Selected SKU: ${quotePayload.selectedBaseSku}`}
+          buildPayload={(contact, submissionId) => {
+            const payload = buildQuoteRequestPayload(quotePayload, configuratorData, contact, submissionId);
+            if (!payload) throw new Error('No configuration selected yet.');
+            return payload;
+          }}
+        />
       )}
     </div>
   );
@@ -941,6 +959,9 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       commerceLines,
       reviewFlags,
       checkoutReady: resolvedVariant?.canAddToCart ?? false,
+      requiredComponents: accItems
+        .filter((i): i is typeof i & { sku: string } => i.type === 'required' && Boolean(i.sku))
+        .map(i => ({ sku: i.sku, label: i.label, price: i.price ?? null })),
     };
   }, [resolvedSkuObj, resolvedVariant, filterSelections, skuSteps, accessories, effectiveAccessoryItems, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
 
@@ -1013,7 +1034,7 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
         )}
 
         {/* Quote */}
-        <QuotePanel quotePayload={quotePayload} accSection={effectiveAccessoriesSection} />
+        <QuotePanel quotePayload={quotePayload} accSection={effectiveAccessoriesSection} configuratorData={configuratorData} />
       </div>
 
       {/* Vehicle selector modal — same existing component */}
