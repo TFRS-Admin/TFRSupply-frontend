@@ -76,6 +76,26 @@ describe('Quote delivery adapter — mailto URL + body construction', () => {
     assert.match(body, /Notes: Q3 delivery/);
   });
 
+  it('includes dependency notes and compatibility warnings when present', () => {
+    const body = modules.adapter.buildQuoteEmailBody(
+      payload({
+        dependencyNotes: ['Mounting Type required because: Permanent Mount was selected.'],
+        warningNotes: ['Advisory — Red/Blue + Amber: reduced visibility in fog.'],
+      }),
+      'QR-ABC123',
+    );
+    assert.match(body, /Dependency notes:/);
+    assert.match(body, /- Mounting Type required because: Permanent Mount was selected\./);
+    assert.match(body, /Compatibility warnings:/);
+    assert.match(body, /- Advisory — Red\/Blue \+ Amber: reduced visibility in fog\./);
+  });
+
+  it('omits the advisory sections entirely when there are no notes', () => {
+    const body = modules.adapter.buildQuoteEmailBody(payload(), 'QR-ABC123');
+    assert.doesNotMatch(body, /Dependency notes:/);
+    assert.doesNotMatch(body, /Compatibility warnings:/);
+  });
+
   it('omits optional contact fields when absent', () => {
     const body = modules.adapter.buildQuoteEmailBody(
       payload({ contact: { name: 'Jane Smith', agency: 'Metro PD', email: 'jane@metropd.gov' } }),

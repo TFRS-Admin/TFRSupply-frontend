@@ -79,14 +79,27 @@ function formatOptionLines(payload: QuotePayload): string[] {
   return lines;
 }
 
+function formatAdvisoryLines(payload: QuotePayload): string[] {
+  const lines: string[] = [];
+  if (payload.dependencyNotes.length > 0) {
+    lines.push('Dependency notes:', ...payload.dependencyNotes.map((note) => `- ${note}`));
+  }
+  if (payload.warningNotes.length > 0) {
+    lines.push('Compatibility warnings:', ...payload.warningNotes.map((note) => `- ${note}`));
+  }
+  return lines;
+}
+
 export function buildQuoteEmailBody(payload: QuotePayload, referenceId: string): string {
   const { contact } = payload;
+  const advisoryLines = formatAdvisoryLines(payload);
   return [
     `Reference: ${referenceId}`,
     `Product: ${payload.productTitle}`,
     `SKU: ${payload.selectedSku || payload.skuPreview || '(pending)'}`,
     '',
     ...formatOptionLines(payload),
+    ...(advisoryLines.length > 0 ? ['', ...advisoryLines] : []),
     '',
     `Contact: ${contact.name} — ${contact.agency}`,
     `Email: ${contact.email}`,

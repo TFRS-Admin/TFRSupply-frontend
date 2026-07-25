@@ -37,6 +37,7 @@ Vite environment variables are embedded at build time, so set these in Railway b
 | `VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Yes | Storefront API access token used by the cart/checkout adapter. |
 | `VITE_SHOPIFY_STOREFRONT_API_VERSION` | Yes | Shopify Storefront API version (e.g. `2024-10`). |
 | `VITE_SHOPIFY_STOREFRONT_ENABLED` | Yes | Set to `true` to enable live Storefront API calls (cart create, hosted checkout redirect); any other value keeps the app on committed catalog data with checkout disabled. |
+| `VITE_QUOTE_DELIVERY_ENDPOINT` | No | Hosted form endpoint (e.g. Formspree/Basin) that quote requests are POSTed to. Unset (default): quote requests fall back to a `mailto:` link instead. Must be passed as a Docker build arg (see `Dockerfile`), not just a runtime Railway variable, since Vite inlines it at build time. |
 
 Railway also injects `PORT` at runtime. The `Caddyfile` listens on `{$PORT:8080}`, which uses Railway's assigned port and falls back to `8080` for local container runs.
 
