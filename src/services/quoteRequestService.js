@@ -3,13 +3,14 @@
  * Portable quote request service layer.
  *
  * UI components call ONLY this module.
- * All delivery logic is delegated to an adapter — this module never imports Base44 directly.
+ * All delivery logic is delegated to an adapter — this module never imports the
+ * delivery mechanism (hosted form / mailto) directly.
  *
  * To swap the delivery mechanism (e.g. Shopify quote, CRM, email):
  *   Replace the adapter import below; nothing else changes.
  */
 
-import { submitViaBase44Email } from '@/adapters/base44/quoteRequestAdapter';
+import { quoteDeliveryAdapter } from '@/adapters/quoteDelivery';
 
 // ─── Idempotency Key ─────────────────────────────────────────────────────────
 
@@ -119,5 +120,5 @@ export function validateContactForm(contactForm) {
  * @returns {Promise<{ success: boolean, referenceId?: string, error?: string }>}
  */
 export async function submitQuoteRequest(payload) {
-  return submitViaBase44Email(payload);
+  return quoteDeliveryAdapter.submitQuoteRequest(payload);
 }

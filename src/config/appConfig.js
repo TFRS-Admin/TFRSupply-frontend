@@ -39,6 +39,15 @@ const appConfig = {
    * Display name used in outgoing email "from" label.
    */
   quoteSenderName: 'TFR Supply',
+
+  /**
+   * Optional hosted form endpoint (e.g. Formspree/Basin) that quote
+   * requests are POSTed to. When unset, the quote delivery adapter falls
+   * back to opening the requester's email client with a pre-filled
+   * message addressed to `quoteRecipientEmail`. Not a secret — hosted
+   * form endpoints are meant to be called from the browser.
+   */
+  quoteDeliveryEndpoint: import.meta.env.VITE_QUOTE_DELIVERY_ENDPOINT || '',
 };
 
 export default appConfig;
