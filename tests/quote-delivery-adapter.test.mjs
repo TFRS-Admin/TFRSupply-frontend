@@ -198,26 +198,54 @@ describe('quoteRequestService — outcome mapping and wiring', () => {
     assert.deepEqual(errors, {});
   });
 
-  it('delegates submission to the live quote delivery adapter and returns its result shape', async () => {
-    const { submitQuoteRequest, buildQuotePayload, generateSubmissionId } = modules.service;
-    const submissionId = generateSubmissionId();
-    assert.match(submissionId, /^sub-\d+-[a-z0-9]{6}$/);
+  it('generates a stable-format submission ID', () => {
+    const { generateSubmissionId } = modules.service;
+    assert.match(generateSubmissionId(), /^sub-\d+-[a-z0-9]{6}$/);
+  });
 
-    const built = buildQuotePayload(
-      { id: 'session-1' },
-      { resolvedSelections: [], accessories: [], depRequirements: [], violations: [], selectedSku: 'NAV-SLB-53-RB', matchingSkus: [], skuStatus: 'matched' },
-      { productId: 'navigator', configuratorId: 'navigator-configurator', productTitle: 'Navigator' },
-      { name: 'Jane Smith', agency: 'Metro PD', email: 'jane@metropd.gov' },
-      submissionId,
-    );
-    assert.equal(built.submissionId, submissionId);
+  it('delegates submission to the live quote delivery adapter and returns its result shape', async () => {
+    const { submitQuoteRequest, generateSubmissionId } = modules.service;
+    const submissionId = generateSubmissionId();
 
     // No VITE_QUOTE_DELIVERY_ENDPOINT is set in the test environment, so the
     // live singleton falls back to the mailto path (window is undefined
     // under SSR, so opening it is a safe no-op).
-    const result = await submitQuoteRequest(built);
+    const result = await submitQuoteRequest(payload({ submissionId }));
     assert.equal(result.success, true);
     assert.equal(result.deliveryMethod, 'mailto');
     assert.ok(result.referenceId.startsWith('QR-'));
+  });
+});
+
+describe('Quote delivery adapter — vehicle context and cart-line quotes', () => {
+  it('includes a vehicle line in the email body when vehicleSummary is set', () => {
+    const body = modules.adapter.buildQuoteEmailBody(payload({ vehicleSummary: '2024 Ford F-550' }), 'QR-ABC123');
+    assert.match(body, /Vehicle: 2024 Ford F-550/);
+  });
+
+  it('omits the vehicle line when vehicleSummary is absent', () => {
+    const body = modules.adapter.buildQuoteEmailBody(payload(), 'QR-ABC123');
+    assert.doesNotMatch(body, /Vehicle:/);
+  });
+
+  it('renders a Cart Lines section instead of a single SKU when lines is set', () => {
+    const body = modules.adapter.buildQuoteEmailBody(
+      payload({
+        selectedSku: null,
+        skuPreview: null,
+        selectedOptions: [],
+        accessories: [],
+        productTitle: 'Cart Quote Request (2 items)',
+        lines: [
+          { sku: 'NAV-SLB-53-RB', label: 'Navigator Serial Light Bar', quantity: 1, unitPrice: 4639 },
+          { sku: 'NAV-CABLE-10', label: '10 ft. Main Harness', quantity: 2 },
+        ],
+      }),
+      'QR-ABC123',
+    );
+    assert.doesNotMatch(body, /^SKU:/m);
+    assert.match(body, /Cart Lines:/);
+    assert.match(body, /- Navigator Serial Light Bar \(SKU NAV-SLB-53-RB\) x1 — \$4639\.00 each/);
+    assert.match(body, /- 10 ft\. Main Harness \(SKU NAV-CABLE-10\) x2/);
   });
 });

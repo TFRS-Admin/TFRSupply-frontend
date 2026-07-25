@@ -2,6 +2,8 @@
 
 _Last updated: Sprint 14_
 
+> **REMOVED (#321).** Everything below describes `domain/configuration/{models,configuratorEngine}.js`, `context/ConfigurationContext.jsx`, and `components/configurator/ConfigurationSummary.jsx` — a parallel configurator engine that was never actually wired into the app (its `ConfigurationProvider` was never mounted anywhere) and has been deleted as confirmed-dead code. **The real, live configurator is `components/configurator/ConfiguratorModule.tsx`**, composed by `ConfiguratorExperience.tsx` into the PDP — see `src/docs/quote-request-flow.md` for how its quote-request flow actually works today. This file is kept for historical context only; do not build against it.
+
 ---
 
 ## Overview

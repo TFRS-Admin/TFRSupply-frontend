@@ -24,6 +24,7 @@ before(async () => {
     cartSchema: await server.ssrLoadModule('/src/schemas/cartWorkspace.schema.ts'),
     quoteService: await server.ssrLoadModule('/src/services/quoteBuilder/quoteBuilderService.ts'),
     quoteSchema: await server.ssrLoadModule('/src/schemas/quote.schema.ts'),
+    quoteRequestPayload: await server.ssrLoadModule('/src/domain/configuratorQuote/buildQuoteRequestPayload.ts'),
   };
 });
 
@@ -232,7 +233,6 @@ describe('ConfiguratorCommerceActions (commerce action composition)', () => {
     assert.match(html, /Commerce Actions/);
     assert.match(html, /Add to Cart/);
     assert.match(html, /Request Quote/);
-    assert.match(html, /mailto:quotes@tfrsupply\.com/);
     assert.match(html, /Save Configuration/);
     assert.match(html, /Continue Shopping/);
     assert.match(html, /href="\/fire\/light-bars"/);
@@ -280,10 +280,19 @@ describe('ConfiguratorCommerceActions (commerce action composition)', () => {
 
     assert.match(html, /data-testid="cart-disabled-reason"/);
     assert.match(html, /No Shopify variant ID yet for this SKU/);
-    const primaryAction = html.match(/<a[^>]*title="No Shopify variant ID yet for this SKU[^>]*>/);
-    assert.ok(primaryAction, 'expected the primary action to render as a functional Add to Quote link, not a disabled button');
+    // Opens the quote-contact modal on click (PR-12/#321) — no href at all,
+    // so there is no dual-fire mailto-plus-quoteBuilder race any more.
+    const primaryAction = html.match(/<button[^>]*title="No Shopify variant ID yet for this SKU[^>]*>/);
+    assert.ok(primaryAction, 'expected the primary action to render as a functional Add to Quote button, not a link or a disabled button');
     assert.doesNotMatch(primaryAction[0], /disabled/);
-    assert.match(primaryAction[0], /href="mailto:/);
+  });
+
+  it('renders Request Quote with no raw mailto href — it opens the quote contact modal on click instead', () => {
+    const { default: ConfiguratorCommerceActions } = modules.commerceActions;
+    const html = renderWithProviders(React.createElement(ConfiguratorCommerceActions, { configState: CONFIG_STATE, verticalId: 'fire', categoryId: 'light-bars' }));
+
+    assert.match(html, /Request Quote/);
+    assert.doesNotMatch(html, /mailto:/);
   });
 
   it('enables Add to Cart with no disabled-reason notice when the resolver reports canAddToCart: true', () => {
@@ -302,6 +311,54 @@ describe('ConfiguratorCommerceActions (commerce action composition)', () => {
 
     assert.match(html, /data-testid="cart-quantity-stepper"/);
     assert.match(html, /data-testid="cart-quantity-value">1</);
+  });
+});
+
+describe('buildQuoteRequestPayload (PR-12/#321 — wires the PDP quote flow to the delivery adapter)', () => {
+  const CONTACT = { name: 'Jane Smith', agency: 'Metro PD', email: 'jane@metropd.gov' };
+
+  it('returns null when no SKU has been selected', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    assert.equal(buildQuoteRequestPayload(null, CONFIGURATOR_DATA, CONTACT, 'sub-1'), null);
+    assert.equal(buildQuoteRequestPayload({}, CONFIGURATOR_DATA, CONTACT, 'sub-1'), null);
+  });
+
+  it('resolves selected-filter step/option labels from configuratorData', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1');
+
+    assert.equal(result.selectedOptions.length, 1);
+    assert.equal(result.selectedOptions[0].stepId, 'length');
+    assert.equal(result.selectedOptions[0].stepLabel, 'Bar Length');
+    assert.deepEqual(result.selectedOptions[0].selected, ['45 Inch']);
+  });
+
+  it('falls back to raw stepId/optionId when configuratorData is unavailable', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, null, CONTACT, 'sub-1');
+
+    assert.equal(result.selectedOptions[0].stepLabel, 'length');
+    assert.deepEqual(result.selectedOptions[0].selected, ['len-45']);
+  });
+
+  it('maps accessorySkus to accessories with pricing from commerceLines', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1');
+
+    assert.equal(result.accessories.length, 1);
+    assert.equal(result.accessories[0].optionId, 'NAV-CABLE-10');
+    assert.equal(result.accessories[0].priceModifier, 28);
+  });
+
+  it('carries the selected vehicle into vehicleSummary and reviewFlags into warningNotes', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1');
+
+    assert.equal(result.vehicleSummary, '2024 Ford F-550');
+    assert.deepEqual(result.warningNotes, CONFIG_STATE.reviewFlags);
+    assert.equal(result.selectedSku, 'NVG45Z-NFPA20');
+    assert.equal(result.contact, CONTACT);
+    assert.equal(result.submissionId, 'sub-1');
   });
 });
 
