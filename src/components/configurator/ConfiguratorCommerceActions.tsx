@@ -273,9 +273,9 @@ export default function ConfiguratorCommerceActions({ configState, configuratorD
         <QuoteContactModal
           onClose={() => setQuoteModalOpen(false)}
           title={`Request a Quote — ${configState.productFamily ?? configState.selectedBaseSku}`}
-          description={`Selected SKU: ${configState.selectedBaseSku}`}
+          description={`Selected SKU: ${configState.selectedBaseSku} — Qty ${quantity}`}
           buildPayload={(contact, submissionId) => {
-            const payload = buildQuoteRequestPayload(configState, configuratorData, contact, submissionId);
+            const payload = buildQuoteRequestPayload(configState, configuratorData, contact, submissionId, quantity);
             if (!payload) throw new Error('No configuration selected yet.');
             return payload;
           }}

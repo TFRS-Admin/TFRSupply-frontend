@@ -60,12 +60,28 @@ describe('buildCartQuoteRequestPayload (PR-12/#321 — wires the cart quote flow
     const { buildCartQuoteRequestPayload } = modules.cartWorkspace;
     const payload = buildCartQuoteRequestPayload([line({ quantity: 3 })], CONTACT, 'sub-1');
 
-    assert.deepEqual(payload.lines[0], { sku: 'NVG45Z-NFPA20', label: 'Navigator® Serial Light Bar', quantity: 3, unitPrice: 4639 });
+    assert.deepEqual(payload.lines[0], { sku: 'NVG45Z-NFPA20', label: 'Navigator® Serial Light Bar', quantity: 3, unitPrice: 4639, note: undefined });
   });
 
   it('handles a single-item cart with correct singular wording', () => {
     const { buildCartQuoteRequestPayload } = modules.cartWorkspace;
     const payload = buildCartQuoteRequestPayload([line()], CONTACT, 'sub-1');
     assert.equal(payload.productTitle, 'Cart Quote Request (1 item)');
+  });
+
+  it('surfaces configured accessories and vehicle from line metadata as a note — configured package details are not silently dropped', () => {
+    const { buildCartQuoteRequestPayload } = modules.cartWorkspace;
+    const configured = line({
+      metadata: { attributes: { accessorySkus: 'NAV-CABLE-10,NAV-HKB-KIT', vehicle: '2024 Ford F-550', shopifyVariantId: 'gid://shopify/ProductVariant/1' } },
+    });
+    const payload = buildCartQuoteRequestPayload([configured], CONTACT, 'sub-1');
+
+    assert.equal(payload.lines[0].note, 'Accessories: NAV-CABLE-10,NAV-HKB-KIT — Vehicle: 2024 Ford F-550');
+  });
+
+  it('omits the note when a line has no accessory/vehicle metadata (a plain, non-configurator product)', () => {
+    const { buildCartQuoteRequestPayload } = modules.cartWorkspace;
+    const payload = buildCartQuoteRequestPayload([line({ metadata: { attributes: { shopifyVariantId: 'gid://shopify/ProductVariant/1' } } })], CONTACT, 'sub-1');
+    assert.equal(payload.lines[0].note, undefined);
   });
 });

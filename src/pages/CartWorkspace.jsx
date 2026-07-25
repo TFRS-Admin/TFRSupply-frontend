@@ -31,6 +31,20 @@ import QuoteContactModal from '@/components/quoteDelivery/QuoteContactModal';
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
 
 /**
+ * Configured lines (added via ConfiguratorCommerceActions.buildCartLineInput)
+ * carry accessory SKUs and vehicle context in metadata.attributes rather than
+ * as first-class CartLineItem fields — surface them as a note so a quote
+ * built from the cart doesn't silently drop the configured package details.
+ */
+function cartLineNote(line) {
+  const attrs = line.metadata?.attributes ?? {};
+  const parts = [];
+  if (attrs.accessorySkus) parts.push(`Accessories: ${attrs.accessorySkus}`);
+  if (attrs.vehicle) parts.push(`Vehicle: ${attrs.vehicle}`);
+  return parts.length > 0 ? parts.join(' — ') : undefined;
+}
+
+/**
  * Converts the current cart lines into the QuotePayload the quote delivery
  * adapter (PR-12) expects. A cart quote covers every line in one submission
  * (there is one "Request Quote" action for the whole cart, not per-line) —
@@ -55,6 +69,7 @@ export function buildCartQuoteRequestPayload(lines, contact, submissionId) {
       label: line.label,
       quantity: line.quantity,
       unitPrice: typeof line.unitPrice?.amount === 'number' ? line.unitPrice.amount : undefined,
+      note: cartLineNote(line),
     })),
     contact,
     submissionId,

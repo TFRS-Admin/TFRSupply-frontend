@@ -37,6 +37,8 @@ export interface QuoteLineSummary {
   label: string;
   quantity: number;
   unitPrice?: number;
+  /** Free-form extra context for this line (e.g. accessory SKUs, vehicle) that doesn't fit the other fields. */
+  note?: string;
 }
 
 export interface QuotePayload {
@@ -53,6 +55,8 @@ export interface QuotePayload {
   warningNotes: string[];
   /** Vehicle context (year/make/model), when the quote originates from a vehicle-scoped configurator. */
   vehicleSummary?: string;
+  /** Requested quantity for the single-SKU shape (PDP). Cart quotes carry quantity per line in `lines` instead. */
+  quantity?: number;
   /** Multi-line quotes (e.g. a whole cart) — when present, rendered instead of/alongside a single SKU. */
   lines?: QuoteLineSummary[];
   contact: QuoteContact;
@@ -94,9 +98,10 @@ function formatCartLines(payload: QuotePayload): string[] {
   if (!payload.lines || payload.lines.length === 0) return [];
   return [
     'Cart Lines:',
-    ...payload.lines.map((line) => {
+    ...payload.lines.flatMap((line) => {
       const price = line.unitPrice != null ? ` — $${line.unitPrice.toFixed(2)} each` : '';
-      return `- ${line.label} (SKU ${line.sku}) x${line.quantity}${price}`;
+      const header = `- ${line.label} (SKU ${line.sku}) x${line.quantity}${price}`;
+      return line.note ? [header, `    ${line.note}`] : [header];
     }),
   ];
 }
@@ -121,6 +126,7 @@ export function buildQuoteEmailBody(payload: QuotePayload, referenceId: string):
     `Reference: ${referenceId}`,
     `Product: ${payload.productTitle}`,
     skuLine,
+    payload.quantity != null ? `Quantity: ${payload.quantity}` : null,
     payload.vehicleSummary ? `Vehicle: ${payload.vehicleSummary}` : null,
     '',
     ...formatOptionLines(payload),

@@ -248,4 +248,29 @@ describe('Quote delivery adapter — vehicle context and cart-line quotes', () =
     assert.match(body, /- Navigator Serial Light Bar \(SKU NAV-SLB-53-RB\) x1 — \$4639\.00 each/);
     assert.match(body, /- 10 ft\. Main Harness \(SKU NAV-CABLE-10\) x2/);
   });
+
+  it('includes each cart line\'s note (e.g. configured accessories/vehicle) on an indented line beneath it', () => {
+    const body = modules.adapter.buildQuoteEmailBody(
+      payload({
+        selectedSku: null,
+        skuPreview: null,
+        lines: [
+          { sku: 'NVG45Z-NFPA20', label: 'Navigator Light Bar', quantity: 1, unitPrice: 4639, note: 'Accessories: NAV-CABLE-10 — Vehicle: 2024 Ford F-550' },
+        ],
+      }),
+      'QR-ABC123',
+    );
+    assert.match(body, /- Navigator Light Bar \(SKU NVG45Z-NFPA20\) x1 — \$4639\.00 each/);
+    assert.match(body, /^ {4}Accessories: NAV-CABLE-10 — Vehicle: 2024 Ford F-550$/m);
+  });
+
+  it('includes a Quantity line for the single-SKU shape when quantity is set', () => {
+    const body = modules.adapter.buildQuoteEmailBody(payload({ quantity: 5 }), 'QR-ABC123');
+    assert.match(body, /Quantity: 5/);
+  });
+
+  it('omits the Quantity line when quantity is not set', () => {
+    const body = modules.adapter.buildQuoteEmailBody(payload(), 'QR-ABC123');
+    assert.doesNotMatch(body, /Quantity:/);
+  });
 });

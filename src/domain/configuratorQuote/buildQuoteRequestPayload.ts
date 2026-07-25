@@ -27,6 +27,7 @@ export function buildQuoteRequestPayload(
   configuratorData: Configurator | null | undefined,
   contact: QuoteContact,
   submissionId: string,
+  quantity?: number,
 ): QuotePayload | null {
   if (!configState?.selectedBaseSku) return null;
 
@@ -37,17 +38,28 @@ export function buildQuoteRequestPayload(
     return { stepId, stepLabel, selected: [optionLabel] };
   });
 
-  const accessories: QuoteAccessory[] = (configState.accessorySkus ?? []).map((sku) => {
+  const optionalAccessories: QuoteAccessory[] = (configState.accessorySkus ?? []).map((sku) => {
     const line = (configState.commerceLines ?? []).find((l) => l.sku === sku);
     return { stepId: 'accessories', optionId: sku, optionLabel: sku, priceModifier: line?.price ?? 0 };
   });
+
+  // Required package components (e.g. dynamically-selected HKB kits) are always
+  // part of the configuration, never customer-toggled — they must travel with
+  // the quote just like optional accessories do, or sales gets an incomplete
+  // package request.
+  const requiredAccessories: QuoteAccessory[] = (configState.requiredComponents ?? []).map((item) => ({
+    stepId: 'required',
+    optionId: item.sku,
+    optionLabel: item.label,
+    priceModifier: item.price ?? 0,
+  }));
 
   return {
     productId: configState.configuratorId ?? configState.selectedBaseSku,
     configuratorId: configState.configuratorId ?? configState.selectedBaseSku,
     productTitle: configState.productFamily ?? configState.selectedBaseSku,
     selectedOptions,
-    accessories,
+    accessories: [...requiredAccessories, ...optionalAccessories],
     selectedSku: configState.selectedBaseSku,
     matchingSkus: configState.commerceLines ?? [],
     skuStatus: configState.checkoutReady ? 'matched' : 'needs-review',
@@ -55,6 +67,7 @@ export function buildQuoteRequestPayload(
     dependencyNotes: [],
     warningNotes: configState.reviewFlags ?? [],
     vehicleSummary: vehicleSummaryText(configState.selectedVehicle),
+    quantity,
     contact,
     submissionId,
     timestamp: new Date().toISOString(),

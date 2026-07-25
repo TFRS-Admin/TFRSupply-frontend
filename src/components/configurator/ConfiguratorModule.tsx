@@ -959,6 +959,9 @@ export default function ConfiguratorModule({ configuratorData, verticalId, categ
       commerceLines,
       reviewFlags,
       checkoutReady: resolvedVariant?.canAddToCart ?? false,
+      requiredComponents: accItems
+        .filter((i): i is typeof i & { sku: string } => i.type === 'required' && Boolean(i.sku))
+        .map(i => ({ sku: i.sku, label: i.label, price: i.price ?? null })),
     };
   }, [resolvedSkuObj, resolvedVariant, filterSelections, skuSteps, accessories, effectiveAccessoryItems, verticalId, categoryId, productFamily, configuratorId, selectedVehicle]);
 

@@ -61,6 +61,7 @@ const CONFIG_STATE = {
     { sku: 'NAV-CABLE-10', shopifyVariantId: null, shopifyProductId: null, price: 28, status: 'unmatched' },
   ],
   reviewFlags: ['Required component SKU unknown — needs review: Mounting Bracket'],
+  requiredComponents: [{ sku: 'NAV-HKB-KIT', label: 'Harness Kit Bundle', price: 45 }],
   shopifyVariantId: 'gid://shopify/ProductVariant/5551234567890',
   checkoutReady: true,
 };
@@ -345,9 +346,38 @@ describe('buildQuoteRequestPayload (PR-12/#321 — wires the PDP quote flow to t
     const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
     const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1');
 
-    assert.equal(result.accessories.length, 1);
-    assert.equal(result.accessories[0].optionId, 'NAV-CABLE-10');
-    assert.equal(result.accessories[0].priceModifier, 28);
+    const optional = result.accessories.find((a) => a.optionId === 'NAV-CABLE-10');
+    assert.ok(optional, 'expected the optional accessory to be present');
+    assert.equal(optional.priceModifier, 28);
+  });
+
+  it('includes required components (e.g. HKB kits) in the delivered accessories — not just customer-toggled optional ones', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1');
+
+    const required = result.accessories.find((a) => a.optionId === 'NAV-HKB-KIT');
+    assert.ok(required, 'expected the required component to be present in the delivered payload');
+    assert.equal(required.optionLabel, 'Harness Kit Bundle');
+    assert.equal(required.priceModifier, 45);
+    assert.equal(result.accessories.length, 2);
+  });
+
+  it('omits required components entirely when there are none', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload({ ...CONFIG_STATE, requiredComponents: [] }, CONFIGURATOR_DATA, CONTACT, 'sub-1');
+    assert.equal(result.accessories.some((a) => a.stepId === 'required'), false);
+  });
+
+  it('passes the requested quantity through to the payload', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1', 5);
+    assert.equal(result.quantity, 5);
+  });
+
+  it('leaves quantity undefined when not provided (e.g. the Package Quote panel, which has no quantity stepper)', () => {
+    const { buildQuoteRequestPayload } = modules.quoteRequestPayload;
+    const result = buildQuoteRequestPayload(CONFIG_STATE, CONFIGURATOR_DATA, CONTACT, 'sub-1');
+    assert.equal(result.quantity, undefined);
   });
 
   it('carries the selected vehicle into vehicleSummary and reviewFlags into warningNotes', () => {

@@ -15,6 +15,13 @@ export interface ConfiguratorVehicleSelection {
 
 export type ConfiguratorCommerceLineStatus = 'matched' | 'price_only' | 'unmatched';
 
+/** A required (non-optional) package component — always part of the configuration, never toggled by the customer. */
+export interface ConfiguratorRequiredComponent {
+  sku: string;
+  label: string;
+  price: number | null;
+}
+
 export interface ConfiguratorCommerceLine {
   sku: string;
   shopifyVariantId: string | null;
@@ -46,4 +53,6 @@ export interface ConfiguratorQuotePayload {
   commerceLines: ConfiguratorCommerceLine[];
   reviewFlags: string[];
   checkoutReady: boolean;
+  /** Required package components with a resolved SKU — always included, never customer-toggled (see Package Quote panel's "Required Components" section). */
+  requiredComponents: ConfiguratorRequiredComponent[];
 }
