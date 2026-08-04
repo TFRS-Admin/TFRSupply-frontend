@@ -36,4 +36,4 @@ Previously: 2026-07-09, by the TFRS Engineering Playbook v3.0.0 adoption-complet
 
 ## Related Documents
 
-sibling [`docs/engineering/BACKLOG.md`](./BACKLOG.md) · [`BACKLOG_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/BACKLOG_STANDARD.md) · [`docs/MASTER_EXECUTION_PROGRAM.md`](../MASTER_EXECUTION_PROGRAM.md)
+sibling [`docs/engineering/backlog/`](./backlog/) · [`standards/WORK_ITEM_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/standards/WORK_ITEM_STANDARD.md) · [`docs/MASTER_EXECUTION_PROGRAM.md`](../MASTER_EXECUTION_PROGRAM.md)
