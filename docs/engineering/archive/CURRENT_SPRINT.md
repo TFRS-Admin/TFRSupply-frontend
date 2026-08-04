@@ -1,5 +1,6 @@
 <!-- Purpose: Track what's actively committed this sprint. Read third (after AGENTS.md and CLAUDE.md) when determining current work, per AI_AGENT_OPERATING_MODEL.md#2-how-to-determine-current-work. -->
-# Current Sprint: TFRSupply Frontend
+<!-- ARCHIVED 2026-08-04: superseded by docs/engineering/backlog/ (one file per item, per the current Engineering OS's standards/WORK_ITEM_STANDARD.md and adrs/0002-file-based-work-items.md). Kept for its historical narrative; not the current state. See migration/RESYNC_CHECKLIST.md. -->
+# Current Sprint: TFRSupply Frontend (ARCHIVED — superseded by docs/engineering/backlog/)
 
 ## Empty-Sprint Declaration
 

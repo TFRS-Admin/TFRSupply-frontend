@@ -2,15 +2,16 @@
 
 ## Engineering Source of Truth
 
-This repository follows the [**TFRS Engineering Playbook**](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (`tfrs-engineering-playbook`) as its canonical engineering operating system, and consults [`TFRS-Admin/agent-skills`](https://github.com/TFRS-Admin/agent-skills) as its shared, live execution library for step-by-step task mechanics.
+This repository follows the [**Very Good Software Co. Engineering OS**](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (`tfrs-engineering-playbook`) as its canonical engineering operating system, and consults [`TFRS-Admin/agent-skills`](https://github.com/TFRS-Admin/agent-skills) as its shared, live execution library for step-by-step task mechanics.
 
 - **Start here:** [`AGENTS.md`](./AGENTS.md) is the single entry point for every AI agent working in this repository.
-- **Adopted playbook version:** `3.0.0` (see the playbook's [`VERSION.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/VERSION.md) for the changelog). Version 3.0.0 moved the playbook from a GitHub-Project-centered model to a repository-centered one — see [`docs/engineering/`](./docs/engineering/) and each issue's `## Metadata` block, which are now the operational source of truth alongside this repository's own documentation; a GitHub Project remains optional visualization only.
-- **Local baseline files** (copied per the playbook's [Minimum Baseline](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/commands/setup-from-playbook.md#minimum-baseline)): [`AGENTS.md`](./AGENTS.md), [`CLAUDE.md`](./CLAUDE.md), [`AI_AGENT_OPERATING_MODEL.md`](./AI_AGENT_OPERATING_MODEL.md), [`DECISION_ROUTER.md`](./DECISION_ROUTER.md).
-- **Everything else** (standards, `commands/`, templates) is referenced live from the playbook repository, never vendored — see [`SKILLS_STANDARD.md`](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/SKILLS_STANDARD.md) for the precedence rules between this repository, the playbook, and the skills fork.
-- **Repository-specific architecture:** [`ARCHITECTURE.md`](./ARCHITECTURE.md).
+- **Adopted Engineering OS version:** recorded in [`AGENTS.md`](./AGENTS.md) — the single recorded location; not duplicated here. Re-synced 2026-08-04 from a stale `3.0.0` (predecessor-era) adoption via `migration/RESYNC_CHECKLIST.md`.
+- **Local baseline files:** [`AGENTS.md`](./AGENTS.md), [`CLAUDE.md`](./CLAUDE.md) — the Engineering OS's own `agents/AGENT_OPERATING_MODEL.md` and `kernel/DECISION_ROUTER.md` are referenced, not copied, per `project-template/README.md`'s reference-not-copy convention.
+- **Everything else** (standards, playbooks, templates) is referenced live from the Engineering OS repository, never vendored.
+- **Repository-specific architecture:** [`docs/architecture/ARCHITECTURE.md`](./docs/architecture/ARCHITECTURE.md), plus ~60 per-domain documents alongside it.
+- **Backlog:** [`docs/engineering/backlog/`](./docs/engineering/backlog/) — one file per work item, per `standards/WORK_ITEM_STANDARD.md`; glob the directory for current state. Historical narrative from before the 2026-08-04 re-sync is preserved at [`docs/engineering/archive/`](./docs/engineering/archive/) (superseded, not current).
 - **Full documentation map** (read order, static vs. auto-updated vs. founder-approval-required docs, single source of truth per concept): [`docs/DOCUMENTATION_HIERARCHY.md`](./docs/DOCUMENTATION_HIERARCHY.md).
-- **Adoption state:** classified in [`docs/PLAYBOOK_ADOPTION.md`](./docs/PLAYBOOK_ADOPTION.md) against the playbook's [Repository Readiness Checklist](https://github.com/TFRS-Admin/tfrs-engineering-playbook/blob/main/REPOSITORY_BOOTSTRAP_GUIDE.md#repository-readiness-checklist).
+- **Adoption state:** re-synced to the current Engineering OS structure on 2026-08-04 via `migration/RESYNC_CHECKLIST.md`, from a stale `3.0.0` (predecessor-structure) adoption originally classified in the now-archived [`docs/engineering/archive/PLAYBOOK_ADOPTION.md`](./docs/engineering/archive/PLAYBOOK_ADOPTION.md). What changed: vendored copies of `AI_AGENT_OPERATING_MODEL.md`/`DECISION_ROUTER.md` removed (now referenced, not copied); `ARCHITECTURE.md` moved to `docs/architecture/ARCHITECTURE.md`; the monolithic `docs/engineering/BACKLOG.md`/`CURRENT_SPRINT.md` migrated into one file per open item under `docs/engineering/backlog/` (10 items, sourced from GitHub's actual open-issue state — the old index was confirmed stale, still listing a `Risk: Critical` unauthenticated-admin-panel finding and a `P0` dropped-customer-quotes bug as open when both were already closed); `AGENTS.md`/`CLAUDE.md` rewritten from the current `project-template/`.
 
 [`docs/ENGINEERING_PLAYBOOK.md`](./docs/ENGINEERING_PLAYBOOK.md) remains as this repository's one retained local historical design document; [`docs/ENGINEERING_OPERATING_SYSTEM.md`](./docs/ENGINEERING_OPERATING_SYSTEM.md) is now a short pointer to it. Neither is authoritative for workflow — see their headers.
 
@@ -32,4 +33,4 @@ Run the app: `npm run dev`
 **Docs & Support**
 
 - [`AGENTS.md`](./AGENTS.md) — the entry point for engineering conventions and AI agent operating rules.
-- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — this repository's actual system architecture.
+- [`docs/architecture/ARCHITECTURE.md`](./docs/architecture/ARCHITECTURE.md) — this repository's actual system architecture.

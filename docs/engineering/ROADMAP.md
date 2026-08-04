@@ -18,7 +18,7 @@ Sprint 0 (2026-07-09 onward) — capacity: this window covers only the playbook 
 | 7 | [#284 Epic: Test Coverage Gaps in Configurator & Pricing Domains](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/284) | Review finding, 2026-07-09 | M | P2 | None |
 | 8 | [#285 Epic: Technical Debt Cleanup](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/285) | Review finding, 2026-07-09 | S | P3 | None |
 
-`#307` is ranked above the P1 Epics despite being added to this table after them: it carries `Priority: P0` (the quote-request/admin-quote-queue submission paths are live no-op stubs — see #303) and per `AI_AGENT_OPERATING_MODEL.md#3`'s ordering, Priority is the primary sequencing key.
+`#307` is ranked above the P1 Epics despite being added to this table after them: it carries `Priority: P0` (the quote-request/admin-quote-queue submission paths are live no-op stubs — see #303) and per `standards/WORK_ITEM_STANDARD.md#execution-ordering`, Priority is the primary sequencing key.
 
 ## Pre-Existing Product Roadmap (Not Duplicated Here)
 

@@ -32,6 +32,7 @@ npm run test
 # Checklist
 
 - [ ] I self-reviewed the diff.
-- [ ] I updated documentation when needed (including `ARCHITECTURE.md` if a boundary changed).
+- [ ] I updated documentation when needed (including `docs/architecture/ARCHITECTURE.md` if a boundary changed).
 - [ ] I verified no secrets were introduced.
 - [ ] Only files in this issue's declared scope were touched.
+- [ ] If this PR closes/touches a `docs/engineering/backlog/` work item, its `status` and any relevant narrative are updated **in this PR**, not as a follow-up — a stale backlog index was found and corrected during the 2026-08-04 Engineering OS re-sync; don't reintroduce that gap.
