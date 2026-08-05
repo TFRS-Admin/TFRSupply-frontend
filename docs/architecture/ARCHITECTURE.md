@@ -71,8 +71,8 @@ This repository does not yet have a `docs/decision-log/` ADR index (see Known Co
 
 ## Last Reviewed
 
-2026-07-09, as part of the TFRS Engineering Playbook adoption sprint (`docs/PLAYBOOK_ADOPTION.md`).
+2026-07-09, as part of the TFRS Engineering Playbook adoption sprint (`docs/engineering/archive/PLAYBOOK_ADOPTION.md`). Relocated from repository root to `docs/architecture/ARCHITECTURE.md` 2026-08-04 during the Engineering OS re-sync (`migration/RESYNC_CHECKLIST.md`).
 
 ## Related Documents
 
-[`AGENTS.md`](./AGENTS.md) · [`docs/PLAYBOOK_ADOPTION.md`](./docs/PLAYBOOK_ADOPTION.md) · [`docs/architecture/`](./docs/architecture/) (per-domain detail) · [`docs/project-management/`](./docs/project-management/)
+[`AGENTS.md`](../../AGENTS.md) · [`docs/engineering/archive/PLAYBOOK_ADOPTION.md`](../engineering/archive/PLAYBOOK_ADOPTION.md) · this directory (per-domain detail, 60 sibling files) · [`docs/project-management/`](../project-management/)

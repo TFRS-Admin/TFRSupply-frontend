@@ -1,5 +1,6 @@
 <!-- Purpose: Record this repository's TFRS Engineering Playbook adoption sprint, evidence, and honest final classification. -->
-# TFRS Engineering Playbook Adoption — TFRSupply Frontend
+<!-- ARCHIVED 2026-08-04 and MOVED from docs/PLAYBOOK_ADOPTION.md: this is a historical record of the 2026-07-09 adoption of playbook v3.0.0, a predecessor structure since fully rebuilt upstream. Kept for its historical narrative; not the current adoption state. See README.md's Adoption State section for the current record, and migration/RESYNC_CHECKLIST.md for what changed in the 2026-08-04 re-sync. -->
+# TFRS Engineering Playbook Adoption — TFRSupply Frontend (ARCHIVED, historical)
 
 ## Summary
 

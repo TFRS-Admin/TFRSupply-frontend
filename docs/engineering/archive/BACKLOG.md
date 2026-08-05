@@ -1,5 +1,6 @@
 <!-- Purpose: Seed and maintain docs/engineering/BACKLOG.md — the repository's own backlog index, kept in sync with GitHub Issues. -->
-# Backlog: TFRSupply Frontend
+<!-- ARCHIVED 2026-08-04: superseded by docs/engineering/backlog/ (one file per item, per the current Engineering OS's standards/WORK_ITEM_STANDARD.md and adrs/0002-file-based-work-items.md). Kept for its historical narrative; not the current state. This file's "Ready"/"Backlog (Not Yet Ready)" tables were also confirmed stale at archive time -- 9 of the listed items (#292, #294, #295, #299, #300, #301, #304, #297, #303) had already been closed, including a Risk:Critical unauthenticated-admin-panel finding (#297) and a P0 dropped-customer-quotes bug (#303). See migration/RESYNC_CHECKLIST.md. -->
+# Backlog: TFRSupply Frontend (ARCHIVED — superseded by docs/engineering/backlog/)
 
 ## Master Epic
 

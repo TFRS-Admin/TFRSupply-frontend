@@ -1,6 +1,6 @@
 # AI Development Playbook
 
-> **Not the entry point.** The root [`AGENTS.md`](../../AGENTS.md) is the single entry point for every AI agent working in this repository, per the adopted [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (see [`docs/PLAYBOOK_ADOPTION.md`](../PLAYBOOK_ADOPTION.md)). This document's philosophy, layer conventions, and naming detail below remain valid Tier-3 repository-specific reference material and do not conflict with the playbook — but where this document describes *workflow* (which command to run, when), the playbook's `commands/` library and [`DECISION_ROUTER.md`](../../DECISION_ROUTER.md) govern instead.
+> **Not the entry point.** The root [`AGENTS.md`](../../AGENTS.md) is the single entry point for every AI agent working in this repository, per the adopted [Engineering OS](https://github.com/TFRS-Admin/tfrs-engineering-playbook) (see [`docs/engineering/archive/PLAYBOOK_ADOPTION.md`](../engineering/archive/PLAYBOOK_ADOPTION.md) for the historical adoption record, and `README.md`'s Adoption State section for the current one). This document's philosophy, layer conventions, and naming detail below remain valid Tier-3 repository-specific reference material and do not conflict with the Engineering OS — but where this document describes *workflow* (which playbook to run, when), the Engineering OS's `playbooks/` library and `kernel/DECISION_ROUTER.md` govern instead.
 
 ## Purpose
 
