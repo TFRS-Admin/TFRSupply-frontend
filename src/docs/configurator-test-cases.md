@@ -6,14 +6,14 @@ _Last updated: Sprint 17 — NVG SKU Selector Alignment_
 
 ## How to Run Tests
 
-In the browser console while on any page:
+The in-browser `engineTests.js` harness this section used to describe has been
+retired (dead code, never wired into `npm run test` or an Admin Debug page).
+`filterSkus`, `wouldHaveMatches`, and `findMatchingHkbKit` now have direct
+unit tests instead:
 
-```js
-import { runEngineTests } from '/src/domain/configuration/engineTests.js';
-runEngineTests();
+```sh
+node --test tests/configurator-sku-matching.test.mjs
 ```
-
-Or in the Admin Debug page (future integration point).
 
 ---
 

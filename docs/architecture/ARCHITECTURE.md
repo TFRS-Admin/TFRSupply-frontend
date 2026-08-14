@@ -68,12 +68,11 @@ This repository does not yet have a `docs/decision-log/` ADR index (see Known Co
 - Several service/adapter layers (`docs/architecture/SERVICE_LAYER.md`, `COMMERCE_FOUNDATION.md`, and similar "foundation" docs) are intentionally not yet wired into runtime component behavior — check the specific domain doc before assuming a boundary is live rather than scaffolded.
 - `src/types/` must remain free of React, service, and API-client imports; violating this breaks the intended `components → hooks → services → loaders → validators → schemas/types` dependency direction.
 - No `docs/decision-log/` ADR index exists yet; architectural rationale currently lives inside each `docs/architecture/*.md` file instead of a separate decision log.
-- `TFRSupply_Knowledge_Package (1).zip`, `agent-skills-main (1).zip`, and `tfrs-ai-os-layer-files.zip` are committed at the repository root — reference archives from prior sessions, not build inputs. Not removed as part of this adoption sprint (root cleanup is a separate, non-blocking follow-up); do not unpack or treat their contents as authoritative — this playbook adoption (`AGENTS.md`, `tfrs-engineering-playbook`) supersedes anything inside them.
 
 ## Last Reviewed
 
-2026-07-09, as part of the TFRS Engineering Playbook adoption sprint (`docs/PLAYBOOK_ADOPTION.md`).
+2026-07-09, as part of the TFRS Engineering Playbook adoption sprint (`docs/engineering/archive/PLAYBOOK_ADOPTION.md`). Relocated from repository root to `docs/architecture/ARCHITECTURE.md` 2026-08-04 during the Engineering OS re-sync (`migration/RESYNC_CHECKLIST.md`).
 
 ## Related Documents
 
-[`AGENTS.md`](./AGENTS.md) · [`docs/PLAYBOOK_ADOPTION.md`](./docs/PLAYBOOK_ADOPTION.md) · [`docs/architecture/`](./docs/architecture/) (per-domain detail) · [`docs/project-management/`](./docs/project-management/)
+[`AGENTS.md`](../../AGENTS.md) · [`docs/engineering/archive/PLAYBOOK_ADOPTION.md`](../engineering/archive/PLAYBOOK_ADOPTION.md) · this directory (per-domain detail, 60 sibling files) · [`docs/project-management/`](../project-management/)

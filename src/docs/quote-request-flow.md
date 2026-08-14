@@ -1,27 +1,45 @@
 # Quote Request Flow
 
-_Sprint 7 — Prototype. No Shopify, no admin page, no customer accounts._
+_PR-12 (#320) shipped the delivery adapter. #321 wired it into the three live
+"Request Quote" entry points — before #321, none of them actually reached
+this adapter (two were dead-ended on a bare mailto racing a stubbed
+`quoteBuilderService` call, one was a literal placeholder). No backend, no
+persistence, no admin queue integration — see Admin Workflow below for that
+separate, still-stubbed system._
 
 ---
 
 ## Architecture
 
+There are three live entry points, all funneling through the same reusable
+modal and delivery layer:
+
 ```
-UI Component (QuoteRequestPanel)
-  │  submissionIdRef (stable per-tab, generated once via generateSubmissionId())
-  │  (calls service only — never imports base44 directly)
-  └─► quoteRequestService.submitQuoteRequest(payload)
-        │  payload includes submissionId
-        └─► adapters/base44/quoteRequestAdapter.submitViaBase44Email(payload)
-              │  (only file that imports base44Client and appConfig)
-              ├─► getOrCreateRecord(payload)                    ← idempotent on submissionId
-              │     filter QuoteRequest by submissionId
-              │     create only if not found
-              ├─► base44.integrations.Core.SendEmail → quoteRecipientEmail
-              └─► base44.integrations.Core.SendEmail → contact.email (if quoteSendConfirmation=true)
+ConfiguratorCommerceActions ("Add to Quote" / "Request Quote", PDP)  ─┐
+ConfiguratorModule's QuotePanel ("Add to Quote", Package Quote panel) ─┼─► QuoteContactModal
+CartWorkspace ("Request Quote", /cart, covers every cart line)       ─┘      │  owns form state, validation,
+                                                                              │  submissionId, honest success/
+                                                                              │  failure UI
+                                                                              ▼
+                                                    caller-supplied buildPayload(contact, submissionId)
+                                                              │
+                                    domain/configuratorQuote/buildQuoteRequestPayload  (PDP callers)
+                                    CartWorkspace.buildCartQuoteRequestPayload          (cart)
+                                                              │
+                                                              ▼
+                                          services/quoteRequestService.submitQuoteRequest(payload)
+                                                              │
+                                          adapters/quoteDelivery.quoteDeliveryAdapter.submitQuoteRequest(payload)
+                                                              ├─► appConfig.quoteDeliveryEndpoint configured?
+                                                              │     POST payload to the hosted form endpoint; success/failure from the HTTP response
+                                                              └─► not configured (default): open the requester's email client via a
+                                                                    structured mailto: link addressed to appConfig.quoteRecipientEmail
 ```
 
-**Rule:** UI imports only `quoteRequestService`. The adapter is the only file that imports `base44Client` or `appConfig`.
+**Rule:** UI components never import the delivery adapter directly — only
+`QuoteContactModal` (via `quoteRequestService`) does. Each entry point's only
+job is building a `QuotePayload` from its own source data (configurator
+state or cart lines) and handing it to the modal.
 
 ---
 
@@ -29,12 +47,14 @@ UI Component (QuoteRequestPanel)
 
 | File | Role |
 |---|---|
-| `config/appConfig.js` | Frontend config: recipient email, confirmation toggle, sender name. No secrets. |
-| `entities/QuoteRequest.json` | Base44 entity schema — persists every submitted quote |
-| `services/quoteRequestService.js` | Payload builder, form validator, submission entry point |
-| `adapters/base44/quoteRequestAdapter.js` | Storage + SendEmail — swap this to change delivery mechanism |
-| `components/configurator/ConfiguratorLayout.jsx` | Responsive two-column → single-column layout wrapper |
-| `components/configurator/QuoteRequestPanel.jsx` | Form UI + gating logic — calls service only |
+| `config/appConfig.js` | Frontend config: recipient email, optional hosted form endpoint. No secrets. |
+| `components/quoteDelivery/QuoteContactModal.tsx` | Shared contact-capture modal — form state, validation, submission, honest success/failure UI. Used by all three entry points. |
+| `domain/configuratorQuote/buildQuoteRequestPayload.ts` | Translates `ConfiguratorQuotePayload` (PDP configurator state) + contact info into a `QuotePayload` |
+| `pages/CartWorkspace.jsx` (`buildCartQuoteRequestPayload`) | Translates cart lines + contact info into a multi-line `QuotePayload` |
+| `services/quoteRequestService.js` | `generateSubmissionId`, `validateContactForm`, `submitQuoteRequest` (delegates to the adapter) |
+| `adapters/quoteDelivery/quoteDeliveryAdapter.ts` | Hosted-form POST or mailto fallback — swap this to change delivery mechanism |
+| `components/configurator/ConfiguratorCommerceActions.tsx` | PDP commerce panel — "Add to Cart"/"Add to Quote" and "Request Quote" open the modal |
+| `components/configurator/ConfiguratorModule.tsx` (`QuotePanel`) | Package Quote panel's own "Add to Quote" action — opens the modal |
 
 ---
 
@@ -44,45 +64,20 @@ All configurable values live in `config/appConfig.js`:
 
 ```js
 const appConfig = {
-  quoteRecipientEmail: 'quotes@tfrsupply.com', // change to route to right inbox
-  quoteSendConfirmation: true,                  // false to suppress confirmation email
+  quoteRecipientEmail: 'quotes@tfrsupply.com',        // change to route to right inbox
+  quoteSendConfirmation: true,                         // unused by the current adapter; see Future Notes
   quoteSenderName: 'TFR Supply',
+  quoteDeliveryEndpoint: import.meta.env.VITE_QUOTE_DELIVERY_ENDPOINT || '', // optional hosted form URL
 };
 ```
 
-**No secrets.** This file is bundled and visible in the browser. API keys and tokens must live in Base44 environment variables and be accessed only from backend functions.
-
-To make the recipient dynamic (e.g. per-product, per-vertical): move `quoteRecipientEmail` to an `AppSettings` Base44 entity and load it at runtime. The adapter's import path stays the same.
+**No secrets.** This file is bundled and visible in the browser. `quoteDeliveryEndpoint` is a public hosted-form URL, not a credential — it's meant to be called from the browser.
 
 ---
 
-## Entity: QuoteRequest
+## No Persistence
 
-Created by the adapter on every successful submission. Never written by UI directly.
-
-| Field | Type | Source |
-|---|---|---|
-| `productId` | string | `payload.productId` |
-| `configuratorId` | string | `payload.configuratorId` |
-| `productTitle` | string | `payload.productTitle` |
-| `skuPreview` | string | `payload.selectedSku` (alias — stores the resolved catalog SKU) |
-| `selectedOptions` | array of objects | `payload.selectedOptions` |
-| `accessories` | array of objects | `payload.accessories` |
-| `dependencyNotes` | array of strings | `payload.dependencyNotes` |
-| `warningNotes` | array of strings | `payload.warningNotes` |
-| `contactName` | string | `payload.contact.name` |
-| `agency` | string | `payload.contact.agency` |
-| `email` | string | `payload.contact.email` |
-| `phone` | string | `payload.contact.phone` |
-| `vehicleCount` | string | `payload.contact.vehicleCount` |
-| `notes` | string | `payload.contact.notes` |
-| `status` | enum | Always `"new"` on create |
-| `source` | string | `payload.source` (`"configurator-prototype"`) |
-| `submittedAt` | datetime | `payload.timestamp` |
-
-Built-in fields added automatically by Base44: `id`, `created_date`, `updated_date`, `created_by_id`.
-
-**Reference ID** shown in the UI is derived from the record ID: `QR-` + last 6 chars uppercased (e.g. `QR-A3F2C1`). This is display-only — the canonical ID for lookups is the full Base44 record `id`.
+Nothing is written to a database. There is no `QuoteRequest` record and no `id` to look up later — the `referenceId` shown in the UI is derived purely client-side from `submissionId` (`QR-` + last 6 chars uppercased) and exists only to give the requester something to reference on a follow-up phone call. Admin quote queue integration is explicitly out of scope for both PR-12 and #321 (see Admin Workflow below, which is unaffected and still backed by the base44 stub adapters pending a later issue).
 
 ---
 
@@ -117,95 +112,73 @@ Built-in fields added automatically by Base44: `id`, `created_date`, `updated_da
     "notes": "Fleet replacement cycle, Q3 delivery preferred."
   },
   "timestamp": "2026-06-26T14:00:00.000Z",
-  "source": "configurator-prototype"
+  "source": "configurator-pdp"
 }
 ```
 
+Two optional fields cover cases the single-SKU shape above doesn't:
+- `vehicleSummary?: string` — set by the PDP builder when a vehicle is selected (e.g. `"2024 Ford F-550"`), rendered as a line in the email body.
+- `lines?: { sku, label, quantity, unitPrice? }[]` — set by `CartWorkspace.buildCartQuoteRequestPayload` instead of `selectedSku`/`selectedOptions` when the quote covers a whole cart (one submission per cart, not per line); rendered as a "Cart Lines:" section.
+
 ---
 
-## Idempotency
+## Submission ID
 
-A `submissionId` is generated once per panel mount via `generateSubmissionId()` (format: `sub-<timestamp>-<random6>`) and stored in a `useRef` — it never changes across retries within the same browser session.
-
-Before creating a record, the adapter filters `QuoteRequest` by `submissionId`. If a match exists, that record is reused. This means:
-- First attempt → creates one record
-- Retry after email failure → finds existing record, skips create, retries emails only
-- No duplicate records regardless of retry count
-
-The `submissionId` is stored on the record and included in the internal email body for auditability.
+A `submissionId` is generated once per modal mount via `generateSubmissionId()` (format: `sub-<timestamp>-<random6>`) and stored in `QuoteContactModal`'s own state — it never changes across retries within the same open modal (closing and reopening the modal generates a fresh one, since the modal fully unmounts on close). It has one job: deriving a stable `referenceId` (`QR-` + last 6 chars uppercased) so a retry shows the same reference number. There is no server-side record to deduplicate against, so a retry after a failed hosted-form POST sends a second request (and a retry after a mailto fallback just reopens the mail client) — there is no "already submitted, skip" behavior.
 
 ---
 
 ## Submission Order
 
-1. **`getOrCreateRecord`** — filter by `submissionId`; create if not found; return existing record on retry
-2. **Derive `referenceId`** from `record.id` (`QR-` + last 6 chars uppercased)
-3. **Send internal email** to `appConfig.quoteRecipientEmail` — subject includes `referenceId`
-4. **Send confirmation email** to `payload.contact.email` if `appConfig.quoteSendConfirmation === true`
-5. **If email step throws** — return `{ success: false, savedRecord: true, referenceId, error }` so UI can show partial-success state
+1. **Derive `referenceId`** from `submissionId` (`QR-` + last 6 chars uppercased)
+2. **Hosted form configured** (`appConfig.quoteDeliveryEndpoint` set) — POST the payload; `response.ok` → success, otherwise the HTTP status is surfaced as the error
+3. **Hosted form not configured** (default) — build a structured `mailto:` link addressed to `appConfig.quoteRecipientEmail` and open it; reported as success because the mail client was actually invoked, but the UI is explicit that the requester still needs to click Send
 
 ---
 
 ## Gating Logic
 
-`QuoteRequestPanel` renders in three states:
+Each entry point decides for itself when "Request Quote" is clickable — `QuoteContactModal` itself has no gating opinion, it just renders once mounted:
 
-### 1. Locked — Incomplete
-- `summary.isComplete === false`
-- Red notice if hard violations exist
-- Amber notice listing `pendingSteps` by label
-- Form is not rendered
+- **`ConfiguratorCommerceActions`**: only rendered once `configState?.selectedBaseSku` resolves (a SKU has been selected). The primary action button reads "Add to Quote" instead of "Add to Cart" when there's no resolved Shopify variant ID yet.
+- **`ConfiguratorModule`'s `QuotePanel`**: "Add to Quote" is only reachable once a SKU row is selected in the table above (the panel shows a "Select a SKU row..." prompt otherwise, with no quote action).
+- **`CartWorkspace`**: "Request Quote" is only rendered in the cart-summary column, which only renders once `lines.length > 0`.
 
-### 2. Form — Ready
-- `summary.isComplete === true`
+`QuoteContactModal` itself renders two states:
+
+### 1. Form
 - Required fields: name, agency, email
 - Submit button disabled while `status === 'submitting'` (duplicate protection)
-- On error: red banner above submit button; button re-enables for retry
+- On error: red banner with the error message and a `tel:` phone-number fallback; form re-enables for retry
 
-### 3. Confirmed — Success
-- Replaces form on successful response
-- Shows product name, SKU reference, **reference number** (e.g. `QR-A3F2C1`)
-- Representative follow-up message
-
-### 4. Partial — Record Saved, Email Failed
-- `result.savedRecord === true` but `result.success === false`
-- Amber banner: "Request Saved — Notification Delayed"
-- Shows reference number so user can follow up manually
-- User is not told to retry (record already exists; retry would reuse it but re-attempt email)
-
----
-
-## Mobile / Responsive Behavior
-
-`ConfiguratorLayout` uses CSS Grid with `auto-fit, minmax(320px, 1fr)`:
-- **≥ ~660px:** Summary left, Quote panel right, side-by-side
-- **< ~660px:** Summary stacks above Quote panel, full width
-- No breakpoint JS — purely CSS grid reflow
+### 2. Success
+- Replaces the form on successful response
+- Shows the **reference number** (e.g. `QR-A3F2C1`)
+- Hosted-form delivery: "Quote Request Submitted" + representative follow-up message
+- Mailto fallback: "Almost There — Finish Sending Your Email" + a manual mailto link and phone number in case nothing opened
 
 ---
 
 ## Failure Handling
 
-1. `submitQuoteRequest` returns `{ success: false, error: message }` or the `.catch()` in the panel intercepts a thrown error
+1. `submitQuoteRequest` returns `{ success: false, error: message }` (hosted-form HTTP/network failure), or the `.catch()` in `QuoteContactModal` intercepts a thrown error — including a caller's `buildPayload` throwing (e.g. no configuration selected yet)
 2. `status` transitions to `'error'`
-3. Red banner displayed above submit button with the error message
+3. Red banner displayed above submit button with the error message and a `tel:` phone-number fallback
 4. Submit button re-enables for retry
-
-If record creation fails, no email is sent — the user sees an error and can retry safely with no duplicate record risk.
 
 ---
 
 ## Confirmation Email
 
-Controlled by `appConfig.quoteSendConfirmation` (default: `true`). Includes the reference ID so the customer can quote it when following up.
+Not implemented in the current adapter — there is no backend to send a separate confirmation email from. `appConfig.quoteSendConfirmation` is unused pending a future adapter (e.g. the hosted-form provider's own autoresponder, or a real backend). See Future Notes.
 
 ---
 
 ## Swapping the Adapter
 
-1. Create `adapters/<provider>/quoteRequestAdapter.js`
-2. Export `submitVia<Provider>(payload)` returning `Promise<{ success: boolean, referenceId?: string, error?: string }>`
-3. Update the single import in `services/quoteRequestService.js`
+1. Edit or replace `adapters/quoteDelivery/quoteDeliveryAdapter.ts` (or point `config.endpoint` at a different hosted-form provider via `VITE_QUOTE_DELIVERY_ENDPOINT`)
+2. `createQuoteDeliveryAdapter` returns `{ submitQuoteRequest(payload): Promise<{ success, referenceId?, deliveryMethod?, mailtoUrl?, error? }> }`
+3. `services/quoteRequestService.js` imports the singleton from `adapters/quoteDelivery` — update that import if the module path changes
 4. No UI components change
 
 ---
@@ -241,23 +214,24 @@ AdminQuotesPage (UI)
 
 ---
 
-## Future Notes (Sprint 9+)
+## Future Notes
 
-| Feature | When | Approach |
-|---|---|---|
-| Auth guard on `/admin/*` | Sprint 9 | Check `user.role === 'admin'`, redirect otherwise |
-| Notify requestor on status advance | Sprint 9 | Call `SendEmail` from `advanceQuoteStatus` in adapter |
-| Dynamic recipient per vertical | Sprint 9 | Load `quoteRecipientEmail` from `AppSettings` entity at runtime |
-| Customer account linking | Later | Associate quote with `User.id` if authenticated |
-| Shopify draft order on quote | Later | Second adapter calling Shopify API from a backend function |
+| Feature | Approach |
+|---|---|
+| Quote persistence / admin queue on real data | Real backend (or a Shopify-backed store) behind `adminQuoteAdapter` — out of scope for PR-12 |
+| Confirmation email to requester | Hosted-form provider's autoresponder, or a real backend send |
+| Dynamic recipient per vertical | Load `quoteRecipientEmail` from a settings source at runtime instead of `appConfig.js` |
+| Customer account linking | Associate quote with an authenticated customer once accounts exist |
+| Shopify draft order on quote | Second adapter calling the Shopify Admin API from a backend function |
 
 ---
 
-## Known Prototype Constraints
+## Known Constraints (PR-12)
 
 | Item | Status |
 |---|---|
-| Reference ID is display-only (last 6 of Base44 ID) | Sufficient for prototype; use full `id` for real lookups |
-| No rate limiting or CAPTCHA | Out of scope |
-| Confirmation email may hit SendEmail rate limits at scale | Note for production hardening |
+| Reference ID is client-derived, not a lookup key | No backend record exists; it's a human-readable string for a follow-up phone call |
+| No rate limiting or CAPTCHA on the form | Out of scope |
+| No retry deduplication | A retry re-POSTs or reopens mailto — there is no server record to dedupe against |
 | Email recipient in config (not env var) | Intentional — email address is not a secret |
+| Delivery endpoint URL in config, backed by an optional env var | Not a secret — hosted form endpoints are meant to be called from the browser |

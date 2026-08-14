@@ -1,6 +1,6 @@
 # Architecture Principles
 
-> Consulted from [`AGENTS.md`](../../AGENTS.md) (the entry point) and [`ARCHITECTURE.md`](../../ARCHITECTURE.md) at the repository root when a change touches a structural boundary — not a starting point on its own.
+> Consulted from [`AGENTS.md`](../../AGENTS.md) (the entry point) and [`ARCHITECTURE.md`](../architecture/ARCHITECTURE.md) at `docs/architecture/` when a change touches a structural boundary — not a starting point on its own.
 
 ## Purpose
 

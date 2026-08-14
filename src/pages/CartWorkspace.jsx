@@ -26,8 +26,57 @@ import { resolveShopifyCheckoutOutcome } from '@/services/shopifyStorefrontCart'
 import { useShopifyStorefrontCartCreate, useShopifyStorefrontCartPreview } from '@/hooks/shopifyStorefrontCart';
 import { useShopifyCheckoutPreview } from '@/hooks/shopifyCheckoutPreview';
 import { useShopifyStorefrontCapabilities } from '@/hooks/shopifyStorefrontConfig';
+import QuoteContactModal from '@/components/quoteDelivery/QuoteContactModal';
 
 const FS = { fontFamily: "'Roboto','Inter',sans-serif" };
+
+/**
+ * Configured lines (added via ConfiguratorCommerceActions.buildCartLineInput)
+ * carry accessory SKUs and vehicle context in metadata.attributes rather than
+ * as first-class CartLineItem fields — surface them as a note so a quote
+ * built from the cart doesn't silently drop the configured package details.
+ */
+function cartLineNote(line) {
+  const attrs = line.metadata?.attributes ?? {};
+  const parts = [];
+  if (attrs.accessorySkus) parts.push(`Accessories: ${attrs.accessorySkus}`);
+  if (attrs.vehicle) parts.push(`Vehicle: ${attrs.vehicle}`);
+  return parts.length > 0 ? parts.join(' — ') : undefined;
+}
+
+/**
+ * Converts the current cart lines into the QuotePayload the quote delivery
+ * adapter (PR-12) expects. A cart quote covers every line in one submission
+ * (there is one "Request Quote" action for the whole cart, not per-line) —
+ * pure and side-effect free so it can be unit tested independently of the page.
+ */
+export function buildCartQuoteRequestPayload(lines, contact, submissionId) {
+  if (!lines || lines.length === 0) return null;
+  return {
+    productId: 'cart',
+    configuratorId: 'cart',
+    productTitle: `Cart Quote Request (${lines.length} item${lines.length === 1 ? '' : 's'})`,
+    selectedOptions: [],
+    accessories: [],
+    selectedSku: null,
+    matchingSkus: [],
+    skuStatus: 'cart',
+    skuPreview: null,
+    dependencyNotes: [],
+    warningNotes: [],
+    lines: lines.map((line) => ({
+      sku: line.sku,
+      label: line.label,
+      quantity: line.quantity,
+      unitPrice: typeof line.unitPrice?.amount === 'number' ? line.unitPrice.amount : undefined,
+      note: cartLineNote(line),
+    })),
+    contact,
+    submissionId,
+    timestamp: new Date().toISOString(),
+    source: 'cart',
+  };
+}
 
 export default function CartWorkspace() {
   const { data, loading, error, refresh, updateQuantity, removeLine, clearCart } = useCartWorkspace();
@@ -39,6 +88,7 @@ export default function CartWorkspace() {
   const { status: cartAdapterStatus } = useCartAdapterStatus();
   const { createCart, loading: creatingCart } = useShopifyStorefrontCartCreate();
   const [notice, setNotice] = useState(null);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   useEffect(() => {
     refresh();
@@ -62,7 +112,7 @@ export default function CartWorkspace() {
   }
 
   function handleRequestQuote() {
-    setNotice('Request Quote is a placeholder — quote submission is handled by the Quote Builder foundation in a future issue.');
+    setQuoteModalOpen(true);
   }
 
   function handleConfigure(line) {
@@ -143,6 +193,18 @@ export default function CartWorkspace() {
         )}
       </div>
 
+      {quoteModalOpen && (
+        <QuoteContactModal
+          onClose={() => setQuoteModalOpen(false)}
+          title="Request a Quote"
+          description={`${lines.length} item${lines.length === 1 ? '' : 's'} in your cart`}
+          buildPayload={(contact, submissionId) => {
+            const payload = buildCartQuoteRequestPayload(lines, contact, submissionId);
+            if (!payload) throw new Error('Your cart is empty.');
+            return payload;
+          }}
+        />
+      )}
     </div>
   );
 }

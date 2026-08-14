@@ -1,6 +1,6 @@
 # Repository Index
 
-> **Not the entry point.** The root [`AGENTS.md`](../../AGENTS.md) is the single entry point for every AI agent working in this repository, per the adopted [TFRS Engineering Playbook](https://github.com/TFRS-Admin/tfrs-engineering-playbook) — read it first, always. This index is a reference map, consulted *after* `AGENTS.md`, `CLAUDE.md`, `AI_AGENT_OPERATING_MODEL.md`, and `DECISION_ROUTER.md`, not a substitute for any of them. See [`docs/DOCUMENTATION_HIERARCHY.md`](../DOCUMENTATION_HIERARCHY.md) for the full read order and document classification.
+> **Not the entry point.** The root [`AGENTS.md`](../../AGENTS.md) is the single entry point for every AI agent working in this repository, per the adopted [Engineering OS](https://github.com/TFRS-Admin/tfrs-engineering-playbook) — read it first, always. This index is a reference map, consulted *after* `AGENTS.md`, `CLAUDE.md`, and the Engineering OS's `agents/AGENT_OPERATING_MODEL.md`/`kernel/DECISION_ROUTER.md` (referenced, not vendored locally), not a substitute for any of them. See [`docs/DOCUMENTATION_HIERARCHY.md`](../DOCUMENTATION_HIERARCHY.md) for the full read order and document classification.
 
 ## Purpose
 
@@ -8,7 +8,7 @@ This is a detailed map of repository-specific documentation for AI coding agents
 
 ## Reading Order For Repository-Specific Docs (After AGENTS.md)
 
-Once `AGENTS.md` → `CLAUDE.md` → `AI_AGENT_OPERATING_MODEL.md` → `DECISION_ROUTER.md` have routed a request to implementation work in this codebase specifically:
+Once `AGENTS.md` → `CLAUDE.md` → the Engineering OS's `agents/AGENT_OPERATING_MODEL.md` → `kernel/DECISION_ROUTER.md` have routed a request to implementation work in this codebase specifically:
 
 1. `docs/ai/AI_DEVELOPMENT_PLAYBOOK.md` — repository philosophy and layer conventions.
 2. `docs/ai/IMPLEMENTATION_WORKFLOW.md` — the branch-to-merge lifecycle for a single issue.
@@ -141,11 +141,11 @@ These describe specific application surfaces rather than platform architecture; 
 
 | Doc | Covers |
 | --- | --- |
-| `AGENTS.md` | **The single entry point.** Baseline conventions, playbook authority, read order. |
+| `AGENTS.md` | **The single entry point.** Baseline conventions, Engineering OS authority, read order. |
 | `CLAUDE.md` | Claude-Code-specific response, planning, and PR conventions. |
-| `AI_AGENT_OPERATING_MODEL.md` | The operating loop: session start, issue selection, when to stop, how to update GitHub. |
-| `DECISION_ROUTER.md` | Plain-language request → workflow routing table. |
-| `ARCHITECTURE.md` | This repository's actual system architecture (components → hooks → services → adapters → domain). |
+| Engineering OS `agents/AGENT_OPERATING_MODEL.md` (referenced, not local) | The operating loop: session start, work-item selection, when to stop, how to update state. |
+| Engineering OS `kernel/DECISION_ROUTER.md` (referenced, not local) | Plain-language request → workflow routing table. |
+| `docs/architecture/ARCHITECTURE.md` | This repository's actual system architecture (components → hooks → services → adapters → domain). |
 | `README.md` | Base44 project setup, local dev, and publishing instructions. |
 
 ## Documentation Governance

@@ -33,9 +33,11 @@ Vite environment variables are embedded at build time, so set these in Railway b
 
 | Variable | Required | Notes |
 | --- | --- | --- |
-| `VITE_BASE44_APP_ID` | Yes | Base44 application identifier used by the frontend. |
-| `VITE_BASE44_APP_BASE_URL` | Yes | Base URL for the Base44 app/API integration. |
-| `VITE_BASE44_FUNCTIONS_VERSION` | If used | Set only when the deployed environment requires a specific functions version. |
+| `VITE_SHOPIFY_STORE_DOMAIN` | Yes | The Shopify store's `*.myshopify.com` domain. |
+| `VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Yes | Storefront API access token used by the cart/checkout adapter. |
+| `VITE_SHOPIFY_STOREFRONT_API_VERSION` | Yes | Shopify Storefront API version (e.g. `2024-10`). |
+| `VITE_SHOPIFY_STOREFRONT_ENABLED` | Yes | Set to `true` to enable live Storefront API calls (cart create, hosted checkout redirect); any other value keeps the app on committed catalog data with checkout disabled. |
+| `VITE_QUOTE_DELIVERY_ENDPOINT` | No | Hosted form endpoint (e.g. Formspree/Basin) that quote requests are POSTed to. Unset (default): quote requests fall back to a `mailto:` link instead. Must be passed as a Docker build arg (see `Dockerfile`), not just a runtime Railway variable, since Vite inlines it at build time. |
 
 Railway also injects `PORT` at runtime. The `Caddyfile` listens on `{$PORT:8080}`, which uses Railway's assigned port and falls back to `8080` for local container runs.
 
@@ -57,7 +59,7 @@ After deployment, verify:
 3. The generated public domain loads the homepage.
 4. A client-side route can be opened directly in a new browser tab without a 404.
 5. Browser dev tools show static assets loading from the Railway domain.
-6. Base44-dependent features use the configured `VITE_BASE44_*` values for the target environment.
+6. Shopify-dependent features (catalog data, cart, checkout) use the configured `VITE_SHOPIFY_*` values for the target environment.
 
 Suggested smoke-test URLs:
 

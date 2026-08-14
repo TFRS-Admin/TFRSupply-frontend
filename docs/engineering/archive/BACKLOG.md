@@ -1,5 +1,6 @@
 <!-- Purpose: Seed and maintain docs/engineering/BACKLOG.md — the repository's own backlog index, kept in sync with GitHub Issues. -->
-# Backlog: TFRSupply Frontend
+<!-- ARCHIVED 2026-08-04: superseded by docs/engineering/backlog/ (one file per item, per the current Engineering OS's standards/WORK_ITEM_STANDARD.md and adrs/0002-file-based-work-items.md). Kept for its historical narrative; not the current state. This file's "Ready"/"Backlog (Not Yet Ready)" tables were also confirmed stale at archive time -- 9 of the listed items (#292, #294, #295, #299, #300, #301, #304, #297, #303) had already been closed, including a Risk:Critical unauthenticated-admin-panel finding (#297) and a P0 dropped-customer-quotes bug (#303). See migration/RESYNC_CHECKLIST.md. -->
+# Backlog: TFRSupply Frontend (ARCHIVED — superseded by docs/engineering/backlog/)
 
 ## Master Epic
 
@@ -17,7 +18,8 @@ Ordered by execution priority per [`BACKLOG_STANDARD.md#execution-ordering`](htt
 | [#294](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/294) Run npm audit fix for transitive build-tooling vulnerabilities | #283 | P2 | Low | S | No |
 | [#295](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/295) Remove unused react-markdown / react-quill dependencies | #283 | P2 | Low | S | No |
 | [#292](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/292) Restore Vite build-size warnings | #282 | P2 | Low | S | No |
-| [#298](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/298) Add unit tests for configurator SKU-matching logic, retire engineTests.js | #284 | P2 | Medium | M | No |
+| [#304](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/304) Fix stale Base44-scaffold onboarding instructions in README.md | #285 | P2 | Low | S | No |
+| [#305](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/305) Add a dependency vulnerability scan gate to CI | #283 | P2 | Low | S | No |
 | [#287](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/287) Reconcile issue #129 with the optional-Project model | #280 | P3 | Low | S | No |
 | [#299](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/299) Add a test coverage tool and baseline coverage report | #284 | P3 | Low | S | No |
 | [#300](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/300) Remove stale zip archives from repository root | #285 | P3 | Low | S | No |
@@ -33,7 +35,9 @@ Needs a discovery/plan pass, or is intentionally sized larger than a direct `Rea
 | [#289](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/289) Unify the two parallel configurator SKU-matching engines | #281 | Risk High — needs a discovery pass (field-by-field rule comparison) and a full `commands/plan.md` spec before implementation |
 | [#290](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/290) Split ConfiguratorModule.tsx into subcomponents | #281 | Blocked by #289 |
 | [#296](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/296) Tech Debt: evaluate major-version dependency upgrade path | #283 | Research spike, Size L — output is a sequencing plan, not direct implementation |
-| [#297](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/297) Evaluate server-side enforcement path for admin authentication | #283 | Risk High — needs an explicit human-reviewed decision before implementation, per `SECURITY_STANDARD.md`'s Threat Model First step |
+| [#297](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/297) Evaluate server-side enforcement path for admin authentication | #283 | **Risk Critical** (escalated 2026-07-09) — needs an explicit human-reviewed decision before implementation, per `SECURITY_STANDARD.md`'s Threat Model First step. Admin auth ships unconditionally wired to a mock adapter with hardcoded demo credentials readable in the client bundle; `/admin/*` is effectively unauthenticated in production today |
+| [#303](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/303) Bug: admin quote queue and quote request submission are non-functional no-ops | #307 | **P0, Risk High** — needs a discovery pass (confirm real post-Base44 destination) and a full `commands/plan.md` spec before implementation. Real customer/dealer quote submissions are silently dropped today |
+| [#306](https://github.com/TFRS-Admin/TFRSupply-frontend/issues/306) Add a bundle-size budget check to CI | #282 | Blocked by #291 — no meaningful budget exists until code-splitting lands |
 
 ## Deferred
 
@@ -45,7 +49,10 @@ This repository's original bootstrap (2026-06-30/07-01) already produced a real,
 
 ## Last Updated
 
-2026-07-09, by the TFRS Engineering Playbook v3.0.0 adoption-completion pass.
+2026-07-23, by the weekly repo-health pass (issue metadata hygiene dimension). Changes this pass:
+`#298` removed from `Ready` (closed via [PR #308](https://github.com/TFRS-Admin/TFRSupply-frontend/pull/308)); `#304` and `#305` added to `Ready`; `#303` and `#306` added to `Backlog (Not Yet Ready)` — all five were filed 2026-07-09 by an independent re-review that ran after this file was originally written that same day, and had never been folded in. `#297`'s reason text corrected to reflect its escalation to `Risk: Critical`. See `docs/engineering/REPO_HEALTH.md`'s 2026-07-23 entry for the full finding.
+
+Previously: 2026-07-09, by the TFRS Engineering Playbook v3.0.0 adoption-completion pass.
 
 ## Related Documents
 
