@@ -17,8 +17,8 @@
     "shopify:gid-overlay": "node scripts/shopify-variant-gid-overlay/overlay.mjs"
   },
   "dependencies": {
-    "@base44/sdk": "^0.8.44",
-    "@base44/vite-plugin": "^1.0.32",
+    "@base44/sdk": "^0.8.46",
+    "@base44/vite-plugin": "^1.0.35",
     "@hello-pangea/dnd": "^17.0.0",
     "@hookform/resolvers": "^4.1.2",
     "@radix-ui/react-accordion": "^1.2.3",
