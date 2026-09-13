@@ -1,7 +1,7 @@
 <!-- Purpose: Claude Code entry point for this project. -->
 # Claude Code Instructions — TFRSupply Frontend
 
-Read `AGENTS.md` (this repository's local contract) first, then the Very Good Software Co. Engineering OS's `AGENTS.md` and `agents/AGENT_OPERATING_MODEL.md` for the universal contract and session loop.
+Read `AGENTS.md` (this repository's local contract) first, then use `agent-skills:using-agent-skills` to route to the right Claude Code skill for the session's work — this repo's process is governed by the account-wide `mattpocock-skills:*` and `agent-skills:*` skill sets, not an external playbook repo.
 
 ## Project Context
 
@@ -16,15 +16,15 @@ TFRSupply Frontend is a Vite + React (JavaScript/TypeScript-mixed) storefront an
 
 ## Before Editing
 
-Run the Engineering OS's `kernel/DECISION_ROUTER.md`. Confirm the work item in `docs/engineering/backlog/` is `Ready`, or create the required planning artifact per `standards/WORK_ITEM_STANDARD.md`. Identify this project's local test and build commands from `AGENTS.md`.
+Confirm the work item in `docs/engineering/backlog/` is `Ready`, or use `agent-skills:spec-driven-development` / `agent-skills:planning-and-task-breakdown` to create the required planning artifact if none exists yet. Identify this project's local test and build commands from `AGENTS.md`.
 
 ## Before Completion
 
-Run deterministic verification per `playbooks/VERIFY.md`. Summarize changed files, user-visible behavior, evidence, risks, and follow-up work.
+Run this repo's deterministic gate: `npm run lint && npm run typecheck && npm test && npm run build`. Use `agent-skills:test-driven-development` / `mattpocock-skills:tdd` for test discipline while implementing. Summarize changed files, user-visible behavior, evidence, risks, and follow-up work.
 
 ## PR Creation Rules
 
-Every pull request prepared by Claude should include a short summary of the change, a file-by-file change overview, testing/validation notes, and any known follow-up items or risks. Reference `playbooks/CODE_REVIEW.md` to ensure the PR clears this repository's review bar.
+Every pull request prepared by Claude should include a short summary of the change, a file-by-file change overview, testing/validation notes, and any known follow-up items or risks. Use `agent-skills:code-review-and-quality` (or `mattpocock-skills:code-review`) to ensure the PR clears this repository's review bar before opening it.
 
 ## When to Ask vs. When to Proceed
 
