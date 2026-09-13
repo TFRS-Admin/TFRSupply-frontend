@@ -5,11 +5,13 @@
 
 ```yaml
 id: GH-293
-status: Ready
+status: Done
 priority: P1
 owner: agent
 dependencies: []
 ```
+
+**Closed 2026-09-13** (full repo eval refresh): `npm ls lodash` resolves `lodash@4.18.1` (satisfies `^4.17.21`, already past the `>=4.17.23` fix line). `npm audit` no longer lists either advisory. No code change was needed — the semver range already permitted the patched version and a prior `npm install` picked it up. `npm run test`/`npm run build` both green.
 
 ## Context
 

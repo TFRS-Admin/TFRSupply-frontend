@@ -6,7 +6,7 @@
 - **Weekly:** issue metadata hygiene triage, automated security scan review (`npm audit`).
 - **Monthly:** documentation drift, dependency health, testing, CI.
 - **Quarterly:** architecture drift, technical debt trend, full manual security audit.
-- Status as of this writing: first full pass 2026-07-09; first weekly pass (issue metadata hygiene + security) run 2026-07-23, see below. Next weekly pass due 2026-07-30. Next monthly pass due 2026-08-09; next quarterly pass (architecture drift, technical debt trend, full manual security audit) due 2026-10-09.
+- Status as of this writing: first full pass 2026-07-09; weekly pass 2026-07-23; full re-verification pass 2026-09-13 (all eight dimensions re-checked against current code after a ~7-week gap in recorded passes — see below). Next weekly pass due 2026-09-20. Next monthly pass due 2026-10-13; next quarterly pass (architecture drift, technical debt trend, full manual security audit) due 2026-12-13.
 
 ## Report History
 
@@ -130,6 +130,105 @@ Escalation: #297 (Risk: Critical, admin auth) and #303/#307 (P0, quote pipeline 
 Filed: none new this pass (both actionable findings — the escalation and the BACKLOG.md gap —
   were already covered by existing issues #297/#303/#307, or fixed directly in-place per
   repo-health.md's own precedent for small doc-sync corrections).
+```
+
+### 2026-09-13 — Full Re-verification Pass (All Eight Dimensions, ~7-week gap)
+
+```text
+Trigger: a direct user request for a full repo/site/project evaluation and roadmap refresh,
+  fanned out across code-review, security-audit, test-quality, and live-site-walkthrough
+  specialist passes, reconciled against docs/MASTER_EXECUTION_PROGRAM.md (last audited
+  2026-07-08) and this file's own 2026-07-23 entry. No recorded pass happened in the
+  intervening ~7 weeks despite the stated weekly/monthly cadence above — see Gaps.
+
+Architecture drift: Mixed. The #281 Epic's original 14-file components/pages-import-services
+  violation list (GH-288) was itself found stale in a 2026-08-04 correction (PR #323) and is
+  now accurate (24 files, correctly scoped to include src/pages/). This pass found one further,
+  narrower instance the existing item doesn't cover: src/adapters/pricing/livePricingAdapter.ts
+  (an adapter, not a component/page) imports a service directly
+  (dealerContractResolutionService), one edge from a real import cycle since
+  quoteBuilderWorkspaceService.ts already calls into livePricingAdapter. Not filed as a new
+  GH item this pass (no GitHub write access from this session) — noted in
+  MASTER_EXECUTION_PROGRAM.md's Refresh Log for the next session with issue access to file.
+  The two-parallel-configurator-engines finding (#289) is resolved (Cancelled/obsolete per its
+  backlog entry — the dead engine was deleted in #321).
+
+Documentation drift: Was severe, partially corrected in this pass. MASTER_EXECUTION_PROGRAM.md
+  (the roadmap of record) had gone stale for ~2 months / ~90 commits despite its own Section 7
+  mandating an update after every merged PR — CI, admin lockdown, and quote delivery had all
+  shipped without the doc ever being told. Corrected in this pass: see that file's 2026-09-13
+  Refresh Log and updated Section 3.1/6/9/10. Also corrected: backlog item GH-293 (lodash
+  advisories) was still marked Ready; lodash was already resolved at the installed 4.18.1 — now
+  marked Done.
+
+Dependency health: Improving. npm audit: 12 vulnerabilities (1 low, 7 moderate, 4 high), down
+  from 16 (1/9/6) at the 2026-07-09 baseline. lodash (the one direct-dependency HIGH from the
+  baseline) is resolved. Remaining high-severity findings are transitive dev-tooling
+  (browserslist, js-yaml, nanoid) never bundled into the shipped SPA. dompurify/fflate (the
+  runtime-reachable moderates) trace to an unused dependency, jspdf — never imported anywhere
+  in src/; removing it clears both for free (see MASTER_EXECUTION_PROGRAM.md PR-41).
+  react-router-dom's SSR-hydration CVEs confirmed unreachable (this app has no SSR).
+  @base44/sdk/@base44/vite-plugin remain direct dependencies; the most recent commit before
+  this pass ("Update base44 packages") bumped rather than removed them — worth a founder
+  decision on whether an automated bot is fighting the roadmap's stated removal goal.
+
+Security: Improving, with one new non-critical finding. The 2026-07-23 entry's Critical
+  escalation (#297, admin auth) is now mitigated at the route level: VITE_ADMIN_ENABLED strips
+  all admin/dev/showcase routes from the production build by default (verified in src/App.jsx),
+  and every guarded route is wrapped in AdminAuthGuard. The underlying auth is still mock
+  client-side identity selection if the flag is ever set true — that part of #297 is still
+  legitimately open, just no longer reachable by default. The P0 quote-pipeline data-loss
+  finding (#303/#307) is resolved: quoteDeliveryAdapter.ts delivers for real, with tests
+  guarding against a regression back to fake success. New this pass: Caddyfile ships no CSP,
+  HSTS, X-Frame-Options, or Permissions-Policy (only X-Content-Type-Options and Referrer-Policy)
+  — concrete pre-launch gap, folds into existing PR-29. Also new: ConfiguratorPricingSummary.tsx
+  (public PDP) has no customer-type gate on its dealer-cost display row — dormant today (the
+  live pricing adapter with real dealer-cost data is wired only into the admin-gated quote
+  builder), but a guardrail gap worth closing cheaply now (PR-39) rather than discovering later.
+
+Technical debt: Improving, incompletely. Stripe dependencies fully removed. Still open from the
+  2026-07-09 baseline: the 3 stale zip archives and the base44/ directory — not re-verified
+  individually this pass beyond confirming base44/ still exists and base44 npm packages are
+  still direct dependencies (see Dependency health above).
+
+Testing: Improving, unevenly. 1,217/1,217 tests pass (node --test tests/*.test.mjs) across 381
+  suites, up from 1,143 at baseline — a real increase, not just the same count staying green.
+  Coverage tooling now exists (npm run test:coverage via c8, absent at the 2026-07-09 baseline
+  which had to proxy coverage via line-count): 87.89% statements, 76.27% branches, 72.90%
+  functions, 87.89% lines. Coverage is concentrated, not even — shopifyOrderService.ts (48.57%
+  branch), shopifyCustomerService.ts (55.55%), quotePipelineService.ts (53.12% branch),
+  shopifyInventoryService.ts (65.3%) are the weakest files found. liveShopifyStorefrontCartAdapter.ts
+  is missing tests for two real response-shape branches (top-level GraphQL errors[], malformed
+  cart payload). The PR-24 configurator-wide SKU-resolves-against-variant-index regression sweep
+  (flagged in MASTER_EXECUTION_PROGRAM.md as "highest test ROI in the plan") still does not
+  exist. No flaky, skipped, or disabled tests found (repo-wide grep for .skip/.todo/xit/only
+  returned zero matches).
+
+CI: Flat, and now confirmed actually gating rather than just present. .github/workflows/ci.yml
+  runs lint/typecheck/test/build as four separate required jobs on every PR and push to main;
+  re-ran all four directly this session against the current tree (not assumed from the file
+  existing). vite.config.js's logLevel:'error' bundle-size-warning suppression (filed as #292)
+  not re-checked this pass.
+
+Issue metadata hygiene: Not assessed this pass — this session has no GitHub issue read/write
+  access (repo-only session), so the live issue-tracker state (open count, #286's retrofit
+  progress) could not be verified. Flagging as a genuine gap, not silently skipped — see Gaps.
+
+Gaps: (1) Issue metadata hygiene not assessed — no GitHub API access this session, only the
+  in-repo backlog/docs could be checked. (2) B10 (Shopify store content: 60/115 active products,
+  273 missing variant images) not re-verified — requires live Shopify admin access this session
+  doesn't have. (3) The stated weekly/monthly cadence was not honored between 2026-07-23 and
+  2026-09-13 — no recorded pass exists for that ~7-week window; this pass cannot reconstruct
+  what happened during it beyond what git history and the doc-drift findings above imply.
+
+Escalation: None Critical this pass. The two 2026-07-23 Critical/P0 escalations (#297 partially,
+  #303/#307 fully) are resolved or downgraded per Security above — recommend formally closing
+  #303/#307 and downgrading #297's severity in the tracker (not done from this session; no issue
+  write access).
+
+Filed: none new this pass (no GitHub issue access from this session). Findings instead recorded
+  directly in MASTER_EXECUTION_PROGRAM.md's Refresh Log (new PR-39/PR-40/PR-41) and this entry —
+  flagging for the next session with issue access to open the corresponding GitHub issues.
 ```
 
 ## Related Documents
