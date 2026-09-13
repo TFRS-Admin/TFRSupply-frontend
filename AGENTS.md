@@ -1,9 +1,9 @@
-<!-- Purpose: Project-local agent contract. Unlike the Engineering OS's own AGENTS.md, this file is project-specific -- state what's true about THIS repository, not universal rules the OS already covers. -->
+<!-- Purpose: Project-local agent contract. This file states what's true about THIS repository -- process/skill routing is handled by the account-wide Claude Code skills, not a vendored or externally-referenced playbook. -->
 # AGENTS.md — TFRSupply Frontend
 
-This repository follows the Very Good Software Co. Engineering OS (`TFRS-Admin/tfrs-engineering-playbook`), version `1.6.0`. That repository defines the universal agent contract, standards, agent roles, and playbooks — this file states what's true about *this* project specifically. Read the Engineering OS `AGENTS.md` and `agents/AGENT_OPERATING_MODEL.md` first; this file adds to it and may state a stricter local rule, which wins on conflict.
+This repository's engineering process is governed by the Claude Code skills already installed on this account — `mattpocock-skills:*` and `agent-skills:*` (Addy Osmani's pack) — not by an external playbook repository. At the start of any non-trivial session, use `agent-skills:using-agent-skills` to route to the right skill (e.g. `agent-skills:spec-driven-development` / `planning-and-task-breakdown` for scoping work, `agent-skills:test-driven-development` / `mattpocock-skills:tdd` for implementation, `agent-skills:code-review-and-quality` / `mattpocock-skills:code-review` before a PR). This file adds project-specific rules on top of whatever skill is in play, and states a stricter local rule wherever one applies — this file wins on conflict with generic skill guidance.
 
-Re-synced to this version on 2026-08-04 via `migration/RESYNC_CHECKLIST.md`, from a stale `3.0.0` (predecessor-structure) adoption. What that changed: vendored copies of `AI_AGENT_OPERATING_MODEL.md`/`DECISION_ROUTER.md` deleted (now referenced from the Engineering OS, not copied); `ARCHITECTURE.md` moved to `docs/architecture/ARCHITECTURE.md` (alongside the ~60 existing per-domain architecture documents already there); the monolithic `docs/engineering/BACKLOG.md`/`CURRENT_SPRINT.md` migrated into one file per open item under `docs/engineering/backlog/` (10 items, sourced from GitHub's actual open-issue state — see that directory's `README.md` for what was found stale in the old index, including a `Risk: Critical` unauthenticated-admin-panel finding and a `P0` dropped-customer-quotes bug the old index still listed as open). Historical narrative preserved at `docs/engineering/archive/`.
+Previously this repo referenced `TFRS-Admin/tfrs-engineering-playbook` (the "Very Good Software Co. Engineering OS") for `AGENTS.md`/`AGENT_OPERATING_MODEL.md`/`DECISION_ROUTER.md`/`WORK_ITEM_STANDARD.md`/`VERIFY.md`/`CODE_REVIEW.md`. That dependency was removed on 2026-09-13 in favor of the account's own skill set — see "Local Conventions" below for what carries forward unchanged. The 2026-08-04 re-sync's other structural changes remain in place: `ARCHITECTURE.md` lives at `docs/architecture/ARCHITECTURE.md` (alongside ~60 per-domain architecture documents); the backlog is one file per open item under `docs/engineering/backlog/` (10 items, sourced from GitHub's actual open-issue state — see that directory's `README.md`). Historical narrative preserved at `docs/engineering/archive/`.
 
 ## Commands
 
@@ -43,8 +43,10 @@ See `docs/architecture/ARCHITECTURE.md` for the system-level overview, and the ~
 - Do not add product-family-specific React components without approval (same source).
 - Do not treat `docs/architecture/*.md` files marked "foundation" or "additive only" as already wired into runtime component behavior — check the specific domain doc before assuming a boundary is live rather than scaffolded.
 
-## Local Deviations from the Engineering OS
+## Local Conventions
 
-- **Branch Pattern A**, plus the wider branch-prefix taxonomy — see Branch Pattern above.
+These are standing rules for this repository, independent of any external playbook:
+
+- **Branch Pattern A** (single trunk, no `staging` branch), plus the wider branch-prefix taxonomy — see Branch Pattern above.
 - **113 pre-existing issues (#5-#131)** predate this repository's structured per-issue metadata convention and are explicitly out of scope for the `docs/engineering/backlog/` migration — see that directory's `README.md`. Retrofitting them is tracked as `GH-286`.
-- No `adr/` directory exists yet in this repository — architectural rationale currently lives inside each `docs/architecture/*.md` file instead of a separate decision log. Recommend seeding one from the Engineering OS's `templates/ADR_TEMPLATE.md` the next time an architecturally significant decision is made (e.g. `GH-289`'s configurator-engine-unification decision), rather than backfilling retroactively.
+- No `adr/` directory exists yet in this repository — architectural rationale currently lives inside each `docs/architecture/*.md` file instead of a separate decision log. Recommend seeding one (see `agent-skills:documentation-and-adrs`) the next time an architecturally significant decision is made (e.g. `GH-289`'s configurator-engine-unification decision), rather than backfilling retroactively.
