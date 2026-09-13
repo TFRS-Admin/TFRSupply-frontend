@@ -53,3 +53,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+
+  # Advisory-only for now (GH-305): 12 known findings already exist as of
+  # 2026-09-13 (`npm audit`), so this job reports but does not block merges
+  # until that baseline is cleared. Flip `continue-on-error` to `false` once
+  # existing HIGH-severity findings are resolved and this should start
+  # blocking new ones.
+  audit:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=high
