@@ -57,7 +57,7 @@ Target dependency direction (see `docs/architecture/SERVICE_LAYER.md` and `docs/
 - **Base44** — original scaffold platform (`base44/` config, `VITE_BASE44_APP_ID` / `VITE_BASE44_APP_BASE_URL` env vars per `.env.example`); being migrated away from for storefront logic.
 - **Stripe** (`@stripe/stripe-js`, `@stripe/react-stripe-js`) — payment UI dependencies present in `package.json`.
 - **Railway** — deployment target, see `docs/deployment/RAILWAY_DEPLOYMENT.md`.
-- No first-party backend/database in this repository — data is Shopify + committed JSON/config (`src/data/`, `docs/knowledge/`).
+- No first-party backend/database in this repository — data is Shopify + committed JSON/config (`src/data/`, `docs/knowledge/`). *(Verified: 2026-09-13 via repo-wide grep for common database signatures — Postgres/Prisma/Supabase/Mongo/MySQL/SQLite/`DATABASE_URL`/Firebase — no real hits.)*
 
 ## Architectural Decisions in Effect
 
