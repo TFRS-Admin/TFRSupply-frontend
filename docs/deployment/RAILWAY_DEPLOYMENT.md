@@ -67,6 +67,10 @@ Suggested smoke-test URLs:
 - `/police`
 - `/police/light-bars`
 
+## Verification Status
+
+The steps above describe the *intended* setup — they have not all been confirmed against the live Railway project from an agent session. *(Verified: 2026-09-13 — only that `Dockerfile`/`Caddyfile` exist and match this doc's description, via direct file read. NOT verified: which Railway project/service is actually connected, whether auto-deploy is enabled, whether the "Required Environment Variables" table matches what's actually set in Railway, custom-domain/DNS status, or that rollback actually works end-to-end — GitHub issue #115 "[QA] Rollback Procedure Test" is still open, meaning this has never been confirmed. See `.planning/findings.md` §2 for what a maintainer needs to check directly in the Railway dashboard.)*
+
 ## Rollback Notes
 
 - Use Railway's deployment history to redeploy the last known-good deployment.
